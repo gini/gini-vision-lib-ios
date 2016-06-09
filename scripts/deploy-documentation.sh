@@ -7,7 +7,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
     exit 0
 fi
 
-cd ../Documentation
+cd Documentation
 virtualenv ./virtualenv
 source virtualenv/bin/activate
 pip install -r requirements.txt
