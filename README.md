@@ -26,4 +26,4 @@ Peter Pult, p.pult@gini.net
 
 ## License
 
-GiniVision is available under the MIT license. See the LICENSE file for more info.
+GiniVision is available under a commercial license. See the LICENSE file for more info.
