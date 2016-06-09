@@ -14,5 +14,5 @@ script:
 # - set -o pipefail && xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
 after_success:
-- gem install virtualenv
+- pip install virtualenv
 - ./scripts/deploy-documentation.sh
