@@ -2,30 +2,16 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
-sudo: required
-dist: trusty
-
 osx_image: xcode7.3
 language: objective-c
-python:
-- "3.4"
 cache: 
 - cocoapods
 podfile: Example/Podfile
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
 before_install:
-- sudo apt-get -y install python3-pip python-dev
-- sudo pip3 install -U setuptools
-- sudo pip3 install -U virtualenvwrapper
-- python3 -V
-- pip3 -V
 - gem install cocoapods # Since Travis is not always on latest version
-# - pod install --project-directory=Example
+- pod install --project-directory=Example
 script:
-# - set -o pipefail && xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
 - pod lib lint
 after_success:
-- ./scripts/deploy-documentation.sh
+- ./scripts/push-documentation.sh
