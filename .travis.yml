@@ -2,6 +2,9 @@
 # * http://www.objc.io/issue-6/travis-ci.html
 # * https://github.com/supermarin/xcpretty#usage
 
+sudo: required
+dist: trusty
+
 osx_image: xcode7.3
 language: objective-c
 python:
