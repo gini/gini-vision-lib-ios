@@ -8,5 +8,5 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
 fi
 
 git checkout docs
-git merge master
+git merge master -X theirs
 git push origin docs
