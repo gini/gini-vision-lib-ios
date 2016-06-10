@@ -2,7 +2,7 @@
 Changelog
 =========
 
-0.1.2 (2016-06-10)
+0.1.1 (2016-06-10)
 ==================
 
 - Continous documentation build added
