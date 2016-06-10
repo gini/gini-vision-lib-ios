@@ -8,5 +8,8 @@ set -e # Exit with nonzero exit code if anything fails
 # fi
 
 git checkout docs
-git merge master -X theirs
+git merge master -X theirs --no-ff --no-commit
+git reset 
+git add .
+git commit -m "Update docs branch" 
 git push origin docs
