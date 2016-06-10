@@ -3,13 +3,18 @@
 # * https://github.com/supermarin/xcpretty#usage
 
 osx_image: xcode7.3
-language: python
+language: objective-c
 python:
-- "2.7"
+- "3.4"
 cache: 
 - cocoapods
 podfile: Example/Podfile
 before_install:
+- sudo apt-get -y install python3-pip python-dev
+- sudo pip3 install -U setuptools
+- sudo pip3 install -U virtualenvwrapper
+- python3 -V
+- pip3 -V
 - gem install cocoapods # Since Travis is not always on latest version
 # - pod install --project-directory=Example
 script:
