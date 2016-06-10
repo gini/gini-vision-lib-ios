@@ -8,6 +8,5 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
 fi
 
 git checkout docs
-git add .
-git commit -m "Push Gini Vision Library for iOS Documentation to docs branch"
+git merge master
 git push origin docs
