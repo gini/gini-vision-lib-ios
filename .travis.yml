@@ -15,3 +15,4 @@ script:
 - pod lib lint
 after_success:
 - ./scripts/push-documentation.sh
+- ./scripts/push-pod.sh

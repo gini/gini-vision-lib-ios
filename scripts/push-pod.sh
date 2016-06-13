@@ -7,14 +7,6 @@ if ([ "$TRAVIS_BRANCH" != "master" ] || [ -z "$TRAVIS_TAG" ]) || [ "$TRAVIS_PULL
     exit 0
 fi
 
-rm -rf docs
-git clone -b docs git@github.com:gini/gini-vision-lib-ios.git docs
+pod repo add gini-specs git@github.com:gini/gini-podspecs.git
+pod repo push gini-specs ./GiniVision.podspec
 
-rm -rf docs/*
-cp -a Documentation/. docs/Documentation/
-cd docs
-
-git add -u
-git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Deploy Gini Vision Library for iOS documentation to docs branch'
-git push origin docs
