@@ -51,8 +51,10 @@ class GINICamera {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
-    var imageData: NSData?
+    var hasValidInput = true
     private lazy var sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+    
+    private lazy var motionManager = GINIMotionManager()
     
     init() {
         setupSession()
@@ -62,13 +64,14 @@ class GINICamera {
     func start() {
         dispatch_async(sessionQueue, {
             self.session.startRunning()
+            self.motionManager.startDetection()
         })
     }
     
     func stop() {
         dispatch_async(sessionQueue, {
-            self.imageData = nil
             self.session.stopRunning()
+            self.motionManager.stopDetection()
         })
     }
     
@@ -92,28 +95,31 @@ class GINICamera {
         })
     }
     
-    func captureStillImage(deviceOrientation: UIDeviceOrientation?) {
+    func captureStillImage(result: (imageData: NSData?) -> ()) {
         dispatch_async(sessionQueue, {
-            let connection = self.stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo)
+            // Connection will be `nil` when there is no valid input device; for example on iOS simulator
+            guard let connection = self.stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo) else {
+                return result(imageData: nil)
+            }
             // Set the orientation accoding to the current orientation of the device
-            if let orientation = AVCaptureVideoOrientation(deviceOrientation) {
-                connection?.videoOrientation = orientation
+            if let orientation = AVCaptureVideoOrientation(self.motionManager.currentOrientation) {
+                connection.videoOrientation = orientation
             } else {
-                connection?.videoOrientation = .Portrait
+                connection.videoOrientation = .Portrait
             }
             self.videoDeviceInput?.device.setFlashModeSecurely(.On)
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return }
                 var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-#if DEBUG
-                Camera.saveImageFromData(imageData)
-#endif
-                self.imageData = imageData
+//#if DEBUG
+                GINICamera.saveImageFromData(imageData)
+//#endif
+                result(imageData: imageData)
             })
         })
     }
     
-#if DEBUG
+//#if DEBUG
     class func saveImageFromData(data: NSData) {
         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
             guard status == .Authorized else { return print("No access to photo library granted") }
@@ -131,7 +137,7 @@ class GINICamera {
             }
         })
     }
-#endif
+//#endif
     
     // MARK: Private methods
     private func setupSession() {
@@ -146,6 +152,7 @@ class GINICamera {
         do {
             self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch let error as NSError {
+            hasValidInput = false
             print("Could not create video device input \(error)")
         }
         

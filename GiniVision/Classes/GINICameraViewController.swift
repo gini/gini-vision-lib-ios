@@ -7,19 +7,19 @@
 //
 
 import UIKit
+import AVFoundation
 
 public class GINICameraViewController: UIViewController {
     
     // User interface
     private var controlsView  = UIView()
-    private var previewView   = UIView()
+    private var previewView   = GINICameraPreviewView()
     private var cameraOverlay = UIImageView()
     private var captureButton = UIButton()
+    private var focusIndicatorImageView: UIImageView?
     
     // Properties
-    private var camera: AnyObject? {
-        return nil
-    }
+    private var camera = GINICamera()
     
     // Images
     private var defaultImage: UIImage? {
@@ -34,32 +34,49 @@ public class GINICameraViewController: UIViewController {
     private var cameraOverlayImage: UIImage? {
         return UIImage(named: "cameraOverlay")
     }
-    
+    private var cameraFocusSmall: UIImage? {
+        return UIImage(named: "cameraFocusSmall")
+    }
+    private var cameraFocusLarge: UIImage? {
+        return UIImage(named: "cameraFocusLarge")
+    }
     
     // Output
     private var imageData: NSData?
     
-    // MARK: View life cycle
     public init() {
         super.init(nibName: nil, bundle: nil)
         
+        // Configure preview view
+        previewView.session = camera.session
+        (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
+        previewView.addGestureRecognizer(tapGesture)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera.videoDeviceInput?.device)
+        
+        // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
         cameraOverlay.contentMode = .ScaleAspectFit
         
+        // Configure capture button
         captureButton.setImage(captureButtonNormalImage, forState: .Normal)
         captureButton.setImage(captureButtonActiveImage, forState: .Highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), forControlEvents: .TouchUpInside)
         
+        // Configure colors
         self.view.backgroundColor = UIColor.blackColor()
         previewView.backgroundColor = UIColor.clearColor()
         controlsView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
         captureButton.backgroundColor = UIColor.clearColor()
         cameraOverlay.backgroundColor = UIColor.clearColor()
         
+        // Configure view hierachy
         view.addSubview(previewView)
         view.addSubview(cameraOverlay)
         view.addSubview(controlsView)
         controlsView.addSubview(captureButton)
+        
+        // Add constraints
         addConstraints()
     }
     
@@ -67,27 +84,88 @@ public class GINICameraViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: View life cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        camera.start()
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        camera.stop()
+    }
+    
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if camera == nil {
+
+//#if DEBUG
+        if !camera.hasValidInput {
             addDefaultImage()
         }
+//#endif
     }
     
+    // MARK: Image capture
     @IBAction func captureImage(sender: AnyObject) {
-        var data: NSData?
-        if camera == nil {
-            data = defaultImage != nil ? UIImageJPEGRepresentation(defaultImage!, 1) : nil
+        camera.captureStillImage { imageData in
+            var data = imageData
+//#if DEBUG
+            if data == nil {
+                data = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
+            }
+//#endif
+            self.imageData = data
         }
-        imageData = data
     }
     
-    // MARK: Private methods
+    // MARK: Focus handling
+    @IBAction func focusAndExposeTap(sender: UITapGestureRecognizer) {
+        let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
+        camera.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
+        let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    @objc private func subjectAreaDidChange(notification: NSNotification) {
+        let devicePoint = CGPointMake(0.5, 0.5)
+        camera.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
+        let imageView = createFocusIndicator(withImage: cameraFocusLarge, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    private func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> UIImageView? {
+        guard let image = image else { return nil }
+        let imageView = UIImageView(image: image)
+        imageView.center = point
+        return imageView
+    }
+    
+    private func showFocusIndicator(imageView: UIImageView?) {
+        guard let imageView = imageView else { return }
+        for subView in self.previewView.subviews {
+            subView.removeFromSuperview()
+        }
+        self.previewView.addSubview(imageView)
+        UIView.animateWithDuration(1.5,
+                                   animations: {
+                                    imageView.alpha = 0.0
+            },
+                                   completion: { (success: Bool) -> Void in
+                                    imageView.removeFromSuperview()
+        })
+    }
+    
+    // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
         
@@ -123,6 +201,13 @@ public class GINICameraViewController: UIViewController {
         addActiveConstraint(item: captureButton, attribute: .CenterY, relatedBy: .Equal, toItem: controlsView, attribute: .CenterY, multiplier: 1, constant: 0)
     }
     
+    private func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {
+        let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
+        constraint.priority = priority
+        constraint.active = true
+    }
+    
+//#if DEBUG
     private func addDefaultImage() {
         let defaultImageView = UIImageView(image: defaultImage)
         defaultImageView.contentMode = .ScaleAspectFit
@@ -134,11 +219,6 @@ public class GINICameraViewController: UIViewController {
         addActiveConstraint(item: defaultImageView, attribute: .CenterX, relatedBy: .Equal, toItem: previewView, attribute: .CenterX, multiplier: 1, constant: 0)
         addActiveConstraint(item: defaultImageView, attribute: .CenterY, relatedBy: .Equal, toItem: previewView, attribute: .CenterY, multiplier: 1, constant: 0)
     }
-    
-    private func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {
-        let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
-        constraint.priority = priority
-        constraint.active = true
-    }
+//#endif
 }
 
