@@ -1,51 +1,16 @@
 //
 //  GINICamera.swift
-//  Gini Pay 2.0
+//  GiniVision
 //
 //  Created by Peter Pult on 15/02/16.
-//  Copyright © 2016 Gini. All rights reserved.
+//  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 import Photos
 
-extension AVCaptureVideoOrientation {
-    
-    public init(_ interface: UIInterfaceOrientation) {
-        switch interface {
-        case .PortraitUpsideDown: self = .PortraitUpsideDown
-        case .LandscapeLeft: self = .LandscapeLeft
-        case .LandscapeRight: self = .LandscapeRight
-        default: self = .Portrait
-        }
-    }
-    
-    public init?(_ device: UIDeviceOrientation?) {
-        guard let orientation = device else { return nil }
-        switch orientation {
-        case .Portrait: self = .Portrait
-        case .PortraitUpsideDown: self = .PortraitUpsideDown
-        case .LandscapeLeft: self = .LandscapeRight
-        case .LandscapeRight: self = .LandscapeLeft
-        default: return nil
-        }
-    }
-    
-}
-
-extension AVCaptureDevice {
-    
-    func setFlashModeSecurely(mode: AVCaptureFlashMode) {
-        guard hasFlash && isFlashModeSupported(mode) else { return }
-        guard case .Some = try? lockForConfiguration() else { return print("Could not lock device for configuration") }
-        flashMode = mode
-        unlockForConfiguration()
-    }
-    
-}
-
-class GINICamera {
+internal class GINICamera {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()
@@ -111,15 +76,16 @@ class GINICamera {
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-//#if DEBUG
-                GINICamera.saveImageFromData(imageData)
-//#endif
+
+                if GINIConfiguration.DEBUG {
+                    GINICamera.saveImageFromData(imageData)
+                }
+
                 result(imageData: imageData)
             })
         })
     }
     
-//#if DEBUG
     class func saveImageFromData(data: NSData) {
         PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
             guard status == .Authorized else { return print("No access to photo library granted") }
@@ -137,7 +103,6 @@ class GINICamera {
             }
         })
     }
-//#endif
     
     // MARK: Private methods
     private func setupSession() {

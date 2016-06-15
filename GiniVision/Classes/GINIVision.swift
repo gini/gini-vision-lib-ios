@@ -1,30 +1,31 @@
 //
 //  GINIVision.swift
-//  Pods
+//  GiniVision
 //
-//  Created by Gini on 15/06/16.
-//
+//  Created by Peter Pult on 15/06/16.
+//  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
 import Foundation
 
-class GINIVision {
+public final class GINIVision {
     
-}
-
-extension UIImage {
-    
-    /**
-     * Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
-     *
-     * @param name The name of the image file without file extension
-     */
-    class func preferredClientImage(named name: String) -> UIImage? {
-        if let clientImage = UIImage(named: name) {
-            return clientImage
+    public class func setConfiguration(configuration: GINIConfiguration) {
+        if configuration.debugModeOn {
+            print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        let bundle = NSBundle(forClass: GINIVision.self)
-        return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
+        GINIConfiguration.sharedConfiguration = configuration
+    }
+    
+    public class func viewController() -> UIViewController {
+        let cameraContainerViewController = GINICameraContainerViewController()
+        let navigationController = GININavigationViewController(rootViewController: cameraContainerViewController)
+        return navigationController
+    }
+    
+    public class func viewController(withConfiguration configuration: GINIConfiguration) -> UIViewController {
+        setConfiguration(configuration)
+        return viewController()
     }
     
 }

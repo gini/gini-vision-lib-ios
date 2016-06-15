@@ -1,15 +1,15 @@
 //
 //  GINICameraPreviewView.swift
-//  Gini Pay 2.0
+//  GiniVision
 //
 //  Created by Peter Pult on 14/06/16.
-//  Copyright © 2016 Gini. All rights reserved.
+//  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
 import UIKit
 import AVFoundation
 
-class GINICameraPreviewView: UIView {
+internal class GINICameraPreviewView: UIView {
     
     override class func layerClass() -> AnyClass {
         return AVCaptureVideoPreviewLayer.classForCoder()

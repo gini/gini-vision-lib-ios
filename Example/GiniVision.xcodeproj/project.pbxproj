@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AA2A9691D0828630029B4BF /* CameraContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA2A9681D0828630029B4BF /* CameraContainerViewController.swift */; };
 		0AE2C32A1CFDEDA400632E60 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE2C3291CFDEDA400632E60 /* DocumentViewController.swift */; };
 		37975173A4FFCC2734442225 /* Pods_GiniVision_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -30,7 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AA2A9681D0828630029B4BF /* CameraContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraContainerViewController.swift; sourceTree = "<group>"; };
 		0AE2C3291CFDEDA400632E60 /* DocumentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,7 +106,6 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
-				0AA2A9681D0828630029B4BF /* CameraContainerViewController.swift */,
 				0AE2C3291CFDEDA400632E60 /* DocumentViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
@@ -368,7 +365,6 @@
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				0AE2C32A1CFDEDA400632E60 /* DocumentViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-				0AA2A9691D0828630029B4BF /* CameraContainerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
