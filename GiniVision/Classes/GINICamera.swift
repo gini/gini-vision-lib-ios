@@ -110,7 +110,7 @@ class GINICamera {
             self.videoDeviceInput?.device.setFlashModeSecurely(.On)
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return }
-                var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
 //#if DEBUG
                 GINICamera.saveImageFromData(imageData)
 //#endif
