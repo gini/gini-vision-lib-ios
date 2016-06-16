@@ -9,6 +9,8 @@
 import UIKit
 import AVFoundation
 
+public typealias ImageDataStream = (imageData: NSData?) -> ()
+
 public final class GINICameraViewController: UIViewController {
     
     // User interface
@@ -42,10 +44,13 @@ public final class GINICameraViewController: UIViewController {
     }
     
     // Output
-    private var imageData: NSData?
+    private var imageDataStream: ImageDataStream?
     
-    public init() {
+    public init(callback: ImageDataStream) {
         super.init(nibName: nil, bundle: nil)
+        
+        // Set callback
+        imageDataStream = callback
         
         // Configure preview view
         previewView.session = camera.session
@@ -126,7 +131,8 @@ public final class GINICameraViewController: UIViewController {
                 }
             }
             
-            self.imageData = data
+            // Call callback
+            self.imageDataStream?(imageData: data)
         }
     }
     

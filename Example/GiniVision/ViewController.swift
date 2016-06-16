@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, GINIVisionDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,16 @@ class ViewController: UIViewController {
     @IBAction func easyLaunchGiniVision(sender: AnyObject) {
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
-        presentViewController(GINIVision.viewController(withConfiguration: giniConfiguration), animated: true, completion: nil)
+        giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
+        presentViewController(GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)
+    }
+    
+    func didCapture(imageData: NSData) {
+        print("Example App received image data")
+    }
+    
+    func didCancelCapturing() {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
 }

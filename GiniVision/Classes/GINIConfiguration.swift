@@ -27,10 +27,20 @@ public final class GINIConfiguration {
     /// Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
     public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
+    /// Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color
+    public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
+    
     /// Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
-    public var navigationBarTitleCamera = NSLocalizedStringPreferred("ginivision.navigationbar.title.camera", comment: "Title in the navigation bar for the camera screen")
+    /// Sets the title text in the navigation bar on the camera screen
+    public var navigationBarTitleCamera = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
+    
+    /// Sets the close button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the close button image
+    public var navigationBarTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
+    
+    /// Sets the help button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the help button image
+    public var navigationBarTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
     
     public init() {}    
         

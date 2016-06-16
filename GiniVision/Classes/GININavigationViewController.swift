@@ -10,6 +10,8 @@ import UIKit
 
 internal class GININavigationViewController: UINavigationController {
     
+    var giniDelegate: GINIVisionDelegate?
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -20,6 +22,7 @@ internal class GININavigationViewController: UINavigationController {
         // Edit style of navigation bar
         navigationBar.translucent = false
         navigationBar.barTintColor = GINIConfiguration.sharedConfiguration.navigationBarTintColor
+        navigationBar.tintColor = GINIConfiguration.sharedConfiguration.navigationBarItemTintColor
         var attributes = navigationBar.titleTextAttributes ?? [String : AnyObject]()
         attributes[NSForegroundColorAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarTitleColor
         navigationBar.titleTextAttributes = attributes

@@ -6,4 +6,6 @@
   Copyright © 2016 Gini. All rights reserved.
 */
 
-"ginivision.navigationbar.title.camera" = "Dokument fotografieren";
+"ginivision.navigationbar.camera.title" = "Dokument fotografieren";
+"ginivision.navigationbar.camera.close" = "";
+"ginivision.navigationbar.camera.help"  = "Hilfe";

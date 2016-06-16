@@ -8,6 +8,15 @@
 
 import Foundation
 
+@objc public protocol GINIVisionDelegate {
+    
+    func didCapture(imageData: NSData)
+    func didCancelCapturing()
+    
+    optional func didCancelAnalysis()
+    
+}
+
 public final class GINIVision {
     
     public class func setConfiguration(configuration: GINIConfiguration) {
@@ -17,15 +26,16 @@ public final class GINIVision {
         GINIConfiguration.sharedConfiguration = configuration
     }
     
-    public class func viewController() -> UIViewController {
+    public class func viewController(withDelegate delegate: GINIVisionDelegate) -> UIViewController {
         let cameraContainerViewController = GINICameraContainerViewController()
         let navigationController = GININavigationViewController(rootViewController: cameraContainerViewController)
+        navigationController.giniDelegate = delegate
         return navigationController
     }
     
-    public class func viewController(withConfiguration configuration: GINIConfiguration) -> UIViewController {
+    public class func viewController(withDelegate delegate: GINIVisionDelegate, withConfiguration configuration: GINIConfiguration) -> UIViewController {
         setConfiguration(configuration)
-        return viewController()
+        return viewController(withDelegate: delegate)
     }
     
 }
