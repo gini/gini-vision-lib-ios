@@ -8,10 +8,45 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Advanced Mode-->
+        <scene sceneID="ZuU-uX-Wsc">
+            <objects>
+                <viewController id="pYU-Ln-Vjq" customClass="AdvancedViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hDk-Fp-Wsr"/>
+                        <viewControllerLayoutGuide type="bottom" id="4f2-WH-Mos"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ph2-oy-6hw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NO8-lz-gzK">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="NO8-lz-gzK" firstAttribute="leading" secondItem="Ph2-oy-6hw" secondAttribute="leading" id="B7T-iB-KL0"/>
+                            <constraint firstAttribute="trailing" secondItem="NO8-lz-gzK" secondAttribute="trailing" id="JVu-9J-gje"/>
+                            <constraint firstItem="4f2-WH-Mos" firstAttribute="top" secondItem="NO8-lz-gzK" secondAttribute="bottom" id="KKw-n0-qex"/>
+                            <constraint firstItem="NO8-lz-gzK" firstAttribute="top" secondItem="hDk-Fp-Wsr" secondAttribute="bottom" id="rJk-PK-o7W"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Advanced Mode" id="u33-fr-0bj">
+                        <barButtonItem key="leftBarButtonItem" title="Help" id="WaX-jr-ytU"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2196" y="483"/>
+        </scene>
         <!--Camera-->
         <scene sceneID="Cmn-ER-b8i">
             <objects>
-                <viewController id="Ggv-ZP-h5h" customClass="ViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ggv-ZP-h5h" customClass="EasyViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3q-Yk-YSo"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9y-Oh-GoV"/>
@@ -47,7 +82,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQd-cL-q81" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1432" y="481"/>
+            <point key="canvasLocation" x="1432" y="-387"/>
         </scene>
         <!--Camera View Controller-->
         <scene sceneID="ufC-wZ-h7g">
@@ -125,7 +160,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1432" y="1171"/>
+            <point key="canvasLocation" x="-25" y="483"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="C6x-EH-S4C">
@@ -245,7 +280,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GIN-4J-TKt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2137" y="1171"/>
+            <point key="canvasLocation" x="680" y="483"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Ah6-wz-uMF">
@@ -258,11 +293,37 @@
                     </tabBar>
                     <connections>
                         <segue destination="Ggv-ZP-h5h" kind="relationship" relationship="viewControllers" id="1Vb-TM-B0e"/>
+                        <segue destination="yhr-Ob-ciI" kind="relationship" relationship="viewControllers" id="0As-i9-gZc"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0SM-w6-l29" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="732" y="481"/>
+            <point key="canvasLocation" x="680" y="-387"/>
+        </scene>
+        <!--Advanced-->
+        <scene sceneID="GTh-Qy-19A">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yhr-Ob-ciI" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Advanced" id="aoz-hT-U0s"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LdQ-9Y-vAk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="pYU-Ln-Vjq" kind="relationship" relationship="rootViewController" id="UrC-ny-bq0"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MeN-hH-r5j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1432" y="483"/>
         </scene>
     </scenes>
     <resources>

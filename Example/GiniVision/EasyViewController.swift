@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  EasyViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 05/30/2016.
@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class ViewController: UIViewController, GINIVisionDelegate {
+class EasyViewController: UIViewController, GINIVisionDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class ViewController: UIViewController, GINIVisionDelegate {
     }
     
     func didCapture(imageData: NSData) {
-        print("Example App received image data")
+        print("Easy example received image data")
     }
     
     func didCancelCapturing() {

@@ -90,6 +90,9 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     @IBAction func close() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelCapturing()
+        
+        // Reset configuration when Gini Vision Library is closed
+        GINIConfiguration.sharedConfiguration = GINIConfiguration()
     }
     
     @IBAction func help() {
