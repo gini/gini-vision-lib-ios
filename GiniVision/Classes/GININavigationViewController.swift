@@ -17,14 +17,10 @@ internal class GININavigationViewController: UINavigationController {
     override init(rootViewController: UIViewController) {
         super.init(rootViewController: rootViewController)
         
+        // Edit style of navigation bar
         navigationBar.translucent = false
         navigationBar.barTintColor = GINIConfiguration.sharedConfiguration.navigationBarTintColor
-        var attributes: [String : AnyObject]
-        if let titleTextAttributes = navigationBar.titleTextAttributes {
-            attributes = titleTextAttributes
-        } else {
-            attributes = [String : AnyObject]()
-        }
+        var attributes = navigationBar.titleTextAttributes ?? [String : AnyObject]()
         attributes[NSForegroundColorAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarTitleColor
         navigationBar.titleTextAttributes = attributes
     }

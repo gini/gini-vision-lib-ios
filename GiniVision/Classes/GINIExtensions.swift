@@ -9,21 +9,26 @@
 import UIKit
 import AVFoundation
 
-internal extension UIImage {
-    
-    /**
-     * Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
-     *
-     * @param name The name of the image file without file extension
-     */
-    class func preferredClientImage(named name: String) -> UIImage? {
-        if let clientImage = UIImage(named: name) {
-            return clientImage
-        }
-        let bundle = NSBundle(forClass: GINIVision.self)
-        return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
+/**
+ * Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
+ *
+ * @param name The name of the image file without file extension
+ */
+internal func UIImageNamedPreferred(named name: String) -> UIImage? {
+    if let clientImage = UIImage(named: name) {
+        return clientImage
     }
-    
+    let bundle = NSBundle(forClass: GINIVision.self)
+    return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
+}
+
+internal func NSLocalizedStringPreferred(key: String, comment: String) -> String {
+    let clientString = NSLocalizedString(key, comment: comment)
+    if  clientString != key {
+        return clientString
+    }
+    let bundle = NSBundle(forClass: GINIVision.self)
+    return NSLocalizedString(key, bundle: bundle, comment: comment)
 }
 
 internal extension UIViewController {

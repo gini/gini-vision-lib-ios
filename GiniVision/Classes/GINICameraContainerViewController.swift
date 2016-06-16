@@ -8,21 +8,20 @@
 
 import UIKit
 
-public final class GINICameraContainerViewController: UIViewController {
+internal class GINICameraContainerViewController: UIViewController, GINIContainer {
     
-    // User interface
-    private var containerView  = UIView()
-    
-    // Properties
-    private lazy var cameraViewController = GINICameraViewController()
+    // Container attributes
+    internal var containerView = UIView()
+    internal var contentController: UIViewController = GINICameraViewController()
     
     // Output
     private var imageData: NSData?
     
-    public init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
         
-        title = "Camera"
+        // TODO: Make title configurable
+        title = GINIConfiguration.sharedConfiguration.navigationBarTitleCamera
                 
         // Configure colors
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
@@ -34,17 +33,17 @@ public final class GINICameraContainerViewController: UIViewController {
         addConstraints()
     }
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        displayContentController(cameraViewController)
+        displayContent(contentController)
     }
     
-    override public func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
@@ -60,11 +59,5 @@ public final class GINICameraContainerViewController: UIViewController {
         UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
     }
-    
-    private func displayContentController(content: UIViewController) {
-        self.addChildViewController(content)
-        content.view.frame = self.containerView.bounds
-        self.containerView.addSubview(content.view)
-        content.didMoveToParentViewController(self)
-    }
+
 }

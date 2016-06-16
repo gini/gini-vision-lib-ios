@@ -23,22 +23,22 @@ public final class GINICameraViewController: UIViewController {
     
     // Images
     private var defaultImage: UIImage? {
-        return UIImage.preferredClientImage(named: "defaultImage")
+        return UIImageNamedPreferred(named: "defaultImage")
     }
     private var captureButtonNormalImage: UIImage? {
-        return UIImage.preferredClientImage(named: "cameraCaptureButton")
+        return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
     private var captureButtonActiveImage: UIImage? {
-        return UIImage.preferredClientImage(named: "cameraCaptureButtonActive")
+        return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
     private var cameraOverlayImage: UIImage? {
-        return UIImage.preferredClientImage(named: "cameraOverlay")
+        return UIImageNamedPreferred(named: "cameraOverlay")
     }
     private var cameraFocusSmall: UIImage? {
-        return UIImage.preferredClientImage(named: "cameraFocusSmall")
+        return UIImageNamedPreferred(named: "cameraFocusSmall")
     }
     private var cameraFocusLarge: UIImage? {
-        return UIImage.preferredClientImage(named: "cameraFocusLarge")
+        return UIImageNamedPreferred(named: "cameraFocusLarge")
     }
     
     // Output

@@ -24,13 +24,15 @@ public final class GINIConfiguration {
     /// Sets the background in all screens of the Gini Vision Library to the specified color
     public var backgroundColor = UIColor.blackColor()
     
-    /// Sets the tint color of the navigation bar in all screens of the Gini Vision library to the globally specified color or to a default color
+    /// Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
     public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
-    // TODO: Add description
+    /// Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
-    public init() {}
+    public var navigationBarTitleCamera = NSLocalizedStringPreferred("ginivision.navigationbar.title.camera", comment: "Title in the navigation bar for the camera screen")
+    
+    public init() {}    
         
 }
 

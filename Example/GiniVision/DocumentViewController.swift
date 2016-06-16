@@ -2,8 +2,8 @@
 //  DocumentViewController.swift
 //  GiniVision
 //
-//  Created by Gini on 31/05/16.
-//  Copyright © 2016 CocoaPods. All rights reserved.
+//  Created by Peter Pult on 31/05/16.
+//  Copyright © 2016 Gini. All rights reserved.
 //
 
 import UIKit
