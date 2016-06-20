@@ -2,64 +2,86 @@
 //  GINICameraViewController.swift
 //  GiniVision
 //
-//  Created by Gini on 08/06/16.
-//  Copyright © 2016 CocoaPods. All rights reserved.
+//  Created by Peter Pult on 08/06/16.
+//  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
 import UIKit
+import AVFoundation
 
-public class GINICameraViewController: UIViewController {
+public typealias ImageDataStream = (imageData: NSData?) -> ()
+
+public final class GINICameraViewController: UIViewController {
     
     // User interface
     private var controlsView  = UIView()
-    private var previewView   = UIView()
+    private var previewView   = GINICameraPreviewView()
     private var cameraOverlay = UIImageView()
     private var captureButton = UIButton()
+    private var focusIndicatorImageView: UIImageView?
     
     // Properties
-    private var camera: AnyObject? {
-        return nil
-    }
+    private var camera = GINICamera()
     
     // Images
     private var defaultImage: UIImage? {
-        return UIImage(named: "defaultImage")
+        return UIImageNamedPreferred(named: "defaultImage")
     }
     private var captureButtonNormalImage: UIImage? {
-        return UIImage(named: "cameraCaptureButton")
+        return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
     private var captureButtonActiveImage: UIImage? {
-        return UIImage(named: "cameraCaptureButtonActive")
+        return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
     private var cameraOverlayImage: UIImage? {
-        return UIImage(named: "cameraOverlay")
+        return UIImageNamedPreferred(named: "cameraOverlay")
+    }
+    private var cameraFocusSmall: UIImage? {
+        return UIImageNamedPreferred(named: "cameraFocusSmall")
+    }
+    private var cameraFocusLarge: UIImage? {
+        return UIImageNamedPreferred(named: "cameraFocusLarge")
     }
     
-    
     // Output
-    private var imageData: NSData?
+    private var imageDataStream: ImageDataStream?
     
-    // MARK: View life cycle
-    public init() {
+    public init(callback: ImageDataStream) {
         super.init(nibName: nil, bundle: nil)
         
+        // Set callback
+        imageDataStream = callback
+        
+        // Configure preview view
+        previewView.session = camera.session
+        (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
+        previewView.addGestureRecognizer(tapGesture)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera.videoDeviceInput?.device)
+        
+        // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
         cameraOverlay.contentMode = .ScaleAspectFit
         
+        // Configure capture button
         captureButton.setImage(captureButtonNormalImage, forState: .Normal)
         captureButton.setImage(captureButtonActiveImage, forState: .Highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), forControlEvents: .TouchUpInside)
         
-        self.view.backgroundColor = UIColor.blackColor()
+        // Configure colors
+        self.view.backgroundColor = UIColor.clearColor()
         previewView.backgroundColor = UIColor.clearColor()
         controlsView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
         captureButton.backgroundColor = UIColor.clearColor()
         cameraOverlay.backgroundColor = UIColor.clearColor()
         
+        // Configure view hierachy
         view.addSubview(previewView)
         view.addSubview(cameraOverlay)
         view.addSubview(controlsView)
         controlsView.addSubview(captureButton)
+        
+        // Add constraints
         addConstraints()
     }
     
@@ -67,78 +89,138 @@ public class GINICameraViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    // MARK: View life cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        camera.start()
+    }
+    
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        camera.stop()
+    }
+    
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        if camera == nil {
-            addDefaultImage()
+
+        if GINIConfiguration.DEBUG {
+            if !camera.hasValidInput {
+                addDefaultImage()
+            }
         }
     }
     
+    // MARK: Image capture
     @IBAction func captureImage(sender: AnyObject) {
-        var data: NSData?
-        if camera == nil {
-            data = defaultImage != nil ? UIImageJPEGRepresentation(defaultImage!, 1) : nil
+        camera.captureStillImage { imageData in
+            var data = imageData
+            
+            if GINIConfiguration.DEBUG {
+                if data == nil {
+                    data = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
+                }
+            }
+            
+            // Call callback
+            self.imageDataStream?(imageData: data)
         }
-        imageData = data
     }
     
-    // MARK: Private methods
+    // MARK: Focus handling
+    @IBAction func focusAndExposeTap(sender: UITapGestureRecognizer) {
+        let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
+        camera.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
+        let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    @objc private func subjectAreaDidChange(notification: NSNotification) {
+        let devicePoint = CGPointMake(0.5, 0.5)
+        camera.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
+        let imageView = createFocusIndicator(withImage: cameraFocusLarge, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    private func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> UIImageView? {
+        guard let image = image else { return nil }
+        let imageView = UIImageView(image: image)
+        imageView.center = point
+        return imageView
+    }
+    
+    private func showFocusIndicator(imageView: UIImageView?) {
+        guard let imageView = imageView else { return }
+        for subView in self.previewView.subviews {
+            subView.removeFromSuperview()
+        }
+        self.previewView.addSubview(imageView)
+        UIView.animateWithDuration(1.5,
+                                   animations: {
+                                    imageView.alpha = 0.0
+            },
+                                   completion: { (success: Bool) -> Void in
+                                    imageView.removeFromSuperview()
+        })
+    }
+    
+    // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
         
         // Preview view
         previewView.translatesAutoresizingMaskIntoConstraints = false
-        addActiveConstraint(item: previewView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        addActiveConstraint(item: previewView, attribute: .Bottom, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
-        addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 3/4, constant: 0)
-        addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .Equal, toItem: superview, attribute: .Width, multiplier: 1, constant: 0, priority: 750)
-        addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: superview, attribute: .Width, multiplier: 1, constant: 0)
-        addActiveConstraint(item: previewView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Bottom, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 3/4, constant: 0)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .Equal, toItem: superview, attribute: .Width, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: superview, attribute: .Width, multiplier: 1, constant: 0, priority: 999)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
         
         // Camera overlay view
         cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
-        addActiveConstraint(item: cameraOverlay, attribute: .Top, relatedBy: .Equal, toItem: previewView, attribute: .Top, multiplier: 1, constant: 0)
-        addActiveConstraint(item: cameraOverlay, attribute: .Trailing, relatedBy: .Equal, toItem: previewView, attribute: .Trailing, multiplier: 1, constant: -23)
-        addActiveConstraint(item: cameraOverlay, attribute: .Bottom, relatedBy: .Equal, toItem: previewView, attribute: .Bottom, multiplier: 1, constant: 0)
-        addActiveConstraint(item: cameraOverlay, attribute: .Leading, relatedBy: .Equal, toItem: previewView, attribute: .Leading, multiplier: 1, constant: 23)
+        UIViewController.addActiveConstraint(item: cameraOverlay, attribute: .Top, relatedBy: .Equal, toItem: previewView, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: cameraOverlay, attribute: .Trailing, relatedBy: .Equal, toItem: previewView, attribute: .Trailing, multiplier: 1, constant: -23)
+        UIViewController.addActiveConstraint(item: cameraOverlay, attribute: .Bottom, relatedBy: .Equal, toItem: previewView, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: cameraOverlay, attribute: .Leading, relatedBy: .Equal, toItem: previewView, attribute: .Leading, multiplier: 1, constant: 23)
         
         // Controls view
         controlsView.translatesAutoresizingMaskIntoConstraints = false
-        addActiveConstraint(item: controlsView, attribute: .Top, relatedBy: .Equal, toItem: previewView, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
-        addActiveConstraint(item: controlsView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        addActiveConstraint(item: controlsView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        addActiveConstraint(item: controlsView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-        addActiveConstraint(item: controlsView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: captureButton, attribute: .Height, multiplier: 1.1, constant: 0)
+        UIViewController.addActiveConstraint(item: controlsView, attribute: .Top, relatedBy: .Equal, toItem: previewView, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: controlsView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: controlsView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: controlsView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: controlsView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: captureButton, attribute: .Height, multiplier: 1.1, constant: 0)
         
         // Capture button
         captureButton.translatesAutoresizingMaskIntoConstraints = false
-        addActiveConstraint(item: captureButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 55)
-        addActiveConstraint(item: captureButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 55)
-        addActiveConstraint(item: captureButton, attribute: .CenterX, relatedBy: .Equal, toItem: controlsView, attribute: .CenterX, multiplier: 1, constant: 0)
-        addActiveConstraint(item: captureButton, attribute: .CenterY, relatedBy: .Equal, toItem: controlsView, attribute: .CenterY, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 55)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 55)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .CenterX, relatedBy: .Equal, toItem: controlsView, attribute: .CenterX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .CenterY, relatedBy: .Equal, toItem: controlsView, attribute: .CenterY, multiplier: 1, constant: 0)
     }
     
+    /// Adds a default image to the canvas when no camera is available (DEBUG mode only)
     private func addDefaultImage() {
         let defaultImageView = UIImageView(image: defaultImage)
         defaultImageView.contentMode = .ScaleAspectFit
         previewView.addSubview(defaultImageView)
         
         defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        addActiveConstraint(item: defaultImageView, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Width, multiplier: 1, constant: 0)
-        addActiveConstraint(item: defaultImageView, attribute: .Height, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 1, constant: 0)
-        addActiveConstraint(item: defaultImageView, attribute: .CenterX, relatedBy: .Equal, toItem: previewView, attribute: .CenterX, multiplier: 1, constant: 0)
-        addActiveConstraint(item: defaultImageView, attribute: .CenterY, relatedBy: .Equal, toItem: previewView, attribute: .CenterY, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: defaultImageView, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Width, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: defaultImageView, attribute: .Height, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: defaultImageView, attribute: .CenterX, relatedBy: .Equal, toItem: previewView, attribute: .CenterX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: defaultImageView, attribute: .CenterY, relatedBy: .Equal, toItem: previewView, attribute: .CenterY, multiplier: 1, constant: 0)
     }
     
-    private func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {
-        let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
-        constraint.priority = priority
-        constraint.active = true
-    }
 }
 

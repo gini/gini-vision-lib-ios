@@ -3,7 +3,7 @@
 //  GiniVision
 //
 //  Created by Peter Pult on 05/30/2016.
-//  Copyright (c) 2016 Peter Pult. All rights reserved.
+//  Copyright © 2016 Gini. All rights reserved.
 //
 
 import UIKit

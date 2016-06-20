@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '0.1.3'
+  s.version          = '0.1.4'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
 # This description is used to generate tags and improve search results.
@@ -36,12 +36,9 @@ to provide the best results when used with the Gini API.
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'GiniVision/Classes/**/*'
-  
-  # s.resource_bundles = {
-  #   'GiniVision' => ['GiniVision/Assets/*.png']
-  # }
+  s.resources = 'GiniVision/Assets/*'
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
+  s.frameworks = 'AVFoundation', 'CoreMotion', 'Photos'
   # s.dependency 'AFNetworking', '~> 2.3'
 end
