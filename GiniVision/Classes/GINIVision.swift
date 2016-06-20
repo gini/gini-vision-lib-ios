@@ -11,8 +11,10 @@ import Foundation
 @objc public protocol GINIVisionDelegate {
     
     func didCapture(imageData: NSData)
+    func didReview(imageData: NSData, withChanges changes: Bool)
     func didCancelCapturing()
     
+    optional func didCancelReview()
     optional func didCancelAnalysis()
     
 }

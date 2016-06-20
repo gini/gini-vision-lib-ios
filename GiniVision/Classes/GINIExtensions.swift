@@ -35,6 +35,10 @@ internal extension UIViewController {
     
     class func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {
         let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
+        addActiveConstraint(constraint, priority: priority)
+    }
+    
+    class func addActiveConstraint(constraint: NSLayoutConstraint, priority: UILayoutPriority = 1000) {
         constraint.priority = priority
         constraint.active = true
     }

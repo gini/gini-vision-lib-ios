@@ -1,76 +1,71 @@
 //
-//  CameraContainerViewController.swift
+//  GINIReviewContainerViewController.swift
 //  GiniVision
 //
-//  Created by Peter Pult on 08/06/16.
+//  Created by Peter Pult on 20/06/16.
 //  Copyright © 2016 Gini. All rights reserved.
 //
 
 import UIKit
 
-internal class GINICameraContainerViewController: UIViewController, GINIContainer {
+internal class GINIReviewContainerViewController: UIViewController, GINIContainer {
     
     // Container attributes
     internal var containerView     = UIView()
     internal var contentController = UIViewController()
     
     // User interface
-    private var closeButton = UIBarButtonItem()
-    private var helpButton  = UIBarButtonItem()
-    
+    private var backButton     = UIBarButtonItem()
+    private var continueButton = UIBarButtonItem()
+
     // Images
-    private var closeButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationCameraClose")
+    private var backButtonImage: UIImage? {
+        return UIImageNamedPreferred(named: "navigationReviewBack")
     }
-    private var helpButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationCameraHelp")
+    private var continueButtonImage: UIImage? {
+        return UIImageNamedPreferred(named: "navigationReviewContinue")
     }
     
-    init() {
+    init(imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller and call delegate method on success
-        contentController = GINICameraViewController(callback: { imageData in
+        contentController = GINIReviewViewController(imageData, callback: { imageData in
             guard let imageData = imageData else { return }
             let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
-            delegate?.didCapture(imageData)
-            
-            // Push review container view controller
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
-            })
+            delegate?.didReview(imageData, withChanges: true) // TODO: Implement changes
         })
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitle
-                
+        title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitle
+        
         // Configure colors
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        closeButton = UIBarButtonItem(image: closeButtonImage, style: .Plain, target: self, action: #selector(close))
-        closeButton.title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton
-        if let s = closeButton.title where !s.isEmpty {
-            closeButton.image = nil
+        backButton = UIBarButtonItem(image: backButtonImage, style: .Plain, target: self, action: #selector(back))
+        backButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton
+        if let s = backButton.title where !s.isEmpty {
+            backButton.image = nil
         } else {
             // Set title `nil` because an empty string will cause problems in UI
-            closeButton.title = nil
+            backButton.title = nil
         }
         
         // Configure help button
-        helpButton = UIBarButtonItem(image: helpButtonImage, style: .Plain, target: self, action: #selector(help))
-        helpButton.title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton
-        if let s = helpButton.title where !s.isEmpty {
-            helpButton.image = nil
+        continueButton = UIBarButtonItem(image: continueButtonImage, style: .Plain, target: self, action: #selector(analyse))
+        continueButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton
+        if let s = continueButton.title where !s.isEmpty {
+            continueButton.image = nil
         } else {
             // Set title `nil` because an empty string will cause problems in UI
-            helpButton.title = nil
+            continueButton.title = nil
         }
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButtonItem(closeButton, animated: false)
-        navigationItem.setRightBarButtonItem(helpButton, animated: false)
+        navigationItem.setLeftBarButtonItem(backButton, animated: false)
+        navigationItem.setRightBarButtonItem(continueButton, animated: false)
         
         // Add constraints
         addConstraints()
@@ -92,17 +87,16 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func close() {
+    @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
-        delegate?.didCancelCapturing()
+        delegate?.didCancelReview?()
         
-        // Reset configuration when Gini Vision Library is closed
-        GINIConfiguration.sharedConfiguration = GINIConfiguration()
+        navigationController?.popViewControllerAnimated(true)
     }
     
-    @IBAction func help() {
+    @IBAction func analyse() {
         // TODO: Implement call
-        print("GiniVision: Wants to open help")
+        print("GiniVision: Wants to analyse reviewed image")
     }
     
     // MARK: Constraints
@@ -116,5 +110,5 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
     }
-
+    
 }
