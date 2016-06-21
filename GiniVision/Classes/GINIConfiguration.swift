@@ -33,11 +33,17 @@ import Foundation
     /// Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
+    /// Sets the color of the loading indicator on the analysis screen to the specified color
+    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
+    
     /// Sets the title text in the navigation bar on the camera screen
     public var navigationBarCameraTitle = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
     
     /// Sets the title text in the navigation bar on the review screen
     public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
+    
+    /// Sets the title text in the navigation bar on the analysis screen
+    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
     /// Sets the close button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the close button image
     public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
@@ -56,6 +62,9 @@ import Foundation
     
     /// Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
+    
+    /// Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image
+    public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
     
     public override init() {}
         

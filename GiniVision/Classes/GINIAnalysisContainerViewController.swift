@@ -1,14 +1,14 @@
 //
-//  GINIReviewContainerViewController.swift
+//  GINIAnalysisContainerViewController.swift
 //  GiniVision
 //
-//  Created by Peter Pult on 20/06/16.
+//  Created by Peter Pult on 21/06/16.
 //  Copyright © 2016 Gini. All rights reserved.
 //
 
 import UIKit
 
-internal class GINIReviewContainerViewController: UIViewController, GINIContainer {
+internal class GINIAnalysisContainerViewController: UIViewController, GINIContainer {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -16,39 +16,27 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     
     // User interface
     private var backButton     = UIBarButtonItem()
-    private var continueButton = UIBarButtonItem()
-
+    
     // Images
     private var backButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewBack")
+        return UIImageNamedPreferred(named: "navigationAnalysisBack")
     }
-    private var continueButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewContinue")
-    }
-    
-    // Output
-    private var imageData: NSData?
     
     init(imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
-        self.imageData = imageData
-        
-        // Configure content controller and update image data on success
-        contentController = GINIReviewViewController(imageData, callback: { imageData in
-            guard let imageData = imageData else { return }
-            self.imageData = imageData
-        })
+        // Configure content controller
+        contentController = GINIAnalysisViewController(imageData)
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitle
+        title = GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitle
         
         // Configure colors
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
         
-        // Configure back button
+        // Configure close button
         backButton = UIBarButtonItem(image: backButtonImage, style: .Plain, target: self, action: #selector(back))
-        backButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton
+        backButton.title = GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton
         if let s = backButton.title where !s.isEmpty {
             backButton.image = nil
         } else {
@@ -56,20 +44,9 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
             backButton.title = nil
         }
         
-        // Configure continue button
-        continueButton = UIBarButtonItem(image: continueButtonImage, style: .Plain, target: self, action: #selector(analyse))
-        continueButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton
-        if let s = continueButton.title where !s.isEmpty {
-            continueButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            continueButton.title = nil
-        }
-        
         // Configure view hierachy
         view.addSubview(containerView)
         navigationItem.setLeftBarButtonItem(backButton, animated: false)
-        navigationItem.setRightBarButtonItem(continueButton, animated: false)
         
         // Add constraints
         addConstraints()
@@ -93,18 +70,8 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     
     @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
-        delegate?.didCancelReview?()
+        delegate?.didCancelAnalysis?()
         navigationController?.popViewControllerAnimated(true)
-    }
-    
-    @IBAction func analyse() {
-        // TODO: Implement changes
-        // TODO: Call analyse screen
-        let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
-        delegate?.didReview(imageData!, withChanges: false)
-        
-        // Push analysis container view controller
-        navigationController?.pushViewController(GINIAnalysisContainerViewController(imageData: imageData!), animated: true)
     }
     
     // MARK: Constraints
