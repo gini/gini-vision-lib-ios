@@ -68,7 +68,7 @@ public final class GINIReviewViewController: UIViewController {
 
     // MARK: Rotation handling
     @IBAction func rotate(sender: AnyObject) {
-        // TODO: Implement rotatio
+        // TODO: Implement rotation
         imageDataStream?(imageData: UIImageJPEGRepresentation(imageView.image!, 1))
     }
     

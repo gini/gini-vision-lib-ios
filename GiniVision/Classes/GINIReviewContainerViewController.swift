@@ -26,14 +26,18 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         return UIImageNamedPreferred(named: "navigationReviewContinue")
     }
     
+    // Output
+    private var imageData: NSData?
+    
     init(imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
-        // Configure content controller and call delegate method on success
+        self.imageData = imageData
+        
+        // Configure content controller and update image data on success
         contentController = GINIReviewViewController(imageData, callback: { imageData in
             guard let imageData = imageData else { return }
-            let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
-            delegate?.didReview(imageData, withChanges: true) // TODO: Implement changes
+            self.imageData = imageData
         })
         
         // Configure title
@@ -90,13 +94,14 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()
-        
         navigationController?.popViewControllerAnimated(true)
     }
     
     @IBAction func analyse() {
-        // TODO: Implement call
-        print("GiniVision: Wants to analyse reviewed image")
+        // TODO: Implement changes
+        // TODO: Call analyse screen
+        let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
+        delegate?.didReview(imageData!, withChanges: false)
     }
     
     // MARK: Constraints

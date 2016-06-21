@@ -13,15 +13,22 @@ class AdvancedViewController: UIViewController {
     
     // Container attributes
     @IBOutlet var containerView: UIView!
-    var contentController = GINICameraViewController { (imageData) in
-        guard let imageData = imageData else { return }
-        print("Advanced example received image data")
-    }
+    var contentController = UIViewController()
+    
+    // Output
+    var imageData: NSData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-    
+        
+        contentController = GINICameraViewController { (imageData) in
+            guard let imageData = imageData else { return }
+            self.imageData = imageData
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.performSegueWithIdentifier("giniShowReview", sender: self)
+            })
+        }
+        
         displayContent(contentController)
     }
     
@@ -34,6 +41,15 @@ class AdvancedViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "giniShowReview" {
+            if let imageData = imageData,
+                let vc = (segue.destinationViewController as? UINavigationController)?.topViewController as? AdvancedReviewViewController {
+                vc.imageData = imageData
+            }
+        }
     }
     
     func displayContent(controller: UIViewController) {
