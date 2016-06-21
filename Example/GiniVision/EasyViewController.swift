@@ -32,6 +32,11 @@ class EasyViewController: UIViewController, GINIVisionDelegate {
         print("Easy example received image data")
     }
     
+    func didReview(imageData: NSData, withChanges changes: Bool) {
+        let changesString = changes ? "changes" : "no changes"
+        print("Easy example received updated image data with \(changesString)")
+    }
+    
     func didCancelCapturing() {
         dismissViewControllerAnimated(true, completion: nil)
     }

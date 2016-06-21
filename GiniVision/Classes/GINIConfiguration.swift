@@ -34,13 +34,28 @@ import Foundation
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
     /// Sets the title text in the navigation bar on the camera screen
-    public var navigationBarTitleCamera = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
+    public var navigationBarCameraTitle = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
+    
+    /// Sets the title text in the navigation bar on the review screen
+    public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
     
     /// Sets the close button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the close button image
-    public var navigationBarTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
+    public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
     
     /// Sets the help button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the help button image
-    public var navigationBarTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    
+    /// Sets the back button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the back button image
+    public var navigationBarReviewTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen")
+    
+    /// Sets the continue button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the continue button image
+    public var navigationBarReviewTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
+    
+    /// Sets the text appearing at the top of the review screen which should ask the user if the full document is sharp and in the correct orientation
+    public var reviewTextTop = NSLocalizedStringPreferred("ginivision.review.top", comment: "Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation")
+    
+    /// Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image
+    public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
     
     public override init() {}
         

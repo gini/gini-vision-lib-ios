@@ -69,7 +69,7 @@ public final class GINICameraViewController: UIViewController {
         captureButton.addTarget(self, action: #selector(captureImage), forControlEvents: .TouchUpInside)
         
         // Configure colors
-        self.view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clearColor()
         previewView.backgroundColor = UIColor.clearColor()
         controlsView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
         captureButton.backgroundColor = UIColor.clearColor()

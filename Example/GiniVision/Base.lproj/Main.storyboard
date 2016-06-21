@@ -37,16 +37,62 @@
                     </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
+                        <segue destination="yYg-oL-FvO" kind="presentation" identifier="giniShowReview" modalTransitionStyle="flipHorizontal" id="nNS-Ho-9TS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2196" y="483"/>
         </scene>
-        <!--Camera-->
+        <!--Dokument überprüfen-->
+        <scene sceneID="54T-xI-a0p">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="bpn-9B-40f" customClass="AdvancedReviewViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5s3-1m-ck7"/>
+                        <viewControllerLayoutGuide type="bottom" id="jlx-L6-fKV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="q0u-mJ-1aS">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvg-cz-X1a">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Uvg-cz-X1a" secondAttribute="trailing" id="CTp-Hb-jrM"/>
+                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="pRw-Gb-A0q"/>
+                            <constraint firstItem="jlx-L6-fKV" firstAttribute="top" secondItem="Uvg-cz-X1a" secondAttribute="bottom" id="rws-YQ-mgE"/>
+                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="leading" secondItem="q0u-mJ-1aS" secondAttribute="leading" id="wPm-dp-hPb"/>
+                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="q0u-mJ-1aS" secondAttribute="top" id="wm8-Vz-XOw"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="wm8-Vz-XOw"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <navigationItem key="navigationItem" title="Dokument überprüfen" id="052-yP-lVc">
+                        <barButtonItem key="leftBarButtonItem" title="Zurück" id="onL-l8-gwe">
+                            <connections>
+                                <action selector="back:" destination="bpn-9B-40f" id="d5r-J2-l3c"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="containerView" destination="Uvg-cz-X1a" id="Jr1-sh-Ssh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-do-qjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3605" y="483"/>
+        </scene>
+        <!--Easy Mode-->
         <scene sceneID="Cmn-ER-b8i">
             <objects>
-                <viewController id="Ggv-ZP-h5h" customClass="EasyViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Easy Mode" id="Ggv-ZP-h5h" customClass="EasyViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3q-Yk-YSo"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9y-Oh-GoV"/>
@@ -312,7 +358,7 @@
                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="barTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
                         </textAttributes>
                     </navigationBar>
@@ -324,6 +370,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MeN-hH-r5j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1432" y="483"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="CnL-8n-les">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yYg-oL-FvO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="zUj-GO-Mlc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bpn-9B-40f" kind="relationship" relationship="rootViewController" id="ag5-5F-0bG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cma-Ed-0B3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2908" y="483"/>
         </scene>
     </scenes>
     <resources>
