@@ -17,7 +17,7 @@ import Foundation
     
 }
 
-public final class GINIVision {
+@objc public final class GINIVision: NSObject {
     
     public class func setConfiguration(configuration: GINIConfiguration) {
         if configuration.debugModeOn {

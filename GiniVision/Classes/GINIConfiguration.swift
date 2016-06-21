@@ -8,7 +8,7 @@
 
 import Foundation
 
-public final class GINIConfiguration {
+@objc public final class GINIConfiguration: NSObject {
     
     /// Singleton to make configuration internally accessible in all classes of the Gini Vision Library
     internal static var sharedConfiguration = GINIConfiguration()
@@ -42,7 +42,7 @@ public final class GINIConfiguration {
     /// Sets the help button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the help button image
     public var navigationBarTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
     
-    public init() {}    
+    public override init() {}
         
 }
 
