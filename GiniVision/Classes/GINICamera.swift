@@ -60,11 +60,11 @@ internal class GINICamera {
         })
     }
     
-    func captureStillImage(result: (imageData: NSData?) -> ()) {
+    func captureStillImage(result: (imageData: NSData?, error: NSError?) -> ()) {
         dispatch_async(sessionQueue, {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo) else {
-                return result(imageData: nil)
+                return result(imageData: nil, error: nil)
             }
             // Set the orientation accoding to the current orientation of the device
             if let orientation = AVCaptureVideoOrientation(self.motionManager.currentOrientation) {
@@ -74,14 +74,14 @@ internal class GINICamera {
             }
             self.videoDeviceInput?.device.setFlashModeSecurely(.On)
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
-                guard error == nil else { return }
+                guard error == nil else { return result(imageData: nil, error: error) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
 
                 if GINIConfiguration.DEBUG {
                     GINICamera.saveImageFromData(imageData)
                 }
 
-                result(imageData: imageData)
+                result(imageData: imageData, error: nil)
             })
         })
     }

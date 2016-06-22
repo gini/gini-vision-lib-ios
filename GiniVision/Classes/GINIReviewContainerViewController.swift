@@ -39,7 +39,7 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
             { imageData in
                 self.imageData = imageData
             }, failure: { error in
-                print(error.localizedDescription)
+                print(error)
             })
         
         // Configure title

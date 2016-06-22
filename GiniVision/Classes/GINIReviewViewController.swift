@@ -9,6 +9,7 @@
 import UIKit
 
 public typealias GINIReviewSuccessBlock = (imageData: NSData) -> ()
+public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 
 public final class GINIReviewViewController: UIViewController {
     
@@ -29,9 +30,9 @@ public final class GINIReviewViewController: UIViewController {
     
     // Output
     private var successBlock: GINIReviewSuccessBlock?
-    private var errorBlock: GINIErrorBlock?
+    private var errorBlock: GINIReviewErrorBlock?
     
-    public init(_ imageData: NSData, success: GINIReviewSuccessBlock, failure: GINIErrorBlock) {
+    public init(_ imageData: NSData, success: GINIReviewSuccessBlock, failure: GINIReviewErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -74,7 +75,7 @@ public final class GINIReviewViewController: UIViewController {
     @IBAction func rotate(sender: AnyObject) {
         // TODO: Implement rotation
         guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
-            return // TODO: Add error calls
+            return
         }
         successBlock?(imageData: data)
     }

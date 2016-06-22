@@ -40,7 +40,7 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                     self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
                 })
             }, failure: { error in
-                print(error.localizedDescription)
+                print(error)
             })
         
         // Configure title

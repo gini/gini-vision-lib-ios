@@ -28,7 +28,7 @@ class AdvancedViewController: UIViewController {
                     self.performSegueWithIdentifier("giniShowReview", sender: self)
                 })
             }, failure: { error in
-                print(error.localizedDescription)
+                print(error)
             })
         
         displayContent(contentController)

@@ -25,7 +25,7 @@ class AdvancedReviewViewController: UIViewController {
             { imageData in
                 print("Advanced example review controller received image data")
             }, failure: { error in
-                print(error.localizedDescription)
+                print(error)
             })
         
         displayContent(contentController)

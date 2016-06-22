@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 
 public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
+public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
 
 public final class GINICameraViewController: UIViewController {
     
@@ -45,9 +46,9 @@ public final class GINICameraViewController: UIViewController {
     
     // Output
     private var successBlock: GINICameraSuccessBlock?
-    private var errorBlock: GINIErrorBlock?
-    
-    public init(success: GINICameraSuccessBlock, failure: GINIErrorBlock) {
+    private var errorBlock: GINICameraErrorBlock?
+
+    public init(success: GINICameraSuccessBlock, failure: GINICameraErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -86,7 +87,7 @@ public final class GINICameraViewController: UIViewController {
         // Add constraints
         addConstraints()
     }
-    
+
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -124,20 +125,24 @@ public final class GINICameraViewController: UIViewController {
     
     // MARK: Image capture
     @IBAction func captureImage(sender: AnyObject) {
-        camera.captureStillImage { imageData in
+        camera.captureStillImage { (imageData: NSData?, error: NSError?) in
+            guard error == nil else {
+                // Call error block
+                self.errorBlock?(error: GINICameraError.CaptureFailed)
+                return
+            }
             var imageData = imageData
-            
             if GINIConfiguration.DEBUG {
                 if imageData == nil {
                     imageData = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
                 }
             }
-            
             guard let data = imageData else {
-                return // TODO: Add error calls
+                // Call error block
+                self.errorBlock?(error: GINICameraError.CaptureFailed)
+                return
             }
-            
-            // Call callback
+            // Call success block
             self.successBlock?(imageData: data)
         }
     }

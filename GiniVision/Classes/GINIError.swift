@@ -8,4 +8,16 @@
 
 import Foundation
 
-public typealias GINIErrorBlock = (error: NSError) -> ()
+@objc public enum GINICameraError: Int, ErrorType {
+    
+    case Unknown = 0
+    case AuthorizationDenied
+    case CaptureFailed
+    
+}
+
+@objc public enum GINIReviewError: Int, ErrorType {
+    
+    case Unknown = 0
+    
+}
