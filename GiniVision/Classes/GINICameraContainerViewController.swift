@@ -30,16 +30,18 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller and call delegate method on success
-        contentController = GINICameraViewController(callback: { imageData in
-            guard let imageData = imageData else { return }
-            let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
-            delegate?.didCapture(imageData)
-            
-            // Push review container view controller
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
+        contentController = GINICameraViewController(success:
+            { imageData in
+                let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
+                delegate?.didCapture(imageData)
+                
+                // Push review container view controller
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
+                })
+            }, failure: { error in
+                print(error.localizedDescription)
             })
-        })
         
         // Configure title
         title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitle

@@ -21,10 +21,12 @@ class AdvancedReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentController = GINIReviewViewController(imageData, callback: { (imageData) in
-            guard let imageData = imageData else { return }
-            print("Advanced example review controller received image data")
-        })
+        contentController = GINIReviewViewController(imageData, success:
+            { imageData in
+                print("Advanced example review controller received image data")
+            }, failure: { error in
+                print(error.localizedDescription)
+            })
         
         displayContent(contentController)
     }

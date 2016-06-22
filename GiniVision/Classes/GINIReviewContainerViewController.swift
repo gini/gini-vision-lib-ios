@@ -35,10 +35,12 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         self.imageData = imageData
         
         // Configure content controller and update image data on success
-        contentController = GINIReviewViewController(imageData, callback: { imageData in
-            guard let imageData = imageData else { return }
-            self.imageData = imageData
-        })
+        contentController = GINIReviewViewController(imageData, success:
+            { imageData in
+                self.imageData = imageData
+            }, failure: { error in
+                print(error.localizedDescription)
+            })
         
         // Configure title
         title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitle
@@ -99,7 +101,6 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     
     @IBAction func analyse() {
         // TODO: Implement changes
-        // TODO: Call analyse screen
         let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didReview(imageData!, withChanges: false)
         

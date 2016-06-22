@@ -25,7 +25,7 @@ import Foundation
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        GINIConfiguration.sharedConfiguration = configuration
+        GINIConfiguration.sharedConfiguration = configuration // TODO: Make copy
     }
     
     public class func viewController(withDelegate delegate: GINIVisionDelegate) -> UIViewController {

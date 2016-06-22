@@ -8,6 +8,8 @@
 
 import UIKit
 
+public typealias GINIReviewSuccessBlock = (imageData: NSData) -> ()
+
 public final class GINIReviewViewController: UIViewController {
     
     // User interface
@@ -26,13 +28,15 @@ public final class GINIReviewViewController: UIViewController {
     }
     
     // Output
-    private var imageDataStream: ImageDataStream?
+    private var successBlock: GINIReviewSuccessBlock?
+    private var errorBlock: GINIErrorBlock?
     
-    public init(_ imageData: NSData, callback: ImageDataStream) {
+    public init(_ imageData: NSData, success: GINIReviewSuccessBlock, failure: GINIErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        imageDataStream = callback
+        successBlock = success
+        errorBlock = failure
         
         // Configure scroll view
         scrollView.delegate = self
@@ -69,7 +73,10 @@ public final class GINIReviewViewController: UIViewController {
     // MARK: Rotation handling
     @IBAction func rotate(sender: AnyObject) {
         // TODO: Implement rotation
-        imageDataStream?(imageData: UIImageJPEGRepresentation(imageView.image!, 1))
+        guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
+            return // TODO: Add error calls
+        }
+        successBlock?(imageData: data)
     }
     
     // MARK: Zoom handling

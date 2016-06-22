@@ -21,13 +21,15 @@ class AdvancedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentController = GINICameraViewController { (imageData) in
-            guard let imageData = imageData else { return }
-            self.imageData = imageData
-            dispatch_async(dispatch_get_main_queue(), { 
-                self.performSegueWithIdentifier("giniShowReview", sender: self)
+        contentController = GINICameraViewController(success:
+            { imageData in
+                self.imageData = imageData
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.performSegueWithIdentifier("giniShowReview", sender: self)
+                })
+            }, failure: { error in
+                print(error.localizedDescription)
             })
-        }
         
         displayContent(contentController)
     }

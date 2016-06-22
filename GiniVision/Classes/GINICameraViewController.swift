@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-public typealias ImageDataStream = (imageData: NSData?) -> ()
+public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
 
 public final class GINICameraViewController: UIViewController {
     
@@ -44,13 +44,15 @@ public final class GINICameraViewController: UIViewController {
     }
     
     // Output
-    private var imageDataStream: ImageDataStream?
+    private var successBlock: GINICameraSuccessBlock?
+    private var errorBlock: GINIErrorBlock?
     
-    public init(callback: ImageDataStream) {
+    public init(success: GINICameraSuccessBlock, failure: GINIErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        imageDataStream = callback
+        successBlock = success
+        errorBlock = failure
         
         // Configure preview view
         previewView.session = camera.session
@@ -123,16 +125,20 @@ public final class GINICameraViewController: UIViewController {
     // MARK: Image capture
     @IBAction func captureImage(sender: AnyObject) {
         camera.captureStillImage { imageData in
-            var data = imageData
+            var imageData = imageData
             
             if GINIConfiguration.DEBUG {
-                if data == nil {
-                    data = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
+                if imageData == nil {
+                    imageData = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
                 }
             }
             
+            guard let data = imageData else {
+                return // TODO: Add error calls
+            }
+            
             // Call callback
-            self.imageDataStream?(imageData: data)
+            self.successBlock?(imageData: data)
         }
     }
     
