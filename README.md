@@ -1,11 +1,6 @@
 # GiniVision
 
 [![CI Status](https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&branch=master)](https://travis-ci.com/gini/gini-vision-lib-ios)
-<!--  
-[![Version](https://img.shields.io/cocoapods/v/GiniVision.svg?style=flat)](http://cocoapods.org/pods/GiniVision)
-[![License](https://img.shields.io/cocoapods/l/GiniVision.svg?style=flat)](http://cocoapods.org/pods/GiniVision)
-[![Platform](https://img.shields.io/cocoapods/p/GiniVision.svg?style=flat)](http://cocoapods.org/pods/GiniVision)
--->
 
 ## Example
 

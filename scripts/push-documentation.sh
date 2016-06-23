@@ -13,6 +13,8 @@ git clone -b docs git@github.com:gini/gini-vision-lib-ios.git docs
 
 rm -rf docs/*
 cp -a Documentation/. docs/Documentation/
+sh scripts/build-documentation-api.sh
+
 cd docs
 
 git add -u
