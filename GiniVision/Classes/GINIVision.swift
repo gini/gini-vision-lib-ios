@@ -12,7 +12,7 @@ import Foundation
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
  Make use of callbacks for handling incoming data and to control view controller presentation.
  
- - note: Screen API only
+ - note: Screen API only.
  */
 @objc public protocol GINIVisionDelegate {
     
@@ -75,7 +75,7 @@ import Foundation
     /**
      Returns a navigation view controller with the camera screen loaded and ready to go. It's the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles all screens and transitions out of the box.
      
-     - note: Screen API only
+     - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GINIVisionDelegate` protocol.
      
@@ -91,7 +91,7 @@ import Foundation
     /**
      Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom conifugration to set change the lookg and feel of the Gini Vision Library.
      
-     - note: Screen API only
+     - note: Screen API only.
      
      - parameter delegate:      An instance conforming to the `GINIVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
