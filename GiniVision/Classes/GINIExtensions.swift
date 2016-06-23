@@ -10,9 +10,11 @@ import UIKit
 import AVFoundation
 
 /**
- * Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
- *
- * @param name The name of the image file without file extension
+ Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
+ 
+ - parameter name: The name of the image file without file extension.
+ 
+ - returns: Image when found with name.
  */
 internal func UIImageNamedPreferred(named name: String) -> UIImage? {
     if let clientImage = UIImage(named: name) {
@@ -22,6 +24,14 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
     return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
 }
 
+/**
+ Returns a string localized string resource preferably from the client's bundle.
+ 
+ - parameter key:     The key to search for in the strings file.
+ - parameter comment: The according comment.
+ 
+ - returns: String resource for the given key.
+ */
 internal func NSLocalizedStringPreferred(key: String, comment: String) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
     if  clientString != key {
