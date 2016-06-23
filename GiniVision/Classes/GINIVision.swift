@@ -9,10 +9,10 @@
 import Foundation
 
 /**
- *  Delegate to inform the reveiver about the current status of the Gini Vision Library.
- *  Make use of callbacks for handling incoming data and to control view controller presentation.
- *  
- *  - note: ScreenAPI only
+ Delegate to inform the reveiver about the current status of the Gini Vision Library.
+ Make use of callbacks for handling incoming data and to control view controller presentation.
+ 
+ - note: Screen API only
  */
 @objc public protocol GINIVisionDelegate {
     
@@ -48,7 +48,15 @@ import Foundation
     
 }
 
-/// Convenience class to interact with the Gini Vision Library.
+/**
+ Convenience class to interact with the Gini Vision Library.
+ 
+ The Gini Vision Library provides views for capturing, reviewing and analysing documents.
+ 
+ By integrating this library in your application you can allow your users to easily take pictures of documents, review them and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
+ 
+ The Gini Vision Library can be integrated in two ways, either by using the **Screen API** or the **Component API**. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customisation.
+ */
 @objc public final class GINIVision: NSObject {
     
     /**
@@ -67,7 +75,7 @@ import Foundation
     /**
      Returns a navigation view controller with the camera screen loaded and ready to go. It's the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles all screens and transitions out of the box.
      
-     - note: ScreenAPI only
+     - note: Screen API only
      
      - parameter delegate: An instance conforming to the `GINIVisionDelegate` protocol.
      
@@ -83,7 +91,7 @@ import Foundation
     /**
      Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom conifugration to set change the lookg and feel of the Gini Vision Library.
      
-     - note: ScreenAPI only
+     - note: Screen API only
      
      - parameter delegate:      An instance conforming to the `GINIVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
