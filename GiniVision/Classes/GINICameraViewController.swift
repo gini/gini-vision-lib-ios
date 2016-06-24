@@ -9,12 +9,18 @@
 import UIKit
 import AVFoundation
 
-/// Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
-/// - note: Component API only.
+/**
+ Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+
+ - note: Component API only.
+ */
 public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
 
-/// Block which will be executed when an error occurs on the camera screen. It contains a camera specific error.
-/// - note: Component API only.
+/**
+ Block which will be executed when an error occurs on the camera screen. It contains a camera specific error.
+
+ - note: Component API only.
+ */
 public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
 
 /**
@@ -114,7 +120,6 @@ public final class GINICameraViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // MARK: View life cycle
     public override func viewDidLoad() {
         super.viewDidLoad()
     }
