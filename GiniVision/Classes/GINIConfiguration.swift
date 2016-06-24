@@ -76,18 +76,18 @@ import Foundation
     public var navigationBarCameraTitle = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
     
     /**
-     Sets the title text in the navigation bar on the review screen.
-    
-     - note: Screen API only.
-     */
-    public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
-    
-    /**
-     Sets the title text in the navigation bar on the analysis screen.
+     Sets the title text in the navigation bar on the onboarding screen.
      
      - note: Screen API only.
      */
-    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
+    public var navigationBarOnboardingTitle = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.title", comment: "Title in the navigation bar on the onboarding screen")
+    
+    /**
+     Sets the continue button text in the navigation bar on the onboarding screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
     
     /**
      Sets the close button text in the navigation bar on the camera screen.
@@ -104,6 +104,13 @@ import Foundation
      - note: Screen API only.
      */
     public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    
+    /**
+     Sets the title text in the navigation bar on the review screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
     
     /**
      Sets the back button text in the navigation bar on the review screen.
@@ -130,6 +137,13 @@ import Foundation
      Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
      */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
+    
+    /**
+     Sets the title text in the navigation bar on the analysis screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
     /** Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image.
      */
