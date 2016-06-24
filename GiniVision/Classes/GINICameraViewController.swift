@@ -24,7 +24,7 @@ public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
 public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
 
 /**
- The `GINICameraViewController` provides a custom camera screen which enables the user to take an image. Because the goal is to scan a document the flash will be enabled at all times.
+ The `GINICameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
  
  - note: Component API only.
  */
@@ -111,7 +111,12 @@ public final class GINICameraViewController: UIViewController {
         // Add constraints
         addConstraints()
     }
-
+    
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -120,22 +125,33 @@ public final class GINICameraViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    /**
+     Notifies the view controller that its view is about to be added to a view hierarchy.
+     
+     - parameter animated: If `true`, the view is being added to the window using an animation.
+     */
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         camera.start()
     }
     
+    /**
+     Notifies the view controller that its view is about to be removed from a view hierarchy.
+     
+     - parameter animated: If `true`, the disappearance of the view is being animated.
+     */
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         camera.stop()
     }
     
+    /**
+     Notifies the view controller that its view was added to a view hierarchy.
+     
+     - parameter animated: If `true`, the view was added to the window using an animation.
+     */
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
