@@ -8,12 +8,24 @@
 
 import UIKit
 
+/**
+ The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
+ 
+ - note: Component API only.
+ */
 public final class GINIAnalysisViewController: UIViewController {
     
     // User interface
     private var imageView = UIImageView()
     private var loadingIndicatorView = UIActivityIndicatorView()
     
+    /**
+     Designated intitializer for the `GINIAnalysisViewController`.
+     
+     - parameter imageData: Reviewed image data ready for analysis.
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
     public init(_ imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
@@ -38,13 +50,13 @@ public final class GINIAnalysisViewController: UIViewController {
         addConstraints()
     }
     
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: View life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
     }
     
     // MARK: Constraints
