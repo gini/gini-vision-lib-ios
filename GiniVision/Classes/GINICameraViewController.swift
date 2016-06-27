@@ -163,18 +163,30 @@ public final class GINICameraViewController: UIViewController {
     }
     
     // MARK: Toggle UI elements
+    /**
+     Show the capture button. Should be called when onboarding is dismissed.
+     */
     public func showCaptureButton() {
         controlsView.alpha = 1
     }
     
+    /**
+     Hide the capture button. Should be called when onboarding is presented.
+     */
     public func hideCaptureButton() {
         controlsView.alpha = 0
     }
     
+    /**
+     Show the camera overlay. Should be called when onboarding is dismissed.
+     */
     public func showCameraOverlay() {
         cameraOverlay.alpha = 1
     }
     
+    /**
+     Hide the camera overlay. Should be called when onboarding is presented.
+     */
     public func hideCameraOverlay() {
         cameraOverlay.alpha = 0
     }

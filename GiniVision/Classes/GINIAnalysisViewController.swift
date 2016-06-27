@@ -63,7 +63,6 @@ public final class GINIAnalysisViewController: UIViewController {
      Displays a loading activity indicator. Should be called when document analysis is started.
      
      - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GINIConfiguration` class.
-     - note: Component API only.
      */
     public func showAnimation() {
         loadingIndicatorView.startAnimating()
@@ -71,8 +70,6 @@ public final class GINIAnalysisViewController: UIViewController {
     
     /**
      Hides the loading activity indicator. Should be called when document analysis is finished.
-     
-     - note: Component API only.
      */
     public func hideAnimation() {
         loadingIndicatorView.stopAnimating()

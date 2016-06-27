@@ -32,7 +32,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        let pages = [GINIOnboardingPage(image: UIImageNamedPreferred(named: "defaultImage")!, text: "Erster OnBoarding Screen")]
+        let pages = GINIConfiguration.sharedConfiguration.onboardingPages
         contentController = GINIOnboardingViewController(pages: pages,
                                                          scrollViewDelegate: self)
         

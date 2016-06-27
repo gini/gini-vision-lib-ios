@@ -8,12 +8,23 @@
 
 import UIKit
 
+/**
+ Custom view to easily create onboarding pages which can than be used in `GINIOnboardingViewController`. Simply pass an image and name and they will be beautifully aligned and displayed to the user.
+ */
 public final class GINIOnboardingPage: UIView {
     
     private var contentView = UIView()
     private var imageView = UIImageView()
     private var textLabel = UILabel()
     
+    /**
+     Designated initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.
+     
+     - parameter image: The image to be displayed.
+     - parameter text:  The text to be displayed underneath the image.
+     
+     - returns: A simple custom view to be displayed in the onboarding.
+     */
     public init(image: UIImage, text: String) {
         super.init(frame: CGRectZero)
         
@@ -37,11 +48,24 @@ public final class GINIOnboardingPage: UIView {
         addConstraints()
     }
     
+    /**
+     Designated initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page just by passing an image name and a text. The text will be displayed underneath the image.
+     
+     - parameter imageName: The name of the image to be displayed.
+     - parameter text:      The text to be displayed underneath the image.
+     
+     - returns: A simple custom view to be displayed in the onboarding or `nil` when no image with the given name could be found.
+     */
     public convenience init?(imageNamed imageName: String, text: String) {
         guard let image = UIImageNamedPreferred(named: imageName) else { return nil }
         self.init(image: image, text: text)
     }
     
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

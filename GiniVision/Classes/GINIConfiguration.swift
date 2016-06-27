@@ -28,6 +28,9 @@ import Foundation
         return sharedConfiguration.debugModeOn
     }
     
+    
+    
+    // MARK: General options
     /**
      Can be turned on in development to unlock extra information and to save captured images to camera roll.
     
@@ -63,18 +66,35 @@ import Foundation
      */
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
-    /**
-     Sets the color of the loading indicator on the analysis screen to the specified color.
-     */
-    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
     
+    
+    // MARK: Camera options
     /**
      Sets the title text in the navigation bar on the camera screen.
-    
+     
      - note: Screen API only.
      */
     public var navigationBarCameraTitle = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
     
+    /**
+     Sets the close button text in the navigation bar on the camera screen.
+     
+     - attention: This will be displayed instead of the close button image.
+     - note: Screen API only.
+     */
+    public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
+    
+    /**
+     Sets the help button text in the navigation bar on the camera screen.
+     
+     - attention: This will be displayed instead of the help button image.
+     - note: Screen API only.
+     */
+    public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    
+    
+    
+    // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.
      
@@ -90,21 +110,52 @@ import Foundation
     public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
     
     /**
-     Sets the close button text in the navigation bar on the camera screen.
- 
-     - attention: This will be displayed instead of the close button image.
+     Determines whether the onboarding screen should be presented at the start of the Gini Vision Library.
+     
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
+    public var onboardingShowAtLaunch = false
     
     /**
-     Sets the help button text in the navigation bar on the camera screen.
-    
-     - attention: This will be displayed instead of the help button image.
+     Determines whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.
+     
+     - note: Overwrites `onboardingShowAtLaunch` for the first launch.
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    public var onboardingShowAtFirstLaunch = true
     
+    /**
+     Sets the text on the first onboarding page.
+     */
+    public var onboardingFirstPageText = NSLocalizedStringPreferred("ginivision.onboarding.firstPage", comment: "Text on the first page of the onboarding screen")
+    
+    /**
+     Sets the text on the second onboarding page.
+     */
+    public var onboardingSecondPageText = NSLocalizedStringPreferred("ginivision.onboarding.secondPage", comment: "Text on the second page of the onboarding screen")
+    
+    /**
+     Sets the text on the third onboarding page.
+     */
+    public var onboardingThirdPageText = NSLocalizedStringPreferred("ginivision.onboarding.thirdPage", comment: "Text on the third page of the onboarding screen")
+    
+    /**
+     All onboaridng pages which will be presented in a horizontal scroll view to the user. Per default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
+     
+     - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
+     */
+    public var onboardingPages: [UIView] {
+        guard let page1 = GINIOnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+              let page2 = GINIOnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+              let page3 = GINIOnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+                return [UIView]()
+        }
+        return [page1, page2, page3]
+    }
+    
+    
+    
+    // MARK: Review options
     /**
      Sets the title text in the navigation bar on the review screen.
      
@@ -114,7 +165,7 @@ import Foundation
     
     /**
      Sets the back button text in the navigation bar on the review screen.
-    
+     
      - attention: This will be displayed instead of the back button image.
      - note: Screen API only.
      */
@@ -122,7 +173,7 @@ import Foundation
     
     /**
      Sets the continue button text in the navigation bar on the review screen.
-    
+     
      - attention: This will be displayed instead of the continue button image.
      - note: Screen API only.
      */
@@ -138,6 +189,9 @@ import Foundation
      */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
     
+    
+    
+    // MARK: Analysis options
     /**
      Sets the title text in the navigation bar on the analysis screen.
      
@@ -148,6 +202,13 @@ import Foundation
     /** Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image.
      */
     public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
+    
+    /**
+     Sets the color of the loading indicator on the analysis screen to the specified color.
+     */
+    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
+    
+    
     
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
