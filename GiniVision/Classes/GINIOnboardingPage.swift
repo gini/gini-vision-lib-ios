@@ -8,8 +8,9 @@
 
 import UIKit
 
-public class GINIOnboardingPage: UIView {
+public final class GINIOnboardingPage: UIView {
     
+    private var contentView = UIView()
     private var imageView = UIImageView()
     private var textLabel = UILabel()
     
@@ -20,12 +21,25 @@ public class GINIOnboardingPage: UIView {
         imageView.image = image
         textLabel.text = text
         
+        // Configure label
+        textLabel.numberOfLines = 0
+        
         // Configure view hierachy
-        self.addSubview(imageView)
-        self.addSubview(textLabel)
+        addSubview(contentView)
+        contentView.addSubview(imageView)
+        contentView.addSubview(textLabel)
+        
+        // Configure colors
+        backgroundColor = UIColor.yellowColor()
+        contentView.backgroundColor = UIColor.greenColor()
         
         // Add constraints
         addConstraints()
+    }
+    
+    public convenience init?(imageNamed imageName: String, text: String) {
+        guard let image = UIImageNamedPreferred(named: imageName) else { return nil }
+        self.init(image: image, text: text)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -34,32 +48,33 @@ public class GINIOnboardingPage: UIView {
     
     // MARK: Constraints
     private func addConstraints() {
-        let superview = self.superview
+        let superview = self
         
-        // View
-        self.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 3/4, constant: 0)
-        UIViewController.addActiveConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
+        // TODO: Fix constraints
         
-        
+        // Content view
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Top, multiplier: 1, constant: 30)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: 5)
+    
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .Width, multiplier: 1, constant: 204)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Width, multiplier: 1, constant: 75)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 120)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 100)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: textLabel, attribute: .Top, multiplier: 1, constant: 35)
-        
+        UIViewController.addActiveConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: imageView, attribute: .Bottom, multiplier: 1, constant: 35)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: textLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 250)
         UIViewController.addActiveConstraint(item: textLabel, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 70)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
     }
     
 }

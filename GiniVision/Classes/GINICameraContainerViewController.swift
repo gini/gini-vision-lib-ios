@@ -104,7 +104,9 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     
     @IBAction func help() {
         // TODO: Implement call
-        print("GiniVision: Wants to open help")
+        let vc = GINIOnboardingContainerViewController()
+        let navigationController = GININavigationViewController(rootViewController: vc)
+        presentViewController(navigationController, animated: true, completion: nil)
     }
     
     // MARK: Constraints

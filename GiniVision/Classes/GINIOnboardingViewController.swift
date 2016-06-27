@@ -17,22 +17,35 @@ public final class GINIOnboardingViewController: UIViewController {
     
     // User interface
     private var scrollView = UIScrollView()
-    private var pageControl = GINIPageControl()
-    private var pages = [GINIOnboardingPage]()
+    private var contentView = UIView()
+    private var pages = [UIView]()
     
-    public init(pages: [GINIOnboardingPage]) {
+    public init(pages: [GINIOnboardingPage], scrollViewDelegate: UIScrollViewDelegate) {
         super.init(nibName: nil, bundle: nil)
         
         // Set pages
         self.pages = pages
+        let emptyView = UIView()
+        emptyView.backgroundColor = UIColor.orangeColor()
+        self.pages.append(emptyView) // Add an empty last page
         
         // Configure scroll view
-        scrollView.delegate = self
+        scrollView.delegate = scrollViewDelegate
+//        scrollView.showsVerticalScrollIndicator = false
+//        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.pagingEnabled = true
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.redColor()
+        contentView.backgroundColor = UIColor.purpleColor()
         
         // Configure view hierachy
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        for page in self.pages {
+            contentView.addSubview(page)
+        }
         
         // Add constraints
         addConstraints()
@@ -52,33 +65,35 @@ public final class GINIOnboardingViewController: UIViewController {
     // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
-    }
-    
-}
-
-extension GINIOnboardingViewController: UIScrollViewDelegate {
-    
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        // TODO:
-    }
-    
-    public func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        // TODO:
-    }
-    
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        // TODO:
-    }
-    
-    private func setPageControl(scrollView: UIScrollView) {
-        let pageWidth = scrollView.frame.size.width
-        let contentOffsetX = scrollView.contentOffset.x
-        let currentPage = contentOffsetX / pageWidth
-        pageControl.currentPage = Int(currentPage)
+        let pagesCount = CGFloat(pages.count)
         
-        // Dismiss onboarding on reach of end
-        if contentOffsetX + pageWidth >= scrollView.contentSize.width {
-            // TODO: Send dismiss wish
+        // Scroll view
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        
+        // Content view
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: scrollView, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Trailing, relatedBy: .Equal, toItem: scrollView, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: scrollView, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Leading, relatedBy: .Equal, toItem: scrollView, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: scrollView, attribute: .Width, multiplier: pagesCount, constant: 0)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .Height, relatedBy: .Equal, toItem: scrollView, attribute: .Height, multiplier: 1, constant: 0)
+        
+        for page in pages {
+            page.translatesAutoresizingMaskIntoConstraints = false
+            UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: page, attribute: .Height, multiplier: 3/4, constant: 0)
+            UIViewController.addActiveConstraint(item: page, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
+            UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: contentView, attribute: .Width, multiplier: 1/pagesCount, constant: 0)
+            if page == pages.first {
+                UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)
+            } else {
+                let previousPage = pages[pages.indexOf(page)! - 1]
+                UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: previousPage, attribute: .Trailing, multiplier: 1, constant: 0)
+            }
         }
     }
     
