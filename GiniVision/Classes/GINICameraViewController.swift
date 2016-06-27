@@ -162,6 +162,23 @@ public final class GINICameraViewController: UIViewController {
         }
     }
     
+    // MARK: Toggle UI elements
+    public func showCaptureButton() {
+        controlsView.alpha = 1
+    }
+    
+    public func hideCaptureButton() {
+        controlsView.alpha = 0
+    }
+    
+    public func showCameraOverlay() {
+        cameraOverlay.alpha = 1
+    }
+    
+    public func hideCameraOverlay() {
+        cameraOverlay.alpha = 0
+    }
+    
     // MARK: Image capture
     @objc private func captureImage(sender: AnyObject) {
         camera.captureStillImage { (imageData: NSData?, error: NSError?) in
