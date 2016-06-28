@@ -27,11 +27,13 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  The `GINICameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
  
  **Text ressources on this screen**
- * `ginivision.navigationbar.camera.title`
- * `ginivision.navigationbar.camera.close`
- * `ginivision.navigationbar.camera.help`
+ 
+ * `ginivision.navigationbar.camera.title` (Screen API only.)
+ * `ginivision.navigationbar.camera.close` (Screen API only.)
+ * `ginivision.navigationbar.camera.help` (Screen API only.)
  
  **Image ressources on this screen**
+ 
  * `cameraCaptureButton`
  * `cameraCaptureButtonActive`
  * `cameraFocusLarge`
@@ -39,6 +41,8 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  * `cameraOverlay`
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
+ 
+ Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
  
  - note: Component API only.
  */

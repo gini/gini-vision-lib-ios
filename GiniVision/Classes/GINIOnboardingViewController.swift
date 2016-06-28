@@ -14,18 +14,22 @@ import UIKit
  A blank page will be inserted at the end, which makes it possbile to "swipe away" the onboarding. To achieve this the container class needs to implement `UIScrollViewDelegate` and dismiss the view, when the last page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
  
  **Text ressources on this screen**
- * `ginivision.navigationbar.onboarding.title`
- * `ginivision.navigationbar.onboarding.continue`
+ 
+ * `ginivision.navigationbar.onboarding.title` (Screen API only.)
+ * `ginivision.navigationbar.onboarding.continue` (Screen API only.)
  * `ginivision.onboarding.firstPage`
  * `ginivision.onboarding.secondPage`
  * `ginivision.onboarding.thirdPage`
  
  **Image ressources on this screen**
+ 
  * `onboardingPage1`
  * `onboardingPage2`
  * `onboardingPage3`
  * `navigationOnboardingContinue` (Screen API only.)
  
+ Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+
  - note: Component API only.
  */
 public final class GINIOnboardingViewController: UIViewController {
