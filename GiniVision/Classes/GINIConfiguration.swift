@@ -66,6 +66,25 @@ import Foundation
      */
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
+    /** 
+     Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeInformationBackgroundColor = UIColor.blackColor()
+    
+    /**
+     Sets the text color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeInformationTextColor = UIColor.whiteColor()
+    
+    /**
+     Sets the background color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeErrorBackgroundColor = UIColor.blackColor()
+    
+    /**
+     Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeErrorTextColor = UIColor.whiteColor()
     
     
     // MARK: Camera options
@@ -108,6 +127,16 @@ import Foundation
      - note: Screen API only.
      */
     public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
+    
+    /**
+     Sets the color of the page controllers page indicator items.
+     */
+    public var onboardingPageIndicatorColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+    
+    /**
+     Sets the color of the page controllers current page indicator item.
+     */
+    public var onboardingCurrentPageIndicatorColor = UIColor.whiteColor()
     
     /**
      Determines whether the onboarding screen should be presented at the start of the Gini Vision Library.

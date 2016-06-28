@@ -16,7 +16,7 @@ import Foundation
     /// Unkown error during camera use.
     case Unknown = 0
     
-    /// Camera can't not be loaded because the user has denied authorization in the past.
+    /// Camera can not be loaded because the user has denied authorization in the past.
     case AuthorizationDenied
     
     /// Capturing could not be completed.

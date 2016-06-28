@@ -20,7 +20,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     internal var contentController = UIViewController()
     
     // User Interface
-    private var pageControl = GINIPageControl()
+    private var pageControl = UIPageControl()
     private var continueButton = UIBarButtonItem()
     
     // Images
@@ -41,11 +41,12 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         
         // Configure colors
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
-        view.backgroundColor = UIColor.cyanColor()
         
         // Configure page control
         pageControl.currentPage = 0
         pageControl.numberOfPages = pages.count + 1 // Take in account that there will be an "empty" page at the end
+        pageControl.currentPageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingCurrentPageIndicatorColor
+        pageControl.pageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingPageIndicatorColor
         
         // Configure continue button
         continueButton = UIBarButtonItem(image: continueButtonImage, style: .Plain, target: self, action: #selector(nextPage))
