@@ -25,6 +25,17 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 /**
  The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurrines and reading direction. If the result is not satisfying, the user either can return to the camera screen or s/he can turn the photo in steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after haven taken the photo as we assume that in most cases the photo is good enough to be further processed.
 
+ **Text ressources on this screen**
+ * `ginivision.navigationbar.review.title`
+ * `ginivision.navigationbar.review.back`
+ * `ginivision.navigationbar.review.continue`
+ * `ginivision.review.top`
+ * `ginivision.review.bottom`
+ 
+ **Image ressources on this screen**
+ * `reviewRotateButton`
+ * `navigationReviewBack` (Screen API only.)
+ * `navigationReviewContinue` (Screen API only.)
  
  - note: Component API only.
  */
