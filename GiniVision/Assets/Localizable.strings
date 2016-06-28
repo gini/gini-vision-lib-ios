@@ -6,14 +6,20 @@
   Copyright © 2016 Gini. All rights reserved.
 */
 
-"ginivision.navigationbar.camera.title"    = "Dokument fotografieren";
-"ginivision.navigationbar.review.title"    = "Dokument überprüfen";
-"ginivision.navigationbar.analysis.title"  = "Dokument analysieren";
-"ginivision.navigationbar.camera.close"    = "";
-"ginivision.navigationbar.camera.help"     = "Hilfe";
-"ginivision.navigationbar.review.back"     = "";
-"ginivision.navigationbar.review.continue" = "Weiter";
-"ginivision.navigationbar.analysis.back"   = "Abbrechen";
+"ginivision.navigationbar.camera.title"        = "Dokument fotografieren";
+"ginivision.navigationbar.onboarding.title"    = "Anleitung";
+"ginivision.navigationbar.review.title"        = "Dokument überprüfen";
+"ginivision.navigationbar.analysis.title"      = "Dokument analysieren";
+"ginivision.navigationbar.camera.close"        = "";
+"ginivision.navigationbar.camera.help"         = "Hilfe";
+"ginivision.navigationbar.onboarding.continue" = "Weiter";
+"ginivision.navigationbar.review.back"         = "";
+"ginivision.navigationbar.review.continue"     = "Weiter";
+"ginivision.navigationbar.analysis.back"       = "Abbrechen";
+
+"ginivision.onboarding.firstPage"  = "Dokument flach auf\neine einfarbige\nFläche legen";
+"ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
+"ginivision.onboarding.thirdPage"  = "Dokument\nvollständig in\nRahmen einpassen";
 
 "ginivision.review.top"    = "Dokument vollständig, scharf und in Leserichtung?";
 "ginivision.review.bottom" = "Doppeltippen um Schärfe zu prüfen";

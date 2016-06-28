@@ -8,9 +8,41 @@
 
 import UIKit
 
+/**
+ Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
+ 
+ - note: Component API only.
+ */
 public typealias GINIReviewSuccessBlock = (imageData: NSData) -> ()
+
+/**
+ Block which will be executed when an error occurs on the review screen. It contains a review specific error.
+ 
+ - note: Component API only.
+ */
 public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 
+/**
+ The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurrines and reading direction. If the result is not satisfying, the user either can return to the camera screen or s/he can turn the photo in steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after haven taken the photo as we assume that in most cases the photo is good enough to be further processed.
+
+ **Text ressources on this screen**
+ 
+ * `ginivision.navigationbar.review.title` (Screen API only.)
+ * `ginivision.navigationbar.review.back` (Screen API only.)
+ * `ginivision.navigationbar.review.continue` (Screen API only.)
+ * `ginivision.review.top`
+ * `ginivision.review.bottom`
+ 
+ **Image ressources on this screen**
+ 
+ * `reviewRotateButton`
+ * `navigationReviewBack` (Screen API only.)
+ * `navigationReviewContinue` (Screen API only.)
+ 
+ Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+
+ - note: Component API only.
+ */
 public final class GINIReviewViewController: UIViewController {
     
     // User interface
@@ -32,6 +64,16 @@ public final class GINIReviewViewController: UIViewController {
     private var successBlock: GINIReviewSuccessBlock?
     private var errorBlock: GINIReviewErrorBlock?
     
+    /**
+     Designated intitializer for the `GINIReviewViewController` which allows to set a success and error block which will be executed accordingly.
+
+     
+     - parameter imageData: JPEG representation as a result from the camera or camera roll.
+     - parameter success:   Success block to be executed when image was rotated.
+     - parameter failure:   Error block to be exectued when an error occured.
+     
+     - returns: A view controller instance allowing the user to review a picture of a document.
+     */
     public init(_ imageData: NSData, success: GINIReviewSuccessBlock, failure: GINIReviewErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
@@ -56,15 +98,18 @@ public final class GINIReviewViewController: UIViewController {
         addConstraints()
     }
     
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    // MARK: View life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
+    /**
+     Called to notify the view controller that its view has just laid out its subviews.
+     */
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -72,7 +117,7 @@ public final class GINIReviewViewController: UIViewController {
     }
 
     // MARK: Rotation handling
-    @IBAction func rotate(sender: AnyObject) {
+    @objc private func rotate(sender: AnyObject) {
         // TODO: Implement rotation
         guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
             return
@@ -130,10 +175,21 @@ public final class GINIReviewViewController: UIViewController {
 
 extension GINIReviewViewController: UIScrollViewDelegate {
     
+    /**
+     Asks the delegate for the view to scale when zooming is about to occur in the scroll view.
+     
+     - parameter scrollView: The scroll-view object displaying the content view.
+     - returns: A `UIView` object that will be scaled as a result of the zooming gesture.
+     */
     public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
+    /**
+     Tells the delegate that the scroll view’s zoom factor changed.
+     
+     - parameter scrollView: The scroll-view object whose zoom factor changed.
+     */
     public func scrollViewDidZoom(scrollView: UIScrollView) {
         updateConstraintsForSize(scrollView.bounds.size)
     }

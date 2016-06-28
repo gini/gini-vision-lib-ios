@@ -61,6 +61,9 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         
         // Add content to container view
         displayContent(contentController)
+        
+        // Start loading animation
+        (contentController as? GINIAnalysisViewController)?.showAnimation()
     }
     
     override func didReceiveMemoryWarning() {

@@ -8,12 +8,34 @@
 
 import UIKit
 
+/**
+ The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
+ 
+ **Text ressources on this screen**
+ 
+ * `ginivision.navigationbar.analysis.back` (Screen API only.)
+ 
+ **Image ressources on this screen**
+ 
+ * `navigationAnalysisBack` (Screen API only.)
+ 
+ Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+
+ - note: Component API only.
+ */
 public final class GINIAnalysisViewController: UIViewController {
     
     // User interface
     private var imageView = UIImageView()
     private var loadingIndicatorView = UIActivityIndicatorView()
     
+    /**
+     Designated intitializer for the `GINIAnalysisViewController`.
+     
+     - parameter imageData: Reviewed image data ready for analysis.
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
     public init(_ imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
@@ -25,7 +47,6 @@ public final class GINIAnalysisViewController: UIViewController {
         loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .WhiteLarge
-        loadingIndicatorView.startAnimating()
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
@@ -38,13 +59,30 @@ public final class GINIAnalysisViewController: UIViewController {
         addConstraints()
     }
     
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: View life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    // MARK: Toggle animation
+    /**
+     Displays a loading activity indicator. Should be called when document analysis is started.
+     
+     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GINIConfiguration` class.
+     */
+    public func showAnimation() {
+        loadingIndicatorView.startAnimating()
+    }
+    
+    /**
+     Hides the loading activity indicator. Should be called when document analysis is finished.
+     */
+    public func hideAnimation() {
+        loadingIndicatorView.stopAnimating()
     }
     
     // MARK: Constraints

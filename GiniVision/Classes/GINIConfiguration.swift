@@ -8,64 +8,242 @@
 
 import Foundation
 
+/**
+ The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used it is clearly stated on the specific attribute.
+ 
+ - note: Texts can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer what ever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
+ - note: Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer what ever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
+ */
 @objc public final class GINIConfiguration: NSObject {
     
-    /// Singleton to make configuration internally accessible in all classes of the Gini Vision Library
+    /**
+     Singleton to make configuration internally accessible in all classes of the Gini Vision Library.
+     */
     internal static var sharedConfiguration = GINIConfiguration()
     
-    /// Shorthand check if debug mode is turned on
+    /**
+     Shorthand check if debug mode is turned on.
+     */
     internal static var DEBUG: Bool {
         return sharedConfiguration.debugModeOn
     }
     
-    /// Can be turned on in development to unlock extra information and to save captured images to camera roll
+    
+    
+    // MARK: General options
+    /**
+     Can be turned on in development to unlock extra information and to save captured images to camera roll.
+    
+     - warning: Should never be used outside of a development enviroment.
+     */
     public var debugModeOn = false
     
-    /// Sets the background in all screens of the Gini Vision Library to the specified color
+    /**
+     Sets the background in all screens of the Gini Vision Library to the specified color.
+ 
+     - note: Screen API only.
+     */
     public var backgroundColor = UIColor.blackColor()
     
-    /// Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
+    /**
+     Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
+    
+     - note: Screen API only.
+     */
     public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
-    /// Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color
+    /**
+     Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.
+ 
+     - note: Screen API only.
+     */
     public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
     
-    /// Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color
+    /**
+     Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
+     
+     - note: Screen API only.
+     */
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
     
-    /// Sets the color of the loading indicator on the analysis screen to the specified color
-    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
+    /** 
+     Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeInformationBackgroundColor = UIColor.blackColor()
     
-    /// Sets the title text in the navigation bar on the camera screen
+    /**
+     Sets the text color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeInformationTextColor = UIColor.whiteColor()
+    
+    /**
+     Sets the background color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeErrorBackgroundColor = UIColor.blackColor()
+    
+    /**
+     Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeErrorTextColor = UIColor.whiteColor()
+    
+    
+    // MARK: Camera options
+    /**
+     Sets the title text in the navigation bar on the camera screen.
+     
+     - note: Screen API only.
+     */
     public var navigationBarCameraTitle = NSLocalizedStringPreferred("ginivision.navigationbar.camera.title", comment: "Title in the navigation bar on the camera screen")
     
-    /// Sets the title text in the navigation bar on the review screen
-    public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
-    
-    /// Sets the title text in the navigation bar on the analysis screen
-    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
-    
-    /// Sets the close button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the close button image
+    /**
+     Sets the close button text in the navigation bar on the camera screen.
+     
+     - attention: This will be displayed instead of the close button image.
+     - note: Screen API only.
+     */
     public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
     
-    /// Sets the help button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the help button image
+    /**
+     Sets the help button text in the navigation bar on the camera screen.
+     
+     - attention: This will be displayed instead of the help button image.
+     - note: Screen API only.
+     */
     public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
     
-    /// Sets the back button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the back button image
+    
+    
+    // MARK: Onboarding options
+    /**
+     Sets the title text in the navigation bar on the onboarding screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarOnboardingTitle = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.title", comment: "Title in the navigation bar on the onboarding screen")
+    
+    /**
+     Sets the continue button text in the navigation bar on the onboarding screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
+    
+    /**
+     Sets the color of the page controllers page indicator items.
+     */
+    public var onboardingPageIndicatorColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
+    
+    /**
+     Sets the color of the page controllers current page indicator item.
+     */
+    public var onboardingCurrentPageIndicatorColor = UIColor.whiteColor()
+    
+    /**
+     Determines whether the onboarding screen should be presented at the start of the Gini Vision Library.
+     
+     - note: Screen API only.
+     */
+    public var onboardingShowAtLaunch = false
+    
+    /**
+     Determines whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.
+     
+     - note: Overwrites `onboardingShowAtLaunch` for the first launch.
+     - note: Screen API only.
+     */
+    public var onboardingShowAtFirstLaunch = true
+    
+    /**
+     Sets the text on the first onboarding page.
+     */
+    public var onboardingFirstPageText = NSLocalizedStringPreferred("ginivision.onboarding.firstPage", comment: "Text on the first page of the onboarding screen")
+    
+    /**
+     Sets the text on the second onboarding page.
+     */
+    public var onboardingSecondPageText = NSLocalizedStringPreferred("ginivision.onboarding.secondPage", comment: "Text on the second page of the onboarding screen")
+    
+    /**
+     Sets the text on the third onboarding page.
+     */
+    public var onboardingThirdPageText = NSLocalizedStringPreferred("ginivision.onboarding.thirdPage", comment: "Text on the third page of the onboarding screen")
+    
+    /**
+     All onboaridng pages which will be presented in a horizontal scroll view to the user. Per default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
+     
+     - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
+     */
+    public var onboardingPages: [UIView] {
+        guard let page1 = GINIOnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+              let page2 = GINIOnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+              let page3 = GINIOnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+                return [UIView]()
+        }
+        return [page1, page2, page3]
+    }
+    
+    
+    
+    // MARK: Review options
+    /**
+     Sets the title text in the navigation bar on the review screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarReviewTitle = NSLocalizedStringPreferred("ginivision.navigationbar.review.title", comment: "Title in the navigation bar on the review screen")
+    
+    /**
+     Sets the back button text in the navigation bar on the review screen.
+     
+     - attention: This will be displayed instead of the back button image.
+     - note: Screen API only.
+     */
     public var navigationBarReviewTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen")
     
-    /// Sets the continue button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the continue button image
+    /**
+     Sets the continue button text in the navigation bar on the review screen.
+     
+     - attention: This will be displayed instead of the continue button image.
+     - note: Screen API only.
+     */
     public var navigationBarReviewTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
     
-    /// Sets the text appearing at the top of the review screen which should ask the user if the full document is sharp and in the correct orientation
+    /**
+     Sets the text appearing at the top of the review screen which should ask the user if the full document is sharp and in the correct orientation.
+     */
     public var reviewTextTop = NSLocalizedStringPreferred("ginivision.review.top", comment: "Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation")
     
-    /// Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image
+    /**
+     Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
+     */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
     
-    /// Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image
+    
+    
+    // MARK: Analysis options
+    /**
+     Sets the title text in the navigation bar on the analysis screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
+    
+    /** Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image.
+     */
     public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
     
+    /**
+     Sets the color of the loading indicator on the analysis screen to the specified color.
+     */
+    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
+    
+    
+    
+    /**
+     Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
+     
+     - returns: Instance of `GiniConfiguration`.
+     */
     public override init() {}
         
 }

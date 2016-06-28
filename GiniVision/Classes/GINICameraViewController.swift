@@ -9,9 +9,43 @@
 import UIKit
 import AVFoundation
 
+/**
+ Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+
+ - note: Component API only.
+ */
 public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
+
+/**
+ Block which will be executed when an error occurs on the camera screen. It contains a camera specific error.
+
+ - note: Component API only.
+ */
 public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
 
+/**
+ The `GINICameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
+ 
+ **Text ressources on this screen**
+ 
+ * `ginivision.navigationbar.camera.title` (Screen API only.)
+ * `ginivision.navigationbar.camera.close` (Screen API only.)
+ * `ginivision.navigationbar.camera.help` (Screen API only.)
+ 
+ **Image ressources on this screen**
+ 
+ * `cameraCaptureButton`
+ * `cameraCaptureButtonActive`
+ * `cameraFocusLarge`
+ * `cameraFocusSmall`
+ * `cameraOverlay`
+ * `navigationCameraClose` (Screen API only.)
+ * `navigationCameraHelp` (Screen API only.)
+ 
+ Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+ 
+ - note: Component API only.
+ */
 public final class GINICameraViewController: UIViewController {
     
     // User interface
@@ -26,7 +60,7 @@ public final class GINICameraViewController: UIViewController {
     
     // Images
     private var defaultImage: UIImage? {
-        return UIImageNamedPreferred(named: "defaultImage")
+        return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
     }
     private var captureButtonNormalImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
@@ -48,6 +82,14 @@ public final class GINICameraViewController: UIViewController {
     private var successBlock: GINICameraSuccessBlock?
     private var errorBlock: GINICameraErrorBlock?
 
+    /**
+     Designated intitializer for the `GINICameraViewController` which allows to set a success and error block which will be executed accordingly.
+     
+     - parameter success: Success block to be executed when image was taken.
+     - parameter failure: Error block to be exectued when an error occured.
+     
+     - returns: A view controller instance allowing the user to take a picture.
+     */
     public init(success: GINICameraSuccessBlock, failure: GINICameraErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
@@ -87,7 +129,12 @@ public final class GINICameraViewController: UIViewController {
         // Add constraints
         addConstraints()
     }
-
+    
+    /**
+     Returns an object initialized from data in a given unarchiver.
+     
+     - warning: Not implemented.
+     */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -96,23 +143,33 @@ public final class GINICameraViewController: UIViewController {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    // MARK: View life cycle
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
+    /**
+     Notifies the view controller that its view is about to be added to a view hierarchy.
+     
+     - parameter animated: If `true`, the view is being added to the window using an animation.
+     */
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         camera.start()
     }
     
+    /**
+     Notifies the view controller that its view is about to be removed from a view hierarchy.
+     
+     - parameter animated: If `true`, the disappearance of the view is being animated.
+     */
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         camera.stop()
     }
     
+    /**
+     Notifies the view controller that its view was added to a view hierarchy.
+     
+     - parameter animated: If `true`, the view was added to the window using an animation.
+     */
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -123,8 +180,37 @@ public final class GINICameraViewController: UIViewController {
         }
     }
     
+    // MARK: Toggle UI elements
+    /**
+     Show the capture button. Should be called when onboarding is dismissed.
+     */
+    public func showCaptureButton() {
+        controlsView.alpha = 1
+    }
+    
+    /**
+     Hide the capture button. Should be called when onboarding is presented.
+     */
+    public func hideCaptureButton() {
+        controlsView.alpha = 0
+    }
+    
+    /**
+     Show the camera overlay. Should be called when onboarding is dismissed.
+     */
+    public func showCameraOverlay() {
+        cameraOverlay.alpha = 1
+    }
+    
+    /**
+     Hide the camera overlay. Should be called when onboarding is presented.
+     */
+    public func hideCameraOverlay() {
+        cameraOverlay.alpha = 0
+    }
+    
     // MARK: Image capture
-    @IBAction func captureImage(sender: AnyObject) {
+    @objc private func captureImage(sender: AnyObject) {
         camera.captureStillImage { (imageData: NSData?, error: NSError?) in
             guard error == nil else {
                 // Call error block
@@ -148,7 +234,7 @@ public final class GINICameraViewController: UIViewController {
     }
     
     // MARK: Focus handling
-    @IBAction func focusAndExposeTap(sender: UITapGestureRecognizer) {
+    @objc private func focusAndExposeTap(sender: UITapGestureRecognizer) {
         let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
         camera.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
         let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
