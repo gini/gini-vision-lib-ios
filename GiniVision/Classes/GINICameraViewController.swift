@@ -56,7 +56,7 @@ public final class GINICameraViewController: UIViewController {
     private var focusIndicatorImageView: UIImageView?
     
     // Properties
-    private var camera = GINICamera()
+    private var camera: GINICamera?
     
     // Images
     private var defaultImage: UIImage? {
@@ -97,12 +97,23 @@ public final class GINICameraViewController: UIViewController {
         successBlock = success
         errorBlock = failure
         
+        // Configure camera
+        do {
+            camera = try GINICamera()
+        } catch let error as GINICameraError {
+            failure(error: error)
+        } catch _ {
+            print("GiniVision: An unkown error occured.")
+        }
+        
         // Configure preview view
-        previewView.session = camera.session
+        if let validCamera = camera {
+            previewView.session = validCamera.session
+        }
         (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera.videoDeviceInput?.device)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera?.videoDeviceInput?.device)
         
         // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
@@ -151,7 +162,7 @@ public final class GINICameraViewController: UIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        camera.start()
+        camera?.start()
     }
     
     /**
@@ -162,7 +173,7 @@ public final class GINICameraViewController: UIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        camera.stop()
+        camera?.stop()
     }
     
     /**
@@ -174,8 +185,8 @@ public final class GINICameraViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if GINIConfiguration.DEBUG {
-            if !camera.hasValidInput {
-                addDefaultImage()
+            guard let _ = camera else {
+               return addDefaultImage()
             }
         }
     }
@@ -211,7 +222,7 @@ public final class GINICameraViewController: UIViewController {
     
     // MARK: Image capture
     @objc private func captureImage(sender: AnyObject) {
-        camera.captureStillImage { (imageData: NSData?, error: NSError?) in
+        camera?.captureStillImage { (imageData: NSData?, error: NSError?) in
             guard error == nil else {
                 // Call error block
                 self.errorBlock?(error: GINICameraError.CaptureFailed)
@@ -236,14 +247,14 @@ public final class GINICameraViewController: UIViewController {
     // MARK: Focus handling
     @objc private func focusAndExposeTap(sender: UITapGestureRecognizer) {
         let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
-        camera.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
+        camera?.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
         let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
         showFocusIndicator(imageView)
     }
     
     @objc private func subjectAreaDidChange(notification: NSNotification) {
         let devicePoint = CGPointMake(0.5, 0.5)
-        camera.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
+        camera?.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
         let imageView = createFocusIndicator(withImage: cameraFocusLarge, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
         showFocusIndicator(imageView)
     }

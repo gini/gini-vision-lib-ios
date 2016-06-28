@@ -17,7 +17,7 @@ import Foundation
     case Unknown = 0
     
     /// Camera can not be loaded because the user has denied authorization in the past.
-    case AuthorizationDenied
+    case NotAuthorizedToUseDevice
     
     /// Capturing could not be completed.
     case CaptureFailed

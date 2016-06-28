@@ -16,13 +16,12 @@ internal class GINICamera {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
-    var hasValidInput = true
     private lazy var sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
     
     private lazy var motionManager = GINIMotionManager()
     
-    init() {
-        setupSession()
+    init() throws {
+        try setupSession()
     }
     
     // MARK: Public methods
@@ -105,7 +104,7 @@ internal class GINICamera {
     }
     
     // MARK: Private methods
-    private func setupSession() {
+    private func setupSession() throws {
         // Setup is not performed asynchronously because of KVOs
         func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
             let devices = AVCaptureDevice.devicesWithMediaType(mediaType).filter { $0.position == position }
@@ -117,8 +116,12 @@ internal class GINICamera {
         do {
             self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch let error as NSError {
-            hasValidInput = false
             print("Could not create video device input \(error)")
+            if error.code == AVError.ApplicationIsNotAuthorizedToUseDevice.rawValue {
+                throw GINICameraError.NotAuthorizedToUseDevice
+            } else {
+                throw GINICameraError.Unknown
+            }
         }
         
         self.session.beginConfiguration()
