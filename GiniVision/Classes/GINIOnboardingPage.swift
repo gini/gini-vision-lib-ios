@@ -11,7 +11,7 @@ import UIKit
 /**
  Custom view to easily create onboarding pages which can then be used in `GINIOnboardingViewController`. Simply pass an image and a name and they will be beautifully aligned and displayed to the user.
  */
-public final class GINIOnboardingPage: UIView {
+@objc public final class GINIOnboardingPage: UIView {
     
     private var contentView = UIView()
     private var imageView = UIImageView()
