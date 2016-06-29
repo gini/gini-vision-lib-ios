@@ -1,4 +1,4 @@
-# GiniVision
+![Gini Vision Library for iOS](https://www.gini.net/assets/GiniVision_Logo.png)
 
 [![CI Status](https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&branch=master)](https://travis-ci.com/gini/gini-vision-lib-ios)
 
@@ -21,7 +21,7 @@ To run the example project, clone the repo and run `pod install` from the Exampl
 
 ## Installation
 
-GiniVision can either be installed by using CocoaPods or by manually dragging the required files to your project.
+Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
 
 ### CocoaPods
 
@@ -31,9 +31,9 @@ GiniVision can either be installed by using CocoaPods or by manually dragging th
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build GiniVision.
+> CocoaPods 0.39.0+ is required to build Gini Vision Library.
 
-To integrate GiniVision into your Xcode project using CocoaPods, specify it in your `Podfile`:
+To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
 pod "GiniVision"
@@ -51,4 +51,4 @@ Peter Pult, p.pult@gini.net
 
 ## License
 
-GiniVision is available under a commercial license. See the LICENSE file for more info.
+Gini Vision Library is available under a commercial license. See the LICENSE file for more info.
