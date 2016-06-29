@@ -40,7 +40,12 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                     self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
                 })
             }, failure: { error in
-                print(error)
+                switch error {
+                case .NotAuthorizedToUseDevice:
+                    print("GiniVision: Camera authorization denied.")
+                default:
+                    print("GiniVision: Unkonw error when using camera.")
+                }
             })
         
         // Configure title

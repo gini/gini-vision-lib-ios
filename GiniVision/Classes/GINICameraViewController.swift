@@ -54,9 +54,10 @@ public final class GINICameraViewController: UIViewController {
     private var cameraOverlay = UIImageView()
     private var captureButton = UIButton()
     private var focusIndicatorImageView: UIImageView?
+    private var defaultImageView: UIImageView?
     
     // Properties
-    private var camera = GINICamera()
+    private var camera: GINICamera?
     
     // Images
     private var defaultImage: UIImage? {
@@ -97,12 +98,29 @@ public final class GINICameraViewController: UIViewController {
         successBlock = success
         errorBlock = failure
         
+        // Configure camera
+        do {
+            camera = try GINICamera()
+        } catch let error as GINICameraError {
+            switch error {
+            case .NotAuthorizedToUseDevice:
+                print("Camera not authorized add option to go to Settings app")
+            default:
+                if GINIConfiguration.DEBUG { addDefaultImage() }
+            }
+            failure(error: error)
+        } catch _ {
+            print("GiniVision: An unkown error occured.")
+        }
+        
         // Configure preview view
-        previewView.session = camera.session
+        if let validCamera = camera {
+            previewView.session = validCamera.session
+        }
         (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera.videoDeviceInput?.device)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera?.videoDeviceInput?.device)
         
         // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
@@ -151,7 +169,7 @@ public final class GINICameraViewController: UIViewController {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        camera.start()
+        camera?.start()
     }
     
     /**
@@ -162,22 +180,7 @@ public final class GINICameraViewController: UIViewController {
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        camera.stop()
-    }
-    
-    /**
-     Notifies the view controller that its view was added to a view hierarchy.
-     
-     - parameter animated: If `true`, the view was added to the window using an animation.
-     */
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if GINIConfiguration.DEBUG {
-            if !camera.hasValidInput {
-                addDefaultImage()
-            }
-        }
+        camera?.stop()
     }
     
     // MARK: Toggle UI elements
@@ -211,39 +214,41 @@ public final class GINICameraViewController: UIViewController {
     
     // MARK: Image capture
     @objc private func captureImage(sender: AnyObject) {
-        camera.captureStillImage { (imageData: NSData?, error: NSError?) in
-            guard error == nil else {
-                // Call error block
-                self.errorBlock?(error: GINICameraError.CaptureFailed)
-                return
-            }
-            var imageData = imageData
+        guard let camera = camera else {
             if GINIConfiguration.DEBUG {
-                if imageData == nil {
-                    imageData = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
+                // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
+                if let image = self.defaultImageView?.image,
+                   let imageData = UIImageJPEGRepresentation(image, 1) {
+                    self.successBlock?(imageData: imageData)
                 }
             }
-            guard let data = imageData else {
-                // Call error block
-                self.errorBlock?(error: GINICameraError.CaptureFailed)
-                return
-            }
-            // Call success block
-            self.successBlock?(imageData: data)
+            return print("GiniVision: No camera initialized.")
         }
+        camera.captureStillImage { inner in
+            do {
+                let imageData = try inner()
+                // Call success block
+                self.successBlock?(imageData: imageData)
+            } catch let error as GINICameraError {
+                self.errorBlock?(error: error)
+            } catch _ {
+                print("GiniVision: An unkown error occured.")
+            }
+        }
+        
     }
     
     // MARK: Focus handling
     @objc private func focusAndExposeTap(sender: UITapGestureRecognizer) {
         let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
-        camera.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
+        camera?.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
         let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
         showFocusIndicator(imageView)
     }
     
     @objc private func subjectAreaDidChange(notification: NSNotification) {
         let devicePoint = CGPointMake(0.5, 0.5)
-        camera.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
+        camera?.focusWithMode(.ContinuousAutoFocus, exposeWithMode: .ContinuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
         let imageView = createFocusIndicator(withImage: cameraFocusLarge, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePointOfInterest(devicePoint))
         showFocusIndicator(imageView)
     }
@@ -308,7 +313,9 @@ public final class GINICameraViewController: UIViewController {
     
     /// Adds a default image to the canvas when no camera is available (DEBUG mode only)
     private func addDefaultImage() {
-        let defaultImageView = UIImageView(image: defaultImage)
+        defaultImageView = UIImageView(image: defaultImage)
+        guard let defaultImageView = defaultImageView else { return }
+        
         defaultImageView.contentMode = .ScaleAspectFit
         previewView.addSubview(defaultImageView)
         
