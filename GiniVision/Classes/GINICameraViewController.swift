@@ -46,7 +46,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  
  - note: Component API only.
  */
-public final class GINICameraViewController: UIViewController {
+@objc public final class GINICameraViewController: UIViewController {
     
     // User interface
     private var controlsView  = UIView()

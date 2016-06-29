@@ -32,7 +32,7 @@ import UIKit
 
  - note: Component API only.
  */
-public final class GINIOnboardingViewController: UIViewController {
+@objc public final class GINIOnboardingViewController: UIViewController {
     
     // User interface
     private var scrollView = UIScrollView()

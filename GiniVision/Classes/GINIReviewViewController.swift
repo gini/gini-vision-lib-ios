@@ -43,7 +43,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 
  - note: Component API only.
  */
-public final class GINIReviewViewController: UIViewController {
+@objc public final class GINIReviewViewController: UIViewController {
     
     // User interface
     private var scrollView = UIScrollView()

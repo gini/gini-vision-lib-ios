@@ -23,7 +23,7 @@ import UIKit
 
  - note: Component API only.
  */
-public final class GINIAnalysisViewController: UIViewController {
+@objc public final class GINIAnalysisViewController: UIViewController {
     
     // User interface
     private var imageView = UIImageView()
