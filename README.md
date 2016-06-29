@@ -1,4 +1,4 @@
-# GiniVision
+![Gini Vision Library for iOS](GiniVision_Logo.png)
 
 [![CI Status](https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&branch=master)](https://travis-ci.com/gini/gini-vision-lib-ios)
 
