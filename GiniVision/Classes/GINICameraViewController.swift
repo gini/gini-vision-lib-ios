@@ -54,6 +54,7 @@ public final class GINICameraViewController: UIViewController {
     private var cameraOverlay = UIImageView()
     private var captureButton = UIButton()
     private var focusIndicatorImageView: UIImageView?
+    private var defaultImageView: UIImageView?
     
     // Properties
     private var camera: GINICamera?
@@ -101,6 +102,12 @@ public final class GINICameraViewController: UIViewController {
         do {
             camera = try GINICamera()
         } catch let error as GINICameraError {
+            switch error {
+            case .NotAuthorizedToUseDevice:
+                print("Camera not authorized add option to go to Settings app")
+            default:
+                if GINIConfiguration.DEBUG { addDefaultImage() }
+            }
             failure(error: error)
         } catch _ {
             print("GiniVision: An unkown error occured.")
@@ -176,21 +183,6 @@ public final class GINICameraViewController: UIViewController {
         camera?.stop()
     }
     
-    /**
-     Notifies the view controller that its view was added to a view hierarchy.
-     
-     - parameter animated: If `true`, the view was added to the window using an animation.
-     */
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        if GINIConfiguration.DEBUG {
-            guard let _ = camera else {
-               return addDefaultImage()
-            }
-        }
-    }
-    
     // MARK: Toggle UI elements
     /**
      Show the capture button. Should be called when onboarding is dismissed.
@@ -222,26 +214,28 @@ public final class GINICameraViewController: UIViewController {
     
     // MARK: Image capture
     @objc private func captureImage(sender: AnyObject) {
-        camera?.captureStillImage { (imageData: NSData?, error: NSError?) in
-            guard error == nil else {
-                // Call error block
-                self.errorBlock?(error: GINICameraError.CaptureFailed)
-                return
-            }
-            var imageData = imageData
+        guard let camera = camera else {
             if GINIConfiguration.DEBUG {
-                if imageData == nil {
-                    imageData = self.defaultImage != nil ? UIImageJPEGRepresentation(self.defaultImage!, 1) : nil
+                // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
+                if let image = self.defaultImageView?.image,
+                   let imageData = UIImageJPEGRepresentation(image, 1) {
+                    self.successBlock?(imageData: imageData)
                 }
             }
-            guard let data = imageData else {
-                // Call error block
-                self.errorBlock?(error: GINICameraError.CaptureFailed)
-                return
-            }
-            // Call success block
-            self.successBlock?(imageData: data)
+            return print("GiniVision: No camera initialized.")
         }
+        camera.captureStillImage { inner in
+            do {
+                let imageData = try inner()
+                // Call success block
+                self.successBlock?(imageData: imageData)
+            } catch let error as GINICameraError {
+                self.errorBlock?(error: error)
+            } catch _ {
+                print("GiniVision: An unkown error occured.")
+            }
+        }
+        
     }
     
     // MARK: Focus handling
@@ -319,7 +313,9 @@ public final class GINICameraViewController: UIViewController {
     
     /// Adds a default image to the canvas when no camera is available (DEBUG mode only)
     private func addDefaultImage() {
-        let defaultImageView = UIImageView(image: defaultImage)
+        defaultImageView = UIImageView(image: defaultImage)
+        guard let defaultImageView = defaultImageView else { return }
+        
         defaultImageView.contentMode = .ScaleAspectFit
         previewView.addSubview(defaultImageView)
         
