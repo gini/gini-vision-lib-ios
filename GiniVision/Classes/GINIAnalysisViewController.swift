@@ -11,15 +11,15 @@ import UIKit
 /**
  The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
  
- **Text ressources on this screen**
+ **Text resources for this screen**
  
  * `ginivision.navigationbar.analysis.back` (Screen API only.)
  
- **Image ressources on this screen**
+ **Image resources for this screen**
  
  * `navigationAnalysisBack` (Screen API only.)
  
- Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+ Resources listed also contain resources for the container view controller. These are marked with _Screen API only_.
 
  - note: Component API only.
  */

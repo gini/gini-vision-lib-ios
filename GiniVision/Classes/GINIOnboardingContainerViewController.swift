@@ -11,7 +11,7 @@ import UIKit
 /**
  Container class for `GINIOnboardingViewController`.
  
- - note: Should be embeded in navigation controller.
+ - note: Should be embedded in navigation controller.
  */
 internal class GINIOnboardingContainerViewController: UIViewController, GINIContainer {
     

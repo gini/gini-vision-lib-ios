@@ -9,11 +9,11 @@
 import UIKit
 
 /**
- The `GINIOnboardingViewController` provides a custom onboarding screen which presents some introducing screens to the user on how to get the camera in a perfect position etc. Per default, three screens are pre-configured.
+ The `GINIOnboardingViewController` provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.
  
- A blank page will be inserted at the end, which makes it possbile to "swipe away" the onboarding. To achieve this the container class needs to implement `UIScrollViewDelegate` and dismiss the view, when the last page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
+ A blank page will be inserted at the end, which makes it possible to "swipe away" the onboarding. To achieve this, the container class needs to implement `UIScrollViewDelegate` and dismiss the view when the last page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
  
- **Text ressources on this screen**
+ **Text resources for this screen**
  
  * `ginivision.navigationbar.onboarding.title` (Screen API only.)
  * `ginivision.navigationbar.onboarding.continue` (Screen API only.)
@@ -21,14 +21,14 @@ import UIKit
  * `ginivision.onboarding.secondPage`
  * `ginivision.onboarding.thirdPage`
  
- **Image ressources on this screen**
+ **Image resources for this screen**
  
  * `onboardingPage1`
  * `onboardingPage2`
  * `onboardingPage3`
  * `navigationOnboardingContinue` (Screen API only.)
  
- Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+ Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
 
  - note: Component API only.
  */
@@ -45,7 +45,7 @@ public final class GINIOnboardingViewController: UIViewController {
      - parameter pages:              An array of views to be displayed in the scroll view.
      - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
      
-     - returns: A view controller instance allowing the user to get a brief overview about the funtionalities of the Gini Vision Library.
+     - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
      */
     public init(pages: [UIView], scrollViewDelegate: UIScrollViewDelegate) {
         super.init(nibName: nil, bundle: nil)
