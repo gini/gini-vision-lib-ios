@@ -23,9 +23,9 @@ public typealias GINIReviewSuccessBlock = (imageData: NSData) -> ()
 public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 
 /**
- The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurrines and reading direction. If the result is not satisfying, the user either can return to the camera screen or s/he can turn the photo in steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after haven taken the photo as we assume that in most cases the photo is good enough to be further processed.
+ The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
 
- **Text ressources on this screen**
+ **Text resources for this screen**
  
  * `ginivision.navigationbar.review.title` (Screen API only.)
  * `ginivision.navigationbar.review.back` (Screen API only.)
@@ -33,13 +33,13 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
  * `ginivision.review.top`
  * `ginivision.review.bottom`
  
- **Image ressources on this screen**
+ **Image resources for this screen**
  
  * `reviewRotateButton`
  * `navigationReviewBack` (Screen API only.)
  * `navigationReviewContinue` (Screen API only.)
  
- Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+ Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
 
  - note: Component API only.
  */
@@ -65,12 +65,12 @@ public final class GINIReviewViewController: UIViewController {
     private var errorBlock: GINIReviewErrorBlock?
     
     /**
-     Designated intitializer for the `GINIReviewViewController` which allows to set a success and error block which will be executed accordingly.
+     Designated intitializer for the `GINIReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
 
      
      - parameter imageData: JPEG representation as a result from the camera or camera roll.
      - parameter success:   Success block to be executed when image was rotated.
-     - parameter failure:   Error block to be exectued when an error occured.
+     - parameter failure:   Error block to be executed if an error occured.
      
      - returns: A view controller instance allowing the user to review a picture of a document.
      */
@@ -178,7 +178,7 @@ extension GINIReviewViewController: UIScrollViewDelegate {
     /**
      Asks the delegate for the view to scale when zooming is about to occur in the scroll view.
      
-     - parameter scrollView: The scroll-view object displaying the content view.
+     - parameter scrollView: The scroll view object displaying the content view.
      - returns: A `UIView` object that will be scaled as a result of the zooming gesture.
      */
     public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
@@ -186,9 +186,9 @@ extension GINIReviewViewController: UIScrollViewDelegate {
     }
     
     /**
-     Tells the delegate that the scroll view’s zoom factor changed.
+     Informs the delegate that the scroll view’s zoom factor has changed.
      
-     - parameter scrollView: The scroll-view object whose zoom factor changed.
+     - parameter scrollView: The scroll-view object whose zoom factor has changed.
      */
     public func scrollViewDidZoom(scrollView: UIScrollView) {
         updateConstraintsForSize(scrollView.bounds.size)

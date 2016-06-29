@@ -17,7 +17,7 @@ import AVFoundation
 public typealias GINICameraSuccessBlock = (imageData: NSData) -> ()
 
 /**
- Block which will be executed when an error occurs on the camera screen. It contains a camera specific error.
+ Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
 
  - note: Component API only.
  */
@@ -26,13 +26,13 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
 /**
  The `GINICameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
  
- **Text ressources on this screen**
+ **Text resources for this screen**
  
  * `ginivision.navigationbar.camera.title` (Screen API only.)
  * `ginivision.navigationbar.camera.close` (Screen API only.)
  * `ginivision.navigationbar.camera.help` (Screen API only.)
  
- **Image ressources on this screen**
+ **Image resources for this screen**
  
  * `cameraCaptureButton`
  * `cameraCaptureButtonActive`
@@ -42,7 +42,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
  
- Ressources listed also contain ressources for the container view controller. They are marked with _Screen API only_.
+ Resources listed also contain resources for the container view controller. These are marked with _Screen API only_.
  
  - note: Component API only.
  */
@@ -83,10 +83,10 @@ public final class GINICameraViewController: UIViewController {
     private var errorBlock: GINICameraErrorBlock?
 
     /**
-     Designated intitializer for the `GINICameraViewController` which allows to set a success and error block which will be executed accordingly.
+     Designated intitializer for the `GINICameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when image was taken.
-     - parameter failure: Error block to be exectued when an error occured.
+     - parameter failure: Error block to be exectued if an error occurred.
      
      - returns: A view controller instance allowing the user to take a picture.
      */
@@ -146,7 +146,7 @@ public final class GINICameraViewController: UIViewController {
     /**
      Notifies the view controller that its view is about to be added to a view hierarchy.
      
-     - parameter animated: If `true`, the view is being added to the window using an animation.
+     - parameter animated: If `true`, the view is added to the window using an animation.
      */
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -157,7 +157,7 @@ public final class GINICameraViewController: UIViewController {
     /**
      Notifies the view controller that its view is about to be removed from a view hierarchy.
      
-     - parameter animated: If `true`, the disappearance of the view is being animated.
+     - parameter animated: If `true`, the disappearance of the view is animated.
      */
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)

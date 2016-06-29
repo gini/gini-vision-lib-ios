@@ -10,21 +10,21 @@ import Foundation
 
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
- Make use of callbacks for handling incoming data and to control view controller presentation.
+ Makes use of callbacks for handling incoming data and to control view controller presentation.
  
  - note: Screen API only.
  */
 @objc public protocol GINIVisionDelegate {
     
     /**
-     Called when the user took an image.
+     Called when the user has taken an image.
      
      - parameter imageData: JPEG image data including meta information.
      */
     func didCapture(imageData: NSData)
     
     /**
-     Called when the user reviewed the image and potentially rotated it to reading order.
+     Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
      - parameter imageData: JPEG image data including eventually updated meta information.
      - parameter changes:   Indicates whether `imageData` was altered.
@@ -32,7 +32,7 @@ import Foundation
     func didReview(imageData: NSData, withChanges changes: Bool)
     
     /**
-     Called when the user canceles capturing on the camera screen. Should be used to dismiss the presented view controller.
+     Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
     
@@ -53,17 +53,17 @@ import Foundation
  
  The Gini Vision Library provides views for capturing, reviewing and analysing documents.
  
- By integrating this library in your application you can allow your users to easily take pictures of documents, review them and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
+ By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
  
- The Gini Vision Library can be integrated in two ways, either by using the **Screen API** or the **Component API**. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customisation.
+ The Gini Vision Library can be integrated in two ways, either by using the **Screen API** or the **Component API**. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.
  
  - important: When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the `GINICameraViewController` as an entry point with the `GINIOnboardingViewController` presented on top of it. After capturing let the user review the document with the `GINIReviewViewController` and finally present the `GINIAnalysisViewController` while the user waits for the analysis results.
  */
 @objc public final class GINIVision: NSObject {
     
     /**
-     Sets a configuration which is used to customize the look and feel of the Gini Vision Library.
-     For example to change texts and colors displayed to the user.
+     Sets a configuration which is used to customize the look and feel of the Gini Vision Library,
+     for example to change texts and colors displayed to the user.
      
      - parameter configuration: The configuration to set.
      */
@@ -91,7 +91,7 @@ import Foundation
     }
     
     /**
-     Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom conifugration to set change the lookg and feel of the Gini Vision Library.
+     Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
      
      - note: Screen API only.
      

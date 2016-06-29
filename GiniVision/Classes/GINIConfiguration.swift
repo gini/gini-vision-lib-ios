@@ -9,10 +9,10 @@
 import Foundation
 
 /**
- The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used it is clearly stated on the specific attribute.
+ The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
  
- - note: Texts can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer what ever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
- - note: Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer what ever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
+ - note: Text can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
+ - note: Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
  */
 @objc public final class GINIConfiguration: NSObject {
     
@@ -32,14 +32,14 @@ import Foundation
     
     // MARK: General options
     /**
-     Can be turned on in development to unlock extra information and to save captured images to camera roll.
+     Can be turned on during development to unlock extra information and to save captured images to camera roll.
     
      - warning: Should never be used outside of a development enviroment.
      */
     public var debugModeOn = false
     
     /**
-     Sets the background in all screens of the Gini Vision Library to the specified color.
+     Sets the background color in all screens of the Gini Vision Library to the specified color.
  
      - note: Screen API only.
      */
@@ -129,24 +129,24 @@ import Foundation
     public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
     
     /**
-     Sets the color of the page controllers page indicator items.
+     Sets the color of the page controller's page indicator items.
      */
     public var onboardingPageIndicatorColor = UIColor.whiteColor().colorWithAlphaComponent(0.2)
     
     /**
-     Sets the color of the page controllers current page indicator item.
+     Sets the color of the page controller's current page indicator item.
      */
     public var onboardingCurrentPageIndicatorColor = UIColor.whiteColor()
     
     /**
-     Determines whether the onboarding screen should be presented at the start of the Gini Vision Library.
+     Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.
      
      - note: Screen API only.
      */
     public var onboardingShowAtLaunch = false
     
     /**
-     Determines whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.
+     Indicates whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.
      
      - note: Overwrites `onboardingShowAtLaunch` for the first launch.
      - note: Screen API only.
@@ -169,7 +169,7 @@ import Foundation
     public var onboardingThirdPageText = NSLocalizedStringPreferred("ginivision.onboarding.thirdPage", comment: "Text on the third page of the onboarding screen")
     
     /**
-     All onboaridng pages which will be presented in a horizontal scroll view to the user. Per default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
+     All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
      
      - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
      */
@@ -209,7 +209,7 @@ import Foundation
     public var navigationBarReviewTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
     
     /**
-     Sets the text appearing at the top of the review screen which should ask the user if the full document is sharp and in the correct orientation.
+     Sets the text appearing at the top of the review screen which should ask the user if the whole document is in focus and has correct orientation.
      */
     public var reviewTextTop = NSLocalizedStringPreferred("ginivision.review.top", comment: "Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation")
     
@@ -228,7 +228,9 @@ import Foundation
      */
     public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
-    /** Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image.
+    /** Sets the back button text in the navigation bar on the analysis screen.
+    
+     - attention: This will be displayed instead of the back button image.
      */
     public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
     

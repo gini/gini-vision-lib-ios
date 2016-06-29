@@ -14,7 +14,7 @@ import AVFoundation
  
  - parameter name: The name of the image file without file extension.
  
- - returns: Image when found with name.
+ - returns: Image if found with name.
  */
 internal func UIImageNamedPreferred(named name: String) -> UIImage? {
     if let clientImage = UIImage(named: name) {
@@ -25,10 +25,10 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
 }
 
 /**
- Returns a string localized string resource preferably from the client's bundle.
+ Returns a localized string resource preferably from the client's bundle.
  
  - parameter key:     The key to search for in the strings file.
- - parameter comment: The according comment.
+ - parameter comment: The corresponding comment.
  
  - returns: String resource for the given key.
  */
