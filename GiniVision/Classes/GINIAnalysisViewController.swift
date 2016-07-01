@@ -8,6 +8,11 @@
 
 import UIKit
 
+// TODO: add documentation
+@objc public protocol GINIAnalysisDelegate {
+    func displayError(withMessage message: String?, andAction action: GININoticeAction?)
+}
+
 /**
  The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
  
@@ -84,7 +89,7 @@ import UIKit
     public func hideAnimation() {
         loadingIndicatorView.stopAnimating()
     }
-    
+        
     // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
