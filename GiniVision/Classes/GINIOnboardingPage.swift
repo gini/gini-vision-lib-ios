@@ -34,15 +34,18 @@ import UIKit
         
         // Configure label
         textLabel.numberOfLines = 0
+        textLabel.textColor = UIColor.whiteColor()
+        textLabel.textAlignment = .Center
+        if #available(iOS 8.2, *) {
+            textLabel.font = UIFont.systemFontOfSize(28, weight: UIFontWeightThin)
+        } else {
+            textLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 28) // TODO: Declare font in a more generic place
+        }
         
         // Configure view hierachy
         addSubview(contentView)
         contentView.addSubview(imageView)
         contentView.addSubview(textLabel)
-        
-        // Configure colors
-        backgroundColor = UIColor.yellowColor()
-        contentView.backgroundColor = UIColor.greenColor()
         
         // Add constraints
         addConstraints()
@@ -74,13 +77,13 @@ import UIKit
     private func addConstraints() {
         let superview = self
         
-        // TODO: Fix constraints
+        // TODO: Test constraints
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Top, multiplier: 1, constant: 30)
         UIViewController.addActiveConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: 5)
+        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: 5, priority: 999)
     
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false

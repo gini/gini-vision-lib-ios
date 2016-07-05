@@ -53,19 +53,18 @@ import UIKit
         // Set pages
         self.pages = pages
         let emptyView = UIView()
-        emptyView.backgroundColor = UIColor.orangeColor()
+        emptyView.backgroundColor = UIColor.clearColor()
         self.pages.append(emptyView) // Add an empty last page
         
         // Configure scroll view
         scrollView.delegate = scrollViewDelegate
-//        scrollView.showsVerticalScrollIndicator = false
-//        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.pagingEnabled = true
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
-        view.backgroundColor = UIColor.redColor()
-        contentView.backgroundColor = UIColor.purpleColor()
+        contentView.backgroundColor = UIColor.clearColor()
         
         // Configure view hierachy
         view.addSubview(scrollView)
@@ -87,8 +86,17 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
+    /**
+     Scrolls the scroll view to the next page.
+     
+     - parameter animated: Defines whether scrolling should be animated.
+     */
+    public func scrollToNextPage(animated: Bool) {
+        var offset = scrollView.contentOffset
+        offset.x += scrollView.frame.width
+        scrollView.setContentOffset(offset, animated: animated)
+    }
+        
     // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
