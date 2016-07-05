@@ -73,11 +73,6 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         delegate?.didShowAnalysis?(self)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()

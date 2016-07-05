@@ -88,11 +88,6 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         displayContent(contentController)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()

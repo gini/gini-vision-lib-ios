@@ -78,11 +78,6 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         displayContent(contentController)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func back() {
         // TODO: Implement
     }
