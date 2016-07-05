@@ -15,7 +15,7 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     internal var contentController = UIViewController()
     
     // User interface
-    private var backButton     = UIBarButtonItem()
+    private var backButton = UIBarButtonItem()
     
     // Images
     private var backButtonImage: UIImage? {
