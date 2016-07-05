@@ -42,6 +42,13 @@ import Foundation
     optional func didCancelReview()
     
     /**
+     Called when the user is presented with the analsis screen. Use the `analysisDelegate` object to inform the user about the current status of the analysis task.
+     
+     - parameter analysisDelegate: The analsis delegate to send updates to.
+     */
+    optional func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate)
+    
+    /**
      Called when the user navigates back from the analysis screen to the review screen. Should be used to cancel any ongoing analysis task on the image.
      */
     optional func didCancelAnalysis()
@@ -71,7 +78,7 @@ import Foundation
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        GINIConfiguration.sharedConfiguration = configuration // TODO: Make copy
+        GINIConfiguration.sharedConfiguration = configuration // TODO: Make a copy to avoid changes during usage
     }
     
     /**

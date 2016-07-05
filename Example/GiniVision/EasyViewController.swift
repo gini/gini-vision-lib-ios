@@ -37,6 +37,10 @@ class EasyViewController: UIViewController, GINIVisionDelegate {
         print("Easy example received updated image data with \(changesString)")
     }
     
+    func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate) {
+        analysisDelegate.displayError(withMessage: "My network error", andAction: { print("Try again") })
+    }
+    
     func didCancelCapturing() {
         dismissViewControllerAnimated(true, completion: nil)
     }

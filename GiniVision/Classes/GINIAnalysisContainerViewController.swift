@@ -15,7 +15,7 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     internal var contentController = UIViewController()
     
     // User interface
-    private var backButton     = UIBarButtonItem()
+    private var backButton = UIBarButtonItem()
     
     // Images
     private var backButtonImage: UIImage? {
@@ -66,6 +66,13 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         (contentController as? GINIAnalysisViewController)?.showAnimation()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
+        delegate?.didShowAnalysis?(self)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -87,6 +94,16 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         UIViewController.addActiveConstraint(item: containerView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+    }
+    
+}
+
+extension GINIAnalysisContainerViewController: GINIAnalysisDelegate {
+    
+    func displayError(withMessage message: String?, andAction action: GININoticeAction?) {
+        print("Client wants to display error with message: \(message ?? "no message")")
+        action?()
+        // TODO: Implement with custom GININotice class
     }
     
 }
