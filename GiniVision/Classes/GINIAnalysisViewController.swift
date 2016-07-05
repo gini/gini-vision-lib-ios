@@ -8,8 +8,20 @@
 
 import UIKit
 
-// TODO: add documentation
+/**
+ Delegate which can be used to communicate back to the analysis screen allowing to display custom messages on screen.
+ 
+ - note: Screen API only.
+ */
 @objc public protocol GINIAnalysisDelegate {
+    
+    /**
+     Will display an error view on the analysis screen with a custom message.
+     The provided action will be called, when the user taps on the error view.
+     
+     - parameter message: The error message to be displayed.
+     - parameter action:  The action to be performed after the user tapped the error view.
+     */
     func displayError(withMessage message: String?, andAction action: GININoticeAction?)
 }
 

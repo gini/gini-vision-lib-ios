@@ -78,7 +78,7 @@ import Foundation
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        GINIConfiguration.sharedConfiguration = configuration // TODO: Make copy
+        GINIConfiguration.sharedConfiguration = configuration // TODO: Make a copy to avoid changes during usage
     }
     
     /**
