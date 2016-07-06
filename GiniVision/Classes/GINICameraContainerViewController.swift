@@ -44,7 +44,7 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                 case .NotAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
-                    print("GiniVision: Unkown error when using camera.")
+                    print("GiniVision: Unknown error when using camera.")
                 }
             })
         

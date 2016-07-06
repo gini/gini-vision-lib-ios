@@ -110,7 +110,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
             }
             failure(error: error)
         } catch _ {
-            print("GiniVision: An unkown error occured.")
+            print("GiniVision: An unknown error occured.")
         }
         
         // Configure preview view
@@ -232,7 +232,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
             } catch let error as GINICameraError {
                 self.errorBlock?(error: error)
             } catch _ {
-                print("GiniVision: An unkown error occured.")
+                print("GiniVision: An unknown error occured.")
             }
         }
         
