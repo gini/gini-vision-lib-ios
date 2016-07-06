@@ -52,9 +52,6 @@ import UIKit
         
         // Set pages
         self.pages = pages
-        let emptyView = UIView()
-        emptyView.backgroundColor = UIColor.clearColor()
-        self.pages.append(emptyView) // Add an empty last page
         
         // Configure scroll view
         scrollView.delegate = scrollViewDelegate
@@ -120,8 +117,8 @@ import UIKit
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
-            UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: page, attribute: .Height, multiplier: 3/4, constant: 0)
             UIViewController.addActiveConstraint(item: page, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
+            UIViewController.addActiveConstraint(item: page, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: 0)
             UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: contentView, attribute: .Width, multiplier: 1/pagesCount, constant: 0)
             if page == pages.first {
                 UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)

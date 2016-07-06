@@ -45,7 +45,8 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         completionBlock = completion
         
         // Configure content controller
-        let pages = GINIConfiguration.sharedConfiguration.onboardingPages
+        var pages = GINIConfiguration.sharedConfiguration.onboardingPages
+        pages.append(UIView()) // Add an empty last page to transition nicely back to camera
         contentController = GINIOnboardingViewController(pages: pages,
                                                          scrollViewDelegate: self)
         
@@ -57,7 +58,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         
         // Configure page control
         pageControl.currentPage = 0
-        pageControl.numberOfPages = pages.count + 1 // Take in account that there will be an "empty" page at the end
+        pageControl.numberOfPages = pages.count
         pageControl.currentPageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingCurrentPageIndicatorColor
         pageControl.pageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingPageIndicatorColor
         
