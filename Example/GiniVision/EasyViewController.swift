@@ -25,6 +25,14 @@ class EasyViewController: UIViewController, GINIVisionDelegate {
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
         giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
+        /* Uncomment block to set custom onboarding screens */
+        /*
+        if let page1 = storyboard?.instantiateViewControllerWithIdentifier("Onboarding1").view,
+           let page2 = storyboard?.instantiateViewControllerWithIdentifier("Onboarding2").view {
+            let pages = [ page1, page2 ]
+            giniConfiguration.onboardingPages = pages
+        }
+        */
         presentViewController(GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)
     }
     
