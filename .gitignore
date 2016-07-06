@@ -33,3 +33,6 @@ Carthage
 #
 
 Pods/
+
+# Never check in docs builds
+docs/
