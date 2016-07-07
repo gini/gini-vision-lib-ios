@@ -18,10 +18,7 @@ class ComponentOnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        guard let page1 = storyboard?.instantiateViewControllerWithIdentifier("Onboarding1").view,
-              let page2 = storyboard?.instantiateViewControllerWithIdentifier("Onboarding2").view else { return }
-        let pages = [ page1, page2 ]
-        contentController = GINIOnboardingViewController(pages: pages, scrollViewDelegate: self)
+        contentController = GINIOnboardingViewController(scrollViewDelegate: self)
         
         displayContent(contentController)
     }

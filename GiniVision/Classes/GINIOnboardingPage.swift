@@ -10,6 +10,8 @@ import UIKit
 
 /**
  Custom view to easily create onboarding pages which can then be used in `GINIOnboardingViewController`. Simply pass an image and a name and they will be beautifully aligned and displayed to the user.
+ 
+ - note: The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
  */
 @objc public final class GINIOnboardingPage: UIView {
     
@@ -52,7 +54,7 @@ import UIKit
     }
     
     /**
-     Designated initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.
+     Convenience initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.
      
      - parameter imageName: The name of the image to be displayed.
      - parameter text:      The text to be displayed underneath the image.
