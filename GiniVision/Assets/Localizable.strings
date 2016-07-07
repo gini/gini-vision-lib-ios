@@ -17,6 +17,9 @@
 "ginivision.navigationbar.review.continue"     = "Weiter";
 "ginivision.navigationbar.analysis.back"       = "Abbrechen";
 
+"ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
+"ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
+
 "ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
 "ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
 "ginivision.onboarding.thirdPage"  = "Dokument\nvollständig in\nRahmen einpassen";

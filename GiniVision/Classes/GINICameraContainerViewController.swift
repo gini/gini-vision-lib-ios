@@ -18,6 +18,9 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     private var closeButton = UIBarButtonItem()
     private var helpButton  = UIBarButtonItem()
     
+    // Properties
+    private var showHelp: (() -> ())?
+    
     // Images
     private var closeButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "navigationCameraClose")
@@ -92,6 +95,22 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         
         // Add content to container view
         displayContent(contentController)
+        
+        // Eventually show onboarding
+        if GINIConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
+           !NSUserDefaults.standardUserDefaults().boolForKey("ginivision.defaults.onboardingShowed") {
+            showHelp = help
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "ginivision.defaults.onboardingShowed")
+        } else if GINIConfiguration.sharedConfiguration.onboardingShowAtLaunch {
+            showHelp = help
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showHelp?()
+        showHelp = nil
     }
     
     @IBAction func close() {
