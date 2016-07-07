@@ -51,6 +51,10 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  */
 @objc public final class GINICameraViewController: UIViewController {
     
+    private enum CameraState {
+        case Valid, NotValid
+    }
+    
     // User interface
     private var controlsView  = UIView()
     private var previewView   = GINICameraPreviewView()
@@ -61,6 +65,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
     
     // Properties
     private var camera: GINICamera?
+    private var cameraState = CameraState.NotValid
     
     // Images
     private var defaultImage: UIImage? {
@@ -118,6 +123,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         
         // Configure preview view
         if let validCamera = camera {
+            cameraState = .Valid
             previewView.session = validCamera.session
             (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
@@ -192,6 +198,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
      Show the capture button. Should be called when onboarding is dismissed.
      */
     public func showCaptureButton() {
+        guard cameraState == .Valid else { return }
         controlsView.alpha = 1
     }
     
@@ -206,6 +213,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
      Show the camera overlay. Should be called when onboarding is dismissed.
      */
     public func showCameraOverlay() {
+        guard cameraState == .Valid else { return }
         cameraOverlay.alpha = 1
     }
     
@@ -267,6 +275,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
     }
     
     private func showFocusIndicator(imageView: FocusIndicator?) {
+        guard cameraState == .Valid else { return }
         guard let imageView = imageView else { return }
         for subView in self.previewView.subviews {
             if let focusIndicator = subView as? FocusIndicator {
