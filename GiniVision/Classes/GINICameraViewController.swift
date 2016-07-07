@@ -114,7 +114,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
             case .NotAuthorizedToUseDevice:
                 addNotAuthorizedView()
             default:
-                if GINIConfiguration.DEBUG { addDefaultImage() }
+                if GINIConfiguration.DEBUG { cameraState = .Valid; addDefaultImage() }
             }
             failure(error: error)
         } catch _ {
