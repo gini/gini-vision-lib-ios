@@ -11,7 +11,17 @@ import UIKit
 /**
  The `GINIOnboardingViewController` provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.
  
- A blank page will be inserted at the end, which makes it possible to "swipe away" the onboarding. To achieve this, the container class needs to implement `UIScrollViewDelegate` and dismiss the view when the last page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
+ To allow displaying the onboarding as a transparent modal view, set the `modalPresentationStyle` of the container class to `.OverCurrentContext`. Add a blank page at the end to make it possible to "swipe away" the onboarding. To achieve this, the container class needs to implement `UIScrollViewDelegate` and dismiss the view when the last (empty) page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
+ 
+ Use the `GINIOnboardingPage` class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.
+ 
+     let pages = [
+         GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
+         GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 2"),
+         GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 3")
+     ]
+     let onboardingController = GINIOnboardingViewController(pages: pages, scrollViewDelegate: self)
+     presentViewController(onboardingController, animated: true, completion: nil)
  
  **Text resources for this screen**
  
@@ -35,37 +45,33 @@ import UIKit
 @objc public final class GINIOnboardingViewController: UIViewController {
     
     // User interface
-    private var scrollView = UIScrollView()
+    private var scrollView  = UIScrollView()
     private var contentView = UIView()
-    private var pages = [UIView]()
-    
+    private var pages       = [UIView]()
+
     /**
      Designated intitializer for the `GINIOnboardingViewController` which allows to pass a custom set of views which will be displayed in horizontal scroll view.
      
-     - parameter pages:              An array of views to be displayed in the scroll view.
+     - parameter pages:              An array of views to be displayed in the scroll view. By default the views defined in `onboardingPages` in the `GINIConfiguration` are used.
      - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
      
      - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
      */
-    public init(pages: [UIView], scrollViewDelegate: UIScrollViewDelegate) {
+    public init(pages: [UIView] = GINIConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: UIScrollViewDelegate) {
         super.init(nibName: nil, bundle: nil)
         
         // Set pages
         self.pages = pages
-        let emptyView = UIView()
-        emptyView.backgroundColor = UIColor.orangeColor()
-        self.pages.append(emptyView) // Add an empty last page
         
         // Configure scroll view
         scrollView.delegate = scrollViewDelegate
-//        scrollView.showsVerticalScrollIndicator = false
-//        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
         scrollView.pagingEnabled = true
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
-        view.backgroundColor = UIColor.redColor()
-        contentView.backgroundColor = UIColor.purpleColor()
+        contentView.backgroundColor = UIColor.clearColor()
         
         // Configure view hierachy
         view.addSubview(scrollView)
@@ -87,8 +93,17 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
+    /**
+     Scrolls the scroll view to the next page.
+     
+     - parameter animated: Defines whether scrolling should be animated.
+     */
+    public func scrollToNextPage(animated: Bool) {
+        var offset = scrollView.contentOffset
+        offset.x += scrollView.frame.width
+        scrollView.setContentOffset(offset, animated: animated)
+    }
+        
     // MARK: Constraints
     private func addConstraints() {
         let superview = self.view
@@ -112,8 +127,8 @@ import UIKit
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
-            UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: page, attribute: .Height, multiplier: 3/4, constant: 0)
             UIViewController.addActiveConstraint(item: page, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
+            UIViewController.addActiveConstraint(item: page, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: 0)
             UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: contentView, attribute: .Width, multiplier: 1/pagesCount, constant: 0)
             if page == pages.first {
                 UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)

@@ -13,7 +13,7 @@ import Foundation
  */
 @objc public enum GINICameraError: Int, ErrorType {
     
-    /// Unkown error during camera use.
+    /// Unknown error during camera use.
     case Unknown = 0
     
     /// Camera can not be loaded because the user has denied authorization in the past.
@@ -32,7 +32,7 @@ import Foundation
  */
 @objc public enum GINIReviewError: Int, ErrorType {
     
-    /// Unkown error during review.
+    /// Unknown error during review.
     case Unknown = 0
     
 }

@@ -44,7 +44,7 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                 case .NotAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
-                    print("GiniVision: Unkonw error when using camera.")
+                    print("GiniVision: Unknown error when using camera.")
                 }
             })
         
@@ -103,9 +103,19 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     }
     
     @IBAction func help() {
-        // TODO: Implement call
-        let vc = GINIOnboardingContainerViewController()
+        let cameraViewController = contentController as? GINICameraViewController
+        
+        // Hide camera UI when overlay is shown
+        cameraViewController?.hideCameraOverlay()
+        cameraViewController?.hideCaptureButton()
+        let vc = GINIOnboardingContainerViewController {
+            
+            // Show camera UI when overlay is dismissed
+            cameraViewController?.showCameraOverlay()
+            cameraViewController?.showCaptureButton()
+        }
         let navigationController = GININavigationViewController(rootViewController: vc)
+        navigationController.modalPresentationStyle = .OverCurrentContext
         presentViewController(navigationController, animated: true, completion: nil)
     }
     

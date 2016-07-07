@@ -174,13 +174,24 @@ import Foundation
      - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
      */
     public var onboardingPages: [UIView] {
-        guard let page1 = GINIOnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
-              let page2 = GINIOnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
-              let page3 = GINIOnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
-                return [UIView]()
+        get {
+            if let pages = onboardingPrivatePages {
+                return pages
+            }
+            guard let page1 = GINIOnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+                  let page2 = GINIOnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+                  let page3 = GINIOnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+                    return [UIView]()
+            }
+            let pages = [page1, page2, page3]
+            onboardingPrivatePages = pages
+            return onboardingPrivatePages!
         }
-        return [page1, page2, page3]
+        set {
+            self.onboardingPrivatePages = newValue
+        }
     }
+    private var onboardingPrivatePages: [UIView]?
     
     
     
