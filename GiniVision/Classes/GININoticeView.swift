@@ -25,12 +25,20 @@ internal class GININoticeView: UIView {
         // Configure label
         textLabel.numberOfLines = 0
         textLabel.textColor = UIColor.whiteColor()
+        textLabel.textAlignment = .Center
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.7
+        if #available(iOS 8.2, *) {
+            textLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightThin)
+        } else {
+            textLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 12) // TODO: Declare font in a more generic place
+        }
         
         // Configure view hierachy
         addSubview(textLabel)
         
         // Configure colors
-        backgroundColor = UIColor.redColor()
+        backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         
         // Add constraints
         addConstraints()
@@ -51,8 +59,8 @@ internal class GININoticeView: UIView {
         
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 20)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: -20, priority: 999)
         UIViewController.addActiveConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 20)
     }
