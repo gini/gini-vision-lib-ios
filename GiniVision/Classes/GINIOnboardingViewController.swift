@@ -57,7 +57,7 @@ import UIKit
      
      - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
      */
-    public init(pages: [UIView] = GINIConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: UIScrollViewDelegate) {
+    public init(pages: [UIView] = GINIConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: UIScrollViewDelegate?) {
         super.init(nibName: nil, bundle: nil)
         
         // Set pages
