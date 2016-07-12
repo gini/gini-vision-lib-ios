@@ -31,6 +31,8 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  * `ginivision.navigationbar.camera.title` (Screen API only.)
  * `ginivision.navigationbar.camera.close` (Screen API only.)
  * `ginivision.navigationbar.camera.help` (Screen API only.)
+ * `ginivision.camera.notAuthorized`
+ * `ginivision.camera.notAuthorizedButton`
  
  **Image resources for this screen**
  
@@ -39,6 +41,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  * `cameraFocusLarge`
  * `cameraFocusSmall`
  * `cameraOverlay`
+ * `cameraNotAuthorizedIcon`
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
  
@@ -47,6 +50,10 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  - note: Component API only.
  */
 @objc public final class GINICameraViewController: UIViewController {
+    
+    private enum CameraState {
+        case Valid, NotValid
+    }
     
     // User interface
     private var controlsView  = UIView()
@@ -58,6 +65,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
     
     // Properties
     private var camera: GINICamera?
+    private var cameraState = CameraState.NotValid
     
     // Images
     private var defaultImage: UIImage? {
@@ -104,9 +112,9 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         } catch let error as GINICameraError {
             switch error {
             case .NotAuthorizedToUseDevice:
-                print("Camera not authorized add option to go to Settings app")
+                addNotAuthorizedView()
             default:
-                if GINIConfiguration.DEBUG { addDefaultImage() }
+                if GINIConfiguration.DEBUG { cameraState = .Valid; addDefaultImage() }
             }
             failure(error: error)
         } catch _ {
@@ -115,12 +123,14 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         
         // Configure preview view
         if let validCamera = camera {
+            cameraState = .Valid
             previewView.session = validCamera.session
+            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
+            previewView.addGestureRecognizer(tapGesture)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera?.videoDeviceInput?.device)
         }
-        (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
-        previewView.addGestureRecognizer(tapGesture)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera?.videoDeviceInput?.device)
+        
         
         // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
@@ -134,7 +144,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
         previewView.backgroundColor = UIColor.clearColor()
-        controlsView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        controlsView.backgroundColor = UIColor.clearColor()
         captureButton.backgroundColor = UIColor.clearColor()
         cameraOverlay.backgroundColor = UIColor.clearColor()
         
@@ -188,6 +198,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
      Show the capture button. Should be called when onboarding is dismissed.
      */
     public func showCaptureButton() {
+        guard cameraState == .Valid else { return }
         controlsView.alpha = 1
     }
     
@@ -202,6 +213,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
      Show the camera overlay. Should be called when onboarding is dismissed.
      */
     public func showCameraOverlay() {
+        guard cameraState == .Valid else { return }
         cameraOverlay.alpha = 1
     }
     
@@ -239,6 +251,8 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
     }
     
     // MARK: Focus handling
+    private typealias FocusIndicator = UIImageView
+    
     @objc private func focusAndExposeTap(sender: UITapGestureRecognizer) {
         let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterestForPoint(sender.locationInView(sender.view))
         camera?.focusWithMode(.AutoFocus, exposeWithMode: .AutoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
@@ -253,17 +267,20 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         showFocusIndicator(imageView)
     }
     
-    private func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> UIImageView? {
+    private func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> FocusIndicator? {
         guard let image = image else { return nil }
         let imageView = UIImageView(image: image)
         imageView.center = point
         return imageView
     }
     
-    private func showFocusIndicator(imageView: UIImageView?) {
+    private func showFocusIndicator(imageView: FocusIndicator?) {
+        guard cameraState == .Valid else { return }
         guard let imageView = imageView else { return }
         for subView in self.previewView.subviews {
-            subView.removeFromSuperview()
+            if let focusIndicator = subView as? FocusIndicator {
+                focusIndicator.removeFromSuperview()
+            }
         }
         self.previewView.addSubview(imageView)
         UIView.animateWithDuration(1.5,
@@ -305,10 +322,27 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         
         // Capture button
         captureButton.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: captureButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 55)
-        UIViewController.addActiveConstraint(item: captureButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 55)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 66)
+        UIViewController.addActiveConstraint(item: captureButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 66)
         UIViewController.addActiveConstraint(item: captureButton, attribute: .CenterX, relatedBy: .Equal, toItem: controlsView, attribute: .CenterX, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: captureButton, attribute: .CenterY, relatedBy: .Equal, toItem: controlsView, attribute: .CenterY, multiplier: 1, constant: 0)
+    }
+    
+    private func addNotAuthorizedView() {
+        
+        // Add not authorized view
+        let view = GINICameraNotAuthorizedView()
+        previewView.addSubview(view)
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: view, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Width, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: view, attribute: .CenterX, relatedBy: .Equal, toItem: previewView, attribute: .CenterX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: view, attribute: .CenterY, relatedBy: .Equal, toItem: previewView, attribute: .CenterY, multiplier: 1, constant: 0)
+        
+        // Hide camera UI
+        hideCameraOverlay()
+        hideCaptureButton()
     }
     
     /// Adds a default image to the canvas when no camera is available (DEBUG mode only)

@@ -87,6 +87,7 @@ import Foundation
     public var noticeErrorTextColor = UIColor.whiteColor()
     
     
+    
     // MARK: Camera options
     /**
      Sets the title text in the navigation bar on the camera screen.
@@ -110,6 +111,16 @@ import Foundation
      - note: Screen API only.
      */
     public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    
+    /**
+     Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
+     */
+    public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
+    
+    /**
+     Set the button title when camera access was denied, clicking the button will open the settings application.
+     */
+    public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
     
     
     
