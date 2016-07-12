@@ -1,5 +1,5 @@
 //
-//  EasyViewController.swift
+//  ScreenAPIViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 05/30/2016.
@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class EasyViewController: UIViewController, GINIVisionDelegate {
+class ScreenAPIViewController: UIViewController, GINIVisionDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,20 +37,29 @@ class EasyViewController: UIViewController, GINIVisionDelegate {
     }
     
     func didCapture(imageData: NSData) {
-        print("Easy example received image data")
+        print("Screen API received image data")
     }
     
     func didReview(imageData: NSData, withChanges changes: Bool) {
         let changesString = changes ? "changes" : "no changes"
-        print("Easy example received updated image data with \(changesString)")
+        print("Screen API received updated image data with \(changesString)")
     }
     
     func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate) {
         analysisDelegate.displayError(withMessage: "My network error", andAction: { print("Try again") })
     }
     
+    
     func didCancelCapturing() {
         dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func didCancelReview() {
+        print("Screen API canceled review.")
+    }
+    
+    func didCancelAnalysis() {
+        print("Screen API canceled analysis.")
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  AdvancedViewController.swift
+//  ComponentAPICameraViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 16/06/2016.
@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class AdvancedViewController: UIViewController {
+class ComponentAPICameraViewController: UIViewController {
     
     // Container attributes
     @IBOutlet var containerView: UIView!
@@ -48,7 +48,7 @@ class AdvancedViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "giniShowReview" {
             if let imageData = imageData,
-                let vc = (segue.destinationViewController as? UINavigationController)?.topViewController as? AdvancedReviewViewController {
+                let vc = (segue.destinationViewController as? UINavigationController)?.topViewController as? ComponentAPIReviewViewController {
                 vc.imageData = imageData
             }
         }

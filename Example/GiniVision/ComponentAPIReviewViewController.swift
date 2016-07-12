@@ -1,5 +1,5 @@
 //
-//  AdvancedReviewViewController.swift
+//  ComponentAPIReviewViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 21/06/2016.
@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class AdvancedReviewViewController: UIViewController {
+class ComponentAPIReviewViewController: UIViewController {
     
     // Container attributes
     @IBOutlet var containerView: UIView!

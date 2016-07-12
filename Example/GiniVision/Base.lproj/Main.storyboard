@@ -8,10 +8,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--Component Onboarding View Controller-->
+        <!--ComponentAPI Onboarding View Controller-->
         <scene sceneID="fjb-3f-tFA">
             <objects>
-                <viewController id="bdp-eQ-uaN" customClass="ComponentOnboardingViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="bdp-eQ-uaN" customClass="ComponentAPIOnboardingViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fbF-Nt-pDT"/>
                         <viewControllerLayoutGuide type="bottom" id="Mpx-4F-QTB"/>
@@ -65,7 +65,7 @@
         <!--Advanced Mode-->
         <scene sceneID="ZuU-uX-Wsc">
             <objects>
-                <viewController id="pYU-Ln-Vjq" customClass="AdvancedViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pYU-Ln-Vjq" customClass="ComponentAPICameraViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hDk-Fp-Wsr"/>
                         <viewControllerLayoutGuide type="bottom" id="4f2-WH-Mos"/>
@@ -105,7 +105,7 @@
         <!--Dokument überprüfen-->
         <scene sceneID="54T-xI-a0p">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="bpn-9B-40f" customClass="AdvancedReviewViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="bpn-9B-40f" customClass="ComponentAPIReviewViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="5s3-1m-ck7"/>
                         <viewControllerLayoutGuide type="bottom" id="jlx-L6-fKV"/>
@@ -150,7 +150,7 @@
         <!--Easy Mode-->
         <scene sceneID="Cmn-ER-b8i">
             <objects>
-                <viewController title="Easy Mode" id="Ggv-ZP-h5h" customClass="EasyViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Easy Mode" id="Ggv-ZP-h5h" customClass="ScreenAPIViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3q-Yk-YSo"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9y-Oh-GoV"/>
