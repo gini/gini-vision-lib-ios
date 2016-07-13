@@ -1,5 +1,5 @@
 //
-//  ComponentOnboardingViewController.swift
+//  ComponentAPIOnboardingViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 06/07/2016.
@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-class ComponentOnboardingViewController: UIViewController {
+class ComponentAPIOnboardingViewController: UIViewController {
     
     // Container attributes
     @IBOutlet var containerView: UIView!
@@ -41,7 +41,7 @@ class ComponentOnboardingViewController: UIViewController {
     
 }
 
-extension ComponentOnboardingViewController: UIScrollViewDelegate {
+extension ComponentAPIOnboardingViewController: UIScrollViewDelegate {
     
 }
 

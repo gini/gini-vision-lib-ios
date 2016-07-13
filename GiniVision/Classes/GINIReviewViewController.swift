@@ -24,7 +24,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
 
 /**
  The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
-
+ 
  **Text resources for this screen**
  
  * `ginivision.navigationbar.review.title` (Screen API only.)
@@ -40,14 +40,18 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
  * `navigationReviewContinue` (Screen API only.)
  
  Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
-
+ 
  - note: Component API only.
  */
 @objc public final class GINIReviewViewController: UIViewController {
     
     // User interface
-    private var scrollView = UIScrollView()
-    private var imageView = UIImageView()
+    private var scrollView   = UIScrollView()
+    private var imageView    = UIImageView()
+    private var topView      = UIView()
+    private var bottomView   = UIView()
+    private var rotateButton = UIButton()
+    private var bottomLabel  = UILabel()
     
     // Properties
     private var imageViewBottomConstraint: NSLayoutConstraint!
@@ -66,7 +70,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
     
     /**
      Designated intitializer for the `GINIReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
-
+     
      
      - parameter imageData: JPEG representation as a result from the camera or camera roll.
      - parameter success:   Success block to be executed when image was rotated.
@@ -83,17 +87,45 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         
         // Configure scroll view
         scrollView.delegate = self
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTapGesture.numberOfTapsRequired = 2
+        scrollView.addGestureRecognizer(doubleTapGesture)
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
+        
+        // Configure top view
+        topView = GININoticeView(text: GINIConfiguration.sharedConfiguration.reviewTextTop)
+        
+        // Configure rotate button
+        rotateButton.setImage(rotateButtonImage, forState: .Normal)
+        rotateButton.addTarget(self, action: #selector(rotate), forControlEvents: .TouchUpInside)
+        
+        // Configure bottom label
+        bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom
+        bottomLabel.numberOfLines = 0
+        bottomLabel.textColor = UIColor.whiteColor()
+        bottomLabel.textAlignment = .Right
+        bottomLabel.adjustsFontSizeToFitWidth = true
+        bottomLabel.minimumScaleFactor = 0.7
+        if #available(iOS 8.2, *) {
+            bottomLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightThin)
+        } else {
+            bottomLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 12) // TODO: Declare font in a more generic place
+        }
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()
         
         // Configure view hierachy
         view.addSubview(scrollView)
+        view.addSubview(topView)
+        view.addSubview(bottomView)
         scrollView.addSubview(imageView)
-                
+        bottomView.addSubview(rotateButton)
+        bottomView.addSubview(bottomLabel)
+        view.bringSubviewToFront(topView)
+        
         // Add constraints
         addConstraints()
     }
@@ -115,20 +147,51 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         
         updateMinZoomScaleForSize(scrollView.bounds.size)
     }
-
+    
     // MARK: Rotation handling
     @objc private func rotate(sender: AnyObject) {
-        // TODO: Implement rotation
+        // TODO: Implement exif data
+        imageView.image = rotateImage(imageView.image)
         guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
             return
         }
         successBlock?(imageData: data)
     }
     
+    private func rotateImage(image: UIImage?) -> UIImage? {
+        guard let cgImage = image?.CGImage else { return nil }
+        let rotatedOrientation = nextImageOrientationClockwise(image!.imageOrientation)
+        return UIImage(CGImage: cgImage, scale: 1.0, orientation: rotatedOrientation)
+    }
+    
+    private func nextImageOrientationClockwise(orientation: UIImageOrientation) -> UIImageOrientation {
+        var nextOrientation: UIImageOrientation!
+        switch orientation {
+        case .Up, .UpMirrored:
+            nextOrientation = .Right
+        case .Down, .DownMirrored:
+            nextOrientation = .Left
+        case .Left, .LeftMirrored:
+            nextOrientation = .Up
+        case .Right, .RightMirrored:
+            nextOrientation = .Down
+        }
+        return nextOrientation
+    }
+    
     // MARK: Zoom handling
+    @objc private func handleDoubleTap(sender: UITapGestureRecognizer) {
+        if scrollView.zoomScale > scrollView.minimumZoomScale {
+            scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
+        } else {
+            scrollView.setZoomScale(scrollView.maximumZoomScale, animated: true)
+        }
+    }
+    
     private func updateMinZoomScaleForSize(size: CGSize) {
-        let widthScale = size.width / imageView.bounds.width
-        let heightScale = size.height / imageView.bounds.height
+        guard let image = imageView.image else { return }
+        let widthScale = size.width / image.size.width
+        let heightScale = size.height / image.size.height
         let minScale = min(widthScale, heightScale)
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
@@ -168,6 +231,35 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         UIViewController.addActiveConstraint(imageViewBottomConstraint)
         UIViewController.addActiveConstraint(imageViewLeadingConstraint)
         
+        // Top view
+        topView.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: topView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: topView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: topView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: topView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 35)
+        
+        // Bottom view
+        bottomView.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: bottomView, attribute: .Top, relatedBy: .Equal, toItem: scrollView, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: bottomView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: bottomView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: bottomView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: bottomView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: rotateButton, attribute: .Height, multiplier: 1, constant: 0)
+        
+        // Rotate button
+        rotateButton.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: rotateButton, attribute: .Leading, relatedBy: .Equal, toItem: bottomView, attribute: .Leading, multiplier: 1, constant: 15)
+        UIViewController.addActiveConstraint(item: rotateButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 33)
+        UIViewController.addActiveConstraint(item: rotateButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 33)
+        UIViewController.addActiveConstraint(item: rotateButton, attribute: .CenterY, relatedBy: .Equal, toItem: bottomView, attribute: .CenterY, multiplier: 1, constant: 0)
+        
+        // Bottom label
+        bottomLabel.translatesAutoresizingMaskIntoConstraints = false
+        UIViewController.addActiveConstraint(item: bottomLabel, attribute: .Trailing, relatedBy: .Equal, toItem: bottomView, attribute: .Trailing, multiplier: 1, constant: -20)
+        UIViewController.addActiveConstraint(item: bottomLabel, attribute: .Leading, relatedBy: .Equal, toItem: rotateButton, attribute: .Trailing, multiplier: 1, constant: 30, priority: 999)
+        UIViewController.addActiveConstraint(item: bottomLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 33)
+        UIViewController.addActiveConstraint(item: bottomLabel, attribute: .CenterY, relatedBy: .Equal, toItem: bottomView, attribute: .CenterY, multiplier: 1, constant: 0)
+        
         view.layoutIfNeeded()
     }
     
@@ -191,7 +283,9 @@ extension GINIReviewViewController: UIScrollViewDelegate {
      - parameter scrollView: The scroll-view object whose zoom factor has changed.
      */
     public func scrollViewDidZoom(scrollView: UIScrollView) {
-        updateConstraintsForSize(scrollView.bounds.size)
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.updateConstraintsForSize(scrollView.bounds.size)
+        }
     }
     
 }
