@@ -79,7 +79,7 @@ import Foundation
     /**
      Sets the background color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
      */
-    public var noticeErrorBackgroundColor = UIColor.blackColor()
+    public var noticeErrorBackgroundColor = UIColor.redColor()
     
     /**
      Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.

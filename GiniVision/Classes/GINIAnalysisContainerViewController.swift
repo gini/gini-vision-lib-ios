@@ -22,6 +22,8 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         return UIImageNamedPreferred(named: "navigationAnalysisBack")
     }
     
+    private var noticeView: GININoticeView?
+    
     init(imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
         
@@ -76,7 +78,21 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     @IBAction func back() {
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
+        
         navigationController?.popViewControllerAnimated(true)
+    }
+    
+    private func showNotice(notice: GININoticeView) {
+        if noticeView != nil {
+            noticeView?.hide(completion: {
+                self.noticeView = nil
+                self.showNotice(notice)
+            })
+        } else {
+            noticeView = notice
+            view.addSubview(noticeView!)
+            noticeView?.show()
+        }
     }
     
     // MARK: Constraints
@@ -96,9 +112,10 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
 extension GINIAnalysisContainerViewController: GINIAnalysisDelegate {
     
     func displayError(withMessage message: String?, andAction action: GININoticeAction?) {
-        print("Client wants to display error with message: \(message ?? "no message")")
-        action?()
-        // TODO: Implement with custom GININotice class
+        let notice = GININoticeView(text: message ?? "", noticeType: .Error, action: action)
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.showNotice(notice)
+        }
     }
     
 }
