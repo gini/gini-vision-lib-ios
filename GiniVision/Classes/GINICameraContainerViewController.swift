@@ -58,24 +58,22 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        closeButton = UIBarButtonItem(image: closeButtonImage, style: .Plain, target: self, action: #selector(close))
-        closeButton.title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton
-        if let s = closeButton.title where !s.isEmpty {
-            closeButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            closeButton.title = nil
-        }
+        closeButton = GINIBarButtonItem(
+            image: closeButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton,
+            style: .Plain,
+            target: self,
+            action: #selector(close)
+        )
         
         // Configure help button
-        helpButton = UIBarButtonItem(image: helpButtonImage, style: .Plain, target: self, action: #selector(help))
-        helpButton.title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton
-        if let s = helpButton.title where !s.isEmpty {
-            helpButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            helpButton.title = nil
-        }
+        helpButton = GINIBarButtonItem(
+            image: helpButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton,
+            style: .Plain,
+            target: self,
+            action: #selector(help)
+        )
         
         // Configure view hierachy
         view.addSubview(containerView)

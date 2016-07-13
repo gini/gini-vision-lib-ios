@@ -63,14 +63,13 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         pageControl.pageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingPageIndicatorColor
         
         // Configure continue button
-        continueButton = UIBarButtonItem(image: continueButtonImage, style: .Plain, target: self, action: #selector(nextPage))
-        continueButton.title = GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton
-        if let s = continueButton.title where !s.isEmpty {
-            continueButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            continueButton.title = nil
-        }
+        continueButton = GINIBarButtonItem(
+            image: continueButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton,
+            style: .Plain,
+            target: self,
+            action: #selector(nextPage)
+        )
         
         // Configure view hierachy
         view.addSubview(containerView)
