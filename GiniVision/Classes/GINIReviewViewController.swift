@@ -124,7 +124,6 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         scrollView.addSubview(imageView)
         bottomView.addSubview(rotateButton)
         bottomView.addSubview(bottomLabel)
-        view.bringSubviewToFront(topView)
         
         // Add constraints
         addConstraints()
@@ -146,6 +145,17 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         super.viewDidLayoutSubviews()
         
         updateMinZoomScaleForSize(scrollView.bounds.size)
+    }
+    
+    /**
+     Notifies the view controller that its view was added to a view hierarchy.
+     
+     - parameter animated: If true, the view was added to the window using an animation.
+     */
+    public override func viewDidAppear(animated: Bool) {
+        dispatch_async(dispatch_get_main_queue()) {
+            (self.topView as? GININoticeView)?.show()
+        }
     }
     
     // MARK: Rotation handling
