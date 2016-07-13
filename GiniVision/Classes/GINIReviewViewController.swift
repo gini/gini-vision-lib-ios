@@ -108,11 +108,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         bottomLabel.textAlignment = .Right
         bottomLabel.adjustsFontSizeToFitWidth = true
         bottomLabel.minimumScaleFactor = 0.7
-        if #available(iOS 8.2, *) {
-            bottomLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightThin)
-        } else {
-            bottomLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 12) // TODO: Declare font in a more generic place
-        }
+        bottomLabel.font = GINIConfiguration.sharedConfiguration.reviewTextBottomFont
         
         // Configure colors
         view.backgroundColor = UIColor.clearColor()

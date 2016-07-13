@@ -38,11 +38,7 @@ import UIKit
         textLabel.numberOfLines = 0
         textLabel.textColor = UIColor.whiteColor()
         textLabel.textAlignment = .Center
-        if #available(iOS 8.2, *) {
-            textLabel.font = UIFont.systemFontOfSize(28, weight: UIFontWeightThin)
-        } else {
-            textLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 28) // TODO: Declare font in a more generic place
-        }
+        textLabel.font = GINIConfiguration.sharedConfiguration.onboardingTextFont
         
         // Configure view hierachy
         addSubview(contentView)
@@ -78,9 +74,7 @@ import UIKit
     // MARK: Constraints
     private func addConstraints() {
         let superview = self
-        
-        // TODO: Test constraints
-        
+            
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Top, multiplier: 1, constant: 30)
