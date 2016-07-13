@@ -41,6 +41,57 @@ internal func NSLocalizedStringPreferred(key: String, comment: String) -> String
     return NSLocalizedString(key, bundle: bundle, comment: comment)
 }
 
+/**
+ Returns a font object not dependend on the os version used. 
+ Needed because `systemFontOfSize:weight:` is not available prior to iOS 8.2.
+ 
+ - parameter weight: The weight of the font.
+ - parameter size:   The size of the font.
+ 
+ - returns: Always a font with the correct weight.
+ */
+internal func UIFontPreferred(weight: FontWeight, andSize size: CGFloat) -> UIFont {
+    if #available(iOS 8.2, *) {
+        return UIFont.systemFontOfSize(size, weight: weight.cgFloatValue)
+    } else {
+        let fontName = weight == .Regular ? "HelveticaNeue" : "HelveticaNeue-\(weight.stringValue)"
+        let font = UIFont(name: fontName, size: size)
+        return  font ?? UIFont.systemFontOfSize(size)
+    }
+}
+
+internal enum FontWeight {
+    case Thin, Light, Regular, Bold
+    
+    var stringValue: String {
+        switch self {
+        case .Thin:
+            return "Thin"
+        case .Light:
+            return "Light"
+        case .Regular:
+            return "Regular"
+        case .Bold:
+            return "Bold"
+        }
+    }
+    
+    @available(iOS 8.2, *)
+    var cgFloatValue: CGFloat {
+        switch self {
+        case .Thin:
+            return UIFontWeightThin
+        case .Light:
+            return UIFontWeightLight
+        case .Regular:
+            return UIFontWeightRegular
+        case .Bold:
+            return UIFontWeightBold
+        }
+    }
+}
+
+// MARK: Extensions
 internal extension UIViewController {
     
     class func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {

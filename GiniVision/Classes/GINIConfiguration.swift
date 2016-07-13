@@ -60,11 +60,25 @@ import Foundation
     public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
     
     /**
+     Sets the font of all navigation items in all screens of the Gini Vision Library to the globally specified font or a default font.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarItemFont = UIBarButtonItem.appearance().titleTextAttributesForState(.Normal)?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.Regular, andSize: 16)
+    
+    /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
      
      - note: Screen API only.
      */
     public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
+    
+    /**
+     Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.Light, andSize: 16)
     
     /** 
      Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
@@ -85,6 +99,11 @@ import Foundation
      Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.
      */
     public var noticeErrorTextColor = UIColor.whiteColor()
+    
+    /** 
+     Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
+     */
+    public var noticeFont = UIFontPreferred(.Regular, andSize: 12)
     
     
     
@@ -118,10 +137,19 @@ import Foundation
     public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
     
     /**
-     Set the button title when camera access was denied, clicking the button will open the settings application.
+     Sets the font of the descriptional text when camera access was denied.
+     */
+    public var cameraNotAuthorizedTextFont = UIFontPreferred(.Thin, andSize: 20)
+    
+    /**
+     Sets the button title when camera access was denied, clicking the button will open the settings application.
      */
     public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
     
+    /**
+     Sets the font of the button title when camera access was denied.
+     */
+    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.Regular, andSize: 20)
     
     
     // MARK: Onboarding options
@@ -180,6 +208,11 @@ import Foundation
     public var onboardingThirdPageText = NSLocalizedStringPreferred("ginivision.onboarding.thirdPage", comment: "Text on the third page of the onboarding screen")
     
     /**
+     Sets the font of the text for all onboarding pages.
+     */
+    public var onboardingTextFont = UIFontPreferred(.Thin, andSize: 28)
+    
+    /**
      All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
      
      - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
@@ -236,9 +269,23 @@ import Foundation
     public var reviewTextTop = NSLocalizedStringPreferred("ginivision.review.top", comment: "Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation")
     
     /**
+     The text at the top of the review screen is displayed as a notice and can not be set individually.
+     
+     - seeAlso: `noticeFont`
+     */
+    public var reviewTextTopFont: UIFont {
+        return noticeFont
+    }
+    
+    /**
      Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
      */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
+    
+    /**
+     Sets the font of the text appearing at the bottom of the review screen.
+     */
+    public var reviewTextBottomFont = UIFontPreferred(.Thin, andSize: 12)
     
     
     
