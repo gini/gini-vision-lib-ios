@@ -142,6 +142,11 @@ import Foundation
     public var cameraNotAuthorizedTextFont = UIFontPreferred(.Thin, andSize: 20)
     
     /**
+     Sets the text color of the descriptional text when camera access was denied.
+     */
+    public var cameraNotAuthorizedTextColor = UIColor.whiteColor()
+    
+    /**
      Sets the button title when camera access was denied, clicking the button will open the settings application.
      */
     public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
@@ -150,6 +155,12 @@ import Foundation
      Sets the font of the button title when camera access was denied.
      */
     public var cameraNotAuthorizedButtonFont = UIFontPreferred(.Regular, andSize: 20)
+    
+    /**
+     Sets the text color of the button title when camera access was denied.
+     */
+    public var cameraNotAuthorizedButtonTitleColor = UIColor.whiteColor()
+    
     
     
     // MARK: Onboarding options
@@ -211,6 +222,11 @@ import Foundation
      Sets the font of the text for all onboarding pages.
      */
     public var onboardingTextFont = UIFontPreferred(.Thin, andSize: 28)
+    
+    /**
+     Sets the color ot the text for all onboarding pages.
+     */
+    public var onboardingTextColor = UIColor.whiteColor()
     
     /**
      All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.
@@ -278,6 +294,13 @@ import Foundation
     }
     
     /**
+     Sets the background color of the bottom section on the review screen containing the rotation button.
+     
+     - note: Background will have a 20% transparency, to have enough space for the document image on smaller devices.
+     */
+    public var reviewBottomViewBackgroundColor = UIColor.blackColor()
+    
+    /**
      Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
      */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
@@ -286,6 +309,11 @@ import Foundation
      Sets the font of the text appearing at the bottom of the review screen.
      */
     public var reviewTextBottomFont = UIFontPreferred(.Thin, andSize: 12)
+    
+    /**
+     Sets the color of the text appearing at the bottom of the review screen.
+     */
+    public var reviewTextBottomColor = UIColor.whiteColor()
     
     
     

@@ -97,6 +97,9 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Configure top view
         topView = GININoticeView(text: GINIConfiguration.sharedConfiguration.reviewTextTop)
         
+        // Configure bottom view
+        bottomView.backgroundColor = GINIConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.colorWithAlphaComponent(0.8)
+        
         // Configure rotate button
         rotateButton.setImage(rotateButtonImage, forState: .Normal)
         rotateButton.addTarget(self, action: #selector(rotate), forControlEvents: .TouchUpInside)
@@ -104,7 +107,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Configure bottom label
         bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom
         bottomLabel.numberOfLines = 0
-        bottomLabel.textColor = UIColor.whiteColor()
+        bottomLabel.textColor = GINIConfiguration.sharedConfiguration.reviewTextBottomColor
         bottomLabel.textAlignment = .Right
         bottomLabel.adjustsFontSizeToFitWidth = true
         bottomLabel.minimumScaleFactor = 0.7

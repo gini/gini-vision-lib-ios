@@ -31,14 +31,14 @@ internal class GINICameraNotAuthorizedView: UIView {
         // Configure label
         label.text = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedText
         label.numberOfLines = 0
-        label.textColor = UIColor.whiteColor()
+        label.textColor = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .Center
         label.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont
         
         // Configure button
         button.setTitle(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.8), forState: .Highlighted)
+        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, forState: .Normal)
+        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.colorWithAlphaComponent(0.8), forState: .Highlighted)
         button.titleLabel?.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont
         button.addTarget(self, action: #selector(openSettings), forControlEvents: .TouchUpInside)
         
