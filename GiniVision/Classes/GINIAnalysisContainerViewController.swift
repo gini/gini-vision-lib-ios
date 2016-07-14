@@ -37,14 +37,13 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        backButton = UIBarButtonItem(image: backButtonImage, style: .Plain, target: self, action: #selector(back))
-        backButton.title = GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton
-        if let s = backButton.title where !s.isEmpty {
-            backButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            backButton.title = nil
-        }
+        backButton = GINIBarButtonItem(
+            image: backButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
+            style: .Plain,
+            target: self,
+            action: #selector(back)
+        )
         
         // Configure view hierachy
         view.addSubview(containerView)

@@ -69,10 +69,6 @@ import UIKit
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.pagingEnabled = true
         
-        // Configure colors
-        view.backgroundColor = UIColor.clearColor()
-        contentView.backgroundColor = UIColor.clearColor()
-        
         // Configure view hierachy
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)

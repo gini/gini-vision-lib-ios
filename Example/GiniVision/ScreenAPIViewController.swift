@@ -25,6 +25,7 @@ class ScreenAPIViewController: UIViewController, GINIVisionDelegate {
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
         giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
+        giniConfiguration.backgroundColor = UIColor.darkGrayColor()
         /* Uncomment block to set custom onboarding screens */
         /*
         if let page1 = storyboard?.instantiateViewControllerWithIdentifier("Onboarding1").view,

@@ -49,24 +49,22 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
         
         // Configure back button
-        backButton = UIBarButtonItem(image: backButtonImage, style: .Plain, target: self, action: #selector(back))
-        backButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton
-        if let s = backButton.title where !s.isEmpty {
-            backButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            backButton.title = nil
-        }
+        backButton = GINIBarButtonItem(
+            image: backButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton,
+            style: .Plain,
+            target: self,
+            action: #selector(back)
+        )
         
         // Configure continue button
-        continueButton = UIBarButtonItem(image: continueButtonImage, style: .Plain, target: self, action: #selector(analyse))
-        continueButton.title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton
-        if let s = continueButton.title where !s.isEmpty {
-            continueButton.image = nil
-        } else {
-            // Set title `nil` because an empty string will cause problems in UI
-            continueButton.title = nil
-        }
+        continueButton = GINIBarButtonItem(
+            image: continueButtonImage,
+            title: GINIConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton,
+            style: .Plain,
+            target: self,
+            action: #selector(analyse)
+        )
         
         // Configure view hierachy
         view.addSubview(containerView)

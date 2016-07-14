@@ -43,11 +43,7 @@ internal class GININoticeView: UIView {
         textLabel.textAlignment = .Center
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.7
-        if #available(iOS 8.2, *) {
-            textLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightThin)
-        } else {
-            textLabel.font = UIFont(name: "HelveticaNeue-Thin", size: 12) // TODO: Declare font in a more generic place
-        }
+        textLabel.font = GINIConfiguration.sharedConfiguration.noticeFont
         
         // Configure UI depending on type
         switch type {
