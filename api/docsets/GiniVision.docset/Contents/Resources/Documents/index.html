@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GiniVision  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+
+
+    <a title="GiniVision  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          GiniVision Docs
+        </a>
+         (30% documented)
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/gini/gini-vision-lib-ios">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://http%3A%2F%2Fdeveloper%2Egini%2Enet%2Fgini%2Dvision%2Dlib%2Dios%2Fapi%2Fdocsets%2FGiniVision%2Exml">
+            <img class="header-icon" src="img/dash.png"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">GiniVision Reference</a>
+      <img class="carat" src="img/carat.png" />
+      GiniVision  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINICameraViewController.html">GINICameraViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIVision.html">GINIVision</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/GINICameraError.html">GINICameraError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/GINIReviewError.html">GINIReviewError</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            
+            <a href='#ginivision' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='ginivision'>GiniVision</h1>
+
+<p><a href="https://travis-ci.com/gini/gini-vision-lib-ios"><img src="https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&amp;branch=master" alt="CI Status"></a></p>
+<a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='example'>Example</h2>
+
+<p>To run the example project, clone the repo, and run <code>pod install</code> from the Example directory first.</p>
+<a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
+
+<ul>
+<li>iOS 8.0+</li>
+<li>Xcode 7.3+</li>
+</ul>
+<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
+
+<p>GiniVision can either be installed by using CocoaPods or by manually dragging required files to your project.</p>
+<a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='cocoapods'>CocoaPods</h3>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>gem install cocoapods
+</code></pre>
+
+<blockquote>
+<p>CocoaPods 0.39.0+ is required to build GiniVision.</p>
+</blockquote>
+
+<p>To integrate GiniVision into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s2">"GiniVision"</span>
+</code></pre>
+
+<p>Then, run the following command:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>pod install
+</code></pre>
+<a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
+
+<p>Peter Pult, <a href="mailto:p.pult@gini.net">p.pult@gini.net</a></p>
+<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+
+<p>GiniVision is available under a commercial license. See the LICENSE file for more info.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-14)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
