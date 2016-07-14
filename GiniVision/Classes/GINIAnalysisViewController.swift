@@ -65,9 +65,6 @@ import UIKit
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .WhiteLarge
         
-        // Configure colors
-        view.backgroundColor = UIColor.clearColor()
-        
         // Configure view hierachy
         view.addSubview(imageView)
         view.addSubview(loadingIndicatorView)

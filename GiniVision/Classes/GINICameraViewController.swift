@@ -141,13 +141,6 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         captureButton.setImage(captureButtonActiveImage, forState: .Highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), forControlEvents: .TouchUpInside)
         
-        // Configure colors
-        view.backgroundColor = UIColor.clearColor()
-        previewView.backgroundColor = UIColor.clearColor()
-        controlsView.backgroundColor = UIColor.clearColor()
-        captureButton.backgroundColor = UIColor.clearColor()
-        cameraOverlay.backgroundColor = UIColor.clearColor()
-        
         // Configure view hierachy
         view.addSubview(previewView)
         view.addSubview(cameraOverlay)

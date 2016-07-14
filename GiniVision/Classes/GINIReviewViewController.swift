@@ -110,9 +110,6 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         bottomLabel.minimumScaleFactor = 0.7
         bottomLabel.font = GINIConfiguration.sharedConfiguration.reviewTextBottomFont
         
-        // Configure colors
-        view.backgroundColor = UIColor.clearColor()
-        
         // Configure view hierachy
         view.addSubview(scrollView)
         view.addSubview(topView)
