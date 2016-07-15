@@ -21,25 +21,33 @@ class ComponentAPIReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create the review view controller
         contentController = GINIReviewViewController(imageData, success:
             { imageData in
-                print("Advanced example review controller received image data")
+                print("Component API review view controller received image data.")
             }, failure: { error in
-                print(error)
+                print("Component API review view controller received error:\n\(error)")
             })
         
+        // Display the review view controller
         displayContent(contentController)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    // Pops back to the camera view controller
     @IBAction func back(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.popViewControllerAnimated(true)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "giniShowAnalysis" {
+            if let vc = segue.destinationViewController as? ComponentAPIAnalysisViewController {
+                // Set image data as input for the review view controller
+                vc.imageData = imageData
+            }
+        }
+    }
+    
+    // Displays the content controller inside the container view
     func displayContent(controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
