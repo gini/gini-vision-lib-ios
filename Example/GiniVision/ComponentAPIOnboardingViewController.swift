@@ -18,20 +18,19 @@ class ComponentAPIOnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        contentController = GINIOnboardingViewController(scrollViewDelegate: self)
+        // Create the onboarding view controller
+        contentController = GINIOnboardingViewController(scrollViewDelegate: nil)
         
+        // Display the onboarding view controller
         displayContent(contentController)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // Scrolls the onboarding view controller to the next page
+    @IBAction func nextPage(sender: AnyObject) {
+        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
     }
     
-    @IBAction func back(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
+    // Displays the content controller inside the container view
     func displayContent(controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
@@ -40,8 +39,3 @@ class ComponentAPIOnboardingViewController: UIViewController {
     }
     
 }
-
-extension ComponentAPIOnboardingViewController: UIScrollViewDelegate {
-    
-}
-
