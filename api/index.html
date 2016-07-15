@@ -19,7 +19,7 @@
         <a class="header-link" href="index.html">
           GiniVision Docs
         </a>
-         (30% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -59,6 +59,12 @@
                 <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
               </li>
               <li class="nav-group-task">
@@ -81,7 +87,30 @@
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -92,12 +121,74 @@
         <section class="section">
           <div class="section-content">
             
-            <a href='#ginivision' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='ginivision'>GiniVision</h1>
+            <p><img src="https://www.gini.net/assets/GiniVision_Logo.png" alt="Gini Vision Library for iOS"></p>
 
 <p><a href="https://travis-ci.com/gini/gini-vision-lib-ios"><img src="https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&amp;branch=master" alt="CI Status"></a></p>
+
+<p>The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.</p>
+
+<p>By integrating this library into your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini backend.</p>
+
+<p>Communication with the Gini backend is not part of this library. You can either use the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a> or implement communication with the Gini API yourself.</p>
+
+<p>The Gini Vision Library can be integrated in two ways, either by using the <em>Screen API</em> or the <em>Component API</em>. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.</p>
+<a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
+
+<p>Furhter documentation can be found in our </p>
+
+<ul>
+<li><a href="http://developer.gini.net/gini-vision-lib-ios/docs/">Integration Guide</a> and</li>
+<li><a href="http://developer.gini.net/gini-vision-lib-ios/api/">API Documentation</a></li>
+</ul>
+<a href='#architecture' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='architecture'>Architecture</h2>
+
+<p>The Gini Vision Library consists of four main screens</p>
+
+<ul>
+<li>Onboading: Provides useful hints to the users how to take a perfect photo of a document,</li>
+<li>Camera: The actual camera screen to capture the image of the document,</li>
+<li>Review: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction,</li>
+<li>Analysis: Provides a UI for the analysis process of the document by showing the user a loading indicator and the image of the document.</li>
+</ul>
+
+<p>As mentioned before the Gini Vision Library provides two integration options. A Screen API that is easy to implement and a more complex, but also more flexible Component API. Both APIs can access the complete functionality of the library.</p>
+<a href='#screen-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='screen-api'>Screen API</h3>
+
+<p>The Screen API provides a custom <code>UINavigationController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis. To start with the Screen API simply call <code>GINIVision.viewcontroller(withDelegate:)</code> and present it. Also make sure to pass an object conforming to the <code>GINIVisionDelegate</code> protocol. Optionally you can also pass in a configuration object to customize the UI of the Gini Vision Library.</p>
+
+<p>Exemplary implementation Screen API:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GINIConfiguration</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">navigationBarItemTintColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
+<span class="nf">presentViewController</span><span class="p">(</span><span class="kt">GINIVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre>
+<a href='#component-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='component-api'>Component API</h3>
+
+<p>The Component API provides a custom <code>UIViewController</code> for each of the four screens (onboarding, camera, review and analysis). This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.</p>
+
+<p>Exemplary implementation Component API camera:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">cameraController</span> <span class="o">=</span> <span class="kt">GINICameraViewController</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span>
+    <span class="p">{</span> <span class="n">imageData</span> <span class="k">in</span>
+        <span class="c1">// Do something with the captured image</span>
+    <span class="p">},</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+    <span class="p">})</span>
+
+<span class="kd">@IBOutlet</span> <span class="k">var</span> <span class="nv">containerView</span><span class="p">:</span> <span class="kt">UIView</span><span class="o">!</span>
+<span class="k">self</span><span class="o">.</span><span class="nf">addChildViewController</span><span class="p">(</span><span class="n">cameraController</span><span class="p">)</span>
+<span class="n">cameraController</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">containerView</span><span class="o">.</span><span class="n">bounds</span>
+<span class="k">self</span><span class="o">.</span><span class="n">containerView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">cameraController</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
+<span class="n">cameraController</span><span class="o">.</span><span class="nf">didMoveToParentViewController</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+</code></pre>
+
+<p>To also use the <code>GINIConfiguration</code> with the Component API just use the <code>setConfiguration()</code> method of the <code>GINIVision</code> class.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GINIConfiguration</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
+<span class="kt">GINIVision</span><span class="o">.</span><span class="nf">setConfiguration</span><span class="p">(</span><span class="n">giniConfiguration</span><span class="p">)</span>
+</code></pre>
 <a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='example'>Example</h2>
 
-<p>To run the example project, clone the repo, and run <code>pod install</code> from the Example directory first.</p>
+<p>To run the example project, clone the repo and run <code>pod install</code> from the Example directory first.</p>
 <a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
 
 <ul>
@@ -106,7 +197,7 @@
 </ul>
 <a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
 
-<p>GiniVision can either be installed by using CocoaPods or by manually dragging required files to your project.</p>
+<p>Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.</p>
 <a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='cocoapods'>CocoaPods</h3>
 
 <p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
@@ -114,14 +205,14 @@
 </code></pre>
 
 <blockquote>
-<p>CocoaPods 0.39.0+ is required to build GiniVision.</p>
+<p>CocoaPods 0.39.0+ is required to build Gini Vision Library.</p>
 </blockquote>
 
-<p>To integrate GiniVision into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<p>To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s2">"GiniVision"</span>
 </code></pre>
 
-<p>Then, run the following command:</p>
+<p>Then run the following command:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>pod install
 </code></pre>
 <a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
@@ -129,7 +220,7 @@
 <p>Peter Pult, <a href="mailto:p.pult@gini.net">p.pult@gini.net</a></p>
 <a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
 
-<p>GiniVision is available under a commercial license. See the LICENSE file for more info.</p>
+<p>Gini Vision Library is available under a commercial license. See the LICENSE file for more info.</p>
 
           </div>
         </section>
@@ -138,7 +229,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-14)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

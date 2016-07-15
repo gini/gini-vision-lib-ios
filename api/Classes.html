@@ -19,7 +19,7 @@
         <a class="header-link" href="index.html">
           GiniVision Docs
         </a>
-         (30% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -59,6 +59,12 @@
                 <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
               </li>
               <li class="nav-group-task">
@@ -81,7 +87,30 @@
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -114,9 +143,37 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The <code>GINIAnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.</p>
+
+<p><strong>Text resources for this screen</strong></p>
+
+<ul>
+<li><code>ginivision.navigationbar.analysis.back</code> (Screen API only.)</li>
+</ul>
+
+<p><strong>Image resources for this screen</strong></p>
+
+<ul>
+<li><code>navigationAnalysisBack</code> (Screen API only.)</li>
+</ul>
+
+<p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
 
                         <a href="Classes/GINIAnalysisViewController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIAnalysisViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -138,9 +195,48 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The <code>GINICameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
+
+<p><strong>Text resources for this screen</strong></p>
+
+<ul>
+<li><code>ginivision.navigationbar.camera.title</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.camera.close</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.camera.help</code> (Screen API only.)</li>
+<li><code>ginivision.camera.notAuthorized</code></li>
+<li><code>ginivision.camera.notAuthorizedButton</code></li>
+</ul>
+
+<p><strong>Image resources for this screen</strong></p>
+
+<ul>
+<li><code>cameraCaptureButton</code></li>
+<li><code>cameraCaptureButtonActive</code></li>
+<li><code>cameraFocusLarge</code></li>
+<li><code>cameraFocusSmall</code></li>
+<li><code>cameraOverlay</code></li>
+<li><code>cameraNotAuthorizedIcon</code></li>
+<li><code>navigationCameraClose</code> (Screen API only.)</li>
+<li><code>navigationCameraHelp</code> (Screen API only.)</li>
+</ul>
+
+<p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
 
                         <a href="Classes/GINICameraViewController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINICameraViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -162,9 +258,139 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The <code>GINIConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code>GiniVision</code> bundle.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code>GiniVision</code> bundle.
+
+</div>
 
                         <a href="Classes/GINIConfiguration.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIConfiguration</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C10GiniVision18GINIOnboardingPage"></a>
+                    <a name="//apple_ref/swift/Class/GINIOnboardingPage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision18GINIOnboardingPage">GINIOnboardingPage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
+
+</div>
+
+                        <a href="Classes/GINIOnboardingPage.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIOnboardingPage</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C10GiniVision28GINIOnboardingViewController"></a>
+                    <a name="//apple_ref/swift/Class/GINIOnboardingViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision28GINIOnboardingViewController">GINIOnboardingViewController</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>GINIOnboardingViewController</code> provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.</p>
+
+<p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code> of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code> and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks it is also possible to add a custom page control and update the current page accordingly.</p>
+
+<p>Use the <code><a href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
+
+<pre class="highlight plaintext"><code>let pages = [
+    GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
+    GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 2"),
+    GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 3")
+]
+let onboardingController = GINIOnboardingViewController(pages: pages, scrollViewDelegate: self)
+presentViewController(onboardingController, animated: true, completion: nil)
+</code></pre>
+
+<p><strong>Text resources for this screen</strong></p>
+
+<ul>
+<li><code>ginivision.navigationbar.onboarding.title</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.onboarding.continue</code> (Screen API only.)</li>
+<li><code>ginivision.onboarding.firstPage</code></li>
+<li><code>ginivision.onboarding.secondPage</code></li>
+<li><code>ginivision.onboarding.thirdPage</code></li>
+</ul>
+
+<p><strong>Image resources for this screen</strong></p>
+
+<ul>
+<li><code>onboardingPage1</code></li>
+<li><code>onboardingPage2</code></li>
+<li><code>onboardingPage3</code></li>
+<li><code>navigationOnboardingContinue</code> (Screen API only.)</li>
+</ul>
+
+<p>Resources listed also contain resources for the container view controller. They are marked with <em>Screen API only</em>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
+
+                        <a href="Classes/GINIOnboardingViewController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIOnboardingViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -186,9 +412,43 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>The <code>GINIReviewViewController</code> provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.</p>
+
+<p><strong>Text resources for this screen</strong></p>
+
+<ul>
+<li><code>ginivision.navigationbar.review.title</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.review.back</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.review.continue</code> (Screen API only.)</li>
+<li><code>ginivision.review.top</code></li>
+<li><code>ginivision.review.bottom</code></li>
+</ul>
+
+<p><strong>Image resources for this screen</strong></p>
+
+<ul>
+<li><code>reviewRotateButton</code></li>
+<li><code>navigationReviewBack</code> (Screen API only.)</li>
+<li><code>navigationReviewContinue</code> (Screen API only.)</li>
+</ul>
+
+<p>Resources listed also contain resources for the container view controller. They are marked with <em>Screen API only</em>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
 
                         <a href="Classes/GINIReviewViewController.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIReviewViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -210,9 +470,29 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Convenience class to interact with the Gini Vision Library.</p>
+
+<p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
+
+<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
+
+<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
+
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="Classes/GINICameraViewController.html">GINICameraViewController</a></code> as an entry point with the <code><a href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="Classes/GINIReviewViewController.html">GINIReviewViewController</a></code> and finally present the <code><a href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a></code> while the user waits for the analysis results.
+
+</div>
 
                         <a href="Classes/GINIVision.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIVision</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -225,7 +505,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-14)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

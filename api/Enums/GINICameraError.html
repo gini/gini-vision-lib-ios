@@ -20,7 +20,7 @@
         <a class="header-link" href="../index.html">
           GiniVision Docs
         </a>
-         (30% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -60,6 +60,12 @@
                 <a class="nav-group-task-link" href="../Classes/GINIConfiguration.html">GINIConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GINIReviewViewController.html">GINIReviewViewController</a>
               </li>
               <li class="nav-group-task">
@@ -82,7 +88,30 @@
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -93,7 +122,13 @@
         <section class="section">
           <div class="section-content">
             <h1>GINICameraError</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">GINICameraError</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">ErrorType</span></code></pre>
+
+                </div>
+              </div>
+            <p>Errors thrown on the camera screen or during camera initialization.</p>
 
           </div>
         </section>
@@ -115,8 +150,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Unknown error during camera use.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Unknown</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -128,9 +171,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO10GiniVision15GINICameraError19AuthorizationDeniedFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/AuthorizationDenied" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO10GiniVision15GINICameraError19AuthorizationDeniedFMS0_S0_">AuthorizationDenied</a>
+                    <a name="/s:FO10GiniVision15GINICameraError24NotAuthorizedToUseDeviceFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/NotAuthorizedToUseDevice" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO10GiniVision15GINICameraError24NotAuthorizedToUseDeviceFMS0_S0_">NotAuthorizedToUseDevice</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -138,8 +181,47 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Camera can not be loaded because the user has denied authorization in the past.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">NotAuthorizedToUseDevice</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FO10GiniVision15GINICameraError13NoInputDeviceFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/NoInputDevice" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO10GiniVision15GINICameraError13NoInputDeviceFMS0_S0_">NoInputDevice</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>No valid input device could be found for capturing.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">NoInputDevice</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -161,8 +243,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Capturing could not be completed.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">CaptureFailed</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -175,7 +265,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-14)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

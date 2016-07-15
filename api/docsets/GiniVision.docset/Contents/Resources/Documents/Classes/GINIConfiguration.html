@@ -20,7 +20,7 @@
         <a class="header-link" href="../index.html">
           GiniVision Docs
         </a>
-         (30% documented)
+         (100% documented)
       </p>
     
         <p class="header-col header-col--secondary">
@@ -60,6 +60,12 @@
                 <a class="nav-group-task-link" href="../Classes/GINIConfiguration.html">GINIConfiguration</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GINIReviewViewController.html">GINIReviewViewController</a>
               </li>
               <li class="nav-group-task">
@@ -82,7 +88,30 @@
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -93,7 +122,25 @@
         <section class="section">
           <div class="section-content">
             <h1>GINIConfiguration</h1>
-            <p>Undocumented</p>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIConfiguration</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>The <code>GINIConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code>GiniVision</code> bundle.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code>GiniVision</code> bundle.
+
+</div>
 
           </div>
         </section>
@@ -101,6 +148,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
+              <div class="task-name-container">
+                <a name="/General%20options"></a>
+                <a name="//apple_ref/swift/Section/General options" class="dashAnchor"></a>
+                <a href="#/General%20options">
+                  <h3 class="section-name">General options</h3>
+                </a>
+              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
@@ -115,7 +169,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Can be turned on in development to unlock extra information and to save captured images to camera roll</p>
+                        <p>Can be turned on during development to unlock extra information and to save captured images to camera roll.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Should never be used outside of a development enviroment.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -142,7 +202,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the background in all screens of the Gini Vision Library to the specified color</p>
+                        <p>Sets the background color in all screens of the Gini Vision Library to the specified color.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -169,7 +235,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color</p>
+                        <p>Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -196,7 +268,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color</p>
+                        <p>Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -204,6 +282,39 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarItemTintColor</span> <span class="o">=</span> <span class="kt">UINavigationBar</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">tintColor</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration21navigationBarItemFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarItemFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration21navigationBarItemFontCSo6UIFont">navigationBarItemFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of all navigation items in all screens of the Gini Vision Library to the globally specified font or a default font.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarItemFont</span> <span class="o">=</span> <span class="kt">UIBarButtonItem</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="nf">titleTextAttributesForState</span><span class="p">(</span><span class="o">.</span><span class="kt">Normal</span><span class="p">)?[</span><span class="kt">NSFontAttributeName</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIFont</span> <span class="p">??</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Regular</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">16</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -223,7 +334,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color</p>
+                        <p>Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -240,9 +357,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC10GiniVision17GINIConfiguration29analysisLoadingIndicatorColorCSo7UIColor"></a>
-                    <a name="//apple_ref/swift/Property/analysisLoadingIndicatorColor" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration29analysisLoadingIndicatorColorCSo7UIColor">analysisLoadingIndicatorColor</a>
+                    <a name="/s:vC10GiniVision17GINIConfiguration22navigationBarTitleFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarTitleFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration22navigationBarTitleFontCSo6UIFont">navigationBarTitleFont</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -250,20 +367,172 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the color of the loading indicator on the analysis screen to the specified color</p>
+                        <p>Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingIndicatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarTitleFont</span> <span class="o">=</span> <span class="kt">UINavigationBar</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">titleTextAttributes</span><span class="p">?[</span><span class="kt">NSFontAttributeName</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIFont</span> <span class="p">??</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Light</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">16</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration32noticeInformationBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/noticeInformationBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration32noticeInformationBackgroundColorCSo7UIColor">noticeInformationBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">noticeInformationBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">blackColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration26noticeInformationTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/noticeInformationTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration26noticeInformationTextColorCSo7UIColor">noticeInformationTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">noticeInformationTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration26noticeErrorBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/noticeErrorBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration26noticeErrorBackgroundColorCSo7UIColor">noticeErrorBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the background color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">noticeErrorBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">redColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration20noticeErrorTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/noticeErrorTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration20noticeErrorTextColorCSo7UIColor">noticeErrorTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">noticeErrorTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration10noticeFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/noticeFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration10noticeFontCSo6UIFont">noticeFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">noticeFont</span> <span class="o">=</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Regular</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">12</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Camera%20options"></a>
+                <a name="//apple_ref/swift/Section/Camera options" class="dashAnchor"></a>
+                <a href="#/Camera%20options">
+                  <h3 class="section-name">Camera options</h3>
+                </a>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -277,7 +546,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the title text in the navigation bar on the camera screen</p>
+                        <p>Sets the title text in the navigation bar on the camera screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -285,60 +560,6 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarCameraTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.camera.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the camera screen"</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC10GiniVision17GINIConfiguration24navigationBarReviewTitleSS"></a>
-                    <a name="//apple_ref/swift/Property/navigationBarReviewTitle" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration24navigationBarReviewTitleSS">navigationBarReviewTitle</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Sets the title text in the navigation bar on the review screen</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarReviewTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.review.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the review screen"</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:vC10GiniVision17GINIConfiguration26navigationBarAnalysisTitleSS"></a>
-                    <a name="//apple_ref/swift/Property/navigationBarAnalysisTitle" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration26navigationBarAnalysisTitleSS">navigationBarAnalysisTitle</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Sets the title text in the navigation bar on the analysis screen</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarAnalysisTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.analysis.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the analysis screen"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -358,7 +579,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the close button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the close button image</p>
+                        <p>Sets the close button text in the navigation bar on the camera screen.</p>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    This will be displayed instead of the close button image.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -385,7 +618,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the help button text in the navigation bar on the camera screen; NOTE: This will be displayed instead of the help button image</p>
+                        <p>Sets the help button text in the navigation bar on the camera screen.</p>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    This will be displayed instead of the help button image.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -393,6 +638,583 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarCameraTitleHelpButton</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.camera.help"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title in the navigation bar for the help button on the camera screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration23cameraNotAuthorizedTextSS"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration23cameraNotAuthorizedTextSS">cameraNotAuthorizedText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.notAuthorized"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Description text when the camera is not authorized and the user is advised to change that in the settings app"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration27cameraNotAuthorizedTextFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedTextFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration27cameraNotAuthorizedTextFontCSo6UIFont">cameraNotAuthorizedTextFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of the descriptional text when camera access was denied.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedTextFont</span> <span class="o">=</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Thin</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration28cameraNotAuthorizedTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration28cameraNotAuthorizedTextColorCSo7UIColor">cameraNotAuthorizedTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of the descriptional text when camera access was denied.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration30cameraNotAuthorizedButtonTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedButtonTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration30cameraNotAuthorizedButtonTitleSS">cameraNotAuthorizedButtonTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the button title when camera access was denied, clicking the button will open the settings application.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.notAuthorizedButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title to open the settings app"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration29cameraNotAuthorizedButtonFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedButtonFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration29cameraNotAuthorizedButtonFontCSo6UIFont">cameraNotAuthorizedButtonFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of the button title when camera access was denied.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedButtonFont</span> <span class="o">=</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Regular</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">20</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration35cameraNotAuthorizedButtonTitleColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/cameraNotAuthorizedButtonTitleColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration35cameraNotAuthorizedButtonTitleColorCSo7UIColor">cameraNotAuthorizedButtonTitleColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of the button title when camera access was denied.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedButtonTitleColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Onboarding%20options"></a>
+                <a name="//apple_ref/swift/Section/Onboarding options" class="dashAnchor"></a>
+                <a href="#/Onboarding%20options">
+                  <h3 class="section-name">Onboarding options</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration28navigationBarOnboardingTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarOnboardingTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration28navigationBarOnboardingTitleSS">navigationBarOnboardingTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the title text in the navigation bar on the onboarding screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarOnboardingTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.onboarding.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the onboarding screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration42navigationBarOnboardingTitleContinueButtonSS"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarOnboardingTitleContinueButton" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration42navigationBarOnboardingTitleContinueButtonSS">navigationBarOnboardingTitleContinueButton</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the continue button text in the navigation bar on the onboarding screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarOnboardingTitleContinueButton</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.onboarding.continue"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title in the navigation bar for the continue button on the onboarding screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration28onboardingPageIndicatorColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/onboardingPageIndicatorColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration28onboardingPageIndicatorColorCSo7UIColor">onboardingPageIndicatorColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the color of the page controller&rsquo;s page indicator items.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingPageIndicatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span><span class="o">.</span><span class="nf">colorWithAlphaComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration35onboardingCurrentPageIndicatorColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/onboardingCurrentPageIndicatorColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration35onboardingCurrentPageIndicatorColorCSo7UIColor">onboardingCurrentPageIndicatorColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the color of the page controller&rsquo;s current page indicator item.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingCurrentPageIndicatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration22onboardingShowAtLaunchSb"></a>
+                    <a name="//apple_ref/swift/Property/onboardingShowAtLaunch" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration22onboardingShowAtLaunchSb">onboardingShowAtLaunch</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingShowAtLaunch</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration27onboardingShowAtFirstLaunchSb"></a>
+                    <a name="//apple_ref/swift/Property/onboardingShowAtFirstLaunch" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration27onboardingShowAtFirstLaunchSb">onboardingShowAtFirstLaunch</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Overwrites <code><a href="../Classes/GINIConfiguration.html#/s:vC10GiniVision17GINIConfiguration22onboardingShowAtLaunchSb">onboardingShowAtLaunch</a></code> for the first launch.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingShowAtFirstLaunch</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration23onboardingFirstPageTextSS"></a>
+                    <a name="//apple_ref/swift/Property/onboardingFirstPageText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration23onboardingFirstPageTextSS">onboardingFirstPageText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text on the first onboarding page.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingFirstPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.firstPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the first page of the onboarding screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration24onboardingSecondPageTextSS"></a>
+                    <a name="//apple_ref/swift/Property/onboardingSecondPageText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration24onboardingSecondPageTextSS">onboardingSecondPageText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text on the second onboarding page.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingSecondPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.secondPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the second page of the onboarding screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration23onboardingThirdPageTextSS"></a>
+                    <a name="//apple_ref/swift/Property/onboardingThirdPageText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration23onboardingThirdPageTextSS">onboardingThirdPageText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text on the third onboarding page.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingThirdPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.thirdPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the third page of the onboarding screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration18onboardingTextFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/onboardingTextFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration18onboardingTextFontCSo6UIFont">onboardingTextFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of the text for all onboarding pages.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingTextFont</span> <span class="o">=</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Thin</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">28</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration19onboardingTextColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/onboardingTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration19onboardingTextColorCSo7UIColor">onboardingTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the color ot the text for all onboarding pages.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration15onboardingPagesGSaCSo6UIView_"></a>
+                    <a name="//apple_ref/swift/Property/onboardingPages" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration15onboardingPagesGSaCSo6UIView_">onboardingPages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Any array of views can be passed, but for your convenience we provide the <code><a href="../Classes/GINIOnboardingPage.html">GINIOnboardingPage</a></code> class.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingPages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Review%20options"></a>
+                <a name="//apple_ref/swift/Section/Review options" class="dashAnchor"></a>
+                <a href="#/Review%20options">
+                  <h3 class="section-name">Review options</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration24navigationBarReviewTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarReviewTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration24navigationBarReviewTitleSS">navigationBarReviewTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the title text in the navigation bar on the review screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarReviewTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.review.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the review screen"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -412,7 +1234,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the back button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the back button image</p>
+                        <p>Sets the back button text in the navigation bar on the review screen.</p>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    This will be displayed instead of the back button image.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -439,7 +1273,19 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the continue button text in the navigation bar on the review screen; NOTE: This will be displayed instead of the continue button image</p>
+                        <p>Sets the continue button text in the navigation bar on the review screen.</p>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    This will be displayed instead of the continue button image.
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -466,7 +1312,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text appearing at the top of the review screen which should ask the user if the full document is sharp and in the correct orientation</p>
+                        <p>Sets the text appearing at the top of the review screen which should ask the user if the whole document is in focus and has correct orientation.</p>
 
                       </div>
                       <div class="declaration">
@@ -474,6 +1320,72 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextTop</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.top"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration17reviewTextTopFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/reviewTextTopFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration17reviewTextTopFontCSo6UIFont">reviewTextTopFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The text at the top of the review screen is displayed as a notice and can not be set individually.</p>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/GINIConfiguration.html#/s:vC10GiniVision17GINIConfiguration10noticeFontCSo6UIFont">noticeFont</a></code>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextTopFont</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration31reviewBottomViewBackgroundColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/reviewBottomViewBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration31reviewBottomViewBackgroundColorCSo7UIColor">reviewBottomViewBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the background color of the bottom section on the review screen containing the rotation button.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Background will have a 20% transparency, to have enough space for the document image on smaller devices.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewBottomViewBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">blackColor</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -493,7 +1405,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image</p>
+                        <p>Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.</p>
 
                       </div>
                       <div class="declaration">
@@ -501,6 +1413,104 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextBottom</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.bottom"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration20reviewTextBottomFontCSo6UIFont"></a>
+                    <a name="//apple_ref/swift/Property/reviewTextBottomFont" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration20reviewTextBottomFontCSo6UIFont">reviewTextBottomFont</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the font of the text appearing at the bottom of the review screen.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextBottomFont</span> <span class="o">=</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="kt">Thin</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">12</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration21reviewTextBottomColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/reviewTextBottomColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration21reviewTextBottomColorCSo7UIColor">reviewTextBottomColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the color of the text appearing at the bottom of the review screen.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextBottomColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Analysis%20options"></a>
+                <a name="//apple_ref/swift/Section/Analysis options" class="dashAnchor"></a>
+                <a href="#/Analysis%20options">
+                  <h3 class="section-name">Analysis options</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration26navigationBarAnalysisTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/navigationBarAnalysisTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration26navigationBarAnalysisTitleSS">navigationBarAnalysisTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the title text in the navigation bar on the analysis screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarAnalysisTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.analysis.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the analysis screen"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -520,7 +1530,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the back button text in the navigation bar on the analysis screen; NOTE: This will be displayed instead of the back button image</p>
+                        <p>Sets the back button text in the navigation bar on the analysis screen.</p>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    This will be displayed instead of the back button image.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -528,6 +1544,33 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarAnalysisTitleBackButton</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.analysis.back"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title in the navigation bar for the back button on the analysis screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration29analysisLoadingIndicatorColorCSo7UIColor"></a>
+                    <a name="//apple_ref/swift/Property/analysisLoadingIndicatorColor" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration29analysisLoadingIndicatorColorCSo7UIColor">analysisLoadingIndicatorColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the color of the loading indicator on the analysis screen to the specified color.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingIndicatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -547,7 +1590,20 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Undocumented</p>
+                        <p>Returns a <code>GiniConfiguration</code> instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Instance of <code>GiniConfiguration</code>.</p>
 
                       </div>
                     </section>
@@ -561,7 +1617,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-14)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

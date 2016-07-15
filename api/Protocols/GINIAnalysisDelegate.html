@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GINIReviewError Enum Reference</title>
+    <title>GINIAnalysisDelegate Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -11,9 +11,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/GINIReviewError" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/GINIAnalysisDelegate" class="dashAnchor"></a>
 
-    <a title="GINIReviewError Enum Reference"></a>
+    <a title="GINIAnalysisDelegate Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -41,7 +41,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
       <img class="carat" src="../img/carat.png" />
-      GINIReviewError Enum Reference
+      GINIAnalysisDelegate Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -121,14 +121,20 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>GINIReviewError</h1>
+            <h1>GINIAnalysisDelegate</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">GINIReviewError</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="kt">ErrorType</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">GINIAnalysisDelegate</span></code></pre>
 
                 </div>
               </div>
-            <p>Errors thrown on the review screen.</p>
+            <p>Delegate which can be used to communicate back to the analysis screen allowing to display custom messages on screen.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Screen API only.
+
+</div>
 
           </div>
         </section>
@@ -140,9 +146,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO10GiniVision15GINIReviewError7UnknownFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/Unknown" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO10GiniVision15GINIReviewError7UnknownFMS0_S0_">Unknown</a>
+                    <a name="/s:FP10GiniVision20GINIAnalysisDelegate12displayErrorFT11withMessageGSqSS_9andActionGSqFT_T___T_"></a>
+                    <a name="//apple_ref/swift/Method/displayError(withMessage:andAction:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FP10GiniVision20GINIAnalysisDelegate12displayErrorFT11withMessageGSqSS_9andActionGSqFT_T___T_">displayError(withMessage:andAction:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -150,16 +156,50 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unknown error during review.</p>
+                        <p>Will display an error view on the analysis screen with a custom message.
+The provided action will be called, when the user taps on the error view.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Unknown</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">displayError</span><span class="p">(</span><span class="n">withMessage</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="n">andAction</span> <span class="nv">action</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a></span><span class="p">?)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The error message to be displayed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>action</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The action to be performed after the user tapped the error view.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
