@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  GiniVision
+
+  Created by Peter Pult on 16/06/16.
+  Copyright © 2016 Gini. All rights reserved.
+*/
+
+"ginivision.navigationbar.camera.title" = "Fotoüberweisung";

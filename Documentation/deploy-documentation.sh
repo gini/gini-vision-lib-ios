@@ -20,7 +20,12 @@ rm -rf gh-pages
 git clone -b gh-pages git@github.com:gini/gini-vision-lib-ios.git gh-pages
 
 rm -rf gh-pages/*
-cp -a html/. gh-pages/
+mkdir gh-pages/docs
+cp -a html/. gh-pages/docs/
+
+mkdir gh-pages/api
+cp -a ../../Api/. gh-pages/api/
+
 cd gh-pages
 touch .nojekyll
 
