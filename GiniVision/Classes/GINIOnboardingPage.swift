@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- Custom view to easily create onboarding pages which can then be used in `GINIOnboardingViewController`. Simply pass an image and a name and they will be beautifully aligned and displayed to the user.
+ Custom view to easily create onboarding pages which can then be used in `GINIOnboardingViewController`. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.
  
  - note: The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
  */

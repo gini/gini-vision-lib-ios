@@ -22,6 +22,7 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         return UIImageNamedPreferred(named: "navigationAnalysisBack")
     }
     
+    // Properties
     private var noticeView: GININoticeView?
     
     init(imageData: NSData) {

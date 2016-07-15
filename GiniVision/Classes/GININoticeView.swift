@@ -8,9 +8,14 @@
 
 import UIKit
 
+/**
+ Block which will be executed when a notice is tapped. Can be used to restart a process or to give the user further guidance.
+ 
+ - note: Screen API only.
+ */
 public typealias GININoticeAction = () -> ()
 
-public enum GININoticeType {
+internal enum GININoticeType {
     case Information, Error
 }
 

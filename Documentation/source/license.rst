@@ -15,7 +15,3 @@ notices and permissions with your application::
    licensee, where the licensee can gain access to a non-exclusive,
    non-transferable usage right which is restricted for the time of a contractual
    relationship between Gini and the licensee.
-
-
-Licenses and Acknowledgements for Incorporated Software
-=======================================================
