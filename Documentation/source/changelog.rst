@@ -2,7 +2,7 @@
 Changelog
 =========
 
-2.0.0-stub.1 (2016-07-14)
+2.0.0-stub.2 (2016-07-15)
 =========================
 
 - Stub version of the completely rewritten Gini Vision Library using Swift.
