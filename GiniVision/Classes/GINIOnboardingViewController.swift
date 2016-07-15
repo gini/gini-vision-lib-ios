@@ -97,6 +97,10 @@ import UIKit
     public func scrollToNextPage(animated: Bool) {
         var offset = scrollView.contentOffset
         offset.x += scrollView.frame.width
+        // Make sure there is no overflow and scrolling only happens from page to page
+        guard offset.x < scrollView.contentSize.width && offset.x % scrollView.frame.width == 0 else {
+            return
+        }
         scrollView.setContentOffset(offset, animated: animated)
     }
         

@@ -21,6 +21,12 @@ class ComponentAPICameraViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create and set a custom configuration object
+        let giniConfiguration = GINIConfiguration()
+        giniConfiguration.debugModeOn = true
+        GINIVision.setConfiguration(giniConfiguration)
+        
+        // Create the camera view controller
         contentController = GINICameraViewController(success:
             { imageData in
                 self.imageData = imageData
@@ -28,32 +34,35 @@ class ComponentAPICameraViewController: UIViewController {
                     self.performSegueWithIdentifier("giniShowReview", sender: self)
                 })
             }, failure: { error in
-                print(error)
+                print("Component API camera view controller received error:\n\(error)")
             })
         
+        // Display the camera view controller
         displayContent(contentController)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        let giniConfiguration = GINIConfiguration()
-        giniConfiguration.debugModeOn = true
-        GINIVision.setConfiguration(giniConfiguration)
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBarHidden = true
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // Go back to the API selection view controller
+    @IBAction func back(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "giniShowReview" {
             if let imageData = imageData,
-                let vc = (segue.destinationViewController as? UINavigationController)?.topViewController as? ComponentAPIReviewViewController {
+               let vc = segue.destinationViewController as? ComponentAPIReviewViewController {
+                // Set image data as input for the review view controller
                 vc.imageData = imageData
             }
         }
     }
     
+    // Displays the content controller inside the container view
     func displayContent(controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
