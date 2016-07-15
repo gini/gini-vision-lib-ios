@@ -10,6 +10,13 @@ Communication with the Gini backend is not part of this library. You can either 
 
 The Gini Vision Library can be integrated in two ways, either by using the *Screen API* or the *Component API*. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.
 
+## Documentation
+
+Furhter documentation can be found in our 
+
+* [Integration Guide](http://developer.gini.net/gini-vision-lib-ios/docs/) and
+* [API Documentation](http://developer.gini.net/gini-vision-lib-ios/api/)
+
 ## Architecture
 
 The Gini Vision Library consists of four main screens

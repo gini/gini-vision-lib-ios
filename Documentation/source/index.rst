@@ -20,6 +20,7 @@ Table of contents
 
    changelog
    license
+   API Documentation <http://developer.gini.net/gini-vision-lib-ios/api/>
 
 
 .. todolist::
