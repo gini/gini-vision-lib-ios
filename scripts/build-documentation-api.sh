@@ -9,7 +9,7 @@ jazzy \
   --author Gini \
   --author_url https://gini.net \
   --github_url https://github.com/gini/gini-vision-lib-ios \
-  --module-version 2.0.0-stub.1 \
+  --module-version 2.0.0-stub.2 \
   --xcodebuild-arguments -workspace,Example/GiniVision.xcworkspace,-scheme,GiniVision \
   --module GiniVision \
   --root-url http://developer.gini.net/gini-vision-lib-ios/api/ \
