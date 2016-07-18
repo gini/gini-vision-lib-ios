@@ -155,7 +155,7 @@
                                                 <action selector="back:" destination="bpn-9B-40f" id="7RU-4I-pGT"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Continue" style="plain" id="EQl-K1-00e">
+                                        <barButtonItem key="rightBarButtonItem" title="Continue" id="EQl-K1-00e">
                                             <connections>
                                                 <segue destination="ej4-eT-XJQ" kind="show" identifier="giniShowAnalysis" id="6Gj-6f-WhL"/>
                                             </connections>

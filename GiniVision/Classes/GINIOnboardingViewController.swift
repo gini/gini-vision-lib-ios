@@ -52,12 +52,12 @@ import UIKit
     /**
      Designated intitializer for the `GINIOnboardingViewController` which allows to pass a custom set of views which will be displayed in horizontal scroll view.
      
-     - parameter pages:              An array of views to be displayed in the scroll view. By default the views defined in `onboardingPages` in the `GINIConfiguration` are used.
+     - parameter pages:              An array of views to be displayed in the scroll view.
      - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
      
      - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
      */
-    public init(pages: [UIView] = GINIConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: UIScrollViewDelegate?) {
+    public init(pages: [UIView], scrollViewDelegate: UIScrollViewDelegate?) {
         super.init(nibName: nil, bundle: nil)
         
         // Set pages
@@ -78,6 +78,17 @@ import UIKit
         
         // Add constraints
         addConstraints()
+    }
+    
+    /**
+     Convenience initializer for the `GINIOnboardingViewController` which will set a predefined set of views as the onboarding pages.
+     
+     - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
+     
+     - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
+     */
+    public convenience init(scrollViewDelegate: UIScrollViewDelegate?) {
+        self.init(pages: GINIConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: scrollViewDelegate)
     }
     
     /**

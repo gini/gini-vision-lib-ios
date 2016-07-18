@@ -30,7 +30,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         // Create the analysis view controller
         contentController = GINIAnalysisViewController(imageData)
         
-        // Display the camera view controller
+        // Display the analysis view controller
         displayContent(contentController)
     }
     

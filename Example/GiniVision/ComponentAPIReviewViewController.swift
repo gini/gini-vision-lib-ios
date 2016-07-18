@@ -25,6 +25,8 @@ class ComponentAPIReviewViewController: UIViewController {
         contentController = GINIReviewViewController(imageData, success:
             { imageData in
                 print("Component API review view controller received image data.")
+                // Update current image data when image is rotated by user
+                self.imageData = imageData
             }, failure: { error in
                 print("Component API review view controller received error:\n\(error)")
             })
@@ -41,7 +43,7 @@ class ComponentAPIReviewViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "giniShowAnalysis" {
             if let vc = segue.destinationViewController as? ComponentAPIAnalysisViewController {
-                // Set image data as input for the review view controller
+                // Set image data as input for the analysis view controller
                 vc.imageData = imageData
             }
         }
