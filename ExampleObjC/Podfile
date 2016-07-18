@@ -1,0 +1,18 @@
+# To make use of Swift frameworks
+use_frameworks!
+
+target 'GiniVisionExampleObjC' do
+
+  pod 'GiniVision', :path => '../GiniVision/'
+
+  target 'GiniVisionExampleObjCTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'GiniVisionExampleObjCUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
