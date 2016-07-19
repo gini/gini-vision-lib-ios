@@ -111,6 +111,7 @@ import UIKit
         UIViewController.addActiveConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: imageView, attribute: .Height, multiplier: 3/4, constant: 0)
         
+        // TODO: Allow for smaller height, focus on `CenterX`. Also check in other view controllers.
         
         // Loading indicator view
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
