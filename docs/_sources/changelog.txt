@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.0.0-stub.3 (2016-07-19)
+=========================
+
+- Adds a complete Objectice-C integration example.
+
+
 2.0.0-stub.2 (2016-07-15)
 =========================
 

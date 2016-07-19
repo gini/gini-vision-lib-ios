@@ -197,7 +197,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">pages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">]</span> <span class="o">=</span> <span class="kt"><a href="../Classes/GINIConfiguration.html">GINIConfiguration</a></span><span class="o">.</span><span class="n">sharedConfiguration</span><span class="o">.</span><span class="n">onboardingPages</span><span class="p">,</span> <span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">pages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">],</span> <span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -213,11 +213,63 @@ presentViewController(onboardingController, animated: true, completion: nil)
                               </td>
                               <td>
                                 <div>
-                                  <p>An array of views to be displayed in the scroll view. By default the views defined in <code>onboardingPages</code> in the <code>GINIConfiguration</code> are used.</p>
+                                  <p>An array of views to be displayed in the scroll view.</p>
 
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>scrollViewDelegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The receiver for the scroll view delegate callbacks.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC10GiniVision28GINIOnboardingViewControllercFT18scrollViewDelegateGSqPSo20UIScrollViewDelegate___S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(scrollViewDelegate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC10GiniVision28GINIOnboardingViewControllercFT18scrollViewDelegateGSqPSo20UIScrollViewDelegate___S0_">init(scrollViewDelegate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience initializer for the <code>GINIOnboardingViewController</code> which will set a predefined set of views as the onboarding pages.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
                             <tr>
                               <td>
                                 <code>
@@ -330,7 +382,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-15)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-19)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
