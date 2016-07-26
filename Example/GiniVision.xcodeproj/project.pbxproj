@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
+		0A3B965D1D478C9D00BFEF05 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* UITests.swift */; };
+		0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A3B965E1D478CB200BFEF05 /* Info.plist */; };
 		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
@@ -23,6 +25,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0A3B96571D478BF700BFEF05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
+			remoteInfo = GiniVision_Example;
+		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -34,6 +43,9 @@
 
 /* Begin PBXFileReference section */
 		0A1D31121D12BB3600AC084C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A3B965C1D478C9D00BFEF05 /* UITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITests.swift; path = UITests/UITests.swift; sourceTree = SOURCE_ROOT; };
+		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
 		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +72,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0A3B964F1D478BF700BFEF05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCD1AFB9204008FA782 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -79,6 +98,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A3B96531D478BF700BFEF05 /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				0A3B965C1D478C9D00BFEF05 /* UITests.swift */,
+				0A3B965E1D478CB200BFEF05 /* Info.plist */,
+			);
+			name = UITests;
+			path = GiniVision_UITests;
+			sourceTree = "<group>";
+		};
 		0FCE0A335BC8574434680E4E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +123,7 @@
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for GiniVision */,
 				607FACE81AFB9204008FA782 /* Tests */,
+				0A3B96531D478BF700BFEF05 /* UITests */,
 				607FACD11AFB9204008FA782 /* Products */,
 				746ED1F9F314AF254449E3C5 /* Pods */,
 				0FCE0A335BC8574434680E4E /* Frameworks */,
@@ -105,6 +135,7 @@
 			children = (
 				607FACD01AFB9204008FA782 /* GiniVision_Example.app */,
 				607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */,
+				0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,6 +208,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0A3B96511D478BF700BFEF05 /* GiniVision_UITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A3B965B1D478BF700BFEF05 /* Build configuration list for PBXNativeTarget "GiniVision_UITests" */;
+			buildPhases = (
+				0A3B964E1D478BF700BFEF05 /* Sources */,
+				0A3B964F1D478BF700BFEF05 /* Frameworks */,
+				0A3B96501D478BF700BFEF05 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A3B96581D478BF700BFEF05 /* PBXTargetDependency */,
+			);
+			name = GiniVision_UITests;
+			productName = GiniVision_UITests;
+			productReference = 0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		607FACCF1AFB9204008FA782 /* GiniVision_Example */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Example" */;
@@ -224,10 +273,14 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
+					0A3B96511D478BF700BFEF05 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 607FACCF1AFB9204008FA782;
+					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 					};
@@ -252,11 +305,20 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* GiniVision_Example */,
 				607FACE41AFB9204008FA782 /* GiniVision_Tests */,
+				0A3B96511D478BF700BFEF05 /* GiniVision_UITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0A3B96501D478BF700BFEF05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCE1AFB9204008FA782 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -371,6 +433,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0A3B964E1D478BF700BFEF05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A3B965D1D478C9D00BFEF05 /* UITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -395,6 +465,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0A3B96581D478BF700BFEF05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 607FACCF1AFB9204008FA782 /* GiniVision_Example */;
+			targetProxy = 0A3B96571D478BF700BFEF05 /* PBXContainerItemProxy */;
+		};
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* GiniVision_Example */;
@@ -422,6 +497,33 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0A3B96591D478BF700BFEF05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				INFOPLIST_FILE = UITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = GiniVision_Example;
+			};
+			name = Debug;
+		};
+		0A3B965A1D478BF700BFEF05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = UITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = GiniVision_Example;
+			};
+			name = Release;
+		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -541,6 +643,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -553,6 +656,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
 			name = Debug;
 		};
@@ -560,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -568,12 +673,21 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A3B965B1D478BF700BFEF05 /* Build configuration list for PBXNativeTarget "GiniVision_UITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A3B96591D478BF700BFEF05 /* Debug */,
+				0A3B965A1D478BF700BFEF05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "GiniVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

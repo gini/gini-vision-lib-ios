@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F63C25648A23F417D15E01AEF21A809F"
+               BlueprintIdentifier = "7232896C841FE8C26ECCF977C89728FC"
                BuildableName = "GiniVision.framework"
                BlueprintName = "GiniVision"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
@@ -63,6 +63,16 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "GiniVision_Tests.xctest"
                BlueprintName = "GiniVision_Tests"
+               ReferencedContainer = "container:GiniVision.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3B96511D478BF700BFEF05"
+               BuildableName = "GiniVision_UITests.xctest"
+               BlueprintName = "GiniVision_UITests"
                ReferencedContainer = "container:GiniVision.xcodeproj">
             </BuildableReference>
          </TestableReference>
