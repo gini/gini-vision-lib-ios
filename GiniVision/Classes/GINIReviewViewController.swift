@@ -103,6 +103,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Configure rotate button
         rotateButton.setImage(rotateButtonImage, forState: .Normal)
         rotateButton.addTarget(self, action: #selector(rotate), forControlEvents: .TouchUpInside)
+        rotateButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
         // Configure bottom label
         bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom

@@ -16,12 +16,15 @@ internal class GINIBarButtonItem: UIBarButtonItem {
         self.target = target
         self.action = action
         
-        // Prioritize title over image
-        if let s = title where !s.isEmpty {
-            self.title = title
-        } else {
+        // Prioritize image over title
+        if let _ = image {
             self.image = image
+        } else {
+            self.title = title
         }
+        
+        // Set accessibility label on all elements
+        self.accessibilityLabel = title
         
         var attributes = titleTextAttributesForState(.Normal) ?? [String : AnyObject]()
         attributes[NSFontAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarItemFont
