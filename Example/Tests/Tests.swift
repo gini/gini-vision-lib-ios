@@ -1,11 +1,21 @@
-// https://github.com/Quick/Quick
+@testable import GiniVision
+import Foundation
+import XCTest
 
-import Quick
-import Nimble
-import GiniVision
+class GINIOnboardingViewControllerTest: XCTestCase {
+    
+    func testSuccessfulScrollToNextPage() {
+        let pages = [ UIView(), UIView() ]
+        let onboardingVC = GINIOnboardingViewController(pages: pages, scrollViewDelegate: nil)
 
-class TableOfContentsSpec: QuickSpec {
-    override func spec() {
-        // TODO: Add tests
+        XCTAssertTrue(onboardingVC.scrollToNextPage(false), "should be able to scroll to next page")
     }
+    
+    func testFailingScrollToNextPage() {
+        let pages = [ UIView() ]
+        let onboardingVC = GINIOnboardingViewController(pages: pages, scrollViewDelegate: nil)
+        
+        XCTAssertFalse(onboardingVC.scrollToNextPage(false), "should not be able to scroll to next page")
+    }
+    
 }
