@@ -16,6 +16,12 @@ class ScreenAPIViewController: UIViewController, GINIVisionDelegate {
         // Create a custom configuration object
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
+
+        // Make sure the app always behaves the same when run from UITests
+        if NSProcessInfo.processInfo().arguments.contains("--UITest") {
+            giniConfiguration.onboardingShowAtFirstLaunch = false
+        }
+        
         giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
         
         // Create the Gini Vision Library view controller and pass in the configuration object

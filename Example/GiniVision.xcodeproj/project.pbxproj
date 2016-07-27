@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
-		0A3B965D1D478C9D00BFEF05 /* UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* UITests.swift */; };
+		0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */; };
 		0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A3B965E1D478CB200BFEF05 /* Info.plist */; };
 		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
@@ -44,7 +44,7 @@
 /* Begin PBXFileReference section */
 		0A1D31121D12BB3600AC084C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A3B965C1D478C9D00BFEF05 /* UITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UITests.swift; path = UITests/UITests.swift; sourceTree = SOURCE_ROOT; };
+		0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIOnboardingUITests.swift; path = UITests/GINIOnboardingUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
@@ -98,11 +98,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A1F0FF11D48C6380035D47D /* Suporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0A3B965E1D478CB200BFEF05 /* Info.plist */,
+			);
+			name = "Suporting Files";
+			sourceTree = "<group>";
+		};
 		0A3B96531D478BF700BFEF05 /* UITests */ = {
 			isa = PBXGroup;
 			children = (
-				0A3B965C1D478C9D00BFEF05 /* UITests.swift */,
-				0A3B965E1D478CB200BFEF05 /* Info.plist */,
+				0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */,
+				0A1F0FF11D48C6380035D47D /* Suporting Files */,
 			);
 			name = UITests;
 			path = GiniVision_UITests;
@@ -437,7 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A3B965D1D478C9D00BFEF05 /* UITests.swift in Sources */,
+				0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +695,7 @@
 				0A3B965A1D478BF700BFEF05 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "GiniVision" */ = {
 			isa = XCConfigurationList;

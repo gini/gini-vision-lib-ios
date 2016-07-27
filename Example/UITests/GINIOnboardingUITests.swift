@@ -1,37 +1,36 @@
 import XCTest
 
-class GiniVision_UITests: XCTestCase {
+class GINIOnboardingUITests: XCTestCase {
+    
+    let app = XCUIApplication()
     
     override func setUp() {
         super.setUp()
-        
-        XCUIApplication().launch()
-        // TODO: First launch fix
+        continueAfterFailure = false
+        app.launchArguments = [ "--UITest" ]
+        app.launch()
     }
     
     override func tearDown() {
         super.tearDown()
+        app.terminate()
     }
     
-    func testScreenAPILaunchAndClose() {
-        let app = XCUIApplication()
-        
+    func testScreenAPILaunchAndClose() {        
         let screenAPIButton = app.buttons["Screen API"]
         screenAPIButton.tap()
         
-        let closeButton = app.navigationBars["Fotoüberweisung"].childrenMatchingType(.Button).elementBoundByIndex(0)
+        let closeButton = app.navigationBars["Dokument fotografieren"].buttons["Schließen"]
         closeButton.tap()
         
         XCTAssert(screenAPIButton.exists, "should be back to launch screen including the screen api launch button")
     }
     
     func testScreenAPIShowAndHideOnboarding() {
-        let app = XCUIApplication()
-        
         let screenAPIButton = app.buttons["Screen API"]
         screenAPIButton.tap()
         
-        let helpButton = app.navigationBars["Fotoüberweisung"].buttons["Hilfe"]
+        let helpButton = app.navigationBars["Dokument fotografieren"].buttons["Hilfe"]
         helpButton.tap()
         
         let continueButton = app.navigationBars["Anleitung"].buttons["Weiter"]
@@ -42,14 +41,6 @@ class GiniVision_UITests: XCTestCase {
         }
         
         XCTAssert(helpButton.exists, "should be back to camera screen")
-    }
-    
-    func test() {
-        let app = XCUIApplication()
-        
-        // TODO: Evaluate how to make use of `accessibilityIdentifier` on UIKit elements to avoid customization or localization problems
-        let screenAPIButton = app.buttons.matchingIdentifier("gotcha").element
-        XCTAssert(screenAPIButton.exists)
     }
     
 }
