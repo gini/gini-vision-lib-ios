@@ -9,14 +9,10 @@ env:
     - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
     - IOS_SDK=iphonesimulator9.3
   matrix:
-    - DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"
-    - DESTINATION="OS=8.2,name=iPhone 5"           SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"
-    - DESTINATION="OS=8.3,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"
-    - DESTINATION="OS=8.4,name=iPhone 6"           SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"
-    - DESTINATION="OS=9.0,name=iPhone 6"           SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"
-    - DESTINATION="OS=9.1,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"
-    - DESTINATION="OS=9.2,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"
-    - DESTINATION="OS=9.3,name=iPhone 6S Plus"     SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"
+    - DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"
+    - DESTINATION="OS=8.3,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"
+    - DESTINATION="OS=9.1,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"
+    - DESTINATION="OS=9.3,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"
 before_install:
   - gem install cocoapods # Since Travis is not always on latest version
   - pod install --project-directory=Example --repo-update
@@ -38,4 +34,7 @@ script:
     fi
 
 after_success:
-  - ./scripts/push-documentation.sh
+  # Build docs if specified
+  - if [ $BUILD_DOCS == "YES" ]; then
+      ./scripts/push-documentation.sh
+    fi
