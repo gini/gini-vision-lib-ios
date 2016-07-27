@@ -36,5 +36,5 @@ script:
 after_success:
   # Build docs if specified
   - if [ $BUILD_DOCS == "YES" ]; then
-      ./scripts/push-documentation.sh
+      ./scripts/push-documentation.sh;
     fi
