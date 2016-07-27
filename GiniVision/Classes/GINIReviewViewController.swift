@@ -31,6 +31,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
  * `ginivision.navigationbar.review.back` (Screen API only.)
  * `ginivision.navigationbar.review.continue` (Screen API only.)
  * `ginivision.review.top`
+ * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
  **Image resources for this screen**
