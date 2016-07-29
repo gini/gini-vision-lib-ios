@@ -1,17 +1,40 @@
-# references:
-# * http://www.objc.io/issue-6/travis-ci.html
-# * https://github.com/supermarin/xcpretty#usage
-
-osx_image: xcode7.3
 language: objective-c
-cache: 
-- cocoapods
+osx_image: xcode7.3
 podfile: Example/Podfile
+cache: 
+  - cocoapods
+env:
+  global:
+    - WORKSPACE="Example/GiniVision.xcworkspace"
+    - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
+    - IOS_SDK=iphonesimulator9.3
+  matrix:
+    - DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"
+    - DESTINATION="OS=8.3,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"
+    - DESTINATION="OS=9.1,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"
+    - DESTINATION="OS=9.3,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"
 before_install:
-- gem install cocoapods # Since Travis is not always on latest version
-- pod install --project-directory=Example --repo-update
+  - gem install cocoapods # Since Travis is not always on latest version
+  - pod install --project-directory=Example --repo-update
 script:
-- set -o pipefail && xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
-- pod lib lint
+  - set -o pipefail 
+  - xcodebuild -version
+  - xcodebuild -showsdks
+
+  # Build in Debug and Run Tests if specified
+  - if [ $RUN_TESTS == "YES" ]; then
+      xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO test | xcpretty -c;
+    else
+      xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+    fi
+
+  # Run `pod lib lint` if specified
+  - if [ $POD_LINT == "YES" ]; then
+      pod lib lint;
+    fi
+
 after_success:
-- ./scripts/push-documentation.sh
+  # Build docs if specified
+  - if [ $BUILD_DOCS == "YES" ]; then
+      ./scripts/push-documentation.sh;
+    fi

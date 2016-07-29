@@ -31,6 +31,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  * `ginivision.navigationbar.camera.title` (Screen API only.)
  * `ginivision.navigationbar.camera.close` (Screen API only.)
  * `ginivision.navigationbar.camera.help` (Screen API only.)
+ * `ginivision.camera.captureButton`
  * `ginivision.camera.notAuthorized`
  * `ginivision.camera.notAuthorizedButton`
  
@@ -140,6 +141,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         captureButton.setImage(captureButtonNormalImage, forState: .Normal)
         captureButton.setImage(captureButtonActiveImage, forState: .Highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), forControlEvents: .TouchUpInside)
+        captureButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
         // Configure view hierachy
         view.addSubview(previewView)
