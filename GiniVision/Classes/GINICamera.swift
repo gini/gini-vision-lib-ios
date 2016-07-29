@@ -74,8 +74,11 @@ internal class GINICamera {
             self.videoDeviceInput?.device.setFlashModeSecurely(.On)
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return completion(inner: { _ in throw GINICameraError.CaptureFailed }) }
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-
+                var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
+//                imageData = GINIMetaInformationManager.addRequiredExifTags(imageData)
+//                imageData = GINIMetaInformationManager.addRequiredTIFFTags(imageData)
+                let manager = GINIMetaInformationManager(imageData: imageData)
+                manager.filteredImageData()
                 if GINIConfiguration.DEBUG {
                     GINICamera.saveImageFromData(imageData)
                 }
