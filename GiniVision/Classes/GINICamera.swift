@@ -75,10 +75,13 @@ internal class GINICamera {
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return completion(inner: { _ in throw GINICameraError.CaptureFailed }) }
                 var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-//                imageData = GINIMetaInformationManager.addRequiredExifTags(imageData)
-//                imageData = GINIMetaInformationManager.addRequiredTIFFTags(imageData)
+                
+                // Set meta information in image
                 let manager = GINIMetaInformationManager(imageData: imageData)
-                manager.filteredImageData()
+                if let richImageData = manager.filteredImageData() {
+                    imageData = richImageData
+                }
+                
                 if GINIConfiguration.DEBUG {
                     GINICamera.saveImageFromData(imageData)
                 }
