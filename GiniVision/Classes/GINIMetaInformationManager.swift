@@ -10,7 +10,8 @@ import UIKit
 import ImageIO
 import AVFoundation
 
-extension NSMutableDictionary {
+internal extension NSMutableDictionary {
+    
     private var CFExifKeys: [CFString] {
         return [
             kCGImagePropertyExifLensMake,
@@ -112,7 +113,7 @@ extension NSMutableDictionary {
     }
     
     func filterDefaultValues() {
-        let keys = [ exifKeys, tiffKeys, topLevelKeys].flatMap { $0 }
+        let keys = [ exifKeys, tiffKeys, topLevelKeys ].flatMap { $0 }
         filter(keys)
     }
     
@@ -126,10 +127,10 @@ extension NSMutableDictionary {
             }
         }
     }
+    
 }
 
-
-struct GINIMetaInformationManager {
+internal struct GINIMetaInformationManager {
     
     private let CFRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
@@ -159,7 +160,6 @@ struct GINIMetaInformationManager {
     }
     
     typealias MetaInformation = NSDictionary
-    typealias MutableMetaInformation = NSMutableDictionary
     
     var image: UIImage?
     var metaInformation: MetaInformation?
@@ -277,6 +277,5 @@ struct GINIMetaInformationManager {
         }
         return number
     }
-    
     
 }
