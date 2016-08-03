@@ -10,9 +10,17 @@ import UIKit
 import ImageIO
 import AVFoundation
 
+internal extension CollectionType where Generator.Element == CFString {
+    
+    var strings: [ String ] {
+        return self.map { $0 as String }
+    }
+    
+}
+
 internal extension NSMutableDictionary {
     
-    private var CFExifKeys: [CFString] {
+    private var cfExifKeys: [CFString] {
         return [
             kCGImagePropertyExifLensMake,
             kCGImagePropertyExifLensModel,
@@ -26,11 +34,7 @@ internal extension NSMutableDictionary {
         ]
     }
     
-    private var exifKeys: [String] {
-        return CFExifKeys.map { $0 as String }
-    }
-    
-    private var CFTiffKeys: [CFString] {
+    private var cfTiffKeys: [CFString] {
         return [
             kCGImagePropertyTIFFMake,
             kCGImagePropertyTIFFModel,
@@ -39,19 +43,11 @@ internal extension NSMutableDictionary {
         ]
     }
     
-    private var tiffKeys: [String] {
-        return CFTiffKeys.map { $0 as String }
-    }
-    
-    private var CFTopLevelKeys: [CFString] {
+    private var cfTopLevelKeys: [CFString] {
         return [
             kCGImagePropertyExifDictionary,
             kCGImagePropertyTIFFDictionary
         ]
-    }
-    
-    private var topLevelKeys: [String] {
-        return CFTopLevelKeys.map { $0 as String }
     }
     
     private var stringKeys: [String] {
@@ -69,10 +65,10 @@ internal extension NSMutableDictionary {
         }
         
         // Assume a meta information dictionary
-        if exifKeys.contains(key) {
+        if cfExifKeys.strings.contains(key) {
             return set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyExifDictionary as String)
         }
-        if tiffKeys.contains(key) {
+        if cfTiffKeys.strings.contains(key) {
             return set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyTIFFDictionary as String)
         }
         
@@ -113,7 +109,7 @@ internal extension NSMutableDictionary {
     }
     
     func filterDefaultValues() {
-        let keys = [ exifKeys, tiffKeys, topLevelKeys ].flatMap { $0 }
+        let keys = [ cfExifKeys, cfTiffKeys, cfTopLevelKeys ].flatMap { $0 }.strings
         filter(keys)
     }
     
@@ -132,7 +128,7 @@ internal extension NSMutableDictionary {
 
 internal struct GINIMetaInformationManager {
     
-    private let CFRequiredExifKeys = [
+    private let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
         kCGImagePropertyExifLensModel,
         kCGImagePropertyExifISOSpeed,
@@ -144,21 +140,13 @@ internal struct GINIMetaInformationManager {
         kCGImagePropertyExifUserComment
     ]
     
-    private var requiredExifKeys: [String] {
-        return CFRequiredExifKeys.map { $0 as String }
-    }
-    
-    private let CFRequiredTiffKeys = [
+    private let cfRequiredTiffKeys = [
         kCGImagePropertyTIFFOrientation,
         kCGImagePropertyTIFFMake,
         kCGImagePropertyTIFFModel,
         kCGImagePropertyTIFFSoftware
     ]
-    
-    private var requiredTiffKeys: [String] {
-        return CFRequiredTiffKeys.map { $0 as String }
-    }
-    
+
     typealias MetaInformation = NSDictionary
     
     var image: UIImage?
@@ -180,8 +168,8 @@ internal struct GINIMetaInformationManager {
     
     private func addDefaultValues(toMetaInformation information: MetaInformation) -> MetaInformation {
         var defaultInformation = information
-        defaultInformation = add(requiredValuesWithKeys: requiredExifKeys, toMetaInformation: defaultInformation)
-        defaultInformation = add(requiredValuesWithKeys: requiredTiffKeys, toMetaInformation: defaultInformation)
+        defaultInformation = add(requiredValuesWithKeys: cfRequiredExifKeys.strings, toMetaInformation: defaultInformation)
+        defaultInformation = add(requiredValuesWithKeys: cfRequiredTiffKeys.strings, toMetaInformation: defaultInformation)
         return defaultInformation
     }
     
