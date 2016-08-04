@@ -233,7 +233,14 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         }
         camera.captureStillImage { inner in
             do {
-                let imageData = try inner()
+                var imageData = try inner()
+                
+                // Set meta information in image
+                let manager = GINIMetaInformationManager(imageData: imageData)
+                if let richImageData = manager.filteredImageData() {
+                    imageData = richImageData
+                }
+                
                 // Call success block
                 self.successBlock?(imageData: imageData)
             } catch let error as GINICameraError {

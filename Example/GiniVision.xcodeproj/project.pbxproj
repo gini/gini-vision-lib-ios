@@ -10,6 +10,10 @@
 		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
 		0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */; };
 		0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A3B965E1D478CB200BFEF05 /* Info.plist */; };
+		0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
+		0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
+		0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */; };
+		0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
@@ -20,7 +24,7 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */; };
 		9889A1A053FAF0C55227AE0D /* Pods_GiniVision_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D84ABA0EC19897FA6833F761 /* Pods_GiniVision_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +50,8 @@
 		0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIOnboardingUITests.swift; path = UITests/GINIOnboardingUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
+		0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINICameraUITests.swift; path = UITests/GINICameraUITests.swift; sourceTree = SOURCE_ROOT; };
+		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
 		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
@@ -62,7 +68,7 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIMetaInformationManagerTests.swift; sourceTree = "<group>"; };
 		6B2880A08E39E8F9711B07DC /* Pods-GiniVision_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -110,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */,
+				0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */,
 				0A1F0FF11D48C6380035D47D /* Suporting Files */,
 			);
 			name = UITests;
@@ -178,7 +185,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -187,6 +194,7 @@
 		607FACE91AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0A4C62AA1D4F535500A15FFA /* invoice.jpg */,
 				607FACEA1AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -324,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */,
+				0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +344,7 @@
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */,
+				0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,7 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,7 +523,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -524,7 +536,7 @@
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = UITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -27,8 +27,7 @@ class GINIOnboardingUITests: XCTestCase {
     }
     
     func testScreenAPIShowAndHideOnboarding() {
-        let screenAPIButton = app.buttons["Screen API"]
-        screenAPIButton.tap()
+        app.buttons["Screen API"].tap()
         
         let helpButton = app.navigationBars["Dokument fotografieren"].buttons["Hilfe"]
         helpButton.tap()
