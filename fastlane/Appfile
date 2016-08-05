@@ -1,0 +1,3 @@
+# More information: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Appfile.md
+
+apple_id ENV['APPLE_ID']

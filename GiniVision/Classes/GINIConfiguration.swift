@@ -12,7 +12,8 @@ import Foundation
  The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
  
  - note: Text can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
- - note: Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
+ - note: Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
+ - attention: If there are conflicting pairs of image and text for an interface element (e.g. `navigationBarCameraTitleCloseButton`) the image will always be preferred, while making sure the accessibility label is set.
  */
 @objc public final class GINIConfiguration: NSObject {
     
@@ -118,7 +119,6 @@ import Foundation
     /**
      Sets the close button text in the navigation bar on the camera screen.
      
-     - attention: This will be displayed instead of the close button image.
      - note: Screen API only.
      */
     public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
@@ -126,10 +126,16 @@ import Foundation
     /**
      Sets the help button text in the navigation bar on the camera screen.
      
-     - attention: This will be displayed instead of the help button image.
      - note: Screen API only.
      */
     public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    
+    /**
+     Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
+     
+     - note: Used exclusively for accessibility label.
+     */
+    public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
     
     /**
      Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
@@ -266,7 +272,6 @@ import Foundation
     /**
      Sets the back button text in the navigation bar on the review screen.
      
-     - attention: This will be displayed instead of the back button image.
      - note: Screen API only.
      */
     public var navigationBarReviewTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen")
@@ -274,7 +279,6 @@ import Foundation
     /**
      Sets the continue button text in the navigation bar on the review screen.
      
-     - attention: This will be displayed instead of the continue button image.
      - note: Screen API only.
      */
     public var navigationBarReviewTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
@@ -292,6 +296,13 @@ import Foundation
     public var reviewTextTopFont: UIFont {
         return noticeFont
     }
+    
+    /**
+     Sets the text for the accessibility label of the rotate button which allows the user to rotate the docuent into reading direction.
+     
+     - note: Used exclusively for accessibility label.
+     */
+    public var reviewRotateButtonTitle = NSLocalizedStringPreferred("ginivision.review.rotateButton", comment: "Title for rotate button in review screen will be used exclusively for accessibility label")
     
     /**
      Sets the background color of the bottom section on the review screen containing the rotation button.
@@ -317,6 +328,8 @@ import Foundation
     
     
     
+    
+    
     // MARK: Analysis options
     /**
      Sets the title text in the navigation bar on the analysis screen.
@@ -325,9 +338,8 @@ import Foundation
      */
     public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
-    /** Sets the back button text in the navigation bar on the analysis screen.
-    
-     - attention: This will be displayed instead of the back button image.
+    /** 
+     Sets the back button text in the navigation bar on the analysis screen.
      */
     public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
     

@@ -6,6 +6,7 @@ This document describes the release process for a new version of the Gini Vision
 2. Create a `release` branch from `develop`
   * Update `s.version` in `GiniVision.podspec`
   * Update version in `build-documentation-api.sh`
+  * Update version in plist in GiniVision pod bundle
   * If necessary, update version in Example App in Xcode project
   * Add entry to changelog with version and date
 3. Merge `release` branch into `master` and `develop`

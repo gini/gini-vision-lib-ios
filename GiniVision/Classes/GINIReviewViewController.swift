@@ -31,6 +31,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
  * `ginivision.navigationbar.review.back` (Screen API only.)
  * `ginivision.navigationbar.review.continue` (Screen API only.)
  * `ginivision.review.top`
+ * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
  **Image resources for this screen**
@@ -103,6 +104,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Configure rotate button
         rotateButton.setImage(rotateButtonImage, forState: .Normal)
         rotateButton.addTarget(self, action: #selector(rotate), forControlEvents: .TouchUpInside)
+        rotateButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
         // Configure bottom label
         bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom
