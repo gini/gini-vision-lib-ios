@@ -1,0 +1,49 @@
+fastlane_version "1.99.0"
+
+default_platform :ios
+
+platform :ios do
+  lane :inhouse do
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      git_url: ENV['GIT_CERTS_URL'],
+      username: ENV['APPLE_ID'],
+      team_id: ENV['APPLE_TEAM_ID'],
+      team_name: ENV['APPLE_TEAM_NAME'],
+      type: 'enterprise',
+      app_identifier: 'net.gini.ios.ginivision.in-house',
+      shallow_clone: false,
+      readonly: true
+    )
+
+    cocoapods(
+      podfile: 'Example/Podfile'
+    )
+    
+    increment_build_number(
+      build_number: number_of_commits,
+      xcodeproj: 'Example/GiniVision.xcodeproj'
+    )
+
+    gym(
+      configuration: 'In House',
+      sdk: 'iphoneos9.3',
+      clean: true,
+      include_bitcode: true,
+      include_symbols: true,
+      scheme: 'GiniVision-Example',
+      export_method: 'enterprise',
+      output_directory: 'build',
+      workspace: 'Example/GiniVision.xcworkspace'
+    )
+    
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN'],
+      public_identifier: ENV['HOCKEY_PUBLIC_ID'],
+      notify: '0',
+      notes: last_git_commit[:message] + '<br><br><small>Automatic build via fastlane</small>' # TODO: Get notes from changelog or release note
+    )
+  end
+end
