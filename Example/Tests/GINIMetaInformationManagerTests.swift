@@ -34,12 +34,14 @@ class GINIMetaInformationManagerTests: XCTestCase {
         }
         let value = "MyCompany"
         let key = kCGImagePropertyTIFFMake as String
-        mutableInformation.set(metaValue: value, forKey: key)
-        XCTAssert(mutableInformation.getMetaValue(forKey: key) as? String == value, "failed to set value correctly on meta information")
+        mutableInformation.set(metaInformation: value, forKey: key)
+        XCTAssert(mutableInformation.getMetaInformation(forKey: key) as? String == value, "failed to set value correctly on meta information")
     }
     
     func testFilteringAndSettingRequiredFields() {
-        guard let filteredData = manager.filteredImageData() else {
+        var mutableManager = manager
+        mutableManager.filterMetaInformation()
+        guard let filteredData = mutableManager.imageData() else {
             return XCTFail("filtered image data should not be nil")
         }
         
@@ -50,7 +52,7 @@ class GINIMetaInformationManagerTests: XCTestCase {
             return XCTFail("failed to retrieve mutable meta information from filtered image data")
         }
         let key = kCGImagePropertyExifUserComment as String
-        XCTAssert((mutableInformation.getMetaValue(forKey: key) as? String)?.containsString("GiniVisionVer") == true, "filtered data did not set custom fields")
+        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.containsString("GiniVisionVer") == true, "filtered data did not set custom fields")
     }
     
 }

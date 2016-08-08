@@ -98,6 +98,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
+        imageView.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
         // Configure top view
         topView = GININoticeView(text: GINIConfiguration.sharedConfiguration.reviewTextTop)
