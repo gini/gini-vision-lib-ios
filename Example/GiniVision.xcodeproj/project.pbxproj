@@ -10,6 +10,7 @@
 		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
 		0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */; };
 		0A3B965F1D478CB200BFEF05 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0A3B965E1D478CB200BFEF05 /* Info.plist */; };
+		0A3FEE4E1D58C4C4002A3735 /* GINIReviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */; };
 		0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */; };
@@ -50,6 +51,7 @@
 		0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIOnboardingUITests.swift; path = UITests/GINIOnboardingUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
+		0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIReviewUITests.swift; path = UITests/GINIReviewUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINICameraUITests.swift; path = UITests/GINICameraUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			children = (
 				0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */,
 				0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */,
+				0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */,
 				0A1F0FF11D48C6380035D47D /* Suporting Files */,
 			);
 			name = UITests;
@@ -463,6 +466,7 @@
 			files = (
 				0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */,
 				0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */,
+				0A3FEE4E1D58C4C4002A3735 /* GINIReviewUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

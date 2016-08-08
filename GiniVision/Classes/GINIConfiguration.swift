@@ -305,6 +305,13 @@ import Foundation
     public var reviewRotateButtonTitle = NSLocalizedStringPreferred("ginivision.review.rotateButton", comment: "Title for rotate button in review screen will be used exclusively for accessibility label")
     
     /**
+     Sets the text for the accessibility label of the document image view.
+     
+     - note: Used exclusively for accessibility label.
+     */
+    public var reviewDocumentImageTitle = NSLocalizedStringPreferred("ginivision.review.documentImageTitle", comment: "Title for document image in review screen will be used exclusively for accessibility label")
+    
+    /**
      Sets the background color of the bottom section on the review screen containing the rotation button.
      
      - note: Background will have a 20% transparency, to have enough space for the document image on smaller devices.
