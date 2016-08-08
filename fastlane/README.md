@@ -6,6 +6,11 @@ sudo gem install fastlane
 ```
 # Available Actions
 ## iOS
+### ios profiles
+```
+fastlane ios profiles
+```
+
 ### ios inhouse
 ```
 fastlane ios inhouse
