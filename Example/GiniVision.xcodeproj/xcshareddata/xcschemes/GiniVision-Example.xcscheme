@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7232896C841FE8C26ECCF977C89728FC"
+               BlueprintIdentifier = "CA49066EE2D90921525E9C7A799688BA"
                BuildableName = "GiniVision.framework"
                BlueprintName = "GiniVision"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">

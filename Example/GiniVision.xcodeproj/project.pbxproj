@@ -57,6 +57,7 @@
 		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
 		0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPICameraViewController.swift; sourceTree = "<group>"; };
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
 		28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* GiniVision_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiniVision_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +73,7 @@
 		6B2880A08E39E8F9711B07DC /* Pods-GiniVision_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		D068EF1D8B20A075AC9402F9 /* Pods-GiniVision_Tests.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.in house.xcconfig"; sourceTree = "<group>"; };
 		D84ABA0EC19897FA6833F761 /* Pods_GiniVision_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED8650DC0F2D5DE6E2C2E7FC /* Pods-GiniVision_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.release.xcconfig"; sourceTree = "<group>"; };
 		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; };
@@ -217,6 +219,8 @@
 				ED8650DC0F2D5DE6E2C2E7FC /* Pods-GiniVision_Example.release.xcconfig */,
 				28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */,
 				7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */,
+				20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */,
+				D068EF1D8B20A075AC9402F9 /* Pods-GiniVision_Tests.in house.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -299,6 +303,7 @@
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = JA825X8F7Z;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -517,6 +522,90 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		0A3275871D5349F5003959E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0A3275881D5349F5003959E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED8650DC0F2D5DE6E2C2E7FC /* Pods-GiniVision_Example.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				INFOPLIST_FILE = GiniVision/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MODULE_NAME = ExampleApp;
+				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.release;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0A3275891D5349F5003959E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
+			};
+			name = Release;
+		};
+		0A32758A1D5349F5003959E4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				INFOPLIST_FILE = UITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = GiniVision_Example;
+			};
+			name = Release;
+		};
 		0A3B96591D478BF700BFEF05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -531,7 +620,7 @@
 			};
 			name = Debug;
 		};
-		0A3B965A1D478BF700BFEF05 /* Release */ = {
+		0A3B965A1D478BF700BFEF05 /* In House */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
@@ -542,7 +631,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_TARGET_NAME = GiniVision_Example;
 			};
-			name = Release;
+			name = "In House";
 		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -589,7 +678,7 @@
 			};
 			name = Debug;
 		};
-		607FACEE1AFB9204008FA782 /* Release */ = {
+		607FACEE1AFB9204008FA782 /* In House */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -624,40 +713,43 @@
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = "In House";
 		};
 		607FACF01AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6B2880A08E39E8F9711B07DC /* Pods-GiniVision_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision;
+				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "967a1850-0491-43fb-be22-024e2f23a171";
+				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.dev_development)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		607FACF11AFB9204008FA782 /* Release */ = {
+		607FACF11AFB9204008FA782 /* In House */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED8650DC0F2D5DE6E2C2E7FC /* Pods-GiniVision_Example.release.xcconfig */;
+			baseConfigurationReference = 20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision.in-house";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.in-house_enterprise)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
+			name = "In House";
 		};
 		607FACF31AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -680,9 +772,9 @@
 			};
 			name = Debug;
 		};
-		607FACF41AFB9204008FA782 /* Release */ = {
+		607FACF41AFB9204008FA782 /* In House */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */;
+			baseConfigurationReference = D068EF1D8B20A075AC9402F9 /* Pods-GiniVision_Tests.in house.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -695,7 +787,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
-			name = Release;
+			name = "In House";
 		};
 /* End XCBuildConfiguration section */
 
@@ -704,37 +796,41 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0A3B96591D478BF700BFEF05 /* Debug */,
-				0A3B965A1D478BF700BFEF05 /* Release */,
+				0A3B965A1D478BF700BFEF05 /* In House */,
+				0A32758A1D5349F5003959E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "GiniVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACED1AFB9204008FA782 /* Debug */,
-				607FACEE1AFB9204008FA782 /* Release */,
+				607FACEE1AFB9204008FA782 /* In House */,
+				0A3275871D5349F5003959E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
-				607FACF11AFB9204008FA782 /* Release */,
+				607FACF11AFB9204008FA782 /* In House */,
+				0A3275881D5349F5003959E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
+				607FACF41AFB9204008FA782 /* In House */,
+				0A3275891D5349F5003959E4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
