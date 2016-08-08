@@ -3,18 +3,30 @@ fastlane_version "1.99.0"
 default_platform :ios
 
 platform :ios do
+  lane :profiles do
+    match(
+      type: 'development', 
+      app_identifier: 'net.gini.ios.ginivision.dev', 
+      force_for_new_devices: true
+    )
+
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision.in-house',
+      readonly: true
+    )
+  end
+
   lane :inhouse do
     match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
     raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
 
     match(
-      git_url: ENV['GIT_CERTS_URL'],
-      username: ENV['APPLE_ID'],
-      team_id: ENV['APPLE_TEAM_ID'],
-      team_name: ENV['APPLE_TEAM_NAME'],
       type: 'enterprise',
       app_identifier: 'net.gini.ios.ginivision.in-house',
-      shallow_clone: false,
       readonly: true
     )
 
