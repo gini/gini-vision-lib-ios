@@ -236,8 +236,9 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
                 var imageData = try inner()
                 
                 // Set meta information in image
-                let manager = GINIMetaInformationManager(imageData: imageData)
-                if let richImageData = manager.filteredImageData() {
+                var manager = GINIMetaInformationManager(imageData: imageData)
+                manager.filterMetaInformation()
+                if let richImageData = manager.imageData() {
                     imageData = richImageData
                 }
                 

@@ -56,7 +56,7 @@ internal extension NSMutableDictionary {
                 .flatMap { $0 }
     }
     
-    func set(metaValue value: AnyObject?, forKey key: String) {
+    func set(metaInformation value: AnyObject?, forKey key: String, inSubdictionary isSubdictionary: Bool = false) {
         // Helper method to set a value in a meta dictionary like TIFF or Exif
         func set(value: AnyObject?, forKey key: String, inMetaDictionaryWithKey metaDictionaryKey: String) {
             let metaDictionary = (self[metaDictionaryKey] as? NSMutableDictionary) ?? NSMutableDictionary()
@@ -64,32 +64,33 @@ internal extension NSMutableDictionary {
             self[metaDictionaryKey] = metaDictionary
         }
         
-        // Assume a meta information dictionary
-        if cfExifKeys.strings.contains(key) {
-            return set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyExifDictionary as String)
-        }
-        if cfTiffKeys.strings.contains(key) {
-            return set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyTIFFDictionary as String)
-        }
-        
-        // If key is not known try to update an existing key
+        // Try to set the key in the current context
         let keys = stringKeys
-        guard keys.count > 0 else { return }
         if keys.contains(key) {
             setValue(value, forKey: key)
-            return
         }
         
+        // Try to set in known context
+        if !isSubdictionary {
+            if cfExifKeys.strings.contains(key) {
+                set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyExifDictionary as String)
+            }
+            if cfTiffKeys.strings.contains(key) {
+                set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyTIFFDictionary as String)
+            }
+        }
+        
+        // Try to set in subdictioanies
         let dictionaries = allValues
             .map { $0 as? NSMutableDictionary }
             .flatMap { $0 }
         
         for dictionary in dictionaries {
-            dictionary.set(metaValue: value, forKey: key)
+            dictionary.set(metaInformation: value, forKey: key, inSubdictionary: true)
         }
     }
     
-    func getMetaValue(forKey key: String) -> AnyObject? {
+    func getMetaInformation(forKey key: String) -> AnyObject? {
         let keys = stringKeys
         guard keys.count > 0 else { return nil }
         if keys.contains(key) {
@@ -100,7 +101,7 @@ internal extension NSMutableDictionary {
             .flatMap { $0 }
         
         for dictionary in dictionaries {
-            if let value = dictionary.getMetaValue(forKey: key) {
+            if let value = dictionary.getMetaInformation(forKey: key) {
                 return value
             }
         }
@@ -108,23 +109,30 @@ internal extension NSMutableDictionary {
         return nil
     }
     
-    func filterDefaultValues() {
+    func filterDefaultMetaInformation() {
         let keys = [ cfExifKeys, cfTiffKeys, cfTopLevelKeys ].flatMap { $0 }.strings
-        filter(keys)
+        filterMetaInformation(keys)
     }
     
-    func filter(filterKeys: [String]) {
+    /**
+     Set all values to `CFNull` if the corresponding key is not in the filtered keys array.
+     
+     - parameter filterKeys: The keys to filter for.
+     */
+    func filterMetaInformation(filterKeys: [String]) {
         let keys = stringKeys
         for key in keys {
             if !filterKeys.contains(key) {
-                removeObjectForKey(key)
+                self[key] = kCFNull
             } else if let dictionary = self[key] as? NSMutableDictionary {
-                dictionary.filterDefaultValues()
+                dictionary.filterDefaultMetaInformation()
             }
         }
     }
     
 }
+
+typealias MetaInformation = NSDictionary
 
 internal struct GINIMetaInformationManager {
     
@@ -146,8 +154,6 @@ internal struct GINIMetaInformationManager {
         kCGImagePropertyTIFFModel,
         kCGImagePropertyTIFFSoftware
     ]
-
-    typealias MetaInformation = NSDictionary
     
     var image: UIImage?
     var metaInformation: MetaInformation?
@@ -157,13 +163,29 @@ internal struct GINIMetaInformationManager {
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func filteredImageData() -> NSData? {
-        guard let image = self.image else { return nil }
-        var information = self.metaInformation ?? MetaInformation()
+    func imageData() -> NSData? {
+        return merge(image, withMetaInformation: metaInformation)
+    }
+    
+    mutating func filterMetaInformation() {
+        var information = metaInformation ?? MetaInformation()
         information = addDefaultValues(toMetaInformation: information)
-        guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return nil }
-        let data = merge(image, withMetaInformation: filteredInformation)
-        return data
+        guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return }
+        metaInformation = filteredInformation
+    }
+    
+    mutating func update(imageOrientation orientation: UIImageOrientation) {
+        var information = metaInformation ?? MetaInformation()
+        information = update(getExifOrientationFromUIImageOrientation(orientation), onMetaInformation: information)
+        metaInformation = information
+    }
+    
+    private func update(orientation: Int, onMetaInformation information: MetaInformation) -> MetaInformation {
+        guard let updatedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
+        // Set both keys in case one is changed in the future all orientations will still be set correctly
+        updatedInformation.set(metaInformation: orientation, forKey: kCGImagePropertyTIFFOrientation as String)
+        updatedInformation.set(metaInformation: orientation, forKey: kCGImagePropertyOrientation as String)
+        return updatedInformation
     }
     
     private func addDefaultValues(toMetaInformation information: MetaInformation) -> MetaInformation {
@@ -176,27 +198,29 @@ internal struct GINIMetaInformationManager {
     private func add(requiredValuesWithKeys keys: [String], toMetaInformation information: MetaInformation) -> MetaInformation {
         guard let addedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
         for key in keys {
-            if let _ = addedInformation.getMetaValue(forKey: key) {
+            if let _ = addedInformation.getMetaInformation(forKey: key) {
                 continue
             }
-            addedInformation.set(metaValue: value(forMetaKey: key), forKey: key)
+            addedInformation.set(metaInformation: value(forMetaKey: key), forKey: key)
         }
         return addedInformation
     }
     
     private func filterDefaultValues(fromMetaInformation information: MetaInformation) -> MetaInformation? {
         guard let filteredInformation = information.mutableCopy() as? NSMutableDictionary else { return nil }
-        filteredInformation.filterDefaultValues()
+        filteredInformation.filterDefaultMetaInformation()
         return filteredInformation as MetaInformation
     }
     
-    private func merge(image: UIImage, withMetaInformation information: MetaInformation) -> NSData? {
+    private func merge(image: UIImage?, withMetaInformation information: MetaInformation?) -> NSData? {
+        guard let image = image else { return nil }
+        guard let information = information else { return nil }
         guard let imageData = UIImageJPEGRepresentation(image, 1) else { return nil }
         guard let source = CGImageSourceCreateWithData(imageData, nil) else { return nil }
         let count = CGImageSourceGetCount(source)
-        let mutableData = NSMutableData()
+        let mutableData = NSMutableData(data: imageData)
         guard let type = CGImageSourceGetType(source),
-            let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else { return nil }
+              let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else { return nil }
         for i in 0...count - 1 {
             CGImageDestinationAddImageFromSource(destination, source, i, information as CFDictionary)
         }
@@ -206,8 +230,8 @@ internal struct GINIMetaInformationManager {
 
     private func metaInformation(fromImageData data: NSData) -> MetaInformation? {
         guard let source = CGImageSourceCreateWithData(data, nil),
-            let metaData = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
-        return metaData
+              let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
+        return metaInformation
     }
     
     private func value(forMetaKey key: String) -> AnyObject? {
@@ -244,7 +268,7 @@ internal struct GINIMetaInformationManager {
     }
     
     private func getExifOrientationFromUIImageOrientation(orientation: UIImageOrientation) -> Int {
-        let number: Int!
+        let number: Int
         switch orientation {
         case .Up:
             number = 1

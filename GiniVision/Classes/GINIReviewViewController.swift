@@ -59,6 +59,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
     private var imageViewLeadingConstraint: NSLayoutConstraint!
     private var imageViewTopConstraint: NSLayoutConstraint!
     private var imageViewTrailingConstraint: NSLayoutConstraint!
+    private var metaInformationManager: GINIMetaInformationManager?
     
     // Images
     private var rotateButtonImage: UIImage? {
@@ -85,6 +86,9 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Set callback
         successBlock = success
         errorBlock = failure
+        
+        // Set meta information manager
+        metaInformationManager = GINIMetaInformationManager(imageData: imageData)
         
         // Configure scroll view
         scrollView.delegate = self
@@ -158,11 +162,11 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
     
     // MARK: Rotation handling
     @objc private func rotate(sender: AnyObject) {
-        // TODO: Implement exif data
-        imageView.image = rotateImage(imageView.image)
-        guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
-            return
-        }
+        guard let rotatedImage = rotateImage(imageView.image) else { return }
+        imageView.image = rotatedImage
+        guard var metaInformationManager = metaInformationManager else { return }
+        metaInformationManager.update(imageOrientation: rotatedImage.imageOrientation)
+        guard let data = metaInformationManager.imageData() else { return }
         successBlock?(imageData: data)
     }
     
