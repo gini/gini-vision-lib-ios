@@ -3,7 +3,7 @@ use_frameworks!
 
 target 'GiniVisionExampleObjC' do
 
-  pod 'GiniVision', :path => '../GiniVision/'
+  pod 'GiniVision', :path => '../'
 
   target 'GiniVisionExampleObjCTests' do
     inherit! :search_paths

@@ -1,16 +1,16 @@
 PODS:
-  - GiniVision (2.0.0-stub.2)
+  - GiniVision (2.0.0-stub.3)
 
 DEPENDENCIES:
-  - GiniVision (from `../GiniVision/`)
+  - GiniVision (from `../`)
 
 EXTERNAL SOURCES:
   GiniVision:
-    :path: ../GiniVision/
+    :path: ../
 
 SPEC CHECKSUMS:
-  GiniVision: c11a5de812def0a4464fb3704559a8e8d68ac4b3
+  GiniVision: df27125fa6112775795450bec02c4327f90c7271
 
-PODFILE CHECKSUM: 5ff5007d688c4f59f8f9c87deacd6def952a4301
+PODFILE CHECKSUM: 92aa3bfaf2e7ca4462f26d20920adaf1cc336071
 
 COCOAPODS: 1.0.1
