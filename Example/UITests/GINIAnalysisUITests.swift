@@ -19,16 +19,16 @@ class GINIAnalysisUITests: XCTestCase {
     func testAnalysisIsPresent() {
         app.buttons["Screen API"].tap()
         app.buttons["Auslösen"].tap()
-        app.navigationBars["Dokument überprüfen"].buttons["Weiter"].tap()
+        app.navigationBars["Überprüfen"].buttons["Weiter"].tap()
         
-        let analysisNavigationBar = app.navigationBars["Dokument analysieren"]
-        XCTAssert(analysisNavigationBar.exists, "navigation bar with title 'Dokument analysieren' should be displayed")
+        let analysisNavigationBar = app.navigationBars["Etwas Geduld, analysiere Foto"]
+        XCTAssert(analysisNavigationBar.exists, "navigation bar with title 'Etwas Geduld, analysiere Foto' should be displayed")
     }
     
     func testShowAndHideErrorMessage() {
         app.buttons["Screen API"].tap()
         app.buttons["Auslösen"].tap()
-        app.navigationBars["Dokument überprüfen"].buttons["Weiter"].tap()
+        app.navigationBars["Überprüfen"].buttons["Weiter"].tap()
         
         let error = app.staticTexts["My network error"]
         XCTAssert(error.exists, "error label should exist displaying a custom error message")

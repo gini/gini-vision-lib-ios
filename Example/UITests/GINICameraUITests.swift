@@ -27,7 +27,7 @@ class GINICameraUITests: XCTestCase {
         app.buttons["Screen API"].tap()
         app.buttons["Auslösen"].tap()
         
-        let reviewNavigationBar = app.navigationBars["Dokument überprüfen"]
+        let reviewNavigationBar = app.navigationBars["Überprüfen"]
         XCTAssert(reviewNavigationBar.exists, "taping the capture button should trigger displaying the review screen")
     }
     

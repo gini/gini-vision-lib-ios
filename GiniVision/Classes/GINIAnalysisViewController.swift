@@ -61,9 +61,9 @@ import UIKit
         imageView.contentMode = .ScaleAspectFit
         
         // Configure loading indicator view
-        loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .WhiteLarge
+        loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         
         // Configure view hierachy
         view.addSubview(imageView)

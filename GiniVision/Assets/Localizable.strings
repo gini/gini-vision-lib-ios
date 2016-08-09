@@ -8,8 +8,8 @@
 
 "ginivision.navigationbar.camera.title"        = "Dokument fotografieren";
 "ginivision.navigationbar.onboarding.title"    = "Anleitung";
-"ginivision.navigationbar.review.title"        = "Dokument überprüfen";
-"ginivision.navigationbar.analysis.title"      = "Dokument analysieren";
+"ginivision.navigationbar.review.title"        = "Überprüfen";
+"ginivision.navigationbar.analysis.title"      = "Etwas Geduld, analysiere Foto";
 "ginivision.navigationbar.camera.close"        = "Schließen";
 "ginivision.navigationbar.camera.help"         = "Hilfe";
 "ginivision.navigationbar.onboarding.continue" = "Weiter";
