@@ -6,7 +6,7 @@
 //  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.

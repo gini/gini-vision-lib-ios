@@ -6,7 +6,7 @@
 //  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /**
  The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.

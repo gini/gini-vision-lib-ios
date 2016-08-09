@@ -6,7 +6,7 @@
 //  Copyright © 2016 Gini. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /**
  Errors thrown on the camera screen or during camera initialization.
