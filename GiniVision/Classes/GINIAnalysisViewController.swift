@@ -107,12 +107,9 @@ import UIKit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: imageView, attribute: .Height, multiplier: 3/4, constant: 0)
-        
-        // TODO: Allow for smaller height, focus on `CenterX`. Also check in other view controllers.
-        
+                
         // Loading indicator view
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .CenterX, relatedBy: .Equal, toItem: imageView, attribute: .CenterX, multiplier: 1, constant: 0)
