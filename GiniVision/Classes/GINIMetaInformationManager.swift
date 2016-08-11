@@ -163,8 +163,8 @@ internal struct GINIMetaInformationManager {
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func imageData() -> NSData? {
-        return merge(image, withMetaInformation: metaInformation)
+    func imageData(withCompression compression: CGFloat = 1.0) -> NSData? {
+        return merge(image, withMetaInformation: metaInformation, andCompression: compression)
     }
     
     mutating func filterMetaInformation() {
@@ -212,10 +212,10 @@ internal struct GINIMetaInformationManager {
         return filteredInformation as MetaInformation
     }
     
-    private func merge(image: UIImage?, withMetaInformation information: MetaInformation?) -> NSData? {
+    private func merge(image: UIImage?, withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> NSData? {
         guard let image = image else { return nil }
         guard let information = information else { return nil }
-        guard let imageData = UIImageJPEGRepresentation(image, 1) else { return nil }
+        guard let imageData = UIImageJPEGRepresentation(image, compression) else { return nil }
         guard let source = CGImageSourceCreateWithData(imageData, nil) else { return nil }
         let count = CGImageSourceGetCount(source)
         let mutableData = NSMutableData(data: imageData)
