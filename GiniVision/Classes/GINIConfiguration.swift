@@ -353,7 +353,7 @@ import UIKit
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
      */
-    public var analysisLoadingIndicatorColor = UIColor.whiteColor()
+    public var analysisLoadingIndicatorColor = Colors.Gini.raspberry
     
     
     
@@ -372,6 +372,7 @@ internal struct Colors {
         
         static var blue = Colors.UIColorHex(0x009edc)
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
+        static var raspberry = Colors.UIColorHex(0xe30b5d)
         
     }
     

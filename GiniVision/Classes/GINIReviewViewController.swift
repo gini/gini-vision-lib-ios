@@ -98,6 +98,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
+        imageView.contentMode = .ScaleAspectFit
         imageView.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
         // Configure top view
@@ -229,9 +230,8 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Width, relatedBy: .Equal, toItem: scrollView, attribute: .Height, multiplier: 3/4, constant: 0)
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
