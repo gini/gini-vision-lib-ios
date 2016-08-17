@@ -35,8 +35,11 @@ Carthage
 
 Pods/
 
-# Never check in docs builds
+# Docs builds
 docs/
+
+# Keys
+*-Keys.xcconfig
 
 # Fastlane
 /fastlane/report.xml
