@@ -16,7 +16,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    // Set up GiniSDK with your credentials
+    GINISDKBuilder *builder = [GINISDKBuilder anonymousUserWithClientID:GINI_CLIENT_ID clientSecret:GINI_CLIENT_SECRET userEmailDomain:@"example.com"];
+    self.giniSDK = [builder build];
+    
     return YES;
 }
 

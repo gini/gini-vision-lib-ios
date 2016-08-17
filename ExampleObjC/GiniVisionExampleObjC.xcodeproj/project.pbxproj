@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */; };
 		0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */; };
+		0A58FE441D5DCC510023502B /* ResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A58FE431D5DCC510023502B /* ResultTableViewController.m */; };
 		0A7A1A2F1D3D29F600E234A3 /* ComponentAPIReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A1A2E1D3D29F600E234A3 /* ComponentAPIReviewViewController.m */; };
 		0A7A1A321D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A1A311D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m */; };
 		0A9984681D192DC000A5C996 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9984671D192DC000A5C996 /* main.m */; };
@@ -19,6 +20,10 @@
 		0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A9984741D192DC000A5C996 /* LaunchScreen.storyboard */; };
 		0A9984811D192DC000A5C996 /* GiniVisionExampleObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9984801D192DC000A5C996 /* GiniVisionExampleObjCTests.m */; };
 		0A99848C1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */; };
+		0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */; };
+		0AEACE041D634AC600052120 /* NoResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE031D634AC600052120 /* NoResultViewController.m */; };
+		0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */; };
+		0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE071D6380F600052120 /* Dev-Config.xcconfig */; };
 		3FF2F976C6F3C8A7EC0D74F5 /* Pods_GiniVisionExampleObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9D5A0AE7CDE622B1A95598 /* Pods_GiniVisionExampleObjC.framework */; };
 		5A5CB45F4AC1B50708F3B962 /* Pods_GiniVisionExampleObjCUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8D5027421C94160FC5DBC9 /* Pods_GiniVisionExampleObjCUITests.framework */; };
 		A3843A1DAF2E9065547D41B8 /* Pods_GiniVisionExampleObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911C78B4AF583FC6DB1FA6A5 /* Pods_GiniVisionExampleObjCTests.framework */; };
@@ -46,6 +51,8 @@
 		0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPICameraViewController.m; sourceTree = "<group>"; };
 		0A4A53CE1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIOnboardingViewController.h; sourceTree = "<group>"; };
 		0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPIOnboardingViewController.m; sourceTree = "<group>"; };
+		0A58FE421D5DCC510023502B /* ResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultTableViewController.h; sourceTree = "<group>"; };
+		0A58FE431D5DCC510023502B /* ResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultTableViewController.m; sourceTree = "<group>"; };
 		0A7A1A2D1D3D29F600E234A3 /* ComponentAPIReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIReviewViewController.h; sourceTree = "<group>"; };
 		0A7A1A2E1D3D29F600E234A3 /* ComponentAPIReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPIReviewViewController.m; sourceTree = "<group>"; };
 		0A7A1A301D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIAnalysisViewController.h; sourceTree = "<group>"; };
@@ -66,6 +73,12 @@
 		0A9984871D192DC000A5C996 /* GiniVisionExampleObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVisionExampleObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GiniVisionExampleObjCUITests.m; sourceTree = "<group>"; };
 		0A99848D1D192DC000A5C996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0AC7F34E1D5CB5B400014D5A /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
+		0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
+		0AEACE021D634AC600052120 /* NoResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoResultViewController.h; sourceTree = "<group>"; };
+		0AEACE031D634AC600052120 /* NoResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultViewController.m; sourceTree = "<group>"; };
+		0AEACE051D6380EF00052120 /* Release-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Config.xcconfig"; sourceTree = "<group>"; };
+		0AEACE071D6380F600052120 /* Dev-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dev-Config.xcconfig"; sourceTree = "<group>"; };
 		1D9D5A0AE7CDE622B1A95598 /* Pods_GiniVisionExampleObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVisionExampleObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		235F5DFA9248565F867A28EE /* Pods-GiniVisionExampleObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVisionExampleObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVisionExampleObjCTests/Pods-GiniVisionExampleObjCTests.release.xcconfig"; sourceTree = "<group>"; };
 		2FC4068F6242E476434647C0 /* Pods-GiniVisionExampleObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVisionExampleObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVisionExampleObjCTests/Pods-GiniVisionExampleObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -108,6 +121,8 @@
 		0A99845A1D192DC000A5C996 = {
 			isa = PBXGroup;
 			children = (
+				0AEACE071D6380F600052120 /* Dev-Config.xcconfig */,
+				0AEACE051D6380EF00052120 /* Release-Config.xcconfig */,
 				0A9984651D192DC000A5C996 /* GiniVisionExampleObjC */,
 				0A99847F1D192DC000A5C996 /* GiniVisionExampleObjCTests */,
 				0A99848A1D192DC000A5C996 /* GiniVisionExampleObjCUITests */,
@@ -132,6 +147,12 @@
 			children = (
 				0A9984691D192DC000A5C996 /* AppDelegate.h */,
 				0A99846A1D192DC000A5C996 /* AppDelegate.m */,
+				0AC7F34E1D5CB5B400014D5A /* AnalysisManager.h */,
+				0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */,
+				0A58FE421D5DCC510023502B /* ResultTableViewController.h */,
+				0A58FE431D5DCC510023502B /* ResultTableViewController.m */,
+				0AEACE021D634AC600052120 /* NoResultViewController.h */,
+				0AEACE031D634AC600052120 /* NoResultViewController.m */,
 				0A99846C1D192DC000A5C996 /* ScreenAPIViewController.h */,
 				0A99846D1D192DC000A5C996 /* ScreenAPIViewController.m */,
 				0A32ECC51D1AF14F008E29DF /* ComponentAPICameraViewController.h */,
@@ -311,8 +332,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */,
 				0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */,
 				0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */,
+				0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */,
 				0A9984711D192DC000A5C996 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,10 +487,13 @@
 				0A7A1A321D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m in Sources */,
 				0A99846E1D192DC000A5C996 /* ScreenAPIViewController.m in Sources */,
 				0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */,
+				0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */,
 				0A99846B1D192DC000A5C996 /* AppDelegate.m in Sources */,
 				0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */,
 				0A9984681D192DC000A5C996 /* main.m in Sources */,
 				0A7A1A2F1D3D29F600E234A3 /* ComponentAPIReviewViewController.m in Sources */,
+				0AEACE041D634AC600052120 /* NoResultViewController.m in Sources */,
+				0A58FE441D5DCC510023502B /* ResultTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +550,7 @@
 /* Begin XCBuildConfiguration section */
 		0A99848E1D192DC000A5C996 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AEACE071D6380F600052120 /* Dev-Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -559,7 +586,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -568,6 +595,7 @@
 		};
 		0A99848F1D192DC000A5C996 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -597,7 +625,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -609,10 +637,12 @@
 			baseConfigurationReference = DB75DEEDFE6E80881C8CB693 /* Pods-GiniVisionExampleObjC.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjC;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -621,6 +651,7 @@
 			baseConfigurationReference = CF704F0B52C536629D6788B6 /* Pods-GiniVisionExampleObjC.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjC;

@@ -1,9 +1,12 @@
+source 'https://github.com/gini/gini-podspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
 # To make use of Swift frameworks
 use_frameworks!
 
 target 'GiniVisionExampleObjC' do
-
   pod 'GiniVision', :path => '../'
+  pod 'Gini-iOS-SDK'
 
   target 'GiniVisionExampleObjCTests' do
     inherit! :search_paths
