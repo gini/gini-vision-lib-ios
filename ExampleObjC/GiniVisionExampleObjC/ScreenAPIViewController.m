@@ -83,7 +83,7 @@
 }
 
 - (void)presentResults {
-    // TODO: Check for at least 1 pay five element else show no results screen
+    // Check for at least 1 pay five element else show no results screen
     NSArray *payFive = @[@"iban", @"bic", @"amountToPay", @"paymentReference", @"paymentRecipient"];
     NSString *segueIdentifier = @"presentNoResult";
     for (NSString *key in payFive) {

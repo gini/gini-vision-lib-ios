@@ -22,6 +22,15 @@ platform :ios do
   end
 
   lane :inhouseObjC do
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision-objc.in-house',
+      readonly: true
+    )
+
     cocoapods(
       podfile: 'ExampleObjC/Podfile'
     )
@@ -70,6 +79,15 @@ platform :ios do
   end
 
   lane :inhouse do
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision.in-house',
+      readonly: true
+    )
+    
     cocoapods(
       podfile: 'Example/Podfile'
     )
