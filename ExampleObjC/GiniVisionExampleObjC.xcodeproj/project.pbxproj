@@ -22,6 +22,7 @@
 		0A99848C1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */; };
 		0AB97B051D64981C0024C266 /* In-House-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */; };
 		0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */; };
+		0AC8FC6A1D65C30500FFB50E /* CancelationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8FC691D65C30500FFB50E /* CancelationToken.m */; };
 		0AEACE041D634AC600052120 /* NoResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE031D634AC600052120 /* NoResultViewController.m */; };
 		0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */; };
 		0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE071D6380F600052120 /* Dev-Config.xcconfig */; };
@@ -77,6 +78,8 @@
 		0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "In-House-Config.xcconfig"; sourceTree = "<group>"; };
 		0AC7F34E1D5CB5B400014D5A /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
 		0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
+		0AC8FC681D65C30500FFB50E /* CancelationToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelationToken.h; sourceTree = "<group>"; };
+		0AC8FC691D65C30500FFB50E /* CancelationToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelationToken.m; sourceTree = "<group>"; };
 		0AEACE021D634AC600052120 /* NoResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoResultViewController.h; sourceTree = "<group>"; };
 		0AEACE031D634AC600052120 /* NoResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultViewController.m; sourceTree = "<group>"; };
 		0AEACE051D6380EF00052120 /* Release-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Config.xcconfig"; sourceTree = "<group>"; };
@@ -153,6 +156,8 @@
 			children = (
 				0A9984691D192DC000A5C996 /* AppDelegate.h */,
 				0A99846A1D192DC000A5C996 /* AppDelegate.m */,
+				0AC8FC681D65C30500FFB50E /* CancelationToken.h */,
+				0AC8FC691D65C30500FFB50E /* CancelationToken.m */,
 				0AC7F34E1D5CB5B400014D5A /* AnalysisManager.h */,
 				0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */,
 				0A58FE421D5DCC510023502B /* ResultTableViewController.h */,
@@ -499,6 +504,7 @@
 				0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */,
 				0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */,
 				0A99846B1D192DC000A5C996 /* AppDelegate.m in Sources */,
+				0AC8FC6A1D65C30500FFB50E /* CancelationToken.m in Sources */,
 				0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */,
 				0A9984681D192DC000A5C996 /* main.m in Sources */,
 				0A7A1A2F1D3D29F600E234A3 /* ComponentAPIReviewViewController.m in Sources */,

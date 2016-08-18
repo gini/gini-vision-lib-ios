@@ -116,7 +116,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="containerView" destination="zSM-29-fDT" id="CRN-Wy-6wo"/>
-                        <segue destination="x83-Ma-kY3" kind="show" identifier="giniShowReview" id="pa0-Lo-D4k">
+                        <segue destination="x83-Ma-kY3" kind="show" identifier="showReview" id="pa0-Lo-D4k">
                             <nil key="action"/>
                         </segue>
                     </connections>
@@ -128,7 +128,7 @@
         <!--Component API-->
         <scene sceneID="tbx-jg-OxE">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="x83-Ma-kY3" customClass="ComponentAPIReviewViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="showAnalysis" automaticallyAdjustsScrollViewInsets="NO" id="x83-Ma-kY3" customClass="ComponentAPIReviewViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="TzD-7E-ufS"/>
                         <viewControllerLayoutGuide type="bottom" id="Biz-UC-Kjm"/>
@@ -160,9 +160,7 @@
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Continue" id="Qhm-u8-pts">
                                             <connections>
-                                                <segue destination="rYP-Yg-h6Q" kind="show" identifier="giniShowAnalysis" id="wxF-Es-QqT">
-                                                    <nil key="action"/>
-                                                </segue>
+                                                <action selector="showAnalysis:" destination="x83-Ma-kY3" id="lmw-2a-u6E"/>
                                             </connections>
                                         </barButtonItem>
                                     </navigationItem>
@@ -193,11 +191,12 @@
                     <navigationItem key="navigationItem" title="Component API" id="7hW-Pd-Mrf"/>
                     <connections>
                         <outlet property="containerView" destination="7dC-aj-eGN" id="br0-D6-cyH"/>
+                        <segue destination="rYP-Yg-h6Q" kind="show" identifier="showAnalysis" id="gX0-fV-vvf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dox-Pw-dK4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5447" y="-255"/>
+            <point key="canvasLocation" x="5429" y="-255"/>
         </scene>
         <!--API Selection-->
         <scene sceneID="Cw7-VE-X32">
@@ -287,7 +286,7 @@
         <!--Result Table View Controller-->
         <scene sceneID="bQw-vC-s6x">
             <objects>
-                <tableViewController id="RPg-jq-kQZ" customClass="ResultTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="resultScreen" id="RPg-jq-kQZ" customClass="ResultTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="rVY-oL-M5H">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -492,7 +491,7 @@
         <!--Ihre Überweisung-->
         <scene sceneID="vh1-CU-dai">
             <objects>
-                <viewController id="pDW-kN-oxU" customClass="NoResultViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="noResultScreen" id="pDW-kN-oxU" customClass="NoResultViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="27p-gy-Ntg"/>
                         <viewControllerLayoutGuide type="bottom" id="IK5-OX-U0Y"/>

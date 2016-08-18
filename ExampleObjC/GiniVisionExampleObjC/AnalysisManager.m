@@ -2,26 +2,47 @@
 //  AnalysisManager.m
 //  GiniVisionExampleObjC
 //
-//  Created by Gini on 11/08/16.
+//  Created by Peter Pult on 11/08/16.
 //  Copyright © 2016 Gini. All rights reserved.
 //
 
 #import "AnalysisManager.h"
 #import "AppDelegate.h"
 
-@interface AnalysisManager ()
+NSString *const GINIAnalysisManagerDidReceiveResultNotification = @"GINIAnalysisManagerDidReceiveResultNotification";
+NSString *const GINIAnalysisManagerDidReceiveErrorNotification  = @"GINIAnalysisManagerDidReceiveErrorNotification";
+NSString *const GINIAnalysisManagerResultDictionaryUserInfoKey  = @"GINIAnalysisManagerResultDictionaryUserInfoKey";
+NSString *const GINIAnalysisManagerErrorUserInfoKey             = @"GINIAnalysisManagerErrorUserInfoKey";
+NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysisManagerDocumentUserInfoKey";
 
-@property (nonatomic, assign) BOOL cancelled;
+@interface AnalysisManager () {
+    CancelationToken *_cancelationToken;
+}
 
 @end
 
 @implementation AnalysisManager
 
-- (void)cancel {
-    _cancelled = YES;
++ (instancetype)sharedManager {
+    static AnalysisManager *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedMyManager = [self new];
+    });
+    return sharedMyManager;
 }
 
-- (void)analyzeDocumentWithImageData:(NSData *)data andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
+- (void)analyzeDocumentWithImageData:(NSData *)data
+                    cancelationToken:(CancelationToken *)token
+                       andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
+    if (_cancelationToken) {
+        [_cancelationToken cancel];
+        _result = nil;
+        _document = nil;
+        _error = nil;
+    }
+    _cancelationToken = token;
+    
     /*********************************************
      * UPLOAD DOCUMENT WITH THE GINI SDK FOR IOS *
      *********************************************/
@@ -35,14 +56,13 @@
     // Create a file name for the document
     NSString *fileName = @"your_filename";
     
-    __block GINIDocument *giniDocument;
     __block NSString *documentId;
     
-    if (_cancelled) {
+    if (token.cancelled) {
         return;
     }
     [[[[[sdk.sessionManager getSession] continueWithBlock:^id(BFTask *task) {
-        if (_cancelled) {
+        if (token.cancelled) {
             return [BFTask cancelledTask];
         }
         if (task.error) {
@@ -50,27 +70,48 @@
         }
         return task.result;
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        if (_cancelled) {
+        if (token.cancelled) {
             return [BFTask cancelledTask];
         }
         return [manager createDocumentWithFilename:fileName fromData:data docType:@""];
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        if (_cancelled) {
+        if (token.cancelled) {
             return [BFTask cancelledTask];
         }
-        giniDocument = (GINIDocument *)task.result;
-        documentId = giniDocument.documentId;
+        _document = (GINIDocument *)task.result;
+        documentId = _document.documentId;
         NSLog(@"documentId: %@", documentId);
-        return giniDocument.extractions;
+        return _document.extractions;
     }] continueWithBlock:^id(BFTask *task) {
-        if (_cancelled || task.cancelled) {
+        if (token.cancelled || task.cancelled) {
             return [BFTask cancelledTask];
         }
+        
         if (task.error) {
-            completion(nil, nil, task.error);
+            _error = task.error.copy;
+            NSDictionary *userInfo = @{GINIAnalysisManagerErrorUserInfoKey: _error};
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:GINIAnalysisManagerDidReceiveErrorNotification
+                                                                    object:self
+                                                                  userInfo:userInfo];
+            });
+            if (completion) {
+                completion(nil, nil, task.error);
+            }
             return nil;
         }
-        completion((NSDictionary *)task.result, giniDocument, nil);
+        
+        NSLog(@"received extractions");
+        _result = ((NSDictionary *)task.result).copy;
+        NSDictionary *userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: _result, GINIAnalysisManagerDocumentUserInfoKey: _document};
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:GINIAnalysisManagerDidReceiveResultNotification
+                                                                object:self
+                                                              userInfo:userInfo];
+        });
+        if (completion) {
+            completion(_result, _document, nil);
+        }
         return nil;
     }];
 }

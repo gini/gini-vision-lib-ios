@@ -84,7 +84,7 @@
 
 - (void)presentResults {
     // Check for at least 1 pay five element else show no results screen
-    NSArray *payFive = @[@"iban", @"bic", @"amountToPay", @"paymentReference", @"paymentRecipient"];
+    NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     NSString *segueIdentifier = @"presentNoResult";
     for (NSString *key in payFive) {
         if (_result[key]) {
@@ -104,7 +104,7 @@
     [self cancelAnalysis];
     _imageData = data;
     _analysisManager = [AnalysisManager new];
-    [_analysisManager analyzeDocumentWithImageData:data andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
+    [_analysisManager analyzeDocumentWithImageData:data cancelationToken:[CancelationToken new] andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
         if (error) {
             self.errorMessage = @"Es ist ein Fehler aufgetreten. Wiederholen";
         } else if (result && document) {
@@ -118,7 +118,6 @@
 
 - (void)cancelAnalysis {
     if (_analysisManager) {
-        [_analysisManager cancel];
         _analysisManager = nil;
     }
     _result = nil;

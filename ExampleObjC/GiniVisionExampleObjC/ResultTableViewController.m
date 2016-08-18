@@ -23,7 +23,6 @@
     if (_result) {
         _sortedKeys = [[_result allKeys] sortedArrayUsingSelector: @selector(compare:)];
     }
-    
     if (_document) {
         [self sendFeedback:_document];
     }
@@ -42,12 +41,6 @@
         }
         
         NSMutableDictionary *extractions = task.result;
-        
-        // Make sure the displayed results are the same as the ones feedback should be given on
-        if (_result != extractions) {
-            NSLog(@"Error extractions do not relate to the given document: %@", document.documentId);
-            return nil;
-        }
         
         // As an example will set the BIC value statically.
         // In a real world example the user input should be used as the new value.

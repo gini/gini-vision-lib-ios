@@ -35,7 +35,7 @@
     _contentController = [[GINICameraViewController alloc] initWithSuccess:^(NSData * _Nonnull imageData) {
         _imageData = imageData;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"giniShowReview" sender:self];
+            [self performSegueWithIdentifier:@"showReview" sender:self];
         });
     } failure:^(enum GINICameraError error) {
         NSLog(@"Component API camera view controller received error:\n%ld)", (long)error);
@@ -57,7 +57,7 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"giniShowReview"]) {
+    if ([segue.identifier isEqualToString:@"showReview"]) {
         if (_imageData) {
             ComponentAPIReviewViewController *vc = (ComponentAPIReviewViewController *)segue.destinationViewController;
             // Set image data as input for the review view controller
