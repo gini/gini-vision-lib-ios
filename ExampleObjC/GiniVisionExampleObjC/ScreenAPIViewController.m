@@ -14,7 +14,6 @@
 @interface ScreenAPIViewController () <GINIVisionDelegate> {
     id<GINIAnalysisDelegate> _analysisDelegate;
     NSData *_imageData;
-    AnalysisManager *_analysisManager;
 }
 
 @property (nonatomic, strong) NSString *errorMessage;
@@ -103,8 +102,7 @@
 - (void)analyzeDocumentWithImageData:(NSData *)data {
     [self cancelAnalysis];
     _imageData = data;
-    _analysisManager = [AnalysisManager new];
-    [_analysisManager analyzeDocumentWithImageData:data cancelationToken:[CancelationToken new] andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
+    [[AnalysisManager sharedManager] analyzeDocumentWithImageData:data cancelationToken:[CancelationToken new] andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
         if (error) {
             self.errorMessage = @"Es ist ein Fehler aufgetreten. Wiederholen";
         } else if (result && document) {
@@ -117,9 +115,7 @@
 }
 
 - (void)cancelAnalysis {
-    if (_analysisManager) {
-        _analysisManager = nil;
-    }
+    [[AnalysisManager sharedManager] cancelAnalysis];
     _result = nil;
     _document = nil;
     _errorMessage = nil;
