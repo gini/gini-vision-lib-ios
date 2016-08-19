@@ -22,7 +22,17 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
 @property (nonatomic, strong) NSDictionary * _Nullable result;
 @property (nonatomic, strong) GINIDocument * _Nullable document;
 
+/**
+ *  Singleton method returning an instance of the analysis manager.
+ *
+ *  @return Instance of analysis manager.
+ */
 + (nonnull instancetype)sharedManager;
+
+/**
+ *  Cancels all running analsis processes manually.
+ */
+- (void)cancelAnalysis;
 
 /**
  *  Analyzes the given image data returning possible extraction values.

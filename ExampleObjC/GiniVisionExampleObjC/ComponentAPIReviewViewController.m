@@ -20,8 +20,6 @@
 
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 
-- (IBAction)back:(id)sender;
-
 @end
 
 @implementation ComponentAPIReviewViewController
@@ -47,11 +45,6 @@
     
     // Display the review view controller
     [self displayContent:_contentController];
-}
-
-// Pops back to the camera view controller
-- (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)showAnalysis:(id)sender {

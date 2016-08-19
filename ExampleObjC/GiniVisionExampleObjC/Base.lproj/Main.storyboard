@@ -63,7 +63,7 @@
             </objects>
             <point key="canvasLocation" x="3864" y="502"/>
         </scene>
-        <!--Component API-->
+        <!--ComponentAPI Camera View Controller-->
         <scene sceneID="CJX-uR-Wmi">
             <objects>
                 <viewController id="tUq-Am-oA7" customClass="ComponentAPICameraViewController" sceneMemberID="viewController">
@@ -112,8 +112,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Component API" id="j90-ag-OsL"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationItem key="navigationItem" id="j90-ag-OsL"/>
                     <connections>
                         <outlet property="containerView" destination="zSM-29-fDT" id="CRN-Wy-6wo"/>
                         <segue destination="x83-Ma-kY3" kind="show" identifier="showReview" id="pa0-Lo-D4k">
@@ -125,7 +124,7 @@
             </objects>
             <point key="canvasLocation" x="4676" y="-255"/>
         </scene>
-        <!--Component API-->
+        <!--ComponentAPI Review View Controller-->
         <scene sceneID="tbx-jg-OxE">
             <objects>
                 <viewController storyboardIdentifier="showAnalysis" automaticallyAdjustsScrollViewInsets="NO" id="x83-Ma-kY3" customClass="ComponentAPIReviewViewController" sceneMemberID="viewController">
@@ -140,55 +139,33 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dC-aj-eGN">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </containerView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7ai-GK-9Tg">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="NRU-zf-JyW"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem id="dyp-1g-OQ0">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="6qq-tv-6DH">
-                                            <connections>
-                                                <action selector="back:" destination="x83-Ma-kY3" id="LAQ-WY-lKx"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Continue" id="Qhm-u8-pts">
-                                            <connections>
-                                                <action selector="showAnalysis:" destination="x83-Ma-kY3" id="lmw-2a-u6E"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="7ai-GK-9Tg" firstAttribute="leading" secondItem="5YH-3B-tFG" secondAttribute="leading" id="2Po-rF-x2X"/>
-                            <constraint firstItem="7dC-aj-eGN" firstAttribute="top" secondItem="7ai-GK-9Tg" secondAttribute="bottom" id="4Vj-Ol-7pw"/>
                             <constraint firstItem="Biz-UC-Kjm" firstAttribute="top" secondItem="7dC-aj-eGN" secondAttribute="bottom" id="F0s-gD-wzG"/>
                             <constraint firstItem="7dC-aj-eGN" firstAttribute="top" secondItem="5YH-3B-tFG" secondAttribute="top" id="Ifx-6J-TSi"/>
+                            <constraint firstItem="7dC-aj-eGN" firstAttribute="top" secondItem="TzD-7E-ufS" secondAttribute="bottom" id="VcL-kh-RwX"/>
                             <constraint firstAttribute="trailing" secondItem="7dC-aj-eGN" secondAttribute="trailing" id="bml-Fc-qNR"/>
+                            <constraint firstItem="Biz-UC-Kjm" firstAttribute="top" secondItem="7dC-aj-eGN" secondAttribute="bottom" id="dZ4-dB-2If"/>
                             <constraint firstItem="7dC-aj-eGN" firstAttribute="top" secondItem="TzD-7E-ufS" secondAttribute="bottom" id="g57-Qp-nN1"/>
                             <constraint firstItem="7dC-aj-eGN" firstAttribute="leading" secondItem="5YH-3B-tFG" secondAttribute="leading" id="gi7-Jj-HjR"/>
-                            <constraint firstItem="7ai-GK-9Tg" firstAttribute="top" secondItem="5YH-3B-tFG" secondAttribute="topMargin" id="ikK-gT-nsE"/>
-                            <constraint firstAttribute="trailing" secondItem="7ai-GK-9Tg" secondAttribute="trailing" id="lCU-Mf-8Wy"/>
-                            <constraint firstItem="7ai-GK-9Tg" firstAttribute="top" secondItem="TzD-7E-ufS" secondAttribute="bottom" id="vUy-ib-9NR"/>
+                            <constraint firstAttribute="trailing" secondItem="7dC-aj-eGN" secondAttribute="trailing" id="hKN-Li-uUE"/>
+                            <constraint firstItem="7dC-aj-eGN" firstAttribute="leading" secondItem="5YH-3B-tFG" secondAttribute="leading" id="xtF-RO-TYE"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="vUy-ib-9NR"/>
                                 <exclude reference="Ifx-6J-TSi"/>
                                 <exclude reference="g57-Qp-nN1"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Component API" id="7hW-Pd-Mrf"/>
+                    <navigationItem key="navigationItem" id="dyp-1g-OQ0">
+                        <barButtonItem key="rightBarButtonItem" title="Continue" id="Qhm-u8-pts">
+                            <connections>
+                                <action selector="showAnalysis:" destination="x83-Ma-kY3" id="lmw-2a-u6E"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="7dC-aj-eGN" id="br0-D6-cyH"/>
                         <segue destination="rYP-Yg-h6Q" kind="show" identifier="showAnalysis" id="gX0-fV-vvf"/>
@@ -361,6 +338,11 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="pHL-l2-EEm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -371,7 +353,7 @@
             </objects>
             <point key="canvasLocation" x="3916" y="-255"/>
         </scene>
-        <!--Component API-->
+        <!--ComponentAPI Analysis View Controller-->
         <scene sceneID="ADD-gc-1Tj">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="rYP-Yg-h6Q" customClass="ComponentAPIAnalysisViewController" sceneMemberID="viewController">
@@ -383,27 +365,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZXY-nz-RKh">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="vvU-K3-Nkd"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem id="5io-Cr-akp">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="OdD-W1-Bvt">
-                                            <connections>
-                                                <action selector="back:" destination="rYP-Yg-h6Q" id="MGL-OE-QZC"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lLb-fl-gmQ">
                                 <rect key="frame" x="0.0" y="511" width="600" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -430,31 +391,40 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="DRR-hP-94z" firstAttribute="leading" secondItem="zhb-Sp-GeY" secondAttribute="leading" id="55w-56-diB"/>
                             <constraint firstItem="DRR-hP-94z" firstAttribute="top" secondItem="ydM-mT-Z11" secondAttribute="bottom" id="5V7-zH-5bi"/>
+                            <constraint firstItem="DRR-hP-94z" firstAttribute="leading" secondItem="zhb-Sp-GeY" secondAttribute="leading" id="6Wx-g5-45E"/>
+                            <constraint firstItem="lLb-fl-gmQ" firstAttribute="top" secondItem="DRR-hP-94z" secondAttribute="bottom" id="8ue-bL-uup"/>
+                            <constraint firstItem="DRR-hP-94z" firstAttribute="top" secondItem="ydM-mT-Z11" secondAttribute="bottom" id="AJ5-Ld-SMs"/>
                             <constraint firstItem="DRR-hP-94z" firstAttribute="top" secondItem="zhb-Sp-GeY" secondAttribute="top" id="BEk-a6-E2F"/>
+                            <constraint firstAttribute="trailing" secondItem="DRR-hP-94z" secondAttribute="trailing" id="Dk0-n2-8Hs"/>
                             <constraint firstAttribute="trailing" secondItem="DRR-hP-94z" secondAttribute="trailing" id="JHZ-Q5-Pz3"/>
                             <constraint firstItem="DCY-0e-Yow" firstAttribute="top" secondItem="DRR-hP-94z" secondAttribute="bottom" id="JyW-aP-xcF"/>
-                            <constraint firstItem="ZXY-nz-RKh" firstAttribute="leading" secondItem="zhb-Sp-GeY" secondAttribute="leading" id="Sak-ZN-Dd6"/>
                             <constraint firstItem="DRR-hP-94z" firstAttribute="leading" secondItem="zhb-Sp-GeY" secondAttribute="leading" id="UG2-FD-FLk"/>
-                            <constraint firstAttribute="trailing" secondItem="ZXY-nz-RKh" secondAttribute="trailing" id="W6D-K3-0Hz"/>
-                            <constraint firstItem="ZXY-nz-RKh" firstAttribute="top" secondItem="ydM-mT-Z11" secondAttribute="bottom" id="ZP6-OF-NbT"/>
+                            <constraint firstItem="DRR-hP-94z" firstAttribute="top" secondItem="ydM-mT-Z11" secondAttribute="bottom" id="UJL-cD-0yO"/>
                             <constraint firstItem="lLb-fl-gmQ" firstAttribute="leading" secondItem="zhb-Sp-GeY" secondAttribute="leading" id="atA-lM-4jK"/>
-                            <constraint firstItem="ZXY-nz-RKh" firstAttribute="top" secondItem="zhb-Sp-GeY" secondAttribute="topMargin" id="dqt-Cl-H9n"/>
                             <constraint firstItem="DCY-0e-Yow" firstAttribute="top" secondItem="lLb-fl-gmQ" secondAttribute="bottom" id="erv-Td-hmJ"/>
                             <constraint firstAttribute="trailing" secondItem="lLb-fl-gmQ" secondAttribute="trailing" id="mQL-9N-0m3"/>
-                            <constraint firstItem="DRR-hP-94z" firstAttribute="top" secondItem="ZXY-nz-RKh" secondAttribute="bottom" id="omH-ma-FlS"/>
+                            <constraint firstItem="lLb-fl-gmQ" firstAttribute="top" secondItem="DRR-hP-94z" secondAttribute="bottom" id="nEb-jl-pgy"/>
+                            <constraint firstAttribute="trailing" secondItem="DRR-hP-94z" secondAttribute="trailing" id="u7F-BA-QIq"/>
                             <constraint firstItem="lLb-fl-gmQ" firstAttribute="top" secondItem="DRR-hP-94z" secondAttribute="bottom" id="uHa-xE-Ck6"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="ZP6-OF-NbT"/>
                                 <exclude reference="5V7-zH-5bi"/>
+                                <exclude reference="6Wx-g5-45E"/>
                                 <exclude reference="BEk-a6-E2F"/>
+                                <exclude reference="JHZ-Q5-Pz3"/>
+                                <exclude reference="UG2-FD-FLk"/>
+                                <exclude reference="UJL-cD-0yO"/>
+                                <exclude reference="u7F-BA-QIq"/>
+                                <exclude reference="nEb-jl-pgy"/>
+                                <exclude reference="uHa-xE-Ck6"/>
                                 <exclude reference="JyW-aP-xcF"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Component API" id="DCI-g2-ury"/>
+                    <navigationItem key="navigationItem" id="5io-Cr-akp"/>
                     <connections>
                         <outlet property="containerView" destination="DRR-hP-94z" id="IuX-wI-Xh4"/>
                         <outlet property="errorButton" destination="lLb-fl-gmQ" id="THh-vZ-Sae"/>

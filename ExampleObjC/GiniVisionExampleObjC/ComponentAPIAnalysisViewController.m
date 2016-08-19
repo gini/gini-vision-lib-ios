@@ -16,7 +16,6 @@
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIButton *errorButton;
 
-- (IBAction)back:(id)sender;
 - (IBAction)errorButtonTapped:(id)sender;
 
 @end
@@ -43,11 +42,6 @@
     [(GINIAnalysisViewController *)_contentController showAnimation];
     
     [self displayError];
-}
-
-// Pops back to the review view controller
-- (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 // Handle tap on error button

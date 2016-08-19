@@ -32,6 +32,12 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
     return sharedMyManager;
 }
 
+- (void)cancelAnalysis {
+    if (_cancelationToken) {
+        [_cancelationToken cancel];
+    }
+}
+
 - (void)analyzeDocumentWithImageData:(NSData *)data
                     cancelationToken:(CancelationToken *)token
                        andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
