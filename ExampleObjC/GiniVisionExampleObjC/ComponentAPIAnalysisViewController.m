@@ -99,21 +99,35 @@
     });
 }
 
+- (void)viewDidUnload {
+    
+}
+
 - (void)handleAnalysisResult:(NSDictionary *)result {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
+    BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
         if (result[key]) {
-            ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
-            vc.result = result;
-            vc.document = [[AnalysisManager sharedManager] document];
-            [self.navigationController pushViewController:vc animated:YES];
-            return;
+            hasPayFive = YES;
+            break;
         }
     }
     
-    NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (hasPayFive) {
+        ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+        vc.result = result;
+        vc.document = [[AnalysisManager sharedManager] document];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    // Remove analysis screen from navigation stack
+    NSMutableArray *navigationStack = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+    [navigationStack removeObject:self];
+    self.navigationController.viewControllers = navigationStack;
 }
 
 // Display a generic error notice

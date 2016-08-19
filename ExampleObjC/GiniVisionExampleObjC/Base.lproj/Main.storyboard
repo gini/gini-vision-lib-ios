@@ -250,7 +250,6 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="uyM-ss-WTg"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <segue destination="RPg-jq-kQZ" kind="show" identifier="presentResult" id="DAn-j7-Mnv"/>
                         <segue destination="pDW-kN-oxU" kind="show" identifier="presentNoResult" id="tOB-xe-0l7"/>
@@ -263,14 +262,14 @@
         <!--Result Table View Controller-->
         <scene sceneID="bQw-vC-s6x">
             <objects>
-                <tableViewController storyboardIdentifier="resultScreen" id="RPg-jq-kQZ" customClass="ResultTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="resultScreen" hidesBottomBarWhenPushed="YES" id="RPg-jq-kQZ" customClass="ResultTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="rVY-oL-M5H">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="resultCell" textLabel="DZy-LP-mJr" detailTextLabel="xfW-YK-PSE" style="IBUITableViewCellStyleSubtitle" id="Uon-Y9-RV6">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Uon-Y9-RV6" id="SvP-c8-U4E">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -461,7 +460,7 @@
         <!--Ihre Überweisung-->
         <scene sceneID="vh1-CU-dai">
             <objects>
-                <viewController storyboardIdentifier="noResultScreen" id="pDW-kN-oxU" customClass="NoResultViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="noResultScreen" hidesBottomBarWhenPushed="YES" id="pDW-kN-oxU" customClass="NoResultViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="27p-gy-Ntg"/>
                         <viewControllerLayoutGuide type="bottom" id="IK5-OX-U0Y"/>
@@ -471,7 +470,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Es konnten keine Daten ausgelesen werden." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GV5-n6-YJy">
-                                <rect key="frame" x="20" y="65" width="560" height="21"/>
+                                <rect key="frame" x="20" y="109" width="560" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="1Lz-ch-z7p"/>
                                 </constraints>
@@ -480,7 +479,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bitte beachten Sie:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xR3-Pr-BVQ">
-                                <rect key="frame" x="20" y="126" width="560" height="21"/>
+                                <rect key="frame" x="20" y="170" width="560" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="cay-wi-eSa"/>
                                 </constraints>
@@ -525,7 +524,7 @@
                                 </variation>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reviewRotateButton" translatesAutoresizingMaskIntoConstraints="NO" id="eMq-gT-2Ld">
-                                <rect key="frame" x="288" y="240" width="24" height="24"/>
+                                <rect key="frame" x="288" y="284" width="24" height="24"/>
                                 <color key="tintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="FlB-ve-s2C"/>
@@ -533,7 +532,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJu-ez-xha">
-                                <rect key="frame" x="37" y="156" width="526" height="84"/>
+                                <rect key="frame" x="37" y="200" width="526" height="84"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="ALD-iY-BWg"/>
                                 </constraints>
@@ -550,6 +549,7 @@
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="trailing" secondItem="Icr-Ae-rRL" secondAttribute="trailingMargin" id="9iY-nf-zp3"/>
                             <constraint firstItem="EJu-ez-xha" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leading" constant="37" id="CZz-VB-Y2u"/>
                             <constraint firstItem="xR3-Pr-BVQ" firstAttribute="trailing" secondItem="Icr-Ae-rRL" secondAttribute="trailingMargin" id="EAe-ku-RA5"/>
+                            <constraint firstItem="GV5-n6-YJy" firstAttribute="top" secondItem="27p-gy-Ntg" secondAttribute="bottom" constant="45" id="GBS-eR-71u"/>
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leadingMargin" id="QFk-J1-185"/>
                             <constraint firstItem="T8h-wN-I1j" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leading" id="RDC-Lq-7MA"/>
                             <constraint firstItem="xR3-Pr-BVQ" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leadingMargin" id="aVT-ZC-yfH"/>
@@ -561,6 +561,11 @@
                             <constraint firstItem="EJu-ez-xha" firstAttribute="top" secondItem="xR3-Pr-BVQ" secondAttribute="bottom" constant="9" id="rYY-TO-pvV"/>
                             <constraint firstItem="xR3-Pr-BVQ" firstAttribute="top" secondItem="GV5-n6-YJy" secondAttribute="bottom" constant="40" id="rtc-s8-mJc"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="GBS-eR-71u"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Ihre Überweisung" id="4i1-9k-bvm"/>
                     <connections>

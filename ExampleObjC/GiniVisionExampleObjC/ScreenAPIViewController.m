@@ -9,6 +9,7 @@
 #import "ScreenAPIViewController.h"
 #import "AnalysisManager.h"
 #import "ResultTableViewController.h"
+#import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 
 @interface ScreenAPIViewController () <GINIVisionDelegate> {
@@ -84,17 +85,28 @@
 - (void)presentResults {
     // Check for at least 1 pay five element else show no results screen
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
-    NSString *segueIdentifier = @"presentNoResult";
+    BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
         if (_result[key]) {
-            segueIdentifier = @"presentResult";
+            hasPayFive = YES;
             break;
         }
     }
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
+    if (hasPayFive) {
+        ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+        vc.result = _result;
+        vc.document = _document;
+        [self.navigationController pushViewController:vc animated:NO];
+    } else {
+        NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self dismissViewControllerAnimated:YES completion:^{
             NSLog(@"FINISHED WITH RESULT\n%@", self.result);
-            [self performSegueWithIdentifier:segueIdentifier sender:self];
         }];
     });
 }
@@ -121,16 +133,6 @@
     _errorMessage = nil;
     _imageData = nil;
 }
-
-// MARK: Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"presentResult"]) {
-        ResultTableViewController *vc = (ResultTableViewController *)segue.destinationViewController;
-        vc.document = _document;
-        vc.result = _result;
-    }
-}
-
 
 // MARK: GiniVision delegate
 // Mandatory delegate methods
