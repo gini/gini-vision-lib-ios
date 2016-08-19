@@ -7,6 +7,9 @@
 //
 
 #import "ComponentAPIAnalysisViewController.h"
+#import "AnalysisManager.h"
+#import "ResultTableViewController.h"
+#import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 
 @interface ComponentAPIAnalysisViewController () {
@@ -38,25 +41,85 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    // Subscribe for analysis events
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisErrorNotification:) name:GINIAnalysisManagerDidReceiveErrorNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisResultNotification:) name:GINIAnalysisManagerDidReceiveResultNotification object:nil];
+    
+    // Check for already existent results in shared analysis manager
+    [self handleExistingResults];
+    
     // Starts loading animation
     [(GINIAnalysisViewController *)_contentController showAnimation];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     
-    [self displayError];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 // Handle tap on error button
 - (IBAction)errorButtonTapped:(id)sender {
     [(GINIAnalysisViewController *)_contentController showAnimation];
     [self hideErrorButton];
-    [self displayError];
+    [[AnalysisManager sharedManager] analyzeDocumentWithImageData:_imageData cancelationToken:[CancelationToken new] andCompletion:nil];
 }
 
-// Display a random error notice
+- (void)handleExistingResults {
+    AnalysisManager *manager = [AnalysisManager sharedManager];
+    if (manager.result) {
+        [self handleAnalysisResult:manager.result];
+    } else if (manager.error) {
+        [self handleAnalysisError:manager.error];
+    }
+}
+
+- (void)handleAnalysisErrorNotification:(NSNotification *)notification {
+    NSError *error = (NSError *)notification.userInfo[GINIAnalysisManagerErrorUserInfoKey];
+    [self handleAnalysisError:error];
+}
+
+- (void)handleAnalysisResultNotification:(NSNotification *)notification {
+    NSDictionary *result = (NSDictionary *)notification.userInfo[GINIAnalysisManagerResultDictionaryUserInfoKey];
+    if (result) {
+        [self handleAnalysisResult:result];
+    } else {
+        [self handleAnalysisError:nil];
+    }
+}
+
+- (void)handleAnalysisError:(NSError *)error {
+    if (error) {
+        NSLog(@"%@", error.description);
+    }
+    
+    // For the sake of simplicity we'll always present a generic error which allows the user to retry the analysis.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayError];
+    });
+}
+
+- (void)handleAnalysisResult:(NSDictionary *)result {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
+    NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
+    for (NSString *key in payFive) {
+        if (result[key]) {
+            ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+            vc.result = result;
+            vc.document = [[AnalysisManager sharedManager] document];
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
+        }
+    }
+    
+    NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+// Display a generic error notice
 - (void)displayError {
-    [self delay:1.5 block:^{
-        [(GINIAnalysisViewController *)_contentController hideAnimation];
-        [self showErrorButton];
-    }];
+    [(GINIAnalysisViewController *)_contentController hideAnimation];
+    [self showErrorButton];
 }
 
 // MARK: Toggle error button
@@ -85,14 +148,5 @@
     [self.containerView addSubview:controller.view];
     [controller didMoveToParentViewController:self];
 }
-
-// Little delay helper by @matt rewritten for Objective-C
-- (void)delay:(double)delay block:(void(^)())block {
-    dispatch_time_t after = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * (double)NSEC_PER_SEC));
-    dispatch_after(after, dispatch_get_main_queue(), block);
-}
-
-
-
 
 @end

@@ -35,18 +35,16 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
 - (void)cancelAnalysis {
     if (_cancelationToken) {
         [_cancelationToken cancel];
+        _result = nil;
+        _document = nil;
+        _error = nil;
     }
 }
 
 - (void)analyzeDocumentWithImageData:(NSData *)data
                     cancelationToken:(CancelationToken *)token
                        andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
-    if (_cancelationToken) {
-        [_cancelationToken cancel];
-        _result = nil;
-        _document = nil;
-        _error = nil;
-    }
+    [self cancelAnalysis];
     _cancelationToken = token;
     
     /*********************************************
