@@ -16,10 +16,24 @@ extern NSString * _Nonnull const GINIAnalysisManagerResultDictionaryUserInfoKey;
 extern NSString * _Nonnull const GINIAnalysisManagerErrorUserInfoKey;
 extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
 
+/**
+ *  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
+ */
 @interface AnalysisManager : NSObject
 
+/**
+ *  Most current error that occured during analysis.
+ */
 @property (nonatomic, strong) NSError  * _Nullable error;
+
+/**
+ *  Most current result dictionary from analysis.
+ */
 @property (nonatomic, strong) NSDictionary * _Nullable result;
+
+/**
+ *  Most current analyzed document.
+ */
 @property (nonatomic, strong) GINIDocument * _Nullable document;
 
 /**
@@ -30,7 +44,7 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
 + (nonnull instancetype)sharedManager;
 
 /**
- *  Cancels all running analsis processes manually.
+ *  Cancels all running analysis processes manually.
  */
 - (void)cancelAnalysis;
 

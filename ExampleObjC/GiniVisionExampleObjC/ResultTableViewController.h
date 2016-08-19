@@ -7,12 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <Gini_iOS_SDK/GiniSDK.h>
 
+/**
+ *  Presents a dictionary of results from the analysis process in a table view.
+ *  Values from the dictionary will be used as the cells titles and keys as the cells subtitles.
+ */
 @interface ResultTableViewController : UITableViewController
 
+/**
+ *  The result dictionary from the analysis process.
+ */
 @property (nonatomic, strong) NSDictionary *result;
+
+/**
+ *  The dictionary the results are from. 
+ *  Can be used for further processing.
+ */
 @property (nonatomic, strong) GINIDocument *document;
 
 @end

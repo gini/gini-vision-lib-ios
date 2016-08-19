@@ -23,28 +23,48 @@
     if (_result) {
         _sortedKeys = [[_result allKeys] sortedArrayUsingSelector: @selector(compare:)];
     }
+    
+    // If a valid document is set, send feedback on it.
+    // This is just to show case how to give feedback using the Gini SDK for iOS.
+    // In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
     if (_document) {
         [self sendFeedback:_document];
     }
 }
 
+/**
+ *  Exemplary method to send feedback to the Gini API using the Gini SDK for iOS.
+ *
+ *  @param document The document feedback should be given on.
+ */
 - (void)sendFeedback:(GINIDocument *)document {
     
-    // Get current Gini SDK instance to upload image and process exctraction
-    GiniSDK *gini = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).giniSDK;
+    /*******************************************
+     * SEND FEEDBACK WITH THE GINI SDK FOR IOS *
+     *******************************************/
     
-    // Get extractions from document
-    [[[document.extractions continueWithBlock:^id(BFTask *task) {
+    // Get current Gini SDK instance to upload image and process exctraction
+    GiniSDK *sdk = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).giniSDK;
+    
+    // 1. Get session
+    [[[[[[sdk.sessionManager getSession] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
-            NSLog(@"Error getting extractions from document: %@", document.documentId);
-            return nil;
+            return [sdk.sessionManager logIn];
         }
+        return task.result;
+    
+    // 2. Get extractions from the document
+    }] continueWithSuccessBlock:^id(BFTask *task) {
+        return document.extractions;
         
+    // 3. Create and send feedback on the document
+    }] continueWithSuccessBlock:^id(BFTask *task) {
         NSMutableDictionary *extractions = task.result;
         
         // As an example will set the BIC value statically.
-        // In a real world example the user input should be used as the new value.
-        // You should send feedback only for labels which the user has seen. Unseen labels should be filtered out.
+        // In a real world application the user input should be used as the new value.
+        // Feedback should only be send for labels which the user has seen. Unseen labels should be filtered out.
+        
         NSString *bicValue = @"BYLADEM1001";
         GINIExtraction *bic = (GINIExtraction *)extractions[@"bic"];
         
@@ -58,24 +78,21 @@
         // Repeat this step for all altered fields.
         
         // Get the document task manager and send feedback by updating the document.
-        GINIDocumentTaskManager *documentTaskManager = gini.documentTaskManager;
+        GINIDocumentTaskManager *documentTaskManager = sdk.documentTaskManager;
         return [documentTaskManager updateDocument:document];
-    }] continueWithBlock:^id(BFTask *task) {
-        if (task.error) {
-            NSLog(@"Error sending Feedback");
-            return nil;
-        }
         
-        // For testing purposes we'll get the extractions again to check if feedback was send correctly
+    // 4. Check if feedback was send successfully (only for testing purposes)
+    }] continueWithSuccessBlock:^id(BFTask *task) {
         return document.extractions;
+        
+    // 5. Handle results
     }] continueWithBlock:^id(BFTask *task) {
         if (task.error) {
-            NSLog(@"Error getting extractions from document: %@", document.documentId);
+            NSLog(@"Error sending feedback for document with id: %@", document.documentId);
             return nil;
         }
         
-        NSLog(@"extractions updated: %@", (NSDictionary *)task.result);
-        
+        NSLog(@"Upated extractions:\n%@", (NSDictionary *)task.result);
         return  nil;
     }];
 }

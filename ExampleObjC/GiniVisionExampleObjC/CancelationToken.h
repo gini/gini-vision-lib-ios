@@ -8,10 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Simple cancelation token implementation. 
+ *  Used in asychronous tasks.
+ */
 @interface CancelationToken : NSObject
 
-- (void)cancel;
-
 @property (nonatomic, assign, getter=cancelled) BOOL cancel;
+
+- (void)cancel;
 
 @end
