@@ -36,7 +36,7 @@
     // Create the review view controller
     _contentController = [[GINIReviewViewController alloc] init:_imageData success:^(NSData * _Nonnull imageData)
         {
-            NSLog(@"Component API review view controller received image data.");
+            NSLog(@"Component API review view controller received image data");
             // Update current image data when image is rotated by user
             _imageData = imageData;
         } failure:^(enum GINIReviewError error) {
@@ -51,7 +51,7 @@
     if (_imageData != _originalData) {
         _originalData = _imageData;
         
-        // Start analysis with updated image data, this will automatically cancel the old analysis process.
+        // Start analysis with updated image data, this will automatically cancel the old analysis process
         [[AnalysisManager sharedManager] analyzeDocumentWithImageData:_imageData cancelationToken:[CancelationToken new] andCompletion:nil];
         [self performSegueWithIdentifier:@"showAnalysis" sender:self];
         return;

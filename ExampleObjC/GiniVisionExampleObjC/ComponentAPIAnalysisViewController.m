@@ -55,6 +55,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    // Never forget to remove observers when you support iOS versions prior to 9.0
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -67,8 +68,8 @@
 
 - (void)handleExistingResults {
     AnalysisManager *manager = [AnalysisManager sharedManager];
-    if (manager.result) {
-        [self handleAnalysisResult:manager.result];
+    if (manager.result && manager.document) {
+        [self handleAnalysisResult:manager.result fromDocument:manager.document];
     } else if (manager.error) {
         [self handleAnalysisError:manager.error];
     }
@@ -81,8 +82,9 @@
 
 - (void)handleAnalysisResultNotification:(NSNotification *)notification {
     NSDictionary *result = (NSDictionary *)notification.userInfo[GINIAnalysisManagerResultDictionaryUserInfoKey];
-    if (result) {
-        [self handleAnalysisResult:result];
+    GINIDocument *document = (GINIDocument *)notification.userInfo[GINIAnalysisManagerDocumentUserInfoKey];
+    if (result && document) {
+        [self handleAnalysisResult:result fromDocument:document];
     } else {
         [self handleAnalysisError:nil];
     }
@@ -99,11 +101,7 @@
     });
 }
 
-- (void)viewDidUnload {
-    
-}
-
-- (void)handleAnalysisResult:(NSDictionary *)result {
+- (void)handleAnalysisResult:(NSDictionary *)result fromDocument:(GINIDocument *)document {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
@@ -117,7 +115,7 @@
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
         vc.result = result;
-        vc.document = [[AnalysisManager sharedManager] document];
+        vc.document = document;
         [self.navigationController pushViewController:vc animated:YES];
     } else {
         NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];

@@ -14,8 +14,14 @@
  */
 @interface CancelationToken : NSObject
 
+/**
+ *  Cancel propoerty to check the current cancelled state of the object.
+ */
 @property (nonatomic, assign, getter=cancelled) BOOL cancel;
 
+/**
+ *  Sets the state of the token to cancelled.
+ */
 - (void)cancel;
 
 @end
