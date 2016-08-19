@@ -18,8 +18,6 @@
 		0A9984711D192DC000A5C996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A99846F1D192DC000A5C996 /* Main.storyboard */; };
 		0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A9984721D192DC000A5C996 /* Assets.xcassets */; };
 		0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A9984741D192DC000A5C996 /* LaunchScreen.storyboard */; };
-		0A9984811D192DC000A5C996 /* GiniVisionExampleObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9984801D192DC000A5C996 /* GiniVisionExampleObjCTests.m */; };
-		0A99848C1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */; };
 		0AB97B051D64981C0024C266 /* In-House-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */; };
 		0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */; };
 		0AC8FC6A1D65C30500FFB50E /* CancelationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8FC691D65C30500FFB50E /* CancelationToken.m */; };
@@ -27,26 +25,7 @@
 		0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */; };
 		0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE071D6380F600052120 /* Dev-Config.xcconfig */; };
 		3FF2F976C6F3C8A7EC0D74F5 /* Pods_GiniVisionExampleObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9D5A0AE7CDE622B1A95598 /* Pods_GiniVisionExampleObjC.framework */; };
-		5A5CB45F4AC1B50708F3B962 /* Pods_GiniVisionExampleObjCUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF8D5027421C94160FC5DBC9 /* Pods_GiniVisionExampleObjCUITests.framework */; };
-		A3843A1DAF2E9065547D41B8 /* Pods_GiniVisionExampleObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911C78B4AF583FC6DB1FA6A5 /* Pods_GiniVisionExampleObjCTests.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		0A99847D1D192DC000A5C996 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A99845B1D192DC000A5C996 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A9984621D192DC000A5C996;
-			remoteInfo = GiniVisionExampleObjC;
-		};
-		0A9984881D192DC000A5C996 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0A99845B1D192DC000A5C996 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0A9984621D192DC000A5C996;
-			remoteInfo = GiniVisionExampleObjC;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0A32ECC51D1AF14F008E29DF /* ComponentAPICameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPICameraViewController.h; sourceTree = "<group>"; };
@@ -69,12 +48,6 @@
 		0A9984721D192DC000A5C996 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0A9984751D192DC000A5C996 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0A9984771D192DC000A5C996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A99847C1D192DC000A5C996 /* GiniVisionExampleObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVisionExampleObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A9984801D192DC000A5C996 /* GiniVisionExampleObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GiniVisionExampleObjCTests.m; sourceTree = "<group>"; };
-		0A9984821D192DC000A5C996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0A9984871D192DC000A5C996 /* GiniVisionExampleObjCUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVisionExampleObjCUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GiniVisionExampleObjCUITests.m; sourceTree = "<group>"; };
-		0A99848D1D192DC000A5C996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "In-House-Config.xcconfig"; sourceTree = "<group>"; };
 		0AC7F34E1D5CB5B400014D5A /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
 		0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
@@ -107,22 +80,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A9984791D192DC000A5C996 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A3843A1DAF2E9065547D41B8 /* Pods_GiniVisionExampleObjCTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A9984841D192DC000A5C996 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5A5CB45F4AC1B50708F3B962 /* Pods_GiniVisionExampleObjCUITests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -133,8 +90,6 @@
 				0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */,
 				0AEACE051D6380EF00052120 /* Release-Config.xcconfig */,
 				0A9984651D192DC000A5C996 /* GiniVisionExampleObjC */,
-				0A99847F1D192DC000A5C996 /* GiniVisionExampleObjCTests */,
-				0A99848A1D192DC000A5C996 /* GiniVisionExampleObjCUITests */,
 				0A9984641D192DC000A5C996 /* Products */,
 				674EEEA84928122B7CA2DD16 /* Pods */,
 				96CDAD6F0600102717E26275 /* Frameworks */,
@@ -145,8 +100,6 @@
 			isa = PBXGroup;
 			children = (
 				0A9984631D192DC000A5C996 /* GiniVisionExampleObjC.app */,
-				0A99847C1D192DC000A5C996 /* GiniVisionExampleObjCTests.xctest */,
-				0A9984871D192DC000A5C996 /* GiniVisionExampleObjCUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -189,24 +142,6 @@
 				0A9984671D192DC000A5C996 /* main.m */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		0A99847F1D192DC000A5C996 /* GiniVisionExampleObjCTests */ = {
-			isa = PBXGroup;
-			children = (
-				0A9984801D192DC000A5C996 /* GiniVisionExampleObjCTests.m */,
-				0A9984821D192DC000A5C996 /* Info.plist */,
-			);
-			path = GiniVisionExampleObjCTests;
-			sourceTree = "<group>";
-		};
-		0A99848A1D192DC000A5C996 /* GiniVisionExampleObjCUITests */ = {
-			isa = PBXGroup;
-			children = (
-				0A99848B1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m */,
-				0A99848D1D192DC000A5C996 /* Info.plist */,
-			);
-			path = GiniVisionExampleObjCUITests;
 			sourceTree = "<group>";
 		};
 		674EEEA84928122B7CA2DD16 /* Pods */ = {
@@ -258,47 +193,6 @@
 			productReference = 0A9984631D192DC000A5C996 /* GiniVisionExampleObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0A99847B1D192DC000A5C996 /* GiniVisionExampleObjCTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A9984931D192DC000A5C996 /* Build configuration list for PBXNativeTarget "GiniVisionExampleObjCTests" */;
-			buildPhases = (
-				D8A09D583A9BBFFC270CD018 /* [CP] Check Pods Manifest.lock */,
-				0A9984781D192DC000A5C996 /* Sources */,
-				0A9984791D192DC000A5C996 /* Frameworks */,
-				0A99847A1D192DC000A5C996 /* Resources */,
-				741CDC36574141F6F3F15304 /* [CP] Embed Pods Frameworks */,
-				5F62CDDA74896DB3AE3EAD1E /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0A99847E1D192DC000A5C996 /* PBXTargetDependency */,
-			);
-			name = GiniVisionExampleObjCTests;
-			productName = GiniVisionExampleObjCTests;
-			productReference = 0A99847C1D192DC000A5C996 /* GiniVisionExampleObjCTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		0A9984861D192DC000A5C996 /* GiniVisionExampleObjCUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0A9984961D192DC000A5C996 /* Build configuration list for PBXNativeTarget "GiniVisionExampleObjCUITests" */;
-			buildPhases = (
-				8BCDAAA99E4E46FC07826F2A /* [CP] Check Pods Manifest.lock */,
-				0A9984831D192DC000A5C996 /* Sources */,
-				0A9984841D192DC000A5C996 /* Frameworks */,
-				0A9984851D192DC000A5C996 /* Resources */,
-				BD5FF7233D4C516669F686DE /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0A9984891D192DC000A5C996 /* PBXTargetDependency */,
-			);
-			name = GiniVisionExampleObjCUITests;
-			productName = GiniVisionExampleObjCUITests;
-			productReference = 0A9984871D192DC000A5C996 /* GiniVisionExampleObjCUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -310,14 +204,6 @@
 				TargetAttributes = {
 					0A9984621D192DC000A5C996 = {
 						CreatedOnToolsVersion = 7.3.1;
-					};
-					0A99847B1D192DC000A5C996 = {
-						CreatedOnToolsVersion = 7.3.1;
-						TestTargetID = 0A9984621D192DC000A5C996;
-					};
-					0A9984861D192DC000A5C996 = {
-						CreatedOnToolsVersion = 7.3.1;
-						TestTargetID = 0A9984621D192DC000A5C996;
 					};
 				};
 			};
@@ -335,8 +221,6 @@
 			projectRoot = "";
 			targets = (
 				0A9984621D192DC000A5C996 /* GiniVisionExampleObjC */,
-				0A99847B1D192DC000A5C996 /* GiniVisionExampleObjCTests */,
-				0A9984861D192DC000A5C996 /* GiniVisionExampleObjCUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -352,20 +236,6 @@
 				0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */,
 				0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */,
 				0A9984711D192DC000A5C996 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A99847A1D192DC000A5C996 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A9984851D192DC000A5C996 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,51 +257,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVisionExampleObjC/Pods-GiniVisionExampleObjC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5F62CDDA74896DB3AE3EAD1E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVisionExampleObjCTests/Pods-GiniVisionExampleObjCTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		741CDC36574141F6F3F15304 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVisionExampleObjCTests/Pods-GiniVisionExampleObjCTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8BCDAAA99E4E46FC07826F2A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		8F96A7DC1A47F24F1987A220 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -447,37 +272,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVisionExampleObjC/Pods-GiniVisionExampleObjC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BD5FF7233D4C516669F686DE /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVisionExampleObjCUITests/Pods-GiniVisionExampleObjCUITests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		CCA1A5AB5303E5D4EA6FBB1F /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		D8A09D583A9BBFFC270CD018 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -513,36 +308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0A9984781D192DC000A5C996 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0A9984811D192DC000A5C996 /* GiniVisionExampleObjCTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0A9984831D192DC000A5C996 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0A99848C1D192DC000A5C996 /* GiniVisionExampleObjCUITests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		0A99847E1D192DC000A5C996 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A9984621D192DC000A5C996 /* GiniVisionExampleObjC */;
-			targetProxy = 0A99847D1D192DC000A5C996 /* PBXContainerItemProxy */;
-		};
-		0A9984891D192DC000A5C996 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0A9984621D192DC000A5C996 /* GiniVisionExampleObjC */;
-			targetProxy = 0A9984881D192DC000A5C996 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0A99846F1D192DC000A5C996 /* Main.storyboard */ = {
@@ -677,56 +443,6 @@
 			};
 			name = "In House";
 		};
-		0A9984941D192DC000A5C996 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2FC4068F6242E476434647C0 /* Pods-GiniVisionExampleObjCTests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = GiniVisionExampleObjCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVisionExampleObjC.app/GiniVisionExampleObjC";
-			};
-			name = Debug;
-		};
-		0A9984951D192DC000A5C996 /* In House */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F13F26F309DF21404C7951F3 /* Pods-GiniVisionExampleObjCTests.in house.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = GiniVisionExampleObjCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVisionExampleObjC.app/GiniVisionExampleObjC";
-			};
-			name = "In House";
-		};
-		0A9984971D192DC000A5C996 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B00230B050DC96A0FFDEF9D2 /* Pods-GiniVisionExampleObjCUITests.debug.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = GiniVisionExampleObjCUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = GiniVisionExampleObjC;
-			};
-			name = Debug;
-		};
-		0A9984981D192DC000A5C996 /* In House */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 359C11372FC581F5AD5828BE /* Pods-GiniVisionExampleObjCUITests.in house.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = GiniVisionExampleObjCUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = GiniVisionExampleObjC;
-			};
-			name = "In House";
-		};
 		0AB97B001D6497CC0024C266 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */;
@@ -779,31 +495,6 @@
 			};
 			name = Release;
 		};
-		0AB97B021D6497CC0024C266 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 235F5DFA9248565F867A28EE /* Pods-GiniVisionExampleObjCTests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				INFOPLIST_FILE = GiniVisionExampleObjCTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVisionExampleObjC.app/GiniVisionExampleObjC";
-			};
-			name = Release;
-		};
-		0AB97B031D6497CC0024C266 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C0A0951D246F03B0FC98144 /* Pods-GiniVisionExampleObjCUITests.release.xcconfig */;
-			buildSettings = {
-				INFOPLIST_FILE = GiniVisionExampleObjCUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.GiniVisionExampleObjCUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = GiniVisionExampleObjC;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -823,26 +514,6 @@
 				0A9984911D192DC000A5C996 /* Debug */,
 				0A9984921D192DC000A5C996 /* In House */,
 				0AB97B011D6497CC0024C266 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A9984931D192DC000A5C996 /* Build configuration list for PBXNativeTarget "GiniVisionExampleObjCTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A9984941D192DC000A5C996 /* Debug */,
-				0A9984951D192DC000A5C996 /* In House */,
-				0AB97B021D6497CC0024C266 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0A9984961D192DC000A5C996 /* Build configuration list for PBXNativeTarget "GiniVisionExampleObjCUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0A9984971D192DC000A5C996 /* Debug */,
-				0A9984981D192DC000A5C996 /* In House */,
-				0AB97B031D6497CC0024C266 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
