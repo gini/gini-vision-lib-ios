@@ -25,47 +25,67 @@
 
 @implementation ComponentAPIAnalysisViewController
 
+// MARK: View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Hide error button on load
     self.errorButton.alpha = 0.0;
     
-    // Create the analysis view controller
+    /***************************************************************************
+     * ANALYSIS SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+     ***************************************************************************/
+    
+    // (1. If not already done: Create and set a custom configuration object)
+    // See `ComponentAPICameraViewController.m` for implementation details.
+    
+    // 2. Create the analysis view controller
     _contentController = [[GINIAnalysisViewController alloc] init:_imageData];
     
-    // Display the analysis view controller
+    // 3. Display the analysis view controller
     [self displayContent:_contentController];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Subscribe for analysis events
+    // Subscribe to analysis events which will be fired when the analysis process ends.
+    // Either with a valid result or an error.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisErrorNotification:) name:GINIAnalysisManagerDidReceiveErrorNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisResultNotification:) name:GINIAnalysisManagerDidReceiveResultNotification object:nil];
     
-    // Check for already existent results in shared analysis manager
+    // Because results may come in during view controller transition,
+    // check for already existent results in shared analysis manager.
     [self handleExistingResults];
     
-    // Starts loading animation
+    // Start loading animation.
     [(GINIAnalysisViewController *)_contentController showAnimation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    // Never forget to remove observers when you support iOS versions prior to 9.0
+    // Never forget to remove observers when you support iOS versions prior to 9.0.
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-// Handle tap on error button
+// Displays the content controller inside the container view
+- (void)displayContent:(UIViewController *)controller {
+    [self addChildViewController:controller];
+    controller.view.frame = self.containerView.bounds;
+    [self.containerView addSubview:controller.view];
+    [controller didMoveToParentViewController:self];
+}
+
+// MARK: User actions
 - (IBAction)errorButtonTapped:(id)sender {
     [(GINIAnalysisViewController *)_contentController showAnimation];
     [self hideErrorButton];
+    
+    // Retry analysis of the document.
     [[AnalysisManager sharedManager] analyzeDocumentWithImageData:_imageData cancelationToken:[CancelationToken new] andCompletion:nil];
 }
 
+// MARK: Handle results from analysis process
 - (void)handleExistingResults {
     AnalysisManager *manager = [AnalysisManager sharedManager];
     if (manager.result && manager.document) {
@@ -96,6 +116,7 @@
     }
     
     // For the sake of simplicity we'll always present a generic error which allows the user to retry the analysis.
+    // In a real world application different messages depending on the kind of error might be appropriate.
     dispatch_async(dispatch_get_main_queue(), ^{
         [self displayError];
     });
@@ -122,19 +143,18 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     
-    // Remove analysis screen from navigation stack
+    // Remove analysis screen from navigation stack.
     NSMutableArray *navigationStack = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
     [navigationStack removeObject:self];
     self.navigationController.viewControllers = navigationStack;
 }
 
-// Display a generic error notice
+// MARK: Error button handling
 - (void)displayError {
     [(GINIAnalysisViewController *)_contentController hideAnimation];
     [self showErrorButton];
 }
 
-// MARK: Toggle error button
 - (void)showErrorButton {
     if (_errorButton.alpha == 1.0) {
         return;
@@ -151,14 +171,6 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.errorButton.alpha = 0.0;
     }];
-}
-
-// Displays the content controller inside the container view
-- (void)displayContent:(UIViewController *)controller {
-    [self addChildViewController:controller];
-    controller.view.frame = self.containerView.bounds;
-    [self.containerView addSubview:controller.view];
-    [controller didMoveToParentViewController:self];
 }
 
 @end

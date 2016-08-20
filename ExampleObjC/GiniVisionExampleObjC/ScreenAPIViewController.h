@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 /**
- *  View controller showing how to capture an image of a document using the Gini Vsion Library for iOS
+ *  View controller showing how to capture an image of a document using the Screen API of the Gini Vision Library for iOS
  *  and how to process it using the Gini SDK for iOS.
  */
 @interface ScreenAPIViewController : UIViewController

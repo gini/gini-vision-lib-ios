@@ -21,7 +21,7 @@
 @property (nonatomic, strong) NSDictionary *result;
 
 /**
- *  The dictionary the results are from. 
+ *  The document the results have been extracted from.
  *  Can be used for further processing.
  */
 @property (nonatomic, strong) GINIDocument *document;

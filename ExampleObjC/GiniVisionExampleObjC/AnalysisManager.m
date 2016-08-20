@@ -45,7 +45,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
                     cancelationToken:(CancelationToken *)token
                        andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
     
-    // Cancel any running analysis process and set cancelation token
+    // Cancel any running analysis process and set cancelation token.
     [self cancelAnalysis];
     _cancelationToken = token;
     
@@ -55,18 +55,18 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
     
     NSLog(@"Started analysis process");
     
-    // Get current Gini SDK instance to upload image and process exctraction
+    // Get current Gini SDK instance to upload image and process exctraction.
     GiniSDK *sdk = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).giniSDK;
     
-    // Create a document task manager to handle document tasks on the Gini API
+    // Create a document task manager to handle document tasks on the Gini API.
     GINIDocumentTaskManager *manager = sdk.documentTaskManager;
     
-    // Create a file name for the document
+    // Create a file name for the document.
     NSString *fileName = @"your_filename";
     
     __block NSString *documentId;
     
-    // Return early when process was canceled
+    // Return early when process was canceled.
     if (token.cancelled) {
         NSLog(@"Canceled analysis process");
         return;

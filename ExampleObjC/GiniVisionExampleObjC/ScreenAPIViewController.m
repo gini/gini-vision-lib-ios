@@ -45,24 +45,25 @@
      * CAPTURE IMAGE WITH THE SCREEN API OF THE GINI VISION LIBRARY FOR IOS *
      ************************************************************************/
     
-    // Create a custom configuration object
+    // 1. Create a custom configuration object
     GINIConfiguration *giniConfiguration = [GINIConfiguration new];
     giniConfiguration.debugModeOn = YES;
     giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];
     
-    // Create the Gini Vision Library view controller and pass in the configuration object
+    // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GINIVision viewControllerWithDelegate:self withConfiguration:giniConfiguration];
     
-    // Present the Gini Vision Library Screen API modally
+    // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
+    
+    // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
 }
 
 // MARK: Gini Vision delegate
-// Mandatory delegate methods
 - (void)didCapture:(NSData *)imageData {
     NSLog(@"Screen API received image data");
     
-    // Send original image data to analysis to have the results in as early as possible
+    // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
     [self analyzeDocumentWithImageData:imageData];
 }
 
@@ -70,13 +71,13 @@
     NSString *changesString = changes ? @"changes" : @"no changes";
     NSLog(@"Screen API received updated image data with %@", changesString);
     
-    // Changes were made to the document so the new data needs to be analyzed
+    // Analyze reviewed data because changes were made by the user during review.
     if (changes) {
         [self analyzeDocumentWithImageData:imageData];
         return;
     }
     
-    // No changes were made and their is already a result from the original data - Great!
+    // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
     if (_result && _document) {
         [self presentResults];
     }
@@ -87,11 +88,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-// Optional delegate methods
 - (void)didCancelReview {
     NSLog(@"Screen API canceled review");
     
-    // Cancel analysis process to avoid unnecessary network calls
+    // Cancel analysis process to avoid unnecessary network calls.
     [self cancelAnalysis];
 }
 
@@ -100,18 +100,19 @@
     
     _analysisDelegate = analysisDelegate;
     
-    // Show error message which may already occured while document was still reviewed
+    // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
+    // Show any errors that occured while the user was still reviewing the image here.
+    // Make sure to only show errors relevant to the user.
     [self showErrorMessage];
 }
 
 - (void)didCancelAnalysis {
     NSLog(@"Screen API canceled analysis");
     
-    // Cancel analysis process to avoid unnecessary network calls
-    [self cancelAnalysis];
-    
-    // Reset analysis delegate
     _analysisDelegate = nil;
+    
+    // Cancel analysis process to avoid unnecessary network calls.
+    [self cancelAnalysis];
 }
 
 // MARK: Handle analysis of document
@@ -169,7 +170,6 @@
 }
 
 - (void)presentResults {
-    // Check whether a pay five element is contained in the results
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {

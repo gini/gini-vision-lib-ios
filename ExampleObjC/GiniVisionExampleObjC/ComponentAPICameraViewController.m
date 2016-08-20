@@ -23,15 +23,20 @@
 
 @implementation ComponentAPICameraViewController
 
+// MARK: View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Create and set a custom configuration object
+    /*************************************************************************
+     * CAMERA SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+     *************************************************************************/
+    
+    // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
     GINIConfiguration *giniConfiguration = [GINIConfiguration new];
     giniConfiguration.debugModeOn = YES;
     [GINIVision setConfiguration:giniConfiguration];
     
-    // Create the camera view controller
+    // 2. Create the camera view controller
     _contentController = [[GINICameraViewController alloc] initWithSuccess:^(NSData * _Nonnull imageData) {
         _imageData = imageData;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -41,7 +46,7 @@
         NSLog(@"Component API camera view controller received error:\n%ld)", (long)error);
     }];
     
-    // Display the camera view controller
+    // 3. Display the camera view controller
     [self displayContent:_contentController];
 }
 
@@ -57,21 +62,6 @@
     [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
-// Go back to the API selection view controller
-- (IBAction)back:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"showReview"]) {
-        if (_imageData) {
-            ComponentAPIReviewViewController *vc = (ComponentAPIReviewViewController *)segue.destinationViewController;
-            // Set image data as input for the review view controller
-            vc.imageData = _imageData;
-        }
-    }
-}
-
 // Displays the content controller inside the container view
 - (void)displayContent:(UIViewController *)controller {
     [self addChildViewController:controller];
@@ -79,5 +69,22 @@
     [self.containerView addSubview:controller.view];
     [controller didMoveToParentViewController:self];
 }
+
+// MARK: User actions
+- (IBAction)back:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// MARK: Navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"showReview"]) {
+        if (_imageData) {
+            ComponentAPIReviewViewController *vc = (ComponentAPIReviewViewController *)segue.destinationViewController;
+            vc.imageData = _imageData;
+        }
+    }
+}
+
+
 
 @end

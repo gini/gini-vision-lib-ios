@@ -43,7 +43,7 @@
      * SEND FEEDBACK WITH THE GINI SDK FOR IOS *
      *******************************************/
     
-    // Get current Gini SDK instance to upload image and process exctraction
+    // Get current Gini SDK instance to upload image and process exctraction.
     GiniSDK *sdk = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).giniSDK;
     
     // 1. Get session
@@ -68,7 +68,7 @@
         NSString *bicValue = @"BYLADEM1001";
         GINIExtraction *bic = (GINIExtraction *)extractions[@"bic"];
         
-        // Update or add the new value
+        // Update or add the new value.
         if (bic) {
             bic.value = bicValue;
         } else {
