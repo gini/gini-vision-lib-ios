@@ -24,17 +24,22 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
 /**
  *  Most current error that occured during analysis.
  */
-@property (nonatomic, strong) NSError  * _Nullable error;
+@property (nonatomic, strong, nullable) NSError  *error;
 
 /**
  *  Most current result dictionary from analysis.
  */
-@property (nonatomic, strong) NSDictionary * _Nullable result;
+@property (nonatomic, strong, nullable) NSDictionary *result;
 
 /**
  *  Most current analyzed document.
  */
-@property (nonatomic, strong) GINIDocument * _Nullable document;
+@property (nonatomic, strong, nullable) GINIDocument *document;
+
+/**
+ *  Whether a analysis process is in progress.
+ */
+@property (nonatomic, assign, getter=isAnalyzing) BOOL analyzing;
 
 /**
  *  Singleton method returning an instance of the analysis manager.

@@ -80,6 +80,12 @@
     // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
     if (_result && _document) {
         [self presentResults];
+        return;
+    }
+    
+    // Restart analysis if it was canceled and is currently not running.
+    if (![[AnalysisManager sharedManager] isAnalyzing]) {
+        [self analyzeDocumentWithImageData:imageData];
     }
 }
 

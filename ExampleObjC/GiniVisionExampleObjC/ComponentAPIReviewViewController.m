@@ -56,6 +56,15 @@
     [self displayContent:_contentController];
 }
 
+-(void)didMoveToParentViewController:(UIViewController *)parent {
+    [super didMoveToParentViewController:parent];
+    
+    // Cancel analysis process to avoid unnecessary network calls.
+    if (!parent) {
+        [[AnalysisManager sharedManager] cancelAnalysis];
+    }
+}
+
 // Displays the content controller inside the container view
 - (void)displayContent:(UIViewController *)controller {
     [self addChildViewController:controller];
@@ -82,6 +91,11 @@
     if (result && document) {
         [self handleAnalysisResult:result fromDocument:document];
         return;
+    }
+    
+    // Restart analysis if it was canceled and is currently not running.
+    if (![[AnalysisManager sharedManager] isAnalyzing]) {
+        [[AnalysisManager sharedManager] analyzeDocumentWithImageData:_imageData cancelationToken:[CancelationToken new] andCompletion:nil];
     }
     
     // Show analysis screen if no results are in yet and no changes were made.

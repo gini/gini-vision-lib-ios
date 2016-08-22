@@ -38,6 +38,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
         _result = nil;
         _document = nil;
         _error = nil;
+        _analyzing = NO;
     }
 }
 
@@ -48,6 +49,8 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
     // Cancel any running analysis process and set cancelation token.
     [self cancelAnalysis];
     _cancelationToken = token;
+    
+    _analyzing = YES;
     
     /**********************************************
      * ANALYZE DOCUMENT WITH THE GINI SDK FOR IOS *
@@ -104,6 +107,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
     }] continueWithBlock:^id(BFTask *task) {
         if (token.cancelled || task.cancelled) {
             NSLog(@"Canceled analysis process");
+            _analyzing = NO;
             return [BFTask cancelledTask];
         }
         
@@ -131,6 +135,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:self userInfo:userInfo];
         });
         
+        _analyzing = NO;
         return nil;
     }];
 }

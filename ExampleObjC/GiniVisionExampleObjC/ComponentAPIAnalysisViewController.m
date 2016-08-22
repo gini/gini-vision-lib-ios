@@ -68,6 +68,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+-(void)didMoveToParentViewController:(UIViewController *)parent {
+    [super didMoveToParentViewController:parent];
+    
+    // Cancel analysis process to avoid unnecessary network calls.
+    if (!parent) {
+        [[AnalysisManager sharedManager] cancelAnalysis];
+    }
+}
+
 // Displays the content controller inside the container view
 - (void)displayContent:(UIViewController *)controller {
     [self addChildViewController:controller];
