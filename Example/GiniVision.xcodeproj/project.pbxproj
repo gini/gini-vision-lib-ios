@@ -18,6 +18,9 @@
 		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
 		0A82FAD21D59D78300D84632 /* GINIAnalysisUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */; };
+		0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */; };
+		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
+		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AB97AFF1D646BA40024C266 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB97AFE1D646BA40024C266 /* Constants.m */; };
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* AnalysisManager.swift */; };
@@ -63,6 +66,9 @@
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
 		0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIAnalysisUITests.swift; path = UITests/GINIAnalysisUITests.swift; sourceTree = SOURCE_ROOT; };
+		0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelationToken.swift; sourceTree = "<group>"; };
+		0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoResultViewController.swift; sourceTree = "<group>"; };
+		0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		0AB97AFC1D646BA40024C266 /* GiniVision_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GiniVision_Example-Bridging-Header.h"; sourceTree = "<group>"; };
 		0AB97AFD1D646BA40024C266 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		0AB97AFE1D646BA40024C266 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
@@ -185,7 +191,10 @@
 				0AB97AFD1D646BA40024C266 /* Constants.h */,
 				0AB97AFE1D646BA40024C266 /* Constants.m */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
+				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
 				0AEACE091D6385F700052120 /* AnalysisManager.swift */,
+				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
+				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
 				607FACD71AFB9204008FA782 /* ScreenAPIViewController.swift */,
 				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
 				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
@@ -505,8 +514,11 @@
 				0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */,
 				0AB97AFF1D646BA40024C266 /* Constants.m in Sources */,
 				607FACD81AFB9204008FA782 /* ScreenAPIViewController.swift in Sources */,
+				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
 				0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */,
 				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
+				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
+				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

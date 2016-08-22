@@ -10,95 +10,75 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
+/**
+ View controller showing how to capture an image of a document using the Screen API of the Gini Vision Library for iOS
+ and how to process it using the Gini SDK for iOS.
+ */
 class ScreenAPIViewController: UIViewController {
     
     var isUITest: Bool {
         return NSProcessInfo.processInfo().arguments.contains("--UITest")
     }
     
-    // MARK: User interaction
+    var analysisDelegate: GINIAnalysisDelegate?
+    var imageData: NSData?
+    var result: GINIResult? {
+        didSet {
+            if let result = result,
+                let document = document {
+                show(result, fromDocument: document)
+            }
+        }
+    }
+    var document: GINIDocument?
+    var errorMessage: String? {
+        didSet {
+            if let errorMessage = errorMessage {
+                show(errorMessage: errorMessage)
+            }
+        }
+    }
     
-    /**
-     User interaction method to start the Gini Vision Library via the Screen API.
-     
-     - parameter sender: The button sending the click event.
-     */
+    // MARK: View life cycle
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
+    
+    // MARK: User interaction
     @IBAction func easyLaunchGiniVision(sender: AnyObject) {
         
-        // Create a custom configuration object
+        /************************************************************************
+         * CAPTURE IMAGE WITH THE SCREEN API OF THE GINI VISION LIBRARY FOR IOS *
+         ************************************************************************/
+        
+        // 1. Create a custom configuration object
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
+        giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
         
         // Make sure the app always behaves the same when run from UITests
         if isUITest {
             giniConfiguration.onboardingShowAtFirstLaunch = false
         }
         
-        // Set navigation bar tint to white because it just looks better that way
-        giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
-        
-        // Create the Gini Vision Library view controller and pass in the configuration object
+        // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
         let vc = GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
         
-        // Present the Gini Vision Library Screen API modally
+        // 3. Present the Gini Vision Library Screen API modally
         presentViewController(vc, animated: true, completion: nil)
+        
+        // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
     
     // MARK: Handle analysis of document
-    var analysisDelegate: GINIAnalysisDelegate?
-    var imageData: NSData?
-    var analysisManager: AnalysisManager?
-    var result: [String: GINIExtraction]? { // TODO: Make this controller independent from Gini iOS SDK
-        didSet {
-            if result != nil { showResults() }
-        }
-    }
-    var errorMessage: String? {
-        didSet {
-            if errorMessage != nil { showErrorMessage() }
-        }
-    }
-    
-    /**
-     Will show an error message on the analysis screen. With a custom action which will be executed when the error message is tapped.
-     
-     - note: Will only be performed when analysis screen is showing.
-     */
-    func showErrorMessage() {
-        guard let errorMessage = self.errorMessage,
-            let imageData = self.imageData else {
-                return
-        }
-        
-        // Display an error with a custom message and custom action on the analysis screen
-        analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
-            self.analyzeDocument(withImageData: imageData)
-        })
-    }
-    
-    /**
-     Will close the Gini Vision Library and print the results of the document analysis.
-     
-     - note: Will only be performed when analysis screen is showing.
-     */
-    func showResults() {
-        
-        // Show results when on analysis screen
-        if let _ = analysisDelegate {
-            analysisDelegate = nil
-            dispatch_async(dispatch_get_main_queue(), {
-                self.dismissViewControllerAnimated(true, completion: {
-                    print("FINISHED WITH RESULT\n\(self.result)")
-                })
-            })
-        }
-    }
-    
-    /**
-     Will analyze the given image data.
-     
-     - parameter data: Image data to be analyzed.
-     */
     func analyzeDocument(withImageData data: NSData) {
         
         // Do not perform network tasks when UI testing.
@@ -108,89 +88,143 @@ class ScreenAPIViewController: UIViewController {
         
         cancelAnalsyis()
         imageData = data
-        analysisManager = AnalysisManager()
-        analysisManager?.analyzeDocument(withImageData: data, completion: { inner in
+        AnalysisManager.sharedManager.analyzeDocument(withImageData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
-                guard let result = try inner() else {
-                    return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
+                let response = try inner()
+                guard let result = response.0,
+                      let document = response.1 else {
+                        return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
                 }
                 self.result = result
-                
+                self.document = document
             } catch _ {
                 self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
             }
         })
     }
     
-    /**
-     Cancels any ongoing analysis process and resets according paramters.
-     */
     func cancelAnalsyis() {
-        analysisManager?.cancel()
-        analysisManager = nil
+        AnalysisManager.sharedManager.cancelAnalysis()
         result = nil
+        document = nil
         errorMessage = nil
         imageData = nil
     }
     
+    // MARK: Handle results from analysis process
+    func show(errorMessage message: String) {
+        guard let imageData = self.imageData else {
+            return
+        }
+        
+        // Display an error with a custom message and custom action on the analysis screen
+        analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
+            self.analyzeDocument(withImageData: imageData)
+        })
+    }
+    
+    func show(result: GINIResult, fromDocument document: GINIDocument) {
+        if let _ = analysisDelegate {
+            analysisDelegate = nil
+            present(result, fromDocument: document)
+        }
+    }
+    
+    func present(result: GINIResult, fromDocument document: GINIDocument) {
+        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "paymentRecipient"]
+        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if hasPayFive {
+            let vc = storyboard.instantiateViewControllerWithIdentifier("resultScreen") as! ResultTableViewController
+            vc.result = result
+            vc.document = document
+            dispatch_async(dispatch_get_main_queue()) {
+                self.navigationController?.pushViewController(vc, animated: false)
+            }
+        } else {
+            let vc = storyboard.instantiateViewControllerWithIdentifier("noResultScreen") as! NoResultViewController
+            dispatch_async(dispatch_get_main_queue()) {
+                self.navigationController?.pushViewController(vc, animated: false)
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue()) { 
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
 }
 
+// MARK: Gini Vision delegate
 extension ScreenAPIViewController: GINIVisionDelegate {
     
-    // Mandatory delegate methods
     func didCapture(imageData: NSData) {
+        print("Screen API received image data")
         
-        // Send original image data to analysis to have the results in as early as possible
+        // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withImageData: imageData)
     }
     
     func didReview(imageData: NSData, withChanges changes: Bool) {
+        print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
-        // Changes were made to the document so the new data needs to be analyzed
+        // Analyze reviewed data because changes were made by the user during review.
         if changes {
             analyzeDocument(withImageData: imageData)
             return
         }
         
-        // No changes were made and their is already a result from the original data - Great!
-        if let result = result {
-            dismissViewControllerAnimated(true, completion: {
-                print("FINISHED WITH RESULT\n\(result)")
-            })
+        // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
+        if let result = AnalysisManager.sharedManager.result,
+           let document = AnalysisManager.sharedManager.document {
+            present(result, fromDocument: document)
+            return
+        }
+        
+        // Restart analysis if it was canceled and is currently not running.
+        if !AnalysisManager.sharedManager.isAnalyzing {
+            analyzeDocument(withImageData: imageData)
         }
     }
     
     func didCancelCapturing() {
-        print("Screen API canceled capturing.")
+        print("Screen API canceled capturing")
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     // Optional delegate methods
     func didCancelReview() {
+        print("Screen API canceled review")
         
-        // Cancel analysis process to avoid unnecessary network calls
+        // Cancel analysis process to avoid unnecessary network calls.
         cancelAnalsyis()
     }
     
     func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate) {
+        print("Screen API started analysis screen")
+        
         self.analysisDelegate = analysisDelegate
         
-        // Show error message which may already occured while document was still reviewed
-        showErrorMessage()
+        // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
+        // Show any errors that occured while the user was still reviewing the image here.
+        // Make sure to only show errors relevant to the user.
+        if let errorMessage = errorMessage {
+            show(errorMessage: errorMessage)
+        }
         
-        // Send test error message when UI testing
+        // Send test error message when UI testing.
         if isUITest {
             analysisDelegate.displayError(withMessage: "My network error", andAction: { print("Try again") })
         }
     }
     
     func didCancelAnalysis() {
+        print("Screen API canceled analysis")
         
-        // Cancel analysis process to avoid unnecessary network calls
-        cancelAnalsyis()
-        
-        // Reset analysis delegate
         analysisDelegate = nil
+        
+        // Cancel analysis process to avoid unnecessary network calls.
+        cancelAnalsyis()
     }
     
 }
