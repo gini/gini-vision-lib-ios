@@ -100,7 +100,7 @@ class AnalysisManager {
             if token.cancelled {
                 return BFTask.cancelledTask()
             }
-            if (task.error != nil) {
+            if task.error != nil {
                 return sdk?.sessionManager.logIn()
             }
             return task.result
