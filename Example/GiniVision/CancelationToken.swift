@@ -12,7 +12,7 @@ import Foundation
  Simple cancelation token implementation.
  Used in asychronous tasks.
  */
-struct CancelationToken {
+class CancelationToken {
     
     /**
      Cancel propoerty to check the current cancelled state of the object.
@@ -22,7 +22,7 @@ struct CancelationToken {
     /**
      Sets the state of the token to cancelled.
      */
-    mutating func cancel() {
+    func cancel() {
         cancelled = true
     }
     

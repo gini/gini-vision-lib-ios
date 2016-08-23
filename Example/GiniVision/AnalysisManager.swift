@@ -137,12 +137,6 @@ class AnalysisManager {
             
             print("Finished analysis process")
             
-            guard let document = self.document,
-                  let result = task.result as? GINIResult else {
-                    print("Error getting results")
-                    return nil
-            }
-            
             let userInfo: [NSObject: AnyObject]
             let notificationName: String
             
@@ -150,15 +144,27 @@ class AnalysisManager {
                 userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
                 completion?(inner: { _ in throw error })
-            } else {
+            } else if let document = self.document,
+                      let result = task.result as? GINIResult {
+                self.result = result
+                self.document = document
                 userInfo = [
                     GINIAnalysisManagerResultDictionaryUserInfoKey: result,
                     GINIAnalysisManagerDocumentUserInfoKey: document
                 ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
                 completion?(inner: { _ in return (result, document) })
+            } else {
+                enum AnalysisError: ErrorType {
+                    case Unknown
+                }
+                let error = NSError(domain: "net.gini.error.", code: AnalysisError.Unknown._code, userInfo: nil)
+                userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
+                notificationName = GINIAnalysisManagerDidReceiveErrorNotification
+                completion?(inner: { _ in throw AnalysisError.Unknown })
+                return nil
             }
-            dispatch_async(dispatch_get_main_queue(), { 
+            dispatch_async(dispatch_get_main_queue(), {
                 NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self, userInfo: userInfo)
             })
             

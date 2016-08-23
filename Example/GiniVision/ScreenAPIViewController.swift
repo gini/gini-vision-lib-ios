@@ -25,7 +25,7 @@ class ScreenAPIViewController: UIViewController {
     var result: GINIResult? {
         didSet {
             if let result = result,
-                let document = document {
+               let document = document {
                 show(result, fromDocument: document)
             }
         }
@@ -95,8 +95,8 @@ class ScreenAPIViewController: UIViewController {
                       let document = response.1 else {
                         return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
                 }
-                self.result = result
                 self.document = document
+                self.result = result
             } catch _ {
                 self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
             }
@@ -131,7 +131,7 @@ class ScreenAPIViewController: UIViewController {
     }
     
     func present(result: GINIResult, fromDocument document: GINIDocument) {
-        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "paymentRecipient"]
+        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -175,8 +175,8 @@ extension ScreenAPIViewController: GINIVisionDelegate {
         }
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
-        if let result = AnalysisManager.sharedManager.result,
-           let document = AnalysisManager.sharedManager.document {
+        if let result = result,
+           let document = document {
             present(result, fromDocument: document)
             return
         }
