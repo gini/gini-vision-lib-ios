@@ -90,8 +90,8 @@ class ScreenAPIViewController: UIViewController {
         imageData = data
         AnalysisManager.sharedManager.analyzeDocument(withImageData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
-                let response = try inner()
-                guard let result = response.0,
+                guard let response = try inner?(),
+                      let result = response.0,
                       let document = response.1 else {
                         return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
                 }

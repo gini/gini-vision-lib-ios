@@ -38,6 +38,11 @@ class AnalysisManager {
     var document: GINIDocument?
     
     /**
+     Most current error that occured during analysis.
+     */
+    var error: NSError?
+    
+    /**
      Whether a analysis process is in progress.
      */
     var isAnalyzing = false
@@ -51,6 +56,7 @@ class AnalysisManager {
         cancelationToken?.cancel()
         result = nil
         document = nil
+        error = nil
         isAnalyzing = false
     }
     
@@ -65,7 +71,7 @@ class AnalysisManager {
      */
     func analyzeDocument(withImageData data: NSData,
                          cancelationToken token: CancelationToken,
-                         completion: ((inner: () throws -> (GINIResult?, GINIDocument?)) -> ())?) {
+                         completion: ((inner: (() throws -> (GINIResult?, GINIDocument?))?) -> ())?) {
         
         // Cancel any running analysis process and set cancelation token.
         cancelAnalysis()
@@ -141,6 +147,7 @@ class AnalysisManager {
             let notificationName: String
             
             if let error = task.error {
+                self.error = error
                 userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
                 completion?(inner: { _ in throw error })
@@ -152,13 +159,14 @@ class AnalysisManager {
                     GINIAnalysisManagerResultDictionaryUserInfoKey: result,
                     GINIAnalysisManagerDocumentUserInfoKey: document
                 ]
-                notificationName = GINIAnalysisManagerDidReceiveErrorNotification
+                notificationName = GINIAnalysisManagerDidReceiveResultNotification
                 completion?(inner: { _ in return (result, document) })
             } else {
                 enum AnalysisError: ErrorType {
                     case Unknown
                 }
                 let error = NSError(domain: "net.gini.error.", code: AnalysisError.Unknown._code, userInfo: nil)
+                self.error = error
                 userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
                 completion?(inner: { _ in throw AnalysisError.Unknown })

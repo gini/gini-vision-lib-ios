@@ -8,44 +8,61 @@
 
 import UIKit
 import GiniVision
+import Gini_iOS_SDK
 
+/**
+ View controller showing how to implement the review screen using the Component API of the Gini Vision Library for iOS and
+ how to process the previously captured image using the Gini SDK for iOS
+ */
 class ComponentAPIReviewViewController: UIViewController {
     
-    // Container attributes
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
-    // Input
+    /**
+     The image data of the captured document to be reviewed.
+     */
     var imageData: NSData!
     
+    private var originalData: NSData?
+    
+    // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Create the review view controller
+        originalData = imageData
+        
+        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
+        // to have results in as early as possible.
+        AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+        
+        /*************************************************************************
+         * REVIEW SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+         *************************************************************************/
+        
+        // (1. If not already done: Create and set a custom configuration object)
+        // See `ComponentAPICameraViewController.swift` for implementation details.
+        
+        // 2. Create the review view controller
         contentController = GINIReviewViewController(imageData, success:
             { imageData in
-                print("Component API review view controller received image data.")
+                print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user
                 self.imageData = imageData
             }, failure: { error in
                 print("Component API review view controller received error:\n\(error)")
             })
         
-        // Display the review view controller
+        // 3. Display the review view controller
         displayContent(contentController)
     }
     
-    // Pops back to the camera view controller
-    @IBAction func back(sender: AnyObject) {
-        navigationController?.popViewControllerAnimated(true)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "giniShowAnalysis" {
-            if let vc = segue.destinationViewController as? ComponentAPIAnalysisViewController {
-                // Set image data as input for the analysis view controller
-                vc.imageData = imageData
-            }
+    override func didMoveToParentViewController(parent: UIViewController?) {
+        super.didMoveToParentViewController(parent)
+        
+        // Cancel analysis process to avoid unnecessary network calls.
+        if parent == nil {
+            AnalysisManager.sharedManager.cancelAnalysis()
         }
     }
     
@@ -55,6 +72,60 @@ class ComponentAPIReviewViewController: UIViewController {
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
         controller.didMoveToParentViewController(self)
+    }
+    
+    // MARK: User actions
+    @IBAction func showAnalysis(sender: AnyObject) {
+        
+        // Analyze reviewed data because changes were made by the user during review.
+        if imageData != originalData {
+            originalData = imageData
+            AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+            performSegueWithIdentifier("showAnalysis", sender: self)
+            return
+        }
+        
+        // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
+        if let result = AnalysisManager.sharedManager.result,
+           let document = AnalysisManager.sharedManager.document {
+            handleAnalysis(result, fromDocument: document)
+            return
+        }
+        
+        // Restart analysis if it was canceled and is currently not running.
+        if !AnalysisManager.sharedManager.isAnalyzing {
+            AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+        }
+        
+        // Show analysis screen if no results are in yet and no changes were made.
+        performSegueWithIdentifier("showAnalysis", sender: self)
+    }
+    
+    // MARK: Handle results from analysis process
+    func handleAnalysis(result: GINIResult, fromDocument document: GINIDocument) {
+        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
+        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if hasPayFive {
+            let vc = storyboard.instantiateViewControllerWithIdentifier("resultScreen") as! ResultTableViewController
+            vc.result = result
+            vc.document = document
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = storyboard.instantiateViewControllerWithIdentifier("noResultScreen") as! NoResultViewController
+            navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showAnalysis" {
+            if let vc = segue.destinationViewController as? ComponentAPIAnalysisViewController {
+                // Set image data as input for the analysis view controller
+                vc.imageData = imageData
+            }
+        }
     }
     
 }

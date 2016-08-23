@@ -113,17 +113,16 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Component API" id="u33-fr-0bj"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
-                        <segue destination="bpn-9B-40f" kind="show" identifier="giniShowReview" id="Idu-Pb-0ha"/>
+                        <segue destination="bpn-9B-40f" kind="show" identifier="showReview" id="Idu-Pb-0ha"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4676" y="-255"/>
         </scene>
-        <!--Component API-->
+        <!--ComponentAPI Review View Controller-->
         <scene sceneID="54T-xI-a0p">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="bpn-9B-40f" customClass="ComponentAPIReviewViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -138,57 +137,33 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvg-cz-X1a">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </containerView>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aWH-fo-37O">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="74l-iG-ooD"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem id="q0I-MG-EXb">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="jga-ln-KPB">
-                                            <connections>
-                                                <action selector="back:" destination="bpn-9B-40f" id="7RU-4I-pGT"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Continue" id="EQl-K1-00e">
-                                            <connections>
-                                                <segue destination="ej4-eT-XJQ" kind="show" identifier="giniShowAnalysis" id="6Gj-6f-WhL"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Uvg-cz-X1a" secondAttribute="trailing" id="CTp-Hb-jrM"/>
-                            <constraint firstItem="aWH-fo-37O" firstAttribute="top" secondItem="q0u-mJ-1aS" secondAttribute="topMargin" id="EeO-Kh-qDj"/>
-                            <constraint firstItem="aWH-fo-37O" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="Vco-Ue-vAO"/>
-                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="aWH-fo-37O" secondAttribute="bottom" id="gHE-HB-Cfd"/>
+                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="keP-0Z-lM3"/>
                             <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="pRw-Gb-A0q"/>
                             <constraint firstItem="jlx-L6-fKV" firstAttribute="top" secondItem="Uvg-cz-X1a" secondAttribute="bottom" id="rws-YQ-mgE"/>
                             <constraint firstItem="Uvg-cz-X1a" firstAttribute="leading" secondItem="q0u-mJ-1aS" secondAttribute="leading" id="wPm-dp-hPb"/>
                             <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="q0u-mJ-1aS" secondAttribute="top" id="wm8-Vz-XOw"/>
-                            <constraint firstAttribute="trailing" secondItem="aWH-fo-37O" secondAttribute="trailing" id="yZo-Bv-syD"/>
-                            <constraint firstItem="aWH-fo-37O" firstAttribute="leading" secondItem="q0u-mJ-1aS" secondAttribute="leading" id="yvM-Eo-iag"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="Vco-Ue-vAO"/>
                                 <exclude reference="pRw-Gb-A0q"/>
                                 <exclude reference="wm8-Vz-XOw"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Component API" id="052-yP-lVc"/>
+                    <navigationItem key="navigationItem" id="q0I-MG-EXb">
+                        <barButtonItem key="rightBarButtonItem" title="Continue" id="EQl-K1-00e">
+                            <connections>
+                                <action selector="showAnalysis:" destination="bpn-9B-40f" id="0td-of-9cv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="Uvg-cz-X1a" id="Jr1-sh-Ssh"/>
+                        <segue destination="ej4-eT-XJQ" kind="show" identifier="showAnalysis" id="b8t-LI-ByW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-do-qjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -313,6 +288,12 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wmk-h1-aiy">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
+                            <color key="textColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -323,7 +304,7 @@
             </objects>
             <point key="canvasLocation" x="3916" y="-255"/>
         </scene>
-        <!--Component API-->
+        <!--ComponentAPI Analysis View Controller-->
         <scene sceneID="Jdr-6S-YsN">
             <objects>
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="ej4-eT-XJQ" customClass="ComponentAPIAnalysisViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
@@ -335,27 +316,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ne1-QB-mn9">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="64" id="0V6-eQ-mt1"/>
-                                </constraints>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="barTintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                                <textAttributes key="titleTextAttributes">
-                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </textAttributes>
-                                <items>
-                                    <navigationItem id="fQf-ht-2h6">
-                                        <barButtonItem key="leftBarButtonItem" title="Back" id="oxF-vV-bms">
-                                            <connections>
-                                                <action selector="back:" destination="ej4-eT-XJQ" id="fde-PL-805"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZD-YC-RgH">
                                 <rect key="frame" x="0.0" y="511" width="600" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="calibratedRGB"/>
@@ -384,30 +344,25 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="dnB-Gz-I2J" firstAttribute="top" secondItem="Qo1-xJ-5g4" secondAttribute="top" id="1i0-lJ-tku"/>
-                            <constraint firstItem="Ne1-QB-mn9" firstAttribute="top" secondItem="Mvi-1p-ikx" secondAttribute="bottom" id="3wW-YK-j0E"/>
-                            <constraint firstItem="Ne1-QB-mn9" firstAttribute="top" secondItem="Qo1-xJ-5g4" secondAttribute="topMargin" id="7iE-pz-2En"/>
-                            <constraint firstItem="Ne1-QB-mn9" firstAttribute="leading" secondItem="Qo1-xJ-5g4" secondAttribute="leading" id="E6x-oY-pK3"/>
                             <constraint firstItem="tZD-YC-RgH" firstAttribute="leading" secondItem="Qo1-xJ-5g4" secondAttribute="leading" id="Ih5-Ty-pnM"/>
                             <constraint firstItem="tZD-YC-RgH" firstAttribute="top" secondItem="dnB-Gz-I2J" secondAttribute="bottom" id="JSV-MG-vUU"/>
                             <constraint firstItem="dnB-Gz-I2J" firstAttribute="top" secondItem="Mvi-1p-ikx" secondAttribute="bottom" id="U27-z6-2HT"/>
                             <constraint firstAttribute="trailing" secondItem="dnB-Gz-I2J" secondAttribute="trailing" id="Zsw-br-o0M"/>
-                            <constraint firstItem="dnB-Gz-I2J" firstAttribute="top" secondItem="Ne1-QB-mn9" secondAttribute="bottom" id="iOq-ea-bz6"/>
                             <constraint firstItem="b2S-iE-aI1" firstAttribute="top" secondItem="tZD-YC-RgH" secondAttribute="bottom" id="jOp-0b-Ouq"/>
                             <constraint firstItem="b2S-iE-aI1" firstAttribute="top" secondItem="dnB-Gz-I2J" secondAttribute="bottom" id="lgC-eJ-MXT"/>
-                            <constraint firstAttribute="trailing" secondItem="Ne1-QB-mn9" secondAttribute="trailing" id="m4O-ZZ-WYl"/>
                             <constraint firstItem="dnB-Gz-I2J" firstAttribute="leading" secondItem="Qo1-xJ-5g4" secondAttribute="leading" id="th7-7L-Xp6"/>
+                            <constraint firstItem="dnB-Gz-I2J" firstAttribute="top" secondItem="Mvi-1p-ikx" secondAttribute="bottom" id="vB0-7P-8ij"/>
                             <constraint firstAttribute="trailing" secondItem="tZD-YC-RgH" secondAttribute="trailing" id="xlO-pH-aCX"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
-                                <exclude reference="3wW-YK-j0E"/>
                                 <exclude reference="1i0-lJ-tku"/>
                                 <exclude reference="U27-z6-2HT"/>
                                 <exclude reference="lgC-eJ-MXT"/>
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Component API" id="b26-N6-gso"/>
+                    <navigationItem key="navigationItem" id="fQf-ht-2h6"/>
                     <connections>
                         <outlet property="containerView" destination="dnB-Gz-I2J" id="rMm-im-BxC"/>
                         <outlet property="errorButton" destination="tZD-YC-RgH" id="CcX-mp-7QC"/>

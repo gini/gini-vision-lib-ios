@@ -9,25 +9,30 @@
 import UIKit
 import GiniVision
 
+/**
+ View controller showing how to implement the onboarding screen using the Component API of the Gini Vision Library for iOS.
+ */
 class ComponentAPIOnboardingViewController: UIViewController {
     
-    // Container attributes
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
+    // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Create the onboarding view controller
+        /*****************************************************************************
+         * ONBOARDING SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+         *****************************************************************************/
+        
+        // (1. If not already done: Create and set a custom configuration object)
+        // See `ComponentAPICameraViewController.swift` for implementation details.
+        
+        // 2. Create the onboarding view controller
         contentController = GINIOnboardingViewController(scrollViewDelegate: nil)
         
-        // Display the onboarding view controller
+        // 3. Display the onboarding view controller
         displayContent(contentController)
-    }
-    
-    // Scrolls the onboarding view controller to the next page
-    @IBAction func nextPage(sender: AnyObject) {
-        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
     }
     
     // Displays the content controller inside the container view
@@ -36,6 +41,13 @@ class ComponentAPIOnboardingViewController: UIViewController {
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
         controller.didMoveToParentViewController(self)
+    }
+    
+    // MARK: User actions
+    @IBAction func nextPage(sender: AnyObject) {
+        
+        // Scroll the onboarding to the next page.
+        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
     }
     
 }
