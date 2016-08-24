@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+/**
+ *  View controller showing how to implement the onboarding screen using the Component API of the Gini Vision Library for iOS.
+ */
 @interface ComponentAPIOnboardingViewController : UIViewController
 
 @end

@@ -7,6 +7,9 @@
 //
 
 #import "ComponentAPIAnalysisViewController.h"
+#import "AnalysisManager.h"
+#import "ResultTableViewController.h"
+#import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 
 @interface ComponentAPIAnalysisViewController () {
@@ -16,56 +19,151 @@
 @property (strong, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) IBOutlet UIButton *errorButton;
 
-- (IBAction)back:(id)sender;
 - (IBAction)errorButtonTapped:(id)sender;
 
 @end
 
 @implementation ComponentAPIAnalysisViewController
 
+// MARK: View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Hide error button on load
     self.errorButton.alpha = 0.0;
     
-    // Create the analysis view controller
+    /***************************************************************************
+     * ANALYSIS SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+     ***************************************************************************/
+    
+    // (1. If not already done: Create and set a custom configuration object)
+    // See `ComponentAPICameraViewController.m` for implementation details.
+    
+    // 2. Create the analysis view controller
     _contentController = [[GINIAnalysisViewController alloc] init:_imageData];
     
-    // Display the analysis view controller
+    // 3. Display the analysis view controller
     [self displayContent:_contentController];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    // Starts loading animation
-    [(GINIAnalysisViewController *)_contentController showAnimation];
+    // Subscribe to analysis events which will be fired when the analysis process ends.
+    // Either with a valid result or an error.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisErrorNotification:) name:GINIAnalysisManagerDidReceiveErrorNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAnalysisResultNotification:) name:GINIAnalysisManagerDidReceiveResultNotification object:nil];
     
-    [self displayError];
+    // Because results may come in during view controller transition,
+    // check for already existent results in shared analysis manager.
+    [self handleExistingResults];
+    
+    // Start loading animation.
+    [(GINIAnalysisViewController *)_contentController showAnimation];
 }
 
-// Pops back to the review view controller
-- (IBAction)back:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // Never forget to remove observers when you support iOS versions prior to 9.0.
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-// Handle tap on error button
+-(void)didMoveToParentViewController:(UIViewController *)parent {
+    [super didMoveToParentViewController:parent];
+    
+    // Cancel analysis process to avoid unnecessary network calls.
+    if (!parent) {
+        [[AnalysisManager sharedManager] cancelAnalysis];
+    }
+}
+
+// Displays the content controller inside the container view
+- (void)displayContent:(UIViewController *)controller {
+    [self addChildViewController:controller];
+    controller.view.frame = self.containerView.bounds;
+    [self.containerView addSubview:controller.view];
+    [controller didMoveToParentViewController:self];
+}
+
+// MARK: User actions
 - (IBAction)errorButtonTapped:(id)sender {
     [(GINIAnalysisViewController *)_contentController showAnimation];
     [self hideErrorButton];
-    [self displayError];
+    
+    // Retry analysis of the document.
+    [[AnalysisManager sharedManager] analyzeDocumentWithImageData:_imageData cancelationToken:[CancelationToken new] andCompletion:nil];
 }
 
-// Display a random error notice
+// MARK: Handle results from analysis process
+- (void)handleExistingResults {
+    AnalysisManager *manager = [AnalysisManager sharedManager];
+    if (manager.result && manager.document) {
+        [self handleAnalysisResult:manager.result fromDocument:manager.document];
+    } else if (manager.error) {
+        [self handleAnalysisError:manager.error];
+    }
+}
+
+- (void)handleAnalysisErrorNotification:(NSNotification *)notification {
+    NSError *error = (NSError *)notification.userInfo[GINIAnalysisManagerErrorUserInfoKey];
+    [self handleAnalysisError:error];
+}
+
+- (void)handleAnalysisResultNotification:(NSNotification *)notification {
+    NSDictionary *result = (NSDictionary *)notification.userInfo[GINIAnalysisManagerResultDictionaryUserInfoKey];
+    GINIDocument *document = (GINIDocument *)notification.userInfo[GINIAnalysisManagerDocumentUserInfoKey];
+    if (result && document) {
+        [self handleAnalysisResult:result fromDocument:document];
+    } else {
+        [self handleAnalysisError:nil];
+    }
+}
+
+- (void)handleAnalysisError:(NSError *)error {
+    if (error) {
+        NSLog(@"%@", error.description);
+    }
+    
+    // For the sake of simplicity we'll always present a generic error which allows the user to retry the analysis.
+    // In a real world application different messages depending on the kind of error might be appropriate.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self displayError];
+    });
+}
+
+- (void)handleAnalysisResult:(NSDictionary *)result fromDocument:(GINIDocument *)document {
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
+    NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
+    BOOL hasPayFive = NO;
+    for (NSString *key in payFive) {
+        if (result[key]) {
+            hasPayFive = YES;
+            break;
+        }
+    }
+    
+    if (hasPayFive) {
+        ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+        vc.result = result;
+        vc.document = document;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    // Remove analysis screen from navigation stack.
+    NSMutableArray *navigationStack = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+    [navigationStack removeObject:self];
+    self.navigationController.viewControllers = navigationStack;
+}
+
+// MARK: Error button handling
 - (void)displayError {
-    [self delay:1.5 block:^{
-        [(GINIAnalysisViewController *)_contentController hideAnimation];
-        [self showErrorButton];
-    }];
+    [(GINIAnalysisViewController *)_contentController hideAnimation];
+    [self showErrorButton];
 }
 
-// MARK: Toggle error button
 - (void)showErrorButton {
     if (_errorButton.alpha == 1.0) {
         return;
@@ -83,22 +181,5 @@
         self.errorButton.alpha = 0.0;
     }];
 }
-
-// Displays the content controller inside the container view
-- (void)displayContent:(UIViewController *)controller {
-    [self addChildViewController:controller];
-    controller.view.frame = self.containerView.bounds;
-    [self.containerView addSubview:controller.view];
-    [controller didMoveToParentViewController:self];
-}
-
-// Little delay helper by @matt rewritten for Objective-C
-- (void)delay:(double)delay block:(void(^)())block {
-    dispatch_time_t after = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * (double)NSEC_PER_SEC));
-    dispatch_after(after, dispatch_get_main_queue(), block);
-}
-
-
-
 
 @end

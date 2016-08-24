@@ -3,6 +3,64 @@ fastlane_version "1.99.0"
 default_platform :ios
 
 platform :ios do
+
+  lane :profilesObjC do
+    match(
+      type: 'development', 
+      app_identifier: 'net.gini.ios.ginivision-objc.dev', 
+      force_for_new_devices: true
+    )
+
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision-objc.in-house',
+      readonly: true
+    )
+  end
+
+  lane :inhouseObjC do
+    match_force_enterprise = ENV["MATCH_FORCE_ENTERPRISE"]
+    raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision-objc.in-house',
+      readonly: true
+    )
+
+    cocoapods(
+      podfile: 'ExampleObjC/Podfile'
+    )
+    
+    increment_build_number(
+      build_number: number_of_commits,
+      xcodeproj: 'ExampleObjC/GiniVisionExampleObjC.xcodeproj'
+    )
+
+    gym(
+      configuration: 'In House',
+      sdk: 'iphoneos9.3',
+      clean: true,
+      include_bitcode: true,
+      include_symbols: true,
+      scheme: 'GiniVisionExampleObjC',
+      export_method: 'enterprise',
+      output_directory: 'build',
+      workspace: 'ExampleObjC/GiniVisionExampleObjC.xcworkspace'
+    )
+    
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN_OBJC'],
+      public_identifier: ENV['HOCKEY_PUBLIC_ID_OBJC'],
+      notify: '0',
+      notes: last_git_commit[:message] + '<br><br><small>Automatic build via fastlane</small>' # TODO: Get notes from changelog or release note
+    )
+  end
+
+
   lane :profiles do
     match(
       type: 'development', 
@@ -25,11 +83,11 @@ platform :ios do
     raise "You must match force enterprise to deploy." if match_force_enterprise.nil?
 
     match(
-      type: 'enterprise',
+      type: 'enterprise', 
       app_identifier: 'net.gini.ios.ginivision.in-house',
       readonly: true
     )
-
+    
     cocoapods(
       podfile: 'Example/Podfile'
     )
