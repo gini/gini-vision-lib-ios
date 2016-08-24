@@ -116,4 +116,20 @@ platform :ios do
       notes: last_git_commit[:message] + '<br><br><small>Automatic build via fastlane</small>' # TODO: Get notes from changelog or release note
     )
   end
+
+  lane :release do |options|
+    if !options[:version]
+      raise '`' + lane_context[SharedValues::LANE_NAME] + '` can only be called with a version specified.'.red
+    end
+
+    # Update the podspec file
+    version_bump_podspec(
+      path: 'GiniVision.podspec',
+      version_number: options[:version]
+    )
+
+    # Update version string in library
+    File.write('../GiniVision/Classes/GiniVisionVersion.swift', 'internal let GINIVisionVersion = "' + options[:version] + '"')
+  end
+
 end
