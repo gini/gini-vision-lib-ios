@@ -12,4 +12,5 @@ Parts of this process can be done via fastlane with `fastlane release version:VE
 3. Merge `release` branch into `master` and `develop`
 4. Tag `master` branch with the same version used in 2
 5. Push all branches to remote inlcuding tags
-6. Push update to [Gini Podspec repo](https://github.com/gini/gini-podspecs) with `pod repo push gini-specs ./GiniVision.podspec`
+6. Wait for travis to pass
+7. Push update to [Gini Podspec repo](https://github.com/gini/gini-podspecs) with `pod repo push gini-specs ./GiniVision.podspec`
