@@ -441,7 +441,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.in-house";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision-objc.in-house_enterprise)";
 			};
@@ -494,7 +494,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.dev";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.release";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
