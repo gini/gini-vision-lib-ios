@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A1FEC7F1D6DEDF800F415B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1FEC7E1D6DEDF800F415B7 /* Localizable.strings */; };
 		0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */; };
 		0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */; };
 		0A58FE441D5DCC510023502B /* ResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A58FE431D5DCC510023502B /* ResultTableViewController.m */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A1FEC7E1D6DEDF800F415B7 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		0A32ECC51D1AF14F008E29DF /* ComponentAPICameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPICameraViewController.h; sourceTree = "<group>"; };
 		0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPICameraViewController.m; sourceTree = "<group>"; };
 		0A4A53CE1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIOnboardingViewController.h; sourceTree = "<group>"; };
@@ -130,7 +132,6 @@
 				0A99846F1D192DC000A5C996 /* Main.storyboard */,
 				0A9984721D192DC000A5C996 /* Assets.xcassets */,
 				0A9984741D192DC000A5C996 /* LaunchScreen.storyboard */,
-				0A9984771D192DC000A5C996 /* Info.plist */,
 				0A9984661D192DC000A5C996 /* Supporting Files */,
 			);
 			path = GiniVisionExampleObjC;
@@ -139,6 +140,8 @@
 		0A9984661D192DC000A5C996 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0A1FEC7E1D6DEDF800F415B7 /* Localizable.strings */,
+				0A9984771D192DC000A5C996 /* Info.plist */,
 				0A9984671D192DC000A5C996 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -233,6 +236,7 @@
 				0AB97B051D64981C0024C266 /* In-House-Config.xcconfig in Resources */,
 				0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */,
 				0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */,
+				0A1FEC7F1D6DEDF800F415B7 /* Localizable.strings in Resources */,
 				0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */,
 				0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */,
 				0A9984711D192DC000A5C996 /* Main.storyboard in Resources */,
@@ -437,7 +441,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.in-house";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision-objc.in-house_enterprise)";
 			};
@@ -490,7 +494,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = GiniVisionExampleObjC/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.release";
+				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision-objc.dev";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

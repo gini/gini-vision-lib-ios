@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <GiniVision/GiniVision-Swift.h>
 
 @interface AppDelegate ()
 
@@ -16,6 +17,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSLog(@"Gini Vision Library for iOS (%@)", [GINIVision versionString]);
     
     // Set up GiniSDK with your credentials.
     GINISDKBuilder *builder = [GINISDKBuilder anonymousUserWithClientID:GINI_CLIENT_ID clientSecret:GINI_CLIENT_SECRET userEmailDomain:@"example.com"];

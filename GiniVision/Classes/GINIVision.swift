@@ -117,7 +117,6 @@ import UIKit
      If there is an error retrieving the version the returned value will be an empty string.
      */
     public static var versionString: String {
-        let bundle = NSBundle(forClass: GINIVision.self)
-        return bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
+        return GINIVisionVersion
     }
 }
