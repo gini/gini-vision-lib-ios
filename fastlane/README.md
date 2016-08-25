@@ -30,7 +30,7 @@ fastlane ios inhouse
 ```
 fastlane ios prepare_framework_release
 ```
-Prepares the framework for release
+Prepares the framework for release.
 
 This lane must be run from a local machine and on a release branch.
 
