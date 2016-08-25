@@ -136,12 +136,12 @@ platform :ios do
 
     # Check if run on CI
     if is_ci
-      raise '`#{lane_name}` can only be run on a local machine.'.red
+      raise '`' + lane_name + '` can only be run on a local machine.'.red
     end
 
     # Check if version specified
     if !options[:version]
-      raise '`#{lane_name}` can only be run with a version specified.'.red
+      raise '`' + lane_name + '` can only be run with a version specified.'.red
     end
 
     # Ensure the branch is clean
@@ -160,10 +160,10 @@ platform :ios do
     )
 
     # Update version string in library
-    File.write('../GiniVision/Classes/GiniVisionVersion.swift', 'internal let GINIVisionVersion = "#{options[:version]}"')
+    File.write('../GiniVision/Classes/GiniVisionVersion.swift', 'internal let GINIVisionVersion = "' + options[:version] + '"')
 
     # Ask to update changelog
-    readyToDeploy = prompt(text: '#{options[:version]} has been prepped for release. If you have any additional changes you would like to make to the README or CHANGELOG, please do those before continuing. Would you like to commit and push #{options[:version]} to #{git_branch}?'.green, boolean: true)
+    readyToDeploy = prompt(text: options[:version] + ' has been prepped for release. If you have any additional changes you would like to make to the README or CHANGELOG, please do those before continuing. Would you like to commit and push ' + options[:version] + ' to ' + git_branch + '?'.green, boolean: true)
     if readyToDeploy
 
       # Commit the branch
