@@ -9,57 +9,54 @@
 import UIKit
 import GiniVision
 
+/**
+ View controller showing how to implement the camera using the Component API of the Gini Vision Library for iOS.
+ */
 class ComponentAPICameraViewController: UIViewController {
     
-    // Container attributes
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
-    // Output
-    var imageData: NSData?
+    private var imageData: NSData?
     
+    // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Create and set a custom configuration object
+        /*************************************************************************
+         * CAMERA SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+         *************************************************************************/
+        
+        // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
         GINIVision.setConfiguration(giniConfiguration)
         
-        // Create the camera view controller
+        // 2. Create the camera view controller
         contentController = GINICameraViewController(success:
             { imageData in
                 self.imageData = imageData
                 dispatch_async(dispatch_get_main_queue(), { 
-                    self.performSegueWithIdentifier("giniShowReview", sender: self)
+                    self.performSegueWithIdentifier("showReview", sender: self)
                 })
             }, failure: { error in
                 print("Component API camera view controller received error:\n\(error)")
             })
         
-        // Display the camera view controller
+        // 3. Display the camera view controller
         displayContent(contentController)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBarHidden = true
+        navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    // Go back to the API selection view controller
-    @IBAction func back(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "giniShowReview" {
-            if let imageData = imageData,
-               let vc = segue.destinationViewController as? ComponentAPIReviewViewController {
-                // Set image data as input for the review view controller
-                vc.imageData = imageData
-            }
-        }
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // Displays the content controller inside the container view
@@ -68,6 +65,21 @@ class ComponentAPICameraViewController: UIViewController {
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
         controller.didMoveToParentViewController(self)
+    }
+    
+    // MARK: User actions
+    @IBAction func back(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    // MARK: Navigation
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showReview" {
+            if let imageData = imageData,
+               let vc = segue.destinationViewController as? ComponentAPIReviewViewController {
+                vc.imageData = imageData
+            }
+        }
     }
 
 }

@@ -21,19 +21,22 @@
 
 @implementation ComponentAPIOnboardingViewController
 
+// MARK: View life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Create the onboarding view controller
+    /*****************************************************************************
+     * ONBOARDING SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
+     *****************************************************************************/
+    
+    // (1. If not already done: Create and set a custom configuration object)
+    // See `ComponentAPICameraViewController.m` for implementation details.
+    
+    // 2. Create the onboarding view controller
     _contentController = [[GINIOnboardingViewController alloc] initWithScrollViewDelegate:nil];
     
-    // Display the onboarding view controller
+    // 3. Display the onboarding view controller
     [self displayContent:_contentController];
-}
-
-// Scrolls the onboarding view controller to the next page
-- (IBAction)nextPage:(id)sender {
-    [(GINIOnboardingViewController *)_contentController scrollToNextPage:YES];
 }
 
 // Displays the content controller inside the container view
@@ -42,6 +45,13 @@
     controller.view.frame = self.containerView.bounds;
     [self.containerView addSubview:controller.view];
     [controller didMoveToParentViewController:self];
+}
+
+// MARK: User actions
+- (IBAction)nextPage:(id)sender {
+    
+    // Scroll the onboarding to the next page.
+    [(GINIOnboardingViewController *)_contentController scrollToNextPage:YES];
 }
 
 @end

@@ -1,0 +1,1 @@
+internal let GINIVisionVersion = "2.0.0"

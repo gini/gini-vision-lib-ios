@@ -75,11 +75,6 @@ internal class GINICamera {
             self.stillImageOutput?.captureStillImageAsynchronouslyFromConnection(connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer!, error: NSError!) -> Void in
                 guard error == nil else { return completion(inner: { _ in throw GINICameraError.CaptureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-
-                if GINIConfiguration.DEBUG {
-                    GINICamera.saveImageFromData(imageData)
-                }
-
                 completion(inner: { _ in return imageData })
             })
         })

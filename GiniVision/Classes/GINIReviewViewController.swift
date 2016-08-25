@@ -31,6 +31,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
  * `ginivision.navigationbar.review.back` (Screen API only.)
  * `ginivision.navigationbar.review.continue` (Screen API only.)
  * `ginivision.review.top`
+ * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
  **Image resources for this screen**
@@ -58,6 +59,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
     private var imageViewLeadingConstraint: NSLayoutConstraint!
     private var imageViewTopConstraint: NSLayoutConstraint!
     private var imageViewTrailingConstraint: NSLayoutConstraint!
+    private var metaInformationManager: GINIMetaInformationManager?
     
     // Images
     private var rotateButtonImage: UIImage? {
@@ -85,6 +87,9 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         successBlock = success
         errorBlock = failure
         
+        // Set meta information manager
+        metaInformationManager = GINIMetaInformationManager(imageData: imageData)
+        
         // Configure scroll view
         scrollView.delegate = self
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
@@ -93,6 +98,8 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
+        imageView.contentMode = .ScaleAspectFit
+        imageView.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
         // Configure top view
         topView = GININoticeView(text: GINIConfiguration.sharedConfiguration.reviewTextTop)
@@ -103,6 +110,7 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         // Configure rotate button
         rotateButton.setImage(rotateButtonImage, forState: .Normal)
         rotateButton.addTarget(self, action: #selector(rotate), forControlEvents: .TouchUpInside)
+        rotateButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
         // Configure bottom label
         bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom
@@ -156,11 +164,11 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
     
     // MARK: Rotation handling
     @objc private func rotate(sender: AnyObject) {
-        // TODO: Implement exif data
-        imageView.image = rotateImage(imageView.image)
-        guard let data = UIImageJPEGRepresentation(imageView.image!, 1) else {
-            return
-        }
+        guard let rotatedImage = rotateImage(imageView.image) else { return }
+        imageView.image = rotatedImage
+        guard var metaInformationManager = metaInformationManager else { return }
+        metaInformationManager.update(imageOrientation: rotatedImage.imageOrientation)
+        guard let data = metaInformationManager.imageData() else { return }
         successBlock?(imageData: data)
     }
     
@@ -222,9 +230,8 @@ public typealias GINIReviewErrorBlock = (error: GINIReviewError) -> ()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
         UIViewController.addActiveConstraint(item: scrollView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Width, relatedBy: .Equal, toItem: scrollView, attribute: .Height, multiplier: 3/4, constant: 0)
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false

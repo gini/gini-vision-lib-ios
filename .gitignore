@@ -18,6 +18,7 @@ profile
 DerivedData
 *.hmap
 *.ipa
+.env
 
 # Bundler
 .bundle
@@ -34,5 +35,18 @@ Carthage
 
 Pods/
 
-# Never check in docs builds
+# Docs builds
 docs/
+
+# Keys
+*-Keys.xcconfig
+
+# Fastlane
+/fastlane/report.xml
+/fastlane/Error*.png
+/fastlane/Preview.html
+/fastlane/screenshots/*/*-portrait.png
+/fastlane/screenshots/*/*-landscape.png
+/fastlane/screenshots/screenshots.html
+/fastlane/screenshots/*/*-portrait_framed.png
+/fastlane/screenshots/*/*-landscape_framed.png

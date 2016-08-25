@@ -28,6 +28,7 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     
     // Output
     private var imageData: NSData?
+    private var changes = false
     
     init(imageData: NSData) {
         super.init(nibName: nil, bundle: nil)
@@ -38,6 +39,7 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         contentController = GINIReviewViewController(imageData, success:
             { imageData in
                 self.imageData = imageData
+                self.changes = true
             }, failure: { error in
                 print(error)
             })
@@ -93,9 +95,8 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     }
     
     @IBAction func analyse() {
-        // TODO: Implement changes
         let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
-        delegate?.didReview(imageData!, withChanges: false)
+        delegate?.didReview(imageData!, withChanges: changes)
         
         // Push analysis container view controller
         navigationController?.pushViewController(GINIAnalysisContainerViewController(imageData: imageData!), animated: true)

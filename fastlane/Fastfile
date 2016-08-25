@@ -1,0 +1,184 @@
+fastlane_version '1.101.0'
+
+default_platform :ios
+
+platform :ios do
+
+  lane :profilesObjC do
+    match(
+      type: 'development', 
+      app_identifier: 'net.gini.ios.ginivision-objc.dev', 
+      force_for_new_devices: true
+    )
+
+    match_force_enterprise = ENV['MATCH_FORCE_ENTERPRISE']
+    raise 'You must match force enterprise to deploy.'.red if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision-objc.in-house',
+      readonly: true
+    )
+  end
+
+  lane :inhouseObjC do
+    match_force_enterprise = ENV['MATCH_FORCE_ENTERPRISE']
+    raise 'You must match force enterprise to deploy.'.red if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision-objc.in-house',
+      readonly: true
+    )
+
+    cocoapods(
+      podfile: 'ExampleObjC/Podfile'
+    )
+    
+    increment_build_number(
+      build_number: number_of_commits,
+      xcodeproj: 'ExampleObjC/GiniVisionExampleObjC.xcodeproj'
+    )
+
+    gym(
+      configuration: 'In House',
+      sdk: 'iphoneos9.3',
+      clean: true,
+      include_bitcode: true,
+      include_symbols: true,
+      scheme: 'GiniVisionExampleObjC',
+      export_method: 'enterprise',
+      output_directory: 'build',
+      workspace: 'ExampleObjC/GiniVisionExampleObjC.xcworkspace'
+    )
+    
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN_OBJC'],
+      public_identifier: ENV['HOCKEY_PUBLIC_ID_OBJC'],
+      notify: '0',
+      notes: last_git_commit[:message] + '<br><br><small>Automatic build via fastlane</small>' # TODO: Get notes from changelog or release note
+    )
+  end
+
+
+  lane :profiles do
+    match(
+      type: 'development', 
+      app_identifier: 'net.gini.ios.ginivision.dev', 
+      force_for_new_devices: true
+    )
+
+    match_force_enterprise = ENV['MATCH_FORCE_ENTERPRISE']
+    raise 'You must match force enterprise to deploy.'.red if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision.in-house',
+      readonly: true
+    )
+  end
+
+  lane :inhouse do
+    match_force_enterprise = ENV['MATCH_FORCE_ENTERPRISE']
+    raise 'You must match force enterprise to deploy.'.red if match_force_enterprise.nil?
+
+    match(
+      type: 'enterprise', 
+      app_identifier: 'net.gini.ios.ginivision.in-house',
+      readonly: true
+    )
+    
+    cocoapods(
+      podfile: 'Example/Podfile'
+    )
+    
+    increment_build_number(
+      build_number: number_of_commits,
+      xcodeproj: 'Example/GiniVision.xcodeproj'
+    )
+
+    gym(
+      configuration: 'In House',
+      sdk: 'iphoneos9.3',
+      clean: true,
+      include_bitcode: true,
+      include_symbols: true,
+      scheme: 'GiniVision-Example',
+      export_method: 'enterprise',
+      output_directory: 'build',
+      workspace: 'Example/GiniVision.xcworkspace'
+    )
+    
+    hockey(
+      api_token: ENV['HOCKEY_API_TOKEN'],
+      public_identifier: ENV['HOCKEY_PUBLIC_ID'],
+      notify: '0',
+      notes: last_git_commit[:message] + '<br><br><small>Automatic build via fastlane</small>' # TODO: Get notes from changelog or release note
+    )
+  end
+
+  desc "Prepares the framework for release."
+  desc "This lane must be run from a local machine and on a release branch."
+  desc " * Verifies the git branch is clean"
+  desc " * Ensures the lane is running on a release branch"
+  desc " * Updates the the version of the podspec"
+  desc " * Commits the changes"
+  desc " * Pushes the commited branch"
+  desc "####Example:"
+  desc "```\nfastlane prepare_framework_release version:2.0.0\n```"
+  desc "####Options"
+  desc "Following options are available."
+  desc " * **`version`** (required): The new version of the framework"
+  desc " * **`allow_branch`**: The name of the branch to build from. Defaults to `master`. (`DEPLOY_BRANCH`)"
+  desc ""
+  lane :prepare_framework_release do |options|
+    lane_name = lane_context[SharedValues::LANE_NAME]
+
+    # Check if run on CI
+    if is_ci
+      raise '`' + lane_name + '` can only be run on a local machine.'.red
+    end
+
+    # Check if version specified
+    if !options[:version]
+      raise '`' + lane_name + '` can only be run with a version specified.'.red
+    end
+
+    # Ensure the branch is clean
+    ensure_git_status_clean
+
+    # Ensure we are on the right branch
+    allow_branch = options[:allow_branch] ? options[:allow_branch] : (ENV['DEPLOY_BRANCH'] ? ENV['DEPLOY_BRANCH'] : 'release-[\s\S]+')
+    ensure_git_branch(
+      branch: allow_branch
+    )
+
+    # Update the podspec file
+    version_bump_podspec(
+      path: 'GiniVision.podspec',
+      version_number: options[:version]
+    )
+
+    # Update version string in library
+    File.write('../GiniVision/Classes/GiniVisionVersion.swift', 'internal let GINIVisionVersion = "' + options[:version] + '"')
+
+    # Ask to update changelog
+    readyToDeploy = prompt(text: options[:version] + ' has been prepped for release. If you have any additional changes you would like to make to the README or CHANGELOG, please do those before continuing. Would you like to commit and push ' + options[:version] + ' to ' + git_branch + '?'.green, boolean: true)
+    if readyToDeploy
+
+      # Commit the branch
+      git_commit(
+        path: '.',
+        message: 'Preparing the #{options[:version]} release'
+      )
+
+      # Push the branch
+      push_to_git_remote
+
+      Helper.log.info 'Almost done! Check the RELEASE.md file for the last steps.'.green
+    else
+      Helper.log.info 'When finished, commit and push your changes. After that see the RELEASE.md files for the last steps.'.green
+    end
+  end
+
+end

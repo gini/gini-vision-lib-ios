@@ -6,7 +6,7 @@
 //  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
@@ -112,4 +112,11 @@ import Foundation
         return viewController(withDelegate: delegate)
     }
     
+    /**
+     Returns the current version of the Gini Vision Library. 
+     If there is an error retrieving the version the returned value will be an empty string.
+     */
+    public static var versionString: String {
+        return GINIVisionVersion
+    }
 }

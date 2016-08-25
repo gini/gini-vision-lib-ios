@@ -1,12 +1,13 @@
+source 'https://github.com/gini/gini-podspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
 use_frameworks!
 
 target 'GiniVision_Example' do
-  pod 'GiniVision', :path => '../'
-
-  target 'GiniVision_Tests' do
-    inherit! :search_paths
-
-    pod 'Quick', '~> 0.9'
-    pod 'Nimble', '~> 3.0'
-  end
+    pod 'GiniVision', :path => '../'
+    pod 'Gini-iOS-SDK'
+    
+    target 'GiniVision_Tests' do
+        inherit! :search_paths
+    end
 end

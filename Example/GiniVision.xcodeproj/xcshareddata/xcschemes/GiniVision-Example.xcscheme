@@ -22,7 +22,7 @@
          </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -42,10 +42,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F63C25648A23F417D15E01AEF21A809F"
+               BlueprintIdentifier = "CA49066EE2D90921525E9C7A799688BA"
                BuildableName = "GiniVision.framework"
                BlueprintName = "GiniVision"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3B96511D478BF700BFEF05"
+               BuildableName = "GiniVision_UITests.xctest"
+               BlueprintName = "GiniVision_UITests"
+               ReferencedContainer = "container:GiniVision.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -54,7 +68,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -63,6 +78,16 @@
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
                BuildableName = "GiniVision_Tests.xctest"
                BlueprintName = "GiniVision_Tests"
+               ReferencedContainer = "container:GiniVision.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0A3B96511D478BF700BFEF05"
+               BuildableName = "GiniVision_UITests.xctest"
+               BlueprintName = "GiniVision_UITests"
                ReferencedContainer = "container:GiniVision.xcodeproj">
             </BuildableReference>
          </TestableReference>
