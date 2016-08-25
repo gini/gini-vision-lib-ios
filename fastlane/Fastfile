@@ -148,7 +148,7 @@ platform :ios do
     ensure_git_status_clean
 
     # Ensure we are on the right branch
-    allowed_branch = options[:allow_branch] ? options[:allow_branch] : (ENV['DEPLOY_BRANCH'] ? ENV['DEPLOY_BRANCH'] : 'release-[\s\S]+')
+    allow_branch = options[:allow_branch] ? options[:allow_branch] : (ENV['DEPLOY_BRANCH'] ? ENV['DEPLOY_BRANCH'] : 'release-[\s\S]+')
     ensure_git_branch(
       branch: allow_branch
     )
