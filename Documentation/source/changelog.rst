@@ -2,7 +2,7 @@
 Changelog
 =========
 
-2.0.0 (2016-02-25)
+2.0.0 (2016-08-25)
 ==================
 
 Major version of the completely rewritten Gini Vision Library for iOS. 
