@@ -26,10 +26,38 @@ fastlane ios profiles
 fastlane ios inhouse
 ```
 
-### ios release
+### ios prepare_framework_release
 ```
-fastlane ios release
+fastlane ios prepare_framework_release
 ```
+Prepares the framework for release
+
+This lane must be run from a local machine and on a release branch.
+
+ * Verifies the git branch is clean
+
+ * Ensures the lane is running on a release branch
+
+ * Updates the the version of the podspec
+
+ * Commits the changes
+
+ * Pushes the commited branch
+
+####Example:
+
+```
+fastlane prepare_framework_release version:2.0.0
+```
+
+####Options
+
+Following options are available.
+
+ * **`version`** (required): The new version of the framework
+
+ * **`allow_branch`**: The name of the branch to build from. Defaults to `master`. (`DEPLOY_BRANCH`)
+
 
 
 ----

@@ -12,6 +12,8 @@ Communication with the Gini backend is not part of this library. You can either 
 
 The Gini Vision Library can be integrated in two ways, either by using the *Screen API* or the *Component API*. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.
 
+The Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view. 
+
 ## Documentation
 
 Furhter documentation can be found in our 
