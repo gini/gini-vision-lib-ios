@@ -2,6 +2,16 @@
 Changelog
 =========
 
+2.0.0 (2016-02-25)
+==================
+
+Major version of the completely rewritten Gini Vision Library for iOS. 
+
+- Using the Screen API a picture can be taken and analyzed with an easy to present modal view. Implement the `GINIVisionDelegat` to get informed about the current status of the Gini Vision Library and to guide the user through the analysis process.
+- Using the Component API a picture can be taken and analyzed by implementing the different component view controllers for camera, onboarding, review and analysis. You can provide your own navigation elements arround the Gini Vision components.
+- Consult the example apps (Objective-C or Swift) for details on how to use the Gini Vision Library for iOS.
+
+
 2.0.0-stub.3 (2016-07-19)
 =========================
 
