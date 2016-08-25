@@ -138,7 +138,13 @@
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Images can be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code>GiniVision</code> bundle.
+    Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code>GiniVision</code> bundle.
+
+</div>
+
+<div class="aside aside-attention">
+    <p class="aside-title">Attention</p>
+    If there are conflicting pairs of image and text for an interface element (e.g. <code>navigationBarCameraTitleCloseButton</code>) the image will always be preferred, while making sure the accessibility label is set.
 
 </div>
 
@@ -581,12 +587,6 @@
                       <div class="abstract">
                         <p>Sets the close button text in the navigation bar on the camera screen.</p>
 
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    This will be displayed instead of the close button image.
-
-</div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -620,12 +620,6 @@
                       <div class="abstract">
                         <p>Sets the help button text in the navigation bar on the camera screen.</p>
 
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    This will be displayed instead of the help button image.
-
-</div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -638,6 +632,39 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarCameraTitleHelpButton</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.camera.help"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title in the navigation bar for the help button on the camera screen"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration24cameraCaptureButtonTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/cameraCaptureButtonTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration24cameraCaptureButtonTitleSS">cameraCaptureButtonTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Used exclusively for accessibility label.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraCaptureButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.captureButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for capture button in camera screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1236,12 +1263,6 @@
                       <div class="abstract">
                         <p>Sets the back button text in the navigation bar on the review screen.</p>
 
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    This will be displayed instead of the back button image.
-
-</div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1274,12 +1295,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the continue button text in the navigation bar on the review screen.</p>
-
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    This will be displayed instead of the continue button image.
-
-</div>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -1353,6 +1368,72 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextTopFont</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration23reviewRotateButtonTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/reviewRotateButtonTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration23reviewRotateButtonTitleSS">reviewRotateButtonTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text for the accessibility label of the rotate button which allows the user to rotate the docuent into reading direction.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Used exclusively for accessibility label.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewRotateButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.rotateButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for rotate button in review screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC10GiniVision17GINIConfiguration24reviewDocumentImageTitleSS"></a>
+                    <a name="//apple_ref/swift/Property/reviewDocumentImageTitle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC10GiniVision17GINIConfiguration24reviewDocumentImageTitleSS">reviewDocumentImageTitle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text for the accessibility label of the document image view.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Used exclusively for accessibility label.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewDocumentImageTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.documentImageTitle"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for document image in review screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -1532,12 +1613,6 @@
                       <div class="abstract">
                         <p>Sets the back button text in the navigation bar on the analysis screen.</p>
 
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    This will be displayed instead of the back button image.
-
-</div>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1570,7 +1645,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingIndicatorColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingIndicatorColor</span> <span class="o">=</span> <span class="kt">Colors</span><span class="o">.</span><span class="kt">Gini</span><span class="o">.</span><span class="n">raspberry</span></code></pre>
 
                         </div>
                       </div>
@@ -1617,7 +1692,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-07-19)</p>
+      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-08-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
