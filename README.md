@@ -76,7 +76,7 @@ GINIVision.setConfiguration(giniConfiguration)
 
 ## Example
 
-We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. To run the example projects, clone the repo and run `pod install` from the Example or ExampleObjC directory first.
+We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run `pod install` from the Example or ExampleObjC directory first.
 
 ## Requirements
 
