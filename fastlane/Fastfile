@@ -169,7 +169,7 @@ platform :ios do
       # Commit the branch
       git_commit(
         path: '.',
-        message: 'Preparing the #{options[:version]} release'
+        message: 'Preparing the ' + options[:version] + ' release'
       )
 
       # Push the branch
