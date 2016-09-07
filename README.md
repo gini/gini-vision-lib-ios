@@ -2,7 +2,7 @@
 
 # Gini Vision Library for iOS
 
-[![CI Status](https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&branch=master)](https://travis-ci.com/gini/gini-vision-lib-ios)
+[![CI Status](https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master)](https://travis-ci.org/gini/gini-vision-lib-ios)
 
 The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.
 
