@@ -2,6 +2,12 @@
 Changelog
 =========
 
+TBD
+===
+
+- Minor update to license file, not changing the essential meaning of the license.
+
+
 2.0.0 (2016-08-25)
 ==================
 

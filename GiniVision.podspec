@@ -13,7 +13,7 @@ to provide the best results when used with the Gini API.
                        DESC
 
   s.homepage         = 'https://www.gini.net/developers/'
-  s.license          = { :type => 'Commercial', :file => 'LICENSE' }
+  s.license          = { :type => 'Private', :file => 'LICENSE' }
   s.author           = { 'Peter Pult' => 'p.pult@gini.net' }
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/gini'

@@ -129,4 +129,6 @@ Peter Pult, p.pult@gini.net
 
 ## License
 
-Gini Vision Library is available under a commercial license. See the LICENSE file for more info.
+The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.
+
+*Important: Always make sure to ship all license notices and permissions with your application.*
