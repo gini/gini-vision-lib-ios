@@ -1,7 +1,7 @@
 License
 =======
 
-The Gini Android Vision Library is licensed under a Private License.
+The Gini Vision Library for iOS is licensed under a Private License.
 
 *Important: Always make sure to ship all license notices and permissions with your application.*
 
