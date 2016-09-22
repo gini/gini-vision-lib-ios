@@ -16,7 +16,7 @@ internal class GINICamera {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
-    private lazy var sessionQueue = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
+    private lazy var sessionQueue: dispatch_queue_t = dispatch_queue_create("session queue", DISPATCH_QUEUE_SERIAL)
     
     private lazy var motionManager = GINIMotionManager()
     
@@ -59,7 +59,7 @@ internal class GINICamera {
         })
     }
     
-    func captureStillImage(completion: (inner: () throws -> NSData) -> ()) {
+    func captureStillImage(completion: (inner: (() throws -> NSData)) -> ()) {
         dispatch_async(sessionQueue, {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connectionWithMediaType(AVMediaTypeVideo) else {
