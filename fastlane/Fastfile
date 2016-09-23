@@ -42,7 +42,7 @@ platform :ios do
 
     gym(
       configuration: 'In House',
-      sdk: 'iphoneos9.3',
+      sdk: 'iphoneos10.0',
       clean: true,
       include_bitcode: true,
       include_symbols: true,
@@ -99,7 +99,7 @@ platform :ios do
 
     gym(
       configuration: 'In House',
-      sdk: 'iphoneos9.3',
+      sdk: 'iphoneos10.0',
       clean: true,
       include_bitcode: true,
       include_symbols: true,
