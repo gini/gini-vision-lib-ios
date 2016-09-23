@@ -3,6 +3,8 @@ osx_image: xcode8.0
 podfile: Example/Podfile
 cache: 
   - cocoapods
+rvm:
+  - 2.2.1
 env:
   global:
     - WORKSPACE="Example/GiniVision.xcworkspace"
