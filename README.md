@@ -81,11 +81,21 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 ## Requirements
 
 - iOS 8.0+
-- Xcode 7.3+
+- Xcode 8.0+
 
 ## Installation
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
+
+### Swift versions
+
+Unfortunately until this day the binary interface of Swift is not stable. This forces us to support and maintain multiple versions of Swift. Currently we support **Swift 2.2** on `master` and **Swift 2.3** on `swift-2.3` branch. So make sure to pick your branch accordingly.
+
+If you use CocoaPods you can specify a branch with:
+
+```ruby
+pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3'
+``` 
 
 ### CocoaPods
 
