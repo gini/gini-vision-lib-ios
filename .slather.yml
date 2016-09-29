@@ -3,5 +3,5 @@ xcodeproj: Example/GiniVision.xcodeproj
 workspace: Example/GiniVision.xcworkspace
 scheme: GiniVision-Example
 source_directory: GiniVision/Classes/
-output_directory: docs/Coverage
+output_directory: docs/Coverage/
 binary_basename: GiniVision
