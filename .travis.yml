@@ -47,6 +47,6 @@ after_success:
     fi
 
   # Create coverage report
-  - if [ $BUILD_COVERAGE == "YES" ]; then
+  - if [[ $BUILD_COVERAGE == "YES" ]]; then
       slather && bash <(curl -s https://codecov.io/bash) -f Build/Coverage/cobertura.xml;
     fi
