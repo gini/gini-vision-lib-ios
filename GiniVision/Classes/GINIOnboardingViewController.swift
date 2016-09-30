@@ -17,8 +17,8 @@ import UIKit
  
      let pages = [
          GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
-         GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 2"),
-         GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 3")
+         GINIOnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
+         GINIOnboardingPage(image: myOnboardingImage3, text: "My Onboarding Page 3")
      ]
      let onboardingController = GINIOnboardingViewController(pages: pages, scrollViewDelegate: self)
      presentViewController(onboardingController, animated: true, completion: nil)
