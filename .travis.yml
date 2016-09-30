@@ -11,7 +11,7 @@ env:
     - IOS_SDK_LEGACY=iphonesimulator9.3
 matrix:
   include:
-    - osx_image: xcode7.3
+    - osx_image: xcode8
       env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
     - osx_image: xcode8
       env: DESTINATION="OS=9.1,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"            RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
