@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Q18-fR-y4t">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Q18-fR-y4t">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -220,6 +220,15 @@
                                     <segue destination="e8r-Qt-I6L" kind="presentation" id="So6-UQ-l96"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version and Client Id" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDA-QI-3LG">
+                                <rect key="frame" x="20" y="572" width="560" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="7q2-Fb-IqK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -227,13 +236,16 @@
                             <constraint firstItem="ZlJ-hw-K1e" firstAttribute="top" secondItem="08c-kU-hUA" secondAttribute="top" id="5xy-30-5FU"/>
                             <constraint firstItem="1gj-uu-hKJ" firstAttribute="leading" secondItem="08c-kU-hUA" secondAttribute="leading" id="93a-3T-CYi"/>
                             <constraint firstAttribute="trailing" secondItem="1gj-uu-hKJ" secondAttribute="trailing" id="NYR-WB-W0t"/>
+                            <constraint firstItem="Z9y-Oh-GoV" firstAttribute="top" secondItem="hDA-QI-3LG" secondAttribute="bottom" constant="8" id="QoJ-pv-b3J"/>
                             <constraint firstAttribute="trailing" secondItem="ZlJ-hw-K1e" secondAttribute="trailing" id="Z4I-UE-09O"/>
                             <constraint firstItem="ZlJ-hw-K1e" firstAttribute="centerX" secondItem="08c-kU-hUA" secondAttribute="centerX" id="bmo-Sc-Lk9"/>
+                            <constraint firstItem="hDA-QI-3LG" firstAttribute="leading" secondItem="08c-kU-hUA" secondAttribute="leadingMargin" id="ctf-W5-Abo"/>
                             <constraint firstItem="ZlJ-hw-K1e" firstAttribute="width" secondItem="08c-kU-hUA" secondAttribute="width" id="goJ-43-F5I"/>
                             <constraint firstItem="1gj-uu-hKJ" firstAttribute="top" secondItem="ZlJ-hw-K1e" secondAttribute="bottom" id="k1W-tB-Cs5"/>
                             <constraint firstItem="ZlJ-hw-K1e" firstAttribute="leading" secondItem="08c-kU-hUA" secondAttribute="leading" id="lgr-ZJ-7g5"/>
                             <constraint firstItem="Z9y-Oh-GoV" firstAttribute="top" secondItem="1gj-uu-hKJ" secondAttribute="bottom" id="m4k-FX-rbI"/>
                             <constraint firstItem="1gj-uu-hKJ" firstAttribute="top" secondItem="ZlJ-hw-K1e" secondAttribute="bottom" id="pUj-e1-Unw"/>
+                            <constraint firstItem="hDA-QI-3LG" firstAttribute="trailing" secondItem="08c-kU-hUA" secondAttribute="trailingMargin" id="rbS-hi-EHa"/>
                             <constraint firstItem="ZlJ-hw-K1e" firstAttribute="height" secondItem="1gj-uu-hKJ" secondAttribute="height" id="xYR-xe-ccb"/>
                         </constraints>
                         <variation key="default">
@@ -246,6 +258,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="SQK-hk-Ah4"/>
                     <connections>
+                        <outlet property="metaInformationLabel" destination="hDA-QI-3LG" id="0eX-ll-pGK"/>
                         <segue destination="QXp-IJ-1GQ" kind="show" identifier="presentResult" id="25E-8G-1O3"/>
                         <segue destination="pIn-fG-Rai" kind="show" identifier="presentNoResult" id="xBe-GO-GLS"/>
                     </connections>
