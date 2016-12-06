@@ -10,7 +10,7 @@ import UIKit
 import ImageIO
 import AVFoundation
 
-internal extension CollectionType where Generator.Element == CFString {
+internal extension Collection where Iterator.Element == CFString {
     
     var strings: [ String ] {
         return self.map { $0 as String }
@@ -20,7 +20,7 @@ internal extension CollectionType where Generator.Element == CFString {
 
 internal extension NSMutableDictionary {
     
-    private var cfExifKeys: [CFString] {
+    fileprivate var cfExifKeys: [CFString] {
         return [
             kCGImagePropertyExifLensMake,
             kCGImagePropertyExifLensModel,
@@ -34,7 +34,7 @@ internal extension NSMutableDictionary {
         ]
     }
     
-    private var cfTiffKeys: [CFString] {
+    fileprivate var cfTiffKeys: [CFString] {
         return [
             kCGImagePropertyTIFFMake,
             kCGImagePropertyTIFFModel,
@@ -43,14 +43,14 @@ internal extension NSMutableDictionary {
         ]
     }
     
-    private var cfTopLevelKeys: [CFString] {
+    fileprivate var cfTopLevelKeys: [CFString] {
         return [
             kCGImagePropertyExifDictionary,
             kCGImagePropertyTIFFDictionary
         ]
     }
     
-    private var stringKeys: [String] {
+    fileprivate var stringKeys: [String] {
         return allKeys
                 .map { $0 as? String }
                 .flatMap { $0 }
@@ -58,7 +58,7 @@ internal extension NSMutableDictionary {
     
     func set(metaInformation value: AnyObject?, forKey key: String, inSubdictionary isSubdictionary: Bool = false) {
         // Helper method to set a value in a meta dictionary like TIFF or Exif
-        func set(value: AnyObject?, forKey key: String, inMetaDictionaryWithKey metaDictionaryKey: String) {
+        func set(_ value: AnyObject?, forKey key: String, inMetaDictionaryWithKey metaDictionaryKey: String) {
             let metaDictionary = (self[metaDictionaryKey] as? NSMutableDictionary) ?? NSMutableDictionary()
             metaDictionary[key] = value
             self[metaDictionaryKey] = metaDictionary
@@ -94,7 +94,7 @@ internal extension NSMutableDictionary {
         let keys = stringKeys
         guard keys.count > 0 else { return nil }
         if keys.contains(key) {
-            return self[key]
+            return self.object(forKey: key) as AnyObject?
         }
         let dictionaries = allValues
             .map { $0 as? NSMutableDictionary }
@@ -119,7 +119,7 @@ internal extension NSMutableDictionary {
      
      - parameter filterKeys: The keys to filter for.
      */
-    func filterMetaInformation(filterKeys: [String]) {
+    func filterMetaInformation(_ filterKeys: [String]) {
         let keys = stringKeys
         for key in keys {
             if !filterKeys.contains(key) {
@@ -136,7 +136,7 @@ typealias MetaInformation = NSDictionary
 
 internal struct GINIMetaInformationManager {
     
-    private let cfRequiredExifKeys = [
+    fileprivate let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
         kCGImagePropertyExifLensModel,
         kCGImagePropertyExifISOSpeed,
@@ -148,7 +148,7 @@ internal struct GINIMetaInformationManager {
         kCGImagePropertyExifUserComment
     ]
     
-    private let cfRequiredTiffKeys = [
+    fileprivate let cfRequiredTiffKeys = [
         kCGImagePropertyTIFFOrientation,
         kCGImagePropertyTIFFMake,
         kCGImagePropertyTIFFModel,
@@ -158,12 +158,12 @@ internal struct GINIMetaInformationManager {
     var image: UIImage?
     var metaInformation: MetaInformation?
     
-    init(imageData data: NSData) {
+    init(imageData data: Data) {
         image = UIImage(data: data)
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func imageData(withCompression compression: CGFloat = 1.0) -> NSData? {
+    func imageData(withCompression compression: CGFloat = 1.0) -> Data? {
         return merge(image, withMetaInformation: metaInformation, andCompression: compression)
     }
     
@@ -180,22 +180,22 @@ internal struct GINIMetaInformationManager {
         metaInformation = information
     }
     
-    private func update(orientation: Int, onMetaInformation information: MetaInformation) -> MetaInformation {
+    fileprivate func update(_ orientation: Int, onMetaInformation information: MetaInformation) -> MetaInformation {
         guard let updatedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
         // Set both keys in case one is changed in the future all orientations will still be set correctly
-        updatedInformation.set(metaInformation: orientation, forKey: kCGImagePropertyTIFFOrientation as String)
-        updatedInformation.set(metaInformation: orientation, forKey: kCGImagePropertyOrientation as String)
+        updatedInformation.set(metaInformation: orientation as AnyObject?, forKey: kCGImagePropertyTIFFOrientation as String)
+        updatedInformation.set(metaInformation: orientation as AnyObject?, forKey: kCGImagePropertyOrientation as String)
         return updatedInformation
     }
     
-    private func addDefaultValues(toMetaInformation information: MetaInformation) -> MetaInformation {
+    fileprivate func addDefaultValues(toMetaInformation information: MetaInformation) -> MetaInformation {
         var defaultInformation = information
         defaultInformation = add(requiredValuesWithKeys: cfRequiredExifKeys.strings, toMetaInformation: defaultInformation)
         defaultInformation = add(requiredValuesWithKeys: cfRequiredTiffKeys.strings, toMetaInformation: defaultInformation)
         return defaultInformation
     }
     
-    private func add(requiredValuesWithKeys keys: [String], toMetaInformation information: MetaInformation) -> MetaInformation {
+    fileprivate func add(requiredValuesWithKeys keys: [String], toMetaInformation information: MetaInformation) -> MetaInformation {
         guard let addedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
         for key in keys {
             if let _ = addedInformation.getMetaInformation(forKey: key) {
@@ -206,21 +206,21 @@ internal struct GINIMetaInformationManager {
         return addedInformation
     }
     
-    private func filterDefaultValues(fromMetaInformation information: MetaInformation) -> MetaInformation? {
+    fileprivate func filterDefaultValues(fromMetaInformation information: MetaInformation) -> MetaInformation? {
         guard let filteredInformation = information.mutableCopy() as? NSMutableDictionary else { return nil }
         filteredInformation.filterDefaultMetaInformation()
         return filteredInformation as MetaInformation
     }
     
-    private func merge(image: UIImage?, withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> NSData? {
+    fileprivate func merge(_ image: UIImage?, withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> Data? {
         guard let image = image else { return nil }
         guard let information = information else { return nil }
         guard let imageData = UIImageJPEGRepresentation(image, compression) else { return nil }
-        guard let source = CGImageSourceCreateWithData(imageData, nil) else { return nil }
+        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else { return nil }
         let count = CGImageSourceGetCount(source)
-        let mutableData = NSMutableData(data: imageData)
+        let mutableData = NSData(data: imageData) as Data
         guard let type = CGImageSourceGetType(source),
-              let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else { return nil }
+              let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else { return nil }
         for i in 0...count - 1 {
             CGImageDestinationAddImageFromSource(destination, source, i, information as CFDictionary)
         }
@@ -228,63 +228,63 @@ internal struct GINIMetaInformationManager {
         return mutableData;
     }
 
-    private func metaInformation(fromImageData data: NSData) -> MetaInformation? {
-        guard let source = CGImageSourceCreateWithData(data, nil),
+    fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
               let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
         return metaInformation
     }
     
-    private func value(forMetaKey key: String) -> AnyObject? {
+    fileprivate func value(forMetaKey key: String) -> AnyObject? {
         if key == kCGImagePropertyTIFFSoftware as String {
-            return UIDevice.currentDevice().systemVersion
+            return UIDevice.current.systemVersion as AnyObject?
         }
         if key == kCGImagePropertyTIFFMake as String {
-            return "Apple" // Hardcoded, but a pretty safe guess
+            return "Apple" as AnyObject? // Hardcoded, but a pretty safe guess
         }
         if key == kCGImagePropertyTIFFModel as String {
-            return deviceName()
+            return deviceName() as AnyObject?
         }
         if key == kCGImagePropertyExifUserComment as String {
-            return userComment()
+            return userComment() as AnyObject?
         }
         
         return nil
     }
     
-    private func userComment() -> String {
+    fileprivate func userComment() -> String {
         let platform = "iOS"
-        let osVersion = UIDevice.currentDevice().systemVersion
+        let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GINIVision.versionString
         return "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion)"
     }
     
-    private func deviceName() -> String? {
+    fileprivate func deviceName() -> String? {
         var systemInfo = utsname()
         uname(&systemInfo)
-        let code = withUnsafeMutablePointer(&systemInfo.machine) {
-            ptr in String.fromCString(UnsafePointer<CChar>(ptr))
+        let code = withUnsafeMutablePointer(to: &systemInfo.machine) {
+            ptr in String(cString: UnsafeRawPointer(ptr).assumingMemoryBound(to: CChar.self))
         }
         return code
     }
     
-    private func getExifOrientationFromUIImageOrientation(orientation: UIImageOrientation) -> Int {
+    fileprivate func getExifOrientationFromUIImageOrientation(_ orientation: UIImageOrientation) -> Int {
         let number: Int
         switch orientation {
-        case .Up:
+        case .up:
             number = 1
-        case .UpMirrored:
+        case .upMirrored:
             number = 2
-        case .Down:
+        case .down:
             number = 3
-        case .DownMirrored:
+        case .downMirrored:
             number = 4
-        case .Left:
+        case .left:
             number = 8
-        case .LeftMirrored:
+        case .leftMirrored:
             number = 7
-        case .Right:
+        case .right:
             number = 6
-        case .RightMirrored:
+        case .rightMirrored:
             number = 5
         }
         return number

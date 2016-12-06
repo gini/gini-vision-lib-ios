@@ -20,8 +20,8 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
     if let clientImage = UIImage(named: name) {
         return clientImage
     }
-    let bundle = NSBundle(forClass: GINIVision.self)
-    return UIImage(named: name, inBundle: bundle, compatibleWithTraitCollection: nil)
+    let bundle = Bundle(for: GINIVision.self)
+    return UIImage(named: name, in: bundle, compatibleWith: nil)
 }
 
 /**
@@ -32,12 +32,12 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-internal func NSLocalizedStringPreferred(key: String, comment: String) -> String {
+internal func NSLocalizedStringPreferred(_ key: String, comment: String) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
     if  clientString != key {
         return clientString
     }
-    let bundle = NSBundle(forClass: GINIVision.self)
+    let bundle = Bundle(for: GINIVision.self)
     return NSLocalizedString(key, bundle: bundle, comment: comment)
 }
 
@@ -50,28 +50,28 @@ internal func NSLocalizedStringPreferred(key: String, comment: String) -> String
  
  - returns: Always a font with the correct weight.
  */
-internal func UIFontPreferred(weight: FontWeight, andSize size: CGFloat) -> UIFont {
+internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UIFont {
     if #available(iOS 8.2, *) {
-        return UIFont.systemFontOfSize(size, weight: weight.cgFloatValue)
+        return UIFont.systemFont(ofSize: size, weight: weight.cgFloatValue)
     } else {
-        let fontName = weight == .Regular ? "HelveticaNeue" : "HelveticaNeue-\(weight.stringValue)"
+        let fontName = weight == .regular ? "HelveticaNeue" : "HelveticaNeue-\(weight.stringValue)"
         let font = UIFont(name: fontName, size: size)
-        return  font ?? UIFont.systemFontOfSize(size)
+        return  font ?? UIFont.systemFont(ofSize: size)
     }
 }
 
 internal enum FontWeight {
-    case Thin, Light, Regular, Bold
+    case thin, light, regular, bold
     
     var stringValue: String {
         switch self {
-        case .Thin:
+        case .thin:
             return "Thin"
-        case .Light:
+        case .light:
             return "Light"
-        case .Regular:
+        case .regular:
             return "Regular"
-        case .Bold:
+        case .bold:
             return "Bold"
         }
     }
@@ -79,13 +79,13 @@ internal enum FontWeight {
     @available(iOS 8.2, *)
     var cgFloatValue: CGFloat {
         switch self {
-        case .Thin:
+        case .thin:
             return UIFontWeightThin
-        case .Light:
+        case .light:
             return UIFontWeightLight
-        case .Regular:
+        case .regular:
             return UIFontWeightRegular
-        case .Bold:
+        case .bold:
             return UIFontWeightBold
         }
     }
@@ -99,9 +99,9 @@ internal extension UIViewController {
         addActiveConstraint(constraint, priority: priority)
     }
     
-    class func addActiveConstraint(constraint: NSLayoutConstraint, priority: UILayoutPriority = 1000) {
+    class func addActiveConstraint(_ constraint: NSLayoutConstraint, priority: UILayoutPriority = 1000) {
         constraint.priority = priority
-        constraint.active = true
+        constraint.isActive = true
     }
     
 }
@@ -110,20 +110,20 @@ internal extension AVCaptureVideoOrientation {
     
     internal init(_ interface: UIInterfaceOrientation) {
         switch interface {
-        case .PortraitUpsideDown: self = .PortraitUpsideDown
-        case .LandscapeLeft: self = .LandscapeLeft
-        case .LandscapeRight: self = .LandscapeRight
-        default: self = .Portrait
+        case .portraitUpsideDown: self = .portraitUpsideDown
+        case .landscapeLeft: self = .landscapeLeft
+        case .landscapeRight: self = .landscapeRight
+        default: self = .portrait
         }
     }
     
     internal init?(_ device: UIDeviceOrientation?) {
         guard let orientation = device else { return nil }
         switch orientation {
-        case .Portrait: self = .Portrait
-        case .PortraitUpsideDown: self = .PortraitUpsideDown
-        case .LandscapeLeft: self = .LandscapeRight
-        case .LandscapeRight: self = .LandscapeLeft
+        case .portrait: self = .portrait
+        case .portraitUpsideDown: self = .portraitUpsideDown
+        case .landscapeLeft: self = .landscapeRight
+        case .landscapeRight: self = .landscapeLeft
         default: return nil
         }
     }
@@ -132,9 +132,9 @@ internal extension AVCaptureVideoOrientation {
 
 internal extension AVCaptureDevice {
     
-    func setFlashModeSecurely(mode: AVCaptureFlashMode) {
+    func setFlashModeSecurely(_ mode: AVCaptureFlashMode) {
         guard hasFlash && isFlashModeSupported(mode) else { return }
-        guard case .Some = try? lockForConfiguration() else { return print("Could not lock device for configuration") }
+        guard case .some = try? lockForConfiguration() else { return print("Could not lock device for configuration") }
         flashMode = mode
         unlockForConfiguration()
     }

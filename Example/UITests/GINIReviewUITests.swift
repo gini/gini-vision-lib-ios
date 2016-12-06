@@ -30,10 +30,10 @@ class GINIReviewUITests: XCTestCase {
         
         let documentImage = app.images["Dokument"]
         let frame = documentImage.frame
-        let aspectRatio = (CGRectGetWidth(frame) / CGRectGetHeight(frame)).roundToPlaces(1)
+        let aspectRatio = (frame.width / frame.height).roundToPlaces(1)
         app.buttons["Dokument drehen"].tap()
         let rotatedFrame = documentImage.frame
-        let rotatedAspectRatio = (CGRectGetWidth(rotatedFrame) / CGRectGetHeight(rotatedFrame)).roundToPlaces(1)
+        let rotatedAspectRatio = (rotatedFrame.width / rotatedFrame.height).roundToPlaces(1)
         
         let rotated = aspectRatio == pow(rotatedAspectRatio, -1).roundToPlaces(1)
         XCTAssert(rotated, "document should be rotated which means length and width switched values")
@@ -55,7 +55,7 @@ class GINIReviewUITests: XCTestCase {
 }
 
 extension CGFloat {
-    func roundToPlaces(places:Int) -> CGFloat {
+    func roundToPlaces(_ places:Int) -> CGFloat {
         let divisor = pow(10.0, CGFloat(places))
         return round(self * divisor) / divisor
     }

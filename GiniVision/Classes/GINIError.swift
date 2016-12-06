@@ -11,28 +11,28 @@ import UIKit
 /**
  Errors thrown on the camera screen or during camera initialization.
  */
-@objc public enum GINICameraError: Int, ErrorType {
+@objc public enum GINICameraError: Int, Error {
     
     /// Unknown error during camera use.
-    case Unknown = 0
+    case unknown = 0
     
     /// Camera can not be loaded because the user has denied authorization in the past.
-    case NotAuthorizedToUseDevice
+    case notAuthorizedToUseDevice
     
     /// No valid input device could be found for capturing.
-    case NoInputDevice
+    case noInputDevice
     
     /// Capturing could not be completed.
-    case CaptureFailed
+    case captureFailed
     
 }
 
 /**
  Errors thrown on the review screen.
  */
-@objc public enum GINIReviewError: Int, ErrorType {
+@objc public enum GINIReviewError: Int, Error {
     
     /// Unknown error during review.
-    case Unknown = 0
+    case unknown = 0
     
 }

@@ -15,17 +15,17 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     internal var contentController = UIViewController()
     
     // User interface
-    private var closeButton = UIBarButtonItem()
-    private var helpButton  = UIBarButtonItem()
+    fileprivate var closeButton = UIBarButtonItem()
+    fileprivate var helpButton  = UIBarButtonItem()
     
     // Properties
-    private var showHelp: (() -> ())?
+    fileprivate var showHelp: (() -> ())?
     
     // Images
-    private var closeButtonImage: UIImage? {
+    fileprivate var closeButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "navigationCameraClose")
     }
-    private var helpButtonImage: UIImage? {
+    fileprivate var helpButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "navigationCameraHelp")
     }
     
@@ -39,12 +39,12 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                 delegate?.didCapture(imageData)
                 
                 // Push review container view controller
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                DispatchQueue.main.async(execute: { () -> Void in
                     self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
                 })
             }, failure: { error in
                 switch error {
-                case .NotAuthorizedToUseDevice:
+                case .notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
                     print("GiniVision: Unknown error when using camera.")
@@ -61,7 +61,7 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         closeButton = GINIBarButtonItem(
             image: closeButtonImage,
             title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(close)
         )
@@ -70,15 +70,15 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         helpButton = GINIBarButtonItem(
             image: helpButtonImage,
             title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(help)
         )
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButtonItem(closeButton, animated: false)
-        navigationItem.setRightBarButtonItem(helpButton, animated: false)
+        navigationItem.setLeftBarButton(closeButton, animated: false)
+        navigationItem.setRightBarButton(helpButton, animated: false)
         
         // Add constraints
         addConstraints()
@@ -96,15 +96,15 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         
         // Eventually show onboarding
         if GINIConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
-           !NSUserDefaults.standardUserDefaults().boolForKey("ginivision.defaults.onboardingShowed") {
+           !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
             showHelp = help
-            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "ginivision.defaults.onboardingShowed")
+            UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
         } else if GINIConfiguration.sharedConfiguration.onboardingShowAtLaunch {
             showHelp = help
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         showHelp?()
@@ -132,20 +132,20 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
             cameraViewController?.showCaptureButton()
         }
         let navigationController = GININavigationViewController(rootViewController: vc)
-        navigationController.modalPresentationStyle = .OverCurrentContext
-        presentViewController(navigationController, animated: true, completion: nil)
+        navigationController.modalPresentationStyle = .overCurrentContext
+        present(navigationController, animated: true, completion: nil)
     }
     
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
         
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
 
 }

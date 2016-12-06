@@ -4,9 +4,9 @@ import ImageIO
 
 class GINIMetaInformationManagerTests: XCTestCase {
     
-    var invoiceData: NSData {
-        let path = NSBundle.mainBundle().URLForResource("invoice", withExtension: "jpg")
-        return NSData(contentsOfURL: path!)!
+    var invoiceData: Data {
+        let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
+        return (try! Data(contentsOf: path!))
     }
     var manager: GINIMetaInformationManager {
         return GINIMetaInformationManager(imageData: invoiceData)
@@ -52,7 +52,7 @@ class GINIMetaInformationManagerTests: XCTestCase {
             return XCTFail("failed to retrieve mutable meta information from filtered image data")
         }
         let key = kCGImagePropertyExifUserComment as String
-        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.containsString("GiniVisionVer") == true, "filtered data did not set custom fields")
+        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.contains("GiniVisionVer") == true, "filtered data did not set custom fields")
     }
     
 }

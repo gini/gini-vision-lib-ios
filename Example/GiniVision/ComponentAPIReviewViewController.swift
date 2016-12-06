@@ -22,9 +22,9 @@ class ComponentAPIReviewViewController: UIViewController {
     /**
      The image data of the captured document to be reviewed.
      */
-    var imageData: NSData!
+    var imageData: Data!
     
-    private var originalData: NSData?
+    fileprivate var originalData: Data?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -57,8 +57,8 @@ class ComponentAPIReviewViewController: UIViewController {
         displayContent(contentController)
     }
     
-    override func didMoveToParentViewController(parent: UIViewController?) {
-        super.didMoveToParentViewController(parent)
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
         
         // Cancel analysis process to avoid unnecessary network calls.
         if parent == nil {
@@ -67,21 +67,21 @@ class ComponentAPIReviewViewController: UIViewController {
     }
     
     // Displays the content controller inside the container view
-    func displayContent(controller: UIViewController) {
+    func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMoveToParentViewController(self)
+        controller.didMove(toParentViewController: self)
     }
     
     // MARK: User actions
-    @IBAction func showAnalysis(sender: AnyObject) {
+    @IBAction func showAnalysis(_ sender: AnyObject) {
         
         // Analyze reviewed data because changes were made by the user during review.
         if imageData != originalData {
             originalData = imageData
             AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
-            performSegueWithIdentifier("showAnalysis", sender: self)
+            performSegue(withIdentifier: "showAnalysis", sender: self)
             return
         }
         
@@ -98,30 +98,30 @@ class ComponentAPIReviewViewController: UIViewController {
         }
         
         // Show analysis screen if no results are in yet and no changes were made.
-        performSegueWithIdentifier("showAnalysis", sender: self)
+        performSegue(withIdentifier: "showAnalysis", sender: self)
     }
     
     // MARK: Handle results from analysis process
-    func handleAnalysis(result: GINIResult, fromDocument document: GINIDocument) {
+    func handleAnalysis(_ result: GINIResult, fromDocument document: GINIDocument) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if hasPayFive {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("resultScreen") as! ResultTableViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
             vc.result = result
             vc.document = document
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("noResultScreen") as! NoResultViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
             navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     // MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showAnalysis" {
-            if let vc = segue.destinationViewController as? ComponentAPIAnalysisViewController {
+            if let vc = segue.destination as? ComponentAPIAnalysisViewController {
                 // Set image data as input for the analysis view controller
                 vc.imageData = imageData
             }

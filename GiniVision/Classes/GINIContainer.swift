@@ -13,17 +13,17 @@ internal protocol GINIContainer {
     var containerView: UIView { get }
     var contentController: UIViewController { get }
     
-    func displayContent(controller: UIViewController)
+    func displayContent(_ controller: UIViewController)
     
 }
 
 internal extension GINIContainer where Self: UIViewController {
     
-    func displayContent(controller: UIViewController) {
+    func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMoveToParentViewController(self)
+        controller.didMove(toParentViewController: self)
     }
     
 }

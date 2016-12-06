@@ -43,8 +43,8 @@ import UIKit
 @objc public final class GINIAnalysisViewController: UIViewController {
     
     // User interface
-    private var imageView = UIImageView()
-    private var loadingIndicatorView = UIActivityIndicatorView()
+    fileprivate var imageView = UIImageView()
+    fileprivate var loadingIndicatorView = UIActivityIndicatorView()
     
     /**
      Designated intitializer for the `GINIAnalysisViewController`.
@@ -53,16 +53,16 @@ import UIKit
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(_ imageData: NSData) {
+    public init(_ imageData: Data) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         
         // Configure loading indicator view
         loadingIndicatorView.hidesWhenStopped = true
-        loadingIndicatorView.activityIndicatorViewStyle = .WhiteLarge
+        loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
         loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         
         // Configure view hierachy
@@ -100,20 +100,20 @@ import UIKit
     }
         
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
 
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
                 
         // Loading indicator view
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .CenterX, relatedBy: .Equal, toItem: imageView, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .CenterY, relatedBy: .Equal, toItem: imageView, attribute: .CenterY, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .centerX, multiplier: 1, constant: 0)
+        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0)
     }
     
 }
