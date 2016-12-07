@@ -218,14 +218,14 @@ internal struct GINIMetaInformationManager {
         guard let imageData = UIImageJPEGRepresentation(image, compression) else { return nil }
         guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else { return nil }
         let count = CGImageSourceGetCount(source)
-        let mutableData = NSData(data: imageData) as Data
+        let mutableData = NSMutableData(data: imageData)
         guard let type = CGImageSourceGetType(source),
-              let destination = CGImageDestinationCreateWithData(mutableData as! CFMutableData, type, count, nil) else { return nil }
+              let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else { return nil }
         for i in 0...count - 1 {
             CGImageDestinationAddImageFromSource(destination, source, i, information as CFDictionary)
         }
         guard CGImageDestinationFinalize(destination) else { return nil }
-        return mutableData;
+        return mutableData as Data;
     }
 
     fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {
