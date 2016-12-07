@@ -32,9 +32,9 @@ internal class GINIMotionManager {
     
     func startDetection() {
         guard let queue = operationQueue else { return print("No queue found to push accelerometer updates to") }
-        motionManager?.startAccelerometerUpdates(to: queue, withHandler: { (accelerometerData: CMAccelerometerData?, error: NSError?) -> Void in
-            self.accelerometerDidUpdate(accelerometerData, error: error)
-        } as! CMAccelerometerHandler)
+        motionManager?.startAccelerometerUpdates(to: queue, withHandler: { (accelerometerData: CMAccelerometerData?, error: Error?) -> Void in
+            self.accelerometerDidUpdate(accelerometerData, error: error as NSError?)
+        })
     }
     
     func stopDetection() {
