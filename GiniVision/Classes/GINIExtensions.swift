@@ -105,7 +105,6 @@ internal class ConstraintUtils {
     
 }
 
-
 // MARK: Extensions
 internal extension AVCaptureVideoOrientation {
     

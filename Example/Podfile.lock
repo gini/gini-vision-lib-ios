@@ -15,7 +15,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   GiniVision:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
