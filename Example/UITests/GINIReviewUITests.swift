@@ -57,6 +57,6 @@ class GINIReviewUITests: XCTestCase {
 extension CGFloat {
     func roundToPlaces(_ places:Int) -> CGFloat {
         let divisor = pow(10.0, CGFloat(places))
-        return round(self * divisor) / divisor
+        return CGFloat(roundf(Float(self) * Float(divisor))) / divisor
     }
 }

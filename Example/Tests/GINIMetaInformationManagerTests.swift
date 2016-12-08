@@ -34,7 +34,7 @@ class GINIMetaInformationManagerTests: XCTestCase {
         }
         let value = "MyCompany"
         let key = kCGImagePropertyTIFFMake as String
-        mutableInformation.set(metaInformation: value, forKey: key)
+        mutableInformation.set(metaInformation: value as AnyObject?, forKey: key)
         XCTAssert(mutableInformation.getMetaInformation(forKey: key) as? String == value, "failed to set value correctly on meta information")
     }
     
