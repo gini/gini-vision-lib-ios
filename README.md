@@ -78,6 +78,10 @@ GINIVision.setConfiguration(giniConfiguration)
 
 We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run `pod install` from the Example or ExampleObjC directory first.
 
+## Swift versions
+
+The Gini Vision Library is entirely written in Swift 2 and needs to be compiled with Xcode versions 7.X. However, you can find both Swift 2.3 and Swift 3 support in different branches within the repository. Please refer to the [Branches](#Branches) section later in this document. 
+
 ## Requirements
 
 - iOS 8.0+
@@ -122,6 +126,24 @@ Use this header in an Objective-C project by adding
 ```
 
 to your implementation or header files. Note that spaces in your project name result in underscores. So `Your Project` becomes `Your_Project-Swift.h`.
+
+## Branches
+
+### Master
+
+Contains the latest stable release of the vision library
+
+### Develop
+
+The bleeding edge branch. Contains features actively in development and might be unstable
+
+### Swift-2.3
+
+Swift 2.3 support.
+
+### Swift 3
+
+Swift 3 support.
 
 ## Author
 
