@@ -26,9 +26,9 @@ internal class GINIBarButtonItem: UIBarButtonItem {
         // Set accessibility label on all elements
         self.accessibilityLabel = title
         
-        var attributes = titleTextAttributes(for: UIControlState()) ?? [String : AnyObject]()
+        var attributes = titleTextAttributes(for: .normal) ?? [String : AnyObject]()
         attributes[NSFontAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarItemFont
-        setTitleTextAttributes(attributes, for: UIControlState())
+        setTitleTextAttributes(attributes, for: .normal)
     }
     
     required init?(coder aDecoder: NSCoder) {

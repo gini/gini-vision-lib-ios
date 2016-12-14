@@ -39,9 +39,9 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
                 delegate?.didCapture(imageData)
                 
                 // Push review container view controller
-                DispatchQueue.main.async(execute: { () -> Void in
+                DispatchQueue.main.async {
                     self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
-                })
+                }
             }, failure: { error in
                 switch error {
                 case .notAuthorizedToUseDevice:

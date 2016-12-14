@@ -94,7 +94,7 @@ internal extension NSMutableDictionary {
         let keys = stringKeys
         guard keys.count > 0 else { return nil }
         if keys.contains(key) {
-            return self.object(forKey: key) as AnyObject?
+            return self[key] as AnyObject?
         }
         let dictionaries = allValues
             .map { $0 as? NSMutableDictionary }

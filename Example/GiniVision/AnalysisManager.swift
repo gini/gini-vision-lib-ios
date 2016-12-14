@@ -172,9 +172,9 @@ class AnalysisManager {
                 completion?({ _ in throw AnalysisError.unknown })
                 return nil
             }
-            DispatchQueue.main.async(execute: {
+            DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName), object: self, userInfo: userInfo)
-            })
+            }
             
             return nil
             

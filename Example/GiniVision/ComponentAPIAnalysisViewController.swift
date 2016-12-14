@@ -164,18 +164,18 @@ class ComponentAPIAnalysisViewController: UIViewController {
         guard errorButton.alpha != 1.0 else {
             return
         }
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.5) {
             self.errorButton.alpha = 1.0
-        }) 
+        }
     }
     
     func hideErrorButton() {
         guard errorButton.alpha != 0.0 else {
             return
         }
-        UIView.animate(withDuration: 0.5, animations: { 
+        UIView.animate(withDuration: 0.5) {
             self.errorButton.alpha = 0.0
-        }) 
+        }
     }
 
 }

@@ -75,7 +75,12 @@ internal class GINICamera {
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
                 guard error == nil else { return completion({ _ in throw GINICameraError.captureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                completion({ _ in return imageData! })
+                completion({ _ in
+                    guard let data = imageData else {
+                        throw GINICameraError.captureFailed
+                    }
+                    return data
+                })
             })
         })
     }
@@ -102,7 +107,7 @@ internal class GINICamera {
     fileprivate func setupSession() throws {
         // Setup is not performed asynchronously because of KVOs
         func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(withMediaType: mediaType).filter { ($0 as AnyObject).position == position }
+            let devices = AVCaptureDevice.devices(withMediaType: mediaType).filter { ($0 as? AVCaptureDevice)?.position == position }
             guard let device = devices.first as? AVCaptureDevice else { return nil }
             return device
         }

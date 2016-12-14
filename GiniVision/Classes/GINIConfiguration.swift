@@ -65,7 +65,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarItemFont = UIBarButtonItem.appearance().titleTextAttributes(for: UIControlState())?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular, andSize: 16)
+    public var navigationBarItemFont = UIBarButtonItem.appearance().titleTextAttributes(for: .normal)?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular, andSize: 16)
     
     /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.

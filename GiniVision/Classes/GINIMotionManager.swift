@@ -66,9 +66,9 @@ internal class GINIMotionManager {
         
         currentOrientation = orientationNew
         
-        DispatchQueue.main.async(execute: {
+        DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name(rawValue: self.MotionOrientationChangedNotification), object: nil, userInfo: [self.MotionOrientationKey: self])
-        })
+        }
     }
     
 }

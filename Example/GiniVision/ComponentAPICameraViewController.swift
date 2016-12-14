@@ -36,9 +36,9 @@ class ComponentAPICameraViewController: UIViewController {
         contentController = GINICameraViewController(success:
             { imageData in
                 self.imageData = imageData
-                DispatchQueue.main.async(execute: { 
+                DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "showReview", sender: self)
-                })
+                }
             }, failure: { error in
                 print("Component API camera view controller received error:\n\(error)")
             })

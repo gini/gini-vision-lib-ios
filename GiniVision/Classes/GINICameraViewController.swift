@@ -138,7 +138,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         cameraOverlay.contentMode = .scaleAspectFit
         
         // Configure capture button
-        captureButton.setImage(captureButtonNormalImage, for: UIControlState())
+        captureButton.setImage(captureButtonNormalImage, for: .normal)
         captureButton.setImage(captureButtonActiveImage, for: .highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.cameraCaptureButtonTitle

@@ -84,7 +84,7 @@ class ScreenAPIViewController: UIViewController {
         let vc = GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
         
         // 3. Present the Gini Vision Library Screen API modally
-        self.present(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
         
         // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }

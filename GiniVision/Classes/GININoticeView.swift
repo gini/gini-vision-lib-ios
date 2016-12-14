@@ -90,9 +90,9 @@ internal class GININoticeView: UIView {
     // MARK: Toggle options
     func show(_ animated: Bool = true) {
         if animated {
-            UIView.animate(withDuration: 0.5, animations: {
+            UIView.animate(withDuration: 0.5) {
                 self.alpha = 1.0
-            })
+            }
         } else {
             self.alpha = 1.0
         }

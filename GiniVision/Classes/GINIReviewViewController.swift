@@ -108,7 +108,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
         bottomView.backgroundColor = GINIConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
         
         // Configure rotate button
-        rotateButton.setImage(rotateButtonImage, for: UIControlState())
+        rotateButton.setImage(rotateButtonImage, for: .normal)
         rotateButton.addTarget(self, action: #selector(rotate), for: .touchUpInside)
         rotateButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
