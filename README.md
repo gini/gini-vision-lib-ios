@@ -87,7 +87,17 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
 
-**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file. For more information see the [Integration Guide](http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk) of the Gini iOS SDK.
+**Note on iOS 10:** No matter which option you choose if you want to support iOS 10 you need to specify the `NSPhotoLibraryUsageDescription` key in your `Info.plist` file. And if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file.
+
+### Swift versions
+
+Unfortunately until this day the binary interface of Swift is not stable. This forces us to support and maintain multiple versions of Swift. Currently we support **Swift 2.2** on `master` and **Swift 2.3** on `swift-2.3` branch. So make sure to pick your branch accordingly.
+
+If you use CocoaPods you can specify a branch with:
+
+```ruby
+pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3'
+``` 
 
 ### CocoaPods
 
