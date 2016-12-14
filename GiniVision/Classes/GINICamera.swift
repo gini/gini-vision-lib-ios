@@ -26,21 +26,21 @@ internal class GINICamera {
     
     // MARK: Public methods
     func start() {
-        sessionQueue.async(execute: {
+        sessionQueue.async {
             self.session.startRunning()
             self.motionManager.startDetection()
-        })
+        }
     }
     
     func stop() {
-        sessionQueue.async(execute: {
+        sessionQueue.async {
             self.session.stopRunning()
             self.motionManager.stopDetection()
-        })
+        }
     }
     
     func focusWithMode(_ focusMode: AVCaptureFocusMode, exposeWithMode exposureMode: AVCaptureExposureMode, atDevicePoint point: CGPoint, monitorSubjectAreaChange: Bool) {
-        sessionQueue.async(execute: {
+        sessionQueue.async {
             guard let device = self.videoDeviceInput?.device else { return }
             guard case .some = try? device.lockForConfiguration() else { return print("Could not lock device for configuration") }
             
@@ -56,11 +56,11 @@ internal class GINICamera {
             
             device.isSubjectAreaChangeMonitoringEnabled = monitorSubjectAreaChange
             device.unlockForConfiguration()
-        })
+        }
     }
     
     func captureStillImage(_ completion: @escaping (_ inner: () throws -> Data) -> ()) {
-        sessionQueue.async(execute: {
+        sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else {
                 return completion({ _ in throw GINICameraError.noInputDevice })
@@ -72,7 +72,7 @@ internal class GINICamera {
                 connection.videoOrientation = .portrait
             }
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
-            self.stillImageOutput?.captureStillImageAsynchronously(from: connection, completionHandler: { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
+            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
                 guard error == nil else { return completion({ _ in throw GINICameraError.captureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                 completion({ _ in
@@ -81,8 +81,8 @@ internal class GINICamera {
                     }
                     return data
                 })
-            })
-        })
+            }
+        }
     }
     
     class func saveImageFromData(_ data: Data) {
