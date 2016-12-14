@@ -87,6 +87,8 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
 
+**Note on iOS 10:** No matter which option you choose if you want to support iOS 10 you need to specify the `NSPhotoLibraryUsageDescription` key in your `Info.plist` file. And if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file.
+
 ### CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
@@ -95,7 +97,7 @@ Gini Vision Library can either be installed by using CocoaPods or by manually dr
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build Gini Vision Library.
+> CocoaPods 1.1.0+ is required to build Gini Vision Library.
 
 To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -131,4 +133,4 @@ Peter Pult, p.pult@gini.net
 
 The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.
 
-*Important: Always make sure to ship all license notices and permissions with your application.*
+**Important:** Always make sure to ship all license notices and permissions with your application.
