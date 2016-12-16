@@ -60,7 +60,7 @@
 		0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIReviewUITests.swift; path = UITests/GINIReviewUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINICameraUITests.swift; path = UITests/GINICameraUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
-		0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GiniVision_Example.entitlements; sourceTree = "<group>"; };
+		0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GiniVision_Example.entitlements; sourceTree = SOURCE_ROOT; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
@@ -630,7 +630,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.release;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -649,7 +649,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
 			name = Release;
@@ -664,7 +664,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_TARGET_NAME = GiniVision_Example;
 			};
 			name = Release;
@@ -680,7 +680,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_TARGET_NAME = GiniVision_Example;
 			};
 			name = Debug;
@@ -695,7 +695,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_TARGET_NAME = GiniVision_Example;
 			};
 			name = "In House";
@@ -808,7 +808,7 @@
 				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.dev_development)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -830,7 +830,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.in-house_enterprise)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "In House";
@@ -853,7 +853,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
 			name = Debug;
@@ -872,7 +872,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
 			};
 			name = "In House";
