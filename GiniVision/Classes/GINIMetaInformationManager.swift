@@ -136,7 +136,7 @@ typealias MetaInformation = NSDictionary
 
 /// The JPEG compression level that will be used if nothing else
 /// is specified in imageData(withCompression:)
-let jpegDefaultCompression:CGFloat = 0.2
+let JPEGDefaultCompression:CGFloat = 0.2
 
 internal struct GINIMetaInformationManager {
     
@@ -167,7 +167,7 @@ internal struct GINIMetaInformationManager {
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func imageData(withCompression compression: CGFloat = jpegDefaultCompression) -> Data? {
+    func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
         return merge(image, withMetaInformation: metaInformation, andCompression: compression)
     }
     
