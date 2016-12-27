@@ -167,7 +167,7 @@ internal struct GINIMetaInformationManager {
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
+    func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> NSData? {
         return merge(image, withMetaInformation: metaInformation, andCompression: compression)
     }
     
