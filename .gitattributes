@@ -1,0 +1,2 @@
+.gitattributes merge=ours
+.swift-version merge=ours
