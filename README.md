@@ -91,12 +91,12 @@ Gini Vision Library can either be installed by using CocoaPods or by manually dr
 
 ### Swift versions
 
-Unfortunately until this day the binary interface of Swift is not stable. This forces us to support and maintain multiple versions of Swift. Currently we support **Swift 2.2** on `master` and **Swift 2.3** on `swift-2.3` branch. So make sure to pick your branch accordingly.
+The Gini Vision Library is entirely written in **Swift 2.2** and needs to be compiled with Xcode versions 7.X. However, you can find both **Swift 2.3** and **Swift 3** support in different branches within the repository. Please refer to the [Branches](#branches) section later in this document.
 
 If you use CocoaPods you can specify a branch with:
 
 ```ruby
-pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3'
+pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3' # or use 'swift3'
 ``` 
 
 ### CocoaPods
@@ -134,6 +134,13 @@ Use this header in an Objective-C project by adding
 ```
 
 to your implementation or header files. Note that spaces in your project name result in underscores. So `Your Project` becomes `Your_Project-Swift.h`.
+
+## Branches
+
+* `master` - Contains the latest stable release of the vision library.
+* `develop` - The bleeding edge branch. Contains features actively in development and might be unstable.
+* `swift-2.3` - Swift 2.3 support.
+* `swift3` - Swift 3 support.
 
 ## Author
 
