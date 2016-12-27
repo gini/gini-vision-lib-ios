@@ -134,6 +134,10 @@ internal extension NSMutableDictionary {
 
 typealias MetaInformation = NSDictionary
 
+/// The JPEG compression level that will be used if nothing else
+/// is specified in imageData(withCompression:)
+let JPEGDefaultCompression:CGFloat = 0.2
+
 internal struct GINIMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
@@ -163,7 +167,7 @@ internal struct GINIMetaInformationManager {
         metaInformation = metaInformation(fromImageData: data)
     }
     
-    func imageData(withCompression compression: CGFloat = 1.0) -> Data? {
+    func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
         return merge(image, withMetaInformation: metaInformation, andCompression: compression)
     }
     
