@@ -7,7 +7,7 @@ env:
   global:
     - WORKSPACE="Example/GiniVision.xcworkspace"
     - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
-    - IOS_SDK=iphonesimulator10.0
+    - IOS_SDK=iphonesimulator10.2
 matrix:
   include:
     - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
