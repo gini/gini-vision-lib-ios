@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0800"
+   LastUpgradeVersion = "0810"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E3509BABEA8DE31AEAFC6552A2E25FA5"
+               BlueprintIdentifier = "B01EBBF4F8538183EF3AE83279B57843"
                BuildableName = "GiniVision.framework"
                BlueprintName = "GiniVision"
                ReferencedContainer = "container:Pods/Pods.xcodeproj">
