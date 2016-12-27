@@ -40,10 +40,9 @@ Exemplary implementation Screen API:
 
 ```swift
 let giniConfiguration = GINIConfiguration()
-giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
-giniConfiguration.backgroundColor = UIColor.whiteColor()
-presentViewController(GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)
-```
+giniConfiguration.navigationBarItemTintColor = UIColor.white
+giniConfiguration.backgroundColor = UIColor.white
+present(GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)```
 
 ### Component API
 
@@ -63,7 +62,7 @@ let cameraController = GINICameraViewController(success:
 self.addChildViewController(cameraController)
 cameraController.view.frame = self.containerView.bounds
 self.containerView.addSubview(cameraController.view)
-cameraController.didMoveToParentViewController(self)
+cameraController.didMove(toParentViewController: self)
 ```
 
 To also use the `GINIConfiguration` with the Component API just use the `setConfiguration()` method of the `GINIVision` class.
@@ -78,28 +77,26 @@ GINIVision.setConfiguration(giniConfiguration)
 
 We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run `pod install` from the Example or ExampleObjC directory first.
 
-### Swift versions
-
-Unfortunately until this day the binary interface of Swift is not stable. This forces us to support and maintain multiple versions of Swift. Currently we support **Swift 2.2** on `master`, **Swift 2.3** on `swift-2.3` and **Swift 3** on the `swift3` branch. So make sure to pick your branch accordingly.
-
-If you use CocoaPods you can specify a branch with:
-
-```ruby
-pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift3'
-```
-
-## Swift versions
-
-The Gini Vision Library is entirely written in Swift 2 and needs to be compiled with Xcode versions 7.X. However, you can find both Swift 2.3 and Swift 3 support in different branches within the repository. Please refer to the [Branches](#Branches) section later in this document. 
-
 ## Requirements
 
 - iOS 8.0+
-- Xcode 7.3+
+- Xcode 8.0+
 
 ## Installation
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
+
+**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file. For more information see the [Integration Guide](http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk) of the Gini iOS SDK.
+
+### Swift versions
+
+The Gini Vision Library is entirely written in **Swift 2.2** and needs to be compiled with Xcode versions 7.X. However, you can find both **Swift 2.3** and **Swift 3** support in different branches within the repository. Please refer to the [Branches](#branches) section later in this document.
+
+If you use CocoaPods you can specify a branch with:
+
+```ruby
+pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3' # or use 'swift3'
+``` 
 
 ### CocoaPods
 
@@ -109,7 +106,7 @@ Gini Vision Library can either be installed by using CocoaPods or by manually dr
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build Gini Vision Library.
+> CocoaPods 1.1.0+ is required to build Gini Vision Library.
 
 To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -152,4 +149,4 @@ Peter Pult, p.pult@gini.net
 
 The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.
 
-*Important: Always make sure to ship all license notices and permissions with your application.*
+**Important:** Always make sure to ship all license notices and permissions with your application.
