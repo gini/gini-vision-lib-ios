@@ -11,36 +11,36 @@ import UIKit
 internal class GINICameraNotAuthorizedView: UIView {
     
     // User interface
-    private var label = UILabel()
-    private var button = UIButton()
-    private var imageView = UIImageView()
-    private var contentView = UIView()
+    fileprivate var label = UILabel()
+    fileprivate var button = UIButton()
+    fileprivate var imageView = UIImageView()
+    fileprivate var contentView = UIView()
     
     // Images
-    private var noCameraImage: UIImage? {
+    fileprivate var noCameraImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraNotAuthorizedIcon")
     }
     
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         // Configure image view
         imageView.image = noCameraImage
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         
         // Configure label
         label.text = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedText
         label.numberOfLines = 0
         label.textColor = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
-        label.textAlignment = .Center
+        label.textAlignment = .center
         label.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont
         
         // Configure button
-        button.setTitle(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, forState: .Normal)
-        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, forState: .Normal)
-        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.colorWithAlphaComponent(0.8), forState: .Highlighted)
+        button.setTitle(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
+        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
+        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8), for: .highlighted)
         button.titleLabel?.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont
-        button.addTarget(self, action: #selector(openSettings), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         
         // Configure view hierachy
         addSubview(contentView)
@@ -61,44 +61,44 @@ internal class GINICameraNotAuthorizedView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBAction func openSettings(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+    @IBAction func openSettings(_ sender: AnyObject) {
+        UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
     }
     
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Top, multiplier: 1, constant: 30)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: 5, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .top, multiplier: 1, constant: 30)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .centerY, relatedBy: .equal, toItem: superview, attribute: .centerY, multiplier: 1, constant: 5, priority: 999)
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .Width, multiplier: 1, constant: 204)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Width, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Width, multiplier: 1, constant: 75)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Height, relatedBy: .LessThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 75)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 50)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .width, multiplier: 1, constant: 204)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .width, multiplier: 1, constant: 75)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 75)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 50)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
         
         // Text label
         label.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: label, attribute: .Top, relatedBy: .Equal, toItem: imageView, attribute: .Bottom, multiplier: 1, constant: 35)
-        UIViewController.addActiveConstraint(item: label, attribute: .Trailing, relatedBy: .Equal, toItem: contentView, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: label, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: label, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .Width, multiplier: 1, constant: 250)
-        UIViewController.addActiveConstraint(item: label, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .Height, multiplier: 1, constant: 70)
+        ConstraintUtils.addActiveConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 35)
+        ConstraintUtils.addActiveConstraint(item: label, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: label, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 250)
+        ConstraintUtils.addActiveConstraint(item: label, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
         
         // Button
         button.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: button, attribute: .Top, relatedBy: .Equal, toItem: label, attribute: .Bottom, multiplier: 1, constant: 10)
-        UIViewController.addActiveConstraint(item: button, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: label, attribute: .Width, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 35)
-        UIViewController.addActiveConstraint(item: button, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: label, attribute: .bottom, multiplier: 1, constant: 10)
+        ConstraintUtils.addActiveConstraint(item: button, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: label, attribute: .width, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 35)
+        ConstraintUtils.addActiveConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
     }
     
 }

@@ -17,7 +17,7 @@ class ComponentAPICameraViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
-    private var imageData: NSData?
+    fileprivate var imageData: Data?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -36,9 +36,9 @@ class ComponentAPICameraViewController: UIViewController {
         contentController = GINICameraViewController(success:
             { imageData in
                 self.imageData = imageData
-                dispatch_async(dispatch_get_main_queue(), { 
-                    self.performSegueWithIdentifier("showReview", sender: self)
-                })
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "showReview", sender: self)
+                }
             }, failure: { error in
                 print("Component API camera view controller received error:\n\(error)")
             })
@@ -47,36 +47,36 @@ class ComponentAPICameraViewController: UIViewController {
         displayContent(contentController)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // Displays the content controller inside the container view
-    func displayContent(controller: UIViewController) {
+    func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMoveToParentViewController(self)
+        controller.didMove(toParentViewController: self)
     }
     
     // MARK: User actions
-    @IBAction func back(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func back(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
     // MARK: Navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showReview" {
             if let imageData = imageData,
-               let vc = segue.destinationViewController as? ComponentAPIReviewViewController {
+               let vc = segue.destination as? ComponentAPIReviewViewController {
                 vc.imageData = imageData
             }
         }

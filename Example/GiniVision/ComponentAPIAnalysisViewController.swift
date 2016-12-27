@@ -19,7 +19,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     /**
      The image data of the captured document to be reviewed.
      */
-    var imageData: NSData!
+    var imageData: Data!
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
@@ -46,13 +46,13 @@ class ComponentAPIAnalysisViewController: UIViewController {
         displayContent(contentController)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Subscribe to analysis events which will be fired when the analysis process ends.
         // Either with a valid result or an error.
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleAnalysis(errorNotification:)), name: GINIAnalysisManagerDidReceiveErrorNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(handleAnalysis(resultNotification:)), name: GINIAnalysisManagerDidReceiveResultNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAnalysis(errorNotification:)), name: NSNotification.Name(rawValue: GINIAnalysisManagerDidReceiveErrorNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleAnalysis(resultNotification:)), name: NSNotification.Name(rawValue: GINIAnalysisManagerDidReceiveResultNotification), object: nil)
         
         // Because results may come in during view controller transition,
         // check for already existent results in shared analysis manager.
@@ -62,15 +62,15 @@ class ComponentAPIAnalysisViewController: UIViewController {
         (contentController as? GINIAnalysisViewController)?.showAnimation()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         // Never forget to remove observers when you support iOS versions prior to 9.0.
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
-    override func didMoveToParentViewController(parent: UIViewController?) {
-        super.didMoveToParentViewController(parent)
+    override func didMove(toParentViewController parent: UIViewController?) {
+        super.didMove(toParentViewController: parent)
         
         // Cancel analysis process to avoid unnecessary network calls.
         if parent == nil {
@@ -79,15 +79,15 @@ class ComponentAPIAnalysisViewController: UIViewController {
     }
     
     // Displays the content controller inside the container view
-    func displayContent(controller: UIViewController) {
+    func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMoveToParentViewController(self)
+        controller.didMove(toParentViewController: self)
     }
     
     // MARK: User actions
-    @IBAction func errorButtonTapped(sender: AnyObject) {
+    @IBAction func errorButtonTapped(_ sender: AnyObject) {
         (contentController as? GINIAnalysisViewController)?.showAnimation()
         hideErrorButton()
         
@@ -105,12 +105,12 @@ class ComponentAPIAnalysisViewController: UIViewController {
         }
     }
     
-    func handleAnalysis(errorNotification notification: NSNotification) {
+    func handleAnalysis(errorNotification notification: Notification) {
         let error = notification.userInfo?[GINIAnalysisManagerErrorUserInfoKey] as? NSError
         handleAnalysis(error)
     }
     
-    func handleAnalysis(resultNotification notification: NSNotification) {
+    func handleAnalysis(resultNotification notification: Notification) {
         if let result = notification.userInfo?[GINIAnalysisManagerResultDictionaryUserInfoKey] as? GINIResult,
            let document = notification.userInfo?[GINIAnalysisManagerDocumentUserInfoKey] as? GINIDocument {
             handleAnalysis(result, fromDocument: document)
@@ -119,37 +119,37 @@ class ComponentAPIAnalysisViewController: UIViewController {
         }
     }
     
-    func handleAnalysis(error: NSError?) {
+    func handleAnalysis(_ error: Error?) {
         if let error = error {
-            print(error.description)
+            print(error)
         }
         
         // For the sake of simplicity we'll always present a generic error which allows the user to retry the analysis.
         // In a real world application different messages depending on the kind of error might be appropriate.
-        dispatch_async(dispatch_get_main_queue()) { 
+        DispatchQueue.main.async { 
             self.displayError()
         }
     }
     
-    func handleAnalysis(result: GINIResult, fromDocument document: GINIDocument) {
+    func handleAnalysis(_ result: GINIResult, fromDocument document: GINIDocument) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if hasPayFive {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("resultScreen") as! ResultTableViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
             vc.result = result
             vc.document = document
             self.navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("noResultScreen") as! NoResultViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
             self.navigationController?.pushViewController(vc, animated: true)
         }
         
         // Remove analysis screen from navigation stack.
         if var navigationStack = navigationController?.viewControllers,
-           let index = navigationStack.indexOf(self) {
-            navigationStack.removeAtIndex(index)
+           let index = navigationStack.index(of: self) {
+            navigationStack.remove(at: index)
             navigationController?.viewControllers = navigationStack
         }
     }
@@ -164,7 +164,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         guard errorButton.alpha != 1.0 else {
             return
         }
-        UIView.animateWithDuration(0.5) {
+        UIView.animate(withDuration: 0.5) {
             self.errorButton.alpha = 1.0
         }
     }
@@ -173,7 +173,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         guard errorButton.alpha != 0.0 else {
             return
         }
-        UIView.animateWithDuration(0.5) { 
+        UIView.animate(withDuration: 0.5) {
             self.errorButton.alpha = 0.0
         }
     }

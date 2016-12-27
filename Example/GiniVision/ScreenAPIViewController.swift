@@ -19,11 +19,11 @@ class ScreenAPIViewController: UIViewController {
     @IBOutlet weak var metaInformationLabel: UILabel!
     
     var isUITest: Bool {
-        return NSProcessInfo.processInfo().arguments.contains("--UITest")
+        return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
     var analysisDelegate: GINIAnalysisDelegate?
-    var imageData: NSData?
+    var imageData: Data?
     var result: GINIResult? {
         didSet {
             if let result = result,
@@ -45,26 +45,26 @@ class ScreenAPIViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let customClientId = NSUserDefaults.standardUserDefaults().stringForKey(kSettingsGiniSDKClientIdKey) ?? ""
+        let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
         metaInformationLabel.text = "Gini Vision Library: (\(GINIVision.versionString)) / Client id: \(clientId)"
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: User interaction
-    @IBAction func easyLaunchGiniVision(sender: AnyObject) {
+    @IBAction func easyLaunchGiniVision(_ sender: AnyObject) {
         
         /************************************************************************
          * CAPTURE IMAGE WITH THE SCREEN API OF THE GINI VISION LIBRARY FOR IOS *
@@ -73,7 +73,7 @@ class ScreenAPIViewController: UIViewController {
         // 1. Create a custom configuration object
         let giniConfiguration = GINIConfiguration()
         giniConfiguration.debugModeOn = true
-        giniConfiguration.navigationBarItemTintColor = UIColor.whiteColor()
+        giniConfiguration.navigationBarItemTintColor = UIColor.white
         
         // Make sure the app always behaves the same when run from UITests
         if isUITest {
@@ -84,13 +84,13 @@ class ScreenAPIViewController: UIViewController {
         let vc = GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
         
         // 3. Present the Gini Vision Library Screen API modally
-        presentViewController(vc, animated: true, completion: nil)
+        present(vc, animated: true, completion: nil)
         
         // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
     
     // MARK: Handle analysis of document
-    func analyzeDocument(withImageData data: NSData) {
+    func analyzeDocument(withImageData data: Data) {
         
         // Do not perform network tasks when UI testing.
         if isUITest {
@@ -134,34 +134,34 @@ class ScreenAPIViewController: UIViewController {
         })
     }
     
-    func show(result: GINIResult, fromDocument document: GINIDocument) {
+    func show(_ result: GINIResult, fromDocument document: GINIDocument) {
         if let _ = analysisDelegate {
             analysisDelegate = nil
             present(result, fromDocument: document)
         }
     }
     
-    func present(result: GINIResult, fromDocument document: GINIDocument) {
+    func present(_ result: GINIResult, fromDocument document: GINIDocument) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if hasPayFive {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("resultScreen") as! ResultTableViewController
+            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
             vc.result = result
             vc.document = document
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: false)
             }
         } else {
-            let vc = storyboard.instantiateViewControllerWithIdentifier("noResultScreen") as! NoResultViewController
-            dispatch_async(dispatch_get_main_queue()) {
+            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+            DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: false)
             }
         }
         
-        dispatch_async(dispatch_get_main_queue()) { 
-            self.dismissViewControllerAnimated(true, completion: nil)
+        DispatchQueue.main.async { 
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -169,14 +169,14 @@ class ScreenAPIViewController: UIViewController {
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GINIVisionDelegate {
     
-    func didCapture(imageData: NSData) {
+    func didCapture(_ imageData: Data) {
         print("Screen API received image data")
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withImageData: imageData)
     }
     
-    func didReview(imageData: NSData, withChanges changes: Bool) {
+    func didReview(_ imageData: Data, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
         // Analyze reviewed data because changes were made by the user during review.
@@ -200,7 +200,7 @@ extension ScreenAPIViewController: GINIVisionDelegate {
     
     func didCancelCapturing() {
         print("Screen API canceled capturing")
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     // Optional delegate methods
@@ -211,7 +211,7 @@ extension ScreenAPIViewController: GINIVisionDelegate {
         cancelAnalsyis()
     }
     
-    func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate) {
+    func didShowAnalysis(_ analysisDelegate: GINIAnalysisDelegate) {
         print("Screen API started analysis screen")
         
         self.analysisDelegate = analysisDelegate

@@ -21,7 +21,7 @@ import UIKit
      
      - parameter imageData: JPEG image data including meta information.
      */
-    func didCapture(imageData: NSData)
+    func didCapture(_ imageData: Data)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -29,7 +29,7 @@ import UIKit
      - parameter imageData: JPEG image data including eventually updated meta information.
      - parameter changes:   Indicates whether `imageData` was altered.
     */
-    func didReview(imageData: NSData, withChanges changes: Bool)
+    func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
@@ -39,19 +39,19 @@ import UIKit
     /**
      Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
-    optional func didCancelReview()
+    @objc optional func didCancelReview()
     
     /**
      Called when the user is presented with the analsis screen. Use the `analysisDelegate` object to inform the user about the current status of the analysis task.
      
      - parameter analysisDelegate: The analsis delegate to send updates to.
      */
-    optional func didShowAnalysis(analysisDelegate: GINIAnalysisDelegate)
+    @objc optional func didShowAnalysis(_ analysisDelegate: GINIAnalysisDelegate)
     
     /**
      Called when the user navigates back from the analysis screen to the review screen. Should be used to cancel any ongoing analysis task on the image.
      */
-    optional func didCancelAnalysis()
+    @objc optional func didCancelAnalysis()
     
 }
 
@@ -74,7 +74,7 @@ import UIKit
      
      - parameter configuration: The configuration to set.
      */
-    public class func setConfiguration(configuration: GINIConfiguration) {
+    public class func setConfiguration(_ configuration: GINIConfiguration) {
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }

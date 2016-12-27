@@ -15,17 +15,17 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     internal var contentController = UIViewController()
     
     // User interface
-    private var backButton = UIBarButtonItem()
+    fileprivate var backButton = UIBarButtonItem()
     
     // Images
-    private var backButtonImage: UIImage? {
+    fileprivate var backButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "navigationAnalysisBack")
     }
     
     // Properties
-    private var noticeView: GININoticeView?
+    fileprivate var noticeView: GININoticeView?
     
-    init(imageData: NSData) {
+    init(imageData: Data) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
@@ -41,14 +41,14 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         backButton = GINIBarButtonItem(
             image: backButtonImage,
             title: GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(back)
         )
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButtonItem(backButton, animated: false)
+        navigationItem.setLeftBarButton(backButton, animated: false)
         
         // Add constraints
         addConstraints()
@@ -68,7 +68,7 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         (contentController as? GINIAnalysisViewController)?.showAnimation()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
@@ -79,10 +79,10 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
     
-    private func showNotice(notice: GININoticeView) {
+    fileprivate func showNotice(_ notice: GININoticeView) {
         if noticeView != nil {
             noticeView?.hide(completion: {
                 self.noticeView = nil
@@ -96,15 +96,15 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     }
     
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
         
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
     
 }
@@ -112,8 +112,8 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
 extension GINIAnalysisContainerViewController: GINIAnalysisDelegate {
     
     func displayError(withMessage message: String?, andAction action: GININoticeAction?) {
-        let notice = GININoticeView(text: message ?? "", noticeType: .Error, action: action)
-        dispatch_async(dispatch_get_main_queue()) { 
+        let notice = GININoticeView(text: message ?? "", noticeType: .error, action: action)
+        DispatchQueue.main.async { 
             self.showNotice(notice)
         }
     }

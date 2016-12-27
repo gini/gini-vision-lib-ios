@@ -16,20 +16,20 @@ import UIKit
 public typealias GININoticeAction = () -> ()
 
 internal enum GININoticeType {
-    case Information, Error
+    case information, error
 }
 
 internal class GININoticeView: UIView {
     
     // User interface
-    private var textLabel = UILabel()
+    fileprivate var textLabel = UILabel()
     
     // Properties
-    private var userAction: GININoticeAction?
-    private var type = GININoticeType.Information
+    fileprivate var userAction: GININoticeAction?
+    fileprivate var type = GININoticeType.information
     
-    init(text: String, noticeType: GININoticeType = .Information, action: GININoticeAction? = nil) {
-        super.init(frame: CGRectZero)
+    init(text: String, noticeType: GININoticeType = .information, action: GININoticeAction? = nil) {
+        super.init(frame: CGRect.zero)
         
         // Hide when initialized
         alpha = 0.0
@@ -45,17 +45,17 @@ internal class GININoticeView: UIView {
         
         // Configure label
         textLabel.numberOfLines = 0
-        textLabel.textAlignment = .Center
+        textLabel.textAlignment = .center
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.7
         textLabel.font = GINIConfiguration.sharedConfiguration.noticeFont
         
         // Configure UI depending on type
         switch type {
-        case .Information:
+        case .information:
             textLabel.textColor = GINIConfiguration.sharedConfiguration.noticeInformationTextColor
             backgroundColor = GINIConfiguration.sharedConfiguration.noticeInformationBackgroundColor
-        case .Error:
+        case .error:
             textLabel.textColor = GINIConfiguration.sharedConfiguration.noticeErrorTextColor
             backgroundColor = GINIConfiguration.sharedConfiguration.noticeErrorBackgroundColor
         }
@@ -64,7 +64,7 @@ internal class GININoticeView: UIView {
         addSubview(textLabel)
         
         // Configure colors
-        backgroundColor = backgroundColor?.colorWithAlphaComponent(0.8)
+        backgroundColor = backgroundColor?.withAlphaComponent(0.8)
     }
     
     /**
@@ -76,11 +76,11 @@ internal class GININoticeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func handleTap(sender: UIGestureRecognizer) {
+    @objc fileprivate func handleTap(_ sender: UIGestureRecognizer) {
         switch type {
-        case .Information:
+        case .information:
             return
-        case .Error:
+        case .error:
             hide {
                 self.userAction?()
             }
@@ -88,24 +88,24 @@ internal class GININoticeView: UIView {
     }
     
     // MARK: Toggle options
-    func show(animated: Bool = true) {
+    func show(_ animated: Bool = true) {
         if animated {
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5) {
                 self.alpha = 1.0
-            })
+            }
         } else {
             self.alpha = 1.0
         }
     }
     
-    func hide(animated: Bool = true, completion: (() -> ())?) {
+    func hide(_ animated: Bool = true, completion: (() -> ())?) {
         if animated {
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.alpha = 0.0
-            }) { (success: Bool) in
+            }, completion: { (success: Bool) in
                 completion?()
                 self.removeFromSuperview()
-            }
+            }) 
         } else {
             self.alpha = 0.0
             completion?()
@@ -121,23 +121,23 @@ internal class GININoticeView: UIView {
         addConstraints()
     }
     
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         if let superview = superview {
             
             // Superview
             self.translatesAutoresizingMaskIntoConstraints = false
-            UIViewController.addActiveConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-            UIViewController.addActiveConstraint(item: self, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-            UIViewController.addActiveConstraint(item: self, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-            UIViewController.addActiveConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 35)
+            ConstraintUtils.addActiveConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 35)
         }
         
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -20, priority: 999)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: textLabel, attribute: .Leading, relatedBy: .Equal, toItem: self, attribute: .Leading, multiplier: 1, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -20, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 20)
     }
     
 }

@@ -45,9 +45,9 @@ import UIKit
 @objc public final class GINIOnboardingViewController: UIViewController {
     
     // User interface
-    private var scrollView  = UIScrollView()
-    private var contentView = UIView()
-    private var pages       = [UIView]()
+    fileprivate var scrollView  = UIScrollView()
+    fileprivate var contentView = UIView()
+    fileprivate var pages       = [UIView]()
 
     /**
      Designated intitializer for the `GINIOnboardingViewController` which allows to pass a custom set of views which will be displayed in horizontal scroll view.
@@ -67,7 +67,7 @@ import UIKit
         scrollView.delegate = scrollViewDelegate
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.pagingEnabled = true
+        scrollView.isPagingEnabled = true
         
         // Configure view hierachy
         view.addSubview(scrollView)
@@ -105,47 +105,47 @@ import UIKit
      
      - parameter animated: Defines whether scrolling should be animated.
      */
-    public func scrollToNextPage(animated: Bool) {
+    public func scrollToNextPage(_ animated: Bool) {
         var offset = scrollView.contentOffset
         offset.x += scrollView.frame.width
         // Make sure there is no overflow and scrolling only happens from page to page
-        guard offset.x < scrollView.contentSize.width && offset.x % scrollView.frame.width == 0 else {
+        guard offset.x < scrollView.contentSize.width && offset.x.truncatingRemainder(dividingBy: scrollView.frame.width) == 0 else {
             return
         }
         scrollView.setContentOffset(offset, animated: animated)
     }
         
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
         let pagesCount = CGFloat(pages.count)
         
         // Scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: scrollView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: scrollView, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Trailing, relatedBy: .Equal, toItem: scrollView, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: scrollView, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Leading, relatedBy: .Equal, toItem: scrollView, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: scrollView, attribute: .Width, multiplier: pagesCount, constant: 0)
-        UIViewController.addActiveConstraint(item: contentView, attribute: .Height, relatedBy: .Equal, toItem: scrollView, attribute: .Height, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .width, relatedBy: .equal, toItem: scrollView, attribute: .width, multiplier: pagesCount, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .height, relatedBy: .equal, toItem: scrollView, attribute: .height, multiplier: 1, constant: 0)
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
-            UIViewController.addActiveConstraint(item: page, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0)
-            UIViewController.addActiveConstraint(item: page, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: 0)
-            UIViewController.addActiveConstraint(item: page, attribute: .Width, relatedBy: .Equal, toItem: contentView, attribute: .Width, multiplier: 1/pagesCount, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: page, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: page, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: page, attribute: .width, relatedBy: .equal, toItem: contentView, attribute: .width, multiplier: 1/pagesCount, constant: 0)
             if page == pages.first {
-                UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: contentView, attribute: .Leading, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: page, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0)
             } else {
-                let previousPage = pages[pages.indexOf(page)! - 1]
-                UIViewController.addActiveConstraint(item: page, attribute: .Leading, relatedBy: .Equal, toItem: previousPage, attribute: .Trailing, multiplier: 1, constant: 0)
+                let previousPage = pages[pages.index(of: page)! - 1]
+                ConstraintUtils.addActiveConstraint(item: page, attribute: .leading, relatedBy: .equal, toItem: previousPage, attribute: .trailing, multiplier: 1, constant: 0)
             }
         }
     }

@@ -25,20 +25,20 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     internal var contentController = UIViewController()
     
     // User Interface
-    private var pageControlContainerView = UIView()
-    private var pageControl              = UIPageControl()
-    private var continueButton           = UIBarButtonItem()
-    private let backgroundAlpha: CGFloat = 0.85
+    fileprivate var pageControlContainerView = UIView()
+    fileprivate var pageControl              = UIPageControl()
+    fileprivate var continueButton           = UIBarButtonItem()
+    fileprivate let backgroundAlpha: CGFloat = 0.85
     
     // Images
-    private var continueButtonImage: UIImage? {
+    fileprivate var continueButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "navigationOnboardingContinue")
     }
     
     // Output
-    private var completionBlock: GINIOnboardingContainerCompletionBlock?
+    fileprivate var completionBlock: GINIOnboardingContainerCompletionBlock?
     
-    init(withCompletion completion: GINIOnboardingContainerCompletionBlock) {
+    init(withCompletion completion: @escaping GINIOnboardingContainerCompletionBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -54,7 +54,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         title = GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitle
         
         // Configure colors
-        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor.colorWithAlphaComponent(backgroundAlpha)
+        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
         // Configure page control
         pageControl.currentPage = 0
@@ -66,7 +66,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         continueButton = GINIBarButtonItem(
             image: continueButtonImage,
             title: GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton,
-            style: .Plain,
+            style: .plain,
             target: self,
             action: #selector(nextPage)
         )
@@ -75,7 +75,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
         view.addSubview(containerView)
         view.addSubview(pageControlContainerView)
         pageControlContainerView.addSubview(pageControl)
-        navigationItem.setRightBarButtonItem(continueButton, animated: false)
+        navigationItem.setRightBarButton(continueButton, animated: false)
         
         // Add constraints
         addConstraints()
@@ -93,7 +93,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     }
     
     @IBAction func close() {
-        dismissViewControllerAnimated(false, completion: completionBlock)
+        dismiss(animated: false, completion: completionBlock)
     }
     
     @IBAction func nextPage() {
@@ -101,46 +101,46 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     }
     
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
 
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Bottom, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Width, relatedBy: .Equal, toItem: containerView, attribute: .Height, multiplier: 3/4, constant: 0)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Width, relatedBy: .Equal, toItem: superview, attribute: .Width, multiplier: 1, constant: 0, priority: 750)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: superview, attribute: .Width, multiplier: 1, constant: 0, priority: 999)
-        UIViewController.addActiveConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: containerView, attribute: .height, multiplier: 3/4, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 750)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
         
         // Page control container view
         pageControlContainerView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: pageControlContainerView, attribute: .Top, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
-        UIViewController.addActiveConstraint(item: pageControlContainerView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: pageControlContainerView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: pageControlContainerView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: pageControlContainerView, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: pageControl, attribute: .Height, multiplier: 1.1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .top, relatedBy: .equal, toItem: containerView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: pageControl, attribute: .height, multiplier: 1.1, constant: 0)
         
         // Page control
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: pageControl, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 55)
-        UIViewController.addActiveConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal, toItem: pageControlContainerView, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: pageControl, attribute: .CenterY, relatedBy: .Equal, toItem: pageControlContainerView, attribute: .CenterY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 55)
+        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerX, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerY, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerY, multiplier: 1, constant: 0)
     }
     
 }
 
 extension GINIOnboardingContainerViewController: UIScrollViewDelegate {
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         setPageControl(scrollView)
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         setPageControl(scrollView)
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // Update fixed elements position
         let pageWidth = scrollView.frame.size.width
@@ -159,10 +159,10 @@ extension GINIOnboardingContainerViewController: UIScrollViewDelegate {
         } else {
             alpha = max(backgroundAlpha, fabs((contentOffsetX*0.3)/fixedFrame.width) + backgroundAlpha) // Darken the background when overflowing to the left
         }
-        view.backgroundColor = view.backgroundColor?.colorWithAlphaComponent(alpha)
+        view.backgroundColor = view.backgroundColor?.withAlphaComponent(alpha)
     }
     
-    private func setPageControl(scrollView: UIScrollView) {
+    fileprivate func setPageControl(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let contentOffsetX = scrollView.contentOffset.x
         let currentPage = contentOffsetX / pageWidth
