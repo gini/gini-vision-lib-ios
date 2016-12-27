@@ -69,7 +69,7 @@ To also use the `GINIConfiguration` with the Component API just use the `setConf
 
 ```swift
 let giniConfiguration = GINIConfiguration()
-giniConfiguration.backgroundColor = UIColor.whiteColor()
+giniConfiguration.backgroundColor = UIColor.white
 GINIVision.setConfiguration(giniConfiguration)
 ```
 
