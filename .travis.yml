@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8
+osx_image: xcode8.2
 podfile: Example/Podfile
 cache: 
   - cocoapods
@@ -7,22 +7,16 @@ env:
   global:
     - WORKSPACE="Example/GiniVision.xcworkspace"
     - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
-    - IOS_SDK=iphonesimulator10.0
+    - IOS_SDK=iphonesimulator10.2
 matrix:
   include:
-    - osx_image: xcode8
-      env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
-    - osx_image: xcode8
-      env: DESTINATION="OS=9.1,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
-    - osx_image: xcode8
-      env: DESTINATION="OS=9.3,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
-    - osx_image: xcode8
-      env: DESTINATION="OS=10.0,name=iPhone 6S"         SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
+    - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=9.1,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=9.3,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=10.0,name=iPhone SE"         SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
 before_install:
   - gem install slather
-   # Pre-Release version of Cocoapods needed for Xcode8 environment.
-   # Can be removed when v1.1.0 is officially released.
-  - gem install cocoapods --pre # Since Travis is not always on latest version
+  - gem install cocoapods
   - pod install --project-directory=Example --repo-update
 script:
   - set -o pipefail 
@@ -31,9 +25,9 @@ script:
 
   # Build in Debug and Run Tests if specified
   - if [ $RUN_TESTS == "YES" ]; then
-      xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test | xcpretty -c;
+      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test | xcpretty -c;
     else
-      xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
     fi
 
   # Run `pod lib lint` if specified
