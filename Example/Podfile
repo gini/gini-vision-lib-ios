@@ -4,7 +4,6 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 
 target 'GiniVision_Example' do
-    inherit! :search_paths
     pod 'GiniVision', :path => '../'
     pod 'Gini-iOS-SDK'
     
@@ -20,6 +19,10 @@ end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
+            # Make sure to always set the correct version of Swift in all targets **Pod** and **Project**.
+            # Be aware that even the minor (e.g. '3.0.1) can be critical for the build to work.
+            # Setting `Use Legacy Swift Language Version` to `NO` may not be sufficient,
+            # rather set `SWIFT_VERSION` manually to wanted version.
             config.build_settings['SWIFT_VERSION'] = '3.0'
         end
     end
