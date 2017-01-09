@@ -44,10 +44,19 @@ import UIKit
  */
 @objc public final class GINIOnboardingViewController: UIViewController {
     
+    
+    /**
+     Scroll view used to display different onboarding pages.
+     */
+    public var scrollView = UIScrollView()
+    
+    /**
+     Array of views displayed as pages inside the scroll view.
+     */
+    public var pages = [UIView]()
+
     // User interface
-    private var scrollView  = UIScrollView()
     private var contentView = UIView()
-    private var pages       = [UIView]()
 
     /**
      Designated intitializer for the `GINIOnboardingViewController` which allows to pass a custom set of views which will be displayed in horizontal scroll view.

@@ -52,6 +52,12 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
  */
 @objc public final class GINICameraViewController: UIViewController {
     
+    /**
+     Image view used to display a camera overlay like corners or a frame. 
+     Use public methods `showCameraOverlay` and `hideCameraOverlay` to control visibility of overlay.
+     */
+    public var cameraOverlay = UIImageView()
+
     private enum CameraState {
         case Valid, NotValid
     }
@@ -59,7 +65,6 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
     // User interface
     private var controlsView  = UIView()
     private var previewView   = GINICameraPreviewView()
-    private var cameraOverlay = UIImageView()
     private var captureButton = UIButton()
     private var focusIndicatorImageView: UIImageView?
     private var defaultImageView: UIImageView?
