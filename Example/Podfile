@@ -10,4 +10,8 @@ target 'GiniVision_Example' do
     target 'GiniVision_Tests' do
         inherit! :search_paths
     end
+    
+    target 'GiniVision_UITests' do
+        inherit! :search_paths
+    end
 end

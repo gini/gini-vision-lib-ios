@@ -87,6 +87,18 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
 
+**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file. For more information see the [Integration Guide](http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk) of the Gini iOS SDK.
+
+### Swift versions
+
+The Gini Vision Library is entirely written in **Swift 2.2** and needs to be compiled with Xcode versions 7.X. However, you can find both **Swift 2.3** and **Swift 3** support in different branches within the repository. Please refer to the [Branches](#branches) section later in this document.
+
+If you use CocoaPods you can specify a branch with:
+
+```ruby
+pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3' # or use 'swift3'
+``` 
+
 ### CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
@@ -95,7 +107,7 @@ Gini Vision Library can either be installed by using CocoaPods or by manually dr
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build Gini Vision Library.
+> CocoaPods 1.1.0+ is required to build Gini Vision Library.
 
 To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -123,10 +135,19 @@ Use this header in an Objective-C project by adding
 
 to your implementation or header files. Note that spaces in your project name result in underscores. So `Your Project` becomes `Your_Project-Swift.h`.
 
+## Branches
+
+* `master` - Contains the latest stable release of the vision library.
+* `develop` - The bleeding edge branch. Contains features actively in development and might be unstable.
+* `swift-2.3` - Swift 2.3 support.
+* `swift3` - Swift 3 support.
+
 ## Author
 
 Peter Pult, p.pult@gini.net
 
 ## License
 
-Gini Vision Library is available under a commercial license. See the LICENSE file for more info.
+The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.
+
+**Important:** Always make sure to ship all license notices and permissions with your application.

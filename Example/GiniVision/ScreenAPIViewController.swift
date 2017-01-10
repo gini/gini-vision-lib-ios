@@ -16,6 +16,8 @@ import Gini_iOS_SDK
  */
 class ScreenAPIViewController: UIViewController {
     
+    @IBOutlet weak var metaInformationLabel: UILabel!
+    
     var isUITest: Bool {
         return NSProcessInfo.processInfo().arguments.contains("--UITest")
     }
@@ -40,6 +42,15 @@ class ScreenAPIViewController: UIViewController {
     }
     
     // MARK: View life cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let customClientId = NSUserDefaults.standardUserDefaults().stringForKey(kSettingsGiniSDKClientIdKey) ?? ""
+        let clientId = customClientId != "" ? customClientId : kGiniClientId
+        
+        metaInformationLabel.text = "Gini Vision Library: (\(GINIVision.versionString)) / Client id: \(clientId)"
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         

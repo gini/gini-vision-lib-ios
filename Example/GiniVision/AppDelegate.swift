@@ -20,13 +20,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        print("Gini Vision Library for iOS (\(GINIVision.versionString))")
+        // Populate setting with according values
+        populateSettingsPage()
+        
+        // Prefer client credentials from settings before config file
+        let customClientId = NSUserDefaults.standardUserDefaults().stringForKey(kSettingsGiniSDKClientIdKey) ?? ""
+        let customClientSecret = NSUserDefaults.standardUserDefaults().stringForKey(kSettingsGiniSDKClientSecretKey) ?? ""
+        let clientId = customClientId != "" ? customClientId : kGiniClientId
+        let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
         
         // Set up GiniSDK with your credentials.
-        let builder = GINISDKBuilder.anonymousUserWithClientID(kGiniClientId, clientSecret: kGiniClientSecret, userEmailDomain: "example.com")
+        let builder = GINISDKBuilder.anonymousUserWithClientID(clientId, clientSecret: clientSecret, userEmailDomain: "example.com")
         self.giniSDK = builder.build()
         
+        print("Gini Vision Library for iOS (\(GINIVision.versionString)) / Client id: \(clientId)")
+
         return true
+    }
+    
+    func populateSettingsPage() {
+        NSUserDefaults.standardUserDefaults().setValue(GINIVision.versionString, forKey: kSettingsGiniVisionVersionKey)
+        NSUserDefaults.standardUserDefaults().setValue(NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as? String, forKey: kSettingsExampleAppVersionKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
 }
