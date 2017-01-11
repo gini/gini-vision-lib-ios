@@ -16,6 +16,8 @@
 		0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */; };
+		0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */; };
+		0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */; };
 		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
 		0A82FAD21D59D78300D84632 /* GINIAnalysisUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */; };
 		0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */; };
@@ -67,6 +69,8 @@
 		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
 		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOnboardingViewControllerTests.swift; sourceTree = "<group>"; };
+		0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINICameraViewControllerTests.swift; sourceTree = "<group>"; };
 		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
 		0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIAnalysisUITests.swift; path = UITests/GINIAnalysisUITests.swift; sourceTree = SOURCE_ROOT; };
 		0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelationToken.swift; sourceTree = "<group>"; };
@@ -231,6 +235,8 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
+				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
+				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -587,6 +593,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
+				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
