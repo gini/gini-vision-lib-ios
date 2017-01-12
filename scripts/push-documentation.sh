@@ -10,7 +10,7 @@ fi
 
 # Clean up
 rm -rf docs
-git clone -b docs https://${GH_TOKEN}@github.com/gini-vision-lib-ios.git docs
+git clone -b docs https://${DOC_PUSH_TOKEN}@github.com/gini-vision-lib-ios.git docs
 rm -rf docs/*
 
 # Copy integration guide source files
