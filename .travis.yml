@@ -14,7 +14,7 @@ matrix:
     - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
     - env: DESTINATION="OS=8.3,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
     - env: DESTINATION="OS=9.1,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
-    - env: DESTINATION="OS=9.3,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
+    - env: DESTINATION="OS=9.3,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
 before_install:
   - gem install slather
   - gem install cocoapods # Since Travis is not always on latest version
