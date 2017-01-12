@@ -8,6 +8,7 @@ env:
     - WORKSPACE="Example/GiniVision.xcworkspace"
     - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
     - IOS_SDK_LEGACY=iphonesimulator9.3
+    - secure: "mmTWT0WBaAMKNxnPD/Nyxj1sXPZxCMxEaGN4iTg/bxXokrFe4EOnuMGxN2nNWJJmyEKqmZ2VCMJJxqDbmz1xwsI5RgC0Ylywt/nD0oEiKyS0avigyzjG8tqsOY78yl6wJwbsOePKSJq2BniKjpCRN8mfwVoiczwtXjQAKMqAbRA="
 matrix:
   include:
     - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
