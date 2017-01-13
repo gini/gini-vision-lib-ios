@@ -17,7 +17,7 @@ make html
 
 cd build
 rm -rf gh-pages
-git clone -b gh-pages git@github.com:gini/gini-vision-lib-ios.git gh-pages
+git clone -b gh-pages https://${DOC_PUSH_TOKEN}@github.com/gini/gini-vision-lib-ios.git gh-pages
 
 rm -rf gh-pages/*
 mkdir gh-pages/docs
