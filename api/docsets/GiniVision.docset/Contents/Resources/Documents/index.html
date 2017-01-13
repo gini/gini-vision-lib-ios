@@ -124,7 +124,7 @@
             <p><img src="https://www.gini.net/assets/GiniVision_Logo.png" alt="Gini Vision Library for iOS"></p>
 <a href='#gini-vision-library-for-ios' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='gini-vision-library-for-ios'>Gini Vision Library for iOS</h1>
 
-<p><a href="https://travis-ci.com/gini/gini-vision-lib-ios"><img src="https://travis-ci.com/gini/gini-vision-lib-ios.svg?token=TvDgN64LcAHcyTDy8g4j&amp;branch=master" alt="CI Status"></a></p>
+<p><a href="https://travis-ci.org/gini/gini-vision-lib-ios"><img src="https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master" alt="CI Status"></a></p>
 
 <p>The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.</p>
 
@@ -191,7 +191,7 @@
 </code></pre>
 <a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='example'>Example</h2>
 
-<p>We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. To run the example projects, clone the repo and run <code>pod install</code> from the Example or ExampleObjC directory first.</p>
+<p>We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run <code>pod install</code> from the Example or ExampleObjC directory first.</p>
 <a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
 
 <ul>
@@ -201,6 +201,15 @@
 <a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
 
 <p>Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.</p>
+
+<p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for <q>Keychain Sharing</q> in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
+<a href='#swift-versions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='swift-versions'>Swift versions</h3>
+
+<p>The Gini Vision Library is entirely written in <strong>Swift 2.2</strong> and needs to be compiled with Xcode versions 7.X. However, you can find both <strong>Swift 2.3</strong> and <strong>Swift 3</strong> support in different branches within the repository. Please refer to the <a href="#branches">Branches</a> section later in this document.</p>
+
+<p>If you use CocoaPods you can specify a branch with:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'GiniVision'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/gini/gini-vision-lib-ios.git'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'swift-2.3'</span> <span class="c1"># or use 'swift3'</span>
+</code></pre>
 <a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='cocoapods'>CocoaPods</h3>
 
 <p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
@@ -208,7 +217,7 @@
 </code></pre>
 
 <blockquote>
-<p>CocoaPods 0.39.0+ is required to build Gini Vision Library.</p>
+<p>CocoaPods 1.1.0+ is required to build Gini Vision Library.</p>
 </blockquote>
 
 <p>To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
@@ -229,12 +238,22 @@ Use this header in an Objective-C project by adding</p>
 </code></pre>
 
 <p>to your implementation or header files. Note that spaces in your project name result in underscores. So <code>Your Project</code> becomes <code>Your_Project-Swift.h</code>.</p>
+<a href='#branches' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='branches'>Branches</h2>
+
+<ul>
+<li><code>master</code> - Contains the latest stable release of the vision library.</li>
+<li><code>develop</code> - The bleeding edge branch. Contains features actively in development and might be unstable.</li>
+<li><code>swift-2.3</code> - Swift 2.3 support.</li>
+<li><code>swift3</code> - Swift 3 support.</li>
+</ul>
 <a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
 
 <p>Peter Pult, <a href="mailto:p.pult@gini.net">p.pult@gini.net</a></p>
 <a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
 
-<p>Gini Vision Library is available under a commercial license. See the LICENSE file for more info.</p>
+<p>The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.</p>
+
+<p><strong>Important:</strong> Always make sure to ship all license notices and permissions with your application.</p>
 
           </div>
         </section>
@@ -243,8 +262,8 @@ Use this header in an Objective-C project by adding</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2016-08-25)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-01-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

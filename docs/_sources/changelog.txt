@@ -2,6 +2,20 @@
 Changelog
 =========
 
+TBD
+===
+
+- Minor update to license file, not changing the essential meaning of the license.
+- Fixes a problem where images would not be compressed after rotation.
+
+2.0.2 (2017-01-10)
+==================
+
+Minor non-breaking changes to the API.
+
+- `cameraOverlay` in GINICameraViewController made public.
+- `scrollView` in GINIOnboardingViewController made public.
+
 2.0.0 (2016-08-25)
 ==================
 
