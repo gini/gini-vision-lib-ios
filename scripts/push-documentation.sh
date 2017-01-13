@@ -18,10 +18,4 @@ cp -a Documentation/. docs/Documentation/
 
 # Create api documentation
 sh scripts/build-documentation-api.sh
-
-# Push to docs
-cd docs
-git add -u
-git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Deploy Gini Vision Library for iOS documentation to docs branch'
-git push origin docs
+sh Documentation/deploy-documentation.sh
