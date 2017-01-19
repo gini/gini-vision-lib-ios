@@ -2,7 +2,7 @@
 set -e # Exit with nonzero exit code if anything fails
 
 # Pull requests and commits to other branches shouldn't try to deploy
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "docs" ]; then
+if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
     echo "Skipping documentation deploy."
     exit 0
 fi
@@ -17,14 +17,14 @@ make html
 
 cd build
 rm -rf gh-pages
-git clone -b gh-pages git@github.com:gini/gini-vision-lib-ios.git gh-pages
+git clone -b gh-pages https://${DOC_PUSH_TOKEN}@github.com/gini/gini-vision-lib-ios.git gh-pages
 
 rm -rf gh-pages/*
 mkdir gh-pages/docs
 cp -a html/. gh-pages/docs/
 
 mkdir gh-pages/api
-cp -a ../../Api/. gh-pages/api/
+cp -a ../../docs/Api/. gh-pages/api/
 
 cd gh-pages
 touch .nojekyll
