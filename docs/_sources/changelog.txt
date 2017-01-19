@@ -8,6 +8,13 @@ TBD
 - Minor update to license file, not changing the essential meaning of the license.
 - Fixes a problem where images would not be compressed after rotation.
 
+3.0.2-beta (2017-01-19)
+==================
+
+Swift 3 support.
+
+- Project language conversion to Swift 3
+
 2.3.2-beta (2017-01-19)
 ==================
 
@@ -22,6 +29,7 @@ Minor non-breaking changes to the API.
 
 - `cameraOverlay` in GINICameraViewController made public.
 - `scrollView` in GINIOnboardingViewController made public.
+
 
 2.0.0 (2016-08-25)
 ==================
