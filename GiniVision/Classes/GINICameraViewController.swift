@@ -192,6 +192,18 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         camera?.stop()
     }
     
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        // note that in the mapping left and right are reversed. That's because landscape values have different meanings
+        // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
+        let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
+                                   UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
+                                   UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
+                                   UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+        let orientation = UIDevice.current.orientation
+        (previewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientationsMapping[orientation]!
+    }
+    
     // MARK: Toggle UI elements
     /**
      Show the capture button. Should be called when onboarding is dismissed.
