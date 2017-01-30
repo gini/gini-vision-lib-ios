@@ -131,7 +131,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         if let validCamera = camera {
             cameraState = .Valid
             previewView.session = validCamera.session
-            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspect
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
             previewView.addGestureRecognizer(tapGesture)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(subjectAreaDidChange), name: AVCaptureDeviceSubjectAreaDidChangeNotification, object: camera?.videoDeviceInput?.device)
