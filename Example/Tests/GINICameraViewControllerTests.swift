@@ -1,9 +1,9 @@
 import XCTest
 @testable import GiniVision
 
-class GINICameraViewControllerTests: XCTestCase {
+class CameraViewControllerTests: XCTestCase {
     
-    var vc = GINICameraViewController(success: { _ in }, failure: { _ in })
+    var vc = CameraViewController(success: { _ in }, failure: { _ in })
     
     func testInitialization() {
         XCTAssertNotNil(vc, "view controller should not be nil")
