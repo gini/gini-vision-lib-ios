@@ -1,5 +1,5 @@
 //
-//  GINIAnalysisViewController.swift
+//  AnalysisViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 21/06/16.
@@ -13,7 +13,7 @@ import UIKit
  
  - note: Screen API only.
  */
-@objc public protocol GINIAnalysisDelegate {
+@objc public protocol AnalysisDelegate {
     
     /**
      Will display an error view on the analysis screen with a custom message.
@@ -22,11 +22,11 @@ import UIKit
      - parameter message: The error message to be displayed.
      - parameter action:  The action to be performed after the user tapped the error view.
      */
-    func displayError(withMessage message: String?, andAction action: GININoticeAction?)
+    func displayError(withMessage message: String?, andAction action: NoticeAction?)
 }
 
 /**
- The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
+ The `AnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
  
  **Text resources for this screen**
  
@@ -40,14 +40,14 @@ import UIKit
 
  - note: Component API only.
  */
-@objc public final class GINIAnalysisViewController: UIViewController {
+@objc public final class AnalysisViewController: UIViewController {
     
     // User interface
     fileprivate var imageView = UIImageView()
     fileprivate var loadingIndicatorView = UIActivityIndicatorView()
     
     /**
-     Designated intitializer for the `GINIAnalysisViewController`.
+     Designated intitializer for the `AnalysisViewController`.
      
      - parameter imageData: Reviewed image data ready for analysis.
      
@@ -63,7 +63,7 @@ import UIKit
         // Configure loading indicator view
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
-        loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
+        loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         
         // Configure view hierachy
         view.addSubview(imageView)
@@ -86,7 +86,7 @@ import UIKit
     /**
      Displays a loading activity indicator. Should be called when document analysis is started.
      
-     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GINIConfiguration` class.
+     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GiniConfiguration` class.
      */
     public func showAnimation() {
         loadingIndicatorView.startAnimating()

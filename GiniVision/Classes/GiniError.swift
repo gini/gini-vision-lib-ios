@@ -1,5 +1,5 @@
 //
-//  GINIError.swift
+//  GiniError.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 22/06/16.
@@ -11,7 +11,7 @@ import UIKit
 /**
  Errors thrown on the camera screen or during camera initialization.
  */
-@objc public enum GINICameraError: Int, Error {
+@objc public enum CameraError: Int, Error {
     
     /// Unknown error during camera use.
     case unknown = 0
@@ -30,7 +30,7 @@ import UIKit
 /**
  Errors thrown on the review screen.
  */
-@objc public enum GINIReviewError: Int, Error {
+@objc public enum ReviewError: Int, Error {
     
     /// Unknown error during review.
     case unknown = 0

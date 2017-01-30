@@ -44,7 +44,7 @@ class ComponentAPIReviewViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the review view controller
-        contentController = GINIReviewViewController(imageData, success:
+        contentController = ReviewViewController(imageData, success:
             { imageData in
                 print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user

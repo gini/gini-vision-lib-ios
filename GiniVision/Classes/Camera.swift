@@ -1,5 +1,5 @@
 //
-//  GINICamera.swift
+//  Camera.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 15/02/16.
@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-internal class GINICamera {
+internal class Camera {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()
@@ -18,7 +18,7 @@ internal class GINICamera {
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
     
-    fileprivate lazy var motionManager = GINIMotionManager()
+    fileprivate lazy var motionManager = MotionManager()
     
     init() throws {
         try setupSession()
@@ -63,7 +63,7 @@ internal class GINICamera {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else {
-                return completion({ _ in throw GINICameraError.noInputDevice })
+                return completion({ _ in throw CameraError.noInputDevice })
             }
             // Set the orientation accoding to the current orientation of the device
             if let orientation = AVCaptureVideoOrientation(self.motionManager.currentOrientation) {
@@ -73,11 +73,11 @@ internal class GINICamera {
             }
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
-                guard error == nil else { return completion({ _ in throw GINICameraError.captureFailed }) }
+                guard error == nil else { return completion({ _ in throw CameraError.captureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                 completion({ _ in
                     guard let data = imageData else {
-                        throw GINICameraError.captureFailed
+                        throw CameraError.captureFailed
                     }
                     return data
                 })
@@ -118,9 +118,9 @@ internal class GINICamera {
         } catch let error as NSError {
             print("Could not create video device input \(error)")
             if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
-                throw GINICameraError.notAuthorizedToUseDevice
+                throw CameraError.notAuthorizedToUseDevice
             } else {
-                throw GINICameraError.unknown
+                throw CameraError.unknown
             }
         }
         

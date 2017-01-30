@@ -1,5 +1,5 @@
 //
-//  GINIOnboardingPage.swift
+//  OnboardingPage.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 24/06/16.
@@ -9,18 +9,18 @@
 import UIKit
 
 /**
- Custom view to easily create onboarding pages which can then be used in `GINIOnboardingViewController`. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.
+ Custom view to easily create onboarding pages which can then be used in `OnboardingViewController`. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.
  
  - note: The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
  */
-@objc public final class GINIOnboardingPage: UIView {
+@objc public final class OnboardingPage: UIView {
     
     fileprivate var contentView = UIView()
     fileprivate var imageView = UIImageView()
     fileprivate var textLabel = UILabel()
     
     /**
-     Designated initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.
+     Designated initializer for the `OnboardingPage` class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.
      
      - parameter image: The image to be displayed.
      - parameter text:  The text to be displayed underneath the image.
@@ -36,9 +36,9 @@ import UIKit
         
         // Configure label
         textLabel.numberOfLines = 0
-        textLabel.textColor = GINIConfiguration.sharedConfiguration.onboardingTextColor
+        textLabel.textColor = GiniConfiguration.sharedConfiguration.onboardingTextColor
         textLabel.textAlignment = .center
-        textLabel.font = GINIConfiguration.sharedConfiguration.onboardingTextFont
+        textLabel.font = GiniConfiguration.sharedConfiguration.onboardingTextFont
         
         // Configure view hierachy
         addSubview(contentView)
@@ -50,7 +50,7 @@ import UIKit
     }
     
     /**
-     Convenience initializer for the `GINIOnboardingPage` class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.
+     Convenience initializer for the `OnboardingPage` class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.
      
      - parameter imageName: The name of the image to be displayed.
      - parameter text:      The text to be displayed underneath the image.

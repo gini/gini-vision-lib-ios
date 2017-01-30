@@ -40,7 +40,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the analysis view controller
-        contentController = GINIAnalysisViewController(imageData)
+        contentController = AnalysisViewController(imageData)
         
         // 3. Display the analysis view controller
         displayContent(contentController)
@@ -59,7 +59,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         handleExistinResults()
         
         // Start loading animation.
-        (contentController as? GINIAnalysisViewController)?.showAnimation()
+        (contentController as? AnalysisViewController)?.showAnimation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -88,7 +88,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func errorButtonTapped(_ sender: AnyObject) {
-        (contentController as? GINIAnalysisViewController)?.showAnimation()
+        (contentController as? AnalysisViewController)?.showAnimation()
         hideErrorButton()
         
         // Retry analysis of the document.
@@ -156,7 +156,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     
     // MARK: Error button handling
     func displayError() {
-        (contentController as? GINIAnalysisViewController)?.hideAnimation()
+        (contentController as? AnalysisViewController)?.hideAnimation()
         showErrorButton()
     }
     

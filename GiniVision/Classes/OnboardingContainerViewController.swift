@@ -1,5 +1,5 @@
 //
-//  GINIOnboardingContainerViewController.swift
+//  OnboardingContainerViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 24/06/16.
@@ -11,14 +11,14 @@ import UIKit
 /**
  Block which will be executed when the onboarding was dismissed.
  */
-internal typealias GINIOnboardingContainerCompletionBlock = () -> ()
+internal typealias OnboardingContainerCompletionBlock = () -> ()
 
 /**
- Container class for `GINIOnboardingViewController`.
+ Container class for `OnboardingViewController`.
  
  - note: Should be embedded in a navigation controller.
  */
-internal class GINIOnboardingContainerViewController: UIViewController, GINIContainer {
+internal class OnboardingContainerViewController: UIViewController, ContainerViewController {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -36,36 +36,36 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     }
     
     // Output
-    fileprivate var completionBlock: GINIOnboardingContainerCompletionBlock?
+    fileprivate var completionBlock: OnboardingContainerCompletionBlock?
     
-    init(withCompletion completion: @escaping GINIOnboardingContainerCompletionBlock) {
+    init(withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
         completionBlock = completion
         
         // Configure content controller
-        var pages = GINIConfiguration.sharedConfiguration.onboardingPages
+        var pages = GiniConfiguration.sharedConfiguration.onboardingPages
         pages.append(UIView()) // Add an empty last page to transition nicely back to camera
-        contentController = GINIOnboardingViewController(pages: pages,
-                                                         scrollViewDelegate: self)
+        contentController = OnboardingViewController(pages: pages,
+                                                     scrollViewDelegate: self)
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitle
+        title = GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitle
         
         // Configure colors
-        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
         // Configure page control
         pageControl.currentPage = 0
         pageControl.numberOfPages = pages.count
-        pageControl.currentPageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingCurrentPageIndicatorColor
-        pageControl.pageIndicatorTintColor = GINIConfiguration.sharedConfiguration.onboardingPageIndicatorColor
+        pageControl.currentPageIndicatorTintColor = GiniConfiguration.sharedConfiguration.onboardingCurrentPageIndicatorColor
+        pageControl.pageIndicatorTintColor = GiniConfiguration.sharedConfiguration.onboardingPageIndicatorColor
         
         // Configure continue button
-        continueButton = GINIBarButtonItem(
+        continueButton = GiniBarButtonItem(
             image: continueButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton,
             style: .plain,
             target: self,
             action: #selector(nextPage)
@@ -97,7 +97,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     }
     
     @IBAction func nextPage() {
-        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
+        (contentController as? OnboardingViewController)?.scrollToNextPage(true)
     }
     
     // MARK: Constraints
@@ -130,7 +130,7 @@ internal class GINIOnboardingContainerViewController: UIViewController, GINICont
     
 }
 
-extension GINIOnboardingContainerViewController: UIScrollViewDelegate {
+extension OnboardingContainerViewController: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         setPageControl(scrollView)

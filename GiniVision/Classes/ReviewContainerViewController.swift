@@ -1,5 +1,5 @@
 //
-//  GINIReviewContainerViewController.swift
+//  ReviewContainerViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 20/06/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GINIReviewContainerViewController: UIViewController, GINIContainer {
+internal class ReviewContainerViewController: UIViewController, ContainerViewController {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -36,7 +36,7 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
         self.imageData = imageData
         
         // Configure content controller and update image data on success
-        contentController = GINIReviewViewController(imageData, success:
+        contentController = ReviewViewController(imageData, success:
             { imageData in
                 self.imageData = imageData
                 self.changes = true
@@ -45,24 +45,24 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
             })
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarReviewTitle
+        title = GiniConfiguration.sharedConfiguration.navigationBarReviewTitle
         
         // Configure colors
-        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure back button
-        backButton = GINIBarButtonItem(
+        backButton = GiniBarButtonItem(
             image: backButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton,
             style: .plain,
             target: self,
             action: #selector(back)
         )
         
         // Configure continue button
-        continueButton = GINIBarButtonItem(
+        continueButton = GiniBarButtonItem(
             image: continueButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton,
             style: .plain,
             target: self,
             action: #selector(analyse)
@@ -89,17 +89,17 @@ internal class GINIReviewContainerViewController: UIViewController, GINIContaine
     }
     
     @IBAction func back() {
-        let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
+        let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()
         _ = navigationController?.popViewController(animated: true)
     }
     
     @IBAction func analyse() {
-        let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
+        let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didReview(imageData!, withChanges: changes)
         
         // Push analysis container view controller
-        navigationController?.pushViewController(GINIAnalysisContainerViewController(imageData: imageData!), animated: true)
+        navigationController?.pushViewController(AnalysisContainerViewController(imageData: imageData!), animated: true)
     }
     
     // MARK: Constraints

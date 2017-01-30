@@ -1,5 +1,5 @@
 //
-//  GINICameraViewController.swift
+//  CameraViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 08/06/16.
@@ -14,17 +14,17 @@ import AVFoundation
 
  - note: Component API only.
  */
-public typealias GINICameraSuccessBlock = (_ imageData: Data) -> ()
+public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
 
  - note: Component API only.
  */
-public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
+public typealias CameraErrorBlock = (_ error: CameraError) -> ()
 
 /**
- The `GINICameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
+ The `CameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
  
  **Text resources for this screen**
  
@@ -50,7 +50,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
  
  - note: Component API only.
  */
-@objc public final class GINICameraViewController: UIViewController {
+@objc public final class CameraViewController: UIViewController {
     
     /**
     Image view used to display a camera overlay like corners or a frame.
@@ -64,13 +64,13 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
     
     // User interface
     fileprivate var controlsView  = UIView()
-    fileprivate var previewView   = GINICameraPreviewView()
+    fileprivate var previewView   = CameraPreviewView()
     fileprivate var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     
     // Properties
-    fileprivate var camera: GINICamera?
+    fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
     
     // Images
@@ -94,18 +94,18 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: GINICameraSuccessBlock?
-    fileprivate var errorBlock: GINICameraErrorBlock?
+    fileprivate var successBlock: CameraSuccessBlock?
+    fileprivate var errorBlock: CameraErrorBlock?
 
     /**
-     Designated intitializer for the `GINICameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when image was taken.
      - parameter failure: Error block to be exectued if an error occurred.
      
      - returns: A view controller instance allowing the user to take a picture.
      */
-    public init(success: @escaping GINICameraSuccessBlock, failure: @escaping GINICameraErrorBlock) {
+    public init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -114,13 +114,13 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         
         // Configure camera
         do {
-            camera = try GINICamera()
-        } catch let error as GINICameraError {
+            camera = try Camera()
+        } catch let error as CameraError {
             switch error {
             case .notAuthorizedToUseDevice:
                 addNotAuthorizedView()
             default:
-                if GINIConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
             }
             failure(error)
         } catch _ {
@@ -146,7 +146,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         captureButton.setImage(captureButtonNormalImage, for: .normal)
         captureButton.setImage(captureButtonActiveImage, for: .highlighted)
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
-        captureButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.cameraCaptureButtonTitle
+        captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
         // Configure view hierachy
         view.addSubview(previewView)
@@ -226,7 +226,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
     // MARK: Image capture
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
-            if GINIConfiguration.DEBUG {
+            if GiniConfiguration.DEBUG {
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
                    let imageData = UIImageJPEGRepresentation(image, 1) {
@@ -240,7 +240,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
                 var imageData = try inner()
                 
                 // Set meta information in image
-                var manager = GINIMetaInformationManager(imageData: imageData)
+                var manager = GiniMetaInformationManager(imageData: imageData)
                 manager.filterMetaInformation()
                 if let richImageData = manager.imageData(withCompression: 0.2) {
                     imageData = richImageData
@@ -248,7 +248,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
                 
                 // Call success block
                 self.successBlock?(imageData as Data)
-            } catch let error as GINICameraError {
+            } catch let error as CameraError {
                 self.errorBlock?(error)
             } catch _ {
                 print("GiniVision: An unknown error occured.")
@@ -338,7 +338,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
     fileprivate func addNotAuthorizedView() {
         
         // Add not authorized view
-        let view = GINICameraNotAuthorizedView()
+        let view = CameraNotAuthorizedView()
         previewView.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false

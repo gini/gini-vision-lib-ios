@@ -28,12 +28,12 @@ class ComponentAPICameraViewController: UIViewController {
          *************************************************************************/
         
         // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
-        let giniConfiguration = GINIConfiguration()
+        let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
-        GINIVision.setConfiguration(giniConfiguration)
+        GiniVision.setConfiguration(giniConfiguration)
         
         // 2. Create the camera view controller
-        contentController = GINICameraViewController(success:
+        contentController = CameraViewController(success:
             { imageData in
                 self.imageData = imageData
                 DispatchQueue.main.async {

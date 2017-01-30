@@ -1,5 +1,5 @@
 //
-//  GINIMotionManager.swift
+//  MotionManager.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 14/06/16.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreMotion
 
-internal class GINIMotionManager {
+internal class MotionManager {
     
     // Static strings
     let MotionOrientationChangedNotification = "MotionOrientationChangedNotification"

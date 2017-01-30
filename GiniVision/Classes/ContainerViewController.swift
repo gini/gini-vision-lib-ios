@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal protocol GINIContainer {
+internal protocol ContainerViewController {
     
     var containerView: UIView { get }
     var contentController: UIViewController { get }
@@ -17,7 +17,7 @@ internal protocol GINIContainer {
     
 }
 
-internal extension GINIContainer where Self: UIViewController {
+internal extension ContainerViewController where Self: UIViewController {
     
     func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
