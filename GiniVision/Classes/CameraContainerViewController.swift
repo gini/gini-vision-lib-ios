@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GINICameraContainerViewController: UIViewController, GINIContainer {
+internal class CameraContainerViewController: UIViewController, ContainerViewController {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -33,14 +33,14 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller and call delegate method on success
-        contentController = GINICameraViewController(success:
+        contentController = CameraViewController(success:
             { imageData in
-                let delegate = (self.navigationController as? GININavigationViewController)?.giniDelegate
+                let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 delegate?.didCapture(imageData)
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(GINIReviewContainerViewController(imageData: imageData), animated: true)
+                    self.navigationController?.pushViewController(ReviewContainerViewController(imageData: imageData), animated: true)
                 }
             }, failure: { error in
                 switch error {
@@ -52,24 +52,24 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
             })
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarCameraTitle
+        title = GiniConfiguration.sharedConfiguration.navigationBarCameraTitle
                 
         // Configure colors
-        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        closeButton = GINIBarButtonItem(
+        closeButton = GiniBarButtonItem(
             image: closeButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton,
             style: .plain,
             target: self,
             action: #selector(close)
         )
         
         // Configure help button
-        helpButton = GINIBarButtonItem(
+        helpButton = GiniBarButtonItem(
             image: helpButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton,
             style: .plain,
             target: self,
             action: #selector(help)
@@ -95,11 +95,11 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
         displayContent(contentController)
         
         // Eventually show onboarding
-        if GINIConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
+        if GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
            !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
             showHelp = help
             UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
-        } else if GINIConfiguration.sharedConfiguration.onboardingShowAtLaunch {
+        } else if GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch {
             showHelp = help
         }
     }
@@ -112,26 +112,26 @@ internal class GINICameraContainerViewController: UIViewController, GINIContaine
     }
     
     @IBAction func close() {
-        let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
+        let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelCapturing()
         
         // Reset configuration when Gini Vision Library is closed
-        GINIConfiguration.sharedConfiguration = GINIConfiguration()
+        GiniConfiguration.sharedConfiguration = GiniConfiguration()
     }
     
     @IBAction func help() {
-        let cameraViewController = contentController as? GINICameraViewController
+        let cameraViewController = contentController as? CameraViewController
         
         // Hide camera UI when overlay is shown
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
-        let vc = GINIOnboardingContainerViewController {
+        let vc = OnboardingContainerViewController {
             
             // Show camera UI when overlay is dismissed
             cameraViewController?.showCameraOverlay()
             cameraViewController?.showCaptureButton()
         }
-        let navigationController = GININavigationViewController(rootViewController: vc)
+        let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
         present(navigationController, animated: true, completion: nil)
     }

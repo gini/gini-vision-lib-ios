@@ -1,5 +1,5 @@
 //
-//  GINIExtensions.swift
+//  Extensions.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 15/06/16.
@@ -20,7 +20,7 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
     if let clientImage = UIImage(named: name) {
         return clientImage
     }
-    let bundle = Bundle(for: GINIVision.self)
+    let bundle = Bundle(for: GiniVision.self)
     return UIImage(named: name, in: bundle, compatibleWith: nil)
 }
 
@@ -37,7 +37,7 @@ internal func NSLocalizedStringPreferred(_ key: String, comment: String) -> Stri
     if  clientString != key {
         return clientString
     }
-    let bundle = Bundle(for: GINIVision.self)
+    let bundle = Bundle(for: GiniVision.self)
     return NSLocalizedString(key, bundle: bundle, comment: comment)
 }
 

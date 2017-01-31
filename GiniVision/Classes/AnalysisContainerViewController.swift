@@ -1,5 +1,5 @@
 //
-//  GINIAnalysisContainerViewController.swift
+//  AnalysisContainerViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 21/06/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GINIAnalysisContainerViewController: UIViewController, GINIContainer {
+internal class AnalysisContainerViewController: UIViewController, ContainerViewController {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -23,24 +23,24 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     }
     
     // Properties
-    fileprivate var noticeView: GININoticeView?
+    fileprivate var noticeView: NoticeView?
     
     init(imageData: Data) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        contentController = GINIAnalysisViewController(imageData)
+        contentController = AnalysisViewController(imageData)
         
         // Configure title
-        title = GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitle
+        title = GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitle
         
         // Configure colors
-        view.backgroundColor = GINIConfiguration.sharedConfiguration.backgroundColor
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        backButton = GINIBarButtonItem(
+        backButton = GiniBarButtonItem(
             image: backButtonImage,
-            title: GINIConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
+            title: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
             style: .plain,
             target: self,
             action: #selector(back)
@@ -65,24 +65,24 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
         displayContent(contentController)
         
         // Start loading animation
-        (contentController as? GINIAnalysisViewController)?.showAnimation()
+        (contentController as? AnalysisViewController)?.showAnimation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
+        let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didShowAnalysis?(self)
     }
     
     @IBAction func back() {
-        let delegate = (navigationController as? GININavigationViewController)?.giniDelegate
+        let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
         _ = navigationController?.popViewController(animated: true)
     }
     
-    fileprivate func showNotice(_ notice: GININoticeView) {
+    fileprivate func showNotice(_ notice: NoticeView) {
         if noticeView != nil {
             noticeView?.hide(completion: {
                 self.noticeView = nil
@@ -109,10 +109,10 @@ internal class GINIAnalysisContainerViewController: UIViewController, GINIContai
     
 }
 
-extension GINIAnalysisContainerViewController: GINIAnalysisDelegate {
+extension AnalysisContainerViewController: AnalysisDelegate {
     
-    func displayError(withMessage message: String?, andAction action: GININoticeAction?) {
-        let notice = GININoticeView(text: message ?? "", noticeType: .error, action: action)
+    func displayError(withMessage message: String?, andAction action: NoticeAction?) {
+        let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
         DispatchQueue.main.async { 
             self.showNotice(notice)
         }

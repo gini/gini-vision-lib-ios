@@ -33,13 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId, clientSecret: clientSecret, userEmailDomain: "example.com")
         self.giniSDK = builder?.build()
         
-        print("Gini Vision Library for iOS (\(GINIVision.versionString)) / Client id: \(clientId)")
+        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
 
         return true
     }
     
     func populateSettingsPage() {
-        UserDefaults.standard.setValue(GINIVision.versionString, forKey: kSettingsGiniVisionVersionKey)
+        UserDefaults.standard.setValue(GiniVision.versionString, forKey: kSettingsGiniVisionVersionKey)
         UserDefaults.standard.setValue(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, forKey: kSettingsExampleAppVersionKey)
         UserDefaults.standard.synchronize()
     }

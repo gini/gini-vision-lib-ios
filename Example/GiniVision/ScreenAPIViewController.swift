@@ -22,7 +22,7 @@ class ScreenAPIViewController: UIViewController {
         return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
-    var analysisDelegate: GINIAnalysisDelegate?
+    var analysisDelegate: AnalysisDelegate?
     var imageData: Data?
     var result: GINIResult? {
         didSet {
@@ -48,7 +48,7 @@ class ScreenAPIViewController: UIViewController {
         let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
-        metaInformationLabel.text = "Gini Vision Library: (\(GINIVision.versionString)) / Client id: \(clientId)"
+        metaInformationLabel.text = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,7 +71,7 @@ class ScreenAPIViewController: UIViewController {
          ************************************************************************/
         
         // 1. Create a custom configuration object
-        let giniConfiguration = GINIConfiguration()
+        let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
         giniConfiguration.navigationBarItemTintColor = UIColor.white
         
@@ -81,7 +81,7 @@ class ScreenAPIViewController: UIViewController {
         }
         
         // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = GINIVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
+        let vc = GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
         
         // 3. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
@@ -167,7 +167,7 @@ class ScreenAPIViewController: UIViewController {
 }
 
 // MARK: Gini Vision delegate
-extension ScreenAPIViewController: GINIVisionDelegate {
+extension ScreenAPIViewController: GiniVisionDelegate {
     
     func didCapture(_ imageData: Data) {
         print("Screen API received image data")
@@ -211,7 +211,7 @@ extension ScreenAPIViewController: GINIVisionDelegate {
         cancelAnalsyis()
     }
     
-    func didShowAnalysis(_ analysisDelegate: GINIAnalysisDelegate) {
+    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         print("Screen API started analysis screen")
         
         self.analysisDelegate = analysisDelegate

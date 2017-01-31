@@ -1,5 +1,5 @@
 //
-//  GININoticeView.swift
+//  NoticeView.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 01/07/16.
@@ -13,22 +13,22 @@ import UIKit
  
  - note: Screen API only.
  */
-public typealias GININoticeAction = () -> ()
+public typealias NoticeAction = () -> ()
 
-internal enum GININoticeType {
+internal enum NoticeType {
     case information, error
 }
 
-internal class GININoticeView: UIView {
+internal class NoticeView: UIView {
     
     // User interface
     fileprivate var textLabel = UILabel()
     
     // Properties
-    fileprivate var userAction: GININoticeAction?
-    fileprivate var type = GININoticeType.information
+    fileprivate var userAction: NoticeAction?
+    fileprivate var type = NoticeType.information
     
-    init(text: String, noticeType: GININoticeType = .information, action: GININoticeAction? = nil) {
+    init(text: String, noticeType: NoticeType = .information, action: NoticeAction? = nil) {
         super.init(frame: CGRect.zero)
         
         // Hide when initialized
@@ -48,16 +48,16 @@ internal class GININoticeView: UIView {
         textLabel.textAlignment = .center
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.7
-        textLabel.font = GINIConfiguration.sharedConfiguration.noticeFont
+        textLabel.font = GiniConfiguration.sharedConfiguration.noticeFont
         
         // Configure UI depending on type
         switch type {
         case .information:
-            textLabel.textColor = GINIConfiguration.sharedConfiguration.noticeInformationTextColor
-            backgroundColor = GINIConfiguration.sharedConfiguration.noticeInformationBackgroundColor
+            textLabel.textColor = GiniConfiguration.sharedConfiguration.noticeInformationTextColor
+            backgroundColor = GiniConfiguration.sharedConfiguration.noticeInformationBackgroundColor
         case .error:
-            textLabel.textColor = GINIConfiguration.sharedConfiguration.noticeErrorTextColor
-            backgroundColor = GINIConfiguration.sharedConfiguration.noticeErrorBackgroundColor
+            textLabel.textColor = GiniConfiguration.sharedConfiguration.noticeErrorTextColor
+            backgroundColor = GiniConfiguration.sharedConfiguration.noticeErrorBackgroundColor
         }
         
         // Configure view hierachy

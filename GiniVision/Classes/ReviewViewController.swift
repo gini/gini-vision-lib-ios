@@ -1,5 +1,5 @@
 //
-//  GINIReviewViewController.swift
+//  ReviewViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 20/06/16.
@@ -13,17 +13,17 @@ import UIKit
  
  - note: Component API only.
  */
-public typealias GINIReviewSuccessBlock = (_ imageData: Data) -> ()
+public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
 
 /**
  Block which will be executed when an error occurs on the review screen. It contains a review specific error.
  
  - note: Component API only.
  */
-public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
+public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
 
 /**
- The `GINIReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
+ The `ReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
  
  **Text resources for this screen**
  
@@ -44,7 +44,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
  
  - note: Component API only.
  */
-@objc public final class GINIReviewViewController: UIViewController {
+@objc public final class ReviewViewController: UIViewController {
     
     // User interface
     fileprivate var scrollView   = UIScrollView()
@@ -59,7 +59,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
     fileprivate var imageViewLeadingConstraint: NSLayoutConstraint!
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
-    fileprivate var metaInformationManager: GINIMetaInformationManager?
+    fileprivate var metaInformationManager: ImageMetaInformationManager?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -67,11 +67,11 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: GINIReviewSuccessBlock?
-    fileprivate var errorBlock: GINIReviewErrorBlock?
+    fileprivate var successBlock: ReviewSuccessBlock?
+    fileprivate var errorBlock: ReviewErrorBlock?
     
     /**
-     Designated intitializer for the `GINIReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      
      - parameter imageData: JPEG representation as a result from the camera or camera roll.
@@ -80,7 +80,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
      
      - returns: A view controller instance allowing the user to review a picture of a document.
      */
-    public init(_ imageData: Data, success: @escaping GINIReviewSuccessBlock, failure: @escaping GINIReviewErrorBlock) {
+    public init(_ imageData: Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -88,7 +88,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
         errorBlock = failure
         
         // Set meta information manager
-        metaInformationManager = GINIMetaInformationManager(imageData: imageData)
+        metaInformationManager = ImageMetaInformationManager(imageData: imageData)
         
         // Configure scroll view
         scrollView.delegate = self
@@ -99,27 +99,27 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
         // Configure image view
         imageView.image = UIImage(data: imageData)
         imageView.contentMode = .scaleAspectFit
-        imageView.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewDocumentImageTitle
+        imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
         // Configure top view
-        topView = GININoticeView(text: GINIConfiguration.sharedConfiguration.reviewTextTop)
+        topView = NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
         
         // Configure bottom view
-        bottomView.backgroundColor = GINIConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
+        bottomView.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
         
         // Configure rotate button
         rotateButton.setImage(rotateButtonImage, for: .normal)
         rotateButton.addTarget(self, action: #selector(rotate), for: .touchUpInside)
-        rotateButton.accessibilityLabel = GINIConfiguration.sharedConfiguration.reviewRotateButtonTitle
+        rotateButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
         // Configure bottom label
-        bottomLabel.text = GINIConfiguration.sharedConfiguration.reviewTextBottom
+        bottomLabel.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
         bottomLabel.numberOfLines = 0
-        bottomLabel.textColor = GINIConfiguration.sharedConfiguration.reviewTextBottomColor
+        bottomLabel.textColor = GiniConfiguration.sharedConfiguration.reviewTextBottomColor
         bottomLabel.textAlignment = .right
         bottomLabel.adjustsFontSizeToFitWidth = true
         bottomLabel.minimumScaleFactor = 0.7
-        bottomLabel.font = GINIConfiguration.sharedConfiguration.reviewTextBottomFont
+        bottomLabel.font = GiniConfiguration.sharedConfiguration.reviewTextBottomFont
         
         // Configure view hierachy
         view.addSubview(scrollView)
@@ -158,7 +158,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
      */
     public override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-            (self.topView as? GININoticeView)?.show()
+            (self.topView as? NoticeView)?.show()
         }
     }
     
@@ -278,7 +278,7 @@ public typealias GINIReviewErrorBlock = (_ error: GINIReviewError) -> ()
     
 }
 
-extension GINIReviewViewController: UIScrollViewDelegate {
+extension ReviewViewController: UIScrollViewDelegate {
     
     /**
      Asks the delegate for the view to scale when zooming is about to occur in the scroll view.

@@ -1,5 +1,5 @@
 //
-//  GINIBarButtonItem.swift
+//  GiniBarButtonItem.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 13/07/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GINIBarButtonItem: UIBarButtonItem {
+internal class GiniBarButtonItem: UIBarButtonItem {
     
     init(image: UIImage?, title: String?, style: UIBarButtonItemStyle, target: AnyObject?, action: Selector) {
         super.init()
@@ -27,7 +27,7 @@ internal class GINIBarButtonItem: UIBarButtonItem {
         self.accessibilityLabel = title
         
         var attributes = titleTextAttributes(for: .normal) ?? [String : AnyObject]()
-        attributes[NSFontAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarItemFont
+        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarItemFont
         setTitleTextAttributes(attributes, for: .normal)
     }
     

@@ -8,9 +8,9 @@
 
 import UIKit
 
-internal class GININavigationViewController: UINavigationController {
+internal class GiniNavigationViewController: UINavigationController {
     
-    var giniDelegate: GINIVisionDelegate?
+    var giniDelegate: GiniVisionDelegate?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -21,11 +21,11 @@ internal class GININavigationViewController: UINavigationController {
         
         // Edit style of navigation bar
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = GINIConfiguration.sharedConfiguration.navigationBarTintColor
-        navigationBar.tintColor = GINIConfiguration.sharedConfiguration.navigationBarItemTintColor
+        navigationBar.barTintColor = GiniConfiguration.sharedConfiguration.navigationBarTintColor
+        navigationBar.tintColor = GiniConfiguration.sharedConfiguration.navigationBarItemTintColor
         var attributes = navigationBar.titleTextAttributes ?? [String : AnyObject]()
-        attributes[NSForegroundColorAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarTitleColor
-        attributes[NSFontAttributeName] = GINIConfiguration.sharedConfiguration.navigationBarTitleFont
+        attributes[NSForegroundColorAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarTitleColor
+        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarTitleFont
         navigationBar.titleTextAttributes = attributes
     }
     
@@ -35,7 +35,7 @@ internal class GININavigationViewController: UINavigationController {
     
 }
 
-internal extension GININavigationViewController {
+internal extension GiniNavigationViewController {
     
     override var shouldAutorotate : Bool {
         return true

@@ -1,5 +1,5 @@
 //
-//  GINIConfiguration.swift
+//  GiniConfiguration.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 15/06/16.
@@ -9,18 +9,18 @@
 import UIKit
 
 /**
- The `GINIConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
+ The `GiniConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
  
  - note: Text can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
  - note: Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
  - attention: If there are conflicting pairs of image and text for an interface element (e.g. `navigationBarCameraTitleCloseButton`) the image will always be preferred, while making sure the accessibility label is set.
  */
-@objc public final class GINIConfiguration: NSObject {
+@objc public final class GiniConfiguration: NSObject {
     
     /**
      Singleton to make configuration internally accessible in all classes of the Gini Vision Library.
      */
-    internal static var sharedConfiguration = GINIConfiguration()
+    internal static var sharedConfiguration = GiniConfiguration()
     
     /**
      Shorthand check if debug mode is turned on.
@@ -244,9 +244,9 @@ import UIKit
             if let pages = onboardingPrivatePages {
                 return pages
             }
-            guard let page1 = GINIOnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
-                  let page2 = GINIOnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
-                  let page3 = GINIOnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+            guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+                  let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+                  let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
                     return [UIView]()
             }
             let pages = [page1, page2, page3]

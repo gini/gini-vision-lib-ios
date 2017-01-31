@@ -29,7 +29,7 @@ class ComponentAPIOnboardingViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the onboarding view controller
-        contentController = GINIOnboardingViewController(scrollViewDelegate: nil)
+        contentController = OnboardingViewController(scrollViewDelegate: nil)
         
         // 3. Display the onboarding view controller
         displayContent(contentController)
@@ -47,7 +47,7 @@ class ComponentAPIOnboardingViewController: UIViewController {
     @IBAction func nextPage(_ sender: AnyObject) {
         
         // Scroll the onboarding to the next page.
-        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
+        (contentController as? OnboardingViewController)?.scrollToNextPage(true)
     }
     
 }

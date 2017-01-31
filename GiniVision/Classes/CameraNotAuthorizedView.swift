@@ -1,5 +1,5 @@
 //
-//  GINICameraNotAuthorizedView.swift
+//  CameraNotAuthorizedView.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 06/07/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GINICameraNotAuthorizedView: UIView {
+internal class CameraNotAuthorizedView: UIView {
     
     // User interface
     fileprivate var label = UILabel()
@@ -29,17 +29,17 @@ internal class GINICameraNotAuthorizedView: UIView {
         imageView.contentMode = .scaleAspectFit
         
         // Configure label
-        label.text = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedText
+        label.text = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedText
         label.numberOfLines = 0
-        label.textColor = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
+        label.textColor = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .center
-        label.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont
+        label.font = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont
         
         // Configure button
-        button.setTitle(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
-        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
-        button.setTitleColor(GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8), for: .highlighted)
-        button.titleLabel?.font = GINIConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont
+        button.setTitle(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
+        button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
+        button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8), for: .highlighted)
+        button.titleLabel?.font = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         
         // Configure view hierachy
