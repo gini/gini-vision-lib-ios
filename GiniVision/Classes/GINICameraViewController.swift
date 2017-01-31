@@ -131,7 +131,7 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         if let validCamera = camera {
             cameraState = .valid
             previewView.session = validCamera.session
-            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspect
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
             previewView.addGestureRecognizer(tapGesture)
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
@@ -190,6 +190,18 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         super.viewWillDisappear(animated)
         
         camera?.stop()
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        // note that in the mapping left and right are reversed. That's because landscape values have different meanings
+        // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
+        let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
+                                   UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
+                                   UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
+                                   UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+        let orientation = UIDevice.current.orientation
+        (previewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientationsMapping[orientation]!
     }
     
     // MARK: Toggle UI elements
@@ -305,11 +317,19 @@ public typealias GINICameraErrorBlock = (_ error: GINICameraError) -> ()
         
         // Preview view
         previewView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+        
+        // lower priority constraints - will make the preview "want" to get bigger
+        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
+        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .equal, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 750)
+        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .right, relatedBy: .equal, toItem: superview, attribute: .right, multiplier: 1, constant: 0, priority: 750)
+        
+        // required constraints - make sure the preview doesn't expand into other views or off-screen
+        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 1000)
+        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 1000)
+        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .right, multiplier: 1, constant: 0, priority: 1000)
+        
         ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 3/4, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 999)
         ConstraintUtils.addActiveConstraint(item: previewView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
         
         // Camera overlay view
