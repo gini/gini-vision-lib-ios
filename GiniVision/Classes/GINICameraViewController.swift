@@ -320,20 +320,18 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
         // lower priority constraints - will make the preview "want" to get bigger
-        UIViewController.addActiveConstraint(item: previewView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0, priority: 500)
-        UIViewController.addActiveConstraint(item: previewView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 500)
-        UIViewController.addActiveConstraint(item: previewView, attribute: .Left, relatedBy: .Equal, toItem: superview, attribute: .Left, multiplier: 1, constant: 0, priority: 500)
-        UIViewController.addActiveConstraint(item: previewView, attribute: .Right, relatedBy: .Equal, toItem: superview, attribute: .Right, multiplier: 1, constant: 0, priority: 500)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0, priority: 1000)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Left, relatedBy: .Equal, toItem: superview, attribute: .Left, multiplier: 1, constant: 0, priority: 750)
+        UIViewController.addActiveConstraint(item: previewView, attribute: .Right, relatedBy: .Equal, toItem: superview, attribute: .Right, multiplier: 1, constant: 0, priority: 750)
         
         // required constraints - make sure the preview doesn't expand into other views or off-screen
         UIViewController.addActiveConstraint(item: superview!, attribute: .Bottom, relatedBy: .GreaterThanOrEqual, toItem: previewView, attribute: .Bottom, multiplier: 1, constant: 0, priority: 1000)
-        UIViewController.addActiveConstraint(item: previewView, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Top, multiplier: 1, constant: 0, priority: 1000)
         UIViewController.addActiveConstraint(item: previewView, attribute: .Left, relatedBy: .GreaterThanOrEqual, toItem: superview, attribute: .Left, multiplier: 1, constant: 0, priority: 1000)
         UIViewController.addActiveConstraint(item: superview!, attribute: .Right, relatedBy: .GreaterThanOrEqual, toItem: previewView, attribute: .Right, multiplier: 1, constant: 0, priority: 1000)
         
         UIViewController.addActiveConstraint(item: previewView, attribute: .Width, relatedBy: .Equal, toItem: previewView, attribute: .Height, multiplier: 3/4, constant: 0)
         UIViewController.addActiveConstraint(item: previewView, attribute: .CenterX, relatedBy: .Equal, toItem: superview, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: previewView, attribute: .CenterY, relatedBy: .Equal, toItem: superview, attribute: .CenterY, multiplier: 1, constant: 0)
         
         // Camera overlay view
         cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
