@@ -24,7 +24,7 @@ mkdir gh-pages/docs
 cp -a html/. gh-pages/docs/
 
 mkdir gh-pages/api
-cp -a ../../docs/Api/. gh-pages/api/
+cp -a ../Api/. gh-pages/api/
 
 cd gh-pages
 touch .nojekyll

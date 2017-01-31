@@ -2,11 +2,19 @@
 Changelog
 =========
 
-TBD
-===
+3.0.2-beta (2017-01-19)
+==================
 
-- Minor update to license file, not changing the essential meaning of the license.
-- Fixes a problem where images would not be compressed after rotation.
+Swift 3 support.
+
+- Project language conversion to Swift 3
+
+2.3.2-beta (2017-01-19)
+==================
+
+Swift 2.3 support.
+
+- Project language conversion to Swift 2.3
 
 2.0.2 (2017-01-10)
 ==================
@@ -15,11 +23,13 @@ Minor non-breaking changes to the API.
 
 - `cameraOverlay` in GINICameraViewController made public.
 - `scrollView` in GINIOnboardingViewController made public.
+- Minor update to license file, not changing the essential meaning of the license.
+- Fixes a problem where images would not be compressed after rotation.
 
 2.0.0 (2016-08-25)
 ==================
 
-Major version of the completely rewritten Gini Vision Library for iOS. 
+Major version of the completely rewritten Gini Vision Library for iOS.
 
 - Using the Screen API a picture can be taken and analyzed with an easy to present modal view. Implement the `GINIVisionDelegat` to get informed about the current status of the Gini Vision Library and to guide the user through the analysis process.
 - Using the Component API a picture can be taken and analyzed by implementing the different component view controllers for camera, onboarding, review and analysis. You can provide your own navigation elements arround the Gini Vision components.

@@ -17,6 +17,5 @@ jazzy \
   --xcodebuild-arguments -workspace,Example/GiniVision.xcworkspace,-scheme,GiniVision \
   --module GiniVision \
   --root-url http://developer.gini.net/gini-vision-lib-ios/api/ \
-  --output docs/Api \
+  --output Documentation/Api \
   --theme fullwidth \
-
