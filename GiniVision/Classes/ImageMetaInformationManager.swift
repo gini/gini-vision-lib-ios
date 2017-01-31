@@ -1,5 +1,5 @@
 //
-//  GiniMetaInformationManager.swift
+//  ImageMetaInformationManager.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 27/07/16.
@@ -138,7 +138,7 @@ typealias MetaInformation = NSDictionary
 /// is specified in imageData(withCompression:)
 let JPEGDefaultCompression:CGFloat = 0.2
 
-internal struct GiniMetaInformationManager {
+internal struct ImageMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,

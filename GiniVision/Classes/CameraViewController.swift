@@ -240,7 +240,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 var imageData = try inner()
                 
                 // Set meta information in image
-                var manager = GiniMetaInformationManager(imageData: imageData)
+                var manager = ImageMetaInformationManager(imageData: imageData)
                 manager.filterMetaInformation()
                 if let richImageData = manager.imageData(withCompression: 0.2) {
                     imageData = richImageData

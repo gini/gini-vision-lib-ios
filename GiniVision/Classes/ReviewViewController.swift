@@ -59,7 +59,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     fileprivate var imageViewLeadingConstraint: NSLayoutConstraint!
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
-    fileprivate var metaInformationManager: GiniMetaInformationManager?
+    fileprivate var metaInformationManager: ImageMetaInformationManager?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -88,7 +88,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         errorBlock = failure
         
         // Set meta information manager
-        metaInformationManager = GiniMetaInformationManager(imageData: imageData)
+        metaInformationManager = ImageMetaInformationManager(imageData: imageData)
         
         // Configure scroll view
         scrollView.delegate = self

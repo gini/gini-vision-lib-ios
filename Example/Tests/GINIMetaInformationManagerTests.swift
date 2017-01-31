@@ -2,14 +2,14 @@ import XCTest
 @testable import GiniVision
 import ImageIO
 
-class GiniMetaInformationManagerTests: XCTestCase {
+class ImageMetaInformationManagerTests: XCTestCase {
     
     var invoiceData: Data {
         let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
         return (try! Data(contentsOf: path!))
     }
-    var manager: GiniMetaInformationManager {
-        return GiniMetaInformationManager(imageData: invoiceData)
+    var manager: ImageMetaInformationManager {
+        return ImageMetaInformationManager(imageData: invoiceData)
     }
     
     func testInitialization() {
@@ -45,7 +45,7 @@ class GiniMetaInformationManagerTests: XCTestCase {
             return XCTFail("filtered image data should not be nil")
         }
         
-        let filteredManager = GiniMetaInformationManager(imageData: filteredData)
+        let filteredManager = ImageMetaInformationManager(imageData: filteredData)
         XCTAssertNotNil(filteredManager.image, "image should not be nil")
         XCTAssertNotNil(filteredManager.metaInformation, "meta information should not be nil")
         guard let mutableInformation = filteredManager.metaInformation?.mutableCopy() as? NSMutableDictionary else {
