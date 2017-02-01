@@ -193,15 +193,15 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
         camera?.stop()
     }
     
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
+    public override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
         // note that in the mapping left and right are reversed. That's because landscape values have different meanings
         // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
-        let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                   UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                   UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                   UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
-        let orientation = UIDevice.current.orientation
+        let orientationsMapping = [UIDeviceOrientation.Portrait: AVCaptureVideoOrientation.Portrait,
+                                   UIDeviceOrientation.LandscapeRight: AVCaptureVideoOrientation.LandscapeRight,
+                                   UIDeviceOrientation.LandscapeLeft: AVCaptureVideoOrientation.LandscapeLeft,
+                                   UIDeviceOrientation.PortraitUpsideDown: AVCaptureVideoOrientation.PortraitUpsideDown]
+        let orientation = UIDevice.currentDevice().orientation
         (previewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientationsMapping[orientation]!
     }
     
