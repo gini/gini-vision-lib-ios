@@ -202,7 +202,7 @@ public typealias GINICameraErrorBlock = (error: GINICameraError) -> ()
                                    UIDeviceOrientation.LandscapeLeft: AVCaptureVideoOrientation.LandscapeLeft,
                                    UIDeviceOrientation.PortraitUpsideDown: AVCaptureVideoOrientation.PortraitUpsideDown]
         let orientation = UIDevice.currentDevice().orientation
-        (previewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientationsMapping[orientation]!
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
     }
     
     // MARK: Toggle UI elements
