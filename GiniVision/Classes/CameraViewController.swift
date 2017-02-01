@@ -201,7 +201,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                                    UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
                                    UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
         let orientation = UIDevice.current.orientation
-        (previewView.layer as! AVCaptureVideoPreviewLayer).connection.videoOrientation = orientationsMapping[orientation]!
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
     }
     
     // MARK: Toggle UI elements
