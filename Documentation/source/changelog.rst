@@ -2,11 +2,10 @@
 Changelog
 =========
 
-TBD
-===
+2.3.3-beta (2017-02-01)
+==================
 
-- Minor update to license file, not changing the essential meaning of the license.
-- Fixes a problem where images would not be compressed after rotation.
+- Added support for landscape mode in GINICameraViewController.
 
 2.3.2-beta (2017-01-19)
 ==================
@@ -15,6 +14,11 @@ Swift 2.3 support.
 
 - Project language conversion to Swift 2.3
 
+2.0.3 (2017-02-01)
+==================
+
+- Added support for landscape mode in CameraViewController.
+
 2.0.2 (2017-01-10)
 ==================
 
@@ -22,6 +26,8 @@ Minor non-breaking changes to the API.
 
 - `cameraOverlay` in GINICameraViewController made public.
 - `scrollView` in GINIOnboardingViewController made public.
+- Minor update to license file, not changing the essential meaning of the license.
+- Fixes a problem where images would not be compressed after rotation.
 
 2.0.0 (2016-08-25)
 ==================
