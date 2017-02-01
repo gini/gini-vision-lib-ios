@@ -15,7 +15,3 @@ extern NSString *const kSettingsExampleAppVersionKey;
 extern NSString *const kSettingsGiniVisionVersionKey;
 extern NSString *const kSettingsGiniSDKClientIdKey;
 extern NSString *const kSettingsGiniSDKClientSecretKey;
-
-@interface Constants : NSObject
-
-@end
