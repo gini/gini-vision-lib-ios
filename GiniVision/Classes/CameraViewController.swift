@@ -334,10 +334,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Camera overlay view
         cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23)
+        // All constraints here have a priority less than required to make sure they don't get broken
+        // when the view gets too small
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
         
         // Controls view
         controlsView.translatesAutoresizingMaskIntoConstraints = false
