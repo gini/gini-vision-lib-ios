@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Constants : NSObject
-
 extern NSString *const kGiniClientId;
 extern NSString *const kGiniClientSecret;
 
@@ -17,5 +15,7 @@ extern NSString *const kSettingsExampleAppVersionKey;
 extern NSString *const kSettingsGiniVisionVersionKey;
 extern NSString *const kSettingsGiniSDKClientIdKey;
 extern NSString *const kSettingsGiniSDKClientSecretKey;
+
+@interface Constants : NSObject
 
 @end
