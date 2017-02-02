@@ -1,6 +1,12 @@
 {
   "warnings": [
-
+    {
+      "file": "/Users/travis/build/gini/gini-vision-lib-ios/GiniVision/Classes/GINICameraViewController.swift",
+      "line": 196,
+      "symbol": "GINICameraViewController.viewWillTransitionToSize(_:withTransitionCoordinator:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    }
   ],
-  "source_directory": "/Users/nikolasobadjiev/Projects/gini-vision-lib-ios"
+  "source_directory": "/Users/travis/build/gini/gini-vision-lib-ios"
 }

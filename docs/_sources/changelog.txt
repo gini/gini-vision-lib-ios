@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.0.3-beta (2017-02-01)
+==================
+
+- Added support for landscape mode in CameraViewController.
+- Removed The `GINI` prefix from library classes.
+
 3.0.2-beta (2017-01-19)
 ==================
 
@@ -9,12 +15,22 @@ Swift 3 support.
 
 - Project language conversion to Swift 3
 
+2.3.3-beta (2017-02-01)
+==================
+
+- Added support for landscape mode in GINICameraViewController
+
 2.3.2-beta (2017-01-19)
 ==================
 
 Swift 2.3 support.
 
 - Project language conversion to Swift 2.3
+
+2.0.3 (2017-02-01)
+==================
+
+- Added support for landscape mode in GINICameraViewController
 
 2.0.2 (2017-01-10)
 ==================
