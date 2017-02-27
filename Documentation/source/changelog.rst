@@ -2,7 +2,7 @@
 Changelog
 =========
 
-3.0.3-beta (2017-02-01)
+3.0.3 (2017-02-28)
 ==================
 
 - Added support for landscape mode in CameraViewController.
@@ -55,7 +55,7 @@ Major version of the completely rewritten Gini Vision Library for iOS.
 2.0.0-stub.3 (2016-07-19)
 =========================
 
-- Adds a complete Objectice-C integration example.
+- Adds a complete Objective-C integration example.
 
 
 2.0.0-stub.2 (2016-07-15)
