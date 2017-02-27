@@ -1,5 +1,5 @@
 //
-//  GINICameraPreviewView.swift
+//  CameraPreviewView.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 14/06/16.
@@ -9,9 +9,9 @@
 import UIKit
 import AVFoundation
 
-internal class GINICameraPreviewView: UIView {
+internal class CameraPreviewView: UIView {
     
-    override class func layerClass() -> AnyClass {
+    override class var layerClass : AnyClass {
         return AVCaptureVideoPreviewLayer.classForCoder()
     }
     

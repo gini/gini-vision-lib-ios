@@ -1,35 +1,43 @@
 language: objective-c
-osx_image: xcode7.3
+osx_image: xcode8.2
 podfile: Example/Podfile
 cache:
-- cocoapods
+  - cocoapods
 env:
   global:
-  - WORKSPACE="Example/GiniVision.xcworkspace"
-  - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
-  - IOS_SDK_LEGACY=iphonesimulator9.3
-  - secure: hL3L2t9Cdm3evRQWqXhfIkNTsLd8UqsAx/MVSYCszchcMuyPQCQ+/ZQqUTNfLhZxrSkwBwSOo+/omsP2ogfKFKqa8LBQVOQFbeJRYSK8H9mk1T3OZIGQEuqkPlJFNV3JX5ttN1aRcile5t754eFbPwZ6RZOqwrqhSSzv5n9JML1PnDH7MF0vDjfbEvU/6U93eYxO+sVDSvzMLhLg4DP1K7KNo8SXzOZ5dBFjF7KoOnc8vuXjXHGO0Sq4O979ZzfU0JtLFSFiJZXdERErJkSPI15jCvywQFTK6VBJSAnIImYw/T2PSONjeoJysgFYewRuMIcowhggIL6Z9bNAlIrD5LSvrsXw3gErkItX+AinLRldWO1eUJ287VTbJ6wI6tfZwtcUPR76dKz0WkxM3bwmitWcBpqv3pmal9R8U87Fu6dogu/uUeE/dvga4xKApJGuvsjkMjZd5Hybaqakzfkbst3si1X/h8l+WJH8nVFePSetxg8p/Nsu6aOKKEVgnxel0lKFT6kp9pzbCKV6T3kHa49C3BA8pEKVhCDxPp8pZcckEocoLjj2H6zrMTPi4myuo26UhqAyDSF+pWowfHxeBKp4bQjTan6y9xqJOUwg0w90KnKAj6GP2jlQJBlfXGN8OprztKhdmXLHGSoFAcvQm/mcDdvG3mDIKGLYaoNJzTI=
-  - secure: pYIVTyZsKYg+paTqvXUoAC2TYxYAGhpg3IyWWxjEDfpLQhxp7fn5LjxD7nUwRY/lmWs9D4DtIJRzBJ1+DFEkrppz/SZIKTZTCh9HJFZ6D5qY0+xHoSahvxfQ8J+WomaPa3qq2xbyGEnnSqFVZhtZWIDXJwQ5VxiygBJ5DL3P6vrGLz5VUQYrC8IISiPy9nB+T00C1dV9aNV2Gm7L8y3+LLnpNb++GmAs3o6VH3SIyZM0ngD3TyNnwGpS2UUy4G1xU4dl4sfHYDyHemiWLhWdcvs6Q8SdpAwCPvtJwb6Pkk40wK7vVhmrQMmml2AiEe/JV/mgw2miHs7mfm7zUBetBmcmIWMKGv3rOyHDzYd7wy1myNETKO7ewFnO9PzjYKzY4Jt7UENpDKVHiLDkl1YnVEzDCuKmCeKq4U/yrqfCkXzQiqDZE0tNABa0+vxXj8Q138c5KYpY7UqDCALvIWwRKWGYXRDPkeIqoqr/XnrQeY1iMw04zg+K1gp727PVUNJGrEzeTMYR5Pl7aJEdmhnj9lsd0XVXbs/vh7pQzxM0IOCJ0dskQ0pDvzcYyF0/RF3Hp9q9sM3mvJ1gyq1Da6LmUZtI/8+DbqTnVWTNfxXEJpFoO8sZaaNRzuBcBT72x4pSDYOtlNQcZU5IzUA0UJiuvtzSADnz7ewAew0lWzg6h6o=
+    - WORKSPACE="Example/GiniVision.xcworkspace"
+    - IOS_FRAMEWORK_SCHEME="GiniVision-Example"
+    - IOS_SDK=iphonesimulator10.2
+    - secure: hL3L2t9Cdm3evRQWqXhfIkNTsLd8UqsAx/MVSYCszchcMuyPQCQ+/ZQqUTNfLhZxrSkwBwSOo+/omsP2ogfKFKqa8LBQVOQFbeJRYSK8H9mk1T3OZIGQEuqkPlJFNV3JX5ttN1aRcile5t754eFbPwZ6RZOqwrqhSSzv5n9JML1PnDH7MF0vDjfbEvU/6U93eYxO+sVDSvzMLhLg4DP1K7KNo8SXzOZ5dBFjF7KoOnc8vuXjXHGO0Sq4O979ZzfU0JtLFSFiJZXdERErJkSPI15jCvywQFTK6VBJSAnIImYw/T2PSONjeoJysgFYewRuMIcowhggIL6Z9bNAlIrD5LSvrsXw3gErkItX+AinLRldWO1eUJ287VTbJ6wI6tfZwtcUPR76dKz0WkxM3bwmitWcBpqv3pmal9R8U87Fu6dogu/uUeE/dvga4xKApJGuvsjkMjZd5Hybaqakzfkbst3si1X/h8l+WJH8nVFePSetxg8p/Nsu6aOKKEVgnxel0lKFT6kp9pzbCKV6T3kHa49C3BA8pEKVhCDxPp8pZcckEocoLjj2H6zrMTPi4myuo26UhqAyDSF+pWowfHxeBKp4bQjTan6y9xqJOUwg0w90KnKAj6GP2jlQJBlfXGN8OprztKhdmXLHGSoFAcvQm/mcDdvG3mDIKGLYaoNJzTI=
+    - secure: pYIVTyZsKYg+paTqvXUoAC2TYxYAGhpg3IyWWxjEDfpLQhxp7fn5LjxD7nUwRY/lmWs9D4DtIJRzBJ1+DFEkrppz/SZIKTZTCh9HJFZ6D5qY0+xHoSahvxfQ8J+WomaPa3qq2xbyGEnnSqFVZhtZWIDXJwQ5VxiygBJ5DL3P6vrGLz5VUQYrC8IISiPy9nB+T00C1dV9aNV2Gm7L8y3+LLnpNb++GmAs3o6VH3SIyZM0ngD3TyNnwGpS2UUy4G1xU4dl4sfHYDyHemiWLhWdcvs6Q8SdpAwCPvtJwb6Pkk40wK7vVhmrQMmml2AiEe/JV/mgw2miHs7mfm7zUBetBmcmIWMKGv3rOyHDzYd7wy1myNETKO7ewFnO9PzjYKzY4Jt7UENpDKVHiLDkl1YnVEzDCuKmCeKq4U/yrqfCkXzQiqDZE0tNABa0+vxXj8Q138c5KYpY7UqDCALvIWwRKWGYXRDPkeIqoqr/XnrQeY1iMw04zg+K1gp727PVUNJGrEzeTMYR5Pl7aJEdmhnj9lsd0XVXbs/vh7pQzxM0IOCJ0dskQ0pDvzcYyF0/RF3Hp9q9sM3mvJ1gyq1Da6LmUZtI/8+DbqTnVWTNfxXEJpFoO8sZaaNRzuBcBT72x4pSDYOtlNQcZU5IzUA0UJiuvtzSADnz7ewAew0lWzg6h6o=
+
 matrix:
   include:
-  - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
-  - env: DESTINATION="OS=8.3,name=iPhone 5S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
-  - env: DESTINATION="OS=9.1,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
-  - env: DESTINATION="OS=9.3,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK_LEGACY"     RUN_TESTS="NO"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
+    - env: DESTINATION="OS=8.1,name=iPhone 4S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="YES"     BUILD_DOCS="YES"     BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=9.1,name=iPhone 6S"          SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"      POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=9.3,name=iPhone 6 Plus"      SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="YES"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="NO"
+    - env: DESTINATION="OS=10.0,name=iPhone SE"         SCHEME="$IOS_FRAMEWORK_SCHEME"     SDK="$IOS_SDK"     RUN_TESTS="NO"     POD_LINT="NO"      BUILD_DOCS="NO"      BUILD_COVERAGE="YES"
 before_install:
-- gem install slather
-- gem install cocoapods
-- pod install --project-directory=Example --repo-update
+  - gem install slather
+  - gem install cocoapods
+  - pod install --project-directory=Example --repo-update
 script:
-- set -o pipefail
-- xcodebuild -version
-- xcodebuild -showsdks
-- if [ $RUN_TESTS == "YES" ]; then travis_retry xcodebuild -workspace "$WORKSPACE"
-  -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES
-  GCC_GENERATE_TEST_COVERAGE_FILES=YES test | xcpretty -c; else travis_retry xcodebuild
-  -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION"
-  -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c; fi
-- if [ $POD_LINT == "YES" ]; then pod lib lint; fi
+  - set -o pipefail
+  - xcodebuild -version
+  - xcodebuild -showsdks
+
+  # Build in Debug and Run Tests if specified
+  - if [ $RUN_TESTS == "YES" ]; then
+      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES test | xcpretty -c;
+    else
+      travis_retry xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO build | xcpretty -c;
+    fi
+
+  # Run `pod lib lint` if specified
+  - if [ $POD_LINT == "YES" ]; then
+      pod lib lint;
+    fi
+
 after_success:
 - if [ $BUILD_DOCS == "YES" ]; then ./scripts/push-documentation.sh; fi
 - if [ $BUILD_COVERAGE == "YES" ]; then slather && bash <(curl -s https://codecov.io/bash)

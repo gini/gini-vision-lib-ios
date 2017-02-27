@@ -15,10 +15,10 @@ class NoResultViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        rotateImageView.image = rotateImageView.image?.imageWithRenderingMode(.AlwaysTemplate)
+        rotateImageView.image = rotateImageView.image?.withRenderingMode(.alwaysTemplate)
     }
     
-    @IBAction func retry(sender: AnyObject) {
-        self.navigationController?.popToRootViewControllerAnimated(true)
+    @IBAction func retry(_ sender: AnyObject) {
+        _ = self.navigationController?.popToRootViewController(animated: true)
     }
 }

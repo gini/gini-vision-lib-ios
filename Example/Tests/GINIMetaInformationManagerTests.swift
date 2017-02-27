@@ -2,14 +2,14 @@ import XCTest
 @testable import GiniVision
 import ImageIO
 
-class GINIMetaInformationManagerTests: XCTestCase {
+class ImageMetaInformationManagerTests: XCTestCase {
     
-    var invoiceData: NSData {
-        let path = NSBundle.mainBundle().URLForResource("invoice", withExtension: "jpg")
-        return NSData(contentsOfURL: path!)!
+    var invoiceData: Data {
+        let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
+        return (try! Data(contentsOf: path!))
     }
-    var manager: GINIMetaInformationManager {
-        return GINIMetaInformationManager(imageData: invoiceData)
+    var manager: ImageMetaInformationManager {
+        return ImageMetaInformationManager(imageData: invoiceData)
     }
     
     func testInitialization() {
@@ -34,7 +34,7 @@ class GINIMetaInformationManagerTests: XCTestCase {
         }
         let value = "MyCompany"
         let key = kCGImagePropertyTIFFMake as String
-        mutableInformation.set(metaInformation: value, forKey: key)
+        mutableInformation.set(metaInformation: value as AnyObject?, forKey: key)
         XCTAssert(mutableInformation.getMetaInformation(forKey: key) as? String == value, "failed to set value correctly on meta information")
     }
     
@@ -45,14 +45,14 @@ class GINIMetaInformationManagerTests: XCTestCase {
             return XCTFail("filtered image data should not be nil")
         }
         
-        let filteredManager = GINIMetaInformationManager(imageData: filteredData)
+        let filteredManager = ImageMetaInformationManager(imageData: filteredData)
         XCTAssertNotNil(filteredManager.image, "image should not be nil")
         XCTAssertNotNil(filteredManager.metaInformation, "meta information should not be nil")
         guard let mutableInformation = filteredManager.metaInformation?.mutableCopy() as? NSMutableDictionary else {
             return XCTFail("failed to retrieve mutable meta information from filtered image data")
         }
         let key = kCGImagePropertyExifUserComment as String
-        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.containsString("GiniVisionVer") == true, "filtered data did not set custom fields")
+        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.contains("GiniVisionVer") == true, "filtered data did not set custom fields")
     }
     
 }

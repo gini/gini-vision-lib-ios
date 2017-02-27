@@ -1,5 +1,5 @@
 //
-//  GINIMotionManager.swift
+//  MotionManager.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 14/06/16.
@@ -9,31 +9,31 @@
 import UIKit
 import CoreMotion
 
-internal class GINIMotionManager {
+internal class MotionManager {
     
     // Static strings
     let MotionOrientationChangedNotification = "MotionOrientationChangedNotification"
     let MotionOrientationKey = "MotionOrientationKey"
     
     // Public properties
-    lazy var currentOrientation: UIDeviceOrientation = UIDevice.currentDevice().orientation
+    lazy var currentOrientation: UIDeviceOrientation = UIDevice.current.orientation
     
     // Private properties
-    private var motionManager: CMMotionManager?
-    private var operationQueue: NSOperationQueue?
+    fileprivate var motionManager: CMMotionManager?
+    fileprivate var operationQueue: OperationQueue?
     
     init() {
         let manager = CMMotionManager()
-        guard manager.accelerometerAvailable else { return }
-        operationQueue = NSOperationQueue()
+        guard manager.isAccelerometerAvailable else { return }
+        operationQueue = OperationQueue()
         manager.accelerometerUpdateInterval = 0.2
         motionManager = manager
     }
     
     func startDetection() {
         guard let queue = operationQueue else { return print("No queue found to push accelerometer updates to") }
-        motionManager?.startAccelerometerUpdatesToQueue(queue, withHandler: { (accelerometerData: CMAccelerometerData?, error: NSError?) -> Void in
-            self.accelerometerDidUpdate(accelerometerData, error: error)
+        motionManager?.startAccelerometerUpdates(to: queue, withHandler: { (accelerometerData: CMAccelerometerData?, error: Error?) -> Void in
+            self.accelerometerDidUpdate(accelerometerData, error: error as NSError?)
         })
     }
     
@@ -41,7 +41,7 @@ internal class GINIMotionManager {
         motionManager?.stopAccelerometerUpdates()
     }
     
-    private func accelerometerDidUpdate(accelerometerData: CMAccelerometerData?, error: NSError?) {
+    fileprivate func accelerometerDidUpdate(_ accelerometerData: CMAccelerometerData?, error: NSError?) {
         guard error == nil else { return print("Error on accelerometer update") }
         guard let data = accelerometerData else { return }
 
@@ -49,13 +49,13 @@ internal class GINIMotionManager {
         let acceleration = data.acceleration
         
         if (acceleration.x >= 0.5) {
-            orientationNew = .LandscapeRight
+            orientationNew = .landscapeRight
         } else if (acceleration.x <= -0.5) {
-            orientationNew = .LandscapeLeft
+            orientationNew = .landscapeLeft
         } else if (acceleration.y <= -0.35) {
-            orientationNew = .Portrait
+            orientationNew = .portrait
         } else if (acceleration.y >= 0.35) {
-            orientationNew = .PortraitUpsideDown
+            orientationNew = .portraitUpsideDown
         } else {
             return
         }
@@ -66,9 +66,9 @@ internal class GINIMotionManager {
         
         currentOrientation = orientationNew
         
-        dispatch_async(dispatch_get_main_queue(), {
-            NSNotificationCenter.defaultCenter().postNotificationName(self.MotionOrientationChangedNotification, object: nil, userInfo: [self.MotionOrientationKey: self])
-        })
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: self.MotionOrientationChangedNotification), object: nil, userInfo: [self.MotionOrientationKey: self])
+        }
     }
     
 }
