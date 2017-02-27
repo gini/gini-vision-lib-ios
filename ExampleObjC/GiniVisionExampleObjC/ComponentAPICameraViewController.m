@@ -32,17 +32,17 @@
      *************************************************************************/
     
     // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
-    GINIConfiguration *giniConfiguration = [GINIConfiguration new];
+    GiniConfiguration *giniConfiguration = [GiniConfiguration new];
     giniConfiguration.debugModeOn = YES;
-    [GINIVision setConfiguration:giniConfiguration];
+    [GiniVision setConfiguration:giniConfiguration];
     
     // 2. Create the camera view controller
-    _contentController = [[GINICameraViewController alloc] initWithSuccess:^(NSData * _Nonnull imageData) {
+    _contentController = [[CameraViewController alloc] initWithSuccess:^(NSData * _Nonnull imageData) {
         _imageData = imageData;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"showReview" sender:self];
         });
-    } failure:^(enum GINICameraError error) {
+    } failure:^(enum CameraError error) {
         NSLog(@"Component API camera view controller received error:\n%ld)", (long)error);
     }];
     

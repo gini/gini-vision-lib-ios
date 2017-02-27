@@ -15,7 +15,3 @@ NSString *const kSettingsExampleAppVersionKey = @"SETTINGS_VERSIONS_EXAMPLE_APP"
 NSString *const kSettingsGiniVisionVersionKey = @"SETTINGS_VERSIONS_GINI_VISION_LIBRARY";
 NSString *const kSettingsGiniSDKClientIdKey = @"GINI_SETTINGS_CREDENTIALS_CLIENT_ID";
 NSString *const kSettingsGiniSDKClientSecretKey = @"GINI_SETTINGS_CREDENTIALS_CLIENT_SECRET";
-
-@implementation Constants
-
-@end

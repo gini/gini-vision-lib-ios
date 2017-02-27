@@ -1,13 +1,13 @@
 import XCTest
 @testable import GiniVision
 
-class GINIOnboardingViewControllerTests: XCTestCase {
+class OnboardingViewControllerTests: XCTestCase {
     
-    var vc = GINIOnboardingViewController(scrollViewDelegate: nil)
+    var vc = OnboardingViewController(scrollViewDelegate: nil)
     
     func testConvenientInitialization() {
         XCTAssertNotNil(vc, "view controller should not be nil")
-        XCTAssert(vc.pages == GINIConfiguration.sharedConfiguration.onboardingPages, "default pages should be set")
+        XCTAssert(vc.pages == GiniConfiguration.sharedConfiguration.onboardingPages, "default pages should be set")
     }
     
     func testScrollViewAccessibility() {

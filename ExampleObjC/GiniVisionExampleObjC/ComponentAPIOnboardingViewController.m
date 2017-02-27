@@ -33,7 +33,7 @@
     // See `ComponentAPICameraViewController.m` for implementation details.
     
     // 2. Create the onboarding view controller
-    _contentController = [[GINIOnboardingViewController alloc] initWithScrollViewDelegate:nil];
+    _contentController = [[OnboardingViewController alloc] initWithScrollViewDelegate:nil];
     
     // 3. Display the onboarding view controller
     [self displayContent:_contentController];
@@ -51,7 +51,7 @@
 - (IBAction)nextPage:(id)sender {
     
     // Scroll the onboarding to the next page.
-    [(GINIOnboardingViewController *)_contentController scrollToNextPage:YES];
+    [(OnboardingViewController *)_contentController scrollToNextPage:YES];
 }
 
 @end

@@ -26,8 +26,8 @@ class ResultTableViewController: UITableViewController {
      */
     var document: GINIDocument!
     
-    private var sortedKeys: [String] {
-        return Array(result.keys).sort(<)
+    fileprivate var sortedKeys: [String] {
+        return Array(result.keys).sorted(by: <)
     }
     
     override func viewDidLoad() {
@@ -46,28 +46,28 @@ class ResultTableViewController: UITableViewController {
          *******************************************/
         
         // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = (UIApplication.sharedApplication().delegate as! AppDelegate).giniSDK
+        let sdk = (UIApplication.shared.delegate as! AppDelegate).giniSDK
         
         // 1. Get session
-        sdk?.sessionManager.getSession().continueWithBlock({ (task: BFTask!) -> AnyObject! in
-            if (task.error != nil) {
+        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
+            if (task?.error != nil) {
                 return sdk?.sessionManager.logIn()
             }
-            return task.result
+            return task?.result
             
         // 2. Get extractions from the document
-        }).continueWithSuccessBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             return document.extractions
             
         // 3. Create and send feedback on the document
-        }).continueWithSuccessBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             
             // Use `NSMutableDictionary` to work with a mutable class type which is passed by reference.
-            guard let extractions = task.result as? NSMutableDictionary else {
-                enum FeedbackError: ErrorType {
-                    case Unknown
+            guard let extractions = task?.result as? NSMutableDictionary else {
+                enum FeedbackError: Error {
+                    case unknown
                 }
-                let error = NSError(domain: "net.gini.error.", code: FeedbackError.Unknown._code, userInfo: nil)
+                let error = NSError(domain: "net.gini.error.", code: FeedbackError.unknown._code, userInfo: nil)
                 return BFTask(error: error)
             }
             
@@ -83,20 +83,20 @@ class ResultTableViewController: UITableViewController {
             
             // Get the document task manager and send feedback by updating the document.
             let documentTaskManager = sdk?.documentTaskManager
-            return documentTaskManager?.updateDocument(document)
+            return documentTaskManager?.update(document)
             
         // 4. Check if feedback was send successfully (only for testing purposes)
-        }).continueWithSuccessBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             return document.extractions
             
         // 5. Handle results
-        }).continueWithBlock({ (task: BFTask!) -> AnyObject! in
-            if task.error != nil {
+        }).continue({ (task: BFTask?) -> AnyObject! in
+            if task?.error != nil {
                 print("Error sending feedback for document with id: \(document.documentId)")
                 return nil
             }
             
-            let resultString = (task.result as? GINIResult)?.description ?? "n/a"
+            let resultString = (task?.result as? GINIResult)?.description ?? "n/a"
             print("Updated extractions:\n\(resultString)")
             return nil
         })
@@ -104,16 +104,16 @@ class ResultTableViewController: UITableViewController {
 }
 
 extension ResultTableViewController {
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sortedKeys.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath)
         let key = sortedKeys[indexPath.row]
         cell.textLabel?.text = result[key]?.value
         cell.detailTextLabel?.text = key

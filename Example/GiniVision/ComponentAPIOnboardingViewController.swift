@@ -29,25 +29,25 @@ class ComponentAPIOnboardingViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the onboarding view controller
-        contentController = GINIOnboardingViewController(scrollViewDelegate: nil)
+        contentController = OnboardingViewController(scrollViewDelegate: nil)
         
         // 3. Display the onboarding view controller
         displayContent(contentController)
     }
     
     // Displays the content controller inside the container view
-    func displayContent(controller: UIViewController) {
+    func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMoveToParentViewController(self)
+        controller.didMove(toParentViewController: self)
     }
     
     // MARK: User actions
-    @IBAction func nextPage(sender: AnyObject) {
+    @IBAction func nextPage(_ sender: AnyObject) {
         
         // Scroll the onboarding to the next page.
-        (contentController as? GINIOnboardingViewController)?.scrollToNextPage(true)
+        (contentController as? OnboardingViewController)?.scrollToNextPage(true)
     }
     
 }

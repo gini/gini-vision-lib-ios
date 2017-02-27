@@ -1,5 +1,5 @@
 //
-//  GINIAnalysisViewController.swift
+//  AnalysisViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 21/06/16.
@@ -13,7 +13,7 @@ import UIKit
  
  - note: Screen API only.
  */
-@objc public protocol GINIAnalysisDelegate {
+@objc public protocol AnalysisDelegate {
     
     /**
      Will display an error view on the analysis screen with a custom message.
@@ -22,11 +22,11 @@ import UIKit
      - parameter message: The error message to be displayed.
      - parameter action:  The action to be performed after the user tapped the error view.
      */
-    func displayError(withMessage message: String?, andAction action: GININoticeAction?)
+    func displayError(withMessage message: String?, andAction action: NoticeAction?)
 }
 
 /**
- The `GINIAnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
+ The `AnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
  
  **Text resources for this screen**
  
@@ -40,30 +40,30 @@ import UIKit
 
  - note: Component API only.
  */
-@objc public final class GINIAnalysisViewController: UIViewController {
+@objc public final class AnalysisViewController: UIViewController {
     
     // User interface
-    private var imageView = UIImageView()
-    private var loadingIndicatorView = UIActivityIndicatorView()
+    fileprivate var imageView = UIImageView()
+    fileprivate var loadingIndicatorView = UIActivityIndicatorView()
     
     /**
-     Designated intitializer for the `GINIAnalysisViewController`.
+     Designated intitializer for the `AnalysisViewController`.
      
      - parameter imageData: Reviewed image data ready for analysis.
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(_ imageData: NSData) {
+    public init(_ imageData: Data) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure image view
         imageView.image = UIImage(data: imageData)
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         
         // Configure loading indicator view
         loadingIndicatorView.hidesWhenStopped = true
-        loadingIndicatorView.activityIndicatorViewStyle = .WhiteLarge
-        loadingIndicatorView.color = GINIConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
+        loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
+        loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         
         // Configure view hierachy
         view.addSubview(imageView)
@@ -86,7 +86,7 @@ import UIKit
     /**
      Displays a loading activity indicator. Should be called when document analysis is started.
      
-     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GINIConfiguration` class.
+     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GiniConfiguration` class.
      */
     public func showAnimation() {
         loadingIndicatorView.startAnimating()
@@ -100,20 +100,20 @@ import UIKit
     }
         
     // MARK: Constraints
-    private func addConstraints() {
+    fileprivate func addConstraints() {
         let superview = self.view
 
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: superview, attribute: .Top, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Trailing, relatedBy: .Equal, toItem: superview, attribute: .Trailing, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: superview, attribute: .Bottom, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: imageView, attribute: .Leading, relatedBy: .Equal, toItem: superview, attribute: .Leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
                 
         // Loading indicator view
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .CenterX, relatedBy: .Equal, toItem: imageView, attribute: .CenterX, multiplier: 1, constant: 0)
-        UIViewController.addActiveConstraint(item: loadingIndicatorView, attribute: .CenterY, relatedBy: .Equal, toItem: imageView, attribute: .CenterY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0)
     }
     
 }

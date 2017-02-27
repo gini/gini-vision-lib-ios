@@ -40,14 +40,14 @@ class AnalysisManager {
     /**
      Most current error that occured during analysis.
      */
-    var error: NSError?
+    var error: Error?
     
     /**
      Whether a analysis process is in progress.
      */
     var isAnalyzing = false
     
-    private var cancelationToken: CancelationToken?
+    fileprivate var cancelationToken: CancelationToken?
     
     /**
      Cancels all running analysis processes manually.
@@ -69,9 +69,9 @@ class AnalysisManager {
      - parameter cancelationToken: The cancelation token.
      - parameter completion:       The completion block handling the result.
      */
-    func analyzeDocument(withImageData data: NSData,
+    func analyzeDocument(withImageData data: Data,
                          cancelationToken token: CancelationToken,
-                         completion: ((inner: (() throws -> (GINIResult?, GINIDocument?))?) -> ())?) {
+                         completion: ((_ inner: (() throws -> (GINIResult?, GINIDocument?))?) -> ())?) {
         
         // Cancel any running analysis process and set cancelation token.
         cancelAnalysis()
@@ -86,7 +86,7 @@ class AnalysisManager {
         print("Started analysis process")
         
         // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = (UIApplication.sharedApplication().delegate as! AppDelegate).giniSDK
+        let sdk = (UIApplication.shared.delegate as! AppDelegate).giniSDK
         
         // Create a document task manager to handle document tasks on the Gini API.
         let manager = sdk?.documentTaskManager
@@ -102,29 +102,29 @@ class AnalysisManager {
         }
         
         // 1. Get session
-        sdk?.sessionManager.getSession().continueWithBlock({ (task: BFTask!) -> AnyObject! in
+        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any! in
             if token.cancelled {
-                return BFTask.cancelledTask()
+                return BFTask.cancelled()
             }
-            if task.error != nil {
+            if task?.error != nil {
                 return sdk?.sessionManager.logIn()
             }
-            return task.result
+            return task?.result
             
         // 2. Create a document from the given image data
-        }).continueWithSuccessBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             if token.cancelled {
-                return BFTask.cancelledTask()
+                return BFTask.cancelled()
             }
-            return manager?.createDocumentWithFilename(fileName, fromData: data, docType: "")
+            return manager?.createDocument(withFilename: fileName, from: data, docType: "")
             
         // 3. Get extractions from the document
-        }).continueWithSuccessBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             if token.cancelled {
-                return BFTask.cancelledTask()
+                return BFTask.cancelled()
             }
             
-            if let document = task.result as? GINIDocument {
+            if let document = task?.result as? GINIDocument {
                 documentId = document.documentId
                 self.document = document
                 print("Created document with id: \(documentId!)")
@@ -135,24 +135,24 @@ class AnalysisManager {
             return self.document?.extractions
             
         // 4. Handle results
-        }).continueWithBlock({ (task: BFTask!) -> AnyObject! in
-            if token.cancelled || task.cancelled {
+        }).continue({ (task: BFTask?) -> AnyObject! in
+            if token.cancelled || (task?.isCancelled == true) {
                 print("Canceled analysis process")
-                return BFTask.cancelledTask()
+                return BFTask.cancelled()
             }
             
             print("Finished analysis process")
             
-            let userInfo: [NSObject: AnyObject]
+            let userInfo: [AnyHashable: Any]
             let notificationName: String
             
-            if let error = task.error {
+            if let error = task?.error {
                 self.error = error
                 userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
-                completion?(inner: { _ in throw error })
+                completion?({ _ in throw error })
             } else if let document = self.document,
-                      let result = task.result as? GINIResult {
+                      let result = task?.result as? GINIResult {
                 self.result = result
                 self.document = document
                 userInfo = [
@@ -160,26 +160,26 @@ class AnalysisManager {
                     GINIAnalysisManagerDocumentUserInfoKey: document
                 ]
                 notificationName = GINIAnalysisManagerDidReceiveResultNotification
-                completion?(inner: { _ in return (result, document) })
+                completion?({ _ in return (result, document) })
             } else {
-                enum AnalysisError: ErrorType {
-                    case Unknown
+                enum AnalysisError: Error {
+                    case unknown
                 }
-                let error = NSError(domain: "net.gini.error.", code: AnalysisError.Unknown._code, userInfo: nil)
+                let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
                 self.error = error
                 userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
-                completion?(inner: { _ in throw AnalysisError.Unknown })
+                completion?({ _ in throw AnalysisError.unknown })
                 return nil
             }
-            dispatch_async(dispatch_get_main_queue(), {
-                NSNotificationCenter.defaultCenter().postNotificationName(notificationName, object: self, userInfo: userInfo)
-            })
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName), object: self, userInfo: userInfo)
+            }
             
             return nil
             
         // 5. Finish process
-        }).continueWithBlock({ (task: BFTask!) -> AnyObject! in
+        }).continue({ (_: BFTask?) -> AnyObject! in
             self.isAnalyzing = false
             return nil
         })
