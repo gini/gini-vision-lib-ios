@@ -12,8 +12,8 @@
 #import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 
-@interface ScreenAPIViewController () <GINIVisionDelegate> {
-    id<GINIAnalysisDelegate> _analysisDelegate;
+@interface ScreenAPIViewController () <GiniVisionDelegate> {
+    id<AnalysisDelegate> _analysisDelegate;
     NSData *_imageData;
 }
 
@@ -46,12 +46,12 @@
      ************************************************************************/
     
     // 1. Create a custom configuration object
-    GINIConfiguration *giniConfiguration = [GINIConfiguration new];
+    GiniConfiguration *giniConfiguration = [GiniConfiguration new];
     giniConfiguration.debugModeOn = YES;
     giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];
     
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc = [GINIVision viewControllerWithDelegate:self withConfiguration:giniConfiguration];
+    UIViewController *vc = [GiniVision viewControllerWithDelegate:self withConfiguration:giniConfiguration];
     
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
@@ -101,7 +101,7 @@
     [self cancelAnalysis];
 }
 
-- (void)didShowAnalysis:(id<GINIAnalysisDelegate>)analysisDelegate {
+- (void)didShowAnalysis:(id<AnalysisDelegate>)analysisDelegate {
     NSLog(@"Screen API started analysis screen");
     
     _analysisDelegate = analysisDelegate;
