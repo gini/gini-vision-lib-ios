@@ -43,12 +43,12 @@
     // See `ComponentAPICameraViewController.m` for implementation details.
     
     // 2. Create the review view controller
-    _contentController = [[GINIReviewViewController alloc] init:_imageData success:^(NSData * _Nonnull imageData)
+    _contentController = [[ReviewViewController alloc] init:_imageData success:^(NSData * _Nonnull imageData)
         {
             NSLog(@"Component API review view controller received image data");
             // Update current image data when image is rotated by user
             _imageData = imageData;
-        } failure:^(enum GINIReviewError error) {
+        } failure:^(enum ReviewError error) {
             NSLog(@"Component API review view controller received error:\n%ld)", (long)error);
         }];
     

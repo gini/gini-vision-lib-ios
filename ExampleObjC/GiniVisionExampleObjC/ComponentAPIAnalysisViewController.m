@@ -39,7 +39,7 @@
     // See `ComponentAPICameraViewController.m` for implementation details.
     
     // 2. Create the analysis view controller
-    _contentController = [[GINIAnalysisViewController alloc] init:_imageData];
+    _contentController = [[AnalysisViewController alloc] init:_imageData];
     
     // 3. Display the analysis view controller
     [self displayContent:_contentController];
@@ -58,7 +58,7 @@
     [self handleExistingResults];
     
     // Start loading animation.
-    [(GINIAnalysisViewController *)_contentController showAnimation];
+    [(AnalysisViewController *)_contentController showAnimation];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -87,7 +87,7 @@
 
 // MARK: User actions
 - (IBAction)errorButtonTapped:(id)sender {
-    [(GINIAnalysisViewController *)_contentController showAnimation];
+    [(AnalysisViewController *)_contentController showAnimation];
     [self hideErrorButton];
     
     // Retry analysis of the document.
@@ -160,7 +160,7 @@
 
 // MARK: Error button handling
 - (void)displayError {
-    [(GINIAnalysisViewController *)_contentController hideAnimation];
+    [(AnalysisViewController *)_contentController hideAnimation];
     [self showErrorButton];
 }
 
