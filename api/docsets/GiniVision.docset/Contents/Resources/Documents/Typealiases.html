@@ -8,6 +8,9 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -20,6 +23,12 @@
           GiniVision Docs
         </a>
          (99% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -50,25 +59,25 @@
             <a class="nav-group-name-link" href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a>
+                <a class="nav-group-task-link" href="Classes/AnalysisViewController.html">AnalysisViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINICameraViewController.html">GINICameraViewController</a>
+                <a class="nav-group-task-link" href="Classes/CameraViewController.html">CameraViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
+                <a class="nav-group-task-link" href="Classes/GiniConfiguration.html">GiniConfiguration</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+                <a class="nav-group-task-link" href="Classes/GiniVision.html">GiniVision</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingPage.html">OnboardingPage</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingViewController.html">OnboardingViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIVision.html">GINIVision</a>
+                <a class="nav-group-task-link" href="Classes/ReviewViewController.html">ReviewViewController</a>
               </li>
             </ul>
           </li>
@@ -76,10 +85,10 @@
             <a class="nav-group-name-link" href="Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINICameraError.html">GINICameraError</a>
+                <a class="nav-group-task-link" href="Enums/CameraError.html">CameraError</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINIReviewError.html">GINIReviewError</a>
+                <a class="nav-group-task-link" href="Enums/ReviewError.html">ReviewError</a>
               </li>
             </ul>
           </li>
@@ -87,10 +96,10 @@
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/AnalysisDelegate.html">AnalysisDelegate</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a>
               </li>
             </ul>
           </li>
@@ -98,19 +107,19 @@
             <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16CameraErrorBlock">CameraErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18CameraSuccessBlock">CameraSuccessBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision12NoticeAction">NoticeAction</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16ReviewErrorBlock">ReviewErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18ReviewSuccessBlock">ReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -133,42 +142,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision20GINICameraErrorBlock"></a>
-                    <a name="//apple_ref/swift/Alias/GINICameraErrorBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GINICameraErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/GINICameraError.html">GINICameraError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision22GINICameraSuccessBlock"></a>
-                    <a name="//apple_ref/swift/Alias/GINICameraSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+                    <a name="/s:10GiniVision18CameraSuccessBlock"></a>
+                    <a name="//apple_ref/swift/Alias/CameraSuccessBlock" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision18CameraSuccessBlock">CameraSuccessBlock</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -189,7 +165,40 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GINICameraSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="nv">imageData</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVision16CameraErrorBlock"></a>
+                    <a name="//apple_ref/swift/Alias/CameraErrorBlock" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision16CameraErrorBlock">CameraErrorBlock</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/CameraError.html">CameraError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -203,9 +212,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision16GININoticeAction"></a>
-                    <a name="//apple_ref/swift/Alias/GININoticeAction" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+                    <a name="/s:10GiniVision12NoticeAction"></a>
+                    <a name="//apple_ref/swift/Alias/NoticeAction" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision12NoticeAction">NoticeAction</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -226,7 +235,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GININoticeAction</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">NoticeAction</span> <span class="o">=</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -240,42 +249,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision20GINIReviewErrorBlock"></a>
-                    <a name="//apple_ref/swift/Alias/GINIReviewErrorBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block which will be executed when an error occurs on the review screen. It contains a review specific error.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GINIReviewErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/GINIReviewError.html">GINIReviewError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision22GINIReviewSuccessBlock"></a>
-                    <a name="//apple_ref/swift/Alias/GINIReviewSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
+                    <a name="/s:10GiniVision18ReviewSuccessBlock"></a>
+                    <a name="//apple_ref/swift/Alias/ReviewSuccessBlock" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision18ReviewSuccessBlock">ReviewSuccessBlock</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -296,7 +272,40 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GINIReviewSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="nv">imageData</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVision16ReviewErrorBlock"></a>
+                    <a name="//apple_ref/swift/Alias/ReviewErrorBlock" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision16ReviewErrorBlock">ReviewErrorBlock</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Block which will be executed when an error occurs on the review screen. It contains a review specific error.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/ReviewError.html">ReviewError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -311,8 +320,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-28)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

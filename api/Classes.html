@@ -8,6 +8,9 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -20,6 +23,12 @@
           GiniVision Docs
         </a>
          (99% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -50,25 +59,25 @@
             <a class="nav-group-name-link" href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a>
+                <a class="nav-group-task-link" href="Classes/AnalysisViewController.html">AnalysisViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINICameraViewController.html">GINICameraViewController</a>
+                <a class="nav-group-task-link" href="Classes/CameraViewController.html">CameraViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
+                <a class="nav-group-task-link" href="Classes/GiniConfiguration.html">GiniConfiguration</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+                <a class="nav-group-task-link" href="Classes/GiniVision.html">GiniVision</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingPage.html">OnboardingPage</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingViewController.html">OnboardingViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIVision.html">GINIVision</a>
+                <a class="nav-group-task-link" href="Classes/ReviewViewController.html">ReviewViewController</a>
               </li>
             </ul>
           </li>
@@ -76,10 +85,10 @@
             <a class="nav-group-name-link" href="Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINICameraError.html">GINICameraError</a>
+                <a class="nav-group-task-link" href="Enums/CameraError.html">CameraError</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINIReviewError.html">GINIReviewError</a>
+                <a class="nav-group-task-link" href="Enums/ReviewError.html">ReviewError</a>
               </li>
             </ul>
           </li>
@@ -87,10 +96,10 @@
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/AnalysisDelegate.html">AnalysisDelegate</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a>
               </li>
             </ul>
           </li>
@@ -98,19 +107,19 @@
             <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16CameraErrorBlock">CameraErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18CameraSuccessBlock">CameraSuccessBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision12NoticeAction">NoticeAction</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16ReviewErrorBlock">ReviewErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18ReviewSuccessBlock">ReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -133,9 +142,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision26GINIAnalysisViewController"></a>
-                    <a name="//apple_ref/swift/Class/GINIAnalysisViewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision26GINIAnalysisViewController">GINIAnalysisViewController</a>
+                    <a name="/s:C10GiniVision22AnalysisViewController"></a>
+                    <a name="//apple_ref/swift/Class/AnalysisViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision22AnalysisViewController">AnalysisViewController</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -143,7 +152,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GINIAnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.</p>
+                        <p>The <code>AnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 
@@ -165,13 +174,13 @@
 
 </div>
 
-                        <a href="Classes/GINIAnalysisViewController.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/AnalysisViewController.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIAnalysisViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">AnalysisViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -185,9 +194,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision24GINICameraViewController"></a>
-                    <a name="//apple_ref/swift/Class/GINICameraViewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision24GINICameraViewController">GINICameraViewController</a>
+                    <a name="/s:C10GiniVision20CameraViewController"></a>
+                    <a name="//apple_ref/swift/Class/CameraViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision20CameraViewController">CameraViewController</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -195,7 +204,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GINICameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
+                        <p>The <code>CameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 
@@ -229,13 +238,13 @@
 
 </div>
 
-                        <a href="Classes/GINICameraViewController.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/CameraViewController.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINICameraViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">CameraViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -249,9 +258,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision17GINIConfiguration"></a>
-                    <a name="//apple_ref/swift/Class/GINIConfiguration" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision17GINIConfiguration">GINIConfiguration</a>
+                    <a name="/s:C10GiniVision17GiniConfiguration"></a>
+                    <a name="//apple_ref/swift/Class/GiniConfiguration" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision17GiniConfiguration">GiniConfiguration</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -259,17 +268,17 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GINIConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
+                        <p>The <code>GiniConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code>GiniVision</code> bundle.
+    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code>GiniVision</code> bundle.
+    Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
 
@@ -279,13 +288,13 @@
 
 </div>
 
-                        <a href="Classes/GINIConfiguration.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/GiniConfiguration.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIConfiguration</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GiniConfiguration</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -299,9 +308,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision18GINIOnboardingPage"></a>
-                    <a name="//apple_ref/swift/Class/GINIOnboardingPage" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision18GINIOnboardingPage">GINIOnboardingPage</a>
+                    <a name="/s:C10GiniVision10GiniVision"></a>
+                    <a name="//apple_ref/swift/Class/GiniVision" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision10GiniVision">GiniVision</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -309,7 +318,51 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
+                        <p>Convenience class to interact with the Gini Vision Library.</p>
+
+<p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
+
+<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
+
+<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
+
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present the <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
+
+</div>
+
+                        <a href="Classes/GiniVision.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GiniVision</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C10GiniVision14OnboardingPage"></a>
+                    <a name="//apple_ref/swift/Class/OnboardingPage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision14OnboardingPage">OnboardingPage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -317,13 +370,13 @@
 
 </div>
 
-                        <a href="Classes/GINIOnboardingPage.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/OnboardingPage.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIOnboardingPage</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">OnboardingPage</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
 
                         </div>
                       </div>
@@ -337,9 +390,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision28GINIOnboardingViewController"></a>
-                    <a name="//apple_ref/swift/Class/GINIOnboardingViewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision28GINIOnboardingViewController">GINIOnboardingViewController</a>
+                    <a name="/s:C10GiniVision24OnboardingViewController"></a>
+                    <a name="//apple_ref/swift/Class/OnboardingViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision24OnboardingViewController">OnboardingViewController</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -347,18 +400,18 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GINIOnboardingViewController</code> provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.</p>
+                        <p>The <code>OnboardingViewController</code> provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.</p>
 
 <p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code> of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code> and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks it is also possible to add a custom page control and update the current page accordingly.</p>
 
-<p>Use the <code><a href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
+<p>Use the <code><a href="Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
 
 <pre class="highlight plaintext"><code>let pages = [
-    GINIOnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
-    GINIOnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
-    GINIOnboardingPage(image: myOnboardingImage3, text: "My Onboarding Page 3")
+    OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
+    OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
+    OnboardingPage(image: myOnboardingImage3, text: "My Onboarding Page 3")
 ]
-let onboardingController = GINIOnboardingViewController(pages: pages, scrollViewDelegate: self)
+let onboardingController = OnboardingViewController(pages: pages, scrollViewDelegate: self)
 presentViewController(onboardingController, animated: true, completion: nil)
 </code></pre>
 
@@ -389,13 +442,13 @@ presentViewController(onboardingController, animated: true, completion: nil)
 
 </div>
 
-                        <a href="Classes/GINIOnboardingViewController.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/OnboardingViewController.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIOnboardingViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">OnboardingViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -409,9 +462,9 @@ presentViewController(onboardingController, animated: true, completion: nil)
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C10GiniVision24GINIReviewViewController"></a>
-                    <a name="//apple_ref/swift/Class/GINIReviewViewController" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision24GINIReviewViewController">GINIReviewViewController</a>
+                    <a name="/s:C10GiniVision20ReviewViewController"></a>
+                    <a name="//apple_ref/swift/Class/ReviewViewController" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C10GiniVision20ReviewViewController">ReviewViewController</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -419,7 +472,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GINIReviewViewController</code> provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.</p>
+                        <p>The <code>ReviewViewController</code> provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 
@@ -448,57 +501,13 @@ presentViewController(onboardingController, animated: true, completion: nil)
 
 </div>
 
-                        <a href="Classes/GINIReviewViewController.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/ReviewViewController.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIReviewViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:C10GiniVision10GINIVision"></a>
-                    <a name="//apple_ref/swift/Class/GINIVision" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C10GiniVision10GINIVision">GINIVision</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Convenience class to interact with the Gini Vision Library.</p>
-
-<p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
-
-<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
-
-<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
-
-<div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="Classes/GINICameraViewController.html">GINICameraViewController</a></code> as an entry point with the <code><a href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="Classes/GINIReviewViewController.html">GINIReviewViewController</a></code> and finally present the <code><a href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a></code> while the user waits for the analysis results.
-
-</div>
-
-                        <a href="Classes/GINIVision.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIVision</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">ReviewViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -513,8 +522,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-28)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

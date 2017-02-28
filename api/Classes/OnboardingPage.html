@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GINIOnboardingPage Class Reference</title>
+    <title>OnboardingPage Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
     <script src="../js/jquery.min.js" defer></script>
     <script src="../js/jazzy.js" defer></script>
     
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/GINIOnboardingPage" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/OnboardingPage" class="dashAnchor"></a>
 
-    <a title="GINIOnboardingPage Class Reference"></a>
+    <a title="OnboardingPage Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -21,6 +24,12 @@
           GiniVision Docs
         </a>
          (99% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -41,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
       <img class="carat" src="../img/carat.png" />
-      GINIOnboardingPage Class Reference
+      OnboardingPage Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -51,25 +60,25 @@
             <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a>
+                <a class="nav-group-task-link" href="../Classes/AnalysisViewController.html">AnalysisViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINICameraViewController.html">GINICameraViewController</a>
+                <a class="nav-group-task-link" href="../Classes/CameraViewController.html">CameraViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIConfiguration.html">GINIConfiguration</a>
+                <a class="nav-group-task-link" href="../Classes/GiniConfiguration.html">GiniConfiguration</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+                <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+                <a class="nav-group-task-link" href="../Classes/OnboardingPage.html">OnboardingPage</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIReviewViewController.html">GINIReviewViewController</a>
+                <a class="nav-group-task-link" href="../Classes/OnboardingViewController.html">OnboardingViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GINIVision.html">GINIVision</a>
+                <a class="nav-group-task-link" href="../Classes/ReviewViewController.html">ReviewViewController</a>
               </li>
             </ul>
           </li>
@@ -77,10 +86,10 @@
             <a class="nav-group-name-link" href="../Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/GINICameraError.html">GINICameraError</a>
+                <a class="nav-group-task-link" href="../Enums/CameraError.html">CameraError</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Enums/GINIReviewError.html">GINIReviewError</a>
+                <a class="nav-group-task-link" href="../Enums/ReviewError.html">ReviewError</a>
               </li>
             </ul>
           </li>
@@ -88,10 +97,10 @@
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+                <a class="nav-group-task-link" href="../Protocols/AnalysisDelegate.html">AnalysisDelegate</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+                <a class="nav-group-task-link" href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a>
               </li>
             </ul>
           </li>
@@ -99,19 +108,19 @@
             <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision16CameraErrorBlock">CameraErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision18CameraSuccessBlock">CameraSuccessBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision12NoticeAction">NoticeAction</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision16ReviewErrorBlock">ReviewErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision18ReviewSuccessBlock">ReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -121,14 +130,14 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>GINIOnboardingPage</h1>
+            <h1>OnboardingPage</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GINIOnboardingPage</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">OnboardingPage</span><span class="p">:</span> <span class="kt">UIView</span></code></pre>
 
                 </div>
               </div>
-            <p>Custom view to easily create onboarding pages which can then be used in <code><a href="../Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
+            <p>Custom view to easily create onboarding pages which can then be used in <code><a href="../Classes/OnboardingViewController.html">OnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -146,9 +155,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC10GiniVision18GINIOnboardingPagecFT5imageCSo7UIImage4textSS_S0_"></a>
+                    <a name="/s:FC10GiniVision14OnboardingPagecFT5imageCSo7UIImage4textSS_S0_"></a>
                     <a name="//apple_ref/swift/Method/init(image:text:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC10GiniVision18GINIOnboardingPagecFT5imageCSo7UIImage4textSS_S0_">init(image:text:)</a>
+                    <a class="token" href="#/s:FC10GiniVision14OnboardingPagecFT5imageCSo7UIImage4textSS_S0_">init(image:text:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -156,7 +165,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Designated initializer for the <code>GINIOnboardingPage</code> class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.</p>
+                        <p>Designated initializer for the <code>OnboardingPage</code> class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.</p>
 
                       </div>
                       <div class="declaration">
@@ -211,9 +220,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC10GiniVision18GINIOnboardingPagecFT10imageNamedSS4textSS_GSqS0__"></a>
+                    <a name="/s:FC10GiniVision14OnboardingPagecFT10imageNamedSS4textSS_GSqS0__"></a>
                     <a name="//apple_ref/swift/Method/init(imageNamed:text:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC10GiniVision18GINIOnboardingPagecFT10imageNamedSS4textSS_GSqS0__">init(imageNamed:text:)</a>
+                    <a class="token" href="#/s:FC10GiniVision14OnboardingPagecFT10imageNamedSS4textSS_GSqS0__">init(imageNamed:text:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -221,7 +230,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience initializer for the <code>GINIOnboardingPage</code> class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.</p>
+                        <p>Convenience initializer for the <code>OnboardingPage</code> class which allows to create a custom onboarding page simply by passing an image name and a text. The text will be displayed underneath the image.</p>
 
                       </div>
                       <div class="declaration">
@@ -276,9 +285,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC10GiniVision18GINIOnboardingPagecFT5coderCSo7NSCoder_GSqS0__"></a>
+                    <a name="/s:FC10GiniVision14OnboardingPagecFT5coderCSo7NSCoder_GSqS0__"></a>
                     <a name="//apple_ref/swift/Method/init(coder:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC10GiniVision18GINIOnboardingPagecFT5coderCSo7NSCoder_GSqS0__">init(coder:)</a>
+                    <a class="token" href="#/s:FC10GiniVision14OnboardingPagecFT5coderCSo7NSCoder_GSqS0__">init(coder:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -314,8 +323,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-28)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

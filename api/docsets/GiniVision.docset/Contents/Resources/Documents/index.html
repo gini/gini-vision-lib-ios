@@ -8,6 +8,9 @@
     <script src="js/jquery.min.js" defer></script>
     <script src="js/jazzy.js" defer></script>
     
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
   </head>
   <body>
 
@@ -20,6 +23,12 @@
           GiniVision Docs
         </a>
          (99% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
       </p>
     
         <p class="header-col header-col--secondary">
@@ -50,25 +59,25 @@
             <a class="nav-group-name-link" href="Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIAnalysisViewController.html">GINIAnalysisViewController</a>
+                <a class="nav-group-task-link" href="Classes/AnalysisViewController.html">AnalysisViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINICameraViewController.html">GINICameraViewController</a>
+                <a class="nav-group-task-link" href="Classes/CameraViewController.html">CameraViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIConfiguration.html">GINIConfiguration</a>
+                <a class="nav-group-task-link" href="Classes/GiniConfiguration.html">GiniConfiguration</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingPage.html">GINIOnboardingPage</a>
+                <a class="nav-group-task-link" href="Classes/GiniVision.html">GiniVision</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIOnboardingViewController.html">GINIOnboardingViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingPage.html">OnboardingPage</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIReviewViewController.html">GINIReviewViewController</a>
+                <a class="nav-group-task-link" href="Classes/OnboardingViewController.html">OnboardingViewController</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GINIVision.html">GINIVision</a>
+                <a class="nav-group-task-link" href="Classes/ReviewViewController.html">ReviewViewController</a>
               </li>
             </ul>
           </li>
@@ -76,10 +85,10 @@
             <a class="nav-group-name-link" href="Enums.html">Enums</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINICameraError.html">GINICameraError</a>
+                <a class="nav-group-task-link" href="Enums/CameraError.html">CameraError</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Enums/GINIReviewError.html">GINIReviewError</a>
+                <a class="nav-group-task-link" href="Enums/ReviewError.html">ReviewError</a>
               </li>
             </ul>
           </li>
@@ -87,10 +96,10 @@
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIAnalysisDelegate.html">GINIAnalysisDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/AnalysisDelegate.html">AnalysisDelegate</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Protocols/GINIVisionDelegate.html">GINIVisionDelegate</a>
+                <a class="nav-group-task-link" href="Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a>
               </li>
             </ul>
           </li>
@@ -98,19 +107,19 @@
             <a class="nav-group-name-link" href="Typealiases.html">Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINICameraErrorBlock">GINICameraErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16CameraErrorBlock">CameraErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINICameraSuccessBlock">GINICameraSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18CameraSuccessBlock">CameraSuccessBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16GININoticeAction">GININoticeAction</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision12NoticeAction">NoticeAction</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision20GINIReviewErrorBlock">GINIReviewErrorBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision16ReviewErrorBlock">ReviewErrorBlock</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision22GINIReviewSuccessBlock">GINIReviewSuccessBlock</a>
+                <a class="nav-group-task-link" href="Typealiases.html#/s:10GiniVision18ReviewSuccessBlock">ReviewSuccessBlock</a>
               </li>
             </ul>
           </li>
@@ -134,10 +143,10 @@
 
 <p>The Gini Vision Library can be integrated in two ways, either by using the <em>Screen API</em> or the <em>Component API</em>. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.</p>
 
-<p>The Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API&rsquo;s views to portrait orientation. This is specifically true for the camera view. </p>
+<p>The Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API&rsquo;s views to portrait orientation. This is specifically true for the camera view.</p>
 <a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
 
-<p>Furhter documentation can be found in our </p>
+<p>Further documentation can be found in our</p>
 
 <ul>
 <li><a href="http://developer.gini.net/gini-vision-lib-ios/docs/">Integration Guide</a> and</li>
@@ -148,7 +157,7 @@
 <p>The Gini Vision Library consists of four main screens</p>
 
 <ul>
-<li>Onboading: Provides useful hints to the users how to take a perfect photo of a document,</li>
+<li>Onboarding: Provides useful hints to the users how to take a perfect photo of a document,</li>
 <li>Camera: The actual camera screen to capture the image of the document,</li>
 <li>Review: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction,</li>
 <li>Analysis: Provides a UI for the analysis process of the document by showing the user a loading indicator and the image of the document.</li>
@@ -157,20 +166,22 @@
 <p>As mentioned before the Gini Vision Library provides two integration options. A Screen API that is easy to implement and a more complex, but also more flexible Component API. Both APIs can access the complete functionality of the library.</p>
 <a href='#screen-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='screen-api'>Screen API</h3>
 
-<p>The Screen API provides a custom <code>UINavigationController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis. To start with the Screen API simply call <code>GINIVision.viewcontroller(withDelegate:)</code> and present it. Also make sure to pass an object conforming to the <code>GINIVisionDelegate</code> protocol. Optionally you can also pass in a configuration object to customize the UI of the Gini Vision Library.</p>
+<p>The Screen API provides a custom <code>UINavigationController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis. To start with the Screen API simply call <code>GiniVision.viewcontroller(withDelegate:)</code> and present it. Also make sure to pass an object conforming to the <code>GiniVisionDelegate</code> protocol. Optionally you can also pass in a configuration object to customize the UI of the Gini Vision Library.</p>
 
 <p>Exemplary implementation Screen API:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GINIConfiguration</span><span class="p">()</span>
-<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">navigationBarItemTintColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
-<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
-<span class="nf">presentViewController</span><span class="p">(</span><span class="kt">GINIVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-</code></pre>
-<a href='#component-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='component-api'>Component API</h3>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">navigationBarItemTintColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
+<span class="nf">present</span><span class="p">(</span><span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span><span class="err">```</span>
 
-<p>The Component API provides a custom <code>UIViewController</code> for each of the four screens (onboarding, camera, review and analysis). This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.</p>
+<span class="cp">### Component API</span>
 
-<p>Exemplary implementation Component API camera:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">cameraController</span> <span class="o">=</span> <span class="kt">GINICameraViewController</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span>
+<span class="kt">The</span> <span class="kt">Component</span> <span class="kt">API</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">custom</span> <span class="err">`</span><span class="kt">UIViewController</span><span class="err">`</span> <span class="k">for</span> <span class="n">each</span> <span class="n">of</span> <span class="n">the</span> <span class="n">four</span> <span class="nf">screens</span> <span class="p">(</span><span class="n">onboarding</span><span class="p">,</span> <span class="n">camera</span><span class="p">,</span> <span class="n">review</span> <span class="n">and</span> <span class="n">analysis</span><span class="p">)</span><span class="o">.</span> <span class="kt">This</span> <span class="n">allows</span> <span class="n">a</span> <span class="n">maximum</span> <span class="n">of</span> <span class="n">flexibility</span><span class="p">,</span> <span class="k">as</span> <span class="n">the</span> <span class="n">screens</span> <span class="n">can</span> <span class="n">be</span> <span class="n">presented</span> <span class="n">modally</span><span class="p">,</span> <span class="n">used</span> <span class="k">in</span> <span class="n">a</span> <span class="n">container</span> <span class="n">view</span> <span class="n">or</span> <span class="n">pushed</span> <span class="n">to</span> <span class="n">a</span> <span class="n">navigation</span> <span class="n">view</span> <span class="n">controller</span><span class="o">.</span> <span class="kt">Make</span> <span class="n">sure</span> <span class="n">to</span> <span class="n">add</span> <span class="n">your</span> <span class="n">own</span> <span class="n">navigational</span> <span class="n">elements</span> <span class="n">around</span> <span class="n">the</span> <span class="n">provided</span> <span class="n">views</span><span class="o">.</span>
+
+<span class="kt">Exemplary</span> <span class="n">implementation</span> <span class="kt">Component</span> <span class="kt">API</span> <span class="nv">camera</span><span class="p">:</span>
+
+<span class="err">```</span><span class="n">swift</span>
+<span class="k">let</span> <span class="nv">cameraController</span> <span class="o">=</span> <span class="kt">CameraViewController</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span>
     <span class="p">{</span> <span class="n">imageData</span> <span class="k">in</span>
         <span class="c1">// Do something with the captured image</span>
     <span class="p">},</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
@@ -181,13 +192,13 @@
 <span class="k">self</span><span class="o">.</span><span class="nf">addChildViewController</span><span class="p">(</span><span class="n">cameraController</span><span class="p">)</span>
 <span class="n">cameraController</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">containerView</span><span class="o">.</span><span class="n">bounds</span>
 <span class="k">self</span><span class="o">.</span><span class="n">containerView</span><span class="o">.</span><span class="nf">addSubview</span><span class="p">(</span><span class="n">cameraController</span><span class="o">.</span><span class="n">view</span><span class="p">)</span>
-<span class="n">cameraController</span><span class="o">.</span><span class="nf">didMoveToParentViewController</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+<span class="n">cameraController</span><span class="o">.</span><span class="nf">didMove</span><span class="p">(</span><span class="nv">toParentViewController</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
 </code></pre>
 
-<p>To also use the <code>GINIConfiguration</code> with the Component API just use the <code>setConfiguration()</code> method of the <code>GINIVision</code> class.</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GINIConfiguration</span><span class="p">()</span>
-<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="nf">whiteColor</span><span class="p">()</span>
-<span class="kt">GINIVision</span><span class="o">.</span><span class="nf">setConfiguration</span><span class="p">(</span><span class="n">giniConfiguration</span><span class="p">)</span>
+<p>To also use the <code>GiniConfiguration</code> with the Component API just use the <code>setConfiguration()</code> method of the <code>GiniVision</code> class.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
+<span class="kt">GiniVision</span><span class="o">.</span><span class="nf">setConfiguration</span><span class="p">(</span><span class="n">giniConfiguration</span><span class="p">)</span>
 </code></pre>
 <a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='example'>Example</h2>
 
@@ -196,7 +207,7 @@
 
 <ul>
 <li>iOS 8.0+</li>
-<li>Xcode 7.3+</li>
+<li>Xcode 8.0+</li>
 </ul>
 <a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
 
@@ -229,10 +240,10 @@
 </code></pre>
 <a href='#manually' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manually'>Manually</h3>
 
-<p>If you prefer not to use a dependency management tool, you can integrate the Gini Vision Library into your project manually. 
-To do so drop the GiniVision (classes and assets) folder into your project and add the files to your target. </p>
+<p>If you prefer not to use a dependency management tool, you can integrate the Gini Vision Library into your project manually.
+To do so drop the GiniVision (classes and assets) folder into your project and add the files to your target.</p>
 
-<p>Xcode will automatically check your project for swift files and will create an autogenerated import header for you. 
+<p>Xcode will automatically check your project for swift files and will create an autogenerated import header for you.
 Use this header in an Objective-C project by adding</p>
 <pre class="highlight plaintext"><code>#import "YourProjectName-Swift.h"
 </code></pre>
@@ -262,8 +273,8 @@ Use this header in an Objective-C project by adding</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-02)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-02-28)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
