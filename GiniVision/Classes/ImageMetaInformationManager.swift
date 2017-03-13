@@ -162,6 +162,10 @@ internal struct ImageMetaInformationManager {
     var image: UIImage?
     var metaInformation: MetaInformation?
     
+    // user comment fields
+    let userCommentRotation = "RotDeltaDeg"
+    let userCommentUUID = "UUID"
+    
     init(imageData data: Data) {
         image = UIImage(data: data)
         metaInformation = metaInformation(fromImageData: data)
@@ -176,6 +180,12 @@ internal struct ImageMetaInformationManager {
         information = addDefaultValues(toMetaInformation: information)
         guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return }
         metaInformation = filteredInformation
+    }
+    
+    mutating func rotate(degrees:Int, imageOrientation: UIImageOrientation) {
+        update(imageOrientation: imageOrientation)
+        let information = metaInformation as? NSMutableDictionary
+        information?.set(metaInformation: userComment(rotationDegrees: degrees) as AnyObject?, forKey: kCGImagePropertyExifUserComment as String)
     }
     
     mutating func update(imageOrientation orientation: UIImageOrientation) {
@@ -255,11 +265,49 @@ internal struct ImageMetaInformationManager {
         return nil
     }
     
-    fileprivate func userComment() -> String {
+    fileprivate func userComment(rotationDegrees:Int? = nil) -> String {
         let platform = "iOS"
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
-        return "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion)"
+        let uuid = imageUUID()
+        var comment = "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion),\(userCommentUUID)=\(uuid)"
+        if let rotationDegrees = rotationDegrees {
+            // normalize the rotation to 0-360
+            let rotation = imageRotationDeltaDegrees() + rotationDegrees
+            let rotationNorm = normalizedDegrees(imageRotation: rotation)
+            comment += ",\(userCommentRotation)=\(rotationNorm)"
+        }
+        return comment
+    }
+    
+    fileprivate func imageUUID() -> String {
+        // if it already has one, reuse it - it shouldn't change
+        // if not, generate it
+        let existingUUID = uuidFromImage()
+        return existingUUID ?? NSUUID().uuidString
+    }
+    
+    fileprivate func imageRotationDeltaDegrees() -> Int {
+        return rotationDeltaFromImage() ?? 0
+    }
+    
+    fileprivate func uuidFromImage() -> String? {
+        return self.valueFor(userCommentField: userCommentUUID)
+    }
+    
+    fileprivate func rotationDeltaFromImage() -> Int? {
+        return Int(self.valueFor(userCommentField: userCommentRotation) ?? "0")
+    }
+    
+    fileprivate func valueFor(userCommentField:String) -> String? {
+        let exifDict = metaInformation as? NSMutableDictionary
+        let existingUserComment = exifDict?.getMetaInformation(forKey:kCGImagePropertyExifUserComment as String)
+        let components = existingUserComment?.components(separatedBy: ",")
+        let userCommentComponent = components?.filter({ (component) -> Bool in
+            return component.contains(userCommentField)
+        })
+        let equasionComponents = userCommentComponent?.last?.components(separatedBy: "=")
+        return equasionComponents?.last
     }
     
     fileprivate func deviceName() -> String? {
@@ -292,6 +340,14 @@ internal struct ImageMetaInformationManager {
             number = 5
         }
         return number
+    }
+    
+    fileprivate func normalizedDegrees(imageRotation:Int) -> Int {
+        var normalized = imageRotation % 360
+        if imageRotation < 0 {
+            normalized += 360
+        }
+        return normalized
     }
     
 }
