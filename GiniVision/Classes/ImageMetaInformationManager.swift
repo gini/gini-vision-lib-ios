@@ -273,7 +273,7 @@ internal struct ImageMetaInformationManager {
         var comment = "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion),\(userCommentUUID)=\(uuid)"
         if let rotationDegrees = rotationDegrees {
             // normalize the rotation to 0-360
-            let rotation = imageRotation() + rotationDegrees
+            let rotation = imageRotationDeltaDegrees() + rotationDegrees
             let rotationNorm = normalizedDegrees(imageRotation: rotation)
             comment += ",\(userCommentRotation)=\(rotationNorm)"
         }
@@ -287,15 +287,15 @@ internal struct ImageMetaInformationManager {
         return existingUUID ?? NSUUID().uuidString
     }
     
-    fileprivate func imageRotation() -> Int {
-        return rotationFromImage() ?? 0
+    fileprivate func imageRotationDeltaDegrees() -> Int {
+        return rotationDeltaFromImage() ?? 0
     }
     
     fileprivate func uuidFromImage() -> String? {
         return self.valueFor(userCommentField: userCommentUUID)
     }
     
-    fileprivate func rotationFromImage() -> Int? {
+    fileprivate func rotationDeltaFromImage() -> Int? {
         return Int(self.valueFor(userCommentField: userCommentRotation) ?? "0")
     }
     
