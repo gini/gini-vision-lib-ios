@@ -2,6 +2,11 @@
 Changelog
 =========
 
+3.0.4 (2017-03-15)
+==================
+
+- Added additional tags to the EXIF UserComment field to identify original and rotated images
+
 3.0.3 (2017-02-28)
 ==================
 
