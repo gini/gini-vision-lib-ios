@@ -17,10 +17,8 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     // User interface
     fileprivate var backButton = UIBarButtonItem()
     
-    // Images
-    fileprivate var backButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationAnalysisBack")
-    }
+    // Resources
+    fileprivate let backButtonResources = PreferredResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
     
     // Properties
     fileprivate var noticeView: NoticeView?
@@ -39,8 +37,8 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         
         // Configure close button
         backButton = GiniBarButtonItem(
-            image: backButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
+            image: backButtonResources.preferredImage,
+            title: backButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(back)

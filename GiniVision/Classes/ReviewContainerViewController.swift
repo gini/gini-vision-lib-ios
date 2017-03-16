@@ -18,13 +18,10 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     fileprivate var backButton     = UIBarButtonItem()
     fileprivate var continueButton = UIBarButtonItem()
 
-    // Images
-    fileprivate var backButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewBack")
-    }
-    fileprivate var continueButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewContinue")
-    }
+    // Resources
+    fileprivate let continueButtonResources = PreferredResource(image: "navigationReviewContinue", title: "ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
+    
+    fileprivate let backButtonResources = PreferredResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen")
     
     // Output
     fileprivate var imageData: Data?
@@ -52,8 +49,8 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure back button
         backButton = GiniBarButtonItem(
-            image: backButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton,
+            image: backButtonResources.preferredImage,
+            title: backButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(back)
@@ -61,8 +58,8 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure continue button
         continueButton = GiniBarButtonItem(
-            image: continueButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton,
+            image: continueButtonResources.preferredImage,
+            title: continueButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(analyse)
