@@ -15,7 +15,6 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     internal var contentController = UIViewController()
     
     // User interface
-    fileprivate var backButton     = UIBarButtonItem()
     fileprivate var continueButton = UIBarButtonItem()
 
     // Resources
@@ -48,13 +47,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure back button
-        backButton = GiniBarButtonItem(
-            image: backButtonResources.preferredImage,
-            title: backButtonResources.preferredText,
-            style: .plain,
-            target: self,
-            action: #selector(back)
-        )
+        setupLeftNavigationItem(usingResources: backButtonResources, selector:#selector(back))
         
         // Configure continue button
         continueButton = GiniBarButtonItem(
@@ -67,7 +60,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButton(backButton, animated: false)
+        
         navigationItem.setRightBarButton(continueButton, animated: false)
         
         // Add constraints
