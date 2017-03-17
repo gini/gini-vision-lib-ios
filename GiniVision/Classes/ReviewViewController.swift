@@ -34,6 +34,8 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
  * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
+ - note: Setting `ginivision.navigationbar.review.back` explicitly to the empty string in your localized strings will make `ReviewViewController` revert to the default iOS back button.
+ 
  **Image resources for this screen**
  
  * `reviewRotateButton`
