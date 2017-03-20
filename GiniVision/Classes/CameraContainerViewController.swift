@@ -21,13 +21,9 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     // Properties
     fileprivate var showHelp: (() -> ())?
     
-    // Images
-    fileprivate var closeButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationCameraClose")
-    }
-    fileprivate var helpButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationCameraHelp")
-    }
+    // Resources
+    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate let helpButtonResources = PreferredButtonResource(image: "navigationCameraHelp", title: "ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton)
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -59,8 +55,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Configure close button
         closeButton = GiniBarButtonItem(
-            image: closeButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton,
+            image: closeButtonResources.preferredImage,
+            title: closeButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(close)
@@ -68,8 +64,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Configure help button
         helpButton = GiniBarButtonItem(
-            image: helpButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton,
+            image: helpButtonResources.preferredImage,
+            title: helpButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(help)
