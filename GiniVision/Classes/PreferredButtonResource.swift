@@ -1,5 +1,5 @@
 //
-//  PreferredResource.swift
+//  PreferredButtonResource.swift
 //  Pods
 //
 //  Created by Nikola Sobadjiev on 16/03/2017.
@@ -8,28 +8,29 @@
 
 import UIKit
 
-enum ResourceSource {
+enum ResourceOrigin {
     case unknown
     case library
     case custom
 }
 
 /*
- * PreferredResource typically controls what artwork (image and text) would be used in a UI element
+ * PreferredButtonResource typically controls what artwork (image and text) would be used in a UI element
  * such as a button or a bar button item. Resources in the Gini Vision Library are usually brandable
  * via UIAppearance, Asset catalogs and localizable strings. For instance, many buttons have a default
  * image in the library's Asset catalog, but clients are free to add an image with the same image in
  * their catalog. In this case, the customized image will be used.
  */
 
-struct PreferredResource {
+struct PreferredButtonResource {
     
     let imageName:String?
-    let text:String?
-    let textComment:String?
+    let localizedTextKey:String?
+    let localizedTextComment:String?
+    let localizedConfigEntry:String?
     let appBundle = Bundle.main
     let libBundle = Bundle(for: GiniVision.self)
-    var imageSource:ResourceSource {
+    var imageSource:ResourceOrigin {
         if let name = imageName {
             if UIImage(named: name, in: appBundle, compatibleWith: nil) != nil {
                 return .custom
@@ -41,9 +42,12 @@ struct PreferredResource {
         return.unknown
     }
     
-    var textSource:ResourceSource {
-        if let text = text,
-            let comment = textComment {
+    var textSource:ResourceOrigin {
+        if localizedConfigEntry != nil && !localizedConfigEntry!.isEmpty {
+            return .custom
+        }
+        if let text = localizedTextKey,
+            let comment = localizedTextComment {
             let textFromMainBundle = NSLocalizedString(text, bundle: appBundle, comment: comment)
             if textFromMainBundle != text {
                 // text was in the bundle - the resource is custom
@@ -57,10 +61,11 @@ struct PreferredResource {
         return .unknown
     }
 
-    init(image:String?, title:String?, comment:String?) {
+    init(image:String?, title:String?, comment:String?, configEntry:String? = nil) {
         imageName = image
-        text = title
-        textComment = comment
+        localizedTextKey = title
+        localizedTextComment = comment
+        localizedConfigEntry = configEntry
     }
 
     var preferredImage:UIImage? {
@@ -71,8 +76,11 @@ struct PreferredResource {
     }
     
     var preferredText:String? {
-        if let text = text,
-            let comment = textComment {
+        guard localizedConfigEntry == nil || localizedConfigEntry?.isEmpty == true else {
+            return localizedConfigEntry
+        }
+        if let text = localizedTextKey,
+            let comment = localizedTextComment {
             return NSLocalizedStringPreferred(text, comment: comment)
         }
         return ""
@@ -92,7 +100,7 @@ internal extension UIViewController {
     // for it and add it to the navigation bar.
     // Note that if the preferred title of the resource is the empty string, the leftNavigationItem
     // will not be set so the default back button is shown
-    func setupLeftNavigationItem(usingResources preferredResources:PreferredResource, selector:Selector) {
+    func setupLeftNavigationItem(usingResources preferredResources:PreferredButtonResource, selector:Selector) {
         let buttonText = preferredResources.preferredText
         if buttonText != nil && !buttonText!.isEmpty {
             let navButton = GiniBarButtonItem(

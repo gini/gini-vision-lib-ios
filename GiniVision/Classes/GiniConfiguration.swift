@@ -121,14 +121,14 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleCloseButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
+    public var navigationBarCameraTitleCloseButton = ""
     
     /**
      Sets the help button text in the navigation bar on the camera screen.
      
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleHelpButton = NSLocalizedStringPreferred("ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    public var navigationBarCameraTitleHelpButton = ""
     
     /**
      Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
@@ -182,7 +182,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarOnboardingTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
+    public var navigationBarOnboardingTitleContinueButton = ""
     
     /**
      Sets the color of the page controller's page indicator items.
@@ -274,14 +274,14 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen")
+    public var navigationBarReviewTitleBackButton = ""
     
     /**
      Sets the continue button text in the navigation bar on the review screen.
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitleContinueButton = NSLocalizedStringPreferred("ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen")
+    public var navigationBarReviewTitleContinueButton = ""
     
     /**
      Sets the text appearing at the top of the review screen which should ask the user if the whole document is in focus and has correct orientation.
@@ -348,7 +348,7 @@ import UIKit
     /** 
      Sets the back button text in the navigation bar on the analysis screen.
      */
-    public var navigationBarAnalysisTitleBackButton = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
+    public var navigationBarAnalysisTitleBackButton = ""
     
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.

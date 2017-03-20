@@ -22,8 +22,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     fileprivate var showHelp: (() -> ())?
     
     // Resources
-    fileprivate let closeButtonResources = PreferredResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen")
-    fileprivate let helpButtonResources = PreferredResource(image: "navigationCameraHelp", title: "ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen")
+    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate let helpButtonResources = PreferredButtonResource(image: "navigationCameraHelp", title: "ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton)
     
     init() {
         super.init(nibName: nil, bundle: nil)

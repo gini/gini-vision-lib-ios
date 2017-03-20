@@ -15,7 +15,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     internal var contentController = UIViewController()
     
     // Resources
-    fileprivate let backButtonResources = PreferredResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen")
+    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
     
     // Properties
     fileprivate var noticeView: NoticeView?

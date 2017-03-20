@@ -31,7 +31,7 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     fileprivate let backgroundAlpha: CGFloat = 0.85
     
     // Resources
-    fileprivate let continueButtonResources = PreferredResource(image: "navigationOnboardingContinue", title: "ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen")
+    fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationOnboardingContinue", title: "ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton)
 
     // Output
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?

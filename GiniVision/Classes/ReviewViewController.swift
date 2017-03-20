@@ -63,8 +63,10 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
     fileprivate var metaInformationManager: ImageMetaInformationManager?
     
-    // Resources
-    fileprivate let rotateButtonResources = PreferredResource(image: "reviewRotateButton", title: "ginivision.review.rotateButton", comment: "Title for rotate button in review screen will be used exclusively for accessibility label")
+    // Images
+    fileprivate var rotateButtonImage: UIImage? {
+        return UIImageNamedPreferred(named: "reviewRotateButton")
+    }
     
     // Output
     fileprivate var successBlock: ReviewSuccessBlock?
@@ -108,9 +110,9 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         bottomView.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
         
         // Configure rotate button
-        rotateButton.setImage(rotateButtonResources.preferredImage, for: .normal)
+        rotateButton.setImage(rotateButtonImage, for: .normal)
         rotateButton.addTarget(self, action: #selector(rotate), for: .touchUpInside)
-        rotateButton.accessibilityLabel = rotateButtonResources.preferredText
+        rotateButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
         
         // Configure bottom label
         bottomLabel.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
