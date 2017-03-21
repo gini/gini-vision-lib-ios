@@ -32,6 +32,8 @@ class ComponentAPIReviewViewController: UIViewController {
         
         originalData = imageData
         
+        FileUtil.saveJpegImage(data: imageData, withSuffix: "for_review")
+        
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
         AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)

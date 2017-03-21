@@ -172,12 +172,16 @@ extension ScreenAPIViewController: GiniVisionDelegate {
     func didCapture(_ imageData: Data) {
         print("Screen API received image data")
         
+        FileUtil.saveJpegImage(data: imageData, withSuffix: "for_review")
+        
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withImageData: imageData)
     }
     
     func didReview(_ imageData: Data, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
+        
+        FileUtil.saveJpegImage(data: imageData, withSuffix: "for_analysis")
         
         // Analyze reviewed data because changes were made by the user during review.
         if changes {
