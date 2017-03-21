@@ -11,16 +11,16 @@ import Foundation
 class FileUtil {
     
     static func saveJpegImage(data imageData: Data, withSuffix suffix: String) {
-        let documentDir = documentDirURL()
-        guard let _ = documentDir else { return }
+        let documentsDir = documentsDirURL()
+        guard let _ = documentsDir else { return }
         
-        let filePath = uniqueFile(withSuffix: suffix, relativeTo: documentDir!)
+        let filePath = uniqueFile(withSuffix: suffix, relativeTo: documentsDir!)
         guard let _ = filePath else { return }
         
         write(data: imageData, to: filePath!)
     }
     
-    private static func documentDirURL() -> URL? {
+    private static func documentsDirURL() -> URL? {
         let fileManager = FileManager.default
         let documentsDir: URL?
         do {
