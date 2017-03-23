@@ -32,6 +32,8 @@ import UIKit
  
  * `ginivision.navigationbar.analysis.back` (Screen API only.)
  
+  - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized strings will make `AnalysisViewController` revert to the default iOS back button.
+ 
  **Image resources for this screen**
  
  * `navigationAnalysisBack` (Screen API only.)

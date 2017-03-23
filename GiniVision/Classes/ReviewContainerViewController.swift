@@ -15,16 +15,12 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     internal var contentController = UIViewController()
     
     // User interface
-    fileprivate var backButton     = UIBarButtonItem()
     fileprivate var continueButton = UIBarButtonItem()
 
-    // Images
-    fileprivate var backButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewBack")
-    }
-    fileprivate var continueButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationReviewContinue")
-    }
+    // Resources
+    fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationReviewContinue", title: "ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton)
+    
+    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
     
     // Output
     fileprivate var imageData: Data?
@@ -51,18 +47,12 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure back button
-        backButton = GiniBarButtonItem(
-            image: backButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton,
-            style: .plain,
-            target: self,
-            action: #selector(back)
-        )
+        setupLeftNavigationItem(usingResources: backButtonResources, selector:#selector(back))
         
         // Configure continue button
         continueButton = GiniBarButtonItem(
-            image: continueButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton,
+            image: continueButtonResources.preferredImage,
+            title: continueButtonResources.preferredText,
             style: .plain,
             target: self,
             action: #selector(analyse)
@@ -70,7 +60,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButton(backButton, animated: false)
+        
         navigationItem.setRightBarButton(continueButton, animated: false)
         
         // Add constraints
