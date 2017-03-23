@@ -34,6 +34,8 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
  * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
+ - note: Setting `ginivision.navigationbar.review.back` explicitly to the empty string in your localized strings will make `ReviewViewController` revert to the default iOS back button.
+ 
  **Image resources for this screen**
  
  * `reviewRotateButton`
@@ -167,7 +169,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         guard let rotatedImage = rotateImage(imageView.image) else { return }
         imageView.image = rotatedImage
         guard var metaInformationManager = metaInformationManager else { return }
-        metaInformationManager.update(imageOrientation: rotatedImage.imageOrientation)
+        metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
         guard let data = metaInformationManager.imageData() else { return }
         successBlock?(data as Data)
     }

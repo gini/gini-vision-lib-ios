@@ -14,13 +14,8 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     internal var containerView     = UIView()
     internal var contentController = UIViewController()
     
-    // User interface
-    fileprivate var backButton = UIBarButtonItem()
-    
-    // Images
-    fileprivate var backButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "navigationAnalysisBack")
-    }
+    // Resources
+    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
     
     // Properties
     fileprivate var noticeView: NoticeView?
@@ -38,17 +33,10 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        backButton = GiniBarButtonItem(
-            image: backButtonImage,
-            title: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton,
-            style: .plain,
-            target: self,
-            action: #selector(back)
-        )
+        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
         
         // Configure view hierachy
         view.addSubview(containerView)
-        navigationItem.setLeftBarButton(backButton, animated: false)
         
         // Add constraints
         addConstraints()

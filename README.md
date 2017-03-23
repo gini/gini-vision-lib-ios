@@ -108,11 +108,17 @@ $ gem install cocoapods
 
 > CocoaPods 1.1.0+ is required to build Gini Vision Library.
 
+
 To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
+source 'https://github.com/gini/gini-podspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
 pod "GiniVision"
 ```
+
+**Note:** You need to add Gini's podspec repository as a source.
 
 Then run the following command:
 
