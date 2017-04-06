@@ -172,16 +172,14 @@
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
 <span class="n">giniConfiguration</span><span class="o">.</span><span class="n">navigationBarItemTintColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
 <span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
-<span class="nf">present</span><span class="p">(</span><span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span><span class="err">```</span>
+<span class="nf">present</span><span class="p">(</span><span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
+</code></pre>
+<a href='#component-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='component-api'>Component API</h3>
 
-<span class="cp">### Component API</span>
+<p>The Component API provides a custom <code>UIViewController</code> for each of the four screens (onboarding, camera, review and analysis). This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.</p>
 
-<span class="kt">The</span> <span class="kt">Component</span> <span class="kt">API</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">custom</span> <span class="err">`</span><span class="kt">UIViewController</span><span class="err">`</span> <span class="k">for</span> <span class="n">each</span> <span class="n">of</span> <span class="n">the</span> <span class="n">four</span> <span class="nf">screens</span> <span class="p">(</span><span class="n">onboarding</span><span class="p">,</span> <span class="n">camera</span><span class="p">,</span> <span class="n">review</span> <span class="n">and</span> <span class="n">analysis</span><span class="p">)</span><span class="o">.</span> <span class="kt">This</span> <span class="n">allows</span> <span class="n">a</span> <span class="n">maximum</span> <span class="n">of</span> <span class="n">flexibility</span><span class="p">,</span> <span class="k">as</span> <span class="n">the</span> <span class="n">screens</span> <span class="n">can</span> <span class="n">be</span> <span class="n">presented</span> <span class="n">modally</span><span class="p">,</span> <span class="n">used</span> <span class="k">in</span> <span class="n">a</span> <span class="n">container</span> <span class="n">view</span> <span class="n">or</span> <span class="n">pushed</span> <span class="n">to</span> <span class="n">a</span> <span class="n">navigation</span> <span class="n">view</span> <span class="n">controller</span><span class="o">.</span> <span class="kt">Make</span> <span class="n">sure</span> <span class="n">to</span> <span class="n">add</span> <span class="n">your</span> <span class="n">own</span> <span class="n">navigational</span> <span class="n">elements</span> <span class="n">around</span> <span class="n">the</span> <span class="n">provided</span> <span class="n">views</span><span class="o">.</span>
-
-<span class="kt">Exemplary</span> <span class="n">implementation</span> <span class="kt">Component</span> <span class="kt">API</span> <span class="nv">camera</span><span class="p">:</span>
-
-<span class="err">```</span><span class="n">swift</span>
-<span class="k">let</span> <span class="nv">cameraController</span> <span class="o">=</span> <span class="kt">CameraViewController</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span>
+<p>Exemplary implementation Component API camera:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">cameraController</span> <span class="o">=</span> <span class="kt">CameraViewController</span><span class="p">(</span><span class="nv">success</span><span class="p">:</span>
     <span class="p">{</span> <span class="n">imageData</span> <span class="k">in</span>
         <span class="c1">// Do something with the captured image</span>
     <span class="p">},</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">{</span> <span class="n">error</span> <span class="k">in</span>
@@ -216,7 +214,9 @@
 <p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for <q>Keychain Sharing</q> in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
 <a href='#swift-versions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='swift-versions'>Swift versions</h3>
 
-<p>The Gini Vision Library is entirely written in <strong>Swift 2.2</strong> and needs to be compiled with Xcode versions 7.X. However, you can find both <strong>Swift 2.3</strong> and <strong>Swift 3</strong> support in different branches within the repository. Please refer to the <a href="#branches">Branches</a> section later in this document.</p>
+<p>The Gini Vision Library is entirely (re-)written in <strong>Swift 3</strong>. <strong>Swift 2.3</strong> support can be found in a separate branch or the <code>2.3.3-beta</code> release. Please keep in mind that these versions are deprecated and will not receive any new features or bug fixes.</p>
+
+<p>The last <strong>Swift 2.2</strong> release is <code>2.0.3</code>.</p>
 
 <p>If you use CocoaPods you can specify a branch with:</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'GiniVision'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/gini/gini-vision-lib-ios.git'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'swift-2.3'</span> <span class="c1"># or use 'swift3'</span>
@@ -259,8 +259,7 @@ Use this header in an Objective-C project by adding</p>
 <ul>
 <li><code>master</code> - Contains the latest stable release of the vision library.</li>
 <li><code>develop</code> - The bleeding edge branch. Contains features actively in development and might be unstable.</li>
-<li><code>swift-2.3</code> - Swift 2.3 support.</li>
-<li><code>swift3</code> - Swift 3 support.</li>
+<li><code>swift-2.3</code> - Swift 2.3 support. <em>(Deprecated)</em></li>
 </ul>
 <a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
 
@@ -278,7 +277,7 @@ Use this header in an Objective-C project by adding</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-03-23)</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-04-06)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
