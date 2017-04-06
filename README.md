@@ -42,7 +42,8 @@ Exemplary implementation Screen API:
 let giniConfiguration = GiniConfiguration()
 giniConfiguration.navigationBarItemTintColor = UIColor.white
 giniConfiguration.backgroundColor = UIColor.white
-present(GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)```
+present(GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)
+```
 
 ### Component API
 
