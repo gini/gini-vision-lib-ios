@@ -9,6 +9,7 @@
 import UIKit
 import ImageIO
 import AVFoundation
+import MobileCoreServices
 
 internal extension Collection where Iterator.Element == CFString {
     
@@ -136,9 +137,9 @@ typealias MetaInformation = NSDictionary
 
 /// The JPEG compression level that will be used if nothing else
 /// is specified in imageData(withCompression:)
-let JPEGDefaultCompression:CGFloat = 0.2
+let JPEGDefaultCompression:CGFloat = 0.4
 
-internal struct ImageMetaInformationManager {
+internal class ImageMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
@@ -159,7 +160,7 @@ internal struct ImageMetaInformationManager {
         kCGImagePropertyTIFFSoftware
     ]
     
-    var image: UIImage?
+    var imageData: Data?
     var metaInformation: MetaInformation?
     
     // user comment fields
@@ -167,28 +168,28 @@ internal struct ImageMetaInformationManager {
     let userCommentContentId = "ContentId"
     
     init(imageData data: Data) {
-        image = UIImage(data: data)
+        imageData = data
         metaInformation = metaInformation(fromImageData: data)
     }
     
     func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
-        return merge(image, withMetaInformation: metaInformation, andCompression: compression)
+        return generateImage(withMetaInformation: metaInformation, andCompression: compression)
     }
     
-    mutating func filterMetaInformation() {
+    func filterMetaInformation() {
         var information = metaInformation ?? MetaInformation()
         information = addDefaultValues(toMetaInformation: information)
         guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return }
         metaInformation = filteredInformation
     }
     
-    mutating func rotate(degrees:Int, imageOrientation: UIImageOrientation) {
+    func rotate(degrees:Int, imageOrientation: UIImageOrientation) {
         update(imageOrientation: imageOrientation)
         let information = metaInformation as? NSMutableDictionary
         information?.set(metaInformation: userComment(rotationDegrees: degrees) as AnyObject?, forKey: kCGImagePropertyExifUserComment as String)
     }
     
-    mutating func update(imageOrientation orientation: UIImageOrientation) {
+    func update(imageOrientation orientation: UIImageOrientation) {
         var information = metaInformation ?? MetaInformation()
         information = update(getExifOrientationFromUIImageOrientation(orientation), onMetaInformation: information)
         metaInformation = information
@@ -226,20 +227,22 @@ internal struct ImageMetaInformationManager {
         return filteredInformation as MetaInformation
     }
     
-    fileprivate func merge(_ image: UIImage?, withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> Data? {
-        guard let image = image else { return nil }
+    fileprivate func generateImage(withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> Data? {
+        guard let image = imageData else { return nil }
         guard let information = information else { return nil }
-        guard let imageData = UIImageJPEGRepresentation(image, compression) else { return nil }
-        guard let source = CGImageSourceCreateWithData(imageData as CFData, nil) else { return nil }
-        let count = CGImageSourceGetCount(source)
-        let mutableData = NSMutableData(data: imageData)
-        guard let type = CGImageSourceGetType(source),
-              let destination = CGImageDestinationCreateWithData(mutableData, type, count, nil) else { return nil }
-        for i in 0...count - 1 {
-            CGImageDestinationAddImageFromSource(destination, source, i, information as CFDictionary)
+        
+        let targetData = NSMutableData()
+        
+        let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)!
+        let source = CGImageSourceCreateWithData(image as CFData, nil)
+        information.setValue(compression, forKey: kCGImageDestinationLossyCompressionQuality as String)
+        
+        let count = CGImageSourceGetCount(source!)
+        for _ in 0...count - 1 {
+            CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
         }
-        guard CGImageDestinationFinalize(destination) else { return nil }
-        return mutableData as Data;
+        CGImageDestinationFinalize(destination)
+        return targetData as Data
     }
 
     fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {

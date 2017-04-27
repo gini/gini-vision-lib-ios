@@ -241,7 +241,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             if GiniConfiguration.DEBUG {
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
-                   let imageData = UIImageJPEGRepresentation(image, 1) {
+                   let imageData = UIImageJPEGRepresentation(image, 0.2) {
                     self.successBlock?(imageData)
                 }
             }
@@ -252,9 +252,9 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 var imageData = try inner()
                 
                 // Set meta information in image
-                var manager = ImageMetaInformationManager(imageData: imageData)
+                let manager = ImageMetaInformationManager(imageData: imageData)
                 manager.filterMetaInformation()
-                if let richImageData = manager.imageData(withCompression: 0.2) {
+                if let richImageData = manager.imageData() {
                     imageData = richImageData
                 }
                 
