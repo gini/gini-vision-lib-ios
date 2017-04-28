@@ -13,7 +13,7 @@ class ImageMetaInformationManagerTests: XCTestCase {
     }
     
     func testInitialization() {
-        XCTAssertNotNil(manager.image, "image should not be nil")
+        XCTAssertNotNil(manager.imageData, "image should not be nil")
         XCTAssertNotNil(manager.metaInformation, "meta information should not be nil")
     }
     
@@ -39,14 +39,14 @@ class ImageMetaInformationManagerTests: XCTestCase {
     }
     
     func testFilteringAndSettingRequiredFields() {
-        var mutableManager = manager
+        let mutableManager = manager
         mutableManager.filterMetaInformation()
         guard let filteredData = mutableManager.imageData() else {
             return XCTFail("filtered image data should not be nil")
         }
         
         let filteredManager = ImageMetaInformationManager(imageData: filteredData)
-        XCTAssertNotNil(filteredManager.image, "image should not be nil")
+        XCTAssertNotNil(filteredManager.imageData, "image should not be nil")
         XCTAssertNotNil(filteredManager.metaInformation, "meta information should not be nil")
         guard let mutableInformation = filteredManager.metaInformation?.mutableCopy() as? NSMutableDictionary else {
             return XCTFail("failed to retrieve mutable meta information from filtered image data")
