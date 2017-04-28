@@ -237,10 +237,7 @@ internal class ImageMetaInformationManager {
         let source = CGImageSourceCreateWithData(image as CFData, nil)
         information.setValue(compression, forKey: kCGImageDestinationLossyCompressionQuality as String)
         
-        let count = CGImageSourceGetCount(source!)
-        for _ in 0...count - 1 {
-            CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
-        }
+        CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
         CGImageDestinationFinalize(destination)
         return targetData as Data
     }
