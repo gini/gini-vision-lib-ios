@@ -42,7 +42,8 @@ Exemplary implementation Screen API:
 let giniConfiguration = GiniConfiguration()
 giniConfiguration.navigationBarItemTintColor = UIColor.white
 giniConfiguration.backgroundColor = UIColor.white
-present(GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)```
+present(GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration), animated: true, completion: nil)
+```
 
 ### Component API
 
@@ -90,7 +91,9 @@ Gini Vision Library can either be installed by using CocoaPods or by manually dr
 
 ### Swift versions
 
-The Gini Vision Library is entirely written in **Swift 2.2** and needs to be compiled with Xcode versions 7.X. However, you can find both **Swift 2.3** and **Swift 3** support in different branches within the repository. Please refer to the [Branches](#branches) section later in this document.
+The Gini Vision Library is entirely (re-)written in **Swift 3**. **Swift 2.3** support can be found in a separate branch or the `2.3.3-beta` release. Please keep in mind that these versions are deprecated and will not receive any new features or bug fixes.
+
+The last **Swift 2.2** release is `2.0.3`.
 
 If you use CocoaPods you can specify a branch with:
 
@@ -144,8 +147,7 @@ to your implementation or header files. Note that spaces in your project name re
 
 * `master` - Contains the latest stable release of the vision library.
 * `develop` - The bleeding edge branch. Contains features actively in development and might be unstable.
-* `swift-2.3` - Swift 2.3 support.
-* `swift3` - Swift 3 support.
+* `swift-2.3` - Swift 2.3 support. _(Deprecated)_
 
 ## Author
 

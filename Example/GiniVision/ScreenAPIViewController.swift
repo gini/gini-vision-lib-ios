@@ -99,6 +99,7 @@ class ScreenAPIViewController: UIViewController {
         
         cancelAnalsyis()
         imageData = data
+        print("Analysing document with size \(Double(data.count) / 1024.0)")
         AnalysisManager.sharedManager.analyzeDocument(withImageData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
                 guard let response = try inner?(),

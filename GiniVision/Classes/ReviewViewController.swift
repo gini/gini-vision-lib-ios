@@ -168,7 +168,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     @objc fileprivate func rotate(_ sender: AnyObject) {
         guard let rotatedImage = rotateImage(imageView.image) else { return }
         imageView.image = rotatedImage
-        guard var metaInformationManager = metaInformationManager else { return }
+        guard let metaInformationManager = metaInformationManager else { return }
         metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
         guard let data = metaInformationManager.imageData() else { return }
         successBlock?(data as Data)
