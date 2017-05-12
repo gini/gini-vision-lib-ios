@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.0.5 (2017-05-12)
+==================
+
+- Adjusted the default JPEG compression level
+- Improved JPEG generation and EXIF metadata creation
+- Fixed bug related to image compression
+
 3.0.4 (2017-03-23)
 ==================
 
