@@ -138,19 +138,16 @@
                 </div>
               </div>
             <p>The <code>GiniConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code><a href="../Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code><a href="../Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
-
 <div class="aside aside-attention">
     <p class="aside-title">Attention</p>
     If there are conflicting pairs of image and text for an interface element (e.g. <code>navigationBarCameraTitleCloseButton</code>) the image will always be preferred, while making sure the accessibility label is set.
@@ -185,7 +182,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Can be turned on during development to unlock extra information and to save captured images to camera roll.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Should never be used outside of a development enviroment.
@@ -218,7 +214,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the background color in all screens of the Gini Vision Library to the specified color.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -251,7 +246,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -284,7 +278,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -317,7 +310,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the font of all navigation items in all screens of the Gini Vision Library to the globally specified font or a default font.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -350,7 +342,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -383,7 +374,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -562,7 +552,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title text in the navigation bar on the camera screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -595,7 +584,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the close button text in the navigation bar on the camera screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -628,7 +616,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the help button text in the navigation bar on the camera screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -661,7 +648,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Used exclusively for accessibility label.
@@ -867,7 +853,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title text in the navigation bar on the onboarding screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -900,7 +885,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the continue button text in the navigation bar on the onboarding screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -987,7 +971,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1020,13 +1003,11 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Indicates whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Overwrites <code><a href="../Classes/GiniConfiguration.html#/s:vC10GiniVision17GiniConfiguration22onboardingShowAtLaunchSb">onboardingShowAtLaunch</a></code> for the first launch.
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1194,7 +1175,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Any array of views can be passed, but for your convenience we provide the <code>GINIOnboardingPage</code> class.
@@ -1238,7 +1218,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title text in the navigation bar on the review screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1271,7 +1250,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the back button text in the navigation bar on the review screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1304,7 +1282,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the continue button text in the navigation bar on the review screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1364,7 +1341,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>The text at the top of the review screen is displayed as a notice and can not be set individually.</p>
-
 <div class="aside aside-see-also">
     <p class="aside-title">See also</p>
     <code><a href="../Classes/GiniConfiguration.html#/s:vC10GiniVision17GiniConfiguration10noticeFontCSo6UIFont">noticeFont</a></code>
@@ -1397,7 +1373,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the text for the accessibility label of the rotate button which allows the user to rotate the docuent into reading direction.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Used exclusively for accessibility label.
@@ -1430,7 +1405,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the text for the accessibility label of the document image view.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Used exclusively for accessibility label.
@@ -1463,7 +1437,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the background color of the bottom section on the review screen containing the rotation button.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Background will have a 20% transparency, to have enough space for the document image on smaller devices.
@@ -1588,7 +1561,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Sets the title text in the navigation bar on the analysis screen.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -1688,7 +1660,6 @@
                       <div>
                         <h4>Return Value</h4>
                         <p>Instance of <code>GiniConfiguration</code>.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1701,8 +1672,8 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-04-06)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-05-18)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

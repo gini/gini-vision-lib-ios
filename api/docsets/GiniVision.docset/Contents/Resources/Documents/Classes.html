@@ -155,13 +155,12 @@
                         <p>The <code>AnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.</p>
 
 <p><strong>Text resources for this screen</strong></p>
-
-<p><li><p><code>ginivision.navigationbar.analysis.back</code> (Screen API only.)</p>
+<li><p><code>ginivision.navigationbar.analysis.back</code> (Screen API only.)</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your localized strings will make <code>AnalysisViewController</code> revert to the default iOS back button.</p>
+    Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your localized strings will make <code>AnalysisViewController</code> revert to the default iOS back button.
 
-<p></div></li></p>
+</div></li>
 
 <p><strong>Image resources for this screen</strong></p>
 
@@ -170,7 +169,6 @@
 </ul>
 
 <p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -234,7 +232,6 @@
 </ul>
 
 <p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -272,19 +269,16 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>The <code>GiniConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
 
 </div>
-
 <div class="aside aside-attention">
     <p class="aside-title">Attention</p>
     If there are conflicting pairs of image and text for an interface element (e.g. <code>navigationBarCameraTitleCloseButton</code>) the image will always be preferred, while making sure the accessibility label is set.
@@ -328,7 +322,6 @@
 <p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
 
 <p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
-
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present the <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
@@ -366,7 +359,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
@@ -408,7 +400,6 @@
 <p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code> of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code> and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks it is also possible to add a custom page control and update the current page accordingly.</p>
 
 <p>Use the <code><a href="Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
-
 <pre class="highlight plaintext"><code>let pages = [
     OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
     OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
@@ -438,7 +429,6 @@ presentViewController(onboardingController, animated: true, completion: nil)
 </ul>
 
 <p>Resources listed also contain resources for the container view controller. They are marked with <em>Screen API only</em>.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -478,8 +468,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                         <p>The <code>ReviewViewController</code> provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.</p>
 
 <p><strong>Text resources for this screen</strong></p>
-
-<p><li><code>ginivision.navigationbar.review.title</code> (Screen API only.)</li>
+<li><code>ginivision.navigationbar.review.title</code> (Screen API only.)</li>
 <li><code>ginivision.navigationbar.review.back</code> (Screen API only.)</li>
 <li><code>ginivision.navigationbar.review.continue</code> (Screen API only.)</li>
 <li><code>ginivision.review.top</code></li>
@@ -487,9 +476,9 @@ presentViewController(onboardingController, animated: true, completion: nil)
 <li><p><code>ginivision.review.bottom</code></p></li>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Setting <code>ginivision.navigationbar.review.back</code> explicitly to the empty string in your localized strings will make <code>ReviewViewController</code> revert to the default iOS back button.</p></p>
+    <p>Setting <code>ginivision.navigationbar.review.back</code> explicitly to the empty string in your localized strings will make <code>ReviewViewController</code> revert to the default iOS back button.</p>
 
-<p></div></p>
+</div>
 
 <p><strong>Image resources for this screen</strong></p>
 
@@ -500,7 +489,6 @@ presentViewController(onboardingController, animated: true, completion: nil)
 </ul>
 
 <p>Resources listed also contain resources for the container view controller. They are marked with <em>Screen API only</em>.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -528,8 +516,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-04-06)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-05-18)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>

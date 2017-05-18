@@ -131,7 +131,7 @@
           <div class="section-content">
             
             <p><img src="https://www.gini.net/assets/GiniVision_Logo.png" alt="Gini Vision Library for iOS"></p>
-<a href='#gini-vision-library-for-ios' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h1 id='gini-vision-library-for-ios'>Gini Vision Library for iOS</h1>
+<h1 id='gini-vision-library-for-ios' class='heading'>Gini Vision Library for iOS</h1>
 
 <p><a href="https://travis-ci.org/gini/gini-vision-lib-ios"><img src="https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master" alt="CI Status"></a></p>
 
@@ -144,7 +144,7 @@
 <p>The Gini Vision Library can be integrated in two ways, either by using the <em>Screen API</em> or the <em>Component API</em>. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.</p>
 
 <p>The Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API&rsquo;s views to portrait orientation. This is specifically true for the camera view.</p>
-<a href='#documentation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='documentation'>Documentation</h2>
+<h2 id='documentation' class='heading'>Documentation</h2>
 
 <p>Further documentation can be found in our</p>
 
@@ -152,7 +152,7 @@
 <li><a href="http://developer.gini.net/gini-vision-lib-ios/docs/">Integration Guide</a> and</li>
 <li><a href="http://developer.gini.net/gini-vision-lib-ios/api/">API Documentation</a></li>
 </ul>
-<a href='#architecture' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='architecture'>Architecture</h2>
+<h2 id='architecture' class='heading'>Architecture</h2>
 
 <p>The Gini Vision Library consists of four main screens</p>
 
@@ -164,7 +164,7 @@
 </ul>
 
 <p>As mentioned before the Gini Vision Library provides two integration options. A Screen API that is easy to implement and a more complex, but also more flexible Component API. Both APIs can access the complete functionality of the library.</p>
-<a href='#screen-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='screen-api'>Screen API</h3>
+<h3 id='screen-api' class='heading'>Screen API</h3>
 
 <p>The Screen API provides a custom <code>UINavigationController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis. To start with the Screen API simply call <code>GiniVision.viewcontroller(withDelegate:)</code> and present it. Also make sure to pass an object conforming to the <code>GiniVisionDelegate</code> protocol. Optionally you can also pass in a configuration object to customize the UI of the Gini Vision Library.</p>
 
@@ -174,7 +174,7 @@
 <span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
 <span class="nf">present</span><span class="p">(</span><span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span> <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">),</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 </code></pre>
-<a href='#component-api' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='component-api'>Component API</h3>
+<h3 id='component-api' class='heading'>Component API</h3>
 
 <p>The Component API provides a custom <code>UIViewController</code> for each of the four screens (onboarding, camera, review and analysis). This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.</p>
 
@@ -198,21 +198,21 @@
 <span class="n">giniConfiguration</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span>
 <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">setConfiguration</span><span class="p">(</span><span class="n">giniConfiguration</span><span class="p">)</span>
 </code></pre>
-<a href='#example' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='example'>Example</h2>
+<h2 id='example' class='heading'>Example</h2>
 
 <p>We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run <code>pod install</code> from the Example or ExampleObjC directory first.</p>
-<a href='#requirements' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='requirements'>Requirements</h2>
+<h2 id='requirements' class='heading'>Requirements</h2>
 
 <ul>
 <li>iOS 8.0+</li>
 <li>Xcode 8.0+</li>
 </ul>
-<a href='#installation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='installation'>Installation</h2>
+<h2 id='installation' class='heading'>Installation</h2>
 
 <p>Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.</p>
 
 <p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for <q>Keychain Sharing</q> in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
-<a href='#swift-versions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='swift-versions'>Swift versions</h3>
+<h3 id='swift-versions' class='heading'>Swift versions</h3>
 
 <p>The Gini Vision Library is entirely (re-)written in <strong>Swift 3</strong>. <strong>Swift 2.3</strong> support can be found in a separate branch or the <code>2.3.3-beta</code> release. Please keep in mind that these versions are deprecated and will not receive any new features or bug fixes.</p>
 
@@ -221,7 +221,7 @@
 <p>If you use CocoaPods you can specify a branch with:</p>
 <pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'GiniVision'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/gini/gini-vision-lib-ios.git'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'swift-2.3'</span> <span class="c1"># or use 'swift3'</span>
 </code></pre>
-<a href='#cocoapods' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='cocoapods'>CocoaPods</h3>
+<h3 id='cocoapods' class='heading'>CocoaPods</h3>
 
 <p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>gem install cocoapods
@@ -243,7 +243,7 @@
 <p>Then run the following command:</p>
 <pre class="highlight shell"><code><span class="gp">$ </span>pod install
 </code></pre>
-<a href='#manually' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manually'>Manually</h3>
+<h3 id='manually' class='heading'>Manually</h3>
 
 <p>If you prefer not to use a dependency management tool, you can integrate the Gini Vision Library into your project manually.
 To do so drop the GiniVision (classes and assets) folder into your project and add the files to your target.</p>
@@ -254,17 +254,17 @@ Use this header in an Objective-C project by adding</p>
 </code></pre>
 
 <p>to your implementation or header files. Note that spaces in your project name result in underscores. So <code>Your Project</code> becomes <code>Your_Project-Swift.h</code>.</p>
-<a href='#branches' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='branches'>Branches</h2>
+<h2 id='branches' class='heading'>Branches</h2>
 
 <ul>
 <li><code>master</code> - Contains the latest stable release of the vision library.</li>
 <li><code>develop</code> - The bleeding edge branch. Contains features actively in development and might be unstable.</li>
 <li><code>swift-2.3</code> - Swift 2.3 support. <em>(Deprecated)</em></li>
 </ul>
-<a href='#author' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='author'>Author</h2>
+<h2 id='author' class='heading'>Author</h2>
 
 <p>Peter Pult, <a href="mailto:p.pult@gini.net">p.pult@gini.net</a></p>
-<a href='#license' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='license'>License</h2>
+<h2 id='license' class='heading'>License</h2>
 
 <p>The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.</p>
 
@@ -277,8 +277,8 @@ Use this header in an Objective-C project by adding</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-04-06)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.5</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-05-18)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
