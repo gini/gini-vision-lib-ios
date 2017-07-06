@@ -18,9 +18,10 @@ Table of contents
 .. toctree::
    :maxdepth: 2
 
+   API Documentation <http://developer.gini.net/gini-vision-lib-ios/api/>
+   guide-for-open-with
    changelog
    license
-   API Documentation <http://developer.gini.net/gini-vision-lib-ios/api/>
 
 
 .. todolist::
