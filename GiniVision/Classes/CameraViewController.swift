@@ -11,14 +11,14 @@ import AVFoundation
 
 /**
  Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
-
+ 
  - note: Component API only.
  */
 public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
-
+ 
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
@@ -50,12 +50,13 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
  
  - note: Component API only.
  */
+
 @objc public final class CameraViewController: UIViewController {
     
     /**
-    Image view used to display a camera overlay like corners or a frame.
-    Use public methods `showCameraOverlay` and `hideCameraOverlay` to control visibility of overlay.
-    */
+     Image view used to display a camera overlay like corners or a frame.
+     Use public methods `showCameraOverlay` and `hideCameraOverlay` to control visibility of overlay.
+     */
     public var cameraOverlay = UIImageView()
     
     fileprivate enum CameraState {
@@ -68,10 +69,18 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
+    // note that in the mapping left and right are reversed. That's because landscape values have different meanings
+    // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
+    fileprivate let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
+                                       UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
+                                       UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
+                                       UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+    
     
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
+
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -96,7 +105,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // Output
     fileprivate var successBlock: CameraSuccessBlock?
     fileprivate var errorBlock: CameraErrorBlock?
-
+    
     /**
      Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
@@ -131,7 +140,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         if let validCamera = camera {
             cameraState = .valid
             previewView.session = validCamera.session
-            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspect
+            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+            (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = UIDevice.current.userInterfaceIdiom == .pad ?
+                orientationsMapping[UIDevice.current.orientation] ?? .portrait :
+                .portrait
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
             previewView.addGestureRecognizer(tapGesture)
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
@@ -140,7 +152,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
-        cameraOverlay.contentMode = .scaleAspectFit
+        cameraOverlay.contentMode = .scaleToFill
         
         // Configure capture button
         captureButton.setImage(captureButtonNormalImage, for: .normal)
@@ -153,6 +165,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         view.addSubview(cameraOverlay)
         view.addSubview(controlsView)
         controlsView.addSubview(captureButton)
+        
         // Add constraints
         addConstraints()
     }
@@ -194,12 +207,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        // note that in the mapping left and right are reversed. That's because landscape values have different meanings
-        // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
-        let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                   UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                   UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                   UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+
         let orientation = UIDevice.current.orientation
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
     }
@@ -241,7 +249,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             if GiniConfiguration.DEBUG {
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
-                   let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                    let imageData = UIImageJPEGRepresentation(image, 0.2) {
                     self.successBlock?(imageData)
                 }
             }
@@ -303,59 +311,85 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         }
         self.previewView.addSubview(imageView)
         UIView.animate(withDuration: 1.5,
-                                   animations: {
-                                    imageView.alpha = 0.0
-            },
-                                   completion: { (success: Bool) -> Void in
-                                    imageView.removeFromSuperview()
+                       animations: {
+                        imageView.alpha = 0.0
+        },
+                       completion: { (success: Bool) -> Void in
+                        imageView.removeFromSuperview()
         })
     }
     
     // MARK: Constraints
     fileprivate func addConstraints() {
-        let superview = self.view
-        
-        // Preview view
+        addPreviewViewConstraints()
+        addCameraOverlayConstraints()
+        addControlsViewConstraints()
+        addCaptureButtonConstraints()
+    }
+    
+    fileprivate func addPreviewViewConstraints(){
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
-        // lower priority constraints - will make the preview "want" to get bigger
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .equal, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .right, relatedBy: .equal, toItem: superview, attribute: .right, multiplier: 1, constant: 0, priority: 750)
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+        }else{
+            // lower priority constraints - will make the preview "want" to get bigger
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .equal, toItem: self.view, attribute: .left, multiplier: 1, constant: 0, priority: 750)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .right, relatedBy: .equal, toItem: self.view, attribute: .right, multiplier: 1, constant: 0, priority: 750)
+            
+            // required constraints - make sure the preview doesn't expand into other views or off-screen
+            ConstraintUtils.addActiveConstraint(item: self.view!, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 1000)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .greaterThanOrEqual, toItem: self.view, attribute: .left, multiplier: 1, constant: 0, priority: 1000)
+            ConstraintUtils.addActiveConstraint(item: self.view!, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .right, multiplier: 1, constant: 0, priority: 1000)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 3/4, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
+        }
+    }
+    
+    fileprivate func addControlsViewConstraints(){
+        controlsView.translatesAutoresizingMaskIntoConstraints = false
         
-        // required constraints - make sure the preview doesn't expand into other views or off-screen
-        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .right, multiplier: 1, constant: 0, priority: 1000)
-        
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 3/4, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
-        
-        // Camera overlay view
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .width, relatedBy: .equal, toItem: captureButton, attribute: .width, multiplier: 1.3, constant: 0, priority:750)
+        }else{
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: captureButton, attribute: .height, multiplier: 1.1, constant: 0)
+        }
+    }
+    
+    fileprivate func addCameraOverlayConstraints(){
         cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
+        
         // All constraints here have a priority less than required to make sure they don't get broken
         // when the view gets too small
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 23, priority: 999)
         ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: -23, priority: 999)
         ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
-        
-        // Controls view
-        controlsView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: captureButton, attribute: .height, multiplier: 1.1, constant: 0)
-        
-        // Capture button
+    }
+    
+    fileprivate func addCaptureButtonConstraints(){
         captureButton.translatesAutoresizingMaskIntoConstraints = false
+        
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
     }
+    
+    // MARK: - Default and not authorized views
     
     fileprivate func addNotAuthorizedView() {
         
