@@ -72,15 +72,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // note that in the mapping left and right are reversed. That's because landscape values have different meanings
     // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
     fileprivate let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                       UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                       UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                       UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+                                           UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
+                                           UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
+                                           UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
     
     
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
-
+    
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -93,7 +93,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
     fileprivate var cameraOverlayImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraOverlay")
+        guard let image = UIImageNamedPreferred(named: "cameraOverlay"), let cgImage = image.cgImage else{
+            return nil
+        }
+        return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIDevice.current.orientation.isLandscape ? .right : UIImageOrientation.up)
     }
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
@@ -149,10 +152,9 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
         }
         
-        
         // Configure camera overlay
         cameraOverlay.image = cameraOverlayImage
-        cameraOverlay.contentMode = .scaleToFill
+        cameraOverlay.contentMode = .scaleAspectFit
         
         // Configure capture button
         captureButton.setImage(captureButtonNormalImage, for: .normal)
@@ -207,9 +209,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-
+        
         let orientation = UIDevice.current.orientation
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
+        
+        // Set cameraOverlay image once device has rotated
+        cameraOverlay.image = cameraOverlayImage
     }
     
     // MARK: Toggle UI elements
