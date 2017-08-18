@@ -91,7 +91,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
     fileprivate var cameraOverlayImage: UIImage?
-    fileprivate var cameraOverlayImageRotated: UIImage? {
+    fileprivate var cameraOverlayImageOriented: UIImage? {
         guard let image = cameraOverlayImage, let cgImage = image.cgImage else {
             return nil
         }
@@ -143,9 +143,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             cameraState = .valid
             previewView.session = validCamera.session
             (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
-            (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = UIDevice.current.isIpad ?
-                orientationsMapping[UIDevice.current.orientation] ?? .portrait :
-                .portrait
+            (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = getVideoOrientation(forDeviceOrientation: UIDevice.current.orientation)
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
             previewView.addGestureRecognizer(tapGesture)
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
@@ -153,7 +151,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure camera overlay
         cameraOverlayImage = UIImageNamedPreferred(named: "cameraOverlay")
-        cameraOverlay.image = cameraOverlayImageRotated
+        cameraOverlay.image = cameraOverlayImageOriented
         cameraOverlay.contentMode = .scaleAspectFit
         
         // Configure capture button
@@ -213,8 +211,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         let orientation = UIDevice.current.orientation
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
         
-        // Set the cameraOverlayImageRotated to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
-        cameraOverlay.image = cameraOverlayImageRotated
+        // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
+        cameraOverlay.image = cameraOverlayImageOriented
     }
     
     // MARK: Toggle UI elements
@@ -280,6 +278,13 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             }
         }
         
+    }
+    
+    fileprivate func getVideoOrientation(forDeviceOrientation orientation:UIDeviceOrientation) -> AVCaptureVideoOrientation{
+        if UIDevice.current.isIpad {
+            return orientationsMapping[UIDevice.current.orientation] ?? .portrait
+        }
+        return .portrait
     }
     
     // MARK: Focus handling
