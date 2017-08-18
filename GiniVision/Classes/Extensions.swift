@@ -138,5 +138,15 @@ internal extension AVCaptureDevice {
         flashMode = mode
         unlockForConfiguration()
     }
+}
+
+internal extension UIDevice {
+    var isIpad:Bool{
+        return self.userInterfaceIdiom == .pad
+    }
+    
+    var isIphone:Bool{
+        return self.userInterfaceIdiom == .phone
+    }
     
 }
