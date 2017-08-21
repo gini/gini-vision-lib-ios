@@ -160,10 +160,11 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
-        // Configure view hierachy
-        view.addSubview(previewView)
-        view.addSubview(cameraOverlay)
-        view.addSubview(controlsView)
+        // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
+        view.insertSubview(previewView, at: 0)
+        view.insertSubview(cameraOverlay, aboveSubview: previewView)
+        view.insertSubview(controlsView, aboveSubview: cameraOverlay)
+
         controlsView.addSubview(captureButton)
         
         // Add constraints
@@ -405,13 +406,13 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Add not authorized view
         let view = CameraNotAuthorizedView()
-        previewView.addSubview(view)
+        super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .width, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: previewView, attribute: .centerY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: super.view, attribute: .width, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: super.view, attribute: .height, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: super.view, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: super.view, attribute: .centerY, multiplier: 1, constant: 0)
         
         // Hide camera UI
         hideCameraOverlay()
