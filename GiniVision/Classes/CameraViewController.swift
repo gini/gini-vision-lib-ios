@@ -122,7 +122,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when image was taken.
-     - parameter failure: Error block to be exectued if an error occurred.
+     - parameter failure: Error block to be executed if an error occurred.
      
      - returns: A view controller instance allowing the user to take a picture.
      */
