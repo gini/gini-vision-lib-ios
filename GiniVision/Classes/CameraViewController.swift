@@ -220,7 +220,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         super.viewWillTransition(to: size, with: coordinator)
         
         let orientation = UIDevice.current.orientation
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = deviceOrientationsMapping[orientation]!
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = deviceOrientationsMapping[orientation] ?? interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation]!
         
         // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
         cameraOverlay.image = cameraOverlayImageOriented
@@ -359,7 +359,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
         }else {
             // lower priority constraints - will make the preview "want" to get bigger
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
@@ -383,8 +383,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .width, relatedBy: .equal, toItem: captureButton, attribute: .width, multiplier: 1.3, constant: 0, priority:750)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0, priority:750)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .width, relatedBy: .equal, toItem: captureButton, attribute: .width, multiplier: 1.3, constant: 0)
         }else {
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
