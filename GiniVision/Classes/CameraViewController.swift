@@ -102,7 +102,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         }
         if UIDevice.current.orientation.isFlat {
             return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up)
-        }else{
+        } else{
             return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIDevice.current.orientation.isLandscape ? .right : UIImageOrientation.up)
         }
         
@@ -295,7 +295,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         if UIDevice.current.isIpad {
             if UIDevice.current.orientation.isFlat { // This only could happen on initialization
                 return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-            }else {
+            } else {
                 return deviceOrientationsMapping[UIDevice.current.orientation] ?? .portrait
             }
         }
@@ -355,12 +355,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate func addPreviewViewConstraints() {
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
-        if UIDevice.current.isIpad{
+        if UIDevice.current.isIpad {
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
-        }else {
+        } else {
             // lower priority constraints - will make the preview "want" to get bigger
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
             ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
@@ -385,7 +385,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0, priority:750)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .width, relatedBy: .equal, toItem: captureButton, attribute: .width, multiplier: 1.3, constant: 0)
-        }else {
+        } else {
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
