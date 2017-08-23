@@ -66,10 +66,11 @@ internal class Camera {
                 return completion({ _ in throw CameraError.noInputDevice })
             }
             // Set the orientation accoding to the current orientation of the device
+            
             if let orientation = AVCaptureVideoOrientation(self.motionManager.currentOrientation) {
                 connection.videoOrientation = orientation
             } else {
-                connection.videoOrientation = .portrait
+                connection.videoOrientation = AVCaptureVideoOrientation(UIApplication.shared.statusBarOrientation)
             }
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
