@@ -91,12 +91,15 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
         // Current onboarding page needs to be centered during transition (after ScrollView changes its frame)
-        coordinator.animate(alongsideTransition: { (_) in
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return
+            }
             (self.contentController as? OnboardingViewController)?.centerTo(page: self.pageControl.currentPage)
         })
-        
-        super.viewWillTransition(to: size, with: coordinator)
     }
     
     // MARK: Actions

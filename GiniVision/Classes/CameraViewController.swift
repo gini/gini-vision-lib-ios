@@ -73,15 +73,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
     // The deviceOrientationMapping is needed because UIInterfaceOrientation has not changed when viewWillTransition is called
     fileprivate let deviceOrientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                           UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                           UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                           UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+                                                 UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
+                                                 UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
+                                                 UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
     
     // The interfaceOrientationMapping is needed because It could be the case that there is no UIDeviceOrientation (and you need it on initialization).
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                                 UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
-                                                 UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
-                                                 UIInterfaceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+                                                    UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
+                                                    UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
+                                                    UIInterfaceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
     
     // Properties
     fileprivate var camera: Camera?
@@ -102,12 +102,13 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         guard let image = cameraOverlayImage, let cgImage = image.cgImage else {
             return nil
         }
+        var orientation = UIImageOrientation.up
         if UIDevice.current.orientation.isFlat {
-            return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up)
-        } else{
-            return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIDevice.current.orientation.isLandscape ? .right : UIImageOrientation.up)
+            orientation = UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up
+        } else {
+            orientation = UIDevice.current.orientation.isLandscape ? .right : UIImageOrientation.up
         }
-        
+        return UIImage(cgImage: cgImage , scale: 1.0, orientation: orientation)
     }
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
@@ -292,9 +293,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
     }
     
-    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation{
+    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
         if UIDevice.current.isIpad {
-            if UIDevice.current.orientation.isFlat { // This only could happen on initialization
+            // It could be the case that on initialization there isn't any UIDeviceOrientation, so it is necessary to get
+            // the current interface orientation. This method is also called on rotation, when it is impossible to be on flat orientation and
+            // the UIInterfaceOrientation is not correct yet
+            if UIDevice.current.orientation.isFlat {
                 return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
             } else {
                 return deviceOrientationsMapping[UIDevice.current.orientation] ?? .portrait
