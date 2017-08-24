@@ -69,15 +69,6 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
-    // note that in the mapping left and right are reversed. That's because landscape values have different meanings
-    // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
-    // The deviceOrientationMapping is needed because UIInterfaceOrientation has not changed when viewWillTransition is called
-    fileprivate let deviceOrientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                                 UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                                 UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                                 UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
-    
-    // The interfaceOrientationMapping is needed because It could be the case that there is no UIDeviceOrientation (and you need it on initialization).
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -102,13 +93,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         guard let image = cameraOverlayImage, let cgImage = image.cgImage else {
             return nil
         }
-        var orientation = UIImageOrientation.up
-        if UIDevice.current.orientation.isFlat {
-            orientation = UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up
-        } else {
-            orientation = UIDevice.current.orientation.isLandscape ? .right : UIImageOrientation.up
-        }
-        return UIImage(cgImage: cgImage , scale: 1.0, orientation: orientation)
+        return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up)
     }
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
@@ -162,11 +147,6 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
         }
         
-        // Configure camera overlay
-        cameraOverlayImage = UIImageNamedPreferred(named: "cameraOverlay")
-        cameraOverlay.image = cameraOverlayImageOriented
-        cameraOverlay.contentMode = .scaleAspectFit
-        
         // Configure capture button
         captureButton.setImage(captureButtonNormalImage, for: .normal)
         captureButton.setImage(captureButtonActiveImage, for: .highlighted)
@@ -205,6 +185,11 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Configure camera overlay
+        cameraOverlayImage = UIImageNamedPreferred(named: "cameraOverlay")
+        cameraOverlay.image = cameraOverlayImageOriented
+        cameraOverlay.contentMode = .scaleAspectFit
+        
         camera?.start()
     }
     
@@ -222,10 +207,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = getVideoOrientation()
-        
-        // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
-        cameraOverlay.image = cameraOverlayImageOriented
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return 
+            }
+            (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
+
+            // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
+            self.cameraOverlay.image = self.cameraOverlayImageOriented
+        })
     }
     
     // MARK: Toggle UI elements
@@ -295,14 +285,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     
     fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
         if UIDevice.current.isIpad {
-            // It could be the case that on initialization there isn't any UIDeviceOrientation, so it is necessary to get
-            // the current interface orientation. This method is also called on rotation, when it is impossible to be on flat orientation and
-            // the UIInterfaceOrientation is not correct yet
-            if UIDevice.current.orientation.isFlat {
-                return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-            } else {
-                return deviceOrientationsMapping[UIDevice.current.orientation] ?? .portrait
-            }
+            return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
         }
         return .portrait
     }
