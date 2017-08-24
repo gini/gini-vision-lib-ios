@@ -1,4 +1,4 @@
-![Gini Vision Library for iOS](https://www.gini.net/assets/GiniVision_Logo.png)
+![Gini Vision Library for iOS](https://github.com/gini/gini-vision-lib-ios/blob/master/GiniVision_Logo.png?raw=true)
 
 # Gini Vision Library for iOS
 
