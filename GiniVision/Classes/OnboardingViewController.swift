@@ -33,9 +33,9 @@ import UIKit
  
  **Image resources for this screen**
  
- * `onboardingPage1`
- * `onboardingPage2`
- * `onboardingPage3`
+ * `onboardingPage1` (Both iPhone and iPad sizes)
+ * `onboardingPage2` (Both iPhone and iPad sizes)
+ * `onboardingPage3` (Both iPhone and iPad sizes)
  * `navigationOnboardingContinue` (Screen API only.)
  
  Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
