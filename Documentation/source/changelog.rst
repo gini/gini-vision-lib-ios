@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.1.0 (2017-08-25)
+==================
+
+- Adapted UI for iPad (landscape orientation is now supported on iPad)
+- Fixed issue on preview screen, when there is no orientation (device on flat position) 
+
 3.0.5 (2017-05-12)
 ==================
 
