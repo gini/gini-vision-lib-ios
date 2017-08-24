@@ -270,7 +270,8 @@ internal class ImageMetaInformationManager {
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
         let uuid = imageUUID()
-        var comment = "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion),\(userCommentContentId)=\(uuid)"
+        let devOrientation = deviceOrientation()
+        var comment = "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion),\(userCommentContentId)=\(uuid), DeviceOrientation=\(devOrientation)"
         if let rotationDegrees = rotationDegrees {
             // normalize the rotation to 0-360
             let rotation = imageRotationDeltaDegrees() + rotationDegrees
@@ -285,6 +286,13 @@ internal class ImageMetaInformationManager {
         // if not, generate it
         let existingUUID = uuidFromImage()
         return existingUUID ?? NSUUID().uuidString
+    }
+    
+    fileprivate func deviceOrientation() -> String {
+        if UIApplication.shared.statusBarOrientation.isPortrait {
+            return "portrait"
+        }
+        return "landscape"
     }
     
     fileprivate func imageRotationDeltaDegrees() -> Int {
