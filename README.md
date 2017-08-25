@@ -89,7 +89,7 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 - iOS 8.0+
 - Xcode 8.0+
 
-### Notes
+**Note:**
 In order to have better analysis results, although is not a requirement, It's highly recommended to have devices with 8MP camera and flash. These devices would be:
 
 * iPhones with iOS 8.0 or higher.
