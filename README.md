@@ -89,6 +89,13 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 - iOS 8.0+
 - Xcode 8.0+
 
+### Notes
+In order to have better analysis results, although is not a requirement, It's highly recommended to have devices with 8MP camera and flash. These devices would be:
+
+* iPhones with iOS 8.0 or higher.
+* iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash). 
+
+
 ## Installation
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
