@@ -1,4 +1,4 @@
-![Gini Vision Library for iOS](https://github.com/gini/gini-vision-lib-ios/blob/master/GiniVision_Logo.png?raw=true)
+![Gini Vision Library for iOS](./GiniVision_Logo.png?raw=true)
 
 # Gini Vision Library for iOS
 
@@ -15,7 +15,7 @@ Communication with the Gini backend is not part of this library. You can either 
 
 The Gini Vision Library can be integrated in two ways, either by using the *Screen API* or the *Component API*. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.
 
-On *iPhone* the Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view.
+On *iPhone*, the Gini Vision Library has been designed for portrait orientation. In the Screen API, orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view.
 
 ## Documentation
 
@@ -78,7 +78,7 @@ GiniVision.setConfiguration(giniConfiguration)
 ```
 
 ## iPad support
-On iPad, unlike iPhone devices, the Gini Vision Library UI supports both landscape and portrait orientations, being full rotation enabled by default in both API's (*Screen* and *Component*). So in case you don't want one of the orientations, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*). 
+On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want any orientation, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*). 
 
 ## Example
 
