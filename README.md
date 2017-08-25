@@ -78,7 +78,7 @@ GiniVision.setConfiguration(giniConfiguration)
 ```
 
 ## iPad support
-On iPad, unlike iPhone devices, the Gini Vision Library UI supports both landscape and portrait orientations. In both API's (*Screen* and *Component*) full rotation is enabled by default on iPad, so in case you don't want one of the orientations, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*). 
+On iPad, unlike iPhone devices, the Gini Vision Library UI supports both landscape and portrait orientations, being full rotation enabled by default in both API's (*Screen* and *Component*). So in case you don't want one of the orientations, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*). 
 
 ## Example
 
