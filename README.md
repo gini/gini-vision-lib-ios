@@ -78,7 +78,9 @@ GiniVision.setConfiguration(giniConfiguration)
 ```
 
 ## iPad support
-On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want any orientation, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*). 
+On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want a particular orientation, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*).
+
+For `cameraOverlay` and `onboardingPage` assets it is also necessary to provide higher resolution images on iPad.
 
 ## Example
 
@@ -90,7 +92,7 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 - Xcode 8.0+
 
 **Note:**
-In order to have better analysis results, although is not a requirement, It's highly recommended to have devices with 8MP camera and flash. These devices would be:
+In order to have better analysis results it is highly recommended to enable only devices with 8MP camera and flash. These devices would be:
 
 * iPhones with iOS 8.0 or higher.
 * iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash). 
