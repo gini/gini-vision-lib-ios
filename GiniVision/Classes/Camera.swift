@@ -18,8 +18,6 @@ internal class Camera {
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
     
-    fileprivate lazy var motionManager = MotionManager()
-    
     init() throws {
         try setupSession()
     }
@@ -28,14 +26,12 @@ internal class Camera {
     func start() {
         sessionQueue.async {
             self.session.startRunning()
-            self.motionManager.startDetection()
         }
     }
     
     func stop() {
         sessionQueue.async {
             self.session.stopRunning()
-            self.motionManager.stopDetection()
         }
     }
     

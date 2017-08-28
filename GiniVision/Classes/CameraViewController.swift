@@ -266,7 +266,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 var imageData = try inner()
                 
                 // Set meta information in image
-                let manager = ImageMetaInformationManager(imageData: imageData)
+                let manager = ImageMetaInformationManager(imageData: imageData, deviceOrientation: UIApplication.shared.statusBarOrientation)
                 manager.filterMetaInformation()
                 if let richImageData = manager.imageData() {
                     imageData = richImageData

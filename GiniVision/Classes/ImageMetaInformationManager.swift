@@ -11,127 +11,6 @@ import ImageIO
 import AVFoundation
 import MobileCoreServices
 
-internal extension Collection where Iterator.Element == CFString {
-    
-    var strings: [ String ] {
-        return self.map { $0 as String }
-    }
-    
-}
-
-internal extension NSMutableDictionary {
-    
-    fileprivate var cfExifKeys: [CFString] {
-        return [
-            kCGImagePropertyExifLensMake,
-            kCGImagePropertyExifLensModel,
-            kCGImagePropertyExifISOSpeed,
-            kCGImagePropertyExifISOSpeedRatings,
-            kCGImagePropertyExifExposureTime,
-            kCGImagePropertyExifApertureValue,
-            kCGImagePropertyExifFlash,
-            kCGImagePropertyExifCompressedBitsPerPixel,
-            kCGImagePropertyExifUserComment
-        ]
-    }
-    
-    fileprivate var cfTiffKeys: [CFString] {
-        return [
-            kCGImagePropertyTIFFMake,
-            kCGImagePropertyTIFFModel,
-            kCGImagePropertyTIFFSoftware,
-            kCGImagePropertyTIFFOrientation
-        ]
-    }
-    
-    fileprivate var cfTopLevelKeys: [CFString] {
-        return [
-            kCGImagePropertyExifDictionary,
-            kCGImagePropertyTIFFDictionary
-        ]
-    }
-    
-    fileprivate var stringKeys: [String] {
-        return allKeys
-                .map { $0 as? String }
-                .flatMap { $0 }
-    }
-    
-    func set(metaInformation value: AnyObject?, forKey key: String, inSubdictionary isSubdictionary: Bool = false) {
-        // Helper method to set a value in a meta dictionary like TIFF or Exif
-        func set(_ value: AnyObject?, forKey key: String, inMetaDictionaryWithKey metaDictionaryKey: String) {
-            let metaDictionary = (self[metaDictionaryKey] as? NSMutableDictionary) ?? NSMutableDictionary()
-            metaDictionary[key] = value
-            self[metaDictionaryKey] = metaDictionary
-        }
-        
-        // Try to set the key in the current context
-        let keys = stringKeys
-        if keys.contains(key) {
-            setValue(value, forKey: key)
-        }
-        
-        // Try to set in known context
-        if !isSubdictionary {
-            if cfExifKeys.strings.contains(key) {
-                set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyExifDictionary as String)
-            }
-            if cfTiffKeys.strings.contains(key) {
-                set(value, forKey: key, inMetaDictionaryWithKey: kCGImagePropertyTIFFDictionary as String)
-            }
-        }
-        
-        // Try to set in subdictioanies
-        let dictionaries = allValues
-            .map { $0 as? NSMutableDictionary }
-            .flatMap { $0 }
-        
-        for dictionary in dictionaries {
-            dictionary.set(metaInformation: value, forKey: key, inSubdictionary: true)
-        }
-    }
-    
-    func getMetaInformation(forKey key: String) -> AnyObject? {
-        let keys = stringKeys
-        guard keys.count > 0 else { return nil }
-        if keys.contains(key) {
-            return self[key] as AnyObject?
-        }
-        let dictionaries = allValues
-            .map { $0 as? NSMutableDictionary }
-            .flatMap { $0 }
-        
-        for dictionary in dictionaries {
-            if let value = dictionary.getMetaInformation(forKey: key) {
-                return value
-            }
-        }
-        
-        return nil
-    }
-    
-    func filterDefaultMetaInformation() {
-        let keys = [ cfExifKeys, cfTiffKeys, cfTopLevelKeys ].flatMap { $0 }.strings
-        filterMetaInformation(keys)
-    }
-    
-    /**
-     Set all values to `CFNull` if the corresponding key is not in the filtered keys array.
-     
-     - parameter filterKeys: The keys to filter for.
-     */
-    func filterMetaInformation(_ filterKeys: [String]) {
-        let keys = stringKeys
-        for key in keys {
-            if !filterKeys.contains(key) {
-                self[key] = kCFNull
-            } else if let dictionary = self[key] as? NSMutableDictionary {
-                dictionary.filterDefaultMetaInformation()
-            }
-        }
-    }
-    
-}
 
 typealias MetaInformation = NSDictionary
 
@@ -160,16 +39,36 @@ internal class ImageMetaInformationManager {
         kCGImagePropertyTIFFSoftware
     ]
     
-    var imageData: Data?
-    var metaInformation: MetaInformation?
-    
     // user comment fields
     let userCommentRotation = "RotDeltaDeg"
     let userCommentContentId = "ContentId"
+    let userCommentPlatform = "Platform"
+    let userCommentOSVer = "OSVer"
+    let userCommentGiniVersionVer = "GiniVisionVer"
+    let userCommentDeviceOrientation = "DeviceOrientation"
     
-    init(imageData data: Data) {
+    var imageData: Data?
+    var metaInformation: MetaInformation?
+    
+    // Due to future image rotations on ReviewViewController, it is necessary to preserve the device orientation
+    // when the picture is taken.
+    fileprivate var deviceOrientationOnCapture:String?
+    
+    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
         imageData = data
         metaInformation = metaInformation(fromImageData: data)
+        
+        // If the image has the DeviceOrientation, it should not be added again
+        // because current device orientation could be different.
+        // deviceOrientation must be always nil except when the picture has just been taken.
+        deviceOrientationOnCapture = value(forUserCommentField: userCommentDeviceOrientation)
+        
+        guard let _ = deviceOrientationOnCapture else {
+            if let deviceOrientation = deviceOrientation {
+                deviceOrientationOnCapture = deviceOrientation.isLandscape ? "landscape" : "portrait"
+            }
+            return
+        }
     }
     
     func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
@@ -241,10 +140,10 @@ internal class ImageMetaInformationManager {
         CGImageDestinationFinalize(destination)
         return targetData as Data
     }
-
+    
     fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
-              let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
+            let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
         return metaInformation
     }
     
@@ -270,13 +169,17 @@ internal class ImageMetaInformationManager {
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
         let uuid = imageUUID()
-        let devOrientation = deviceOrientation()
-        var comment = "Platform=\(platform),OSVer=\(osVersion),GiniVisionVer=\(giniVisionVersion),\(userCommentContentId)=\(uuid), DeviceOrientation=\(devOrientation)"
+        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid)"
+        
         if let rotationDegrees = rotationDegrees {
             // normalize the rotation to 0-360
             let rotation = imageRotationDeltaDegrees() + rotationDegrees
             let rotationNorm = normalizedDegrees(imageRotation: rotation)
             comment += ",\(userCommentRotation)=\(rotationNorm)"
+        }
+        
+        if let deviceOrientationOnCapture = deviceOrientationOnCapture {
+            comment += ",\(userCommentDeviceOrientation)=\(deviceOrientationOnCapture)"
         }
         return comment
     }
@@ -288,31 +191,24 @@ internal class ImageMetaInformationManager {
         return existingUUID ?? NSUUID().uuidString
     }
     
-    fileprivate func deviceOrientation() -> String {
-        if UIApplication.shared.statusBarOrientation.isPortrait {
-            return "portrait"
-        }
-        return "landscape"
-    }
-    
     fileprivate func imageRotationDeltaDegrees() -> Int {
         return rotationDeltaFromImage() ?? 0
     }
     
     fileprivate func uuidFromImage() -> String? {
-        return self.valueFor(userCommentField: userCommentContentId)
+        return self.value(forUserCommentField: userCommentContentId)
     }
     
     fileprivate func rotationDeltaFromImage() -> Int? {
-        return Int(self.valueFor(userCommentField: userCommentRotation) ?? "0")
+        return Int(self.value(forUserCommentField: userCommentRotation) ?? "0")
     }
     
-    fileprivate func valueFor(userCommentField:String) -> String? {
+    fileprivate func value(forUserCommentField field:String) -> String? {
         let exifDict = metaInformation as? NSMutableDictionary
         let existingUserComment = exifDict?.getMetaInformation(forKey:kCGImagePropertyExifUserComment as String)
         let components = existingUserComment?.components(separatedBy: ",")
         let userCommentComponent = components?.filter({ (component) -> Bool in
-            return component.contains(userCommentField)
+            return component.contains(field)
         })
         let equasionComponents = userCommentComponent?.last?.components(separatedBy: "=")
         return equasionComponents?.last
