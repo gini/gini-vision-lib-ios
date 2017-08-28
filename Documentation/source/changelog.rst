@@ -6,7 +6,8 @@ Changelog
 ==================
 
 - Adapted UI for iPad (landscape orientation is now supported on iPad)
-- Fixed issue on preview screen, when there is no orientation (device on flat position) 
+- Fixed issue on preview screen, when there is no orientation (device on flat position)
+- Removed MotionManager class which led to UX issues. 
 
 3.0.5 (2017-05-12)
 ==================
