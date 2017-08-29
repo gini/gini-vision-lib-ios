@@ -7,7 +7,7 @@ Changelog
 
 - Adapted UI for iPad (landscape orientation is now supported on iPad)
 - Fixed issue on preview screen, when there is no orientation (device on flat position)
-- Removed MotionManager class which led to UX issues. 
+- For iPhones we disabled automatic rotation of the picture on the preview view. Previously it was rotated when the device was held in landscape. Now the picture is always shown in portrait orientation on iPhones.
 
 3.0.5 (2017-05-12)
 ==================
