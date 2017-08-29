@@ -32,6 +32,8 @@ class ComponentAPIAnalysisViewController: UIViewController {
         
         errorButton.alpha = 0.0
         
+        FileUtil.saveJpegImage(data: imageData, withSuffix: "for_analysis")
+        
         /***************************************************************************
          * ANALYSIS SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
          ***************************************************************************/

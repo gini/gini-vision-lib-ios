@@ -40,6 +40,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>Um Dokumente mit deinem Gerät zu scannen, erlaube den Zugriff auf deine Kamera.  📸 -&gt; 📄 -&gt; 🎉</string>
+	<string>Um Dokumente mit deinem Gerät zu scannen, erlaube den Zugriff auf deine Kamera.
+📸 -&gt; 📄 -&gt; 🎉</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>
