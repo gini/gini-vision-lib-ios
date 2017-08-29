@@ -1,8 +1,11 @@
-![Gini Vision Library for iOS](https://www.gini.net/assets/GiniVision_Logo.png)
+![Gini Vision Library for iOS](./GiniVision_Logo.png?raw=true)
 
 # Gini Vision Library for iOS
 
 [![CI Status](https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master)](https://travis-ci.org/gini/gini-vision-lib-ios)
+[![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)]()
+[![Devices](https://img.shields.io/badge/devices-iPhone%20%7C%20iPad-blue.svg)]()
+
 
 The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.
 
@@ -12,7 +15,7 @@ Communication with the Gini backend is not part of this library. You can either 
 
 The Gini Vision Library can be integrated in two ways, either by using the *Screen API* or the *Component API*. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.
 
-The Gini Vision Library has been designed for portrait orientation. In the Screen API orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view.
+On *iPhone*, the Gini Vision Library has been designed for portrait orientation. In the Screen API, orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view.
 
 ## Documentation
 
@@ -74,6 +77,11 @@ giniConfiguration.backgroundColor = UIColor.white
 GiniVision.setConfiguration(giniConfiguration)
 ```
 
+## iPad support
+On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want a particular orientation, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*).
+
+For `cameraOverlay` and `onboardingPage` assets it is also necessary to provide higher resolution images on iPad.
+
 ## Example
 
 We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. The Gini API SDK is used to analyze the photos of documents. To run the example projects, clone the repo and run `pod install` from the Example or ExampleObjC directory first.
@@ -82,6 +90,13 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 
 - iOS 8.0+
 - Xcode 8.0+
+
+**Note:**
+In order to have better analysis results it is highly recommended to enable only devices with 8MP camera and flash. These devices would be:
+
+* iPhones with iOS 8.0 or higher.
+* iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash). 
+
 
 ## Installation
 

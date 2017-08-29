@@ -41,7 +41,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
  * `cameraCaptureButtonActive`
  * `cameraFocusLarge`
  * `cameraFocusSmall`
- * `cameraOverlay`
+ * `cameraOverlay` (Both iPhone and iPad sizes)
  * `cameraNotAuthorizedIcon`
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
