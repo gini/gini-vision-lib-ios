@@ -67,6 +67,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
     fileprivate var captureButton = UIButton()
+    fileprivate var documentProviderButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
@@ -77,6 +78,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
+    fileprivate var filePickerManager: FilePickerManager?
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -121,6 +123,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         successBlock = success
         errorBlock = failure
         
+        // Configure file picker
+        
+        filePickerManager = FilePickerManager()
+        filePickerManager?.didSelectPicture = processInputImage
+        filePickerManager?.didSelectPDF = processInputPDF
+        
         // Configure camera
         do {
             camera = try Camera()
@@ -153,12 +161,17 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
+        // Configure document provider button
+        documentProviderButton.setTitle("Import", for: .normal)
+        documentProviderButton.addTarget(self, action: #selector(provideDocument), for: .touchUpInside)
+        
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
         view.insertSubview(cameraOverlay, aboveSubview: previewView)
         view.insertSubview(controlsView, aboveSubview: cameraOverlay)
-
+        
         controlsView.addSubview(captureButton)
+        controlsView.addSubview(documentProviderButton)
         
         // Add constraints
         addConstraints()
@@ -283,6 +296,42 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
     }
     
+    // MARK: Document import
+    @objc fileprivate func provideDocument(_ sender: AnyObject) {
+        
+        let alertViewController = UIAlertController(title: "Provisional view", message: "File picker", preferredStyle: .actionSheet)
+        alertViewController.addAction(UIAlertAction(title: "Import picture", style: .default) { [unowned self] _ in
+            self.filePickerManager?.showGalleryPicker(from: self)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Import PDF", style: .default) { [unowned self] _ in
+            self.filePickerManager?.showDocumentPicker(from: self)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        })
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func processInputImage(_ imageData:Data) {
+        var imageData = imageData
+        // Set meta information in image
+        let manager = ImageMetaInformationManager(imageData: imageData)
+        manager.filterMetaInformation()
+        if let richImageData = manager.imageData() {
+            imageData = richImageData
+        }
+        
+        // Call success block
+        self.successBlock?(imageData as Data)
+    }
+    
+    fileprivate func processInputPDF(_ pdfData:Data) {
+        print("processInputPDF")
+    }
+    
     fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
         if UIDevice.current.isIpad {
             return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
@@ -337,7 +386,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         addPreviewViewConstraints()
         addCameraOverlayConstraints()
         addControlsViewConstraints()
-        addCaptureButtonConstraints()
+        addControlsViewButtonsConstraints()
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -393,13 +442,21 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
     }
     
-    fileprivate func addCaptureButtonConstraints() {
+    fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        
+        // Capture button
+        documentProviderButton.translatesAutoresizingMaskIntoConstraints = false
+        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
     }
     
     // MARK: - Default and not authorized views
