@@ -18,8 +18,6 @@ internal class Camera {
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
     
-    fileprivate lazy var motionManager = MotionManager()
-    
     init() throws {
         try setupSession()
     }
@@ -28,14 +26,12 @@ internal class Camera {
     func start() {
         sessionQueue.async {
             self.session.startRunning()
-            self.motionManager.startDetection()
         }
     }
     
     func stop() {
         sessionQueue.async {
             self.session.stopRunning()
-            self.motionManager.stopDetection()
         }
     }
     
@@ -65,12 +61,10 @@ internal class Camera {
             guard let connection = self.stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else {
                 return completion({ _ in throw CameraError.noInputDevice })
             }
-            // Set the orientation accoding to the current orientation of the device
-            if let orientation = AVCaptureVideoOrientation(self.motionManager.currentOrientation) {
-                connection.videoOrientation = orientation
-            } else {
-                connection.videoOrientation = .portrait
-            }
+            
+            // Set the orientation according to the current orientation of the interface
+            connection.videoOrientation = AVCaptureVideoOrientation(UIApplication.shared.statusBarOrientation)
+            
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
                 guard error == nil else { return completion({ _ in throw CameraError.captureFailed }) }
@@ -93,9 +87,9 @@ internal class Camera {
             if #available(iOS 9.0, *) {
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetCreationRequest.forAsset().addResource(with: .photo, data: data, options: nil)
-                    },
-                    completionHandler: { (success: Bool, error: Error?) -> Void in
-                        guard success else { return print("Could not save image to photo library") }
+                },
+                                                       completionHandler: { (success: Bool, error: Error?) -> Void in
+                                                        guard success else { return print("Could not save image to photo library") }
                 })
             } else {
                 // TODO: Add option for older iOS

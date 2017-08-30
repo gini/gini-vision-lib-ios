@@ -42,7 +42,7 @@ internal extension GiniNavigationViewController {
     }
     
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.portrait
+        return UIDevice.current.isIpad ? .all : .portrait
     }
     
 }

@@ -90,6 +90,20 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         displayContent(contentController)
     }
     
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        // Current onboarding page needs to be centered during transition (after ScrollView changes its frame)
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return
+            }
+            (self.contentController as? OnboardingViewController)?.centerTo(page: self.pageControl.currentPage)
+        })
+    }
+    
+    // MARK: Actions
+    
     @IBAction func close() {
         dismiss(animated: false, completion: completionBlock)
     }
@@ -99,6 +113,7 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     }
     
     // MARK: Constraints
+    
     fileprivate func addConstraints() {
         let superview = self.view
 
@@ -106,7 +121,6 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         containerView.translatesAutoresizingMaskIntoConstraints = false
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: containerView, attribute: .height, multiplier: 3/4, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 750)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 999)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
@@ -125,8 +139,9 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerX, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerY, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerY, multiplier: 1, constant: 0)
     }
-    
 }
+
+// MARK: UIScrollViewDelegate
 
 extension OnboardingContainerViewController: UIScrollViewDelegate {
     

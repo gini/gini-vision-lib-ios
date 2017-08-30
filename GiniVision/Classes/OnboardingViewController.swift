@@ -123,6 +123,17 @@ import UIKit
         }
         scrollView.setContentOffset(offset, animated: animated)
     }
+    
+    /**
+     Center page in case it is not centered (i.e after rotation)
+     
+     */
+    public func centerTo(page:Int) {
+        var offset = scrollView.contentOffset
+        offset.x = scrollView.frame.width * CGFloat(page)
+                
+        scrollView.setContentOffset(offset, animated: true)
+    }
         
     // MARK: Constraints
     fileprivate func addConstraints() {
