@@ -48,9 +48,6 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
-        // Configure back button
-        setupLeftNavigationItem(usingResources: backButtonResources, selector:#selector(back))
-        
         // Configure continue button
         continueButton = GiniBarButtonItem(
             image: continueButtonResources.preferredImage,
