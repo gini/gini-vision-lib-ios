@@ -64,10 +64,8 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let uti = data.utiFromMimeType
             
             if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
-                print("This is an image!")
                 didSelectPicture(data)
             } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
-                print("This is a PDF!")
                 didSelectPDF(data)
             }
         }catch{
@@ -82,7 +80,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return (session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: PDFDocument.self)) && session.items.count == 1
+        return (session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
@@ -90,8 +88,8 @@ extension FilePickerManager: UIDropInteractionDelegate {
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        session.loadObjects(ofClass: PDFDocument.self) { [unowned self] pdfItems in
-            if let pdfs = pdfItems as? [PDFDocument], let pdf = pdfs.first, let pdfData = pdf.data {
+        session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
+            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first, let pdfData = pdf.data {
                 self.didSelectPDF(pdfData)
             }
         }
@@ -101,22 +99,5 @@ extension FilePickerManager: UIDropInteractionDelegate {
                 self.didSelectPicture(imageData)
             }
         }
-    }
-}
-
-
-internal class PDFDocument:NSObject, NSItemProviderReading{
-    let data:Data?
-    
-    required init(pdfData:Data, typeIdentifier:String) {
-        data = pdfData
-    }
-    
-    static var readableTypeIdentifiersForItemProvider: [String] {
-        return [kUTTypePDF as String]
-    }
-    
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        return self.init(pdfData: data, typeIdentifier: typeIdentifier)
     }
 }
