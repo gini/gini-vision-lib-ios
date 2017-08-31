@@ -78,7 +78,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
-    fileprivate var filePickerManager: FilePickerManager?
+    fileprivate var filePickerManager: FilePickerManager
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -117,6 +117,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      - returns: A view controller instance allowing the user to take a picture.
      */
     public init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+        filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -125,9 +126,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure file picker
         
-        filePickerManager = FilePickerManager()
-        filePickerManager?.didSelectPicture = processInputImage
-        filePickerManager?.didSelectPDF = processInputPDF
+        filePickerManager.didSelectPicture = processPickedPicture
+        filePickerManager.didSelectPDF = processPickedPDF
         
         // Configure camera
         do {
@@ -301,11 +301,11 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         let alertViewController = UIAlertController(title: "Provisional view", message: "File picker", preferredStyle: .actionSheet)
         alertViewController.addAction(UIAlertAction(title: "Import picture", style: .default) { [unowned self] _ in
-            self.filePickerManager?.showGalleryPicker(from: self)
+            self.filePickerManager.showGalleryPicker(from: self)
         })
         
         alertViewController.addAction(UIAlertAction(title: "Import PDF", style: .default) { [unowned self] _ in
-            self.filePickerManager?.showDocumentPicker(from: self)
+            self.filePickerManager.showDocumentPicker(from: self)
         })
         
         alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
@@ -315,20 +315,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         self.present(alertViewController, animated: true, completion: nil)
     }
     
-    fileprivate func processInputImage(_ imageData:Data) {
-        var imageData = imageData
-        // Set meta information in image
-        let manager = ImageMetaInformationManager(imageData: imageData)
-        manager.filterMetaInformation()
-        if let richImageData = manager.imageData() {
-            imageData = richImageData
-        }
-        
+    fileprivate func processPickedPicture(_ imageData:Data) {        
         // Call success block
         self.successBlock?(imageData as Data)
     }
     
-    fileprivate func processInputPDF(_ pdfData:Data) {
+    fileprivate func processPickedPDF(_ pdfData:Data) {
         print("processInputPDF")
     }
     
