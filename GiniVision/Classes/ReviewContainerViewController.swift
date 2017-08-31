@@ -20,7 +20,9 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     // Resources
     fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationReviewContinue", title: "ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton)
     
-    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
+    fileprivate lazy var backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
+    
+    fileprivate lazy var closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
     
     // Output
     fileprivate var imageData: Data?
@@ -78,10 +80,35 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         displayContent(contentController)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Configure back button. Needs to be done here because otherwise the navigation controller would be nil
+        guard let _ = navigationItem.leftBarButtonItem else {
+            setupLeftNavigationItem(usingResources: backButtonPreferredResource(), selector:#selector(back))
+            return
+        }
+    }
+    
     @IBAction func back() {
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()
-        _ = navigationController?.popViewController(animated: true)
+        if let navVC = navigationController {
+            if navVC.viewControllers.count > 1 {
+                _ = navVC.popViewController(animated: true)
+            }else{
+                navVC.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    fileprivate func backButtonPreferredResource() -> PreferredButtonResource {
+        if let navVC = navigationController {
+            if navVC.viewControllers.count > 1 {
+                return backButtonResources
+            }
+        }
+        return closeButtonResources
     }
     
     @IBAction func analyse() {
