@@ -31,7 +31,7 @@ internal final class FilePickerManager:NSObject {
         from.present(imagePicker, animated: true, completion: nil)
     }
     
-    func showDocumentPicker(from:UIViewController){
+    func showDocumentPicker(from:UIViewController) {
         from.present(documentPicker, animated: true, completion: nil)
     }
 }
@@ -56,8 +56,8 @@ extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationContro
 
 extension FilePickerManager: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        _ = url.startAccessingSecurityScopedResource()
-        do{
+        do {
+            _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
@@ -68,8 +68,9 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
                 didSelectPDF(data)
             }
-        }catch{
+        } catch {
             // TODO handle error
+            url.stopAccessingSecurityScopedResource()
         }
         
     }
