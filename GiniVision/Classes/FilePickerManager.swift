@@ -57,17 +57,22 @@ extension FilePickerManager:UIImagePickerControllerDelegate, UINavigationControl
 extension FilePickerManager:UIDocumentPickerDelegate{
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         _ = url.startAccessingSecurityScopedResource()
-        let data = try! Data(contentsOf: url)
-        url.stopAccessingSecurityScopedResource()
-
-        let uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, data.mimeType as CFString, nil)
-
-        if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
-            print("This is an image!")
-            didSelectPicture(data)
-        } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
-            print("This is a PDF!")
-            didSelectPDF(data)
+        do{
+            let data = try Data(contentsOf: url)
+            url.stopAccessingSecurityScopedResource()
+            
+            let uti = data.utiFromMimeType
+            
+            if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
+                print("This is an image!")
+                didSelectPicture(data)
+            } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
+                print("This is a PDF!")
+                didSelectPDF(data)
+            }
+        }catch{
+            // TODO handle error
         }
+
     }
 }

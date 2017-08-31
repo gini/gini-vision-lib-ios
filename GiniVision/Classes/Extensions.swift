@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 import ImageIO
+import MobileCoreServices
 
 /**
  Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
@@ -177,6 +178,10 @@ internal extension Data {
         var c: UInt8 = 0
         copyBytes(to: &c, count: 1)
         return Data.mimeTypeSignatures[c] ?? "application/octet-stream"
+    }
+    
+    var utiFromMimeType: Unmanaged<CFString>? {
+        return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self.mimeType as CFString, nil)
     }
     
 }
