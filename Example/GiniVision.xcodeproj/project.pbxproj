@@ -361,11 +361,14 @@
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = JA825X8F7Z;
+						DevelopmentTeam = BQY9KX4V88;
 						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -711,7 +714,7 @@
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = JA825X8F7Z;
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -894,7 +897,7 @@
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = JA825X8F7Z;
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -920,7 +923,7 @@
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = JA825X8F7Z;
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

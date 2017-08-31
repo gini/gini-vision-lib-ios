@@ -13,25 +13,17 @@ internal final class FilePickerManager:NSObject {
     
     var didSelectPicture:((Data) -> ()) = { _ in }
     var didSelectPDF:((Data) -> ()) = { _ in }
-    let imagePicker:UIImagePickerController
-    let documentPicker:UIDocumentPickerViewController
-    
-    override init() {
-        imagePicker = UIImagePickerController()
-        documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
-        super.init()
-        
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        
-        documentPicker.delegate = self
-    }
+    lazy var imagePicker:UIImagePickerController = UIImagePickerController()
+    lazy var documentPicker:UIDocumentPickerViewController = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
     
     func showGalleryPicker(from:UIViewController) {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
         from.present(imagePicker, animated: true, completion: nil)
     }
     
     func showDocumentPicker(from:UIViewController) {
+        documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }
 }
@@ -73,6 +65,11 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             url.stopAccessingSecurityScopedResource()
         }
         
+        documentPicker.dismiss(animated: false, completion: nil)
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        documentPicker.dismiss(animated: false, completion: nil)
     }
 }
 
