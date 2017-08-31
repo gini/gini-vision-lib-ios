@@ -323,6 +323,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             alertViewController.dismiss(animated: true, completion: nil)
         })
         
+        alertViewController.popoverPresentationController?.sourceView = documentProviderButton
+        
         self.present(alertViewController, animated: true, completion: nil)
     }
     
@@ -455,10 +457,16 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Capture button
         documentProviderButton.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
+        }else{
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        }
     }
     
     // MARK: - Default and not authorized views
