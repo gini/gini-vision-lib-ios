@@ -163,7 +163,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure document provider button
         documentProviderButton.setTitle("Import", for: .normal)
-        documentProviderButton.addTarget(self, action: #selector(provideDocument), for: .touchUpInside)
+        documentProviderButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
         
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
@@ -175,6 +175,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Add constraints
         addConstraints()
+        
+        if #available(iOS 11.0, *) {
+            addDropInteraction()
+        }
     }
     
     /**
@@ -296,8 +300,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
     }
     
+    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
+        if UIDevice.current.isIpad {
+            return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        }
+        return .portrait
+    }
+    
     // MARK: Document import
-    @objc fileprivate func provideDocument(_ sender: AnyObject) {
+    @objc fileprivate func importDocument(_ sender: AnyObject) {
         
         let alertViewController = UIAlertController(title: "Provisional view", message: "File picker", preferredStyle: .actionSheet)
         alertViewController.addAction(UIAlertAction(title: "Import picture", style: .default) { [unowned self] _ in
@@ -324,11 +335,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         print("processInputPDF")
     }
     
-    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
-        if UIDevice.current.isIpad {
-            return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        }
-        return .portrait
+    @available(iOS 11.0, *)
+    fileprivate func addDropInteraction() {
+        let dropInteraction = UIDropInteraction(delegate: filePickerManager)
+        view.addInteraction(dropInteraction)
     }
     
     // MARK: Focus handling

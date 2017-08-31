@@ -20,7 +20,7 @@ internal final class FilePickerManager:NSObject {
         imagePicker = UIImagePickerController()
         documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
         super.init()
-
+        
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         
@@ -38,7 +38,7 @@ internal final class FilePickerManager:NSObject {
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
-extension FilePickerManager:UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
             didSelectPicture(imageData)
@@ -54,7 +54,7 @@ extension FilePickerManager:UIImagePickerControllerDelegate, UINavigationControl
 
 // MARK: UIDocumentPickerDelegate
 
-extension FilePickerManager:UIDocumentPickerDelegate{
+extension FilePickerManager: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         _ = url.startAccessingSecurityScopedResource()
         do{
@@ -73,6 +73,50 @@ extension FilePickerManager:UIDocumentPickerDelegate{
         }catch{
             // TODO handle error
         }
+        
+    }
+}
 
+// MARK: UIDropInteractionDelegate
+
+@available(iOS 11.0, *)
+extension FilePickerManager: UIDropInteractionDelegate {
+    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+        return (session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: PDFDocument.self)) && session.items.count == 1
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+        return UIDropProposal(operation: .copy)
+    }
+    
+    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+        session.loadObjects(ofClass: PDFDocument.self) { [unowned self] pdfItems in
+            if let pdfs = pdfItems as? [PDFDocument], let pdf = pdfs.first, let pdfData = pdf.data {
+                self.didSelectPDF(pdfData)
+            }
+        }
+        
+        session.loadObjects(ofClass: UIImage.self) { [unowned self] imageItems in
+            if let images = imageItems as? [UIImage], let image = images.first, let imageData = UIImageJPEGRepresentation(image, 1.0) {
+                self.didSelectPicture(imageData)
+            }
+        }
+    }
+}
+
+
+internal class PDFDocument:NSObject, NSItemProviderReading{
+    let data:Data?
+    
+    required init(pdfData:Data, typeIdentifier:String) {
+        data = pdfData
+    }
+    
+    static var readableTypeIdentifiersForItemProvider: [String] {
+        return [kUTTypePDF as String]
+    }
+    
+    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
+        return self.init(pdfData: data, typeIdentifier: typeIdentifier)
     }
 }
