@@ -87,12 +87,20 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedFile:  A document which comes from other source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate) -> UIViewController {
-        let cameraContainerViewController = CameraContainerViewController()
-        let navigationController = GiniNavigationViewController(rootViewController: cameraContainerViewController)
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
+        let viewController:UIViewController = {
+            if let importedFile = importedFile {
+                return ReviewContainerViewController(imageData: importedFile)
+            } else {
+                return CameraContainerViewController()
+            }
+        }()
+        
+        let navigationController = GiniNavigationViewController(rootViewController: viewController)
         navigationController.giniDelegate = delegate
         return navigationController
     }
@@ -104,12 +112,13 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
+     - parameter importedFile:  A document which comes from other source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedFile:Data? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return viewController(withDelegate: delegate)
+        return viewController(withDelegate: delegate, importedFile:importedFile)
     }
     
     /**
