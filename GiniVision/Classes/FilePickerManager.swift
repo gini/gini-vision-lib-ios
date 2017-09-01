@@ -13,16 +13,16 @@ internal final class FilePickerManager:NSObject {
     
     var didSelectPicture:((Data) -> ()) = { _ in }
     var didSelectPDF:((Data) -> ()) = { _ in }
-    lazy var imagePicker:UIImagePickerController = UIImagePickerController()
-    lazy var documentPicker:UIDocumentPickerViewController = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
     
     func showGalleryPicker(from:UIViewController) {
+        let imagePicker:UIImagePickerController = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         from.present(imagePicker, animated: true, completion: nil)
     }
     
     func showDocumentPicker(from:UIViewController) {
+        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }
@@ -36,11 +36,11 @@ extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationContro
             didSelectPicture(imageData)
         }
         
-        imagePicker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        imagePicker.dismiss(animated: true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -65,11 +65,11 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             url.stopAccessingSecurityScopedResource()
         }
         
-        documentPicker.dismiss(animated: false, completion: nil)
+        controller.dismiss(animated: false, completion: nil)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        documentPicker.dismiss(animated: false, completion: nil)
+        controller.dismiss(animated: false, completion: nil)
     }
 }
 
