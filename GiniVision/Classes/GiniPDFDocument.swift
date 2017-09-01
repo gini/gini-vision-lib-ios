@@ -10,10 +10,10 @@ import Foundation
 import MobileCoreServices
 
 internal final class GiniPDFDocument:NSObject, NSItemProviderReading {
-    let data:Data?
+    let pdfData:Data?
     
     required init(pdfData:Data) {
-        data = pdfData
+        self.pdfData = pdfData        
     }
     
     static var readableTypeIdentifiersForItemProvider: [String] {
@@ -23,4 +23,5 @@ internal final class GiniPDFDocument:NSObject, NSItemProviderReading {
     static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
         return self.init(pdfData: data)
     }
+
 }

@@ -310,12 +310,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // MARK: Document import
     @objc fileprivate func importDocument(_ sender: AnyObject) {
         
-        let alertViewController = UIAlertController(title: "Provisional view", message: "File picker", preferredStyle: .actionSheet)
-        alertViewController.addAction(UIAlertAction(title: "Import picture", style: .default) { [unowned self] _ in
+        let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
             self.filePickerManager.showGalleryPicker(from: self)
         })
         
-        alertViewController.addAction(UIAlertAction(title: "Import PDF", style: .default) { [unowned self] _ in
+        alertViewController.addAction(UIAlertAction(title: "Documents", style: .default) { [unowned self] _ in
             self.filePickerManager.showDocumentPicker(from: self)
         })
         
@@ -333,7 +333,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         self.successBlock?(imageData as Data)
     }
     
-    fileprivate func processPickedPDF(_ pdfData:Data) {
+    fileprivate func processPickedPDF(_ pdfDocument:GiniPDFDocument) {
         print("processInputPDF")
     }
     

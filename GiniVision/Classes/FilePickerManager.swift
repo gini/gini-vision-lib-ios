@@ -12,7 +12,7 @@ import MobileCoreServices
 internal final class FilePickerManager:NSObject {
     
     var didSelectPicture:((Data) -> ()) = { _ in }
-    var didSelectPDF:((Data) -> ()) = { _ in }
+    var didSelectPDF:((GiniPDFDocument) -> ()) = { _ in }
     
     func showGalleryPicker(from:UIViewController) {
         let imagePicker:UIImagePickerController = UIImagePickerController()
@@ -58,7 +58,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
                 didSelectPicture(data)
             } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
-                didSelectPDF(data)
+                didSelectPDF(GiniPDFDocument(pdfData: data))
             }
         } catch {
             // TODO handle error
@@ -87,8 +87,8 @@ extension FilePickerManager: UIDropInteractionDelegate {
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
-            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first, let pdfData = pdf.data {
-                self.didSelectPDF(pdfData)
+            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first {
+                self.didSelectPDF(pdf)
             }
         }
         
