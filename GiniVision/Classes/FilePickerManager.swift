@@ -41,6 +41,24 @@ internal final class FilePickerManager:NSObject {
         
         return false
     }
+    
+    func isAValidImage(imageData:Data) -> Bool {
+        return imageData.isJPEG || imageData.isJPEG || imageData.isGIF || imageData.isTIFF
+    }
+    
+    fileprivate func processFile(fileData:Data){
+        if !maxFileSizeExceeded(forData: fileData) {
+            if fileData.isPDF{
+                didSelectPDF(GiniPDFDocument(pdfData: fileData))
+            } else if fileData.isImage && isAValidImage(imageData: fileData) {
+                didSelectPicture(fileData)
+            } else {
+                // TODO Handle error
+            }
+        } else {
+            // TODO Handle error
+        }
+    }
 }
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -48,7 +66,7 @@ internal final class FilePickerManager:NSObject {
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
-            didSelectPicture(imageData)
+            processFile(fileData: imageData)
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -68,16 +86,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
-            if !maxFileSizeExceeded(forData: data) {
-                let uti = data.utiFromMimeType
-                if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
-                    didSelectPicture(data)
-                } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
-                    didSelectPDF(GiniPDFDocument(pdfData: data))
-                }
-            } else {
-                // TODO Handle error
-            }
+            processFile(fileData: data)
         } catch {
             // TODO Handle error
             url.stopAccessingSecurityScopedResource()

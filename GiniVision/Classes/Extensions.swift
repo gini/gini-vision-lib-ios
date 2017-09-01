@@ -184,6 +184,48 @@ internal extension Data {
         return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self.mimeType as CFString, nil)
     }
     
+    var isPDF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePDF)
+        }
+        return false
+    }
+    
+    var isImage:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeImage)
+        }
+        return false
+    }
+    
+    var isPNG:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePNG)
+        }
+        return false
+    }
+    
+    var isJPEG:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeJPEG)
+        }
+        return false
+    }
+    
+    var isGIF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeGIF)
+        }
+        return false
+    }
+    
+    var isTIFF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeTIFF)
+        }
+        return false
+    }
+    
 }
 
 
