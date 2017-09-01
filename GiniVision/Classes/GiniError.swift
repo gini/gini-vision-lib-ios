@@ -25,6 +25,9 @@ import UIKit
     /// Capturing could not be completed.
     case captureFailed
     
+    /// Exceeded max file size
+    case exceededMaxFileSize
+    
 }
 
 /**

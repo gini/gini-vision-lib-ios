@@ -11,6 +11,8 @@ import MobileCoreServices
 
 internal final class FilePickerManager:NSObject {
     
+    fileprivate let MAX_FILE_SIZE = 10.0 // MB
+    
     var didSelectPicture:((Data) -> ()) = { _ in }
     var didSelectPDF:((GiniPDFDocument) -> ()) = { _ in }
     
@@ -25,6 +27,19 @@ internal final class FilePickerManager:NSObject {
         let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func maxFileSizeExceeded(forData data:Data) -> Bool {
+        let bcf = ByteCountFormatter()
+        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
+        bcf.countStyle = .file
+        bcf.includesUnit = false
+        
+        if let fileSize = NumberFormatter().number(from: bcf.string(fromByteCount: Int64(data.count)))?.doubleValue {
+            return fileSize > MAX_FILE_SIZE
+        }
+        
+        return false
     }
 }
 
@@ -53,15 +68,18 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
-            let uti = data.utiFromMimeType
-            
-            if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
-                didSelectPicture(data)
-            } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
-                didSelectPDF(GiniPDFDocument(pdfData: data))
+            if !maxFileSizeExceeded(forData: data) {
+                let uti = data.utiFromMimeType
+                if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypeImage) {
+                    didSelectPicture(data)
+                } else if UTTypeConformsTo((uti?.takeRetainedValue())!, kUTTypePDF) {
+                    didSelectPDF(GiniPDFDocument(pdfData: data))
+                }
+            } else {
+                // TODO Handle error
             }
         } catch {
-            // TODO handle error
+            // TODO Handle error
             url.stopAccessingSecurityScopedResource()
         }
         
