@@ -8,12 +8,12 @@
 
 import Foundation
 
-protocol GiniDocument:class {
+@objc public protocol GiniDocument:class {
     var type:GiniDocumentType { get }
     init(data:Data)
 }
 
-enum GiniDocumentType {
-    case PDF
-    case Image
+@objc public enum GiniDocumentType:Int {
+    case PDF = 0
+    case Image = 1
 }
