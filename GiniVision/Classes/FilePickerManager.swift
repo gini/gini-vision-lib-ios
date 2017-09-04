@@ -60,8 +60,8 @@ internal final class FilePickerManager:NSObject {
     
     fileprivate func processFile(fileData:Data){
         if !maxFileSizeExceeded(forData: fileData) {
-            if fileData.isPDF && isValidPDF(pdfDocument: GiniPDFDocument(pdfData: fileData)) {
-                let pdfDocument = GiniPDFDocument(pdfData: fileData)
+            if fileData.isPDF && isValidPDF(pdfDocument: GiniPDFDocument(data: fileData)) {
+                let pdfDocument = GiniPDFDocument(data: fileData)
                 if isValidPDF(pdfDocument: pdfDocument) {
 
                 } else {
