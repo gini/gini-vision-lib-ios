@@ -13,7 +13,7 @@ internal final class FilePickerManager:NSObject {
     
     fileprivate let MAX_FILE_SIZE = 10.0 // MB
     
-    var didPickFile:((Data) -> ()) = { _ in }
+    var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
     
     // MARK: Picker presentation
     
@@ -83,7 +83,8 @@ internal final class FilePickerManager:NSObject {
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
-            didPickFile(imageData)
+            let imageDocument = GiniImageDocument(data: imageData)
+            didPickFile(imageDocument)
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -103,7 +104,13 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
-            didPickFile(data)
+            if data.isPDF {
+                let pdfDocument = GiniPDFDocument(data: data)
+                didPickFile(pdfDocument)
+            } else if data.isImage {
+                let imageDocument = GiniImageDocument(data: data)
+                didPickFile(imageDocument)
+            }
         } catch {
             // TODO Handle error
             url.stopAccessingSecurityScopedResource()
@@ -131,14 +138,15 @@ extension FilePickerManager: UIDropInteractionDelegate {
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
-            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first, let pdfData = pdf.pdfData {
-                self.didPickFile(pdfData)
+            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first {
+                self.didPickFile(pdf)
             }
         }
         
         session.loadObjects(ofClass: UIImage.self) { [unowned self] imageItems in
             if let images = imageItems as? [UIImage], let image = images.first, let imageData = UIImageJPEGRepresentation(image, 1.0) {
-                self.didPickFile(imageData)
+                let imageDocument = GiniImageDocument(data: imageData)
+                self.didPickFile(imageDocument)
             }
         }
     }

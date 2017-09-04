@@ -21,7 +21,7 @@ import UIKit
      
      - parameter imageData: JPEG image data including meta information.
      */
-    func didCapture(_ imageData: Data)
+    func didCapture(_ document: GiniVisionDocument)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -29,7 +29,7 @@ import UIKit
      - parameter imageData: JPEG image data including eventually updated meta information.
      - parameter changes:   Indicates whether `imageData` was altered.
     */
-    func didReview(_ imageData: Data, withChanges changes: Bool)
+    func didReview(_ document: GiniVisionDocument, withChanges changes: Bool)
     
     /**
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.

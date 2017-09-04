@@ -55,13 +55,13 @@ import UIKit
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(_ imageData: Data) {
+    public init(_ document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure image view
-        imageView.image = UIImage(data: imageData)
+        imageView.image = document.previewImage
         imageView.contentMode = .scaleAspectFit
-        
+
         // Configure loading indicator view
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge

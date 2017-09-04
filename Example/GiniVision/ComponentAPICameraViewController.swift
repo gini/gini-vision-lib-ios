@@ -34,8 +34,8 @@ class ComponentAPICameraViewController: UIViewController {
         
         // 2. Create the camera view controller
         contentController = CameraViewController(success:
-            { imageData in
-                self.imageData = imageData
+            { document in
+                self.imageData = document.data
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "showReview", sender: self)
                 }

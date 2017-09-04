@@ -14,7 +14,7 @@ import AVFoundation
  
  - note: Component API only.
  */
-public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
+public typealias CameraSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
@@ -126,7 +126,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure file picker
         
-        filePickerManager.didPickFile = successBlock!
+        filePickerManager.didPickFile = success
         
         // Configure camera
         do {
@@ -272,7 +272,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    self.successBlock?(imageData)
+                    let imageDocument = GiniImageDocument(data: imageData)
+                    self.successBlock?(imageDocument)
                 }
             }
             return print("GiniVision: No camera initialized.")
@@ -287,9 +288,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 if let richImageData = manager.imageData() {
                     imageData = richImageData
                 }
+                let imageDocument = GiniImageDocument(data: imageData)
                 
                 // Call success block
-                self.successBlock?(imageData as Data)
+                self.successBlock?(imageDocument)
             } catch let error as CameraError {
                 self.errorBlock?(error)
             } catch _ {

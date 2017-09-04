@@ -170,31 +170,36 @@ class ScreenAPIViewController: UIViewController {
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GiniVisionDelegate {
     
-    func didCapture(_ imageData: Data) {
+    func didCapture(_ document: GiniVisionDocument) {
         print("Screen API received image data")
+        
+        let imageData = document.data
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withImageData: imageData)
     }
     
-    func didReview(_ imageData: Data, withChanges changes: Bool) {
+    func didReview(_ document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
         // Analyze reviewed data because changes were made by the user during review.
         if changes {
+            let imageData = document.data
+
             analyzeDocument(withImageData: imageData)
             return
         }
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
         if let result = result,
-           let document = document {
+           let document = self.document {
             present(result, fromDocument: document)
             return
         }
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
+            let imageData = document.data
             analyzeDocument(withImageData: imageData)
         }
     }

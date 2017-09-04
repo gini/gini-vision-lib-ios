@@ -30,14 +30,22 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Configure content controller and call delegate method on success
         contentController = CameraViewController(success:
-            { imageData in
+            { document in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-                delegate?.didCapture(imageData)
+                var destVC:UIViewController?
+                if document.type == .Image {
+                    delegate?.didCapture(document)
+                    destVC = ReviewContainerViewController(document: document)
+                } else if document.type == .PDF {
+                    delegate?.didReview(document, withChanges: true)
+                    destVC = AnalysisContainerViewController(document: document)
+                }
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(ReviewContainerViewController(imageData: imageData), animated: true)
+                    self.navigationController?.pushViewController(destVC!, animated: true)
                 }
+                
             }, failure: { error in
                 switch error {
                 case .notAuthorizedToUseDevice:

@@ -13,7 +13,7 @@ import UIKit
  
  - note: Component API only.
  */
-public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
+public typealias ReviewSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block which will be executed when an error occurs on the review screen. It contains a review specific error.
@@ -82,7 +82,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
      
      - returns: A view controller instance allowing the user to review a picture of a document.
      */
-    public init(_ imageData: Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+    public init(_ document: GiniVisionDocument, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -90,7 +90,9 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         errorBlock = failure
         
         // Set meta information manager
-        metaInformationManager = ImageMetaInformationManager(imageData: imageData)
+        if document.type == .Image{
+            metaInformationManager = ImageMetaInformationManager(imageData: document.data)
+        }
         
         // Configure scroll view
         scrollView.delegate = self
@@ -99,7 +101,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         scrollView.addGestureRecognizer(doubleTapGesture)
         
         // Configure image view
-        imageView.image = UIImage(data: imageData)
+        imageView.image = document.previewImage
         imageView.contentMode = .scaleAspectFit
         imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
@@ -171,7 +173,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         guard let metaInformationManager = metaInformationManager else { return }
         metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
         guard let data = metaInformationManager.imageData() else { return }
-        successBlock?(data as Data)
+        successBlock?(GiniImageDocument(data: data))
     }
     
     fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {

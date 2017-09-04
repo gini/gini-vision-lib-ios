@@ -9,13 +9,16 @@
 import Foundation
 import MobileCoreServices
 
-final class GiniPDFDocument: NSObject, GiniDocument, NSItemProviderReading {
+final class GiniPDFDocument: NSObject, GiniVisionDocument, NSItemProviderReading {   
     var type: GiniDocumentType = .PDF
-    let pdfData:Data?
+    let data:Data
+    var previewImage: UIImage?
+    
     private(set) var numberPages:Int = 0
     
     required init(data:Data) {
-        self.pdfData = data
+        self.data = data
+        self.previewImage = UIImageNamedPreferred(named: "cameraDefaultDocumentImage") // Here should be the first rendered page
         if let dataProvider = CGDataProvider(data: data as CFData) {
             let pdfDocument = CGPDFDocument(dataProvider)
             self.numberPages = pdfDocument?.numberOfPages ?? 0

@@ -39,8 +39,10 @@ class ComponentAPIAnalysisViewController: UIViewController {
         // (1. If not already done: Create and set a custom configuration object)
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
+        let imageDocument = GiniImageDocument(data: imageData)
+        
         // 2. Create the analysis view controller
-        contentController = AnalysisViewController(imageData)
+        contentController = AnalysisViewController(imageDocument)
         
         // 3. Display the analysis view controller
         displayContent(contentController)
