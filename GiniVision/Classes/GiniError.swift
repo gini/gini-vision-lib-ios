@@ -25,9 +25,6 @@ import UIKit
     /// Capturing could not be completed.
     case captureFailed
     
-    /// Exceeded max file size
-    case exceededMaxFileSize
-    
 }
 
 /**
@@ -39,3 +36,26 @@ import UIKit
     case unknown = 0
     
 }
+
+/**
+ Errors thrown when picking a file (image or pdf).
+ */
+@objc public enum PickerError: Int, Error {
+    
+    /// Unknown error during review.
+    case unknown = 0
+    
+    /// Exceeded max file size
+    case exceededMaxFileSize
+    
+    /// Image format not valid
+    case imageFormatNotValid
+    
+    /// File format not valid
+    case fileFormatNotValid
+    
+    /// Exceeded max file size
+    case pdfPageLengthExceeded
+    
+}
+

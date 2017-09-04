@@ -10,9 +10,7 @@ import Foundation
 import MobileCoreServices
 
 internal final class FilePickerManager:NSObject {
-    
-    fileprivate let MAX_FILE_SIZE = 10.0 // MB
-    
+        
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
     
     // MARK: Picker presentation
@@ -30,52 +28,6 @@ internal final class FilePickerManager:NSObject {
         from.present(documentPicker, animated: true, completion: nil)
     }
     
-    // MARK: File type check
-    
-    func maxFileSizeExceeded(forData data:Data) -> Bool {
-        let bcf = ByteCountFormatter()
-        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-        bcf.countStyle = .file
-        bcf.includesUnit = false
-        
-        if let fileSize = NumberFormatter().number(from: bcf.string(fromByteCount: Int64(data.count)))?.doubleValue {
-            return fileSize > MAX_FILE_SIZE
-        }
-        
-        return false
-    }
-    
-    func isValidImage(imageData:Data) -> Bool {
-        return imageData.isJPEG || imageData.isJPEG || imageData.isGIF || imageData.isTIFF
-    }
-    
-    func isValidPDF(pdfDocument:GiniPDFDocument) -> Bool {
-        if case 1...10 = pdfDocument.numberPages {
-            return true
-        }
-        return false
-    }
-    
-    // MARK: File processing
-    
-    fileprivate func processFile(fileData:Data){
-        if !maxFileSizeExceeded(forData: fileData) {
-            if fileData.isPDF && isValidPDF(pdfDocument: GiniPDFDocument(data: fileData)) {
-                let pdfDocument = GiniPDFDocument(data: fileData)
-                if isValidPDF(pdfDocument: pdfDocument) {
-
-                } else {
-                    // TODO Handle error
-                }
-            } else if fileData.isImage && isValidImage(imageData: fileData) {
-                
-            } else {
-                // TODO Handle error
-            }
-        } else {
-            // TODO Handle error
-        }
-    }
 }
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate

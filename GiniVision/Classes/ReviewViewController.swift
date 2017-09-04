@@ -89,6 +89,11 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         successBlock = success
         errorBlock = failure
         
+        do {
+            try document.isValidDocument()
+        } catch let error {
+            
+        }
         // Set meta information manager
         if document.type == .Image{
             metaInformationManager = ImageMetaInformationManager(imageData: document.data)
