@@ -16,6 +16,8 @@ internal final class FilePickerManager:NSObject {
     var didSelectPicture:((Data) -> ()) = { _ in }
     var didSelectPDF:((GiniPDFDocument) -> ()) = { _ in }
     
+    // MARK: Picker presentation
+    
     func showGalleryPicker(from:UIViewController) {
         let imagePicker:UIImagePickerController = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -28,6 +30,8 @@ internal final class FilePickerManager:NSObject {
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }
+    
+    // MARK: File type check
     
     func maxFileSizeExceeded(forData data:Data) -> Bool {
         let bcf = ByteCountFormatter()
@@ -42,15 +46,29 @@ internal final class FilePickerManager:NSObject {
         return false
     }
     
-    func isAValidImage(imageData:Data) -> Bool {
+    func isValidImage(imageData:Data) -> Bool {
         return imageData.isJPEG || imageData.isJPEG || imageData.isGIF || imageData.isTIFF
     }
     
+    func isValidPDF(pdfDocument:GiniPDFDocument) -> Bool {
+        if case 1...10 = pdfDocument.numberPages {
+            return true
+        }
+        return false
+    }
+    
+    // MARK: File processing
+    
     fileprivate func processFile(fileData:Data){
         if !maxFileSizeExceeded(forData: fileData) {
-            if fileData.isPDF{
-                didSelectPDF(GiniPDFDocument(pdfData: fileData))
-            } else if fileData.isImage && isAValidImage(imageData: fileData) {
+            if fileData.isPDF && isValidPDF(pdfDocument: GiniPDFDocument(pdfData: fileData)) {
+                let pdfDocument = GiniPDFDocument(pdfData: fileData)
+                if isValidPDF(pdfDocument: pdfDocument) {
+                    didSelectPDF(pdfDocument)
+                } else {
+                    // TODO Handle error
+                }
+            } else if fileData.isImage && isValidImage(imageData: fileData) {
                 didSelectPicture(fileData)
             } else {
                 // TODO Handle error

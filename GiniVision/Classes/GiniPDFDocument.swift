@@ -11,9 +11,14 @@ import MobileCoreServices
 
 internal final class GiniPDFDocument:NSObject, NSItemProviderReading {
     let pdfData:Data?
+    private(set) var numberPages:Int = 0
     
     required init(pdfData:Data) {
-        self.pdfData = pdfData        
+        self.pdfData = pdfData
+        if let dataProvider = CGDataProvider(data: pdfData as CFData) {
+            let pdfDocument = CGPDFDocument(dataProvider)
+            self.numberPages = pdfDocument?.numberOfPages ?? 0
+        }
     }
     
     static var readableTypeIdentifiersForItemProvider: [String] {

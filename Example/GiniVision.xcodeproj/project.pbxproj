@@ -235,11 +235,11 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
+				1F8547631F56E44700B1CAC6 /* GINIFilePickerManagerTests.swift */,
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
-				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
-				1F8547631F56E44700B1CAC6 /* GINIFilePickerManagerTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
