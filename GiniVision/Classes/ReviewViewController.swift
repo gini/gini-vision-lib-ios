@@ -298,7 +298,7 @@ extension ReviewViewController: UIScrollViewDelegate {
      - parameter scrollView: The scroll-view object whose zoom factor has changed.
      */
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        DispatchQueue.main.async { 
+        DispatchQueue.main.async {
             self.updateConstraintsForSize(scrollView.bounds.size)
         }
     }

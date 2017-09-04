@@ -126,8 +126,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         
         // Configure file picker
         
-        filePickerManager.didSelectPicture = processPickedPicture
-        filePickerManager.didSelectPDF = processPickedPDF
+        filePickerManager.didPickFile = successBlock!
         
         // Configure camera
         do {
@@ -326,15 +325,6 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         alertViewController.popoverPresentationController?.sourceView = documentProviderButton
         
         self.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    fileprivate func processPickedPicture(_ imageData:Data) {        
-        // Call success block
-        self.successBlock?(imageData as Data)
-    }
-    
-    fileprivate func processPickedPDF(_ pdfDocument:GiniPDFDocument) {
-        print("processInputPDF")
     }
     
     @available(iOS 11.0, *)
