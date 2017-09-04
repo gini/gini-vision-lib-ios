@@ -39,22 +39,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        // If the current root view controller is not the ScreenAPIViewController not action done
+        // If the current root view controller is not the ScreenAPIViewController, it won't do anything.
         guard let navVC = window?.rootViewController as? UINavigationController, let screenAPIVC = navVC.viewControllers.first as? ScreenAPIViewController else {
             return false
         }
         
+        // 1. Create GiniConfiguration
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
         giniConfiguration.navigationBarItemTintColor = UIColor.white
         
-        _ = url.startAccessingSecurityScopedResource()
+        // 2. Read data imported from url
         let data = try? Data(contentsOf: url)
-        url.stopAccessingSecurityScopedResource()
-        // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
+        
+        // 3. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
         let vc = GiniVision.viewController(withDelegate: screenAPIVC, withConfiguration: giniConfiguration, importedFile: data)
         
-        // 3. Present the Gini Vision Library Screen API modally
+        // 4. Present the Gini Vision Library Screen API modally
         screenAPIVC.present(vc, animated: true, completion: nil)
         
         return true

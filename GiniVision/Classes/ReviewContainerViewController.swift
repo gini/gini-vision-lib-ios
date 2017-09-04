@@ -93,7 +93,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         if let navVC = navigationController {
             if navVC.viewControllers.count > 1 {
                 _ = navVC.popViewController(animated: true)
-            }else{
+            } else {
                 navVC.dismiss(animated: true, completion: nil)
             }
         }
