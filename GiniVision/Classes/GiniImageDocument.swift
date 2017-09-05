@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import MobileCoreServices
 
-final public class GiniImageDocument: GiniVisionDocument {
+final public class GiniImageDocument: NSObject, GiniVisionDocument {
+    
+    static let acceptedImageTypes:[String] = [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String]
     
     public var type: GiniDocumentType = .Image
     public var data:Data
@@ -28,4 +31,18 @@ final public class GiniImageDocument: GiniVisionDocument {
             throw PickerError.fileFormatNotValid
         }
     }
+}
+
+// MARK: NSItemProviderReading
+
+extension GiniImageDocument:NSItemProviderReading {
+    
+    static public var readableTypeIdentifiersForItemProvider: [String] {
+        return acceptedImageTypes
+    }
+    
+    static public func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
+        return self.init(data: data)
+    }
+    
 }

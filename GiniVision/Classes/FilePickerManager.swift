@@ -23,7 +23,7 @@ internal final class FilePickerManager:NSObject {
     }
     
     func showDocumentPicker(from:UIViewController) {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String], in: .open)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: GiniImageDocument.acceptedImageTypes, in: .open)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }
@@ -81,7 +81,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return (session.canLoadObjects(ofClass: UIImage.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
+        return (session.canLoadObjects(ofClass: GiniImageDocument.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
@@ -95,10 +95,9 @@ extension FilePickerManager: UIDropInteractionDelegate {
             }
         }
         
-        session.loadObjects(ofClass: UIImage.self) { [unowned self] imageItems in
-            if let images = imageItems as? [UIImage], let image = images.first, let imageData = UIImageJPEGRepresentation(image, 1.0) {
-                let imageDocument = GiniImageDocument(data: imageData)
-                self.didPickFile(imageDocument)
+        session.loadObjects(ofClass: GiniImageDocument.self) { [unowned self] imageItems in
+            if let images = imageItems as? [GiniImageDocument], let image = images.first {
+                self.didPickFile(image)
             }
         }
     }
