@@ -29,11 +29,13 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     public init(data:Data) {
         self.data = data
-        self.previewImage = UIImageNamedPreferred(named: "cameraDefaultDocumentImage") // Here should be the first rendered page
         if let dataProvider = CGDataProvider(data: data as CFData) {
             let pdfDocument = CGPDFDocument(dataProvider)
             self.numberPages = pdfDocument?.numberOfPages ?? 0
         }
+        super.init()
+        
+        self.previewImage = renderFirstPage()
     }
     
     /**
@@ -56,6 +58,30 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         }
     }
     
+    fileprivate func renderFirstPage() -> UIImage? {
+        var pdfImage:UIImage?
+        let pdfData = data
+        let provider:CGDataProvider = CGDataProvider(data: pdfData as CFData)!
+        let pdfDoc:CGPDFDocument = CGPDFDocument(provider)!
+        
+        if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
+            var pageRect:CGRect = pdfPage.getBoxRect(.mediaBox)
+            pageRect.size = CGSize(width:pageRect.size.width, height:pageRect.size.height)
+            
+            UIGraphicsBeginImageContext(pageRect.size)
+            let context:CGContext = UIGraphicsGetCurrentContext()!
+            context.saveGState()
+            context.translateBy(x: 0.0, y: pageRect.size.height)
+            context.scaleBy(x: 1.0, y: -1.0)
+            context.concatenate(pdfPage.getDrawingTransform(.mediaBox, rect: pageRect, rotate: 0, preserveAspectRatio: true))
+            context.drawPDFPage(pdfPage)
+            context.restoreGState()
+            pdfImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
+        
+        return pdfImage
+    }
 }
 
 // MARK: NSItemProviderReading
