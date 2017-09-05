@@ -17,7 +17,7 @@ import UIKit
 @objc public protocol GiniVisionDelegate {
     
     /**
-     Called when the user has taken an image.
+     Called when the user has taken an image or picked a PDF.
      
      - parameter fileData: JPEG image data including meta information or PDF data
      */

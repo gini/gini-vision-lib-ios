@@ -51,7 +51,7 @@ import UIKit
     /**
      Designated intitializer for the `AnalysisViewController`.
      
-     - parameter imageData: Reviewed image data ready for analysis.
+     - parameter document: Reviewed document ready for analysis.
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */

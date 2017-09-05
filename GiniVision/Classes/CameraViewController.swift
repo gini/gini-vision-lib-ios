@@ -111,7 +111,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     /**
      Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
-     - parameter success: Success block to be executed when image was taken.
+     - parameter success: Success block to be executed when document was picked or image was taken.
      - parameter failure: Error block to be executed if an error occurred.
      
      - returns: A view controller instance allowing the user to take a picture.
@@ -460,7 +460,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
-        }else{
+        } else {
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)

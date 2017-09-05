@@ -94,7 +94,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         currentDocument = document
         
         // Set meta information manager
-        if document.type == .Image{
+        if document.type == .Image {
             metaInformationManager = ImageMetaInformationManager(imageData: document.data)
         }
         
