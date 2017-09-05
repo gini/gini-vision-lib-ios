@@ -9,14 +9,15 @@
 import Foundation
 import MobileCoreServices
 
-final class GiniPDFDocument: NSObject, GiniVisionDocument, NSItemProviderReading {   
-    var type: GiniDocumentType = .PDF
-    let data:Data
-    var previewImage: UIImage?
+final public class GiniPDFDocument: NSObject, GiniVisionDocument {
+    
+    public var type: GiniDocumentType = .PDF
+    public let data:Data
+    public var previewImage: UIImage?
     
     private(set) var numberPages:Int = 0
     
-    required init(data:Data) {
+    public init(data:Data) {
         self.data = data
         self.previewImage = UIImageNamedPreferred(named: "cameraDefaultDocumentImage") // Here should be the first rendered page
         if let dataProvider = CGDataProvider(data: data as CFData) {
@@ -25,12 +26,32 @@ final class GiniPDFDocument: NSObject, GiniVisionDocument, NSItemProviderReading
         }
     }
     
-    static var readableTypeIdentifiersForItemProvider: [String] {
+    public func checkType() throws {
+        if self.data.isPDF {
+            if case 1...10 = self.numberPages {
+                return
+            } else {
+                throw PickerError.pdfPageLengthExceeded
+            }
+        } else {
+            throw PickerError.fileFormatNotValid
+        }
+    }
+    
+}
+
+// MARK: NSItemProviderReading
+
+extension GiniPDFDocument:NSItemProviderReading {
+    
+    static public var readableTypeIdentifiersForItemProvider: [String] {
         return [kUTTypePDF as String]
     }
     
-    static func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
+    static public func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
         return self.init(data: data)
     }
-
+    
 }
+
+

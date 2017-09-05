@@ -76,7 +76,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
      Designated intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      
-     - parameter imageData: JPEG representation as a result from the camera or camera roll.
+     - parameter document:  JPEG representation or PDF as a result from the camera, camera roll or file explorer.
      - parameter success:   Success block to be executed when image was rotated.
      - parameter failure:   Error block to be executed if an error occured.
      
@@ -90,13 +90,17 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         errorBlock = failure
         
         do {
-            try document.isValidDocument()
+            try document.validate()
         } catch let error {
-            
+            // TODO When we have definitive UI Screens
+            print(error)
         }
+        
         // Set meta information manager
         if document.type == .Image{
             metaInformationManager = ImageMetaInformationManager(imageData: document.data)
+        } else if document.type == .PDF {
+            successBlock!(document)
         }
         
         // Configure scroll view

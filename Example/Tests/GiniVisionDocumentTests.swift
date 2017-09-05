@@ -16,7 +16,7 @@ class GINIVisionDocumentTests: XCTestCase {
         return FilePickerManager()
     }
     
-    func testExcedeedMaxFileSize(){
+    func testExcedeedMaxFileSize() {
         // Given
         let higherThan10MBData = generateFakeData(megaBytes: 12)
         
@@ -24,12 +24,12 @@ class GINIVisionDocumentTests: XCTestCase {
         let fakeDocument = GiniPDFDocument(data: higherThan10MBData)
         
         // Then
-        XCTAssertThrowsError(try fakeDocument.isValidDocument(), "should indicate that is not a valid document"){ error in
+        XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
             XCTAssert(error as? PickerError == PickerError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
     
-    func testNotExcedeedMaxFileSize(){
+    func testNotExcedeedMaxFileSize() {
         // Given
         let lowerThanOrEqualTo10MBData = generateFakeData(megaBytes: 10)
         
@@ -37,7 +37,7 @@ class GINIVisionDocumentTests: XCTestCase {
         let fakeDocument = GiniPDFDocument(data: lowerThanOrEqualTo10MBData)
 
         // Then
-        XCTAssertThrowsError(try fakeDocument.isValidDocument(), "should indicate that is not a valid document"){ error in
+        XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
             XCTAssert(error as? PickerError != PickerError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
@@ -52,10 +52,10 @@ class GINIVisionDocumentTests: XCTestCase {
         
         // Then
         
-        XCTAssertNoThrow(try imageDocument.isValidDocument(), "should not throw an exception given that it is a valid image")
+        XCTAssertNoThrow(try imageDocument.validate(), "should not throw an exception given that it is a valid image")
     }
     
-    fileprivate func generateFakeData(megaBytes lengthInMB:Int) -> Data{
+    fileprivate func generateFakeData(megaBytes lengthInMB:Int) -> Data {
         let length = lengthInMB * 1000000
         let bytes = [UInt32](repeating: 0, count: length).map { _ in arc4random() }
         return Data(bytes: bytes, count: length)

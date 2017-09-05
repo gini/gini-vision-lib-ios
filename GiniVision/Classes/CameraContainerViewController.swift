@@ -33,13 +33,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             { document in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 var destVC:UIViewController?
-                if document.type == .Image {
-                    delegate?.didCapture(document)
-                    destVC = ReviewContainerViewController(document: document)
-                } else if document.type == .PDF {
-                    delegate?.didReview(document, withChanges: true)
-                    destVC = AnalysisContainerViewController(document: document)
-                }
+                delegate?.didCapture(document)
+                destVC = ReviewContainerViewController(document: document)
                 
                 // Push review container view controller
                 DispatchQueue.main.async {

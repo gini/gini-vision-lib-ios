@@ -14,6 +14,7 @@ import Foundation
     var previewImage:UIImage? { get }
     
     init(data:Data)
+    func checkType() throws
 }
 
 // MARK: GiniDocumentType
@@ -31,18 +32,12 @@ extension GiniVisionDocument {
         return 10.0
     }
     
-    // MARK: File check
+    // MARK: File validation
     
-    func isValidDocument() throws {
+    func validate() throws {
         let document = self
         if !maxFileSizeExceeded(forData: document.data) {
-            if document.type == .PDF {
-                try isValidPDF(pdfDocument: document as! GiniPDFDocument)
-            } else if document.type == .Image {
-                try isValidImage(imageData: document.data)
-            } else {
-                throw PickerError.fileFormatNotValid
-            }
+            try checkType()
         } else {
             throw PickerError.exceededMaxFileSize
         }

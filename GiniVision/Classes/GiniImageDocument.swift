@@ -9,13 +9,23 @@
 import Foundation
 
 final public class GiniImageDocument: GiniVisionDocument {
-    public var previewImage: UIImage?
     
     public var type: GiniDocumentType = .Image
     public var data:Data
+    public var previewImage: UIImage?
     
     public init(data: Data) {
         self.data = data
         self.previewImage = UIImage(data: data)
+    }
+    
+    public func checkType() throws {
+        if self.data.isImage {
+            if !(self.data.isJPEG || self.data.isPNG || self.data.isGIF || self.data.isTIFF) {
+                throw PickerError.imageFormatNotValid
+            }
+        } else {
+            throw PickerError.fileFormatNotValid
+        }
     }
 }
