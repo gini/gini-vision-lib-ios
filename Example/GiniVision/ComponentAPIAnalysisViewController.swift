@@ -92,7 +92,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         hideErrorButton()
         
         // Retry analysis of the document.
-        AnalysisManager.sharedManager.analyzeDocument(withImageData: document.data, cancelationToken: CancelationToken(), completion: nil)
+        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
     }
     
     // MARK: Handle results from analysis process

@@ -32,13 +32,11 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         contentController = CameraViewController(success:
             { document in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-                var destVC:UIViewController?
                 delegate?.didCapture(document.data)
-                destVC = ReviewContainerViewController(document: document)
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(destVC!, animated: true)
+                    self.navigationController?.pushViewController(ReviewContainerViewController(document: document), animated: true)
                 }
                 
             }, failure: { error in

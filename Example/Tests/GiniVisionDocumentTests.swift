@@ -51,7 +51,6 @@ class GINIVisionDocumentTests: XCTestCase {
         let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!)
         
         // Then
-        
         XCTAssertNoThrow(try imageDocument.validate(), "should not throw an exception given that it is a valid image")
     }
     
