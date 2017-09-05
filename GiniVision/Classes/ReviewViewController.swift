@@ -193,6 +193,14 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         updateMinZoomScaleForSize(scrollView.bounds.size)
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // On initialization imageView frame is (0,0) so the image needs to be centered
+        // inside the ScrollView when its size has changed
+        self.updateConstraintsForSize(scrollView.bounds.size)
+    }
+    
     /**
      Notifies the view controller that its view was added to a view hierarchy.
      
@@ -215,7 +223,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
             
             // If the document is a PDF, go to Analysis screen
             if currentDocument.type == .PDF {
-                successBlock?(currentDocument, true)
+                successBlock?(currentDocument, false)
             }
         }
     }
