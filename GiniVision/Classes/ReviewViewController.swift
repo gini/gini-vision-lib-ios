@@ -13,7 +13,7 @@ import UIKit
  
  - note: Component API only.
  */
-public typealias ReviewSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias ReviewSuccessBlock = (_ document: GiniVisionDocument, _ shouldFinish:Bool) -> ()
 
 /**
  Block which will be executed when an error occurs on the review screen. It contains a review specific error.
@@ -62,6 +62,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
     fileprivate var metaInformationManager: ImageMetaInformationManager?
+    fileprivate var currentDocument:GiniVisionDocument?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -97,10 +98,9 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         }
         
         // Set meta information manager
+        currentDocument = document
         if document.type == .Image{
             metaInformationManager = ImageMetaInformationManager(imageData: document.data)
-        } else if document.type == .PDF {
-            successBlock!(document)
         }
         
         // Configure scroll view
@@ -173,6 +173,10 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         DispatchQueue.main.async {
             (self.topView as? NoticeView)?.show()
         }
+        
+        if let currentDocument = currentDocument, currentDocument.type == .PDF {
+            successBlock?(currentDocument, true)
+        }
     }
     
     // MARK: Rotation handling
@@ -182,7 +186,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         guard let metaInformationManager = metaInformationManager else { return }
         metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
         guard let data = metaInformationManager.imageData() else { return }
-        successBlock?(GiniImageDocument(data: data))
+        successBlock?(GiniImageDocument(data: data), false)
     }
     
     fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {

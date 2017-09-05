@@ -19,7 +19,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     /**
      The image data of the captured document to be reviewed.
      */
-    var imageData: Data!
+    var document: GiniVisionDocument!
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
@@ -39,10 +39,8 @@ class ComponentAPIAnalysisViewController: UIViewController {
         // (1. If not already done: Create and set a custom configuration object)
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
-        let imageDocument = GiniImageDocument(data: imageData)
-        
         // 2. Create the analysis view controller
-        contentController = AnalysisViewController(imageDocument)
+        contentController = AnalysisViewController(document)
         
         // 3. Display the analysis view controller
         displayContent(contentController)
@@ -94,7 +92,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         hideErrorButton()
         
         // Retry analysis of the document.
-        AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+        AnalysisManager.sharedManager.analyzeDocument(withImageData: document.data, cancelationToken: CancelationToken(), completion: nil)
     }
     
     // MARK: Handle results from analysis process

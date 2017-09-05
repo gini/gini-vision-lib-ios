@@ -33,9 +33,13 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure content controller and update image data on success
         contentController = ReviewViewController(self.document!, success:
-            { document in
+            { [unowned self] (document, shouldFinish) in
                 self.document = document
                 self.changes = true
+                
+                if shouldFinish {
+                    self.analyse()
+                }
             }, failure: { error in
                 print(error)
             })
@@ -86,7 +90,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     
     @IBAction func analyse() {
         let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-        delegate?.didReview(document!, withChanges: changes)
+        delegate?.didReview(document!.data, withChanges: changes)
         
         // Push analysis container view controller
         navigationController?.pushViewController(AnalysisContainerViewController(document: document!), animated: true)

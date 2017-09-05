@@ -33,7 +33,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             { document in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 var destVC:UIViewController?
-                delegate?.didCapture(document)
+                delegate?.didCapture(document.data)
                 destVC = ReviewContainerViewController(document: document)
                 
                 // Push review container view controller
