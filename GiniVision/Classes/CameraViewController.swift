@@ -125,8 +125,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         errorBlock = failure
         
         // Configure file picker
-        
-        filePickerManager.didPickFile = success
+        filePickerManager.didPickFile = { [unowned self] document in
+            do {
+                try document.validate()
+                self.successBlock?(document)
+            } catch {
+                // TODO Handle errors
+                print("Invalid file")
+            }
+        }
         
         // Configure camera
         do {

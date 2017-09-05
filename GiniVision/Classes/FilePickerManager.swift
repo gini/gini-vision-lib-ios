@@ -23,7 +23,7 @@ internal final class FilePickerManager:NSObject {
     }
     
     func showDocumentPicker(from:UIViewController) {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeImage as String], in: .open)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String], in: .open)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }

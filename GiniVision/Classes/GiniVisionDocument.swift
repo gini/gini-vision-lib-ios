@@ -57,31 +57,6 @@ extension GiniVisionDocument {
         
         return false
     }
-    
-    // MARK: File type check
-    
-    fileprivate func isValidImage(imageData:Data) throws {
-        if imageData.isImage {
-            if !(imageData.isJPEG || imageData.isPNG || imageData.isGIF || imageData.isTIFF) {
-                throw PickerError.imageFormatNotValid
-            }
-        } else {
-            throw PickerError.fileFormatNotValid
-        }
-
-    }
-    
-    fileprivate func isValidPDF(pdfDocument:GiniPDFDocument) throws {
-        if pdfDocument.data.isPDF {
-            if case 1...10 = pdfDocument.numberPages {
-                return
-            } else {
-                throw PickerError.pdfPageLengthExceeded
-            }
-        } else {
-            throw PickerError.fileFormatNotValid
-        }
-    }
 }
 
 

@@ -90,15 +90,10 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         successBlock = success
         errorBlock = failure
         
-        do {
-            try document.validate()
-        } catch let error {
-            // TODO When we have definitive UI Screens
-            print(error)
-        }
+        // Initialize currentDocument
+        currentDocument = document
         
         // Set meta information manager
-        currentDocument = document
         if document.type == .Image{
             metaInformationManager = ImageMetaInformationManager(imageData: document.data)
         }
@@ -174,8 +169,23 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
             (self.topView as? NoticeView)?.show()
         }
         
-        if let currentDocument = currentDocument, currentDocument.type == .PDF {
-            successBlock?(currentDocument, true)
+        if let currentDocument = currentDocument {
+            // Validate document before review
+            do {
+                try currentDocument.validate()
+            } catch {
+                // TODO
+                let alert = UIAlertController(title: "Invalid document", message: "error", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+                    alert.dismiss(animated: true, completion: nil)
+                }))
+                present(alert, animated: true, completion: nil)
+            }
+            
+            // If the document is a PDF, go to Analysis screen
+            if currentDocument.type == .PDF {
+                successBlock?(currentDocument, true)
+            }
         }
     }
     
