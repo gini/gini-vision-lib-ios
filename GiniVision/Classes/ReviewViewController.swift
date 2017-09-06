@@ -29,6 +29,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
  
  * `ginivision.navigationbar.review.title` (Screen API only.)
  * `ginivision.navigationbar.review.back` (Screen API only.)
+ * `ginivision.navigationbar.review.close` (Screen API only.)
  * `ginivision.navigationbar.review.continue` (Screen API only.)
  * `ginivision.review.top`
  * `ginivision.review.rotateButton`

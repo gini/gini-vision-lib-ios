@@ -14,6 +14,7 @@
 "ginivision.navigationbar.camera.help"         = "Hilfe";
 "ginivision.navigationbar.onboarding.continue" = "Weiter";
 "ginivision.navigationbar.review.back"         = "Zurück";
+"ginivision.navigationbar.review.close"        = "Schließen";
 "ginivision.navigationbar.review.continue"     = "Weiter";
 "ginivision.navigationbar.analysis.back"       = "Abbrechen";
 

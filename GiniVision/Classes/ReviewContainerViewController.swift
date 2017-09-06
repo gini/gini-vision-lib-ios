@@ -22,7 +22,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     
     fileprivate lazy var backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
     
-    fileprivate lazy var closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate lazy var closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.review.close", comment: "Button title in the navigation bar for the close button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
     
     // Output
     fileprivate var imageData: Data?
@@ -81,7 +81,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         super.viewWillAppear(animated)
         
         // Configure back button. Needs to be done here because otherwise the navigation controller would be nil
-        guard let _ = navigationItem.leftBarButtonItem else {
+        if navigationItem.leftBarButtonItem == nil {
             setupLeftNavigationItem(usingResources: backButtonPreferredResource(), selector:#selector(back))
             return
         }

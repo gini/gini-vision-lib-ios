@@ -277,6 +277,13 @@ import UIKit
     public var navigationBarReviewTitleBackButton = ""
     
     /**
+     Sets the close button text in the navigation bar on the review screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarReviewTitleCloseButton = ""
+    
+    /**
      Sets the continue button text in the navigation bar on the review screen.
      
      - note: Screen API only.

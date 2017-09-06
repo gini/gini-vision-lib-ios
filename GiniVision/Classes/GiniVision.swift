@@ -92,13 +92,12 @@ import UIKit
      - returns: A presentable navigation view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
-        let viewController:UIViewController = {
-            if let importedFile = importedFile {
-                return ReviewContainerViewController(imageData: importedFile)
-            } else {
-                return CameraContainerViewController()
-            }
-        }()
+        let viewController:UIViewController
+        if let importedFile = importedFile {
+            viewController = ReviewContainerViewController(imageData: importedFile)
+        } else {
+            viewController = CameraContainerViewController()
+        }
         
         let navigationController = GiniNavigationViewController(rootViewController: viewController)
         navigationController.giniDelegate = delegate
