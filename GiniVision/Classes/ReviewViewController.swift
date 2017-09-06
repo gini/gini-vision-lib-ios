@@ -13,7 +13,14 @@ import UIKit
  
  - note: Component API only.
  */
-public typealias ReviewSuccessBlock = (_ document: GiniVisionDocument, _ shouldFinish:Bool) -> ()
+public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
+
+/**
+ Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it shouldFinish once it is validated.
+ 
+ - note: Component API only.
+ */
+public typealias GVReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldFinish:Bool) -> ()
 
 /**
  Block which will be executed when an error occurs on the review screen. It contains a review specific error.
@@ -70,26 +77,25 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: ReviewSuccessBlock?
-    fileprivate var errorBlock: ReviewErrorBlock?
+    fileprivate var successBlock: GVReviewScreenSuccessBlock?
+    fileprivate var failureBlock: ReviewErrorBlock?
     
     
     /**
-     Designated intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
-     
+     Designated initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter document:  JPEG representation or PDF as a result from the camera, camera roll or file explorer.
      - parameter success:   Success block to be executed when image was rotated.
      - parameter failure:   Error block to be executed if an error occured.
      
-     - returns: A view controller instance allowing the user to review a picture of a document.
+     - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ document: GiniVisionDocument, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+    public init(_ document: GiniVisionDocument, successBlock: @escaping GVReviewScreenSuccessBlock, failureBlock: @escaping ReviewErrorBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        successBlock = success
-        errorBlock = failure
+        self.successBlock = successBlock
+        self.failureBlock = failureBlock
         
         // Initialize currentDocument
         currentDocument = document
@@ -143,7 +149,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     }
     
     /**
-     Convenience intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Convenience initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter imageData:  JPEG representation as a result from the camera.
      - parameter success:    Success block to be executed when image was rotated.
@@ -155,7 +161,9 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     @nonobjc
     @available(*, deprecated: 2.5)
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
-        self.init(GiniImageDocument(data: imageData) as GiniVisionDocument, success: success, failure: failure)
+        self.init(GiniImageDocument(data: imageData), successBlock: { (document,_) in
+            success(document.data)
+            }, failureBlock: failure)
     }
     
     /**

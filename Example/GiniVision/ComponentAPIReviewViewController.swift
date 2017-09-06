@@ -44,7 +44,7 @@ class ComponentAPIReviewViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the review view controller
-        contentController = ReviewViewController(document, success:
+        contentController = ReviewViewController(document, successBlock:
             { [unowned self] (document, shouldFinish) in
                 print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user
@@ -53,7 +53,7 @@ class ComponentAPIReviewViewController: UIViewController {
                 if shouldFinish {
                     self.showAnalysis(self)
                 }
-            }, failure: { error in
+            }, failureBlock: { error in
                 print("Component API review view controller received error:\n\(error)")
             })
         

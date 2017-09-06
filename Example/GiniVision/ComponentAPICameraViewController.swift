@@ -33,7 +33,7 @@ class ComponentAPICameraViewController: UIViewController {
         GiniVision.setConfiguration(giniConfiguration)
         
         // 2. Create the camera view controller
-        contentController = CameraViewController(success:
+        contentController = CameraViewController(successBlock:
             { document in
                 self.document = document
                 DispatchQueue.main.async {

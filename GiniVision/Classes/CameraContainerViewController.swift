@@ -28,7 +28,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     init() {
         super.init(nibName: nil, bundle: nil)
         // Configure content controller and call delegate method on success
-        contentController = CameraViewController(success:
+        contentController = CameraViewController(successBlock:
             { document in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 delegate?.didCapture(document.data)

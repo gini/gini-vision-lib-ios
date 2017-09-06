@@ -114,23 +114,23 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     
     // Output
     fileprivate var successBlock: GVCameraScreenSuccessBlock?
-    fileprivate var errorBlock: CameraErrorBlock?
+    fileprivate var failureBlock: CameraErrorBlock?
     
     /**
-     Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when document was picked or image was taken.
      - parameter failure: Error block to be executed if an error occurred.
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(success: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping CameraErrorBlock) {
+    public init(successBlock: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping CameraErrorBlock) {
         filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        successBlock = success
-        errorBlock = failureBlock
+        self.successBlock = successBlock
+        self.failureBlock = failureBlock
         
         // Configure file picker
         filePickerManager.didPickFile = { [unowned self] document in
@@ -196,7 +196,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     }
     
     /**
-     Convenience intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Convenience initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when an image was taken.
      - parameter failure: Error block to be executed if an error occurred.
@@ -207,7 +207,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     @nonobjc
     @available(*, deprecated: 2.5)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
-        self.init(success: { data in
+        self.init(successBlock: { data in
             success(data.data)
         }, failureBlock: failure)
     }
@@ -325,7 +325,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 // Call success block
                 self.successBlock?(imageDocument)
             } catch let error as CameraError {
-                self.errorBlock?(error)
+                self.failureBlock?(error)
             } catch _ {
                 print("GiniVision: An unknown error occured.")
             }
