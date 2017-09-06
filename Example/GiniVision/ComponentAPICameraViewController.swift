@@ -39,7 +39,7 @@ class ComponentAPICameraViewController: UIViewController {
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "showReview", sender: self)
                 }
-            }, failure: { error in
+            }, failureBlock: { error in
                 print("Component API camera view controller received error:\n\(error)")
             })
         

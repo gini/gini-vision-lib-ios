@@ -14,7 +14,14 @@ import AVFoundation
  
  - note: Component API only.
  */
-public typealias CameraSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
+
+/**
+ Block which will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
+ 
+ - note: Component API only.
+ */
+public typealias GVCameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
@@ -22,6 +29,7 @@ public typealias CameraSuccessBlock = (_ document: GiniVisionDocument) -> ()
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
+
 
 /**
  The `CameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
@@ -105,7 +113,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: CameraSuccessBlock?
+    fileprivate var successBlock: GVCameraScreenSuccessBlock?
     fileprivate var errorBlock: CameraErrorBlock?
     
     /**
@@ -114,15 +122,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      - parameter success: Success block to be executed when document was picked or image was taken.
      - parameter failure: Error block to be executed if an error occurred.
      
-     - returns: A view controller instance allowing the user to take a picture.
+     - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+    public init(success: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping CameraErrorBlock) {
         filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
         successBlock = success
-        errorBlock = failure
+        errorBlock = failureBlock
         
         // Configure file picker
         filePickerManager.didPickFile = { [unowned self] document in
@@ -145,7 +153,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             default:
                 if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
             }
-            failure(error)
+            failureBlock(error)
         } catch _ {
             print("GiniVision: An unknown error occured.")
         }
@@ -185,6 +193,23 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         if #available(iOS 11.0, *) {
             addDropInteraction()
         }
+    }
+    
+    /**
+     Convenience intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     
+     - parameter success: Success block to be executed when an image was taken.
+     - parameter failure: Error block to be executed if an error occurred.
+     
+     - returns: A view controller instance allowing the user to take a picture.
+     */
+    
+    @nonobjc
+    @available(*, deprecated: 2.5)
+    public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+        self.init(success: { data in
+            success(data.data)
+        }, failureBlock: failure)
     }
     
     /**
