@@ -85,7 +85,7 @@ import UIKit
     
     @nonobjc
     @available(*, deprecated)
-    public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+    public convenience init(_ imageData:Data) {
         self.init(GiniImageDocument(data: imageData))
     }
     
