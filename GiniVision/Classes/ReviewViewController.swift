@@ -73,6 +73,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     fileprivate var successBlock: ReviewSuccessBlock?
     fileprivate var errorBlock: ReviewErrorBlock?
     
+    
     /**
      Designated intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
@@ -139,6 +140,22 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         
         // Add constraints
         addConstraints()
+    }
+    
+    /**
+     Convenience intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     
+     - parameter imageData:  JPEG representation as a result from the camera.
+     - parameter success:    Success block to be executed when image was rotated.
+     - parameter failure:    Error block to be executed if an error occured.
+     
+     - returns: A view controller instance allowing the user to review a picture of a document.
+     */
+    
+    @nonobjc
+    @available(*, deprecated)
+    public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+        self.init(GiniImageDocument(data: imageData) as GiniVisionDocument, success: success, failure: failure)
     }
     
     /**
