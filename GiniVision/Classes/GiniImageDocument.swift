@@ -25,10 +25,10 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public func checkType() throws {
         if self.data.isImage {
             if !(self.data.isJPEG || self.data.isPNG || self.data.isGIF || self.data.isTIFF) {
-                throw PickerError.imageFormatNotValid
+                throw DocumentValidationError.imageFormatNotValid
             }
         } else {
-            throw PickerError.fileFormatNotValid
+            throw DocumentValidationError.fileFormatNotValid
         }
     }
 }

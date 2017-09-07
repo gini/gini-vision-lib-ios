@@ -16,7 +16,7 @@ import UIKit
 public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it shouldFinish once it is validated.
+ Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it should finish once it has been validated.
  
  - note: Component API only.
  */
@@ -28,6 +28,13 @@ public typealias GVReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _
  - note: Component API only.
  */
 public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
+
+/**
+ Block which will be executed if an error occurs on the review screen.
+ 
+ - note: Component API only.
+ */
+public typealias GVReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 /**
  The `ReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
@@ -78,7 +85,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     
     // Output
     fileprivate var successBlock: GVReviewScreenSuccessBlock?
-    fileprivate var failureBlock: ReviewErrorBlock?
+    fileprivate var failureBlock: GVReviewScreenFailureBlock?
     
     
     /**
@@ -90,7 +97,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
      
      - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ document: GiniVisionDocument, successBlock: @escaping GVReviewScreenSuccessBlock, failureBlock: @escaping ReviewErrorBlock) {
+    public init(_ document: GiniVisionDocument, successBlock: @escaping GVReviewScreenSuccessBlock, failureBlock: @escaping GVReviewScreenFailureBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -163,7 +170,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         self.init(GiniImageDocument(data: imageData), successBlock: { (document,_) in
             success(document.data)
-            }, failureBlock: failure)
+        }, failureBlock: failure as! GVCameraScreenFailureBlock)
     }
     
     /**
@@ -198,13 +205,10 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
             // Validate document before review
             do {
                 try currentDocument.validate()
-            } catch {
-                // TODO
-                let alert = UIAlertController(title: "Invalid document", message: "error", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
-                    alert.dismiss(animated: true, completion: nil)
-                }))
-                present(alert, animated: true, completion: nil)
+            } catch let error as DocumentValidationError {
+                failureBlock!(error)
+            } catch _ {
+                failureBlock!(DocumentValidationError.unknown)
             }
             
             // If the document is a PDF, go to Analysis screen

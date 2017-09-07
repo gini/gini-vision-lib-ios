@@ -144,10 +144,10 @@ public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             do {
                 try document.validate()
                 self.successBlock?(document)
-            } catch let error as PickerError{
+            } catch let error as DocumentValidationError {
                 failureBlock(error)
             } catch _ {
-                failureBlock(PickerError.unknown)
+                failureBlock(DocumentValidationError.unknown)
             }
         }
         

@@ -31,10 +31,10 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
             if case 1...10 = self.numberPages {
                 return
             } else {
-                throw PickerError.pdfPageLengthExceeded
+                throw DocumentValidationError.pdfPageLengthExceeded
             }
         } else {
-            throw PickerError.fileFormatNotValid
+            throw DocumentValidationError.fileFormatNotValid
         }
     }
     

@@ -39,9 +39,9 @@ public enum ReviewError: GiniVisionError {
 }
 
 /**
- Errors thrown when picking a file (image or pdf).
+ Errors thrown validating a document (image or pdf).
  */
-public enum PickerError: GiniVisionError{
+public enum DocumentValidationError: GiniVisionError{
     
     /// Unknown error during review.
     case unknown
@@ -59,4 +59,6 @@ public enum PickerError: GiniVisionError{
     case pdfPageLengthExceeded
     
 }
+
+
 

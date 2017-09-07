@@ -39,7 +39,7 @@ extension GiniVisionDocument {
         if !maxFileSizeExceeded(forData: document.data) {
             try checkType()
         } else {
-            throw PickerError.exceededMaxFileSize
+            throw DocumentValidationError.exceededMaxFileSize
         }
     }
 
