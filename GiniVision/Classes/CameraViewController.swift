@@ -205,7 +205,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      */
     
     @nonobjc
-    @available(*, deprecated: 2.5)
+    @available(*, deprecated)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
             success(data.data)

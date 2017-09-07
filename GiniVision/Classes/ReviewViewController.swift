@@ -159,7 +159,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
      */
     
     @nonobjc
-    @available(*, deprecated: 2.5)
+    @available(*, deprecated)
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         self.init(GiniImageDocument(data: imageData), successBlock: { (document,_) in
             success(document.data)

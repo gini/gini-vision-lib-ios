@@ -84,7 +84,7 @@ import UIKit
      */
     
     @nonobjc
-    @available(*, deprecated: 2.5)
+    @available(*, deprecated)
     public convenience init(_ imageData:Data) {
         self.init(GiniImageDocument(data: imageData))
     }
