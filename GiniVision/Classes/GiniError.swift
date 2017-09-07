@@ -8,13 +8,14 @@
 
 import UIKit
 
+public protocol GiniVisionError:Error {}
+
 /**
  Errors thrown on the camera screen or during camera initialization.
  */
-@objc public enum CameraError: Int, Error {
-    
+public enum CameraError: GiniVisionError {
     /// Unknown error during camera use.
-    case unknown = 0
+    case unknown
     
     /// Camera can not be loaded because the user has denied authorization in the past.
     case notAuthorizedToUseDevice
@@ -30,20 +31,20 @@ import UIKit
 /**
  Errors thrown on the review screen.
  */
-@objc public enum ReviewError: Int, Error {
+public enum ReviewError: GiniVisionError {
     
     /// Unknown error during review.
-    case unknown = 0
+    case unknown
     
 }
 
 /**
  Errors thrown when picking a file (image or pdf).
  */
-@objc public enum PickerError: Int, Error {
+public enum PickerError: GiniVisionError{
     
     /// Unknown error during review.
-    case unknown = 0
+    case unknown
     
     /// Exceeded max file size
     case exceededMaxFileSize

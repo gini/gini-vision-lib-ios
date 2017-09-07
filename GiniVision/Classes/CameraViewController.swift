@@ -24,11 +24,18 @@ public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 public typealias GVCameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
- Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
+ Block which will be executed if an error occurs on the camera. It contains a camera specific error.
  
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
+
+/**
+ Block which will be executed if an error occurs on the camera screen.
+ 
+ - note: Component API only.
+ */
+public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 
 /**
@@ -124,7 +131,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(successBlock: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping CameraErrorBlock) {
+    public init(successBlock: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping GVCameraScreenFailureBlock) {
         filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
@@ -137,9 +144,10 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             do {
                 try document.validate()
                 self.successBlock?(document)
-            } catch {
-                // TODO Handle errors
-                print("Invalid file")
+            } catch let error as PickerError{
+                failureBlock(error)
+            } catch _ {
+                failureBlock(PickerError.unknown)
             }
         }
         
@@ -209,7 +217,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
             success(data.data)
-        }, failureBlock: failure)
+        }, failureBlock: failure as! GVCameraScreenFailureBlock)
     }
     
     /**

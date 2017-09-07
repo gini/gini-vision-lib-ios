@@ -39,7 +39,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 
             }, failureBlock: { error in
                 switch error {
-                case .notAuthorizedToUseDevice:
+                case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
                     print("GiniVision: Unknown error when using camera.")

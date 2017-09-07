@@ -214,7 +214,6 @@ extension ScreenAPIViewController: GiniVisionDelegate {
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         print("Screen API started analysis screen")
-        
         self.analysisDelegate = analysisDelegate
         
         // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
