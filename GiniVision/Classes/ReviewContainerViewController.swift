@@ -80,32 +80,51 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        setupLeftBarButton()
+    }
+    
+    fileprivate func setupLeftBarButton() {
+        guard let navController = navigationController else {
+            return
+        }
+        
         // Configure back button. Needs to be done here because otherwise the navigation controller would be nil
         if navigationItem.leftBarButtonItem == nil {
-            setupLeftNavigationItem(usingResources: backButtonPreferredResource(), selector:#selector(back))
-            return
+            setupLeftNavigationItem(usingResources: backButtonPreferredResource(forNavController: navController), selector:#selector(back))
         }
     }
     
     @IBAction func back() {
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()
-        if let navVC = navigationController {
-            if navVC.viewControllers.count > 1 {
-                _ = navVC.popViewController(animated: true)
-            } else {
-                navVC.dismiss(animated: true, completion: nil)
-            }
+        
+        handleBackPressed()
+    }
+    
+    fileprivate func handleBackPressed() {
+        guard let navController = navigationController else {
+            return
+        }
+        
+        if self.firstViewController(inNavController: navController) {
+            navController.dismiss(animated: true, completion: nil)
+        } else {
+            _ = navController.popViewController(animated: true)
         }
     }
     
-    fileprivate func backButtonPreferredResource() -> PreferredButtonResource {
-        if let navVC = navigationController {
-            if navVC.viewControllers.count > 1 {
-                return backButtonResources
-            }
+    fileprivate func backButtonPreferredResource(forNavController navController:UINavigationController) -> PreferredButtonResource {
+        if self.firstViewController(inNavController: navController) {
+            return closeButtonResources
         }
-        return closeButtonResources
+        return backButtonResources
+    }
+    
+    fileprivate func firstViewController(inNavController navController:UINavigationController ) -> Bool {
+        if navController.viewControllers.count == 1 {
+            return true
+        }
+        return false
     }
     
     @IBAction func analyse() {
