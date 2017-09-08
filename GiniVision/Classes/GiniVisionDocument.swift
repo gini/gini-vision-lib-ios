@@ -28,8 +28,8 @@ import Foundation
 
 extension GiniVisionDocument {
     
-    fileprivate var MAX_FILE_SIZE:Double {
-        return 10.0
+    fileprivate var MAX_FILE_SIZE:Int { // Bytes
+        return 10 * 1024 * 1024
     }
     
     // MARK: File validation
@@ -46,15 +46,9 @@ extension GiniVisionDocument {
     // MARK: File size check
     
     fileprivate func maxFileSizeExceeded(forData data:Data) -> Bool {
-        let bcf = ByteCountFormatter()
-        bcf.allowedUnits = [.useMB] // optional: restricts the units to MB only
-        bcf.countStyle = .file
-        bcf.includesUnit = false
-        
-        if let fileSize = NumberFormatter().number(from: bcf.string(fromByteCount: Int64(data.count)))?.doubleValue {
-            return fileSize > MAX_FILE_SIZE
+        if data.count > MAX_FILE_SIZE {
+            return true
         }
-        
         return false
     }
 }
