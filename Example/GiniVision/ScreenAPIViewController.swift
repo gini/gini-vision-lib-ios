@@ -177,11 +177,11 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         analyzeDocument(withData: document.data)
     }
     
-    func didCapture(_ fileData: Data) {
+    func didCapture(_ imageData: Data) {
         print("Screen API received image data")
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
-        analyzeDocument(withData: fileData)
+        analyzeDocument(withData: imageData)
     }
     
     func didReview(_ imageData: Data, withChanges changes: Bool) {
@@ -191,6 +191,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         if changes {
             analyzeDocument(withData: imageData)
             return
+        }
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
         if let result = result,
