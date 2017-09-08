@@ -169,6 +169,13 @@ class ScreenAPIViewController: UIViewController {
 
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GiniVisionDelegate {
+
+    func didImport(_ document: GiniVisionDocument) {
+        print("Document imported")
+        
+        // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
+        analyzeDocument(withData: document.data)
+    }
     
     func didCapture(_ fileData: Data) {
         print("Screen API received image data")

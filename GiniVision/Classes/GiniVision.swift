@@ -17,11 +17,11 @@ import UIKit
 @objc public protocol GiniVisionDelegate {
     
     /**
-     Called when the user has taken an image or picked a PDF.
+     Called when the user has taken an image.
      
      - parameter fileData: JPEG image data including meta information or PDF data
      */
-    func didCapture(_ fileData: Data)
+    func didCapture(_ imageData: Data)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -35,6 +35,12 @@ import UIKit
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
+    
+    /**
+     Called when the user has imported a file (image or PDF) from camera roll or document explorer
+     */
+    
+    @objc optional func didImport(_ document:GiniVisionDocument)
     
     /**
      Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.

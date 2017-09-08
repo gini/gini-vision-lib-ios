@@ -17,11 +17,11 @@ import AVFoundation
 public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
+ Block which will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. Should be indicated if the document was imported or not.
  
  - note: Component API only.
  */
-public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument, _ isImported:Bool) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera. It contains a camera specific error.
@@ -143,7 +143,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         filePickerManager.didPickFile = { [unowned self] document in
             do {
                 try document.validate()
-                self.successBlock?(document)
+                self.successBlock?(document, true)
             } catch let error as DocumentValidationError {
                 failureBlock(error)
             } catch _ {
@@ -215,7 +215,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @nonobjc
     @available(*, deprecated)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
-        self.init(successBlock: { data in
+        self.init(successBlock: { data, _ in
             success(data.data)
         }, failureBlock: { error in
             failure(error as! CameraError)
@@ -315,7 +315,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
                     let imageDocument = GiniImageDocument(data: imageData)
-                    self.successBlock?(imageDocument)
+                    self.successBlock?(imageDocument, false)
                 }
             }
             return print("GiniVision: No camera initialized.")
@@ -333,7 +333,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 let imageDocument = GiniImageDocument(data: imageData)
                 
                 // Call success block
-                self.successBlock?(imageDocument)
+                self.successBlock?(imageDocument, false)
             } catch let error as CameraError {
                 self.failureBlock?(error)
             } catch _ {
