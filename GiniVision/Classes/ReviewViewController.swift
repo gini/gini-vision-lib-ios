@@ -170,7 +170,9 @@ public typealias GVReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         self.init(GiniImageDocument(data: imageData), successBlock: { (document,_) in
             success(document.data)
-        }, failureBlock: failure as! GVCameraScreenFailureBlock)
+        }, failureBlock: { error in
+            failure(error as! ReviewError)
+        })
     }
     
     /**

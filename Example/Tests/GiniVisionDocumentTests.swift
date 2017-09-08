@@ -25,7 +25,7 @@ class GINIVisionDocumentTests: XCTestCase {
         
         // Then
         XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
-            XCTAssert(error as? PickerError == PickerError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
+            XCTAssert(error as? DocumentValidationError == DocumentValidationError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
     
@@ -38,7 +38,7 @@ class GINIVisionDocumentTests: XCTestCase {
 
         // Then
         XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
-            XCTAssert(error as? PickerError != PickerError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
+            XCTAssert(error as? DocumentValidationError != DocumentValidationError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
     

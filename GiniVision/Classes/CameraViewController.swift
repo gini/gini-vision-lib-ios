@@ -217,7 +217,9 @@ public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
             success(data.data)
-        }, failureBlock: failure as! GVCameraScreenFailureBlock)
+        }, failureBlock: { error in
+            failure(error as! CameraError)
+        })
     }
     
     /**
