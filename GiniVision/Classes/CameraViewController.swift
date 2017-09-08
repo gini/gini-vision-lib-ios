@@ -21,7 +21,7 @@ public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
  
  - note: Component API only.
  */
-public typealias GVCameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block which will be executed if an error occurs on the camera. It contains a camera specific error.
@@ -35,7 +35,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
  
  - note: Component API only.
  */
-public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
+public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 
 /**
@@ -120,8 +120,8 @@ public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: GVCameraScreenSuccessBlock?
-    fileprivate var failureBlock: CameraErrorBlock?
+    fileprivate var successBlock: CameraScreenSuccessBlock?
+    fileprivate var failureBlock: CameraScreenFailureBlock?
     
     /**
      Designated initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
@@ -131,7 +131,7 @@ public typealias GVCameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(successBlock: @escaping GVCameraScreenSuccessBlock, failureBlock: @escaping GVCameraScreenFailureBlock) {
+    public init(successBlock: @escaping CameraScreenSuccessBlock, failureBlock: @escaping CameraScreenFailureBlock) {
         filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         

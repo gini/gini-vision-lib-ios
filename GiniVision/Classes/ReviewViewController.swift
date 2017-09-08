@@ -20,7 +20,7 @@ public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
  
  - note: Component API only.
  */
-public typealias GVReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldFinish:Bool) -> ()
+public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldFinish:Bool) -> ()
 
 /**
  Block which will be executed when an error occurs on the review screen. It contains a review specific error.
@@ -34,7 +34,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
  
  - note: Component API only.
  */
-public typealias GVReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
+public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 /**
  The `ReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
@@ -84,8 +84,8 @@ public typealias GVReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: GVReviewScreenSuccessBlock?
-    fileprivate var failureBlock: GVReviewScreenFailureBlock?
+    fileprivate var successBlock: ReviewScreenSuccessBlock?
+    fileprivate var failureBlock: ReviewScreenFailureBlock?
     
     
     /**
@@ -97,7 +97,7 @@ public typealias GVReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
      
      - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ document: GiniVisionDocument, successBlock: @escaping GVReviewScreenSuccessBlock, failureBlock: @escaping GVReviewScreenFailureBlock) {
+    public init(_ document: GiniVisionDocument, successBlock: @escaping ReviewScreenSuccessBlock, failureBlock: @escaping ReviewScreenFailureBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
