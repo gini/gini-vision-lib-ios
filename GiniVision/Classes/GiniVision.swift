@@ -29,7 +29,7 @@ import UIKit
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
     */
-    func didReview(_ fileData: Data, withChanges changes: Bool)
+    func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.

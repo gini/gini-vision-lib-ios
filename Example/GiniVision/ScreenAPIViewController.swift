@@ -184,14 +184,13 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         analyzeDocument(withData: fileData)
     }
     
-    func didReview(_ fileData: Data, withChanges changes: Bool) {
+    func didReview(_ imageData: Data, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
         // Analyze reviewed data because changes were made by the user during review.
         if changes {
-            analyzeDocument(withData: fileData)
+            analyzeDocument(withData: imageData)
             return
-        }
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
         if let result = result,
@@ -202,7 +201,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
-            analyzeDocument(withData: fileData)
+            analyzeDocument(withData: imageData)
         }
     }
     
