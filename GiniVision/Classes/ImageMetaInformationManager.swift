@@ -20,6 +20,11 @@ let JPEGDefaultCompression:CGFloat = 0.4
 
 internal class ImageMetaInformationManager {
     
+    enum ImageImportMethod:String {
+        case openWith = "openwith"
+        case picker = "picker"
+    }
+    
     fileprivate let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
         kCGImagePropertyExifLensModel,
@@ -46,6 +51,12 @@ internal class ImageMetaInformationManager {
     let userCommentOSVer = "OSVer"
     let userCommentGiniVersionVer = "GiniVisionVer"
     let userCommentDeviceOrientation = "DeviceOrientation"
+    let userCommentSource = "Source"
+    let userCommentImportMethod = "ImportMethod"
+    
+    // image source types (apart from app names when it is external)
+    static let cameraSource = "camera"
+    static let externalSource = "external"
     
     var imageData: Data?
     var metaInformation: MetaInformation?
@@ -53,9 +64,13 @@ internal class ImageMetaInformationManager {
     // Due to future image rotations on ReviewViewController, it is necessary to preserve the device orientation
     // when the picture is taken.
     fileprivate var deviceOrientationOnCapture:String?
+    fileprivate var imageSource:String
+    fileprivate var imageImportMethod:ImageImportMethod?
     
-    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
-        imageData = data
+    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil, imageSource:String, imageImportMethod:ImageImportMethod? = nil) {
+        self.imageData = data
+        self.imageSource = imageSource
+        self.imageImportMethod = imageImportMethod
         metaInformation = metaInformation(fromImageData: data)
 
         // If the image has the DeviceOrientation, it should not be added again
@@ -168,7 +183,11 @@ internal class ImageMetaInformationManager {
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
         let uuid = imageUUID()
-        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid)"
+        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid),\(userCommentSource)=\(imageSource)"
+        
+        if let imageImportMethod = imageImportMethod, imageSource != ImageMetaInformationManager.cameraSource {
+            comment += ",\(userCommentImportMethod)=\(imageImportMethod.rawValue)"
+        }
         
         if let rotationDegrees = rotationDegrees {
             // normalize the rotation to 0-360
