@@ -9,7 +9,7 @@
 import Foundation
 
 @objc public protocol GiniVisionDocument:class {
-    var type:GiniDocumentType { get }
+    var type:GiniVisionDocumentType { get }
     var data:Data { get }
     var previewImage:UIImage? { get }
     
@@ -19,7 +19,7 @@ import Foundation
 
 // MARK: GiniDocumentType
 
-@objc public enum GiniDocumentType:Int {
+@objc public enum GiniVisionDocumentType:Int {
     case PDF = 0
     case Image = 1
 }

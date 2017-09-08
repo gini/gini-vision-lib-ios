@@ -11,7 +11,7 @@ import MobileCoreServices
 
 final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
-    public var type: GiniDocumentType = .PDF
+    public var type: GiniVisionDocumentType = .PDF
     public let data:Data
     public var previewImage: UIImage?
     
