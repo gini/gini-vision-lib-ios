@@ -17,46 +17,34 @@ class GINIVisionDocumentTests: XCTestCase {
     }
     
     func testExcedeedMaxFileSize() {
-        // Given
         let higherThan10MBData = generateFakeData(megaBytes: 12)
         
-        // When
         let fakeDocument = GiniPDFDocument(data: higherThan10MBData)
         
-        // Then
-        XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
+        XCTAssertThrowsError(try fakeDocument.validate(), "Files with a size lower than 10MB should validate without throwing an exception") { error in
             XCTAssert(error as? DocumentValidationError == DocumentValidationError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
     
     func testNotExcedeedMaxFileSize() {
-        // Given
         let lowerThanOrEqualTo10MBData = generateFakeData(megaBytes: 10)
         
-        // When
         let fakeDocument = GiniPDFDocument(data: lowerThanOrEqualTo10MBData)
 
-        // Then
-        XCTAssertThrowsError(try fakeDocument.validate(), "should indicate that is not a valid document") { error in
+        XCTAssertThrowsError(try fakeDocument.validate(), "Files with a size greater than 10MB should validate throwing an exception") { error in
             XCTAssert(error as? DocumentValidationError != DocumentValidationError.exceededMaxFileSize, "should indicate that max file size has been exceeded")
         }
     }
     
     func testImageValidation() {
-        // Given
-        let testBundle = Bundle(for: type(of: self))
-        let image = UIImage(named: "tabBarIconHelp", in: testBundle, compatibleWith: nil)
-
-        // When
+        let image = loadImage(withName: "tabBarIconHelp")
         let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!)
         
-        // Then
-        XCTAssertNoThrow(try imageDocument.validate(), "should not throw an exception given that it is a valid image")
+        XCTAssertNoThrow(try imageDocument.validate(), "Valid images should validate without throwing an exception")
     }
     
     fileprivate func generateFakeData(megaBytes lengthInMB:Int) -> Data {
         let length = lengthInMB * 1000000
-        let bytes = [UInt32](repeating: 0, count: length).map { _ in arc4random() }
-        return Data(bytes: bytes, count: length)
+        return Data(count: length)
     }
 }
