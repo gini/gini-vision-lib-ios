@@ -18,7 +18,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var previewImage: UIImage?
     
     /**
-     Initializes a GiniImageDocument with a preview image (the image itself).
+     Initializes a GiniImageDocument.
      
      - Parameter data: PDF data
      
