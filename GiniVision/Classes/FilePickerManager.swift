@@ -57,8 +57,9 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
-            let document = GiniVisionDocumentFactory.create(withData: data)
-            didPickFile(document)
+            if let document = GiniVisionDocumentFactory.create(withData: data) {
+                didPickFile(document)
+            }
         } catch {
             // TODO Handle error
             url.stopAccessingSecurityScopedResource()

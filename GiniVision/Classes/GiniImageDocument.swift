@@ -17,11 +17,25 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var data:Data
     public var previewImage: UIImage?
     
+    /**
+     Initializes a GiniImageDocument with a preview image (the image itself).
+     
+     - Parameter data: PDF data
+     
+     */
+    
     public init(data: Data) {
         self.data = data
         self.previewImage = UIImage(data: data)
     }
     
+    /**
+     Check image document type. It should be a PNG, JPEG, GIF or TIFF.
+     
+     - Throws: `DocumentValidationError.imageFormatNotValid` if it is not a image valid format.
+     Also throws `DocumentValidationError.fileFormatNotValid` if it is not an image
+     
+     */
     public func checkType() throws {
         if self.data.isImage {
             if !(self.data.isJPEG || self.data.isPNG || self.data.isGIF || self.data.isTIFF) {

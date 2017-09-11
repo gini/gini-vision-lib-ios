@@ -20,6 +20,13 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     private let MAX_PDF_PAGES_COUNT = 10
     private(set) var numberPages:Int = 0
     
+    /**
+     Initializes a GiniPDFDocument with a preview image (from the first page)
+     
+     - Parameter data: PDF data
+     
+     */
+    
     public init(data:Data) {
         self.data = data
         self.previewImage = UIImageNamedPreferred(named: "cameraDefaultDocumentImage") // Here should be the first rendered page
@@ -28,6 +35,14 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
             self.numberPages = pdfDocument?.numberOfPages ?? 0
         }
     }
+    
+    /**
+     Check pdf document type. It should have less than 10 pages.
+     
+     - Throws: `DocumentValidationError.pdfPageLengthExceeded` if page length is exceeded.
+     Also throws `DocumentValidationError.fileFormatNotValid` if it is not a pdf
+     
+     */
     
     public func checkType() throws {
         if self.data.isPDF {

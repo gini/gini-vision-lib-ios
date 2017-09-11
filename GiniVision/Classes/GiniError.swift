@@ -55,7 +55,7 @@ public enum DocumentValidationError: GiniVisionError{
     /// File format not valid
     case fileFormatNotValid
     
-    /// Exceeded max file size
+    /// PDF length exceeded
     case pdfPageLengthExceeded
     
 }
