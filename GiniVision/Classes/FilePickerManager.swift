@@ -12,6 +12,7 @@ import MobileCoreServices
 internal final class FilePickerManager:NSObject {
         
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
+    fileprivate var acceptedDocumentTypes = [kUTTypePDF as String] + GiniImageDocument.acceptedImageTypes
     
     // MARK: Picker presentation
     
@@ -23,7 +24,7 @@ internal final class FilePickerManager:NSObject {
     }
     
     func showDocumentPicker(from:UIViewController) {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: GiniImageDocument.acceptedImageTypes, in: .open)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .open)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }

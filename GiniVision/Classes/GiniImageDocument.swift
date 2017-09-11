@@ -11,7 +11,7 @@ import MobileCoreServices
 
 final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
-    static let acceptedImageTypes:[String] = [kUTTypePDF as String, kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String]
+    static let acceptedImageTypes:[String] = [kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String]
     
     public var type: GiniVisionDocumentType = .Image
     public var data:Data
