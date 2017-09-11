@@ -84,6 +84,7 @@ class ScreenAPIViewController: UIViewController {
         // 1. Create a custom configuration object
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
+        giniConfiguration.fileImportEnabled = true
         giniConfiguration.navigationBarItemTintColor = UIColor.white
         
         // Make sure the app always behaves the same when run from UITests

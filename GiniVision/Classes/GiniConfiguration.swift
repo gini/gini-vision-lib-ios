@@ -109,6 +109,13 @@ import UIKit
     
     
     // MARK: Camera options
+    
+    /**
+     Toggles file import feature.
+
+     */
+    public var fileImportEnabled = false
+    
     /**
      Sets the title text in the navigation bar on the camera screen.
      
