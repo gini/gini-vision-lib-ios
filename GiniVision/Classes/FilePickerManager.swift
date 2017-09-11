@@ -12,7 +12,7 @@ import MobileCoreServices
 internal final class FilePickerManager:NSObject {
         
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
-    fileprivate var acceptedDocumentTypes = [kUTTypePDF as String] + GiniImageDocument.acceptedImageTypes
+    fileprivate var acceptedDocumentTypes = GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
     
     // MARK: Picker presentation
     
