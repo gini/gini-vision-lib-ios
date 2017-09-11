@@ -10,28 +10,28 @@ import UIKit
 import AVFoundation
 
 /**
- Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+ Block that will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
  
  - note: Component API only.
  */
 public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. Should be indicated if the document was imported or not.
+ Block that will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
  
  - note: Component API only.
  */
 public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument, _ isImported:Bool) -> ()
 
 /**
- Block which will be executed if an error occurs on the camera. It contains a camera specific error.
+ Block that will be executed if an error occurs on the camera. It contains a camera specific error.
  
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
 
 /**
- Block which will be executed if an error occurs on the camera screen.
+ Block that will be executed if an error occurs on the camera screen.
  
  - note: Component API only.
  */
@@ -82,7 +82,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
     fileprivate var captureButton = UIButton()
-    fileprivate var documentProviderButton = UIButton()
+    fileprivate var importFileButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
@@ -184,8 +184,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
         // Configure document provider button
-        documentProviderButton.setTitle("Import", for: .normal)
-        documentProviderButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+        importFileButton.setTitle("Import", for: .normal)
+        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
         
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
@@ -193,7 +193,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         view.insertSubview(controlsView, aboveSubview: cameraOverlay)
         
         controlsView.addSubview(captureButton)
-        controlsView.addSubview(documentProviderButton)
+        controlsView.addSubview(importFileButton)
         
         // Add constraints
         addConstraints()
@@ -366,7 +366,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             alertViewController.dismiss(animated: true, completion: nil)
         })
         
-        alertViewController.popoverPresentationController?.sourceView = documentProviderButton
+        alertViewController.popoverPresentationController?.sourceView = importFileButton
         
         self.present(alertViewController, animated: true, completion: nil)
     }
@@ -490,16 +490,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         
         // Capture button
-        documentProviderButton.translatesAutoresizingMaskIntoConstraints = false
+        importFileButton.translatesAutoresizingMaskIntoConstraints = false
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
         } else {
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: documentProviderButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
         }
     }
     

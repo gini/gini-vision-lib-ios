@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- Block which will be executed when the onboarding was dismissed.
+ Block that will be executed when the onboarding was dismissed.
  */
 internal typealias OnboardingContainerCompletionBlock = () -> ()
 

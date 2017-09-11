@@ -17,11 +17,23 @@ import Foundation
     func checkType() throws
 }
 
-// MARK: GiniDocumentType
+// MARK: GiniVisionDocumentType
 
 @objc public enum GiniVisionDocumentType:Int {
     case PDF = 0
     case Image = 1
+}
+
+// MARK: GiniVisionDocumentFactory
+
+public enum GiniVisionDocumentFactory {
+    static func create(withData data:Data) -> GiniVisionDocument {
+        if data.isPDF {
+            return GiniPDFDocument(data: data)
+        } else {
+            return GiniImageDocument(data: data)
+        }
+    }
 }
 
 // MARK: GiniVisionDocument extension

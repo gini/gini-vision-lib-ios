@@ -9,28 +9,28 @@
 import UIKit
 
 /**
- Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
+ Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
  
  - note: Component API only.
  */
 public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it should proceed to analysis screen once it has been validated.
+ Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it should proceed to analysis screen once it has been validated.
  
  - note: Component API only.
  */
 public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldProceedToAnalysisScreen:Bool) -> ()
 
 /**
- Block which will be executed when an error occurs on the review screen. It contains a review specific error.
+ Block that will be executed when an error occurs on the review screen. It contains a review specific error.
  
  - note: Component API only.
  */
 public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
 
 /**
- Block which will be executed if an error occurs on the review screen.
+ Block that will be executed if an error occurs on the review screen.
  
  - note: Component API only.
  */
