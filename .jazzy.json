@@ -3,22 +3,13 @@
 "author": "Gini",
 "author_url": "https://gini.net",
 "module": "GiniVision",
-"readme": "Docs/tmp/compile/README.md",
+"readme": "README.md",
 "theme": "fullwidth",
 "output": "Documentation/Api",
 "root-url": "http://developer.gini.net/gini-vision-lib-ios/api/",
 "github_url": "https://github.com/gini/gini-vision-lib-ios",
 
-"documentation": "Documentation/source/*.md",
+"documentation": "Documentation/source/*.md"
 
-
-"custom_categories": [{
-"name": "Documentation",
-"children": [
-"Guide for Open with",
-"Changelog",
-"License"
-]
-}]
 }
 
