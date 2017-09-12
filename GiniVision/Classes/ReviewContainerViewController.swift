@@ -106,7 +106,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
             return
         }
         
-        if self.firstViewController(inNavController: navController) {
+        if self.isFirstViewController(inNavController: navController) {
             navController.dismiss(animated: true, completion: nil)
         } else {
             _ = navController.popViewController(animated: true)
@@ -114,13 +114,13 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     }
     
     fileprivate func backButtonPreferredResource(forNavController navController:UINavigationController) -> PreferredButtonResource {
-        if self.firstViewController(inNavController: navController) {
+        if self.isFirstViewController(inNavController: navController) {
             return closeButtonResources
         }
         return backButtonResources
     }
     
-    fileprivate func firstViewController(inNavController navController:UINavigationController ) -> Bool {
+    fileprivate func isFirstViewController(inNavController navController:UINavigationController) -> Bool {
         if navController.viewControllers.count == 1 {
             return true
         }

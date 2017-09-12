@@ -87,7 +87,7 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedFile:  A document which comes from other source different than CameraViewController (optional)
+     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */
@@ -111,7 +111,7 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
-     - parameter importedFile:  A document which comes from other source different than CameraViewController (optional)
+     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */

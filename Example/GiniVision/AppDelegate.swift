@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        // If the current root view controller is not the ScreenAPIViewController, it won't do anything.
+        // If the current root view controller is not the ScreenAPIViewController (a GiniVisionDelegate), it won't do anything.
         guard let navVC = window?.rootViewController as? UINavigationController, let screenAPIVC = navVC.viewControllers.first as? ScreenAPIViewController else {
             return false
         }
