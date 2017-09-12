@@ -17,7 +17,7 @@ class ComponentAPICameraViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
-    fileprivate var imageData: Data?
+    fileprivate var document: GiniVisionDocument?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -33,13 +33,13 @@ class ComponentAPICameraViewController: UIViewController {
         GiniVision.setConfiguration(giniConfiguration)
         
         // 2. Create the camera view controller
-        contentController = CameraViewController(success:
-            { imageData in
-                self.imageData = imageData
+        contentController = CameraViewController(successBlock:
+            { document, _ in
+                self.document = document
                 DispatchQueue.main.async {
                     self.performSegue(withIdentifier: "showReview", sender: self)
                 }
-            }, failure: { error in
+            }, failureBlock: { error in
                 print("Component API camera view controller received error:\n\(error)")
             })
         
@@ -75,9 +75,9 @@ class ComponentAPICameraViewController: UIViewController {
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showReview" {
-            if let imageData = imageData,
+            if let document = document,
                let vc = segue.destination as? ComponentAPIReviewViewController {
-                vc.imageData = imageData
+                vc.document = document
             }
         }
     }

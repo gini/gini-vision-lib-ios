@@ -23,20 +23,24 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     fileprivate let backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
     
     // Output
-    fileprivate var imageData: Data?
+    fileprivate var document: GiniVisionDocument?
     fileprivate var changes = false
     
-    init(imageData: Data) {
+    init(document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
         
-        self.imageData = imageData
+        self.document = document
         
         // Configure content controller and update image data on success
-        contentController = ReviewViewController(imageData, success:
-            { imageData in
-                self.imageData = imageData
+        contentController = ReviewViewController(self.document!, successBlock:
+            { [unowned self] (document, shouldProceedToAnalysisScreen) in
+                self.document = document
                 self.changes = true
-            }, failure: { error in
+                
+                if shouldProceedToAnalysisScreen {
+                    self.analyse()
+                }
+            }, failureBlock: { error in
                 print(error)
             })
         
@@ -86,10 +90,10 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     
     @IBAction func analyse() {
         let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-        delegate?.didReview(imageData!, withChanges: changes)
+        delegate?.didReview(document!.data, withChanges: changes)
         
         // Push analysis container view controller
-        navigationController?.pushViewController(AnalysisContainerViewController(imageData: imageData!), animated: true)
+        navigationController?.pushViewController(AnalysisContainerViewController(document: document!), animated: true)
     }
     
     // MARK: Constraints

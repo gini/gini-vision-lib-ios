@@ -90,7 +90,7 @@ class ScreenAPIViewController: UIViewController {
     }
     
     // MARK: Handle analysis of document
-    func analyzeDocument(withImageData data: Data) {
+    func analyzeDocument(withData data: Data) {
         
         // Do not perform network tasks when UI testing.
         if isUITest {
@@ -100,7 +100,7 @@ class ScreenAPIViewController: UIViewController {
         cancelAnalsyis()
         imageData = data
         print("Analysing document with size \(Double(data.count) / 1024.0)")
-        AnalysisManager.sharedManager.analyzeDocument(withImageData: data, cancelationToken: CancelationToken(), completion: { inner in
+        AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
                 guard let response = try inner?(),
                       let result = response.0,
@@ -131,7 +131,7 @@ class ScreenAPIViewController: UIViewController {
         
         // Display an error with a custom message and custom action on the analysis screen
         analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
-            self.analyzeDocument(withImageData: imageData)
+            self.analyzeDocument(withData: imageData)
         })
     }
     
@@ -169,12 +169,19 @@ class ScreenAPIViewController: UIViewController {
 
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GiniVisionDelegate {
+
+    func didImport(_ document: GiniVisionDocument) {
+        print("Document imported")
+        
+        // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
+        analyzeDocument(withData: document.data)
+    }
     
     func didCapture(_ imageData: Data) {
         print("Screen API received image data")
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
-        analyzeDocument(withImageData: imageData)
+        analyzeDocument(withData: imageData)
     }
     
     func didReview(_ imageData: Data, withChanges changes: Bool) {
@@ -182,7 +189,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         
         // Analyze reviewed data because changes were made by the user during review.
         if changes {
-            analyzeDocument(withImageData: imageData)
+            analyzeDocument(withData: imageData)
             return
         }
         
@@ -195,7 +202,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
-            analyzeDocument(withImageData: imageData)
+            analyzeDocument(withData: imageData)
         }
     }
     
@@ -214,7 +221,6 @@ extension ScreenAPIViewController: GiniVisionDelegate {
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         print("Screen API started analysis screen")
-        
         self.analysisDelegate = analysisDelegate
         
         // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.

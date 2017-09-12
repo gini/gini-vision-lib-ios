@@ -9,18 +9,32 @@
 import UIKit
 
 /**
- Block which will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
+ Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
  
  - note: Component API only.
  */
 public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed when an error occurs on the review screen. It contains a review specific error.
+ Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it should proceed to analysis screen once it has been validated.
+ 
+ - note: Component API only.
+ */
+public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldProceedToAnalysisScreen:Bool) -> ()
+
+/**
+ Block that will be executed when an error occurs on the review screen. It contains a review specific error.
  
  - note: Component API only.
  */
 public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
+
+/**
+ Block that will be executed if an error occurs on the review screen.
+ 
+ - note: Component API only.
+ */
+public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 /**
  The `ReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
@@ -62,6 +76,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
     fileprivate var metaInformationManager: ImageMetaInformationManager?
+    fileprivate var currentDocument:GiniVisionDocument?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -69,28 +84,33 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: ReviewSuccessBlock?
-    fileprivate var errorBlock: ReviewErrorBlock?
+    fileprivate var successBlock: ReviewScreenSuccessBlock?
+    fileprivate var failureBlock: ReviewScreenFailureBlock?
+    
     
     /**
-     Designated intitializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
      
-     
-     - parameter imageData: JPEG representation as a result from the camera or camera roll.
+     - parameter document:  JPEG representation or PDF as a result from the camera, camera roll or file explorer.
      - parameter success:   Success block to be executed when image was rotated.
      - parameter failure:   Error block to be executed if an error occured.
      
-     - returns: A view controller instance allowing the user to review a picture of a document.
+     - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ imageData: Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+    public init(_ document: GiniVisionDocument, successBlock: @escaping ReviewScreenSuccessBlock, failureBlock: @escaping ReviewScreenFailureBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        successBlock = success
-        errorBlock = failure
+        self.successBlock = successBlock
+        self.failureBlock = failureBlock
+        
+        // Initialize currentDocument
+        currentDocument = document
         
         // Set meta information manager
-        metaInformationManager = ImageMetaInformationManager(imageData: imageData)
+        if document.type == .Image {
+            metaInformationManager = ImageMetaInformationManager(imageData: document.data)
+        }
         
         // Configure scroll view
         scrollView.delegate = self
@@ -99,7 +119,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         scrollView.addGestureRecognizer(doubleTapGesture)
         
         // Configure image view
-        imageView.image = UIImage(data: imageData)
+        imageView.image = document.previewImage
         imageView.contentMode = .scaleAspectFit
         imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
         
@@ -136,6 +156,26 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
     }
     
     /**
+     Convenience initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     
+     - parameter imageData:  JPEG representation as a result from the camera.
+     - parameter success:    Success block to be executed when image was rotated.
+     - parameter failure:    Error block to be executed if an error occured.
+     
+     - returns: A view controller instance allowing the user to review a picture of a document.
+     */
+    
+    @nonobjc
+    @available(*, deprecated)
+    public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+        self.init(GiniImageDocument(data: imageData), successBlock: { (document,_) in
+            success(document.data)
+        }, failureBlock: { error in
+            failure(error as! ReviewError)
+        })
+    }
+    
+    /**
      Returns an object initialized from data in a given unarchiver.
      
      - warning: Not implemented.
@@ -162,6 +202,22 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         DispatchQueue.main.async {
             (self.topView as? NoticeView)?.show()
         }
+        
+        if let currentDocument = currentDocument {
+            // Validate document before review
+            do {
+                try currentDocument.validate()
+            } catch let error as DocumentValidationError {
+                failureBlock!(error)
+            } catch _ {
+                failureBlock!(DocumentValidationError.unknown)
+            }
+            
+            // If the document is a PDF, go to Analysis screen
+            if currentDocument.type == .PDF {
+                successBlock?(currentDocument, true)
+            }
+        }
     }
     
     // MARK: Rotation handling
@@ -171,7 +227,7 @@ public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
         guard let metaInformationManager = metaInformationManager else { return }
         metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
         guard let data = metaInformationManager.imageData() else { return }
-        successBlock?(data as Data)
+        successBlock?(GiniImageDocument(data: data), false)
     }
     
     fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {
@@ -298,7 +354,7 @@ extension ReviewViewController: UIScrollViewDelegate {
      - parameter scrollView: The scroll-view object whose zoom factor has changed.
      */
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        DispatchQueue.main.async { 
+        DispatchQueue.main.async {
             self.updateConstraintsForSize(scrollView.bounds.size)
         }
     }

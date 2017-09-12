@@ -10,18 +10,33 @@ import UIKit
 import AVFoundation
 
 /**
- Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+ Block that will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
  
  - note: Component API only.
  */
 public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
+ Block that will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
+ 
+ - note: Component API only.
+ */
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument, _ isImported:Bool) -> ()
+
+/**
+ Block that will be executed if an error occurs on the camera. It contains a camera specific error.
  
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
+
+/**
+ Block that will be executed if an error occurs on the camera screen.
+ 
+ - note: Component API only.
+ */
+public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
+
 
 /**
  The `CameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
@@ -67,6 +82,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
     fileprivate var captureButton = UIButton()
+    fileprivate var importFileButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
@@ -77,6 +93,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
+    fileprivate var filePickerManager: FilePickerManager
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -103,23 +120,36 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     }
     
     // Output
-    fileprivate var successBlock: CameraSuccessBlock?
-    fileprivate var errorBlock: CameraErrorBlock?
+    fileprivate var successBlock: CameraScreenSuccessBlock?
+    fileprivate var failureBlock: CameraScreenFailureBlock?
     
     /**
-     Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
-     - parameter success: Success block to be executed when image was taken.
+     - parameter success: Success block to be executed when document was picked or image was taken.
      - parameter failure: Error block to be executed if an error occurred.
      
-     - returns: A view controller instance allowing the user to take a picture.
+     - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+    public init(successBlock: @escaping CameraScreenSuccessBlock, failureBlock: @escaping CameraScreenFailureBlock) {
+        filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        successBlock = success
-        errorBlock = failure
+        self.successBlock = successBlock
+        self.failureBlock = failureBlock
+        
+        // Configure file picker
+        filePickerManager.didPickFile = { [unowned self] document in
+            do {
+                try document.validate()
+                self.successBlock?(document, true)
+            } catch let error as DocumentValidationError {
+                failureBlock(error)
+            } catch _ {
+                failureBlock(DocumentValidationError.unknown)
+            }
+        }
         
         // Configure camera
         do {
@@ -131,7 +161,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             default:
                 if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
             }
-            failure(error)
+            failureBlock(error)
         } catch _ {
             print("GiniVision: An unknown error occured.")
         }
@@ -153,15 +183,43 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
+        // Configure document provider button
+        importFileButton.setTitle("Import", for: .normal)
+        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+        
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
         view.insertSubview(cameraOverlay, aboveSubview: previewView)
         view.insertSubview(controlsView, aboveSubview: cameraOverlay)
-
+        
         controlsView.addSubview(captureButton)
+        controlsView.addSubview(importFileButton)
         
         // Add constraints
         addConstraints()
+        
+        if #available(iOS 11.0, *) {
+            addDropInteraction()
+        }
+    }
+    
+    /**
+     Convenience initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     
+     - parameter success: Success block to be executed when an image was taken.
+     - parameter failure: Error block to be executed if an error occurred.
+     
+     - returns: A view controller instance allowing the user to take a picture.
+     */
+    
+    @nonobjc
+    @available(*, deprecated)
+    public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+        self.init(successBlock: { data, _ in
+            success(data.data)
+        }, failureBlock: { error in
+            failure(error as! CameraError)
+        })
     }
     
     /**
@@ -256,7 +314,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    self.successBlock?(imageData)
+                    let imageDocument = GiniImageDocument(data: imageData)
+                    self.successBlock?(imageDocument, false)
                 }
             }
             return print("GiniVision: No camera initialized.")
@@ -271,11 +330,12 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
                 if let richImageData = manager.imageData() {
                     imageData = richImageData
                 }
+                let imageDocument = GiniImageDocument(data: imageData)
                 
                 // Call success block
-                self.successBlock?(imageData as Data)
+                self.successBlock?(imageDocument, false)
             } catch let error as CameraError {
-                self.errorBlock?(error)
+                self.failureBlock?(error)
             } catch _ {
                 print("GiniVision: An unknown error occured.")
             }
@@ -288,6 +348,33 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
         }
         return .portrait
+    }
+    
+    // MARK: Document import
+    @objc fileprivate func importDocument(_ sender: AnyObject) {
+        
+        let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+            self.filePickerManager.showGalleryPicker(from: self)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Documents", style: .default) { [unowned self] _ in
+            self.filePickerManager.showDocumentPicker(from: self)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        })
+        
+        alertViewController.popoverPresentationController?.sourceView = importFileButton
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    @available(iOS 11.0, *)
+    fileprivate func addDropInteraction() {
+        let dropInteraction = UIDropInteraction(delegate: filePickerManager)
+        view.addInteraction(dropInteraction)
     }
     
     // MARK: Focus handling
@@ -337,7 +424,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         addPreviewViewConstraints()
         addCameraOverlayConstraints()
         addControlsViewConstraints()
-        addCaptureButtonConstraints()
+        addControlsViewButtonsConstraints()
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -393,13 +480,27 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
     }
     
-    fileprivate func addCaptureButtonConstraints() {
+    fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        
+        // Capture button
+        importFileButton.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        }
     }
     
     // MARK: - Default and not authorized views

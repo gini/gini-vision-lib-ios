@@ -22,19 +22,21 @@ class ComponentAPIReviewViewController: UIViewController {
     /**
      The image data of the captured document to be reviewed.
      */
-    var imageData: Data!
+    var document: GiniVisionDocument?
     
-    fileprivate var originalData: Data?
+    fileprivate var originalDocument: GiniVisionDocument?
     
     // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        originalData = imageData
+        guard let document = document else { return }
+        originalDocument = document
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
-        AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+
+        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         
         /*************************************************************************
          * REVIEW SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
@@ -44,12 +46,16 @@ class ComponentAPIReviewViewController: UIViewController {
         // See `ComponentAPICameraViewController.swift` for implementation details.
         
         // 2. Create the review view controller
-        contentController = ReviewViewController(imageData, success:
-            { imageData in
+        contentController = ReviewViewController(document, successBlock:
+            { [unowned self] (document, shouldFinish) in
                 print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user
-                self.imageData = imageData
-            }, failure: { error in
+                self.document = document
+                
+                if shouldFinish {
+                    self.showAnalysis(self)
+                }
+            }, failureBlock: { error in
                 print("Component API review view controller received error:\n\(error)")
             })
         
@@ -78,10 +84,12 @@ class ComponentAPIReviewViewController: UIViewController {
     @IBAction func showAnalysis(_ sender: AnyObject) {
         
         // Analyze reviewed data because changes were made by the user during review.
-        if imageData != originalData {
-            originalData = imageData
-            AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
-            performSegue(withIdentifier: "showAnalysis", sender: self)
+        if document?.data != originalDocument?.data {
+            originalDocument = document
+            if let documentData = document?.data {
+                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
+                performSegue(withIdentifier: "showAnalysis", sender: self)
+            }
             return
         }
         
@@ -94,7 +102,9 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
-            AnalysisManager.sharedManager.analyzeDocument(withImageData: imageData, cancelationToken: CancelationToken(), completion: nil)
+            if let documentData = document?.data {
+                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
+            }
         }
         
         // Show analysis screen if no results are in yet and no changes were made.
@@ -123,7 +133,7 @@ class ComponentAPIReviewViewController: UIViewController {
         if segue.identifier == "showAnalysis" {
             if let vc = segue.destination as? ComponentAPIAnalysisViewController {
                 // Set image data as input for the analysis view controller
-                vc.imageData = imageData
+                vc.document = document
             }
         }
     }

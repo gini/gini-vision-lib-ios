@@ -69,7 +69,7 @@ class AnalysisManager {
      - parameter cancelationToken: The cancelation token.
      - parameter completion:       The completion block handling the result.
      */
-    func analyzeDocument(withImageData data: Data,
+    func analyzeDocument(withData data: Data,
                          cancelationToken token: CancelationToken,
                          completion: ((_ inner: (() throws -> (GINIResult?, GINIDocument?))?) -> ())?) {
         

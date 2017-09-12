@@ -51,17 +51,17 @@ import UIKit
     /**
      Designated intitializer for the `AnalysisViewController`.
      
-     - parameter imageData: Reviewed image data ready for analysis.
+     - parameter document: Reviewed document ready for analysis.
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(_ imageData: Data) {
+    public init(_ document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure image view
-        imageView.image = UIImage(data: imageData)
+        imageView.image = document.previewImage
         imageView.contentMode = .scaleAspectFit
-        
+
         // Configure loading indicator view
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
@@ -73,6 +73,20 @@ import UIKit
         
         // Add constraints
         addConstraints()
+    }
+    
+    /**
+     Convenience intitializer for the `AnalysisViewController`.
+     
+     - parameter imageData:  Reviewed image ready for analysis
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
+    
+    @nonobjc
+    @available(*, deprecated)
+    public convenience init(_ imageData:Data) {
+        self.init(GiniImageDocument(data: imageData))
     }
     
     /**
