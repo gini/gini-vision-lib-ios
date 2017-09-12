@@ -24,29 +24,6 @@ import Foundation
     case Image = 1
 }
 
-// MARK: GiniVisionDocumentFactory
-
-public struct GiniVisionDocumentFactory {
-    
-    /**
-     Creates a document with a Data object
-     
-     - Parameter withData: data object with an unknown type
-     
-     - Returns: A `GiniVisionDocument` if `data` has a valid type or nil if it hasn't.
-     
-     */
-    static func create(withData data:Data) -> GiniVisionDocument? {
-        if data.isPDF {
-            return GiniPDFDocument(data: data)
-        } else if data.isImage {
-            return GiniImageDocument(data: data)
-        } else {
-            return nil
-        }
-    }
-}
-
 // MARK: GiniVisionDocument extension
 
 extension GiniVisionDocument {
