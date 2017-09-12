@@ -1,4 +1,4 @@
-How to enable your app to open PDFs and Images
+Enable your app to open PDFs and Images
 =============================
 
 General considerations

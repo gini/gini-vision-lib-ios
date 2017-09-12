@@ -8,10 +8,9 @@
    "author":"Gini",
    "author_url":"https://gini.net",
    "module":"GiniVision",
-   "readme":"README.md",
+   "readme":"Documentation/Sections/Documentation.md",
    "theme": "Documentation/jazzy-theme/",
    "output":"Documentation/Api",
-   "root-url":"http://developer.gini.net/gini-vision-lib-ios/api/",
    "github_url":"https://github.com/gini/gini-vision-lib-ios",
    "hide_documentation_coverage":"true",
 
@@ -22,7 +21,8 @@
       {
          "name":"Documentation",
          "children":[
-            "Guide for Open with",
+	    "Installation",	
+            "Open with guide",
             "Changelog",
             "License"
          ]
