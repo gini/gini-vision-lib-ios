@@ -33,7 +33,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         self.metaInformationManager.filterMetaInformation()
         
         // Add meta information to image document data
-        self.data = metaInformationManager.imageData() ?? data
+        self.data = metaInformationManager.addMetaInformationToImage() ?? data
     }
     
     /**
@@ -55,7 +55,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     func rotateImage(degrees:Int, imageOrientation:UIImageOrientation) {
         metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
-        guard let data = metaInformationManager.imageData() else { return }
+        guard let data = metaInformationManager.addMetaInformationToImage() else { return }
         self.data = data
     }
 }

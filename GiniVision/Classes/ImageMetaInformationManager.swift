@@ -71,8 +71,20 @@ internal class ImageMetaInformationManager {
         }
     }
     
-    func imageData(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
-        return generateImage(withMetaInformation: metaInformation, andCompression: compression)
+    // Returns the current image but with all meta information added
+    func addMetaInformationToImage(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
+        guard let image = imageData else { return nil }
+        guard let information = metaInformation else { return nil }
+        
+        let targetData = NSMutableData()
+        
+        let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)!
+        let source = CGImageSourceCreateWithData(image as CFData, nil)
+        information.setValue(compression, forKey: kCGImageDestinationLossyCompressionQuality as String)
+        
+        CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
+        CGImageDestinationFinalize(destination)
+        return targetData as Data
     }
     
     func filterMetaInformation() {
@@ -124,21 +136,6 @@ internal class ImageMetaInformationManager {
         guard let filteredInformation = information.mutableCopy() as? NSMutableDictionary else { return nil }
         filteredInformation.filterDefaultMetaInformation()
         return filteredInformation as MetaInformation
-    }
-    
-    fileprivate func generateImage(withMetaInformation information: MetaInformation?, andCompression compression: CGFloat) -> Data? {
-        guard let image = imageData else { return nil }
-        guard let information = information else { return nil }
-        
-        let targetData = NSMutableData()
-        
-        let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)!
-        let source = CGImageSourceCreateWithData(image as CFData, nil)
-        information.setValue(compression, forKey: kCGImageDestinationLossyCompressionQuality as String)
-        
-        CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
-        CGImageDestinationFinalize(destination)
-        return targetData as Data
     }
     
     fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {
