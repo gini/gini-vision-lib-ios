@@ -1,15 +1,64 @@
 {
-"xcodebuild_arguments": ["-workspace", "Example/GiniVision.xcworkspace", "-scheme", "GiniVision"],
-"author": "Gini",
-"author_url": "https://gini.net",
-"module": "GiniVision",
-"readme": "README.md",
-"theme": "fullwidth",
-"output": "Documentation/Api",
-"root-url": "http://developer.gini.net/gini-vision-lib-ios/api/",
-"github_url": "https://github.com/gini/gini-vision-lib-ios",
-
-"documentation": "Documentation/source/*.md"
-
+   "xcodebuild_arguments":[
+      "-workspace",
+      "Example/GiniVision.xcworkspace",
+      "-scheme",
+      "GiniVision"
+   ],
+   "author":"Gini",
+   "author_url":"https://gini.net",
+   "module":"GiniVision",
+   "readme":"README.md",
+   "theme":"fullwidth",
+   "output":"Documentation/Api",
+   "root-url":"http://developer.gini.net/gini-vision-lib-ios/api/",
+   "github_url":"https://github.com/gini/gini-vision-lib-ios",
+   "documentation":"Documentation/source/*.md",
+   "abstract":"Documentation/Sections/*.md",
+   "custom_categories":[
+      {
+         "name":"Documentation",
+         "children":[
+            "Guide for Open with",
+            "Changelog",
+            "License"
+         ]
+      },
+      {
+         "name":"Classes",
+         "children":[
+            "AnalysisViewController",
+            "CameraViewController",
+            "GiniConfiguration",
+            "GiniVision",
+            "OnboardingPage",
+            "OnboardingViewController",
+            "ReviewViewController"
+         ]
+      },
+      {
+         "name":"Enums",
+         "children":[
+            "CameraError",
+            "ReviewError"
+         ]
+      },
+      {
+         "name":"Protocols",
+         "children":[
+            "AnalysisDelegate",
+            "GiniVisionDelegate"
+         ]
+      },
+      {
+         "name":"Typealiases",
+         "children":[
+            "CameraErrorBlock",
+            "CameraSuccessBlock",
+            "NoticeAction",
+            "ReviewErrorBlock",
+            "ReviewSuccessBlock"
+         ]
+      }
+   ]
 }
-
