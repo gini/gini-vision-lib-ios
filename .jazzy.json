@@ -1,0 +1,34 @@
+{
+"xcodebuild_arguments": ["-workspace", "Example/GiniVision.xcworkspace", "-scheme", "GiniVision"],
+"author": "Gini",
+"author_url": "https://gini.net",
+"module": "GiniVision",
+"readme": "Docs/tmp/compile/README.md",
+"theme": "fullwidth",
+"output": "Documentation/Api",
+"root-url": "http://developer.gini.net/gini-vision-lib-ios/api/",
+"github_url": "https://github.com/gini/gini-vision-lib-ios",
+
+"documentation": "Documentation/source/*.md",
+
+
+"custom_categories": [{
+"name": "Documentation",
+"children": [
+"Changelog",
+"License",
+"Getting Started Guide",
+"Installation",
+"Checking out Source Code",
+"Demo",
+"Extensions",
+"Example Projects",
+"Contributing",
+"Credits",
+"Get in touch",
+"Changelog",
+"License"
+]
+}]
+}
+
