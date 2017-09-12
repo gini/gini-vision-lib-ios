@@ -239,6 +239,7 @@ pre code {
   font-size: 0.875em;
   background: $header_bg_color;
   color: $doc_coverage_color;
+  align-items: flex-end
 }
 
 .header-col {
@@ -258,6 +259,12 @@ pre code {
   padding-right: 6px;
   vertical-align: -4px;
   height: 16px;
+}
+
+.logo-icon {
+padding-right: 6px;
+vertical-align: -4px;
+height: 60px;
 }
 
 

@@ -17,6 +17,7 @@
 
    "documentation":"Documentation/source/*.md",
    "abstract":"Documentation/Sections/*.md",
+
    "custom_categories":[
       {
          "name":"Documentation",
