@@ -15,17 +15,7 @@
 "custom_categories": [{
 "name": "Documentation",
 "children": [
-"Changelog",
-"License",
-"Getting Started Guide",
-"Installation",
-"Checking out Source Code",
-"Demo",
-"Extensions",
-"Example Projects",
-"Contributing",
-"Credits",
-"Get in touch",
+"Guide for Open with",
 "Changelog",
 "License"
 ]
