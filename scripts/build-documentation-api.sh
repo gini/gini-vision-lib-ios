@@ -19,3 +19,4 @@ jazzy \
   --root-url http://developer.gini.net/gini-vision-lib-ios/api/ \
   --output Documentation/Api \
   --theme fullwidth \
+  --documentation Documentation/source/*.md
