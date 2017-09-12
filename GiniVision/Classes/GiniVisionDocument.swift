@@ -13,7 +13,6 @@ import Foundation
     var data:Data { get }
     var previewImage:UIImage? { get }
     
-    init(data:Data)
     func checkType() throws
 }
 

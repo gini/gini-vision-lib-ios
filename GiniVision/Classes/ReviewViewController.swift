@@ -76,7 +76,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var imageViewLeadingConstraint: NSLayoutConstraint!
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
-    fileprivate var metaInformationManager: ImageMetaInformationManager?
     fileprivate var currentDocument:GiniVisionDocument?
     
     // Images
@@ -107,11 +106,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Initialize currentDocument
         currentDocument = document
-        
-        // Set meta information manager
-        if document.type == .Image {
-            metaInformationManager = ImageMetaInformationManager(imageData: document.data)
-        }
         
         // Configure scroll view
         scrollView.delegate = self
@@ -228,11 +222,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     // MARK: Rotation handling
     @objc fileprivate func rotate(_ sender: AnyObject) {
         guard let rotatedImage = rotateImage(imageView.image) else { return }
+        guard let imageDocument = currentDocument as? GiniImageDocument else { return }
+        
         imageView.image = rotatedImage
-        guard let metaInformationManager = metaInformationManager else { return }
-        metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
-        guard let data = metaInformationManager.imageData() else { return }
-        successBlock?(GiniImageDocument(data: data), false)
+        imageDocument.rotateImage(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
+        
+        successBlock?(imageDocument, false)
     }
     
     fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {

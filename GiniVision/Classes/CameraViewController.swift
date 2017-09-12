@@ -322,15 +322,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
         camera.captureStillImage { inner in
             do {
-                var imageData = try inner()
-                
-                // Set meta information in image
-                let manager = ImageMetaInformationManager(imageData: imageData, deviceOrientation: UIApplication.shared.statusBarOrientation)
-                manager.filterMetaInformation()
-                if let richImageData = manager.imageData() {
-                    imageData = richImageData
-                }
-                let imageDocument = GiniImageDocument(data: imageData)
+                let imageData = try inner()
+                let imageDocument = GiniImageDocument(data: imageData, deviceOrientation: UIApplication.shared.statusBarOrientation)
                 
                 // Call success block
                 self.successBlock?(imageDocument, false)
