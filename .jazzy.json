@@ -9,10 +9,12 @@
    "author_url":"https://gini.net",
    "module":"GiniVision",
    "readme":"README.md",
-   "theme":"fullwidth",
+   "theme": "Documentation/jazzy-theme/",
    "output":"Documentation/Api",
    "root-url":"http://developer.gini.net/gini-vision-lib-ios/api/",
    "github_url":"https://github.com/gini/gini-vision-lib-ios",
+   "hide_documentation_coverage":"true",
+
    "documentation":"Documentation/source/*.md",
    "abstract":"Documentation/Sections/*.md",
    "custom_categories":[
