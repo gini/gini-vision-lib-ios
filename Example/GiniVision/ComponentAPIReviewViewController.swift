@@ -22,7 +22,7 @@ class ComponentAPIReviewViewController: UIViewController {
     /**
      The image data of the captured document to be reviewed.
      */
-    var document: GiniVisionDocument!
+    var document: GiniVisionDocument?
     
     fileprivate var originalDocument: GiniVisionDocument?
     
@@ -30,10 +30,12 @@ class ComponentAPIReviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let document = document else { return }
         originalDocument = document
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
+
         AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         
         /*************************************************************************
@@ -82,10 +84,12 @@ class ComponentAPIReviewViewController: UIViewController {
     @IBAction func showAnalysis(_ sender: AnyObject) {
         
         // Analyze reviewed data because changes were made by the user during review.
-        if document.data != originalDocument?.data {
+        if document?.data != originalDocument?.data {
             originalDocument = document
-            AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
-            performSegue(withIdentifier: "showAnalysis", sender: self)
+            if let documentData = document?.data {
+                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
+                performSegue(withIdentifier: "showAnalysis", sender: self)
+            }
             return
         }
         
@@ -98,7 +102,9 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
-            AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
+            if let documentData = document?.data {
+                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
+            }
         }
         
         // Show analysis screen if no results are in yet and no changes were made.
