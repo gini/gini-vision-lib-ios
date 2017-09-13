@@ -29,13 +29,13 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     public init(data:Data) {
         self.data = data
-        if let dataProvider = CGDataProvider(data: data as CFData) {
-            let pdfDocument = CGPDFDocument(dataProvider)
-            self.numberPages = pdfDocument?.numberOfPages ?? 0
-        }
         super.init()
+
+        if let dataProvider = CGDataProvider(data: data as CFData), let pdfDocument = CGPDFDocument(dataProvider) {
+            self.numberPages = pdfDocument.numberOfPages
+            self.previewImage = renderFirstPage(fromPdf: pdfDocument)
+        }
         
-        self.previewImage = renderFirstPage()
     }
     
     /**
@@ -58,11 +58,9 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         }
     }
     
-    fileprivate func renderFirstPage() -> UIImage? {
+    fileprivate func renderFirstPage(fromPdf pdf:CGPDFDocument) -> UIImage? {
         var pdfImage:UIImage?
-        let pdfData = data
-        let provider:CGDataProvider = CGDataProvider(data: pdfData as CFData)!
-        let pdfDoc:CGPDFDocument = CGPDFDocument(provider)!
+        let pdfDoc = pdf
         
         if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
             var pageRect:CGRect = pdfPage.getBoxRect(.mediaBox)
