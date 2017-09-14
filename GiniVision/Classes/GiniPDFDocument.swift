@@ -30,12 +30,11 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     public init(data:Data) {
         self.data = data
         super.init()
-
+        
         if let dataProvider = CGDataProvider(data: data as CFData), let pdfDocument = CGPDFDocument(dataProvider) {
             self.numberPages = pdfDocument.numberOfPages
             self.previewImage = renderFirstPage(fromPdf: pdfDocument)
         }
-        
     }
     
     /**
@@ -63,17 +62,31 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         let pdfDoc = pdf
         
         if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
-            var pageRect:CGRect = pdfPage.getBoxRect(.mediaBox)
-            pageRect.size = CGSize(width:pageRect.size.width, height:pageRect.size.height)
+            var pageRect:CGRect = pdfPage.getBoxRect(.cropBox)
             
-            UIGraphicsBeginImageContext(pageRect.size)
+            // In case that the image was rotated 90 or 270, final rect should be rotated to portrait             
+            if pdfPage.rotationAngle == 90 || pdfPage.rotationAngle == 270 {
+                let tempWidth = pageRect.size.width
+                pageRect.size.width = pageRect.size.height
+                pageRect.size.height = tempWidth
+            }
+            
+            // Create context
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: pageRect.width, height: pageRect.height), false, 0.0)
             let context:CGContext = UIGraphicsGetCurrentContext()!
-            context.saveGState()
-            context.translateBy(x: 0.0, y: pageRect.size.height)
-            context.scaleBy(x: 1.0, y: -1.0)
-            context.concatenate(pdfPage.getDrawingTransform(.mediaBox, rect: pageRect, rotate: 0, preserveAspectRatio: true))
+            
+            // Fill context color
+            context.setFillColor(UIColor.white.cgColor)
+            context.fill(pageRect)
+            
+            // Align PDF's cropBox to the context
+            context.translateBy(x: 0, y: pageRect.size.height)
+            context.scaleBy(x: 1, y: -1)
+            context.concatenate(pdfPage.getDrawingTransform(.cropBox, rect: pageRect, rotate: 0, preserveAspectRatio: true))
+
+            // Draw PDF into context
             context.drawPDFPage(pdfPage)
-            context.restoreGState()
+
             pdfImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
         }
