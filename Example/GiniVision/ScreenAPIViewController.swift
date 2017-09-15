@@ -70,6 +70,17 @@ class ScreenAPIViewController: UIViewController {
          * CAPTURE IMAGE WITH THE SCREEN API OF THE GINI VISION LIBRARY FOR IOS *
          ************************************************************************/
         
+        // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
+        let vc = giniScreenAPI(withImportedFile: nil)
+        
+        // 2. Present the Gini Vision Library Screen API modally
+        present(vc, animated: true, completion: nil)
+        
+        // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
+    }
+    
+    func giniScreenAPI(withImportedFile fileData:Data?) -> UIViewController {
+        
         // 1. Create a custom configuration object
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
@@ -81,12 +92,7 @@ class ScreenAPIViewController: UIViewController {
         }
         
         // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
-        
-        // 3. Present the Gini Vision Library Screen API modally
-        present(vc, animated: true, completion: nil)
-        
-        // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
+        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedFile: fileData)
     }
     
     // MARK: Handle analysis of document

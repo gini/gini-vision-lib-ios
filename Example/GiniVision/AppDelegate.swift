@@ -45,18 +45,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return false
         }
         
-        // 1. Create GiniConfiguration
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.debugModeOn = true
-        giniConfiguration.navigationBarItemTintColor = UIColor.white
-        
-        // 2. Read data imported from url
+        // 1. Read data imported from url
         let data = try? Data(contentsOf: url)
         
-        // 3. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = GiniVision.viewController(withDelegate: screenAPIVC, withConfiguration: giniConfiguration, importedFile: data)
+        // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
+        let vc = screenAPIVC.giniScreenAPI(withImportedFile: data)
         
-        // 4. Present the Gini Vision Library Screen API modally
+        // 3. Present the Gini Vision Library Screen API modally
         screenAPIVC.present(vc, animated: true, completion: nil)
         
         return true
