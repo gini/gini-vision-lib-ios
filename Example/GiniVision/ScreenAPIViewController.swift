@@ -95,6 +95,16 @@ class ScreenAPIViewController: UIViewController {
         return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedFile: fileData)
     }
     
+    func giniComponentAPI(withImportedFile fileData:Data?) -> UIViewController? {
+        if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
+            let navBar = tabBar.viewControllers?.first as? UINavigationController,
+            let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
+            cameraContainer.imageData = fileData
+            return tabBar
+        }
+        return nil
+    }
+    
     // MARK: Handle analysis of document
     func analyzeDocument(withImageData data: Data) {
         

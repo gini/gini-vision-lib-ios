@@ -63,6 +63,10 @@ class ComponentAPIReviewViewController: UIViewController {
         // Cancel analysis process to avoid unnecessary network calls.
         if parent == nil {
             AnalysisManager.sharedManager.cancelAnalysis()
+        } else {
+            if let nav = parent as? UINavigationController, let cameraContainer = nav.viewControllers[nav.viewControllers.count - 2] as? ComponentAPICameraViewController {
+                cameraContainer.imageData = nil
+            }
         }
     }
     
@@ -127,6 +131,5 @@ class ComponentAPIReviewViewController: UIViewController {
             }
         }
     }
-    
 }
 

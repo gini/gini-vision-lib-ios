@@ -48,11 +48,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 1. Read data imported from url
         let data = try? Data(contentsOf: url)
         
-        // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = screenAPIVC.giniScreenAPI(withImportedFile: data)
+        // 2. Create alert which allows user to open imported file either with ScreenAPI or ComponentAPI
+
+        let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
         
-        // 3. Present the Gini Vision Library Screen API modally
-        screenAPIVC.present(vc, animated: true, completion: nil)
+        alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) { _ in
+            screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedFile: data), animated: true, completion: nil)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
+            if let componentAPI = screenAPIVC.giniComponentAPI(withImportedFile: data) {
+                screenAPIVC.present(componentAPI, animated: true, completion: nil)
+            }
+        })
+
+        // 3. Present alert with both options
+        screenAPIVC.present(alertViewController, animated: true, completion: nil)
         
         return true
     }

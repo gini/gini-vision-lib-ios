@@ -17,7 +17,7 @@ class ComponentAPICameraViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     
-    fileprivate var imageData: Data?
+    var imageData: Data?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -49,6 +49,10 @@ class ComponentAPICameraViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+                
+        if imageData != nil {
+            performSegue(withIdentifier: "showReview", sender: nil)
+        }
         
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
