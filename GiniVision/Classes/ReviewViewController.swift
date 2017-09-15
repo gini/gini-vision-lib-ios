@@ -223,7 +223,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
             
             // If the document is a PDF, go to Analysis screen
             if currentDocument.type == .PDF {
-                successBlock?(currentDocument, false)
+                successBlock?(currentDocument, true)
             }
         }
     }
