@@ -23,6 +23,7 @@
          "children":[
 	    "Installation",	
             "Open with guide",
+	    "Import PDFs and images guide", 
             "Changelog",
             "License"
          ]

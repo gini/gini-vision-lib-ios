@@ -14,26 +14,35 @@ Add the following to your `Info.plist`:
 ``` sourceCode
 <key>CFBundleDocumentTypes</key>
 <array>
-    <dict>
-        <key>CFBundleTypeName</key>
-        <string>PDF</string>
-        <key>LSHandlerRank</key>
-        <string>Alternate</string>
-        <key>LSItemContentTypes</key>
-        <array>
-            <string>com.adobe.pdf</string>
-        </array>
-    </dict>
-    <dict>
-        <key>CFBundleTypeName</key>
-        <string>Image</string>
-        <key>LSHandlerRank</key>
-        <string>Alternate</string>
-        <key>LSItemContentTypes</key>
-        <array>
-            <string>public.image</string>
-        </array>
-    </dict>
+        <dict>
+            <key>CFBundleTypeIconFiles</key>
+            <array/>
+            <key>CFBundleTypeName</key>
+            <string>PDF</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>com.adobe.pdf</string>
+            </array>
+        </dict>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>Images</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.jpeg</string>
+                <string>public.png</string>
+                <string>public.tiff</string>
+                <string>com.compuserve.gif</string>
+            </array>
+        </dict>
 </array>
 ```
 
