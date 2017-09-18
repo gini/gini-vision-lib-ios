@@ -14,9 +14,14 @@ class GINIPDFDocumentTests: XCTestCase {
     let pdfNonRotated = GINIPDFDocumentTests.loadPDFDocument(withName: "testPDF")
     
     func testNumberPages() {
-        let numberOfPages = pdfNonRotated.numberPages
+        let pdf2Pages = GINIPDFDocumentTests.loadPDFDocument(withName: "testPDF2Pages")
         
-        XCTAssert(numberOfPages == 1, "Number of pages should be 1 since the pdf only has one page")
+        let numberOfPagesPDF1 = pdfNonRotated.numberPages
+        let numberOfPagesPDF2 = pdf2Pages.numberPages
+        
+        XCTAssert(numberOfPagesPDF1 == 1, "Number of pages should be 1 since the pdf only has one page")
+        XCTAssert(numberOfPagesPDF2 == 2, "Number of pages should be 2 since the pdf only has two pages")
+
     }
     
     func testPDFNonRotated() {

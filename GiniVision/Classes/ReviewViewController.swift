@@ -191,12 +191,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         super.viewDidLayoutSubviews()
         
         updateMinZoomScaleForSize(scrollView.bounds.size)
-    }
-    
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         
-        // On initialization imageView frame is (0,0) so the image needs to be centered
+        // On initialization imageView's frame is (0,0) so the image needs to be centered
         // inside the ScrollView when its size has changed
         self.updateConstraintsForSize(scrollView.bounds.size)
     }

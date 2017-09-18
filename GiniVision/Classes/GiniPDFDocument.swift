@@ -62,14 +62,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         let pdfDoc = pdf
         
         if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
-            var pageRect:CGRect = pdfPage.getBoxRect(.cropBox)
-            
-            // In case that the image was rotated 90 or 270, final rect should be rotated to portrait             
-            if pdfPage.rotationAngle == 90 || pdfPage.rotationAngle == 270 {
-                let tempWidth = pageRect.size.width
-                pageRect.size.width = pageRect.size.height
-                pageRect.size.height = tempWidth
-            }
+            let pageRect:CGRect = normalizedRect(forBoxRect: pdfPage.getBoxRect(.cropBox), withRotationAngle: pdfPage.rotationAngle)
             
             // Create context
             UIGraphicsBeginImageContextWithOptions(CGSize(width: pageRect.width, height: pageRect.height), false, 0.0)
@@ -92,6 +85,19 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         }
         
         return pdfImage
+    }
+    
+    fileprivate func normalizedRect(forBoxRect rect:CGRect, withRotationAngle rotationAngle:Int32) -> CGRect {
+        var rect = rect
+        
+        // In case that the image was rotated 90 or 270, final rect should be rotated to portrait
+        if rotationAngle == 90 || rotationAngle == 270 {
+            let tempWidth = rect.size.width
+            rect.size.width = rect.size.height
+            rect.size.height = tempWidth
+        }
+        
+        return rect
     }
 }
 
