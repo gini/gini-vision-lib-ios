@@ -11,7 +11,6 @@ Import images and PDFs from other apps
 
 In order to enable your app to import PDFs and images from other apps like *Dropbox*, *iCloud* or *Drive*, you need to enable _iCloud document support_ in your app.
 
+<center><img src="https://imgur.com/download/mLY9Bf8" border="1"/></center>
 
-### Documentation
-
--   [Incorporating iCloud into Your App](https://developer.apple.com/library/content/documentation/General/Conceptual/iCloudDesignGuide/Chapters/Introduction.html#//apple_ref/doc/uid/TP40012094) from _Apple documentation_.
+For more information take a look at [Incorporating iCloud into Your App](https://developer.apple.com/library/content/documentation/General/Conceptual/iCloudDesignGuide/Chapters/Introduction.html#//apple_ref/doc/uid/TP40012094) guide from _Apple documentation_.
