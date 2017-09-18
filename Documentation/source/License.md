@@ -5,7 +5,7 @@ The Gini Vision Library for iOS is licensed under a Private License.
 
 Always make sure to ship all license notices and permissions with your application.
 
-    Copyright (c) 2014-2016, Gini GmbH
+    Copyright (c) 2014-2017, Gini GmbH
     All rights reserved.
 
     The Gini Vision Library is licensed through Gini GmbH ("Gini") and may not be
