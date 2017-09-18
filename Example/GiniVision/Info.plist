@@ -33,6 +33,8 @@
 			<array>
 				<string>public.jpeg</string>
 				<string>public.png</string>
+                <string>public.tiff</string>
+                <string>com.compuserve.gif</string>
 			</array>
 		</dict>
 	</array>
