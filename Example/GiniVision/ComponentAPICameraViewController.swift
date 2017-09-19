@@ -50,8 +50,13 @@ class ComponentAPICameraViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if document != nil {
-            performSegue(withIdentifier: "showReview", sender: nil)
+        if let document = document {
+            if document.type == .PDF {
+                performSegue(withIdentifier: "showAnalysisFromCamera", sender: self)
+            } else {
+                performSegue(withIdentifier: "showReview", sender: nil)
+            }
+            AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }
         
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -78,11 +83,17 @@ class ComponentAPICameraViewController: UIViewController {
     
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showReview" {
-            if let document = document,
-                let vc = segue.destination as? ComponentAPIReviewViewController {
-                vc.document = document
+        if let document = document {
+            if segue.identifier == "showReview" {
+                if let vc = segue.destination as? ComponentAPIReviewViewController {
+                    vc.document = document
+                }
+            } else if segue.identifier == "showAnalysisFromCamera" {
+                if let vc = segue.destination as? ComponentAPIAnalysisViewController {
+                    vc.document = document
+                }
             }
+            self.document = nil
         }
     }
     

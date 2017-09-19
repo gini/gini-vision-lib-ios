@@ -120,6 +120,7 @@
                     <connections>
                         <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
                         <segue destination="bpn-9B-40f" kind="show" identifier="showReview" id="Idu-Pb-0ha"/>
+                        <segue destination="ej4-eT-XJQ" kind="show" identifier="showAnalysisFromCamera" id="0G8-Vw-j63"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -172,7 +173,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-do-qjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5447" y="-255"/>
+            <point key="canvasLocation" x="5471" y="83"/>
         </scene>
         <!--API Selection-->
         <scene sceneID="Cmn-ER-b8i">
@@ -277,6 +278,7 @@
                 <tabBarController storyboardIdentifier="ComponentAPI" automaticallyAdjustsScrollViewInsets="NO" id="e8r-Qt-I6L" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="yHo-i0-MdR">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -387,7 +389,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nY8-xm-izW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6148" y="-255"/>
+            <point key="canvasLocation" x="6174" y="-454"/>
         </scene>
         <!--Result Table View Controller-->
         <scene sceneID="dA0-59-wBc">
@@ -584,4 +586,7 @@
         <image name="tabBarIconHelp" width="12" height="25"/>
         <image name="tabBarIconNewDocument" width="29" height="25"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="0G8-Vw-j63"/>
+    </inferredMetricsTieBreakers>
 </document>
