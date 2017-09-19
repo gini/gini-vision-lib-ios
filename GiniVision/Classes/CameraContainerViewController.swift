@@ -27,20 +27,24 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        
         // Configure content controller and call delegate method on success
-        contentController = CameraViewController(success:
-            { imageData in
+        contentController = CameraViewController(successBlock:
+            { document, isImported in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-                delegate?.didCapture(imageData)
+                if isImported {
+                    delegate?.didImport?(document)
+                } else {
+                    delegate?.didCapture(document.data)
+                }
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(ReviewContainerViewController(imageData: imageData), animated: true)
+                    self.navigationController?.pushViewController(ReviewContainerViewController(document: document), animated: true)
                 }
-            }, failure: { error in
+                
+            }, failureBlock: { error in
                 switch error {
-                case .notAuthorizedToUseDevice:
+                case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
                     print("GiniVision: Unknown error when using camera.")

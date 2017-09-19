@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- Block which will be executed when a notice is tapped. Can be used to restart a process or to give the user further guidance.
+ Block that will be executed when a notice is tapped. Can be used to restart a process or to give the user further guidance.
  
  - note: Screen API only.
  */

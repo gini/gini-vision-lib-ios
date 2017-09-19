@@ -19,14 +19,14 @@ import UIKit
     /**
      Called when the user has taken an image.
      
-     - parameter imageData: JPEG image data including meta information.
+     - parameter fileData: JPEG image data including meta information or PDF data
      */
     func didCapture(_ imageData: Data)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
-     - parameter imageData: JPEG image data including eventually updated meta information.
+     - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
     */
     func didReview(_ imageData: Data, withChanges changes: Bool)
@@ -35,6 +35,12 @@ import UIKit
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
+    
+    /**
+     Called when the user has imported a file (image or PDF) from camera roll or document explorer
+     */
+    
+    @objc optional func didImport(_ document:GiniVisionDocument)
     
     /**
      Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.
