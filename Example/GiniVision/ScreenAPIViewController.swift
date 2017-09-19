@@ -27,7 +27,7 @@ class ScreenAPIViewController: UIViewController {
     var result: GINIResult? {
         didSet {
             if let result = result,
-               let document = document {
+                let document = document {
                 show(result, fromDocument: document)
             }
         }
@@ -99,10 +99,12 @@ class ScreenAPIViewController: UIViewController {
         if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
             let navBar = tabBar.viewControllers?.first as? UINavigationController,
             let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
-            if let fileData = fileData, let document = GiniVisionDocumentFactory.create(withData: fileData) {
+            
+            let documentBuilder = GiniVisionDocumentBuilder(data:fileData)
+            if let document = documentBuilder.build() {
                 cameraContainer.document = document
             }
-
+            
             return tabBar
         }
         return nil
@@ -122,8 +124,8 @@ class ScreenAPIViewController: UIViewController {
         AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
                 guard let response = try inner?(),
-                      let result = response.0,
-                      let document = response.1 else {
+                    let result = response.0,
+                    let document = response.1 else {
                         return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
                 }
                 self.document = document
@@ -188,7 +190,7 @@ class ScreenAPIViewController: UIViewController {
 
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GiniVisionDelegate {
-
+    
     func didImport(_ document: GiniVisionDocument) {
         print("Document imported")
         
@@ -214,7 +216,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
         if let result = result,
-           let document = document {
+            let document = document {
             present(result, fromDocument: document)
             return
         }

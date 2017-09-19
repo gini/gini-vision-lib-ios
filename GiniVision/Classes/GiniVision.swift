@@ -28,7 +28,7 @@ import UIKit
      
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
-    */
+     */
     func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
@@ -99,7 +99,9 @@ import UIKit
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
         let viewController:UIViewController
-        if let importedFile = importedFile, let document = GiniVisionDocumentFactory.create(withData: importedFile) {
+        let documentBuilder = GiniVisionDocumentBuilder(data:importedFile)
+        
+        if let document = documentBuilder.build() {
             viewController = ReviewContainerViewController(document: document)
         } else {
             viewController = CameraContainerViewController()
