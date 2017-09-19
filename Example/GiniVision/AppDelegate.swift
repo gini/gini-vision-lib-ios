@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.giniSDK = builder?.build()
         
         print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
-
+        
         return true
     }
     
@@ -48,21 +48,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 1. Read data imported from url
         let data = try? Data(contentsOf: url)
         
-        // 2. Create alert which allows user to open imported file either with ScreenAPI or ComponentAPI
+        // 2. Build the document
+        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
+        documentBuilder.importMethod = .openWith
+        let document = documentBuilder.build()
 
-        let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
+        // 3. Validate document
+        let alertViewController:UIAlertController
+        do {
+            try document?.validate()
+            
+            // 4. Create alert which allows user to open imported file either with ScreenAPI or ComponentAPI
+            alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
+            
+            alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) { _ in
+                screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedDocument: document), animated: true, completion: nil)
+            })
+            
+            alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
+                if let componentAPI = screenAPIVC.giniComponentAPI(withImportedDocument: document) {
+                    screenAPIVC.present(componentAPI, animated: true, completion: nil)
+                }
+            })
+        } catch {
+            // 4.1. Create alert which shows an error pointing out that it is not a valid document
+            alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Dies ist kein gültiges Dokument", preferredStyle: .alert)
+            alertViewController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+                alertViewController.dismiss(animated: true, completion: nil)
+            })
+        }
         
-        alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) { _ in
-            screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedFile: data, appName: sourceApplication), animated: true, completion: nil)
-        })
-        
-        alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
-            if let componentAPI = screenAPIVC.giniComponentAPI(withImportedFile: data, appName: sourceApplication) {
-                screenAPIVC.present(componentAPI, animated: true, completion: nil)
-            }
-        })
-
-        // 3. Present alert with both options
+        // 5. Present alert
         screenAPIVC.present(alertViewController, animated: true, completion: nil)
         
         return true

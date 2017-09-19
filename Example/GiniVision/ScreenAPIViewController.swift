@@ -71,7 +71,7 @@ class ScreenAPIViewController: UIViewController {
          ************************************************************************/
         
         // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = giniScreenAPI(withImportedFile: nil)
+        let vc = giniScreenAPI(withImportedDocument: nil)
         
         // 2. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
@@ -79,7 +79,7 @@ class ScreenAPIViewController: UIViewController {
         // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
     
-    func giniScreenAPI(withImportedFile fileData:Data?, appName:String? = nil) -> UIViewController {
+    func giniScreenAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController {
         
         // 1. Create a custom configuration object
         let giniConfiguration = GiniConfiguration()
@@ -92,18 +92,15 @@ class ScreenAPIViewController: UIViewController {
         }
         
         // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedFile: fileData)
+        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedDocument: document)
     }
     
-    func giniComponentAPI(withImportedFile fileData:Data?, appName:String? = nil) -> UIViewController? {
+
+    func giniComponentAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController? {
         if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
             let navBar = tabBar.viewControllers?.first as? UINavigationController,
             let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
-            
-            let documentBuilder = GiniVisionDocumentBuilder(data: fileData, documentSource: DocumentSource.appName(name: appName))
-            documentBuilder.importMethod = .openWith
-            
-            if let document = documentBuilder.build() {
+            if let document = document {
                 cameraContainer.document = document
             }
             
