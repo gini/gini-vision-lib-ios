@@ -28,7 +28,7 @@ import UIKit
      
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
-    */
+     */
     func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
@@ -93,12 +93,21 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate) -> UIViewController {
-        let cameraContainerViewController = CameraContainerViewController()
-        let navigationController = GiniNavigationViewController(rootViewController: cameraContainerViewController)
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
+        let viewController:UIViewController
+        let documentBuilder = GiniVisionDocumentBuilder(data:importedFile)
+        
+        if let document = documentBuilder.build() {
+            viewController = ReviewContainerViewController(document: document)
+        } else {
+            viewController = CameraContainerViewController()
+        }
+        
+        let navigationController = GiniNavigationViewController(rootViewController: viewController)
         navigationController.giniDelegate = delegate
         return navigationController
     }
@@ -110,12 +119,13 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
+     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedFile:Data? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return viewController(withDelegate: delegate)
+        return viewController(withDelegate: delegate, importedFile:importedFile)
     }
     
     /**

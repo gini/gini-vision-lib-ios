@@ -27,7 +27,7 @@ class ScreenAPIViewController: UIViewController {
     var result: GINIResult? {
         didSet {
             if let result = result,
-               let document = document {
+                let document = document {
                 show(result, fromDocument: document)
             }
         }
@@ -70,6 +70,17 @@ class ScreenAPIViewController: UIViewController {
          * CAPTURE IMAGE WITH THE SCREEN API OF THE GINI VISION LIBRARY FOR IOS *
          ************************************************************************/
         
+        // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
+        let vc = giniScreenAPI(withImportedFile: nil)
+        
+        // 2. Present the Gini Vision Library Screen API modally
+        present(vc, animated: true, completion: nil)
+        
+        // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
+    }
+    
+    func giniScreenAPI(withImportedFile fileData:Data?) -> UIViewController {
+        
         // 1. Create a custom configuration object
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
@@ -81,12 +92,22 @@ class ScreenAPIViewController: UIViewController {
         }
         
         // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        let vc = GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration)
-        
-        // 3. Present the Gini Vision Library Screen API modally
-        present(vc, animated: true, completion: nil)
-        
-        // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
+        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedFile: fileData)
+    }
+    
+    func giniComponentAPI(withImportedFile fileData:Data?) -> UIViewController? {
+        if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
+            let navBar = tabBar.viewControllers?.first as? UINavigationController,
+            let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
+            
+            let documentBuilder = GiniVisionDocumentBuilder(data:fileData)
+            if let document = documentBuilder.build() {
+                cameraContainer.document = document
+            }
+            
+            return tabBar
+        }
+        return nil
     }
     
     // MARK: Handle analysis of document
@@ -103,8 +124,8 @@ class ScreenAPIViewController: UIViewController {
         AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
                 guard let response = try inner?(),
-                      let result = response.0,
-                      let document = response.1 else {
+                    let result = response.0,
+                    let document = response.1 else {
                         return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
                 }
                 self.document = document
@@ -169,7 +190,7 @@ class ScreenAPIViewController: UIViewController {
 
 // MARK: Gini Vision delegate
 extension ScreenAPIViewController: GiniVisionDelegate {
-
+    
     func didImport(_ document: GiniVisionDocument) {
         print("Document imported")
         
@@ -195,7 +216,7 @@ extension ScreenAPIViewController: GiniVisionDelegate {
         
         // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
         if let result = result,
-           let document = document {
+            let document = document {
             present(result, fromDocument: document)
             return
         }
