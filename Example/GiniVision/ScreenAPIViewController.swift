@@ -99,7 +99,10 @@ class ScreenAPIViewController: UIViewController {
         if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
             let navBar = tabBar.viewControllers?.first as? UINavigationController,
             let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
-            cameraContainer.imageData = fileData
+            if let fileData = fileData, let document = GiniVisionDocumentFactory.create(withData: fileData) {
+                cameraContainer.document = document
+            }
+
             return tabBar
         }
         return nil

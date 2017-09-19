@@ -24,6 +24,28 @@ import Foundation
     case Image = 1
 }
 
+// MARK: GiniVisionDocumentFactory
+
+public struct GiniVisionDocumentFactory {
+    /**
+     Creates a `GiniVisionDocument` with a Data object
+     
+     - Parameter withData: data object with an unknown type
+     
+     - Returns: A `GiniVisionDocument` if `data` has a valid type or nil if it hasn't.
+     
+     */
+    public static func create(withData data:Data) -> GiniVisionDocument? {
+        if data.isPDF {
+            return GiniPDFDocument(data: data)
+        } else if data.isImage {
+            return GiniImageDocument(data: data)
+        } else {
+            return nil
+        }
+    }
+}
+
 // MARK: GiniVisionDocument extension
 
 extension GiniVisionDocument {
@@ -38,7 +60,7 @@ extension GiniVisionDocument {
      
      - Throws: `DocumentValidationError.exceededMaxFileSize` if the size exceeds the max file size
                Also throws type validation errors, see `checkType` implementations
-
+     
      */
     public func validate() throws {
         let document = self
@@ -48,7 +70,7 @@ extension GiniVisionDocument {
             throw DocumentValidationError.exceededMaxFileSize
         }
     }
-
+    
     // MARK: File size check
     
     fileprivate func maxFileSizeExceeded(forData data:Data) -> Bool {

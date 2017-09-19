@@ -99,8 +99,8 @@ import UIKit
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
         let viewController:UIViewController
-        if let importedFile = importedFile {
-            viewController = ReviewContainerViewController(imageData: importedFile)
+        if let importedFile = importedFile, let document = GiniVisionDocumentFactory.create(withData: importedFile) {
+            viewController = ReviewContainerViewController(document: document)
         } else {
             viewController = CameraContainerViewController()
         }
