@@ -82,9 +82,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
     fileprivate var captureButton = UIButton()
-    fileprivate var importFileButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
+    fileprivate lazy var importFileButton = UIButton()
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -183,17 +183,19 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
-        // Configure document provider button
-        importFileButton.setTitle("Import", for: .normal)
-        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
-        
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
         view.insertSubview(cameraOverlay, aboveSubview: previewView)
         view.insertSubview(controlsView, aboveSubview: cameraOverlay)
         
         controlsView.addSubview(captureButton)
-        controlsView.addSubview(importFileButton)
+        
+        // Configure document provider button
+        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
+            importFileButton.setTitle("Import", for: .normal)
+            importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+            controlsView.addSubview(importFileButton)
+        }
         
         // Add constraints
         addConstraints()
@@ -270,7 +272,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 return 
             }
             (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
-
+            
             // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
             self.cameraOverlay.image = self.cameraOverlayImageOriented
         })
@@ -488,18 +490,19 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
         
-        
-        // Capture button
-        importFileButton.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
-        } else {
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        // Import button
+        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
+            importFileButton.translatesAutoresizingMaskIntoConstraints = false
+            if UIDevice.current.isIpad {
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
+            } else {
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+            }
         }
     }
     
