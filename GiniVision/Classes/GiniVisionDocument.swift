@@ -30,14 +30,19 @@ public class GiniVisionDocumentBuilder {
     
     let data:Data?
     
+    /**
+     Initializes a `GiniVisionDocumentBuilder` with a Data object
+     
+     - Parameter withData: data object with an unknown type
+     
+     */
+    
     public init(data:Data?) {
         self.data = data
     }
     
     /**
-     Creates a `GiniVisionDocument` with a Data object
-     
-     - Parameter withData: data object with an unknown type
+     Builds a `GiniVisionDocument`
      
      - Returns: A `GiniVisionDocument` if `data` has a valid type or nil if it hasn't.
      
@@ -52,8 +57,6 @@ public class GiniVisionDocumentBuilder {
         }
         return nil
     }
-    
-    
 }
 
 // MARK: GiniVisionDocument extension
