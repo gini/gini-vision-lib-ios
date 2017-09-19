@@ -29,10 +29,11 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     public init(data:Data) {
         self.data = data
-        self.previewImage = UIImageNamedPreferred(named: "cameraDefaultDocumentImage") // Here should be the first rendered page
-        if let dataProvider = CGDataProvider(data: data as CFData) {
-            let pdfDocument = CGPDFDocument(dataProvider)
-            self.numberPages = pdfDocument?.numberOfPages ?? 0
+        super.init()
+        
+        if let dataProvider = CGDataProvider(data: data as CFData), let pdfDocument = CGPDFDocument(dataProvider) {
+            self.numberPages = pdfDocument.numberOfPages
+            self.previewImage = renderFirstPage(fromPdf: pdfDocument)
         }
     }
     
@@ -56,6 +57,48 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         }
     }
     
+    fileprivate func renderFirstPage(fromPdf pdf:CGPDFDocument) -> UIImage? {
+        var pdfImage:UIImage?
+        let pdfDoc = pdf
+        
+        if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
+            let pageRect:CGRect = normalizedRect(forBoxRect: pdfPage.getBoxRect(.cropBox), withRotationAngle: pdfPage.rotationAngle)
+            
+            // Create context
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: pageRect.width, height: pageRect.height), false, 0.0)
+            let context:CGContext = UIGraphicsGetCurrentContext()!
+            
+            // Fill context color
+            context.setFillColor(UIColor.white.cgColor)
+            context.fill(pageRect)
+            
+            // Align PDF's cropBox to the context
+            context.translateBy(x: 0, y: pageRect.size.height)
+            context.scaleBy(x: 1, y: -1)
+            context.concatenate(pdfPage.getDrawingTransform(.cropBox, rect: pageRect, rotate: 0, preserveAspectRatio: true))
+
+            // Draw PDF into context
+            context.drawPDFPage(pdfPage)
+
+            pdfImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+        }
+        
+        return pdfImage
+    }
+    
+    fileprivate func normalizedRect(forBoxRect rect:CGRect, withRotationAngle rotationAngle:Int32) -> CGRect {
+        var rect = rect
+        
+        // In case that the image was rotated 90 or 270, final rect should be rotated to portrait
+        if rotationAngle == 90 || rotationAngle == 270 {
+            let tempWidth = rect.size.width
+            rect.size.width = rect.size.height
+            rect.size.height = tempWidth
+        }
+        
+        return rect
+    }
 }
 
 // MARK: NSItemProviderReading

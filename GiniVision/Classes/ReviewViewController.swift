@@ -191,6 +191,10 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         super.viewDidLayoutSubviews()
         
         updateMinZoomScaleForSize(scrollView.bounds.size)
+        
+        // On initialization imageView's frame is (0,0) so the image needs to be centered
+        // inside the ScrollView when its size has changed
+        self.updateConstraintsForSize(scrollView.bounds.size)
     }
     
     /**
