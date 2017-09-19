@@ -28,6 +28,7 @@ import Foundation
 public class GiniVisionDocumentBuilder {
     
     let data:Data?
+    var deviceOrientation:UIInterfaceOrientation?
     
     /**
      Initializes a `GiniVisionDocumentBuilder` with a Data object
@@ -51,7 +52,7 @@ public class GiniVisionDocumentBuilder {
             if data.isPDF {
                 return GiniPDFDocument(data: data)
             } else if data.isImage {
-                return GiniImageDocument(data: data)
+                return GiniImageDocument(data: data, deviceOrientation: deviceOrientation)
             }
         }
         return nil
