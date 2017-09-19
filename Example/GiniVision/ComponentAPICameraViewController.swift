@@ -37,7 +37,7 @@ class ComponentAPICameraViewController: UIViewController {
             { document, _ in
                 self.document = document
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "showReview", sender: self)
+                    self.goToNextScreen(withDocument: document)
                 }
         }, failureBlock: { error in
             print("Component API camera view controller received error:\n\(error)")
@@ -51,11 +51,7 @@ class ComponentAPICameraViewController: UIViewController {
         super.viewWillAppear(animated)
         
         if let document = document {
-            if document.type == .PDF {
-                performSegue(withIdentifier: "showAnalysisFromCamera", sender: self)
-            } else {
-                performSegue(withIdentifier: "showReview", sender: nil)
-            }
+            goToNextScreen(withDocument: document)
             AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }
         
@@ -95,6 +91,19 @@ class ComponentAPICameraViewController: UIViewController {
             }
             self.document = nil
         }
+    }
+    
+    fileprivate func goToNextScreen(withDocument document:GiniVisionDocument) {
+        if document.type == .PDF {
+            performSegue(withIdentifier: "showAnalysisFromCamera", sender: self)
+        } else {
+            performSegue(withIdentifier: "showReview", sender: nil)
+        }
+        
+        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
+        // to have results in as early as possible.
+        
+        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
     }
     
 }

@@ -32,12 +32,7 @@ class ComponentAPIReviewViewController: UIViewController {
         
         guard let document = document else { return }
         originalDocument = document
-        
-        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
-        // to have results in as early as possible.
-
-        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
-        
+                
         /*************************************************************************
          * REVIEW SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
          *************************************************************************/
@@ -47,14 +42,11 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // 2. Create the review view controller
         contentController = ReviewViewController(document, successBlock:
-            { [unowned self] (document, shouldFinish) in
+            { [unowned self] document in
                 print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user
                 self.document = document
-                
-                if shouldFinish {
-                    self.showAnalysis(self)
-                }
+
             }, failureBlock: { error in
                 print("Component API review view controller received error:\n\(error)")
             })

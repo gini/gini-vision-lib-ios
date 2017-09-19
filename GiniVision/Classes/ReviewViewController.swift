@@ -20,7 +20,7 @@ public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
  
  - note: Component API only.
  */
-public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument, _ shouldProceedToAnalysisScreen:Bool) -> ()
+public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block that will be executed when an error occurs on the review screen. It contains a review specific error.
@@ -163,7 +163,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @nonobjc
     @available(*, deprecated)
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
-        self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { (document,_) in
+        self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { document in
             success(document.data)
         }, failureBlock: { error in
             failure(error as! ReviewError)
@@ -210,8 +210,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         imageView.image = rotatedImage
         imageDocument.rotateImage(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
-        
-        successBlock?(imageDocument, false)
+        successBlock?(imageDocument)
     }
     
     fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {

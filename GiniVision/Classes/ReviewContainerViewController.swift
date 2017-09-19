@@ -35,13 +35,10 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure content controller and update image data on success
         contentController = ReviewViewController(self.document!, successBlock:
-            { [unowned self] (document, shouldProceedToAnalysisScreen) in
+            { [unowned self] document in
                 self.document = document
                 self.changes = true
-                
-                if shouldProceedToAnalysisScreen {
-                    self.analyse()
-                }
+       
             }, failureBlock: { error in
                 print(error)
             })
