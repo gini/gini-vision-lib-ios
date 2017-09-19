@@ -31,15 +31,22 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         contentController = CameraViewController(successBlock:
             { document, isImported in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
+                let viewController:UIViewController
                 if isImported {
+                    if document.type == .PDF {
+                        viewController = AnalysisContainerViewController(document: document)
+                    } else {
+                        viewController = ReviewContainerViewController(document: document)
+                    }
                     delegate?.didImport?(document)
                 } else {
+                    viewController = ReviewContainerViewController(document: document)
                     delegate?.didCapture(document.data)
                 }
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(ReviewContainerViewController(document: document), animated: true)
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 }
                 
             }, failureBlock: { error in

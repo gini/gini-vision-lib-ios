@@ -201,22 +201,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         DispatchQueue.main.async {
             (self.topView as? NoticeView)?.show()
         }
-        
-        if let currentDocument = currentDocument {
-            // Validate document before review
-            do {
-                try currentDocument.validate()
-            } catch let error as DocumentValidationError {
-                failureBlock!(error)
-            } catch _ {
-                failureBlock!(DocumentValidationError.unknown)
-            }
-            
-            // If the document is a PDF, go to Analysis screen
-            if currentDocument.type == .PDF {
-                successBlock?(currentDocument, true)
-            }
-        }
     }
     
     // MARK: Rotation handling

@@ -101,7 +101,12 @@ import UIKit
         let viewController:UIViewController
         
         if let document = importedDocument {
-            viewController = ReviewContainerViewController(document: document)
+            if document.type == .PDF {
+                viewController = AnalysisContainerViewController(document: document)
+            } else {
+                viewController = ReviewContainerViewController(document: document)
+            }
+            delegate.didImport?(document)
         } else {
             viewController = CameraContainerViewController()
         }
