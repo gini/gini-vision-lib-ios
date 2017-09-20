@@ -57,41 +57,36 @@ internal class ImageMetaInformationManager {
     init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
         imageData = data
         metaInformation = metaInformation(fromImageData: data)
-        
+
         // If the image has the DeviceOrientation, it should not be added again
         // because current device orientation could be different.
         // deviceOrientation must be always nil except when the picture has just been taken.
         deviceOrientationOnCapture = value(forUserCommentField: userCommentDeviceOrientation)
         
-        guard let _ = deviceOrientationOnCapture else {
-            if let deviceOrientation = deviceOrientation {
-                deviceOrientationOnCapture = deviceOrientation.isLandscape ? "landscape" : "portrait"
-            }
-            return
+        if let deviceOrientation = deviceOrientation, deviceOrientationOnCapture == nil {
+            deviceOrientationOnCapture = deviceOrientation.isLandscape ? "landscape" : "portrait"
         }
+        
+        filterMetaInformation()
     }
     
     // Returns the current image but with all meta information added
-    func addMetaInformationToImage(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
-        guard let image = imageData else { return nil }
-        guard let information = metaInformation else { return nil }
+    func imageByAddingMetadata(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
+        guard let image = imageData, let information = metaInformation else { return nil }
         
         let targetData = NSMutableData()
-        
-        let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)!
+        let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)
         let source = CGImageSourceCreateWithData(image as CFData, nil)
         information.setValue(compression, forKey: kCGImageDestinationLossyCompressionQuality as String)
         
-        CGImageDestinationAddImageFromSource(destination, source!, 0, information as CFDictionary)
-        CGImageDestinationFinalize(destination)
-        return targetData as Data
-    }
-    
-    func filterMetaInformation() {
-        var information = metaInformation ?? MetaInformation()
-        information = addDefaultValues(toMetaInformation: information)
-        guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return }
-        metaInformation = filteredInformation
+        if let destination = destination, let source = source {
+            CGImageDestinationAddImageFromSource(destination, source, 0, information as CFDictionary)
+            CGImageDestinationFinalize(destination)
+            
+            return targetData as Data
+        }
+        
+        return nil
     }
     
     func rotate(degrees:Int, imageOrientation: UIImageOrientation) {
@@ -104,6 +99,13 @@ internal class ImageMetaInformationManager {
         var information = metaInformation ?? MetaInformation()
         information = update(getExifOrientationFromUIImageOrientation(orientation), onMetaInformation: information)
         metaInformation = information
+    }
+    
+    fileprivate func filterMetaInformation() {
+        var information = metaInformation ?? MetaInformation()
+        information = addDefaultValues(toMetaInformation: information)
+        guard let filteredInformation = filterDefaultValues(fromMetaInformation: information) else { return }
+        metaInformation = filteredInformation
     }
     
     fileprivate func update(_ orientation: Int, onMetaInformation information: MetaInformation) -> MetaInformation {

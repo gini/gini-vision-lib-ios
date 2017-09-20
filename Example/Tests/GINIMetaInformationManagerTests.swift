@@ -40,8 +40,7 @@ class ImageMetaInformationManagerTests: XCTestCase {
     
     func testFilteringAndSettingRequiredFields() {
         let mutableManager = manager
-        mutableManager.filterMetaInformation()
-        guard let filteredData = mutableManager.addMetaInformationToImage() else {
+        guard let filteredData = mutableManager.imageByAddingMetadata()else {
             return XCTFail("filtered image data should not be nil")
         }
         
