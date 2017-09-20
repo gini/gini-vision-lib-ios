@@ -139,18 +139,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.successBlock = successBlock
         self.failureBlock = failureBlock
         
-        // Configure file picker
-        filePickerManager.didPickFile = { [unowned self] document in
-            do {
-                try document.validate()
-                self.successBlock?(document, true)
-            } catch let error as DocumentValidationError {
-                failureBlock(error)
-            } catch _ {
-                failureBlock(DocumentValidationError.unknown)
-            }
-        }
-        
         // Configure camera
         do {
             camera = try Camera()
@@ -190,18 +178,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         controlsView.addSubview(captureButton)
         
-        // Configure document provider button
-        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
-            importFileButton.setTitle("Import", for: .normal)
-            importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
-            controlsView.addSubview(importFileButton)
-        }
-        
         // Add constraints
         addConstraints()
         
-        if #available(iOS 11.0, *) {
-            addDropInteraction()
+        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
+            enableFileImport()
         }
     }
     
@@ -353,6 +334,30 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     // MARK: Document import
+    fileprivate func enableFileImport() {
+        // Configure file picker
+        filePickerManager.didPickFile = { [unowned self] document in
+            do {
+                try document.validate()
+                self.successBlock?(document, true)
+            } catch let error as DocumentValidationError {
+                self.failureBlock!(error)
+            } catch _ {
+                self.failureBlock!(DocumentValidationError.unknown)
+            }
+        }
+        
+        // Configure import file button
+        importFileButton.setTitle("Import", for: .normal)
+        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+        controlsView.addSubview(importFileButton)
+        addImportButtonConstraints()
+        
+        if #available(iOS 11.0, *) {
+            addDropInteraction()
+        }
+    }
+    
     @objc fileprivate func importDocument(_ sender: AnyObject) {
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -426,7 +431,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         addPreviewViewConstraints()
         addCameraOverlayConstraints()
         addControlsViewConstraints()
-        addControlsViewButtonsConstraints()
+        addCameraButtonConstraints()
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -482,27 +487,26 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
     }
     
-    fileprivate func addControlsViewButtonsConstraints() {
+    fileprivate func addCameraButtonConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
-        
-        // Import button
-        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
-            importFileButton.translatesAutoresizingMaskIntoConstraints = false
-            if UIDevice.current.isIpad {
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
-            } else {
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-                ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
-            }
+    }
+    
+    fileprivate func addImportButtonConstraints() {
+        importFileButton.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 16)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
         }
     }
     
