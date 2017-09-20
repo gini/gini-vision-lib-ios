@@ -68,12 +68,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
 
 @objc public final class CameraViewController: UIViewController {
     
-    /**
-     Image view used to display a camera overlay like corners or a frame.
-     Use public methods `showCameraOverlay` and `hideCameraOverlay` to control visibility of overlay.
-     */
-    public var cameraOverlay = UIImageView()
-    
     fileprivate enum CameraState {
         case valid, notValid
     }
@@ -173,9 +167,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
-        view.insertSubview(cameraOverlay, aboveSubview: previewView)
-        view.insertSubview(controlsView, aboveSubview: cameraOverlay)
+        view.insertSubview(controlsView, aboveSubview: previewView)
         
+        previewView.drawGuides()
         controlsView.addSubview(captureButton)
         
         // Add constraints
@@ -228,8 +222,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Configure camera overlay
         cameraOverlayImage = UIImageNamedPreferred(named: "cameraOverlay")
-        cameraOverlay.image = cameraOverlayImageOriented
-        cameraOverlay.contentMode = .scaleAspectFit
+//        cameraOverlay.image = cameraOverlayImageOriented
+//        cameraOverlay.contentMode = .scaleAspectFit
         
         camera?.start()
     }
@@ -253,9 +247,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 return 
             }
             (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
-            
-            // Set the cameraOverlayImageOriented to the cameraOverlay. Needed because image can't be scaled to fit the bounds.
-            self.cameraOverlay.image = self.cameraOverlayImageOriented
         })
     }
     
@@ -280,14 +271,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      */
     public func showCameraOverlay() {
         guard cameraState == .valid else { return }
-        cameraOverlay.alpha = 1
+//        cameraOverlay.alpha = 1
     }
     
     /**
      Hide the camera overlay. Should be called when onboarding is presented.
      */
     public func hideCameraOverlay() {
-        cameraOverlay.alpha = 0
+//        cameraOverlay.alpha = 0
     }
     
     // MARK: Image capture
@@ -499,14 +490,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     fileprivate func addCameraOverlayConstraints() {
-        cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
-        
-        // All constraints here have a priority less than required to make sure they don't get broken
-        // when the view gets too small
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 23, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: -23, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
+//        cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
+//
+//        // All constraints here have a priority less than required to make sure they don't get broken
+//        // when the view gets too small
+//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 23, priority: 999)
+//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
+//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: -23, priority: 999)
+//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
     }
     
     fileprivate func addCameraButtonConstraints() {
