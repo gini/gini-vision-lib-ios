@@ -32,6 +32,11 @@ class ComponentAPIReviewViewController: UIViewController {
         
         guard let document = document else { return }
         originalDocument = document
+        
+        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
+        // to have results in as early as possible.
+        
+        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
                 
         /*************************************************************************
          * REVIEW SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
@@ -53,6 +58,20 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // 3. Display the review view controller
         displayContent(contentController)
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let navController = navigationController else { return }
+        if isFirstViewController(inNavController: navController){
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeAction))
+        }
+    }
+    
+    func closeAction() {
+        dismiss(animated: true, completion: nil)
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {

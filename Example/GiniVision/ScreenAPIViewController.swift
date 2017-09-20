@@ -98,10 +98,19 @@ class ScreenAPIViewController: UIViewController {
 
     func giniComponentAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController? {
         if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
-            let navBar = tabBar.viewControllers?.first as? UINavigationController,
-            let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
+            let navBar = tabBar.viewControllers?.first as? UINavigationController {
             if let document = document {
-                cameraContainer.document = document
+                if document.type == .PDF {
+                    if let analysisContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController {
+                        analysisContainer.document = document
+                        navBar.setViewControllers([analysisContainer], animated: false)
+                    }
+                }else {
+                    if let reviewContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIReview") as? ComponentAPIReviewViewController {
+                        reviewContainer.document = document
+                        navBar.setViewControllers([reviewContainer], animated: false)
+                    }
+                }
             }
             
             return tabBar

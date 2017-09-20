@@ -41,10 +41,29 @@ class ComponentAPIAnalysisViewController: UIViewController {
         
         // 2. Create the analysis view controller
         guard let document = document else { return }
+        
+        // In case that they view is loaded but is not analysing (i.e: user import a PDF with Open With feature), it should start.
+        if !AnalysisManager.sharedManager.isAnalyzing {
+            AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
+        }
+        
         contentController = AnalysisViewController(document)
         
         // 3. Display the analysis view controller
         displayContent(contentController)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        guard let navController = navigationController else { return }
+        if isFirstViewController(inNavController: navController){
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Abbrechen", style: .plain, target: self, action: #selector(closeAction))
+        }
+    }
+    
+    func closeAction() {
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {

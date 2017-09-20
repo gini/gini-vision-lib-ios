@@ -50,11 +50,6 @@ class ComponentAPICameraViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let document = document {
-            goToNextScreen(withDocument: document)
-            AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
-        }
-        
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
@@ -99,11 +94,6 @@ class ComponentAPICameraViewController: UIViewController {
         } else {
             performSegue(withIdentifier: "showReview", sender: nil)
         }
-        
-        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
-        // to have results in as early as possible.
-        
-        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
     }
     
 }

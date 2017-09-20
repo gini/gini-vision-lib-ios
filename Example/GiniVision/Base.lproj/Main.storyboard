@@ -326,7 +326,7 @@
         <!--ComponentAPI Analysis View Controller-->
         <scene sceneID="Jdr-6S-YsN">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ej4-eT-XJQ" customClass="ComponentAPIAnalysisViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComponentAPIAnalysis" automaticallyAdjustsScrollViewInsets="NO" id="ej4-eT-XJQ" customClass="ComponentAPIAnalysisViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mvi-1p-ikx"/>
                         <viewControllerLayoutGuide type="bottom" id="b2S-iE-aI1"/>
@@ -587,6 +587,6 @@
         <image name="tabBarIconNewDocument" width="29" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="0G8-Vw-j63"/>
+        <segue reference="b8t-LI-ByW"/>
     </inferredMetricsTieBreakers>
 </document>
