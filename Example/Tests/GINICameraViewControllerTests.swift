@@ -9,9 +9,5 @@ class CameraViewControllerTests: XCTestCase {
         XCTAssertNotNil(vc, "view controller should not be nil")
     }
     
-    func testCameraOverlayAccessibility() {
-        XCTAssertNotNil(vc.cameraOverlay, "camera overlay should be accessible and not nil")
-    }
-    
 }
 

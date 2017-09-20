@@ -56,7 +56,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
  * `cameraCaptureButtonActive`
  * `cameraFocusLarge`
  * `cameraFocusSmall`
- * `cameraOverlay` (Both iPhone and iPad sizes)
  * `cameraNotAuthorizedIcon`
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
@@ -433,7 +432,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     // MARK: Constraints
     fileprivate func addConstraints() {
         addPreviewViewConstraints()
-        addCameraOverlayConstraints()
         addControlsViewConstraints()
         addCameraButtonConstraints()
     }
@@ -479,19 +477,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: captureButton, attribute: .height, multiplier: 1.1, constant: 0)
         }
     }
-    
-    fileprivate func addCameraOverlayConstraints() {
-//        cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
-//
-//        // All constraints here have a priority less than required to make sure they don't get broken
-//        // when the view gets too small
-//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 23, priority: 999)
-//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
-//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: -23, priority: 999)
-//        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
-    }
-    
-    fileprivate func addCameraButtonConstraints() {
+
+    fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
