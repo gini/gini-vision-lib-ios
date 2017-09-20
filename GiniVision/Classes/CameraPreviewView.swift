@@ -52,6 +52,14 @@ extension CameraPreviewView {
         createGrayFrame()
     }
     
+    func isFrame(hidden:Bool) {
+        frameLayer?.isHidden = hidden
+    }
+    
+    func areGuides(hidden:Bool) {
+        guidesLayer?.isHidden = hidden
+    }
+    
     fileprivate func createGuides() {
         let rectLayer = CAShapeLayer()
         styleLayer(rectLayer)

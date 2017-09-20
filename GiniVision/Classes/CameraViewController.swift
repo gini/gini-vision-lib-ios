@@ -99,13 +99,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var captureButtonActiveImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
-    fileprivate var cameraOverlayImage: UIImage?
-    fileprivate var cameraOverlayImageOriented: UIImage? {
-        guard let image = cameraOverlayImage, let cgImage = image.cgImage else {
-            return nil
-        }
-        return UIImage(cgImage: cgImage , scale: 1.0, orientation: UIApplication.shared.statusBarOrientation.isLandscape ? .right : UIImageOrientation.up)
-    }
+    
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
     }
@@ -220,11 +214,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Configure camera overlay
-        cameraOverlayImage = UIImageNamedPreferred(named: "cameraOverlay")
-//        cameraOverlay.image = cameraOverlayImageOriented
-//        cameraOverlay.contentMode = .scaleAspectFit
-        
         camera?.start()
     }
     
@@ -271,14 +260,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      */
     public func showCameraOverlay() {
         guard cameraState == .valid else { return }
-//        cameraOverlay.alpha = 1
+        previewView.areGuides(hidden: false)
+        previewView.isFrame(hidden: false)
     }
     
     /**
      Hide the camera overlay. Should be called when onboarding is presented.
      */
     public func hideCameraOverlay() {
-//        cameraOverlay.alpha = 0
+        previewView.areGuides(hidden: true)
+        previewView.isFrame(hidden: true)
     }
     
     // MARK: Image capture
