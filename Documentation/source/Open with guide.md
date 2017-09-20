@@ -4,7 +4,8 @@ Enable your app to open PDFs and Images
 General considerations
 ----------------------
 
-Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images. Make sure to check the MIME type and that the file size is below an acceptable threshold (5MB for example). It is also advisable to check the first bytes of the incoming files to determine their type and allow only PDFs and known image types.
+Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images.
+In order to determine that the file opened is valid (correct size, correct type and number of pages below the threshold on PDFs), it is necessary to validate it before using it. 
 
 Registering PDF and image file types
 ------------------------------------
@@ -55,10 +56,33 @@ You can also add these by going to your target’s *Info* tab and enter the valu
 Handling incoming PDFs and images
 ---------------------------------
 
-When your app is requested to handle a PDF or an image your `AppDelegate`’s `application(_:open:options:)` (__Swift__) or `application:openURL:options:` (__Obj-C__) method is called. You can read the data from the received `URL` into an `NSData` which can be uploaded to the Gini API for information extraction.
+When your app is requested to handle a PDF or an image your `AppDelegate`’s `application(_:open:options:)` (__Swift__) method is called. You can read the data from the received `URL` into an `Data`. 
+Once you have the `Data`, you must build a `GiniVisionDocument` with the `GiniVisionDocumentBuilder`, and then you should validate it to avoid further issues.
 
+
+```swift
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        
+        // 1. Read data imported from url
+        let data = try? Data(contentsOf: url)
+        
+        // 2. Build the document
+        let document = GiniVisionDocumentBuilder(data: data).build()
+        
+        // 3. Validate document        
+        do {
+            try document?.validate()
+            // Use the document
+            
+        } catch {
+        	// Show an error ponting out that the document is invalid
+        }
+        
+        return true
+    }
+```
+    
 ### Documentation
 
 -   [AppDelegate resource handling](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application) from _Apple Documentation_
--   [Submitting files](http://developer.gini.net/gini-api/html/documents.html#submitting-files) from _Gini API_
--   [Upload a document](http://developer.gini.net/gini-sdk-ios/docs/guides/common-tasks.html#upload-a-document) from _Gini API SDK_
+-   [Supported file formats](http://developer.gini.net/gini-api/html/documents.html#supported-file-formats) from _Gini API_
