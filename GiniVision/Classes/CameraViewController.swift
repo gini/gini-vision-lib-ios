@@ -162,7 +162,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         view.insertSubview(previewView, at: 0)
         view.insertSubview(controlsView, aboveSubview: previewView)
         
-        previewView.drawGuides()
+        previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
         
         // Add constraints

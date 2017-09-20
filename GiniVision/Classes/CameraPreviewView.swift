@@ -12,7 +12,7 @@ import AVFoundation
 internal class CameraPreviewView: UIView {
     
     let a4Ratio:CGFloat = 21.0 / 31.0
-    let frameColor = UIColor(white: 0.0, alpha: 0.4)
+    let frameColor = UIColor(white: 0.0, alpha: 0.7)
     let guideLineLength:CGFloat = 50.0
     let guideLineWidth:CGFloat = 2.0
     /// the size of the guides compared to the size of the whole view
@@ -46,7 +46,7 @@ internal class CameraPreviewView: UIView {
 
 extension CameraPreviewView {
     
-    func drawGuides(withColor color:UIColor = .white) {
+    func drawGuides(withColor color:UIColor) {
         guideColor = color
         createGuides()
         createGrayFrame()
@@ -108,20 +108,16 @@ extension CameraPreviewView {
     
     fileprivate func biggestA4SizeRect() -> CGRect {
         let wholeFrame = bounds
-        let isLandscape = wholeFrame.width > wholeFrame.height
         let ratio:CGFloat
-        if isLandscape {
-            ratio = 1 / a4Ratio
-        } else {
-            ratio = a4Ratio
-        }
 
         let maxWidth = wholeFrame.width * guideLineSize
         let maxHeight = wholeFrame.height * guideLineSize
         if maxHeight > maxWidth {
+            ratio = a4Ratio
             return CGRect(x: 0, y: 0, width: maxHeight * ratio, height: maxHeight)
         }
         else {
+            ratio = 1 / a4Ratio
             return CGRect(x: 0, y: 0, width: maxWidth, height: maxWidth / ratio)
         }
     }

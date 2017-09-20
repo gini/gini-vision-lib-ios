@@ -184,6 +184,11 @@ import UIKit
      */
     public var cameraNotAuthorizedButtonTitleColor = UIColor.white
     
+    /**
+     Sets the color of camera preview corner guides
+     */
+    public var cameraPreviewCornerGuidesColor = UIColor.white
+    
     
     
     // MARK: Onboarding options
