@@ -22,18 +22,26 @@ final class ToolTipView: UIView {
     var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     var itemSeparation: CGFloat = 16
     
-    var textLabel:UILabel = UILabel()
-    var closeButton:UIButton = UIButton()
+    var arrowView:UIView
+    var textLabel:UILabel
+    var closeButton:UIButton
+    var tipContainer: UIView
     
     init(text:String, backgroundColor: UIColor = .white, referenceView: UIView, superView:UIView) {
         self.text = text
+        self.textLabel = UILabel()
+        self.closeButton = UIButton()
+        self.arrowView = ToolTipView.arrow(withHeight: 20, width: 20, color: .red)
+        self.tipContainer = UIView()
+
         super.init(frame: .zero)
         superView.addSubview(self)
         self.textSize = size(forText: text)
-        self.backgroundColor = backgroundColor
+        self.addTipContainer(backgroundColor: backgroundColor, referenceView: referenceView, superView: superView)
         
         self.addTextLabel(withText: text)
         self.addCloseButton()
+        self.addArrow(referenceView:referenceView)
         self.addShadow()
         
         self.frame = computeFrame(referenceView: referenceView, superView: superView)
@@ -45,12 +53,12 @@ final class ToolTipView: UIView {
     }
     
     fileprivate func computeFrame(referenceView: UIView, superView: UIView) -> CGRect {
-        let frameHeight = max(textSize.height, closeButtonHeight) + padding.top + padding.bottom
-        let frameWidth = textSize.width + closeButtonWidth + padding.left + padding.right + itemSeparation
+        let frameHeight = max(textSize.height, closeButtonHeight) + padding.top + padding.bottom + margin.top + margin.bottom
+        let frameWidth = textSize.width + closeButtonWidth + padding.left + padding.right + itemSeparation +  margin.left + margin.right
         let size = CGSize(width: frameWidth, height: frameHeight)
         
         let referenceViewAbsoluteOrigin = referenceView.convert(referenceView.frame.origin, to: superView)
-        let origin:CGPoint = CGPoint(x: referenceViewAbsoluteOrigin.x + margin.left , y: referenceViewAbsoluteOrigin.y - size.height - margin.bottom)
+        let origin:CGPoint = CGPoint(x: referenceViewAbsoluteOrigin.x, y: referenceViewAbsoluteOrigin.y - size.height)
         return CGRect(origin: origin, size: size)
     }
     
@@ -65,17 +73,27 @@ final class ToolTipView: UIView {
         return textSize
     }
     
+    fileprivate func addTipContainer(backgroundColor color:UIColor, referenceView: UIView, superView:UIView) {
+        self.addSubview(tipContainer)
+        self.tipContainer.backgroundColor = color
+    }
+    
     fileprivate func addTextLabel(withText text:String) {
         textLabel.text = text
         textLabel.numberOfLines = 0
-        self.addSubview(textLabel)
+        tipContainer.addSubview(textLabel)
+    }
+    
+    fileprivate func addArrow(referenceView:UIView) {
+        arrowView.frame.origin = CGPoint(x: 0, y: self.frame.height)
+        self.addSubview(arrowView)
     }
     
     fileprivate func addCloseButton() {
         closeButton.setTitle("X", for: .normal)
         closeButton.setTitleColor(.red, for: .normal)
         closeButton.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
-        self.addSubview(closeButton)
+        tipContainer.addSubview(closeButton)
     }
     
     @objc fileprivate func closeAction() {
@@ -92,22 +110,58 @@ final class ToolTipView: UIView {
     fileprivate func setupConstraints() {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
+        tipContainer.translatesAutoresizingMaskIntoConstraints = false
+        
+        // tipContainer
+        self.addConstraints([
+            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: tipContainer, attribute: .top, multiplier: 1, constant: -margin.top),
+            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: tipContainer, attribute: .bottom, multiplier: 1, constant: margin.bottom),
+            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: tipContainer, attribute: .leading, multiplier: 1, constant: -margin.left),
+            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: tipContainer, attribute: .trailing, multiplier: 1, constant: margin.right)
+            ])
         
         // textLabel
         self.addConstraints([
-            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .top, multiplier: 1, constant: -padding.top),
-            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: textLabel, attribute: .bottom, multiplier: 1, constant: padding.bottom),
-            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .leading, multiplier: 1, constant: -padding.left)
+            NSLayoutConstraint(item: tipContainer, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .top, multiplier: 1, constant: -padding.top),
+            NSLayoutConstraint(item: tipContainer, attribute: .bottom, relatedBy: .equal, toItem: textLabel, attribute: .bottom, multiplier: 1, constant: padding.bottom),
+            NSLayoutConstraint(item: tipContainer, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .leading, multiplier: 1, constant: -padding.left)
             ])
         
         // closeButton
         self.addConstraints([
             NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonWidth),
             NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonHeight),
-            NSLayoutConstraint(item: closeButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: closeButton, attribute: .centerX, relatedBy: .equal, toItem: tipContainer, attribute: .centerX, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal, toItem: tipContainer, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: closeButton, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: itemSeparation),
-            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: closeButton, attribute: .trailing, multiplier: 1, constant: padding.right)
+            NSLayoutConstraint(item: tipContainer, attribute: .trailing, relatedBy: .equal, toItem: closeButton, attribute: .trailing, multiplier: 1, constant: padding.right)
             ])
+        self.tipContainer.setNeedsLayout()
+    }
+    
+    static func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor) -> UIView {
+
+        let arrowView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        arrowView.backgroundColor = color
+        
+        // Get Height and Width
+        let layerHeight = height
+        let layerWidth = width
+        
+        // Create Path
+        let bezierPath = UIBezierPath()
+        
+        // Draw Points
+        bezierPath.move(to: CGPoint(x: 0, y: layerHeight))
+        bezierPath.addLine(to: CGPoint(x: layerWidth, y: layerHeight))
+        bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: 0))
+        bezierPath.addLine(to: CGPoint(x: 0, y: layerHeight))
+        bezierPath.close()
+        
+        // Mask to Path
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = bezierPath.cgPath
+        arrowView.layer.mask = shapeLayer
+        return arrowView
     }
 }
