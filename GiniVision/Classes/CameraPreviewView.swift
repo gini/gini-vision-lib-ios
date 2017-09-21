@@ -116,10 +116,10 @@ extension CameraPreviewView {
         }
         else {
             let height:CGFloat
-            if maxHeight > maxWidth / a4Ratio  {
-                height = maxWidth / a4Ratio
-            } else {
+            if maxWidth > maxHeight * a4Ratio  {
                 height = maxWidth * a4Ratio
+            } else {
+                height = maxWidth / a4Ratio
             }
             return CGRect(x: 0, y: 0, width: maxWidth, height: height)
         }
