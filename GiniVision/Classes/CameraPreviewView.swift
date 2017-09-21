@@ -11,7 +11,6 @@ import AVFoundation
 
 internal class CameraPreviewView: UIView {
     
-    let a4Ratio:CGFloat = 21.0 / 31.0
     let frameColor = UIColor(white: 0.0, alpha: 0.7)
     let guideLineLength:CGFloat = 50.0
     let guideLineWidth:CGFloat = 2.0
@@ -107,18 +106,22 @@ extension CameraPreviewView {
     }
     
     fileprivate func biggestA4SizeRect() -> CGRect {
+        let a4Ratio:CGFloat = 21.0 / 31.0
         let wholeFrame = bounds
-        let ratio:CGFloat
-
         let maxWidth = wholeFrame.width * guideLineSize
         let maxHeight = wholeFrame.height * guideLineSize
-        if maxHeight > maxWidth {
-            ratio = a4Ratio
-            return CGRect(x: 0, y: 0, width: maxHeight * ratio, height: maxHeight)
+        
+        if maxHeight > maxWidth, maxWidth > maxHeight * a4Ratio {
+            return CGRect(x: 0, y: 0, width: maxHeight * a4Ratio, height: maxHeight)
         }
         else {
-            ratio = 1 / a4Ratio
-            return CGRect(x: 0, y: 0, width: maxWidth, height: maxWidth / ratio)
+            let height:CGFloat
+            if maxHeight > maxWidth / a4Ratio  {
+                height = maxWidth / a4Ratio
+            } else {
+                height = maxWidth * a4Ratio
+            }
+            return CGRect(x: 0, y: 0, width: maxWidth, height: height)
         }
     }
     
