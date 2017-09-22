@@ -93,7 +93,7 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedDocument:  A document which comes from other a source different than CameraViewController. It should be validated before calling this method.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
@@ -123,7 +123,7 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
-     - parameter importedDocument:  A document which comes from other a source different than CameraViewController. It should be validated before calling this method.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
