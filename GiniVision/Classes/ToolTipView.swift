@@ -72,11 +72,12 @@ final class ToolTipView: UIView {
     
     fileprivate func computeFrame() -> CGRect {
         guard let superview = superview else { return .zero }
+        guard let referenceViewParent = referenceView.superview else { return .zero }
         let frameHeight = max(textSize.height, closeButtonHeight) + padding.top + padding.bottom + margin.top + margin.bottom
         let frameWidth = textSize.width + closeButtonWidth + padding.left + padding.right + itemSeparation +  margin.left + margin.right
         let size = CGSize(width: frameWidth, height: frameHeight)
         
-        let referenceViewAbsoluteOrigin = referenceView.convert(referenceView.frame.origin, to: superview)
+        let referenceViewAbsoluteOrigin = referenceViewParent.convert(referenceView.frame.origin, to: superview)
         
         var origin:CGPoint = .zero
         switch toolTipPosition {
