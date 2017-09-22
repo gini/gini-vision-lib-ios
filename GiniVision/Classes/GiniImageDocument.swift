@@ -17,16 +17,26 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var data:Data
     public var previewImage: UIImage?
     
+    fileprivate let metaInformationManager:ImageMetaInformationManager
+    
     /**
      Initializes a GiniImageDocument.
      
      - Parameter data: PDF data
+     - Parameter deviceOrientation: Device orientation when a picture was taken from the camera. In other cases it should be `nil`
      
      */
     
-    public init(data: Data) {
-        self.data = data
+    public init(data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
+        self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation)
+        
+        if let dataWithMetadata = metaInformationManager.imageByAddingMetadata() {
+            self.data = dataWithMetadata
+        } else {
+            self.data = data
+            assertionFailure("It wasn't possible to add metadata to the image")
+        }
     }
     
     /**
@@ -44,6 +54,16 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         } else {
             throw DocumentValidationError.fileFormatNotValid
         }
+    }
+    
+    func rotateImage(degrees:Int, imageOrientation:UIImageOrientation) {
+        metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
+        guard let data = metaInformationManager.imageByAddingMetadata() else {
+            assertionFailure("It wasn't possible to add metadata to the image")
+            return
+        }
+        self.data = data
+        self.previewImage = UIImage(data: data)
     }
 }
 
