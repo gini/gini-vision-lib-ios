@@ -33,10 +33,10 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 let viewController:UIViewController
                 if isImported {
-                    if document.type == .PDF {
-                        viewController = AnalysisContainerViewController(document: document)
-                    } else {
+                    if document.isReviewable {
                         viewController = ReviewContainerViewController(document: document)
+                    } else {
+                        viewController = AnalysisContainerViewController(document: document)
                     }
                     delegate?.didImport?(document)
                 } else {

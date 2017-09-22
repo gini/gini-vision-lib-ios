@@ -89,10 +89,10 @@ class ComponentAPICameraViewController: UIViewController {
     }
     
     fileprivate func goToNextScreen(withDocument document:GiniVisionDocument) {
-        if document.type == .PDF {
-            performSegue(withIdentifier: "showAnalysisFromCamera", sender: self)
-        } else {
+        if document.isReviewable {
             performSegue(withIdentifier: "showReview", sender: nil)
+        } else {
+            performSegue(withIdentifier: "showAnalysisFromCamera", sender: self)
         }
     }
     

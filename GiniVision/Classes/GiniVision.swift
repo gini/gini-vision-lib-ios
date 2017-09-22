@@ -101,10 +101,10 @@ import UIKit
         let viewController:UIViewController
         
         if let document = importedDocument {
-            if document.type == .PDF {
-                viewController = AnalysisContainerViewController(document: document)
-            } else {
+            if document.isReviewable {
                 viewController = ReviewContainerViewController(document: document)
+            } else {
+                viewController = AnalysisContainerViewController(document: document)
             }
             delegate.didImport?(document)
         } else {
