@@ -27,9 +27,9 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
      
      */
     
-    public init(data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
+    init(data: Data, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil, deviceOrientation:UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
-        self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation)
+        self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation, imageSource:imageSource, imageImportMethod:imageImportMethod)
         
         if let dataWithMetadata = metaInformationManager.imageByAddingMetadata() {
             self.data = dataWithMetadata
@@ -76,7 +76,7 @@ extension GiniImageDocument:NSItemProviderReading {
     }
     
     static public func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        return self.init(data: data)
+        return self.init(data:data, imageSource: .external, imageImportMethod: .picker)
     }
     
 }

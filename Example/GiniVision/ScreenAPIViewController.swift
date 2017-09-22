@@ -79,7 +79,7 @@ class ScreenAPIViewController: UIViewController {
         // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
     
-    func giniScreenAPI(withImportedFile fileData:Data?) -> UIViewController {
+    func giniScreenAPI(withImportedFile fileData:Data?, appName:String? = nil) -> UIViewController {
         
         // 1. Create a custom configuration object
         let giniConfiguration = GiniConfiguration()
@@ -95,12 +95,14 @@ class ScreenAPIViewController: UIViewController {
         return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedFile: fileData)
     }
     
-    func giniComponentAPI(withImportedFile fileData:Data?) -> UIViewController? {
+    func giniComponentAPI(withImportedFile fileData:Data?, appName:String? = nil) -> UIViewController? {
         if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
             let navBar = tabBar.viewControllers?.first as? UINavigationController,
             let cameraContainer = navBar.viewControllers.first as? ComponentAPICameraViewController {
             
-            let documentBuilder = GiniVisionDocumentBuilder(data:fileData)
+            let documentBuilder = GiniVisionDocumentBuilder(data: fileData, documentSource: DocumentSource.appName(name: appName))
+            documentBuilder.importMethod = .openWith
+            
             if let document = documentBuilder.build() {
                 cameraContainer.document = document
             }

@@ -99,7 +99,8 @@ import UIKit
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
         let viewController:UIViewController
-        let documentBuilder = GiniVisionDocumentBuilder(data:importedFile)
+        let documentBuilder = GiniVisionDocumentBuilder(data:importedFile, documentSource: .external)
+        documentBuilder.importMethod = .openWith
         
         if let document = documentBuilder.build() {
             viewController = ReviewContainerViewController(document: document)

@@ -28,7 +28,9 @@ import Foundation
 public class GiniVisionDocumentBuilder {
     
     let data:Data?
-    var deviceOrientation:UIInterfaceOrientation?
+    var documentSource:DocumentSource
+    public var deviceOrientation:UIInterfaceOrientation?
+    public var importMethod:DocumentImportMethod?
     
     /**
      Initializes a `GiniVisionDocumentBuilder` with a Data object
@@ -37,8 +39,9 @@ public class GiniVisionDocumentBuilder {
      
      */
     
-    public init(data:Data?) {
+    public init(data:Data?, documentSource:DocumentSource) {
         self.data = data
+        self.documentSource = documentSource
     }
     
     /**
@@ -52,7 +55,7 @@ public class GiniVisionDocumentBuilder {
             if data.isPDF {
                 return GiniPDFDocument(data: data)
             } else if data.isImage {
-                return GiniImageDocument(data: data, deviceOrientation: deviceOrientation)
+                return GiniImageDocument(data: data, imageSource: documentSource, imageImportMethod: importMethod, deviceOrientation: deviceOrientation)
             }
         }
         return nil

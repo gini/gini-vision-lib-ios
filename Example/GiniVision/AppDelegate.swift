@@ -53,11 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
         
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) { _ in
-            screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedFile: data), animated: true, completion: nil)
+            screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedFile: data, appName: sourceApplication), animated: true, completion: nil)
         })
         
         alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
-            if let componentAPI = screenAPIVC.giniComponentAPI(withImportedFile: data) {
+            if let componentAPI = screenAPIVC.giniComponentAPI(withImportedFile: data, appName: sourceApplication) {
                 screenAPIVC.present(componentAPI, animated: true, completion: nil)
             }
         })
