@@ -9,6 +9,13 @@ import Foundation
 import UIKit
 
 final class ToolTipView: UIView {
+
+    enum ArrowPosition {
+        case top
+        case bottom
+        case left
+        case right
+    }
     
     var closeButtonWidth:CGFloat = 20
     var closeButtonHeight:CGFloat = 20
@@ -18,6 +25,7 @@ final class ToolTipView: UIView {
     }
     var text:String
     var textSize:CGSize = .zero
+    var containerFrame:CGRect = .zero
     var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     var itemSeparation: CGFloat = 16
@@ -31,11 +39,12 @@ final class ToolTipView: UIView {
         self.text = text
         self.textLabel = UILabel()
         self.closeButton = UIButton()
-        self.arrowView = ToolTipView.arrow(withHeight: 20, width: 20, color: .red)
+        self.arrowView = ToolTipView.arrow(withHeight: 20, width: 20, color: .red, position: .bottom)
         self.tipContainer = UIView()
 
         super.init(frame: .zero)
         superView.addSubview(self)
+        
         self.textSize = size(forText: text)
         self.addTipContainer(backgroundColor: backgroundColor, referenceView: referenceView, superView: superView)
         
@@ -44,8 +53,8 @@ final class ToolTipView: UIView {
         self.addArrow(referenceView:referenceView)
         self.addShadow()
         
-        self.frame = computeFrame(referenceView: referenceView, superView: superView)
-        self.setupConstraints()
+        self.containerFrame = computeFrame(referenceView: referenceView, superView: superView)
+        self.setupConstraints(referenceView: referenceView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -99,6 +108,7 @@ final class ToolTipView: UIView {
     @objc fileprivate func closeAction() {
         self.removeFromSuperview()
     }
+    
     fileprivate func addShadow() {
         self.layer.shadowOffset = .zero
         self.layer.shadowRadius = 5
@@ -107,10 +117,18 @@ final class ToolTipView: UIView {
     }
     
     
-    fileprivate func setupConstraints() {
+    fileprivate func setupConstraints(referenceView:UIView) {
+        guard let superview = superview else { return }
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         tipContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.frame = containerFrame
+        
+        // self
+        self.addConstraints([
+            NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerFrame.width),
+            NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerFrame.height)
+            ])
         
         // tipContainer
         self.addConstraints([
@@ -139,7 +157,7 @@ final class ToolTipView: UIView {
         self.tipContainer.setNeedsLayout()
     }
     
-    static func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor) -> UIView {
+    static func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor, position: ArrowPosition) -> UIView {
 
         let arrowView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         arrowView.backgroundColor = color
@@ -151,11 +169,28 @@ final class ToolTipView: UIView {
         // Create Path
         let bezierPath = UIBezierPath()
         
-        // Draw Points
-        bezierPath.move(to: CGPoint(x: 0, y: layerHeight))
-        bezierPath.addLine(to: CGPoint(x: layerWidth, y: layerHeight))
-        bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: 0))
-        bezierPath.addLine(to: CGPoint(x: 0, y: layerHeight))
+        switch position {
+        case .top:
+            bezierPath.move(to: CGPoint(x: 0, y: layerHeight))
+            bezierPath.addLine(to: CGPoint(x: layerWidth, y: layerHeight))
+            bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: 0))
+            bezierPath.addLine(to: CGPoint(x: 0, y: layerHeight))
+        case .bottom:
+            bezierPath.move(to: CGPoint(x: 0, y: 0))
+            bezierPath.addLine(to: CGPoint(x: layerWidth, y: 0))
+            bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: layerHeight))
+            bezierPath.addLine(to: CGPoint(x: 0, y: 0))
+        case .left:
+            bezierPath.move(to: CGPoint(x: layerHeight, y: 0))
+            bezierPath.addLine(to: CGPoint(x: 0, y: layerWidth / 2))
+            bezierPath.addLine(to: CGPoint(x: layerHeight, y: layerWidth))
+            bezierPath.addLine(to: CGPoint(x: layerHeight, y: 0))
+        case .right:
+            bezierPath.move(to: CGPoint(x: 0, y: 0))
+            bezierPath.addLine(to: CGPoint(x: layerHeight, y: layerWidth / 2))
+            bezierPath.addLine(to: CGPoint(x: 0, y: layerWidth))
+            bezierPath.addLine(to: CGPoint(x: 0, y: 0))
+        }
         bezierPath.close()
         
         // Mask to Path
