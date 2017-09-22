@@ -35,7 +35,6 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
-        
         AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
                 
         /*************************************************************************
@@ -65,7 +64,7 @@ class ComponentAPIReviewViewController: UIViewController {
         super.viewWillAppear(animated)
         
         guard let navController = navigationController else { return }
-        if isFirstViewController(inNavController: navController){
+        if isFirstViewController(inNavController: navController) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeAction))
         }
     }

@@ -19,6 +19,10 @@ class NoResultViewController: UIViewController {
     }
     
     @IBAction func retry(_ sender: AnyObject) {
-        _ = self.navigationController?.popToRootViewController(animated: true)
+        if let navVC = navigationController, !isFirstViewController(inNavController: navVC) {
+            _ = navVC.popToRootViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
     }
 }

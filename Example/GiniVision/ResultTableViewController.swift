@@ -32,15 +32,17 @@ class ResultTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeAction))
-        
+                
         // If a valid document is set, send feedback on it.
         // This is just to show case how to give feedback using the Gini SDK for iOS.
         // In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
         sendFeedback(forDocument: document)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+        
     func closeAction() {
         dismiss(animated: true, completion: nil)
     }

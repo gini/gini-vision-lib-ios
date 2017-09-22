@@ -57,7 +57,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         super.viewWillAppear(animated)
         
         guard let navController = navigationController else { return }
-        if isFirstViewController(inNavController: navController){
+        if isFirstViewController(inNavController: navController) {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Abbrechen", style: .plain, target: self, action: #selector(closeAction))
         }
     }
@@ -172,6 +172,11 @@ class ComponentAPIAnalysisViewController: UIViewController {
            let index = navigationStack.index(of: self) {
             navigationStack.remove(at: index)
             navigationController?.viewControllers = navigationStack
+            if navigationStack.count == 1 {
+                if let resultsScreen = navigationStack.first as? ResultTableViewController {
+                    resultsScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: resultsScreen, action: #selector(resultsScreen.closeAction))
+                }
+            }
         }
     }
     

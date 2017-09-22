@@ -105,7 +105,7 @@ class ScreenAPIViewController: UIViewController {
                         reviewContainer.document = document
                         navBar.setViewControllers([reviewContainer], animated: false)
                     }
-                }else {
+                } else {
                     if let analysisContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController {
                         analysisContainer.document = document
                         navBar.setViewControllers([analysisContainer], animated: false)
