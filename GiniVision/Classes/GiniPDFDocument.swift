@@ -27,7 +27,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
      
      */
     
-    public init(data:Data) {
+    init(data:Data) {
         self.data = data
         super.init()
         

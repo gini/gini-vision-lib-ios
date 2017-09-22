@@ -38,7 +38,7 @@ class GINIVisionDocumentTests: XCTestCase {
     
     func testImageValidation() {
         let image = loadImage(withName: "tabBarIconHelp")
-        let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!)
+        let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!, imageSource: .camera)
         
         XCTAssertNoThrow(try imageDocument.validate(), "Valid images should validate without throwing an exception")
     }

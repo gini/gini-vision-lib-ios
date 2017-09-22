@@ -29,6 +29,15 @@ internal final class FilePickerManager:NSObject {
         from.present(documentPicker, animated: true, completion: nil)
     }
     
+    fileprivate func filePicked(withData data: Data) {
+        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
+        documentBuilder.importMethod = .picker
+        
+        if let document = documentBuilder.build() {
+            didPickFile(document)
+        }
+    }
+    
 }
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
@@ -36,8 +45,7 @@ internal final class FilePickerManager:NSObject {
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
-            let imageDocument = GiniImageDocument(data: imageData)
-            didPickFile(imageDocument)
+            filePicked(withData: imageData)
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -57,10 +65,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
             
-            let documentBuilder = GiniVisionDocumentBuilder(data: data)
-            if let document = documentBuilder.build() {
-                didPickFile(document)
-            }            
+            filePicked(withData: data)
         } catch {
             // TODO Handle error
             url.stopAccessingSecurityScopedResource()

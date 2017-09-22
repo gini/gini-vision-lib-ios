@@ -18,6 +18,35 @@ typealias MetaInformation = NSDictionary
 /// is specified in imageData(withCompression:)
 let JPEGDefaultCompression:CGFloat = 0.4
 
+public enum DocumentImportMethod:String {
+    case openWith = "openwith"
+    case picker = "picker"
+}
+
+public enum DocumentSource {
+    case camera
+    case external
+    case appName(name: String?)
+    
+    var value:String {
+        switch self {
+        case .camera:
+            return "camera"
+        case .external:
+            return "external"
+        case .appName(let packageName):
+            guard let packageName = packageName else {
+                return "external"
+            }
+            if let appName = packageName.split(separator: ".").last {
+                return String(describing: appName)
+            }
+            return packageName
+        }
+    }
+}
+
+
 internal class ImageMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
@@ -46,6 +75,8 @@ internal class ImageMetaInformationManager {
     let userCommentOSVer = "OSVer"
     let userCommentGiniVersionVer = "GiniVisionVer"
     let userCommentDeviceOrientation = "DeviceOrientation"
+    let userCommentSource = "Source"
+    let userCommentImportMethod = "ImportMethod"
     
     var imageData: Data?
     var metaInformation: MetaInformation?
@@ -53,9 +84,13 @@ internal class ImageMetaInformationManager {
     // Due to future image rotations on ReviewViewController, it is necessary to preserve the device orientation
     // when the picture is taken.
     fileprivate var deviceOrientationOnCapture:String?
+    fileprivate var imageSource:DocumentSource
+    fileprivate var imageImportMethod:DocumentImportMethod?
     
-    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil) {
-        imageData = data
+    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil) {
+        self.imageData = data
+        self.imageSource = imageSource
+        self.imageImportMethod = imageImportMethod
         metaInformation = metaInformation(fromImageData: data)
 
         // If the image has the DeviceOrientation, it should not be added again
@@ -168,7 +203,11 @@ internal class ImageMetaInformationManager {
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
         let uuid = imageUUID()
-        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid)"
+        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid),\(userCommentSource)=\(imageSource.value)"
+        
+        if let imageImportMethod = imageImportMethod, imageSource.value != DocumentSource.camera.value {
+            comment += ",\(userCommentImportMethod)=\(imageImportMethod.rawValue)"
+        }
         
         if let rotationDegrees = rotationDegrees {
             // normalize the rotation to 0-360

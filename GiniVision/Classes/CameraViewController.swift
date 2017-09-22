@@ -314,7 +314,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    let imageDocument = GiniImageDocument(data: imageData)
+                    let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
                     self.successBlock?(imageDocument, false)
                 }
             }
@@ -323,7 +323,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         camera.captureStillImage { inner in
             do {
                 let imageData = try inner()
-                let imageDocument = GiniImageDocument(data: imageData, deviceOrientation: UIApplication.shared.statusBarOrientation)
+                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera, deviceOrientation: UIApplication.shared.statusBarOrientation)
                 
                 // Call success block
                 self.successBlock?(imageDocument, false)
