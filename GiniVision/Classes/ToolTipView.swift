@@ -19,6 +19,7 @@ final class ToolTipView: UIView {
     
     var closeButtonWidth:CGFloat = 20
     var closeButtonHeight:CGFloat = 20
+    var closeButtonColor:UIColor = UIColor(red: 175 / 255, green: 178 / 255, blue: 179 / 255, alpha: 1)
     var maxTextWidth:CGFloat {
         guard let superview = superview else { return 0}
         return superview.frame.width - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
@@ -27,7 +28,7 @@ final class ToolTipView: UIView {
     var toolTipPosition:ToolTipPosition
     var textSize:CGSize = .zero
     var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
-    var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
+    var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
     var itemSeparation: CGFloat = 16
     
     var arrowView:UIView
@@ -127,8 +128,9 @@ final class ToolTipView: UIView {
     }
     
     fileprivate func addCloseButton() {
-        closeButton.setTitle("X", for: .normal)
-        closeButton.setTitleColor(.red, for: .normal)
+        let image = UIImageNamedPreferred(named: "toolTipCloseButton")
+        closeButton.setImage(image, for: .normal)
+        closeButton.tintColor = closeButtonColor
         closeButton.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         tipContainer.addSubview(closeButton)
     }
@@ -145,10 +147,11 @@ final class ToolTipView: UIView {
     }
     
     fileprivate func arrangeArrow(toolTipPosition position:ToolTipPosition) {
+        
         let origin:CGPoint
         switch position {
         case .above:
-            origin = CGPoint(x: referenceView.frame.midX, y: tipContainer.frame.height + tipContainer.frame.origin.y)
+            origin = CGPoint(x: referenceView.frame.midX - (arrowView.frame.width / 2), y: tipContainer.frame.height + tipContainer.frame.origin.y)
         case .below:
             origin = CGPoint(x: referenceView.frame.midX, y: tipContainer.frame.origin.y)
         case .left:
