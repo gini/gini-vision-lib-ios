@@ -229,7 +229,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _ = ToolTipView(text: "Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks", referenceView: importFileButton, superView: self.view)
+        _ = ToolTipView(text: "Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks", referenceView: captureButton, superView: self.view, position: .above)
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

@@ -9,10 +9,10 @@ import Foundation
 import UIKit
 
 final class ToolTipView: UIView {
-
-    enum ArrowPosition {
-        case top
-        case bottom
+    
+    enum ToolTipPosition {
+        case above
+        case below
         case left
         case right
     }
@@ -24,8 +24,8 @@ final class ToolTipView: UIView {
         return superview.frame.width - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
     }
     var text:String
+    var toolTipPosition:ToolTipPosition
     var textSize:CGSize = .zero
-    var containerFrame:CGRect = .zero
     var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     var itemSeparation: CGFloat = 16
@@ -34,46 +34,74 @@ final class ToolTipView: UIView {
     var textLabel:UILabel
     var closeButton:UIButton
     var tipContainer: UIView
+    let referenceView:UIView
     
-    init(text:String, backgroundColor: UIColor = .white, referenceView: UIView, superView:UIView) {
+    init(text:String, backgroundColor: UIColor = .white, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
         self.text = text
         self.textLabel = UILabel()
         self.closeButton = UIButton()
-        self.arrowView = ToolTipView.arrow(withHeight: 20, width: 20, color: .red, position: .bottom)
+        self.arrowView = ToolTipView.arrow(withHeight: 20, width: 20, color: .white, position: .below)
         self.tipContainer = UIView()
-
+        self.referenceView = referenceView
+        self.toolTipPosition = position
+        
         super.init(frame: .zero)
         superView.addSubview(self)
         
         self.textSize = size(forText: text)
         self.addTipContainer(backgroundColor: backgroundColor, referenceView: referenceView, superView: superView)
-        
         self.addTextLabel(withText: text)
         self.addCloseButton()
         self.addArrow(referenceView:referenceView)
         self.addShadow()
         
-        self.containerFrame = computeFrame(referenceView: referenceView, superView: superView)
+        self.frame = computeFrame()
         self.setupConstraints(referenceView: referenceView)
+        self.arrangeArrow(toolTipPosition: position)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.arrangeArrow(toolTipPosition: toolTipPosition)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("NSCoding not supported. Use init(text) instead!")
     }
     
-    fileprivate func computeFrame(referenceView: UIView, superView: UIView) -> CGRect {
+    fileprivate func computeFrame() -> CGRect {
+        guard let superview = superview else { return .zero }
         let frameHeight = max(textSize.height, closeButtonHeight) + padding.top + padding.bottom + margin.top + margin.bottom
         let frameWidth = textSize.width + closeButtonWidth + padding.left + padding.right + itemSeparation +  margin.left + margin.right
         let size = CGSize(width: frameWidth, height: frameHeight)
         
-        let referenceViewAbsoluteOrigin = referenceView.convert(referenceView.frame.origin, to: superView)
-        let origin:CGPoint = CGPoint(x: referenceViewAbsoluteOrigin.x, y: referenceViewAbsoluteOrigin.y - size.height)
+        let referenceViewAbsoluteOrigin = referenceView.convert(referenceView.frame.origin, to: superview)
+        
+        var origin:CGPoint = .zero
+        switch toolTipPosition {
+        case .above:
+            if referenceViewAbsoluteOrigin.y - size.height < 0 {
+                assertionFailure("The tip cannot be shown outside the parent view")
+            } else {
+                origin = CGPoint(x: 0, y: referenceViewAbsoluteOrigin.y - size.height)
+            }
+        case .below:
+            if referenceViewAbsoluteOrigin.y + referenceView.frame.height + size.height < superview.frame.height {
+                assertionFailure("The tip cannot be shown outside the parent view")
+            } else {
+                origin = CGPoint(x: 0, y: referenceViewAbsoluteOrigin.y + referenceView.frame.height)
+            }
+        case .left:
+            origin = CGPoint(x: referenceView.frame.midY, y: tipContainer.frame.width + tipContainer.frame.origin.x)
+        case .right:
+            origin = CGPoint(x: referenceView.frame.midY, y: tipContainer.frame.origin.x)
+        }
         return CGRect(origin: origin, size: size)
     }
     
     fileprivate func size(forText text: String) -> CGSize {
         let attributes = [NSFontAttributeName : UIFont.systemFont(ofSize: 16)]
-
+        
         var textSize = text.boundingRect(with: CGSize(width: maxTextWidth, height: CGFloat.greatestFiniteMagnitude), options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: attributes, context: nil).size
         
         textSize.width = ceil(textSize.width)
@@ -116,19 +144,25 @@ final class ToolTipView: UIView {
         self.layer.shadowColor = UIColor.black.cgColor
     }
     
+    fileprivate func arrangeArrow(toolTipPosition position:ToolTipPosition) {
+        let origin:CGPoint
+        switch position {
+        case .above:
+            origin = CGPoint(x: referenceView.frame.midX, y: tipContainer.frame.height + tipContainer.frame.origin.y)
+        case .below:
+            origin = CGPoint(x: referenceView.frame.midX, y: tipContainer.frame.origin.y)
+        case .left:
+            origin = CGPoint(x: referenceView.frame.midY, y: tipContainer.frame.width + tipContainer.frame.origin.x)
+        case .right:
+            origin = CGPoint(x: referenceView.frame.midY, y: tipContainer.frame.origin.x)
+        }
+        arrowView.frame.origin = origin
+    }
     
     fileprivate func setupConstraints(referenceView:UIView) {
-        guard let superview = superview else { return }
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         tipContainer.translatesAutoresizingMaskIntoConstraints = false
-        self.frame = containerFrame
-        
-        // self
-        self.addConstraints([
-            NSLayoutConstraint(item: self, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerFrame.width),
-            NSLayoutConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerFrame.height)
-            ])
         
         // tipContainer
         self.addConstraints([
@@ -149,7 +183,6 @@ final class ToolTipView: UIView {
         self.addConstraints([
             NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonWidth),
             NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonHeight),
-            NSLayoutConstraint(item: closeButton, attribute: .centerX, relatedBy: .equal, toItem: tipContainer, attribute: .centerX, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal, toItem: tipContainer, attribute: .centerY, multiplier: 1, constant: 0),
             NSLayoutConstraint(item: closeButton, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: itemSeparation),
             NSLayoutConstraint(item: tipContainer, attribute: .trailing, relatedBy: .equal, toItem: closeButton, attribute: .trailing, multiplier: 1, constant: padding.right)
@@ -157,8 +190,8 @@ final class ToolTipView: UIView {
         self.tipContainer.setNeedsLayout()
     }
     
-    static func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor, position: ArrowPosition) -> UIView {
-
+    static func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor, position: ToolTipPosition) -> UIView {
+        
         let arrowView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         arrowView.backgroundColor = color
         
@@ -170,26 +203,26 @@ final class ToolTipView: UIView {
         let bezierPath = UIBezierPath()
         
         switch position {
-        case .top:
+        case .above:
             bezierPath.move(to: CGPoint(x: 0, y: layerHeight))
             bezierPath.addLine(to: CGPoint(x: layerWidth, y: layerHeight))
             bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: 0))
             bezierPath.addLine(to: CGPoint(x: 0, y: layerHeight))
-        case .bottom:
+        case .below:
             bezierPath.move(to: CGPoint(x: 0, y: 0))
             bezierPath.addLine(to: CGPoint(x: layerWidth, y: 0))
             bezierPath.addLine(to: CGPoint(x: layerWidth / 2, y: layerHeight))
             bezierPath.addLine(to: CGPoint(x: 0, y: 0))
         case .left:
-            bezierPath.move(to: CGPoint(x: layerHeight, y: 0))
-            bezierPath.addLine(to: CGPoint(x: 0, y: layerWidth / 2))
-            bezierPath.addLine(to: CGPoint(x: layerHeight, y: layerWidth))
-            bezierPath.addLine(to: CGPoint(x: layerHeight, y: 0))
-        case .right:
             bezierPath.move(to: CGPoint(x: 0, y: 0))
             bezierPath.addLine(to: CGPoint(x: layerHeight, y: layerWidth / 2))
             bezierPath.addLine(to: CGPoint(x: 0, y: layerWidth))
             bezierPath.addLine(to: CGPoint(x: 0, y: 0))
+        case .right:
+            bezierPath.move(to: CGPoint(x: layerHeight, y: 0))
+            bezierPath.addLine(to: CGPoint(x: 0, y: layerWidth / 2))
+            bezierPath.addLine(to: CGPoint(x: layerHeight, y: layerWidth))
+            bezierPath.addLine(to: CGPoint(x: layerHeight, y: 0))
         }
         bezierPath.close()
         
