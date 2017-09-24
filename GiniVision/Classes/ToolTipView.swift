@@ -46,7 +46,7 @@ final class ToolTipView: UIView {
     fileprivate var textLabel:UILabel
     fileprivate var tipContainer: UIView
     
-    var didTapClose: (() -> ())?
+    var beforeDismiss: (() -> ())?
     
     init(text:String, font:UIFont = UIFont.systemFont(ofSize: 14), backgroundColor: UIColor = .white, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
 
@@ -196,7 +196,7 @@ final class ToolTipView: UIView {
     
     // MARK: Actions
     @objc fileprivate func closeAction() {
-        self.dismiss(withCompletion: didTapClose)
+        self.dismiss(withCompletion: nil)
     }
     
     // MARK: Frame and size calculations
@@ -300,6 +300,7 @@ extension ToolTipView {
     }
     
     func dismiss(withCompletion completion: (() -> ())? = nil) {
+        beforeDismiss?()
         self.removeFromSuperview()
         completion?()
     }

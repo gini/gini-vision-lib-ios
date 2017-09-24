@@ -288,7 +288,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.view.addSubview(blurEffectView)
 
         toolTipView = ToolTipView(text: "Du kannst jetzt auch ganz einfach Dateien hochladen.", referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
-        toolTipView?.didTapClose = {
+        toolTipView?.beforeDismiss = {
             blurEffectView.removeFromSuperview()
         }
         self.toolTipView?.show(){
@@ -358,6 +358,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     @objc fileprivate func showImportFileSheet() {
+        toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "Dokumente importieren"
