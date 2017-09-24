@@ -115,9 +115,9 @@ final class ToolTipView: UIView {
     }
     
     fileprivate func addShadow() {
-        self.layer.shadowOffset = .zero
-        self.layer.shadowRadius = 5
-        self.layer.shadowOpacity = 1
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 0.8
+        self.layer.shadowOpacity = 0.2
         self.layer.shadowColor = UIColor.black.cgColor
     }
     
