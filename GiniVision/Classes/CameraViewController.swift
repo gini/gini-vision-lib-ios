@@ -79,6 +79,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
+    fileprivate var toolTipView: ToolTipView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -229,18 +230,20 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        _ = ToolTipView(text: "Look, just because I don't be givin' no man a foot massage don't make it right for Marsellus to throw Antwone into a glass motherfuckin' house, fuckin' up the way the nigger talks", referenceView: importFileButton, superView: self.view, position: .above)
+        showFileImportTip()
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         coordinator.animate(alongsideTransition: { [weak self] _ in
             guard let `self` = self else {
                 return 
             }
             (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
-        })
+            self.toolTipView?.arrangeViews()
+            
+            })
     }
     
     // MARK: Toggle UI elements
@@ -274,6 +277,23 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public func hideCameraOverlay() {
         previewView.guidesLayer?.isHidden = true
         previewView.frameLayer?.isHidden = true
+    }
+    
+    fileprivate func showFileImportTip() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = previewView.frame
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0
+        self.view.addSubview(blurEffectView)
+
+        toolTipView = ToolTipView(text: "Du kannst jetzt auch ganz einfach Dateien hochladen.", referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+        toolTipView?.didTapClose = {
+            blurEffectView.removeFromSuperview()
+        }
+        self.toolTipView?.show(){
+            blurEffectView.alpha = 1
+        }
     }
     
     // MARK: Image capture
