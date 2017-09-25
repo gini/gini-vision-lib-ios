@@ -229,8 +229,8 @@ import UIKit
     /**
      Sets the text color of the new file import button tip
      */
-    public var fileImportToolTipCloseButtonColor = UIColor(red: 175 / 255, green: 178 / 255, blue: 179 / 255, alpha: 1)    
-    
+    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
+        
     // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.
@@ -478,7 +478,11 @@ internal struct Colors {
         static var blue = Colors.UIColorHex(0x009edc)
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
+<<<<<<< HEAD
         static var bluishGreen = Colors.UIColorHex(0x007c99)
+=======
+        static var grey = Colors.UIColorHex(0xAFB2B3)
+>>>>>>> Adde grey color.
         
     }
     
