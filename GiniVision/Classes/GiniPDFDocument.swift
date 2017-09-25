@@ -20,6 +20,8 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     private let MAX_PDF_PAGES_COUNT = 10
     private(set) var numberPages:Int = 0
+    private(set) var pdfTitle:String?
+
     
     /**
      Initializes a GiniPDFDocument with a preview image (from the first page)
@@ -36,7 +38,19 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         if let dataProvider = CGDataProvider(data: data as CFData), let pdfDocument = CGPDFDocument(dataProvider) {
             self.numberPages = pdfDocument.numberOfPages
             self.previewImage = renderFirstPage(fromPdf: pdfDocument)
+            self.pdfTitle = getKey("Title", from: pdfDocument)
         }
+    }
+    
+    fileprivate func getKey(_ key: String, from document: CGPDFDocument) -> String? {
+        if let dict = document.info {
+            var cfValue: CGPDFStringRef? = nil
+            if (CGPDFDictionaryGetString(dict, key, &cfValue)), let value = CGPDFStringCopyTextString(cfValue!) {
+                return value as String
+            }
+        }
+
+        return nil
     }
     
     /**

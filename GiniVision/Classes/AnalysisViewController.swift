@@ -73,6 +73,10 @@ import UIKit
         
         // Add constraints
         addConstraints()
+        
+        if let document = document as? GiniPDFDocument {
+            showPDFInformationView(withDocument:document)
+        }
     }
     
     /**
@@ -113,6 +117,16 @@ import UIKit
      */
     public func hideAnimation() {
         loadingIndicatorView.stopAnimating()
+    }
+    
+    fileprivate func showPDFInformationView(withDocument document:GiniPDFDocument) {
+        let pdfInformationView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
+                                                    subtitle: GiniConfiguration.sharedConfiguration.analysisPDFNumberOfPages(pagesCount: document.numberPages),
+                                                    textColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextColor,
+                                                    textFont: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextFont,
+                                                    backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
+                                                    superView: self.view)
+        pdfInformationView.show(after: 1)
     }
         
     // MARK: Constraints

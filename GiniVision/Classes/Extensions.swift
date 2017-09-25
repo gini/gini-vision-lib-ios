@@ -34,13 +34,22 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-internal func NSLocalizedStringPreferred(_ key: String, comment: String) -> String {
+internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
-    if  clientString != key {
-        return clientString
+    let format:String
+    
+    if clientString != key {
+        format = clientString
+    } else {
+        let bundle = Bundle(for: GiniVision.self)
+        format = NSLocalizedString(key, bundle: bundle, comment: comment)
     }
-    let bundle = Bundle(for: GiniVision.self)
-    return NSLocalizedString(key, bundle: bundle, comment: comment)
+
+    if let args = args {
+        return String.localizedStringWithFormat(format, args)
+    } else {
+        return format
+    }
 }
 
 /**
