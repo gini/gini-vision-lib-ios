@@ -18,6 +18,9 @@ final class ComponentAPICoordinator {
     fileprivate var analysisScreen: ComponentAPIAnalysisViewController? {
         return navigationController?.childViewControllers.flatMap { $0 as? ComponentAPIAnalysisViewController }.first
     }
+    fileprivate var resultsScreen: ResultTableViewController? {
+        return navigationController?.childViewControllers.flatMap { $0 as? ResultTableViewController }.first
+    }
     
     init(document:GiniVisionDocument?){
         self.document = document
@@ -90,6 +93,7 @@ final class ComponentAPICoordinator {
     
     fileprivate func showNoResultsScreen() {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -199,6 +203,18 @@ extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
 
 }
 
+// MARK: NoResultsScreenDelegate
+
+extension ComponentAPICoordinator: NoResultsScreenDelegate {
+    func didTapRetry() {
+        if let navVC = navigationController, navVC.viewControllers.count != 1 {
+            _ = navVC.popToRootViewController(animated: true)
+        } else {
+            dismissTabBarController()
+        }
+    }
+}
+
 // MARK: Handle analysis results
 
 extension ComponentAPICoordinator {
@@ -217,7 +233,7 @@ extension ComponentAPICoordinator {
         }
         
         if navigationController?.viewControllers.count == 2 {
-            if let resultsScreen = (navigationController?.viewControllers.flatMap{ $0 as? ResultTableViewController }.first) {
+            if let resultsScreen = resultsScreen {
                 resultsScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
             }
         }

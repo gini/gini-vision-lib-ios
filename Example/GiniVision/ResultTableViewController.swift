@@ -38,10 +38,6 @@ class ResultTableViewController: UITableViewController {
         // In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
         sendFeedback(forDocument: document)
     }
-        
-    func closeAction() {
-        dismiss(animated: true, completion: nil)
-    }
     
     func sendFeedback(forDocument document: GINIDocument) {
         
