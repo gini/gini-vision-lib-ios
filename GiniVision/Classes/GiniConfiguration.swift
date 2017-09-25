@@ -206,7 +206,30 @@ import UIKit
      */
     public var cameraPreviewCornerGuidesColor = UIColor.white
     
+    /**
+     Sets the background color of the new file import button tip
+     */
+    public var fileImportToolTipBackgroundColor = UIColor.white
     
+    /**
+     Sets the text of the new file import button tip
+     */
+    public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
+    
+    /**
+     Sets the text color of the new file import button tip
+     */
+    public var fileImportToolTipTextColor = UIColor.black
+    
+    /**
+     Sets the font of the new file import button tip
+     */
+    public var fileImportToolTipTextFont = UIFont.systemFont(ofSize: 14)
+    
+    /**
+     Sets the text color of the new file import button tip
+     */
+    public var fileImportToolTipCloseButtonColor = UIColor(red: 175 / 255, green: 178 / 255, blue: 179 / 255, alpha: 1)    
     
     // MARK: Onboarding options
     /**

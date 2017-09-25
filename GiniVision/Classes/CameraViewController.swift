@@ -280,20 +280,31 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     fileprivate func showFileImportTip() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = previewView.frame
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        blurEffectView.alpha = 0
-        self.view.addSubview(blurEffectView)
-
-        toolTipView = ToolTipView(text: "Du kannst jetzt auch ganz einfach Dateien hochladen.", referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+        let blurEffect = blurEffectView(overFrame: previewView.frame)
+        blurEffect.alpha = 0
+        self.view.addSubview(blurEffect)
+        
+        toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
+                    textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
+                    font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
+                    backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
+                    closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                    referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+        
         toolTipView?.beforeDismiss = {
-            blurEffectView.removeFromSuperview()
+            blurEffect.removeFromSuperview()
         }
         self.toolTipView?.show(){
-            blurEffectView.alpha = 1
+            blurEffect.alpha = 1
         }
+    }
+    
+    fileprivate func blurEffectView(overFrame frame:CGRect) -> UIVisualEffectView {
+        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = frame
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return blurEffectView
     }
     
     // MARK: Image capture

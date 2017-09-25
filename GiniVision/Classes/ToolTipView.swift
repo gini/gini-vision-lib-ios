@@ -21,7 +21,6 @@ final class ToolTipView: UIView {
     fileprivate var arrowHeight:CGFloat = 20
     fileprivate var closeButtonWidth:CGFloat = 20
     fileprivate var closeButtonHeight:CGFloat = 20
-    fileprivate var closeButtonColor:UIColor = UIColor(red: 175 / 255, green: 178 / 255, blue: 179 / 255, alpha: 1)
     fileprivate var itemSeparation: CGFloat = 16
     fileprivate var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
     fileprivate var maxWidthOnIpad:CGFloat = 375
@@ -48,7 +47,7 @@ final class ToolTipView: UIView {
     
     var beforeDismiss: (() -> ())?
     
-    init(text:String, font:UIFont = UIFont.systemFont(ofSize: 14), backgroundColor: UIColor = .white, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
+    init(text:String, textColor:UIColor, font:UIFont, backgroundColor: UIColor, closeButtonColor: UIColor, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
 
         self.text = text
         self.referenceView = referenceView
@@ -64,8 +63,8 @@ final class ToolTipView: UIView {
 
         self.textSize = size(forText: text, withFont: font)
         self.addTipContainer(backgroundColor: backgroundColor)
-        self.addTextLabel(withText: text, font: font)
-        self.addCloseButton()
+        self.addTextLabel(withText: text, textColor: textColor, font: font)
+        self.addCloseButton(withColor:closeButtonColor)
         self.addArrow()
         self.addShadow()
         
@@ -94,8 +93,9 @@ final class ToolTipView: UIView {
         self.tipContainer.backgroundColor = color
     }
     
-    fileprivate func addTextLabel(withText text:String, font:UIFont) {
+    fileprivate func addTextLabel(withText text:String, textColor:UIColor, font:UIFont) {
         textLabel.text = text
+        textLabel.textColor = textColor
         textLabel.font = font
         textLabel.numberOfLines = 0
         tipContainer.addSubview(textLabel)
@@ -106,10 +106,10 @@ final class ToolTipView: UIView {
         self.addSubview(arrowView)
     }
     
-    fileprivate func addCloseButton() {
+    fileprivate func addCloseButton(withColor color:UIColor) {
         let image = UIImageNamedPreferred(named: "toolTipCloseButton")
         closeButton.setImage(image, for: .normal)
-        closeButton.tintColor = closeButtonColor
+        closeButton.tintColor = color
         closeButton.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         tipContainer.addSubview(closeButton)
     }
