@@ -79,6 +79,12 @@ class SelectAPIViewController: UIViewController {
         // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
     
+    @IBAction func launchComponentAPI(_ sender: Any) {
+        
+        let componentAPICoordinator = ComponentAPICoordinator(document: nil)
+        componentAPICoordinator.start(from: self)
+    }
+    
     func giniScreenAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController {
         
         // 1. Create a custom configuration object

@@ -66,9 +66,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
             alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
-                if let componentAPI = selectAPIVC.giniComponentAPI(withImportedDocument: document) {
-                    selectAPIVC.present(componentAPI, animated: true, completion: nil)
-                }
+//                if let componentAPI = selectAPIVC.giniComponentAPI(withImportedDocument: document) {
+//                    selectAPIVC.present(componentAPI, animated: true, completion: nil)
+//                }
+                let componentAPICoordinator = ComponentAPICoordinator(document: document)
+                componentAPICoordinator.start(from: selectAPIVC)
             })
         } catch {
             // 4.1. Create alert which shows an error pointing out that it is not a valid document

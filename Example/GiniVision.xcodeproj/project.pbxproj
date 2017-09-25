@@ -32,6 +32,7 @@
 		1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */; };
 		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
 		1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE3AC841F729205004D75E0 /* Extensions.swift */; };
+		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
 		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
 		1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */; };
@@ -98,6 +99,7 @@
 		1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentTests.swift; sourceTree = "<group>"; };
 		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1FE3AC841F729205004D75E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
 		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
 		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
 		1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated180.pdf"; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
 				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
+				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
 				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
 				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
@@ -644,6 +647,7 @@
 				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,
+				1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
