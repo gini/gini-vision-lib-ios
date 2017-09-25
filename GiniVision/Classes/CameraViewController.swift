@@ -94,7 +94,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var captureButtonNormalImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
-    
+    fileprivate var documentImportButton: UIImage? {
+        return UIImageNamedPreferred(named: "documentImportButton")
+    }
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
     }
@@ -156,7 +158,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
 <<<<<<< HEAD
 =======
         // Configure document provider button
-        importFileButton.setImage(UIImageNamedPreferred(named: "documentImportButton"), for: .normal)
+        importFileButton.setImage(documentImportButton, for: .normal)
         importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
         
 >>>>>>> Added documentImportButton and cptureButton icons.
