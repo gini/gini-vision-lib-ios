@@ -53,7 +53,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
  **Image resources for this screen**
  
  * `cameraCaptureButton`
- * `cameraCaptureButtonActive`
  * `cameraFocusLarge`
  * `cameraFocusSmall`
  * `cameraNotAuthorizedIcon`
@@ -94,9 +93,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     fileprivate var captureButtonNormalImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
-    }
-    fileprivate var captureButtonActiveImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
     }
     
     fileprivate var cameraFocusSmall: UIImage? {
@@ -154,7 +150,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Configure capture button
         captureButton.setImage(captureButtonNormalImage, for: .normal)
-        captureButton.tintColor = .white
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
@@ -162,7 +157,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
 =======
         // Configure document provider button
         importFileButton.setImage(UIImageNamedPreferred(named: "documentImportButton"), for: .normal)
-        importFileButton.tintColor = .white
         importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
         
 >>>>>>> Added documentImportButton and cptureButton icons.
