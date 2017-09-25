@@ -110,13 +110,15 @@ extension CameraPreviewView {
         let wholeFrame = bounds
         let maxWidth = wholeFrame.width * guideLineSize
         let maxHeight = wholeFrame.height * guideLineSize
-        
-        if maxHeight > maxWidth, maxWidth > maxHeight * a4Ratio {
+
+        if (maxHeight > maxWidth || UIApplication.shared.statusBarOrientation.isPortrait) && maxWidth > maxHeight * a4Ratio {
             return CGRect(x: 0, y: 0, width: maxHeight * a4Ratio, height: maxHeight)
         }
         else {
             let height:CGFloat
             if maxWidth > maxHeight * a4Ratio  {
+                // This only happens when the app is on landscape mode and it fills all the window (no SplitMode on iPads).
+                // In this case the a4 wuld be landscape (31.0 / 21.0)
                 height = maxWidth * a4Ratio
             } else {
                 height = maxWidth / a4Ratio
