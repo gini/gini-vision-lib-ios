@@ -523,17 +523,17 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     /// Adds a default image to the canvas when no camera is available (DEBUG mode only)
     fileprivate func addDefaultImage() {
-//        defaultImageView = UIImageView(image: defaultImage)
-//        guard let defaultImageView = defaultImageView else { return }
-//        
-//        defaultImageView.contentMode = .scaleAspectFit
-//        previewView.addSubview(defaultImageView)
-//        
-//        defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-//        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .width, multiplier: 1, constant: 0)
-//        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .height, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 1, constant: 0)
-//        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerX, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
-//        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerY, relatedBy: .equal, toItem: previewView, attribute: .centerY, multiplier: 1, constant: 0)
+        defaultImageView = UIImageView(image: defaultImage)
+        guard let defaultImageView = defaultImageView else { return }
+        
+        defaultImageView.contentMode = .scaleAspectFit
+        previewView.addSubview(defaultImageView)
+        
+        defaultImageView.translatesAutoresizingMaskIntoConstraints = false
+        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .width, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .height, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerX, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerY, relatedBy: .equal, toItem: previewView, attribute: .centerY, multiplier: 1, constant: 0)
     }
     
 }
