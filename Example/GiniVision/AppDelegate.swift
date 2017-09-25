@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         // This is only a shortcut for demo purposes since if the current root view controller is not
         // the ScreenAPIViewController (a GiniVisionDelegate), it won't do anything.
-        guard let navVC = window?.rootViewController as? UINavigationController, let screenAPIVC = navVC.viewControllers.first as? ScreenAPIViewController else {
+        guard let navVC = window?.rootViewController as? UINavigationController, let selectAPIVC = navVC.viewControllers.first as? SelectAPIViewController else {
             return false
         }
         
@@ -58,16 +58,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             try document?.validate()
             
-            // 4. Create alert which allows user to open imported file either with ScreenAPI or ComponentAPI
+            // 4. Create an alert which allow users to open imported file either with the ScreenAPI or the ComponentAPI
             alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
             
             alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) { _ in
-                screenAPIVC.present(screenAPIVC.giniScreenAPI(withImportedDocument: document), animated: true, completion: nil)
+                selectAPIVC.present(selectAPIVC.giniScreenAPI(withImportedDocument: document), animated: true, completion: nil)
             })
             
             alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
-                if let componentAPI = screenAPIVC.giniComponentAPI(withImportedDocument: document) {
-                    screenAPIVC.present(componentAPI, animated: true, completion: nil)
+                if let componentAPI = selectAPIVC.giniComponentAPI(withImportedDocument: document) {
+                    selectAPIVC.present(componentAPI, animated: true, completion: nil)
                 }
             })
         } catch {
@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // 5. Present alert
-        screenAPIVC.present(alertViewController, animated: true, completion: nil)
+        selectAPIVC.present(alertViewController, animated: true, completion: nil)
         
         return true
     }

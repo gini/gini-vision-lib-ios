@@ -178,7 +178,7 @@
         <!--API Selection-->
         <scene sceneID="Cmn-ER-b8i">
             <objects>
-                <viewController id="Ggv-ZP-h5h" userLabel="API Selection" customClass="ScreenAPIViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ggv-ZP-h5h" userLabel="API Selection" customClass="SelectAPIViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3q-Yk-YSo"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9y-Oh-GoV"/>

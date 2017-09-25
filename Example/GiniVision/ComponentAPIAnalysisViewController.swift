@@ -42,7 +42,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
         // 2. Create the analysis view controller
         guard let document = document else { return }
         
-        // In case that they view is loaded but is not analysing (i.e: user import a PDF with Open With feature), it should start.
+        // In case that the view is loaded but is not analysing (i.e: user imported a PDF with the Open With feature), it should start.
         if !AnalysisManager.sharedManager.isAnalyzing {
             AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }

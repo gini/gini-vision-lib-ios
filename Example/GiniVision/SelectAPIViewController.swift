@@ -14,7 +14,7 @@ import Gini_iOS_SDK
  View controller showing how to capture an image of a document using the Screen API of the Gini Vision Library for iOS
  and how to process it using the Gini SDK for iOS.
  */
-class ScreenAPIViewController: UIViewController {
+class SelectAPIViewController: UIViewController {
     
     @IBOutlet weak var metaInformationLabel: UILabel!
     
@@ -197,7 +197,7 @@ class ScreenAPIViewController: UIViewController {
 }
 
 // MARK: Gini Vision delegate
-extension ScreenAPIViewController: GiniVisionDelegate {
+extension SelectAPIViewController: GiniVisionDelegate {
     
     func didImport(_ document: GiniVisionDocument) {
         print("Document imported")

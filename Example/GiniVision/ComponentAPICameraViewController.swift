@@ -75,14 +75,10 @@ class ComponentAPICameraViewController: UIViewController {
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let document = document {
-            if segue.identifier == "showReview" {
-                if let vc = segue.destination as? ComponentAPIReviewViewController {
-                    vc.document = document
-                }
-            } else if segue.identifier == "showAnalysisFromCamera" {
-                if let vc = segue.destination as? ComponentAPIAnalysisViewController {
-                    vc.document = document
-                }
+            if let vc = segue.destination as? ComponentAPIReviewViewController {
+                vc.document = document
+            } else if let vc = segue.destination as? ComponentAPIAnalysisViewController {
+                vc.document = document
             }
             self.document = nil
         }
