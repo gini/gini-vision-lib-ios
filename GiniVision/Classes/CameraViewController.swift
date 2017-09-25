@@ -154,10 +154,18 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Configure capture button
         captureButton.setImage(captureButtonNormalImage, for: .normal)
-        captureButton.setImage(captureButtonActiveImage, for: .highlighted)
+        captureButton.tintColor = .white
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
+<<<<<<< HEAD
+=======
+        // Configure document provider button
+        importFileButton.setImage(UIImageNamedPreferred(named: "documentImportButton"), for: .normal)
+        importFileButton.tintColor = .white
+        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+        
+>>>>>>> Added documentImportButton and cptureButton icons.
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
         view.insertSubview(controlsView, aboveSubview: previewView)
@@ -433,7 +441,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate func addConstraints() {
         addPreviewViewConstraints()
         addControlsViewConstraints()
-        addCameraButtonConstraints()
+        addControlsViewButtonsConstraints()
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -481,8 +489,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
+        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 70)
+        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
     }
