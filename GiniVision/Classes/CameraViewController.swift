@@ -181,7 +181,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         // Add constraints
         addConstraints()
         
-        if GiniConfiguration.sharedConfiguration.fileImportEnabled {
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
         }
     }
@@ -354,9 +354,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @objc fileprivate func importDocument(_ sender: AnyObject) {
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
-            self.filePickerManager.showGalleryPicker(from: self)
-        })
+        
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .all {
+            alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+                self.filePickerManager.showGalleryPicker(from: self)
+            })
+        }
         
         alertViewController.addAction(UIAlertAction(title: "Documents", style: .default) { [unowned self] _ in
             self.filePickerManager.showDocumentPicker(from: self)
