@@ -401,6 +401,11 @@ import UIKit
         return NSLocalizedStringPreferred("ginivision.analysis.pdfpages", comment: "Text appearing at the top of the analysis screen indicating pdf number of pages", args: count)
     }
     
+    /**
+     Sets the font of the Suggestions text view on the analysis screen to the specified font
+     */
+    public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
+    
     
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.

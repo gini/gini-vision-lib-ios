@@ -76,6 +76,8 @@ import UIKit
         
         if let document = document as? GiniPDFDocument {
             showPDFInformationView(withDocument:document)
+        } else {
+            showCaptureSuggestions()
         }
     }
     
@@ -126,7 +128,12 @@ import UIKit
                                                     textFont: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextFont,
                                                     backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
                                                     superView: self.view)
-        pdfInformationView.show(after: 1)
+        pdfInformationView.show(after: 0)
+    }
+    
+    fileprivate func showCaptureSuggestions() {
+        let captureSuggestions = CaptureSuggestionsView(superView: self.view,
+                                                        font:GiniConfiguration.sharedConfiguration.analysisSuggestionsTextFont)
     }
         
     // MARK: Constraints

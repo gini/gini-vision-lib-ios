@@ -29,13 +29,15 @@ final class PDFInformationView: UIView {
         titleLabel.text = title
         titleLabel.textColor = textColor
         titleLabel.textAlignment = .center
-        titleLabel.font = textFont.withSize(20)
+        titleLabel.font = textFont.withSize(20.0)
+        titleLabel.minimumScaleFactor = 18.0 / 20.0
+        titleLabel.adjustsFontSizeToFitWidth = true
         addSubview(titleLabel)
         
         subtitleLabel.text = subtitle
         subtitleLabel.textColor = textColor
         subtitleLabel.textAlignment = .center
-        subtitleLabel.font = textFont.withSize(16)
+        subtitleLabel.font = textFont.withSize(16.0)
         
         addSubview(subtitleLabel)
         
@@ -60,24 +62,19 @@ final class PDFInformationView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        superview.addConstraints([
-            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0),
-            ])
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         
-        addConstraints([
-            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 16),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16),
-            NSLayoutConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: subtitleLabel, attribute: .top, multiplier: 1, constant: -16)
-            ])
-        
-        addConstraints([
-            NSLayoutConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -16),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16),
-            NSLayoutConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16),
-            ])
+        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 16)
+        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: subtitleLabel, attribute: .top, multiplier: 1, constant: -16)
+        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16)
+        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16)
+
+        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -16)
+        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16)
+        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16)
+
     }
     
     fileprivate func addInnerShadow(forPosition position: PDFInformationPosition) {
