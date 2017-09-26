@@ -184,9 +184,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
         }
-        
-        let captureSuggestions = CaptureSuggestionsView(superView: self.view, font: GiniConfiguration.sharedConfiguration.analysisSuggestionsTextFont)
-        captureSuggestions.start()
     }
     
     /**

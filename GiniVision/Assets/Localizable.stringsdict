@@ -4,18 +4,18 @@
 <dict>
 	<key>ginivision.analysis.pdfpages</key>
 	<dict>
-        <key>NSStringLocalizedFormatKey</key>
-        <string>%#@value@</string>
-        <key>value</key>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@value@</string>
+		<key>value</key>
 		<dict>
-            <key>NSStringFormatSpecTypeKey</key>
-            <string>NSStringPluralRuleType</string>
-            <key>NSStringFormatValueTypeKey</key>
-            <string>d</string>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>d</string>
 			<key>one</key>
-			<string>%d seite</string>
+			<string>%d Seite</string>
 			<key>other</key>
-			<string>%d seiten</string>
+			<string>%d Seiten</string>
 		</dict>
 	</dict>
 </dict>

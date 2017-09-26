@@ -10,31 +10,37 @@ import Foundation
 
 final class CaptureSuggestionsView: UIView {
     
+    fileprivate enum CaptureSuggestionsState {
+        case shown
+        case hidden
+    }
+    
     fileprivate let suggestionIcon:UIImageView
     fileprivate let suggestionText:UILabel
-    fileprivate let containerHeight:CGFloat = 75
+    fileprivate let containerHeight:CGFloat = 115
     fileprivate var bottomConstraint:NSLayoutConstraint = NSLayoutConstraint.init()
-    fileprivate let repeatInterval:TimeInterval = 4
+    fileprivate var startDelay:TimeInterval = 4
+    fileprivate let repeatInterval:TimeInterval = 5
     
-    fileprivate let tip1Icon = UIImageNamedPreferred(named: "cameraCaptureButton")
-    fileprivate let suggestionTexts:[String] = [
+    fileprivate let suggestionIconImage = UIImage(named: "analysisSuggestionsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
+    fileprivate var suggestionTexts:[String] = [
         NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion text for analysis screen"),
         NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion text for analysis screen"),
         NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion text for analysis screen"),
         NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion text for analysis screen")]
     
     init(superView: UIView, font:UIFont) {
-        suggestionIcon = UIImageView(image: tip1Icon)
+        suggestionIcon = UIImageView(image: suggestionIconImage)
         suggestionIcon.contentMode = .scaleAspectFit
         suggestionText = UILabel()
         suggestionText.text = suggestionTexts.first!
         suggestionText.textColor = .white
-        suggestionText.font = font.withSize(14)
+        suggestionText.font = font.withSize(16)
         suggestionText.numberOfLines = 0
+        suggestionTexts.shuffle()
         
         super.init(frame: .zero)
         alpha = 0
-        backgroundColor = .red
         
         self.addSubview(suggestionIcon)
         self.addSubview(suggestionText)
@@ -55,45 +61,44 @@ final class CaptureSuggestionsView: UIView {
         suggestionIcon.translatesAutoresizingMaskIntoConstraints = false
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
         
-        bottomConstraint = NSLayoutConstraint.init(item: self, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        
+        // self
+        bottomConstraint = NSLayoutConstraint.init(item: self, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: containerHeight)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(bottomConstraint)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight)
         
+        // suggestionIcon
         ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16)
         ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 48)
         ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .width, relatedBy: .equal, toItem: suggestionIcon, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .centerY, relatedBy: .equal, toItem: suggestionText, attribute: .centerY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .trailing, relatedBy: .equal, toItem: suggestionText, attribute: .leading, multiplier: 1, constant: -16)
         
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .trailing, relatedBy: .equal, toItem: suggestionText, attribute: .leading, multiplier: 1, constant: -8)
-        
+        // suggestionText
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 16)
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -16)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -40)
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .width, relatedBy: .lessThanOrEqual, toItem: self, attribute: .width, multiplier: 1, constant: 0)
         
+        layoutIfNeeded()
     }
 }
 
-// MARK: Show and hide
+// MARK: Animations
 
 extension CaptureSuggestionsView {
     
-    enum CaptureSuggestionsState {
-        case shown
-        case hidden
-    }
-    
     func start() {
-        alpha = 1
-        changeView(toState: .shown)
+        DispatchQueue.main.asyncAfter(deadline: .now() + startDelay, execute: { [unowned self] in
+            self.alpha = 1
+            self.changeView(toState: .shown)
+        })
     }
     
     fileprivate func changeView(toState state:CaptureSuggestionsState) {
-        guard let superview = superview else{ return }
+        guard let superview = superview else { return }
         
         updatePosition(withState: state)
         

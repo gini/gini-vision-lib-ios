@@ -47,6 +47,9 @@ import UIKit
     // User interface
     fileprivate var imageView = UIImageView()
     fileprivate var loadingIndicatorView = UIActivityIndicatorView()
+    fileprivate var loadingText = UILabel()
+    fileprivate var overlayView = UIView()
+    fileprivate var document:GiniVisionDocument?
     
     /**
      Designated intitializer for the `AnalysisViewController`.
@@ -57,6 +60,7 @@ import UIKit
      */
     public init(_ document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
+        self.document = document
         
         // Configure image view
         imageView.image = document.previewImage
@@ -67,18 +71,23 @@ import UIKit
         loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
         loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         
+        // Configure loading text
+        loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
+        loadingText.font = GiniConfiguration.sharedConfiguration.analysisLoadingTextFont
+        loadingText.textAlignment = .center
+        loadingText.textColor = .white
+        
+        // Overlay view
+        overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        
         // Configure view hierachy
         view.addSubview(imageView)
+        view.addSubview(overlayView)
         view.addSubview(loadingIndicatorView)
+        view.addSubview(loadingText)
         
         // Add constraints
         addConstraints()
-        
-        if let document = document as? GiniPDFDocument {
-            showPDFInformationView(withDocument:document)
-        } else {
-            showCaptureSuggestions()
-        }
     }
     
     /**
@@ -102,6 +111,16 @@ import UIKit
      */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let document = document as? GiniPDFDocument {
+            showPDFInformationView(withDocument:document)
+        } else {
+            showCaptureSuggestions()
+        }
     }
     
     // MARK: Toggle animation
@@ -134,6 +153,7 @@ import UIKit
     fileprivate func showCaptureSuggestions() {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
                                                         font:GiniConfiguration.sharedConfiguration.analysisSuggestionsTextFont)
+        captureSuggestions.start()
     }
         
     // MARK: Constraints
@@ -151,6 +171,19 @@ import UIKit
         loadingIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: imageView, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: imageView, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        // Loading text
+        loadingText.translatesAutoresizingMaskIntoConstraints = false
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .trailing, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .top, relatedBy: .equal, toItem: loadingIndicatorView, attribute: .bottom, multiplier: 1, constant: 16)
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: 0)
+        
+        // Overlay
+        overlayView.translatesAutoresizingMaskIntoConstraints = false
+        ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .top, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .trailing, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: 0)
     }
     
 }

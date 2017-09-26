@@ -377,7 +377,17 @@ import UIKit
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
      */
-    public var analysisLoadingIndicatorColor = UIColor.lightGray
+    public var analysisLoadingIndicatorColor = UIColor.white
+    
+    /**
+     Sets the text of the loading indicator on the analysis screen to the specified text.
+     */
+    public var analysisLoadingText = NSLocalizedStringPreferred("ginivision.analysis.loadingText", comment: "Text appearing at the center of the analysis screen indicating that the document is being analysed")
+    
+    /**
+     Sets the font of the loading text on the analysis screen to the specified font
+     */
+    public var analysisLoadingTextFont = UIFont.systemFont(ofSize: 18)
     
     /**
      Sets the color of the PDF information view on the analysis screen to the specified color.

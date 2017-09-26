@@ -128,7 +128,7 @@ class SelectAPIViewController: UIViewController {
     
     // MARK: Handle analysis of document
     func analyzeDocument(withData data: Data) {
-        
+        return
         // Do not perform network tasks when UI testing.
         if isUITest {
             return
