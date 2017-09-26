@@ -354,21 +354,24 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @objc fileprivate func importDocument(_ sender: AnyObject) {
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        var alertViewControllerMessage = "Dokumente importieren"
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .all {
-            alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+            alertViewController.addAction(UIAlertAction(title: "Camera roll", style: .default) { [unowned self] _ in
                 self.filePickerManager.showGalleryPicker(from: self)
             })
+            alertViewControllerMessage = "Fotos oder Dokumente importieren"
         }
         
-        alertViewController.addAction(UIAlertAction(title: "Documents", style: .default) { [unowned self] _ in
+        alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
             self.filePickerManager.showDocumentPicker(from: self)
         })
         
-        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         })
         
+        alertViewController.message = alertViewControllerMessage
         alertViewController.popoverPresentationController?.sourceView = importFileButton
         
         self.present(alertViewController, animated: true, completion: nil)
