@@ -111,7 +111,7 @@ import UIKit
     // MARK: Camera options
     
     /**
-     Toggles file import feature.
+     Toggles the file import feature.
 
      */
     public var fileImportEnabled = false
