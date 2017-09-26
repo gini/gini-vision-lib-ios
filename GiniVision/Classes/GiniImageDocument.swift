@@ -35,7 +35,6 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
             self.data = dataWithMetadata
         } else {
             self.data = data
-            assertionFailure("It wasn't possible to add metadata to the image")
         }
     }
     
@@ -58,10 +57,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     func rotateImage(degrees:Int, imageOrientation:UIImageOrientation) {
         metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
-        guard let data = metaInformationManager.imageByAddingMetadata() else {
-            assertionFailure("It wasn't possible to add metadata to the image")
-            return
-        }
+        guard let data = metaInformationManager.imageByAddingMetadata() else { return }
         self.data = data
         self.previewImage = UIImage(data: data)
     }
