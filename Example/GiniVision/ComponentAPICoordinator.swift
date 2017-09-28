@@ -15,24 +15,21 @@ final class ComponentAPICoordinator {
     fileprivate var document:GiniVisionDocument?
     fileprivate var navigationController: UINavigationController?
     fileprivate var tabBarController: UITabBarController?
-    fileprivate var analysisScreen: ComponentAPIAnalysisViewController? {
-        return navigationController?.childViewControllers.flatMap { $0 as? ComponentAPIAnalysisViewController }.first
-    }
-    fileprivate var resultsScreen: ResultTableViewController? {
-        return navigationController?.childViewControllers.flatMap { $0 as? ResultTableViewController }.first
-    }
+    fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate var resultsScreen: ResultTableViewController?
+    fileprivate var storyboard:UIStoryboard
     
     init(document:GiniVisionDocument?){
         self.document = document
+        self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-        // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
         GiniVision.setConfiguration(giniConfiguration)
     }
     
     func start(from rootViewController:UIViewController) {
-        if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
+        if let tabBar = storyboard.instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
             let navBar = tabBar.viewControllers?.first as? UINavigationController {
             self.tabBarController = tabBar
             self.navigationController = navBar
@@ -52,13 +49,13 @@ final class ComponentAPICoordinator {
     
     // MARK: Show screens
     fileprivate func showCameraScreen() {
-        let cameraContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPICamera") as! ComponentAPICameraViewController
+        let cameraContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera") as! ComponentAPICameraViewController
         cameraContainer.delegate = self
         navigationController?.pushViewController(cameraContainer, animated: true)
     }
     
     fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
-        let reviewContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIReview") as! ComponentAPIReviewViewController
+        let reviewContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview") as! ComponentAPIReviewViewController
         reviewContainer.delegate = self
         reviewContainer.document = document
         addCloseButtonIfNeeded(onViewController: reviewContainer)
@@ -71,9 +68,10 @@ final class ComponentAPICoordinator {
     }
     
     fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
-        let analysisContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as! ComponentAPIAnalysisViewController
+        let analysisContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as! ComponentAPIAnalysisViewController
         analysisContainer.delegate = self
         analysisContainer.document = document
+        analysisScreen = analysisContainer
         addCloseButtonIfNeeded(onViewController: analysisContainer)
         
         // In case that the view is loaded but is not analysing (i.e: user imported a PDF with the Open With feature), it should start.
@@ -85,14 +83,15 @@ final class ComponentAPICoordinator {
     }
     
     fileprivate func showResultsTableScreen(forDocument document: GINIDocument, withResult result:GINIResult) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
         vc.result = result
         vc.document = document
+        resultsScreen = vc
         navigationController?.pushViewController(vc, animated: true)
     }
     
     fileprivate func showNoResultsScreen() {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+        let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -140,7 +139,6 @@ extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
 extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
     
     func didReview(documentReviewed: GiniVisionDocument) {
-        // Analyze reviewed data because changes were made by the user during review.
         if documentReviewed.data != document?.data {
             document = documentReviewed
             if let documentData = document?.data {
@@ -164,7 +162,6 @@ extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
             }
         }
         
-        // Show analysis screen if no results are in yet and no changes were made.
         showAnalysisScreen(withDocument: documentReviewed)
     }
     
@@ -194,7 +191,7 @@ extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
         
         // Because results may come in during view controller transition,
         // check for already existent results in shared analysis manager.
-        handleExistinResults()
+        handleExistingResults()
     }
     
     func didDisappear() {
@@ -239,7 +236,7 @@ extension ComponentAPICoordinator {
         }
     }
     
-    fileprivate func handleExistinResults() {
+    fileprivate func handleExistingResults() {
         if let result = AnalysisManager.sharedManager.result,
             let document = AnalysisManager.sharedManager.document {
             handleAnalysis(result, fromDocument: document)
