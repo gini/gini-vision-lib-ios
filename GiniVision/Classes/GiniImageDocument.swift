@@ -16,6 +16,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .Image
     public var data:Data
     public var previewImage: UIImage?
+    public var isReviewable: Bool
     
     fileprivate let metaInformationManager:ImageMetaInformationManager
     
@@ -29,6 +30,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     init(data: Data, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil, deviceOrientation:UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
+        self.isReviewable = true
         self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation, imageSource:imageSource, imageImportMethod:imageImportMethod)
         
         if let dataWithMetadata = metaInformationManager.imageByAddingMetadata() {

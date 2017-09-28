@@ -31,21 +31,30 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         contentController = CameraViewController(successBlock:
             { document, isImported in
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
+                let viewController:UIViewController
                 if isImported {
+                    if document.isReviewable {
+                        viewController = ReviewContainerViewController(document: document)
+                    } else {
+                        viewController = AnalysisContainerViewController(document: document)
+                    }
                     delegate?.didImport?(document)
                 } else {
+                    viewController = ReviewContainerViewController(document: document)
                     delegate?.didCapture(document.data)
                 }
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(ReviewContainerViewController(document: document), animated: true)
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 }
                 
-            }, failureBlock: { error in
+            }, failureBlock: {[unowned self] error in
                 switch error {
                 case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
+                case is DocumentValidationError:
+                    self.showNotValidDocumentError()
                 default:
                     print("GiniVision: Unknown error when using camera.")
                 }
@@ -146,6 +155,15 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+    }
+    
+    fileprivate func showNotValidDocumentError() {
+        let alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Das von Ihnen gewählte Dokument ist ungültig", preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        
+        self.contentController.present(alertViewController, animated: true, completion: nil)
     }
 
 }

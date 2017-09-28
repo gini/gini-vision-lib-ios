@@ -93,17 +93,20 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedFile:Data? = nil) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
         let viewController:UIViewController
-        let documentBuilder = GiniVisionDocumentBuilder(data:importedFile, documentSource: .external)
-        documentBuilder.importMethod = .openWith
         
-        if let document = documentBuilder.build() {
-            viewController = ReviewContainerViewController(document: document)
+        if let document = importedDocument {
+            if document.isReviewable {
+                viewController = ReviewContainerViewController(document: document)
+            } else {
+                viewController = AnalysisContainerViewController(document: document)
+            }
+            delegate.didImport?(document)
         } else {
             viewController = CameraContainerViewController()
         }
@@ -120,13 +123,13 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
-     - parameter importedFile:  A document which comes from other a source different than CameraViewController (optional)
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedFile:Data? = nil) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return viewController(withDelegate: delegate, importedFile:importedFile)
+        return viewController(withDelegate: delegate, importedDocument:importedDocument)
     }
     
     /**

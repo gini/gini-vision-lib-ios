@@ -32,7 +32,7 @@ class ResultTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // If a valid document is set, send feedback on it.
         // This is just to show case how to give feedback using the Gini SDK for iOS.
         // In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.

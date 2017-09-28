@@ -8,9 +8,14 @@
 
 import UIKit
 
+protocol NoResultsScreenDelegate:class {
+    func didTapRetry()
+}
+
 class NoResultViewController: UIViewController {
     
     @IBOutlet var rotateImageView: UIImageView!
+    var delegate:NoResultsScreenDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +24,6 @@ class NoResultViewController: UIViewController {
     }
     
     @IBAction func retry(_ sender: AnyObject) {
-        _ = self.navigationController?.popToRootViewController(animated: true)
+        delegate?.didTapRetry()
     }
 }
