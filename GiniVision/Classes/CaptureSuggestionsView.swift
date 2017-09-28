@@ -91,7 +91,8 @@ final class CaptureSuggestionsView: UIView {
 extension CaptureSuggestionsView {
     
     func start() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + startDelay, execute: { [unowned self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + startDelay, execute: { [weak self] in
+            guard let `self` = self else { return }
             self.alpha = 1
             self.changeView(toState: .shown)
         })
