@@ -155,13 +155,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
-<<<<<<< HEAD
-=======
-        // Configure document provider button
-        importFileButton.setImage(documentImportButton, for: .normal)
-        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
-        
->>>>>>> Added documentImportButton and cptureButton icons.
         // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
         view.insertSubview(previewView, at: 0)
         view.insertSubview(controlsView, aboveSubview: previewView)
@@ -326,7 +319,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
         
         // Configure import file button
-        importFileButton.setTitle("Import", for: .normal)
+        importFileButton.setImage(documentImportButton, for: .normal)
         importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
