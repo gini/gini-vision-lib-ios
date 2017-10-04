@@ -8,19 +8,22 @@
 
 import Foundation
 import MobileCoreServices
+import Photos
 
 internal final class FilePickerManager:NSObject {
-        
+    
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
     fileprivate var acceptedDocumentTypes = GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
     
     // MARK: Picker presentation
     
-    func showGalleryPicker(from:UIViewController) {
-        let imagePicker:UIImagePickerController = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
-        imagePicker.delegate = self
-        from.present(imagePicker, animated: true, completion: nil)
+    func showGalleryPicker(from:UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> ()) {
+        checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
+            let imagePicker:UIImagePickerController = UIImagePickerController()
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.delegate = self
+            from.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     func showDocumentPicker(from:UIViewController) {
@@ -35,6 +38,25 @@ internal final class FilePickerManager:NSObject {
         
         if let document = documentBuilder.build() {
             didPickFile(document)
+        }
+    }
+    
+    // MARK: - Photo library permission
+    
+    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> (), authorizedHandler: @escaping (() -> ())) {
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized:
+            authorizedHandler()
+        case .denied, .restricted:
+            deniedHandler(CameraError.notAuthorizedToAccessPhotoLibrary)
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == PHAuthorizationStatus.authorized {
+                    authorizedHandler()
+                } else {
+                    deniedHandler(CameraError.notAuthorizedToAccessPhotoLibrary)
+                }
+            }
         }
     }
     

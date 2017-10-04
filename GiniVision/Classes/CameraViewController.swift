@@ -355,7 +355,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
-            self.filePickerManager.showGalleryPicker(from: self)
+            self.filePickerManager.showGalleryPicker(from: self, errorHandler: self.failureBlock!)
         })
         
         alertViewController.addAction(UIAlertAction(title: "Documents", style: .default) { [unowned self] _ in

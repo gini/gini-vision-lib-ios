@@ -53,6 +53,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 switch error {
                 case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
+                case CameraError.notAuthorizedToAccessPhotoLibrary:
+                    print("GiniVision: Camera authorization denied.")
                 case is DocumentValidationError:
                     self.showNotValidDocumentError()
                 default:

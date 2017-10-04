@@ -20,6 +20,9 @@ public enum CameraError: GiniVisionError {
     /// Camera can not be loaded because the user has denied authorization in the past.
     case notAuthorizedToUseDevice
     
+    /// Camera can not be loaded because the user has denied authorization in the past.
+    case notAuthorizedToAccessPhotoLibrary
+    
     /// No valid input device could be found for capturing.
     case noInputDevice
     
