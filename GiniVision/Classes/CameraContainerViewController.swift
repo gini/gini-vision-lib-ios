@@ -49,22 +49,22 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
                 
-            }, failureBlock: {[unowned self] error in
-                switch error {
-                case CameraError.notAuthorizedToUseDevice:
-                    print("GiniVision: Camera authorization denied.")
-                case CameraError.notAuthorizedToAccessPhotoLibrary:
-                    print("GiniVision: Camera authorization denied.")
-                case is DocumentValidationError:
-                    self.showNotValidDocumentError()
-                default:
-                    print("GiniVision: Unknown error when using camera.")
-                }
-            })
+        }, failureBlock: {[unowned self] error in
+            switch error {
+            case CameraError.notAuthorizedToUseDevice:
+                print("GiniVision: Camera authorization denied.")
+            case CameraError.notAuthorizedToAccessPhotoLibrary:
+                self.showPhotoLibraryPermissionDeniedError()
+            case is DocumentValidationError:
+                self.showNotValidDocumentError()
+            default:
+                print("GiniVision: Unknown error when using camera.")
+            }
+        })
         
         // Configure title
         title = GiniConfiguration.sharedConfiguration.navigationBarCameraTitle
-                
+        
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
@@ -107,7 +107,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Eventually show onboarding
         if GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
-           !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
+            !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
             showHelp = help
             UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
         } else if GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch {
@@ -159,6 +159,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
     
+    // MARK: Error dialogs
     fileprivate func showNotValidDocumentError() {
         let alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Das von Ihnen gewählte Dokument ist ungültig", preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
@@ -167,5 +168,29 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         self.contentController.present(alertViewController, animated: true, completion: nil)
     }
-
+    
+    fileprivate func showPhotoLibraryPermissionDeniedError() {
+        let alertMessage = NSLocalizedString("ginivision.camera.notAuthorizedPhotoLibrary",bundle: Bundle(for: GiniVision.self), comment: "This message is shown when Photo library permission is denied")
+        
+        let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
+        
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        
+        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: {[unowned self] _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+            self.openAppSettings()
+        }))
+        
+        self.contentController.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func openAppSettings() {
+        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.openURL(settingsUrl)
+        }
+    }
+    
 }

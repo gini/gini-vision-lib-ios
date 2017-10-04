@@ -32,6 +32,8 @@ internal final class FilePickerManager:NSObject {
         from.present(documentPicker, animated: true, completion: nil)
     }
     
+    // MARK: FilePicked from gallery or document pickers
+    
     fileprivate func filePicked(withData data: Data) {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
@@ -41,7 +43,7 @@ internal final class FilePickerManager:NSObject {
         }
     }
     
-    // MARK: - Photo library permission
+    // MARK: Photo library permission
     
     fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> (), authorizedHandler: @escaping (() -> ())) {
         switch PHPhotoLibrary.authorizationStatus() {
