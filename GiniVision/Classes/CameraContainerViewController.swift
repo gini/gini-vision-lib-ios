@@ -53,7 +53,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             switch error {
             case CameraError.notAuthorizedToUseDevice:
                 print("GiniVision: Camera authorization denied.")
-            case CameraError.notAuthorizedToAccessPhotoLibrary:
+            case FilePickerError.photoLibraryAccessDenied:
                 self.showPhotoLibraryPermissionDeniedError()
             case is DocumentValidationError:
                 self.showNotValidDocumentError()
@@ -170,7 +170,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     }
     
     fileprivate func showPhotoLibraryPermissionDeniedError() {
-        let alertMessage = NSLocalizedString("ginivision.camera.notAuthorizedPhotoLibrary",bundle: Bundle(for: GiniVision.self), comment: "This message is shown when Photo library permission is denied")
+        let alertMessage = NSLocalizedString("ginivision.camera.filepicker.photoLibraryAccessDenied",bundle: Bundle(for: GiniVision.self), comment: "This message is shown when Photo library permission is denied")
         
         let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
         
