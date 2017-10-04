@@ -48,17 +48,16 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
-                
-        }, failureBlock: {[unowned self] error in
-            switch error {
-            case CameraError.notAuthorizedToUseDevice:
-                print("GiniVision: Camera authorization denied.")
-            case is DocumentValidationError:
-                self.showNotValidDocumentError()
-            default:
-                print("GiniVision: Unknown error when using camera.")
-            }
-        })
+            }, failureBlock: {[unowned self] error in
+                switch error {
+                case CameraError.notAuthorizedToUseDevice:
+                    print("GiniVision: Camera authorization denied.")
+                case is DocumentValidationError:
+                    self.showNotValidDocumentError(error: error as! DocumentValidationError)
+                default:
+                    print("GiniVision: Unknown error when using camera.")
+                }
+            })
         
         // Configure title
         title = GiniConfiguration.sharedConfiguration.navigationBarCameraTitle
@@ -158,12 +157,30 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     }
     
     // MARK: Error dialogs
-    fileprivate func showNotValidDocumentError() {
-        let alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Das von Ihnen gewählte Dokument ist ungültig", preferredStyle: .alert)
-        alertViewController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+
+    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
+        let cameraController = contentController as? CameraViewController
+        
+        let errorMessage:String
+        switch error {
+        case .exceededMaxFileSize:
+            errorMessage = NSLocalizedString("ginivision.camera.validationError.excedeedFileSize", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a file size is too big")
+        case .pdfPageLengthExceeded:
+            errorMessage = NSLocalizedString("ginivision.camera.validationError.tooManyPages", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a pdf length is higher than 10 pages")
+        case .fileFormatNotValid, .imageFormatNotValid:
+            errorMessage = NSLocalizedString("ginivision.camera.validationError.wrongFormat", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a file format is not valid (PDF, JPEG, PNG, GIF and TIFF)")
+        default:
+            errorMessage = NSLocalizedString("ginivision.camera.validationError.general", bundle: Bundle(for: GiniVision.self), comment: "Default message shown when an unknown error is produced")
+        }
+        
+        let alertViewController = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         }))
+        alertViewController.addAction(UIAlertAction(title: "Andere Datei wählen", style: .default, handler: { _ in
+            cameraController?.showImportFileSheet()
+        }))
         
-        self.contentController.present(alertViewController, animated: true, completion: nil)
+        cameraController?.present(alertViewController, animated: true, completion: nil)
     }
 }

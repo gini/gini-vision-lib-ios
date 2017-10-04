@@ -323,7 +323,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         // Configure import file button
         importFileButton.setImage(UIImageNamedPreferred(named: "documentImportButton"), for: .normal)
         importFileButton.tintColor = .white
-        importFileButton.addTarget(self, action: #selector(importDocument), for: .touchUpInside)
+        importFileButton.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
         
@@ -332,7 +332,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
     }
     
-    @objc fileprivate func importDocument(_ sender: AnyObject) {
+    @objc func showImportFileSheet() {
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "Dokumente importieren"

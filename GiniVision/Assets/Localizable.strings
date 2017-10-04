@@ -22,6 +22,10 @@
 "ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
 "ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
+"ginivision.camera.validationError.general" = "Leider kann diese Datei nicht bearbeitet werden";
+"ginivision.camera.validationError.excedeedFileSize" = "Diese Datei ist leider zu groß";
+"ginivision.camera.validationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
+"ginivision.camera.validationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 
 "ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
 "ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
