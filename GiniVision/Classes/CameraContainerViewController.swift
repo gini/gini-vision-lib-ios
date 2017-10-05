@@ -53,8 +53,6 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             switch error {
             case CameraError.notAuthorizedToUseDevice:
                 print("GiniVision: Camera authorization denied.")
-            case FilePickerError.photoLibraryAccessDenied:
-                self.showPhotoLibraryPermissionDeniedError()
             case is DocumentValidationError:
                 self.showNotValidDocumentError()
             default:
@@ -168,29 +166,4 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         self.contentController.present(alertViewController, animated: true, completion: nil)
     }
-    
-    fileprivate func showPhotoLibraryPermissionDeniedError() {
-        let alertMessage = NSLocalizedString("ginivision.camera.filepicker.photoLibraryAccessDenied",bundle: Bundle(for: GiniVision.self), comment: "This message is shown when Photo library permission is denied")
-        
-        let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
-        
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-        }))
-        
-        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: {[unowned self] _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-            self.openAppSettings()
-        }))
-        
-        self.contentController.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    fileprivate func openAppSettings() {
-        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
-        if UIApplication.shared.canOpenURL(settingsUrl) {
-            UIApplication.shared.openURL(settingsUrl)
-        }
-    }
-    
 }
