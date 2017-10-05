@@ -14,11 +14,6 @@ final class PDFInformationView: UIView {
     let subtitleLabel = UILabel()
     var shadowLayer:CALayer?
     
-    enum PDFInformationPosition {
-        case top
-        case bottom
-    }
-    
     init(title:String, subtitle:String, textColor:UIColor, textFont:UIFont, backgroundColor:UIColor, superView:UIView?) {
         super.init(frame: .zero)
         guard let superView = superView else { return }
@@ -41,7 +36,7 @@ final class PDFInformationView: UIView {
         
         addSubview(subtitleLabel)
         
-        addInnerShadow(forPosition: .top)
+        addInnerShadow()
         superView.addSubview(self)
         
         addConstraints()
@@ -77,7 +72,7 @@ final class PDFInformationView: UIView {
 
     }
     
-    fileprivate func addInnerShadow(forPosition position: PDFInformationPosition) {
+    fileprivate func addInnerShadow() {
         if shadowLayer == nil {
             let size = self.frame.size
             self.clipsToBounds = true

@@ -147,7 +147,7 @@ import UIKit
                                                     textFont: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextFont,
                                                     backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
                                                     superView: self.view)
-        pdfInformationView.show(after: 1)
+        pdfInformationView.show()
     }
     
     fileprivate func showCaptureSuggestions() {
