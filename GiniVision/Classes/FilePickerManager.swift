@@ -14,7 +14,7 @@ internal final class FilePickerManager:NSObject {
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
     fileprivate var acceptedDocumentTypes:[String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
-        case .all:
+        case .pdf_and_images:
             return GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
         case .pdf:
             return GiniPDFDocument.acceptedPDFTypes
@@ -94,7 +94,7 @@ extension FilePickerManager: UIDocumentPickerDelegate {
 extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
-        case .all:
+        case .pdf_and_images:
             return (session.canLoadObjects(ofClass: GiniImageDocument.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
         case .pdf:
             return session.canLoadObjects(ofClass: GiniPDFDocument.self) && session.items.count == 1

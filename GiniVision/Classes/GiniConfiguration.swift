@@ -32,7 +32,7 @@ import UIKit
     public enum GiniVisionImportFileTypes {
         case none
         case pdf
-        case all
+        case pdf_and_images
     }
     
     

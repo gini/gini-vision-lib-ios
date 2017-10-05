@@ -356,7 +356,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "Dokumente importieren"
         
-        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .all {
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
             alertViewController.addAction(UIAlertAction(title: "Camera roll", style: .default) { [unowned self] _ in
                 self.filePickerManager.showGalleryPicker(from: self)
             })
