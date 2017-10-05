@@ -1,8 +1,9 @@
 //
 //  PDFInformationView.swift
-//  Bolts
+//  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 9/25/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import Foundation
