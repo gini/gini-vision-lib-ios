@@ -322,7 +322,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Configure import file button
         importFileButton.setImage(documentImportButtonImage, for: .normal)
-        importFileButton.tintColor = .white
         importFileButton.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
