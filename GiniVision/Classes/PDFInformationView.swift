@@ -23,7 +23,7 @@ final class PDFInformationView: UIView {
         super.init(frame: .zero)
         guard let superView = superView else { return }
         
-        self.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor.withAlphaComponent(0.9)
         self.alpha = 0
         
         titleLabel.text = title

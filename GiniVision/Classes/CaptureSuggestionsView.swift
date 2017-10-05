@@ -32,19 +32,19 @@ final class CaptureSuggestionsView: UIView {
     init(superView: UIView, font:UIFont) {
         suggestionIcon = UIImageView(image: suggestionIconImage)
         suggestionIcon.contentMode = .scaleAspectFit
+        
         suggestionText = UILabel()
-        suggestionText.text = suggestionTexts.first!
         suggestionText.textColor = .white
         suggestionText.font = font.withSize(16)
         suggestionText.numberOfLines = 0
         suggestionTexts.shuffle()
+        suggestionText.text = suggestionTexts.first!
         
         super.init(frame: .zero)
         alpha = 0
         
         self.addSubview(suggestionIcon)
         self.addSubview(suggestionText)
-        
         superView.addSubview(self)
         
         addConstraints()
@@ -100,9 +100,6 @@ extension CaptureSuggestionsView {
     
     fileprivate func changeView(toState state:CaptureSuggestionsState) {
         guard let superview = superview else { return }
-        
-        updatePosition(withState: state)
-        
         let delay:TimeInterval
         let nextState:CaptureSuggestionsState
         
@@ -115,6 +112,8 @@ extension CaptureSuggestionsView {
             nextState = .shown
         }
         
+        updatePosition(withState: state)
+
         UIView.animate(withDuration: 0.5, delay: delay, options: [UIViewAnimationOptions.curveEaseInOut], animations: {
             superview.layoutIfNeeded()
         }, completion: {[weak self] _ in
@@ -125,7 +124,6 @@ extension CaptureSuggestionsView {
     
     fileprivate func changeSuggestionText() {
         if let currentText = suggestionText.text, let currentIndex = suggestionTexts.index(of: currentText) {
-            
             let nextIndex: Int
             if suggestionTexts.index(after: currentIndex) < suggestionTexts.endIndex {
                 nextIndex = suggestionTexts.index(after: currentIndex)
