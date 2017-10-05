@@ -93,7 +93,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var defaultImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
     }
-    fileprivate var captureButtonNormalImage: UIImage? {
+    fileprivate var cameraCaptureButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
     fileprivate var cameraFocusSmall: UIImage? {
@@ -102,7 +102,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var cameraFocusLarge: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusLarge")
     }
-    fileprivate var documetImportButtonImage: UIImage? {
+    fileprivate var documentImportButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "documentImportButton")
     }
     
@@ -153,7 +153,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
         
         // Configure capture button
-        captureButton.setImage(captureButtonNormalImage, for: .normal)
+        captureButton.setImage(cameraCaptureButtonImage, for: .normal)
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
@@ -321,7 +321,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
         
         // Configure import file button
-        importFileButton.setImage(UIImageNamedPreferred(named: "documentImportButton"), for: .normal)
+        importFileButton.setImage(documentImportButtonImage, for: .normal)
         importFileButton.tintColor = .white
         importFileButton.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         controlsView.addSubview(importFileButton)
