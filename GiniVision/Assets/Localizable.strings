@@ -21,7 +21,7 @@
 "ginivision.camera.captureButton" = "Auslösen";
 "ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
 "ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
-"ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Bilder benötigt.";
+"ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
 
 "ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
 "ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
