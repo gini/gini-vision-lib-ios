@@ -39,6 +39,17 @@ public enum ReviewError: GiniVisionError {
 }
 
 /**
+ Errors thrown on the file picker
+ */
+
+public enum FilePickerError: GiniVisionError {
+    
+    /// Camera roll can not be loaded because the user has denied authorization in the past.
+    case photoLibraryAccessDenied
+
+}
+
+/**
  Errors thrown validating a document (image or pdf).
  */
 public enum DocumentValidationError: GiniVisionError{
