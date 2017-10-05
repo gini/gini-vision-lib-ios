@@ -17,6 +17,8 @@ final class ToolTipView: UIView {
         case right
     }
     
+    fileprivate static let shouldShowToolTipUserDefaultsKey = "shouldShowToolTip"
+    
     fileprivate var arrowWidth:CGFloat = 20
     fileprivate var arrowHeight:CGFloat = 20
     fileprivate var closeButtonWidth:CGFloat = 20
@@ -48,7 +50,7 @@ final class ToolTipView: UIView {
     var beforeDismiss: (() -> ())?
     
     init(text:String, textColor:UIColor, font:UIFont, backgroundColor: UIColor, closeButtonColor: UIColor, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
-
+        
         self.text = text
         self.referenceView = referenceView
         self.toolTipPosition = position
@@ -60,7 +62,7 @@ final class ToolTipView: UIView {
         super.init(frame: .zero)
         superView.addSubview(self)
         alpha = 0
-
+        
         self.textSize = size(forText: text, withFont: font)
         self.addTipContainer(backgroundColor: backgroundColor)
         self.addTextLabel(withText: text, textColor: textColor, font: font)

@@ -106,6 +106,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var documentImportButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "documentImportButton")
     }
+    fileprivate let shouldShowFileImportToolTipUserDefaultsKey = "shouldShowFileImportToolTip"
+    fileprivate var shouldShowFileImportToolTip:Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: shouldShowFileImportToolTipUserDefaultsKey)
+        }
+        get {
+            let defaultsValue = UserDefaults.standard.object(forKey: shouldShowFileImportToolTipUserDefaultsKey) as? Bool
+            return defaultsValue ?? true
+        }
+    }
     
     // Output
     fileprivate var successBlock: CameraScreenSuccessBlock?
@@ -230,7 +240,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        showFileImportTip()
+        
+        if shouldShowFileImportToolTip {
+            showFileImportTip()
+        }
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -294,9 +307,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         toolTipView?.beforeDismiss = {
             blurEffect.removeFromSuperview()
         }
+        
         self.toolTipView?.show(){
             blurEffect.alpha = 1
         }
+        self.shouldShowFileImportToolTip = false
     }
     
     fileprivate func blurEffectView(overFrame frame:CGRect) -> UIVisualEffectView {
