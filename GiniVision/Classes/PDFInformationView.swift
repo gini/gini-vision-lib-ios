@@ -105,7 +105,7 @@ final class PDFInformationView: UIView {
 // MARK: Show and hide
 
 extension PDFInformationView {
-    func show(after seconds:Double) {
+    func show(after seconds:Double = 0) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: {
             UIView.animate(withDuration: 0.5) {
                 self.alpha = 1.0
