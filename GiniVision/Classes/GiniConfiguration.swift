@@ -29,6 +29,11 @@ import UIKit
         return sharedConfiguration.debugModeOn
     }
     
+    public enum GiniVisionImportFileTypes {
+        case none
+        case pdf
+        case pdf_and_images
+    }
     
     
     // MARK: General options
@@ -111,10 +116,10 @@ import UIKit
     // MARK: Camera options
     
     /**
-     Toggles the file import feature.
+     Set the types supported by the file import feature. `none` by default
 
      */
-    public var fileImportEnabled = false
+    public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
     
     /**
      Sets the title text in the navigation bar on the camera screen.

@@ -13,7 +13,16 @@ import Photos
 internal final class FilePickerManager:NSObject {
     
     var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
-    fileprivate var acceptedDocumentTypes = GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
+    fileprivate var acceptedDocumentTypes:[String] {
+        switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
+        case .pdf_and_images:
+            return GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
+        case .pdf:
+            return GiniPDFDocument.acceptedPDFTypes
+        case .none:
+            return []
+        }
+    }
     
     // MARK: Picker presentation
     
@@ -108,7 +117,14 @@ extension FilePickerManager: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return (session.canLoadObjects(ofClass: GiniImageDocument.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
+        switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
+        case .pdf_and_images:
+            return (session.canLoadObjects(ofClass: GiniImageDocument.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
+        case .pdf:
+            return session.canLoadObjects(ofClass: GiniPDFDocument.self) && session.items.count == 1
+        case .none:
+            return false
+        }
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
