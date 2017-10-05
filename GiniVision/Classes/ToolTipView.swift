@@ -17,8 +17,6 @@ final class ToolTipView: UIView {
         case right
     }
     
-    fileprivate static let shouldShowToolTipUserDefaultsKey = "shouldShowToolTip"
-    
     fileprivate var arrowWidth:CGFloat = 20
     fileprivate var arrowHeight:CGFloat = 20
     fileprivate var closeButtonWidth:CGFloat = 20
@@ -135,7 +133,7 @@ final class ToolTipView: UIView {
         switch toolTipPosition {
         case .above:
             if referenceViewAbsoluteFrame.origin.y - size.height < 0 {
-                assertionFailure("The tip cannot be shown outside the parent view")
+                assertionFailure("The tip cannot be shown outside the super view")
             } else {
                 x = referenceViewAbsoluteFrame.origin.x + referenceViewAbsoluteFrame.size.width - size.width
                 y = referenceViewAbsoluteFrame.origin.y - size.height
@@ -226,28 +224,22 @@ final class ToolTipView: UIView {
         tipContainer.translatesAutoresizingMaskIntoConstraints = false
         
         // tipContainer
-        self.addConstraints([
-            NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: tipContainer, attribute: .top, multiplier: 1, constant: -margin.top),
-            NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: tipContainer, attribute: .bottom, multiplier: 1, constant: margin.bottom),
-            NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: tipContainer, attribute: .leading, multiplier: 1, constant: -margin.left),
-            NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: tipContainer, attribute: .trailing, multiplier: 1, constant: margin.right)
-            ])
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: tipContainer, attribute: .top, multiplier: 1, constant: -margin.top)
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: tipContainer, attribute: .bottom, multiplier: 1, constant: margin.bottom)
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: tipContainer, attribute: .leading, multiplier: 1, constant: -margin.left)
+        ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: tipContainer, attribute: .trailing, multiplier: 1, constant: margin.right)
         
         // textLabel
-        self.addConstraints([
-            NSLayoutConstraint(item: tipContainer, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .top, multiplier: 1, constant: -padding.top),
-            NSLayoutConstraint(item: tipContainer, attribute: .bottom, relatedBy: .equal, toItem: textLabel, attribute: .bottom, multiplier: 1, constant: padding.bottom),
-            NSLayoutConstraint(item: tipContainer, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .leading, multiplier: 1, constant: -padding.left)
-            ])
+        ConstraintUtils.addActiveConstraint(item: tipContainer, attribute: .top, relatedBy: .equal, toItem: textLabel, attribute: .top, multiplier: 1, constant: -padding.top)
+        ConstraintUtils.addActiveConstraint(item: tipContainer, attribute: .bottom, relatedBy: .equal, toItem: textLabel, attribute: .bottom, multiplier: 1, constant: padding.bottom)
+        ConstraintUtils.addActiveConstraint(item: tipContainer, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .leading, multiplier: 1, constant: -padding.left)
         
         // closeButton
-        self.addConstraints([
-            NSLayoutConstraint(item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonWidth),
-            NSLayoutConstraint(item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonHeight),
-            NSLayoutConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal, toItem: tipContainer, attribute: .centerY, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: closeButton, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: itemSeparation),
-            NSLayoutConstraint(item: tipContainer, attribute: .trailing, relatedBy: .equal, toItem: closeButton, attribute: .trailing, multiplier: 1, constant: padding.right)
-            ])
+        ConstraintUtils.addActiveConstraint(item: closeButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonWidth)
+        ConstraintUtils.addActiveConstraint(item: closeButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: closeButtonHeight)
+        ConstraintUtils.addActiveConstraint(item: closeButton, attribute: .centerY, relatedBy: .equal, toItem: tipContainer, attribute: .centerY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: closeButton, attribute: .leading, relatedBy: .equal, toItem: textLabel, attribute: .trailing, multiplier: 1, constant: itemSeparation)
+        ConstraintUtils.addActiveConstraint(item: tipContainer, attribute: .trailing, relatedBy: .equal, toItem: closeButton, attribute: .trailing, multiplier: 1, constant: padding.right)
         
         self.setNeedsLayout()
     }
@@ -295,7 +287,7 @@ final class ToolTipView: UIView {
 extension ToolTipView {
     
     func show(animations:(() -> ())? = nil){
-        UIView.animate(withDuration: 0.3){
+        UIView.animate(withDuration: 0.5){
             self.alpha = 1
             animations?()
         }
