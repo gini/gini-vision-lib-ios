@@ -39,7 +39,7 @@ public enum ReviewError: GiniVisionError {
 }
 
 /**
- Errors throw on the file picker
+ Errors thrown on the file picker
  */
 
 public enum FilePickerError: GiniVisionError {
