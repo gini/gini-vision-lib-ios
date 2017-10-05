@@ -164,13 +164,13 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         let errorMessage:String
         switch error {
         case .exceededMaxFileSize:
-            errorMessage = NSLocalizedString("ginivision.camera.validationError.excedeedFileSize", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a file size is too big")
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
         case .pdfPageLengthExceeded:
-            errorMessage = NSLocalizedString("ginivision.camera.validationError.tooManyPages", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a pdf length is higher than 10 pages")
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
         case .fileFormatNotValid, .imageFormatNotValid:
-            errorMessage = NSLocalizedString("ginivision.camera.validationError.wrongFormat", bundle: Bundle(for: GiniVision.self), comment: "Message shown when a file format is not valid (PDF, JPEG, PNG, GIF and TIFF)")
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         default:
-            errorMessage = NSLocalizedString("ginivision.camera.validationError.general", bundle: Bundle(for: GiniVision.self), comment: "Default message shown when an unknown error is produced")
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
         }
         
         let alertViewController = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
