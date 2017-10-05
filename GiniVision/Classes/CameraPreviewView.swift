@@ -2,7 +2,7 @@
 //  CameraPreviewView.swift
 //  GiniVision
 //
-//  Created by Peter Pult/Nikola Sobadjiev on 14/06/16.
+//  Created by Peter Pult / Nikola Sobadjiev on 14/06/16.
 //  Copyright © 2016 Gini GmbH. All rights reserved.
 //
 
@@ -49,14 +49,6 @@ extension CameraPreviewView {
         guideColor = color
         createGuides()
         createGrayFrame()
-    }
-    
-    func isFrame(hidden:Bool) {
-        frameLayer?.isHidden = hidden
-    }
-    
-    func areGuides(hidden:Bool) {
-        guidesLayer?.isHidden = hidden
     }
     
     fileprivate func createGuides() {
@@ -118,7 +110,7 @@ extension CameraPreviewView {
             let height:CGFloat
             if maxWidth > maxHeight * a4Ratio  {
                 // This only happens when the app is on landscape mode and it fills all the window (no SplitMode on iPads).
-                // In this case the a4 wuld be landscape (31.0 / 21.0)
+                // In this case the a4 would be landscape (31.0 / 21.0)
                 height = maxWidth * a4Ratio
             } else {
                 height = maxWidth / a4Ratio

@@ -258,16 +258,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      */
     public func showCameraOverlay() {
         guard cameraState == .valid else { return }
-        previewView.areGuides(hidden: false)
-        previewView.isFrame(hidden: false)
+        previewView.guidesLayer?.isHidden = false
+        previewView.frameLayer?.isHidden = false
     }
     
     /**
      Hide the camera overlay. Should be called when onboarding is presented.
      */
     public func hideCameraOverlay() {
-        previewView.areGuides(hidden: true)
-        previewView.isFrame(hidden: true)
+        previewView.guidesLayer?.isHidden = true
+        previewView.frameLayer?.isHidden = true
     }
     
     // MARK: Image capture
