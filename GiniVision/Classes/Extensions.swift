@@ -193,8 +193,6 @@ internal extension Sequence {
     }
 }
 
-
-
 internal extension Data {
     private static let mimeTypeSignatures: [UInt8 : String] = [
         0xFF : "image/jpeg",

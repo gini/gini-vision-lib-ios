@@ -140,6 +140,4 @@ internal class NoticeView: UIView {
         ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 20)
     }
     
-    
-    
 }

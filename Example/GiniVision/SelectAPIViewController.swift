@@ -49,7 +49,6 @@ class SelectAPIViewController: UIViewController {
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
         metaInformationLabel.text = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
