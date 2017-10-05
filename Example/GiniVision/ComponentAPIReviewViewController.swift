@@ -10,6 +10,12 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
+protocol ComponentAPIReviewScreenDelegate:class {
+    func didReview(documentReviewed:GiniVisionDocument)
+    func didCancelReview()
+}
+
+
 /**
  View controller showing how to implement the review screen using the Component API of the Gini Vision Library for iOS and
  how to process the previously captured image using the Gini SDK for iOS
@@ -18,6 +24,7 @@ class ComponentAPIReviewViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
+    var delegate: ComponentAPIReviewScreenDelegate?
     
     /**
      The image data of the captured document to be reviewed.
@@ -33,34 +40,25 @@ class ComponentAPIReviewViewController: UIViewController {
         guard let document = document else { return }
         originalDocument = document
         
-        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
-        // to have results in as early as possible.
-
-        AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
-        
         /*************************************************************************
          * REVIEW SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
          *************************************************************************/
+
         
-        // (1. If not already done: Create and set a custom configuration object)
-        // See `ComponentAPICameraViewController.swift` for implementation details.
-        
-        // 2. Create the review view controller
+        // 1. Create the review view controller
         contentController = ReviewViewController(document, successBlock:
-            { [unowned self] (document, shouldFinish) in
+            { [unowned self] document in
                 print("Component API review view controller received image data")
                 // Update current image data when image is rotated by user
                 self.document = document
-                
-                if shouldFinish {
-                    self.showAnalysis(self)
-                }
+
             }, failureBlock: { error in
                 print("Component API review view controller received error:\n\(error)")
             })
         
-        // 3. Display the review view controller
+        // 2. Display the review view controller
         displayContent(contentController)
+        
     }
     
     override func didMove(toParentViewController parent: UIViewController?) {
@@ -68,11 +66,15 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // Cancel analysis process to avoid unnecessary network calls.
         if parent == nil {
-            AnalysisManager.sharedManager.cancelAnalysis()
-        } else {
-            if let nav = parent as? UINavigationController, let cameraContainer = nav.viewControllers[nav.viewControllers.count - 2] as? ComponentAPICameraViewController {
-                cameraContainer.document = nil
-            }
+//            delegate?.didCancelReview()
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        if isMovingFromParentViewController || isBeingDismissed {
+            delegate?.didCancelReview()
         }
     }
     
@@ -86,59 +88,8 @@ class ComponentAPIReviewViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func showAnalysis(_ sender: AnyObject) {
-        
-        // Analyze reviewed data because changes were made by the user during review.
-        if document?.data != originalDocument?.data {
-            originalDocument = document
-            if let documentData = document?.data {
-                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
-                performSegue(withIdentifier: "showAnalysis", sender: self)
-            }
-            return
-        }
-        
-        // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
-        if let result = AnalysisManager.sharedManager.result,
-           let document = AnalysisManager.sharedManager.document {
-            handleAnalysis(result, fromDocument: document)
-            return
-        }
-        
-        // Restart analysis if it was canceled and is currently not running.
-        if !AnalysisManager.sharedManager.isAnalyzing {
-            if let documentData = document?.data {
-                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
-            }
-        }
-        
-        // Show analysis screen if no results are in yet and no changes were made.
-        performSegue(withIdentifier: "showAnalysis", sender: self)
-    }
-    
-    // MARK: Handle results from analysis process
-    func handleAnalysis(_ result: GINIResult, fromDocument document: GINIDocument) {
-        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if hasPayFive {
-            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
-            vc.result = result
-            vc.document = document
-            navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-            navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-    
-    // MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showAnalysis" {
-            if let vc = segue.destination as? ComponentAPIAnalysisViewController {
-                // Set image data as input for the analysis view controller
-                vc.document = document
-            }
+        if let document = document {
+            delegate?.didReview(documentReviewed: document)
         }
     }
 }

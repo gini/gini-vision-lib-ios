@@ -357,12 +357,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         var alertViewControllerMessage = "Dokumente importieren"
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
-            alertViewController.addAction(UIAlertAction(title: "Camera roll", style: .default) { [unowned self] _ in
-                self.filePickerManager.showGalleryPicker(from: self)
+            alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+                self.filePickerManager.showGalleryPicker(from: self, errorHandler: { [unowned self] error in
+                    if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
+                        self.showPhotoLibraryPermissionDeniedError()
+                    }
+                })
             })
             alertViewControllerMessage = "Fotos oder Dokumente importieren"
         }
-        
+
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
             self.filePickerManager.showDocumentPicker(from: self)
         })
@@ -381,6 +385,25 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate func addDropInteraction() {
         let dropInteraction = UIDropInteraction(delegate: filePickerManager)
         view.addInteraction(dropInteraction)
+    }
+    
+    
+    // MARK: Photo library permission denied error
+    fileprivate func showPhotoLibraryPermissionDeniedError() {
+        let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
+        
+        let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
+        
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        
+        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: {_ in
+            alertViewController.dismiss(animated: true, completion: nil)
+            UIApplication.shared.openAppSettings()
+        }))
+        
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     // MARK: Focus handling

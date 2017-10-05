@@ -16,6 +16,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .Image
     public var data:Data
     public var previewImage: UIImage?
+    public var isReviewable: Bool
     
     fileprivate let metaInformationManager:ImageMetaInformationManager
     
@@ -29,13 +30,13 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     init(data: Data, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil, deviceOrientation:UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
+        self.isReviewable = true
         self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation, imageSource:imageSource, imageImportMethod:imageImportMethod)
         
         if let dataWithMetadata = metaInformationManager.imageByAddingMetadata() {
             self.data = dataWithMetadata
         } else {
             self.data = data
-            assertionFailure("It wasn't possible to add metadata to the image")
         }
     }
     
@@ -58,10 +59,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     func rotateImage(degrees:Int, imageOrientation:UIImageOrientation) {
         metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
-        guard let data = metaInformationManager.imageByAddingMetadata() else {
-            assertionFailure("It wasn't possible to add metadata to the image")
-            return
-        }
+        guard let data = metaInformationManager.imageByAddingMetadata() else { return }
         self.data = data
         self.previewImage = UIImage(data: data)
     }

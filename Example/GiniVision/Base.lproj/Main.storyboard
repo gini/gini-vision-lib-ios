@@ -70,17 +70,17 @@
         <!--Component API-->
         <scene sceneID="ZuU-uX-Wsc">
             <objects>
-                <viewController id="pYU-Ln-Vjq" customClass="ComponentAPICameraViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComponentAPICamera" id="pYU-Ln-Vjq" customClass="ComponentAPICameraViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hDk-Fp-Wsr"/>
                         <viewControllerLayoutGuide type="bottom" id="4f2-WH-Mos"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ph2-oy-6hw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xiy-Qn-t95">
-                                <rect key="frame" x="0.0" y="578" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <color key="backgroundColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="GLv-47-mFs"/>
@@ -119,7 +119,6 @@
                     <navigationItem key="navigationItem" title="Component API" id="u33-fr-0bj"/>
                     <connections>
                         <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
-                        <segue destination="bpn-9B-40f" kind="show" identifier="showReview" id="Idu-Pb-0ha"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -135,11 +134,11 @@
                         <viewControllerLayoutGuide type="bottom" id="jlx-L6-fKV"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="q0u-mJ-1aS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvg-cz-X1a">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -167,17 +166,16 @@
                     </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="Uvg-cz-X1a" id="Jr1-sh-Ssh"/>
-                        <segue destination="ej4-eT-XJQ" kind="show" identifier="showAnalysis" id="b8t-LI-ByW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-do-qjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5447" y="-255"/>
+            <point key="canvasLocation" x="5414" y="-255"/>
         </scene>
         <!--API Selection-->
         <scene sceneID="Cmn-ER-b8i">
             <objects>
-                <viewController id="Ggv-ZP-h5h" userLabel="API Selection" customClass="ScreenAPIViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Ggv-ZP-h5h" userLabel="API Selection" customClass="SelectAPIViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3q-Yk-YSo"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9y-Oh-GoV"/>
@@ -221,7 +219,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <segue destination="e8r-Qt-I6L" kind="presentation" id="So6-UQ-l96"/>
+                                    <action selector="launchComponentAPI:" destination="Ggv-ZP-h5h" eventType="touchUpInside" id="iSn-RY-c6E"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version and Client Id" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDA-QI-3LG">
@@ -263,8 +261,6 @@
                     <navigationItem key="navigationItem" id="SQK-hk-Ah4"/>
                     <connections>
                         <outlet property="metaInformationLabel" destination="hDA-QI-3LG" id="0eX-ll-pGK"/>
-                        <segue destination="QXp-IJ-1GQ" kind="show" identifier="presentResult" id="25E-8G-1O3"/>
-                        <segue destination="pIn-fG-Rai" kind="show" identifier="presentNoResult" id="xBe-GO-GLS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQd-cL-q81" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -277,6 +273,7 @@
                 <tabBarController storyboardIdentifier="ComponentAPI" automaticallyAdjustsScrollViewInsets="NO" id="e8r-Qt-I6L" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="yHo-i0-MdR">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -299,7 +296,7 @@
         <!--New Document-->
         <scene sceneID="eFr-UT-TEA">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g5Q-Tk-dmU" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="componenAPINavController" automaticallyAdjustsScrollViewInsets="NO" id="g5Q-Tk-dmU" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="New Document" image="tabBarIconNewDocument" id="y5X-0r-qWR"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wmk-h1-aiy">
@@ -313,9 +310,6 @@
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="pYU-Ln-Vjq" kind="relationship" relationship="rootViewController" id="sa6-GC-q44"/>
-                    </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7G5-7Q-zn4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -324,17 +318,17 @@
         <!--ComponentAPI Analysis View Controller-->
         <scene sceneID="Jdr-6S-YsN">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ej4-eT-XJQ" customClass="ComponentAPIAnalysisViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComponentAPIAnalysis" automaticallyAdjustsScrollViewInsets="NO" id="ej4-eT-XJQ" customClass="ComponentAPIAnalysisViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mvi-1p-ikx"/>
                         <viewControllerLayoutGuide type="bottom" id="b2S-iE-aI1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Qo1-xJ-5g4">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZD-YC-RgH">
-                                <rect key="frame" x="0.0" y="578" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="F5p-c6-3LU"/>
@@ -355,7 +349,7 @@
                                 </connections>
                             </button>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnB-Gz-I2J">
-                                <rect key="frame" x="0.0" y="64" width="375" height="514"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="607"/>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -387,7 +381,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nY8-xm-izW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6148" y="-255"/>
+            <point key="canvasLocation" x="6218" y="-255"/>
         </scene>
         <!--Result Table View Controller-->
         <scene sceneID="dA0-59-wBc">
@@ -431,7 +425,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZdL-Oq-NkM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3160" y="-988"/>
+            <point key="canvasLocation" x="6998" y="-255"/>
         </scene>
         <!--Ihre Überweisung-->
         <scene sceneID="hVm-Cc-8N0">
@@ -446,7 +440,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Es konnten keine Daten ausgelesen werden." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dq1-1G-cuV">
-                                <rect key="frame" x="16" y="109" width="343" height="21"/>
+                                <rect key="frame" x="16" y="65" width="343" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="FkV-Ri-EwD"/>
                                 </constraints>
@@ -455,7 +449,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bitte beachten Sie:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWP-XX-MgH">
-                                <rect key="frame" x="16" y="170" width="343" height="21"/>
+                                <rect key="frame" x="16" y="126" width="343" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="FVY-pT-7qZ"/>
                                 </constraints>
@@ -500,7 +494,7 @@
                                 </variation>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reviewRotateButton" translatesAutoresizingMaskIntoConstraints="NO" id="g01-Yw-KKa">
-                                <rect key="frame" x="175.5" y="284" width="24" height="24"/>
+                                <rect key="frame" x="175.5" y="240" width="24" height="24"/>
                                 <color key="tintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="FjC-iT-BH0"/>
@@ -508,7 +502,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3WR-c9-tM1">
-                                <rect key="frame" x="37" y="200" width="301" height="84"/>
+                                <rect key="frame" x="37" y="156" width="301" height="84"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="skS-lc-WKb"/>
                                 </constraints>
@@ -552,7 +546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0zT-Jd-RrB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3160" y="-1713"/>
+            <point key="canvasLocation" x="7766" y="-255"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3be-GW-981">

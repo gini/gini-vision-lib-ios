@@ -12,6 +12,7 @@ import Foundation
     var type:GiniVisionDocumentType { get }
     var data:Data { get }
     var previewImage:UIImage? { get }
+    var isReviewable:Bool { get }
     
     func checkType() throws
 }

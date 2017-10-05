@@ -62,7 +62,7 @@ internal class CameraNotAuthorizedView: UIView {
     }
     
     @IBAction func openSettings(_ sender: AnyObject) {
-        UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+        UIApplication.shared.openAppSettings()
     }
     
     // MARK: Constraints

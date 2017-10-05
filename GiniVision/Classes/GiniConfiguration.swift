@@ -150,6 +150,11 @@ import UIKit
     public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
     
     /**
+     Sets the descriptional text when photo library access was denied, advising the user to authorize the photo library access in the settings application.
+     */
+    public var photoLibraryAccessDeniedMessageText = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied", comment: "This message is shown when Photo library permission is denied")
+    
+    /**
      Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
      */
     public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
