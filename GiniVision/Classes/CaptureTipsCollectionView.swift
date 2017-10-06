@@ -13,15 +13,20 @@ final class CaptureTipsCollectionView: UICollectionView {
     static let headerIdentifier = "headerIdentifier"
 
     private let minimunCellHeight: CGFloat = 66.0
-    private let headerHeight: CGFloat = 50.0
+    private let headerHeight: CGFloat = 60.0
 
     init(){
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.register(CaptureTipsCollectionCell.self, forCellWithReuseIdentifier: CaptureTipsCollectionView.cellIdentifier)
         self.register(CaptureTipsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier)
+        self.showsVerticalScrollIndicator = false
+        
+        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
         
         if #available(iOS 9.0, *) {
-            (self.collectionViewLayout as! UICollectionViewFlowLayout).sectionHeadersPinToVisibleBounds = true
+            layout.sectionHeadersPinToVisibleBounds = true
         }
     }
     
@@ -66,15 +71,15 @@ final class CaptureTipsCollectionCell: UICollectionViewCell {
         tipImage.contentMode = .scaleAspectFit
         tipText.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .trailing, relatedBy: .equal, toItem: tipText, attribute: .leading, multiplier: 1.0, constant: -16)
+        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
+        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
+        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .trailing, relatedBy: .equal, toItem: tipText, attribute: .leading, multiplier: 1.0, constant: -20)
         ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 85)
         
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
+        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
+        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
     }
 }
 
@@ -99,9 +104,9 @@ final class CaptureTipsCollectionHeader: UICollectionReusableView {
         headerTitle.numberOfLines = 0
         
         self.addSubview(headerTitle)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -16)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
     }
 }

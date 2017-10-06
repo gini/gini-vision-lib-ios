@@ -100,7 +100,7 @@ public final class NoResultsViewController: UIViewController {
 
 extension NoResultsViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return captureTips.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -124,7 +124,7 @@ extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
         return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier, for: indexPath)
     }
     
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {        
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y < 0 {
             scrollView.contentOffset = .zero
         }
