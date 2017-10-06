@@ -48,12 +48,10 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 DispatchQueue.main.async {
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
-            }, failureBlock: {[unowned self] error in
+            }, failureBlock: { error in
                 switch error {
                 case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
-                case is DocumentValidationError:
-                    self.showNotValidDocumentError(error: error as! DocumentValidationError)
                 default:
                     print("GiniVision: Unknown error when using camera.")
                 }
@@ -154,33 +152,5 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-    }
-    
-    // MARK: Error dialogs
-
-    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
-        let cameraController = contentController as? CameraViewController
-        
-        let errorMessage:String
-        switch error {
-        case .exceededMaxFileSize:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
-        case .pdfPageLengthExceeded:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
-        case .fileFormatNotValid, .imageFormatNotValid:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
-        default:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
-        }
-        
-        let alertViewController = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-        }))
-        alertViewController.addAction(UIAlertAction(title: "Andere Datei wählen", style: .default, handler: { _ in
-            cameraController?.showImportFileSheet()
-        }))
-        
-        cameraController?.present(alertViewController, animated: true, completion: nil)
     }
 }

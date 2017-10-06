@@ -314,9 +314,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 try document.validate()
                 self.successBlock?(document, true)
             } catch let error as DocumentValidationError {
-                self.failureBlock!(error)
+                self.showNotValidDocumentError(error: error)
             } catch _ {
-                self.failureBlock!(DocumentValidationError.unknown)
+                self.showNotValidDocumentError(error: DocumentValidationError.unknown)
             }
         }
         
@@ -331,7 +331,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
     }
     
-    @objc func showImportFileSheet() {
+    @objc fileprivate func showImportFileSheet() {
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "Dokumente importieren"
@@ -368,7 +368,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     
-    // MARK: Photo library permission denied error
+    // MARK: Error dialogs
     fileprivate func showPhotoLibraryPermissionDeniedError() {
         let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
         
@@ -384,6 +384,31 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }))
         
         self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
+        
+        let errorMessage:String
+        switch error {
+        case .exceededMaxFileSize:
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
+        case .pdfPageLengthExceeded:
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
+        case .fileFormatNotValid, .imageFormatNotValid:
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+        default:
+            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
+        }
+        
+        let alertViewController = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        alertViewController.addAction(UIAlertAction(title: "Andere Datei wählen", style: .default, handler: { _ in
+            self.showImportFileSheet()
+        }))
+        
+        present(alertViewController, animated: true, completion: nil)
     }
     
     // MARK: Focus handling
