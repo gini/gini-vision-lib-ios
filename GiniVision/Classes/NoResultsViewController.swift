@@ -19,7 +19,14 @@ public final class NoResultsViewController: UIViewController {
     
     // Resources
     fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
-        
+
+    fileprivate let captureTips: [(image: UIImage?, text: String)] = [
+        (UIImageNamedPreferred(named: "onboardingPage1"), "Deeeespacito1"),
+        (UIImageNamedPreferred(named: "onboardingPage2"), "Deeeespacito2"),
+        (UIImageNamedPreferred(named: "onboardingPage3"), "Deeeespacito3"),
+        (UIImageNamedPreferred(named: "onboardingPage1"), "Deeeespacito4")
+    ]
+    
     override public func loadView() {
         super.loadView()
         view = UIView()
@@ -31,13 +38,16 @@ public final class NoResultsViewController: UIViewController {
         tipsCollectionView = CaptureTipsCollectionView()
         repeatAnalysisButton = UIButton()
 
-        warningViewContainer.backgroundColor = .red
+        warningViewContainer.backgroundColor = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
         warningViewIcon.contentMode = .scaleAspectFit
         warningViewText.numberOfLines = 0
         warningViewText.text = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme."
+        warningViewText.textColor = .white
         repeatAnalysisButton.setTitle("Aufnahme wiederholen", for: .normal)
         repeatAnalysisButton.backgroundColor = .green
-        tipsCollectionView.backgroundColor = .blue
+        tipsCollectionView.backgroundColor = .white
+        tipsCollectionView.dataSource = self
+        tipsCollectionView.delegate = self
         
         warningViewContainer.addSubview(warningViewIcon)
         warningViewContainer.addSubview(warningViewText)
@@ -85,5 +95,24 @@ public final class NoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
 
+    }
+}
+
+extension NoResultsViewController: UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureTipsCollectionView.cellIdentifier, for: indexPath) as! CaptureTipsCollectionCell
+        cell.tipText.text = self.captureTips[indexPath.row].text
+        cell.tipImage.image = self.captureTips[indexPath.row].image
+        return cell
+    }
+}
+
+extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return tipsCollectionView.cellSize()
     }
 }
