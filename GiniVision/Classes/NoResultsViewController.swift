@@ -43,8 +43,11 @@ public final class NoResultsViewController: UIViewController {
         warningViewText.numberOfLines = 0
         warningViewText.text = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme."
         warningViewText.textColor = .white
+        
         repeatAnalysisButton.setTitle("Aufnahme wiederholen", for: .normal)
-        repeatAnalysisButton.backgroundColor = .green
+        repeatAnalysisButton.setImage(closeButtonResources.preferredImage, for: .normal)
+        repeatAnalysisButton.backgroundColor = .black
+        
         tipsCollectionView.backgroundColor = .white
         tipsCollectionView.dataSource = self
         tipsCollectionView.delegate = self
