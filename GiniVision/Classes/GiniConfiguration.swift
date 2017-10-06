@@ -377,8 +377,44 @@ import UIKit
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
      */
-    public var analysisLoadingIndicatorColor = Colors.Gini.raspberry
+    public var analysisLoadingIndicatorColor = UIColor.white
     
+    /**
+     Sets the text of the loading indicator on the analysis screen to the specified text.
+     */
+    public var analysisLoadingText = NSLocalizedStringPreferred("ginivision.analysis.loadingText", comment: "Text appearing at the center of the analysis screen indicating that the document is being analysed")
+    
+    /**
+     Sets the font of the loading text on the analysis screen to the specified font
+     */
+    public var analysisLoadingTextFont = UIFont.systemFont(ofSize: 18)
+    
+    /**
+     Sets the color of the PDF information view on the analysis screen to the specified color.
+     */
+    public var analysisPDFInformationBackgroundColor = Colors.Gini.bluishGreen
+    
+    /**
+     Sets the color of the PDF information view on the analysis screen to the specified color.
+     */
+    public var analysisPDFInformationTextColor = UIColor.white
+    
+    /**
+     Sets the font of the PDF information view on the analysis screen to the specified font
+     */
+    public var analysisPDFInformationTextFont = UIFont.systemFont(ofSize: 16)
+    
+    /**
+     Sets the text appearing at the top of the analysis screen indicating pdf number of pages
+     */
+    public func analysisPDFNumberOfPages(pagesCount count:Int) -> String{
+        return NSLocalizedStringPreferred("ginivision.analysis.pdfpages", comment: "Text appearing at the top of the analysis screen indicating pdf number of pages", args: count)
+    }
+    
+    /**
+     Sets the font of the Suggestions text view on the analysis screen to the specified font
+     */
+    public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
     
     
     /**
@@ -397,6 +433,7 @@ internal struct Colors {
         static var blue = Colors.UIColorHex(0x009edc)
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
+        static var bluishGreen = Colors.UIColorHex(0x007c99)
         
     }
     

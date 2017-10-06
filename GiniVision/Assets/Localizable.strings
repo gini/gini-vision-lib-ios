@@ -31,3 +31,10 @@
 "ginivision.review.bottom"             = "Doppeltippen um Schärfe zu prüfen";
 "ginivision.review.rotateButton"       = "Dokument drehen";
 "ginivision.review.documentImageTitle" = "Dokument";
+
+"ginivision.analysis.loadingText" = "Dokument wird analysiert";
+"ginivision.analysis.suggestion.1" = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.analysis.suggestion.2" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
+"ginivision.analysis.suggestion.4" = "Seite glatt streichen";
+

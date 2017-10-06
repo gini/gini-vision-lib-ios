@@ -34,13 +34,22 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-internal func NSLocalizedStringPreferred(_ key: String, comment: String) -> String {
+internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
-    if  clientString != key {
-        return clientString
+    let format:String
+    
+    if clientString != key {
+        format = clientString
+    } else {
+        let bundle = Bundle(for: GiniVision.self)
+        format = NSLocalizedString(key, bundle: bundle, comment: comment)
     }
-    let bundle = Bundle(for: GiniVision.self)
-    return NSLocalizedString(key, bundle: bundle, comment: comment)
+
+    if let args = args {
+        return String.localizedStringWithFormat(format, args)
+    } else {
+        return format
+    }
 }
 
 /**
@@ -160,6 +169,28 @@ internal extension Collection where Iterator.Element == CFString {
         return self.map { $0 as String }
     }
     
+}
+
+internal extension MutableCollection{
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        
+        for (firstUnshuffled , unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
+            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            guard d != 0 else { continue }
+            let i = index(firstUnshuffled, offsetBy: d)
+            self.swapAt(firstUnshuffled, i)
+        }
+    }
+}
+
+internal extension Sequence {
+    func shuffled() -> [Iterator.Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
 }
 
 internal extension Data {
