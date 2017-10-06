@@ -34,7 +34,10 @@
             "AnalysisViewController",
             "CameraViewController",
             "GiniConfiguration",
+            "GiniImageDocument",
+            "GiniPDFDocument",
             "GiniVision",
+            "GiniVisionDocumentBuilder",
             "OnboardingPage",
             "OnboardingViewController",
             "ReviewViewController"
@@ -44,6 +47,11 @@
          "name":"Enums",
          "children":[
             "CameraError",
+            "DocumentImportMethod",
+            "DocumentSource",
+            "DocumentValidationError",
+            "FilePickerError",
+            "GiniVisionDocumentType",
             "ReviewError"
          ]
       },
@@ -51,7 +59,9 @@
          "name":"Protocols",
          "children":[
             "AnalysisDelegate",
-            "GiniVisionDelegate"
+            "GiniVisionDelegate",
+            "GiniVisionDocument",
+            "GiniVisionError"
          ]
       },
       {
@@ -59,9 +69,13 @@
          "children":[
             "CameraErrorBlock",
             "CameraSuccessBlock",
+            "CameraScreenFailureBlock",
+            "CameraScreenSuccessBlock",
             "NoticeAction",
             "ReviewErrorBlock",
-            "ReviewSuccessBlock"
+            "ReviewSuccessBlock",
+            "ReviewScreenFailureBlock",
+            "ReviewScreenSuccessBlock"
          ]
       }
    ]
