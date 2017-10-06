@@ -28,11 +28,8 @@ final class ToolTipView: UIView {
     
     fileprivate var textWidth:CGFloat {
         guard let superview = superview else { return 0 }
-        if UIDevice.current.isIpad {
-            return maxWidthOnIpad - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
-        } else {
-            return superview.frame.width - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
-        }
+        let maxWidth = UIDevice.current.isIpad ? maxWidthOnIpad : superview.frame.width
+        return maxWidth - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
     }
     
     fileprivate var text:String
@@ -286,10 +283,10 @@ final class ToolTipView: UIView {
 
 extension ToolTipView {
     
-    func show(animations:(() -> ())? = nil){
+    func show(alongsideAnimations:(() -> ())? = nil){
         UIView.animate(withDuration: 0.5){
             self.alpha = 1
-            animations?()
+            alongsideAnimations?()
         }
     }
     
