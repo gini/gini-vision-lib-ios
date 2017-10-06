@@ -115,4 +115,19 @@ extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return tipsCollectionView.cellSize()
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return tipsCollectionView.headerSize()
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier, for: indexPath)
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {        
+        if scrollView.contentOffset.y < 0 {
+            scrollView.contentOffset = .zero
+        }
+
+    }
 }
