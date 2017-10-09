@@ -92,6 +92,11 @@ class SelectAPIViewController: UIViewController {
         giniConfiguration.debugModeOn = true
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         giniConfiguration.navigationBarItemTintColor = UIColor.white
+        giniConfiguration.customDocumentValidations = { document in
+            print(document.type)
+            let previewImage = document.previewImage
+            print("Validate document")
+        }
         
         // Make sure the app always behaves the same when run from UITests
         if isUITest {
