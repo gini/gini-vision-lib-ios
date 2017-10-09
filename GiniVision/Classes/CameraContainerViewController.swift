@@ -131,11 +131,15 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         // Hide camera UI when overlay is shown
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
+        cameraViewController?.hideFileImportTip()
+        
         let vc = OnboardingContainerViewController {
             
             // Show camera UI when overlay is dismissed
             cameraViewController?.showCameraOverlay()
             cameraViewController?.showCaptureButton()
+            cameraViewController?.showFileImportTip()
+
         }
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext

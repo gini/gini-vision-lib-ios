@@ -23,13 +23,18 @@ final class ToolTipView: UIView {
     fileprivate var closeButtonHeight:CGFloat = 20
     fileprivate var itemSeparation: CGFloat = 16
     fileprivate var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
-    fileprivate var maxWidthOnIpad:CGFloat = 375
+    fileprivate var maxWidth:CGFloat = 375
     fileprivate var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     
     fileprivate var textWidth:CGFloat {
         guard let superview = superview else { return 0 }
-        let maxWidth = UIDevice.current.isIpad ? maxWidthOnIpad : superview.frame.width
-        return maxWidth - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
+        let width: CGFloat
+        if superview.frame.width > maxWidth && superview.frame.height > maxWidth {
+            width = maxWidth
+        } else {
+            width = min(superview.frame.width, superview.frame.height)
+        }
+        return width - padding.left - padding.right - margin.left - margin.right - closeButtonWidth - itemSeparation
     }
     
     fileprivate var text:String
@@ -42,7 +47,7 @@ final class ToolTipView: UIView {
     fileprivate var textLabel:UILabel
     fileprivate var tipContainer: UIView
     
-    var beforeDismiss: (() -> ())?
+    var willDismiss: (() -> ())?
     
     init(text:String, textColor:UIColor, font:UIFont, backgroundColor: UIColor, closeButtonColor: UIColor, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
         
@@ -129,45 +134,42 @@ final class ToolTipView: UIView {
         var y:CGFloat = 0
         
         if referenceViewAbsoluteFrame != .zero {
-        switch toolTipPosition {
-        case .above:
-            if referenceViewAbsoluteFrame.origin.y - size.height < 0 {
-                assertionFailure("The tip cannot be shown outside the super view")
-            } else {
+            switch toolTipPosition {
+            case .above:
                 x = referenceViewAbsoluteFrame.origin.x + referenceViewAbsoluteFrame.size.width - size.width
-                y = referenceViewAbsoluteFrame.origin.y - size.height
-            }
-        case .below:
-            if referenceViewAbsoluteFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
-                assertionFailure("The tip cannot be shown outside the super view")
-            } else {
+
+                if referenceViewAbsoluteFrame.origin.y - size.height < 0 {
+                    y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+                } else {
+                    y = referenceViewAbsoluteFrame.origin.y - size.height
+                }
+            case .below:
                 x = referenceViewAbsoluteFrame.origin.x + referenceViewAbsoluteFrame.size.width - size.width
-                y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height
-            }
-        case .left:
-            if referenceViewAbsoluteFrame.origin.x - size.width < 0 {
-                assertionFailure("The tip cannot be shown outside the super view")
-            } else {
-                x = referenceViewAbsoluteFrame.origin.x - size.width
+
+                if referenceViewAbsoluteFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
+                    y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+                } else {
+                    y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height
+                }
+            case .left:
                 y = referenceViewAbsoluteFrame.origin.y - margin.top
-            }
-        case .right:
-            if referenceViewAbsoluteFrame.origin.x + referenceView.frame.width + size.width > superview.frame.width {
-                assertionFailure("The tip cannot be shown outside the super view")
-            } else {
-                x = referenceViewAbsoluteFrame.origin.x  - size.width
+
+                if referenceViewAbsoluteFrame.origin.x - size.width < 0 {
+                    x = superview.frame.width - size.width
+                } else {
+                    x = referenceViewAbsoluteFrame.origin.x - size.width
+                }
+            case .right:
                 y = referenceViewAbsoluteFrame.origin.y - margin.top
+
+                if referenceViewAbsoluteFrame.origin.x + referenceView.frame.width + size.width > superview.frame.width {
+                    x = superview.frame.width - size.width
+                } else {
+                    x = referenceViewAbsoluteFrame.origin.x  - size.width
+                }
             }
         }
         
-        if x < 0 || superview.frame.width - x < size.width {
-            x = superview.frame.width - size.width
-        }
-        
-        if superview.frame.height - y < size.height {
-            y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
-        }
-        }
         self.frame = CGRect(origin: CGPoint(x: x, y: y), size: size)
     }
     
@@ -293,9 +295,24 @@ extension ToolTipView {
     }
     
     func dismiss(withCompletion completion: (() -> ())? = nil) {
-        beforeDismiss?()
+        willDismiss?()
         self.removeFromSuperview()
         completion?()
+    }
+}
+
+// MARK: UserDefaults flags
+
+extension ToolTipView {
+    fileprivate static let shouldShowFileImportToolTipUserDefaultsKey = "ginivision.defaults.shouldShowFileImportToolTip"
+    static var shouldShowFileImportToolTip:Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: ToolTipView.shouldShowFileImportToolTipUserDefaultsKey)
+        }
+        get {
+            let defaultsValue = UserDefaults.standard.object(forKey: ToolTipView.shouldShowFileImportToolTipUserDefaultsKey) as? Bool
+            return defaultsValue ?? true
+        }
     }
 }
 

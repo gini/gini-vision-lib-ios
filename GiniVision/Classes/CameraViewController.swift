@@ -107,16 +107,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var documentImportButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "documentImportButton")
     }
-    fileprivate let shouldShowFileImportToolTipUserDefaultsKey = "shouldShowFileImportToolTip"
-    fileprivate var shouldShowFileImportToolTip:Bool {
-        set {
-            UserDefaults.standard.set(newValue, forKey: shouldShowFileImportToolTipUserDefaultsKey)
-        }
-        get {
-            let defaultsValue = UserDefaults.standard.object(forKey: shouldShowFileImportToolTipUserDefaultsKey) as? Bool
-            return defaultsValue ?? true
-        }
-    }
     
     // Output
     fileprivate var successBlock: CameraScreenSuccessBlock?
@@ -183,8 +173,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             enableFileImport()
         }
         
-        if shouldShowFileImportToolTip {
-            showFileImportTip()
+        if ToolTipView.shouldShowFileImportToolTip {
+            createFileImportTip()
+            if !OnboardingContainerViewController.willBeShown {
+                showFileImportTip()
+            }
         }
         
     }
@@ -295,26 +288,39 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         previewView.frameLayer?.isHidden = true
     }
     
-    fileprivate func showFileImportTip() {
+    /**
+     Show the fileImportTip. Should be called when onboarding is dismissed.
+     */
+    public func showFileImportTip() {
+        self.toolTipView?.show(){
+            self.blurEffect?.alpha = 1
+        }
+        ToolTipView.shouldShowFileImportToolTip = false
+    }
+    
+    /**
+     Hide the fileImportTip. Should be called when onboarding is presented.
+     */
+    public func hideFileImportTip() {
+        self.toolTipView?.alpha = 0
+    }
+    
+    // MARK: Create tips
+    fileprivate func createFileImportTip() {
         blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
         toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
-                    textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                    font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
-                    backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
-                    closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
-                    referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
+                                  font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
+                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
+                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
         
-        toolTipView?.beforeDismiss = {
+        toolTipView?.willDismiss = {
             self.blurEffect?.removeFromSuperview()
         }
-        
-        self.toolTipView?.show(){
-            self.blurEffect?.alpha = 1
-        }
-        self.shouldShowFileImportToolTip = false
     }
     
     // MARK: Image capture

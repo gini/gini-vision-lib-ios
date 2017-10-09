@@ -207,27 +207,27 @@ import UIKit
     public var cameraPreviewCornerGuidesColor = UIColor.white
     
     /**
-     Sets the background color of the new file import button tip
+     Sets the background color of the new file import button hint
      */
     public var fileImportToolTipBackgroundColor = UIColor.white
     
     /**
-     Sets the text of the new file import button tip
+     Sets the text of the new file import button hint
      */
     public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
     
     /**
-     Sets the text color of the new file import button tip
+     Sets the text color of the new file import button hint
      */
     public var fileImportToolTipTextColor = UIColor.black
     
     /**
-     Sets the font of the new file import button tip
+     Sets the font of the new file import button hint
      */
     public var fileImportToolTipTextFont = UIFont.systemFont(ofSize: 14)
     
     /**
-     Sets the text color of the new file import button tip
+     Sets the text color of the new file import button hint
      */
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
