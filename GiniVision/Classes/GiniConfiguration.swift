@@ -86,7 +86,7 @@ import UIKit
      */
     public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.light, andSize: 16)
     
-    /** 
+    /**
      Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
      */
     public var noticeInformationBackgroundColor = UIColor.black
@@ -112,9 +112,26 @@ import UIKit
     public var noticeFont = UIFontPreferred(.regular, andSize: 12)
     
     
+    /**
+     Sets the message text of a general document validation error, shown in camera screen.
+     */
+    public var documentValidationErrorGeneral = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general", comment: "Message text of a general document validation error shown in camera screen")
     
-    // MARK: Camera options
+    /**
+     Sets the message text of a document validation error dialog when a file size is higher than 10MB
+     */
+    public var documentValidationErrorExcedeedFileSize = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize", comment: "Message text error shown in camera screen when a file size is higher than 10MB")
     
+    /**
+     Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
+     */
+    public var documentValidationErrorTooManyPages = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages", comment: "Message text error shown in camera screen when a pdf length is higher than 10 pages")
+    
+    /**
+     Sets the message text of a document validation error dialog when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
+     */
+    public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
+
     /**
      Set the types supported by the file import feature. `none` by default
 
@@ -183,6 +200,11 @@ import UIKit
      Sets the text color of the button title when camera access was denied.
      */
     public var cameraNotAuthorizedButtonTitleColor = UIColor.white
+    
+    /**
+     Sets the color of camera preview corner guides
+     */
+    public var cameraPreviewCornerGuidesColor = UIColor.white
     
     
     
