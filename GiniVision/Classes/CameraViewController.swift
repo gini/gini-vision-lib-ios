@@ -80,6 +80,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
     fileprivate var toolTipView: ToolTipView?
+    fileprivate var blurEffect: UIVisualEffectView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -182,6 +183,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             enableFileImport()
         }
         
+        if shouldShowFileImportToolTip {
+            showFileImportTip()
+        }
+        
     }
     
     /**
@@ -238,12 +243,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         camera?.stop()
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if shouldShowFileImportToolTip {
-            showFileImportTip()
-        }
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.toolTipView?.arrangeViews()
+        self.blurEffect?.frame = previewView.frame
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -293,9 +296,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     fileprivate func showFileImportTip() {
-        let blurEffect = blurEffectView(overFrame: previewView.frame)
-        blurEffect.alpha = 0
-        self.view.addSubview(blurEffect)
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
         
         toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
                     textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
@@ -305,21 +308,13 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                     referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
         
         toolTipView?.beforeDismiss = {
-            blurEffect.removeFromSuperview()
+            self.blurEffect?.removeFromSuperview()
         }
         
         self.toolTipView?.show(){
-            blurEffect.alpha = 1
+            self.blurEffect?.alpha = 1
         }
         self.shouldShowFileImportToolTip = false
-    }
-    
-    fileprivate func blurEffectView(overFrame frame:CGRect) -> UIVisualEffectView {
-        let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = frame
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        return blurEffectView
     }
     
     // MARK: Image capture

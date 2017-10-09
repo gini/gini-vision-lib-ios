@@ -127,6 +127,8 @@ final class ToolTipView: UIView {
         
         var x:CGFloat = 0
         var y:CGFloat = 0
+        
+        if referenceViewAbsoluteFrame != .zero {
         switch toolTipPosition {
         case .above:
             if referenceViewAbsoluteFrame.origin.y - size.height < 0 {
@@ -165,7 +167,7 @@ final class ToolTipView: UIView {
         if superview.frame.height - y < size.height {
             y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
         }
-        
+        }
         self.frame = CGRect(origin: CGPoint(x: x, y: y), size: size)
     }
     
