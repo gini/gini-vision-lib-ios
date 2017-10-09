@@ -52,7 +52,25 @@ public enum FilePickerError: GiniVisionError {
 /**
  Errors thrown validating a document (image or pdf).
  */
-public enum DocumentValidationError: GiniVisionError{
+public enum DocumentValidationError: GiniVisionError, Equatable {
+    
+    /// Unknown error during review.
+    case unknown
+    
+    /// Exceeded max file size
+    case exceededMaxFileSize
+    
+    /// Image format not valid
+    case imageFormatNotValid
+    
+    /// File format not valid
+    case fileFormatNotValid
+    
+    /// PDF length exceeded
+    case pdfPageLengthExceeded
+    
+    /// Custom validation error
+    case custom(message: String)
     
     var message:String {
         switch self {
@@ -72,23 +90,9 @@ public enum DocumentValidationError: GiniVisionError{
         }
     }
     
-    /// Unknown error during review.
-    case unknown
-    
-    /// Exceeded max file size
-    case exceededMaxFileSize
-    
-    /// Image format not valid
-    case imageFormatNotValid
-    
-    /// File format not valid
-    case fileFormatNotValid
-    
-    /// PDF length exceeded
-    case pdfPageLengthExceeded
-    
-    /// Custom validation error
-    case custom(message: String)
+    public static func ==(lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
+        return lhs.message == rhs.message
+    }
     
 }
 
