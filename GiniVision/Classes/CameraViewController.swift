@@ -388,19 +388,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
         
-        let errorMessage:String
-        switch error {
-        case .exceededMaxFileSize:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
-        case .pdfPageLengthExceeded:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
-        case .fileFormatNotValid, .imageFormatNotValid:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
-        default:
-            errorMessage = GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
-        }
-        
-        let alertViewController = UIAlertController(title: nil, message: errorMessage, preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         }))

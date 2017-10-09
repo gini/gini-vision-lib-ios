@@ -54,6 +54,24 @@ public enum FilePickerError: GiniVisionError {
  */
 public enum DocumentValidationError: GiniVisionError{
     
+    var message:String {
+        switch self {
+        case .exceededMaxFileSize:
+            print()
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
+        case .imageFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+        case .fileFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+        case .pdfPageLengthExceeded:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
+        case .custom(let message):
+            return message
+        case .unknown:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
+        }
+    }
+    
     /// Unknown error during review.
     case unknown
     
@@ -68,6 +86,9 @@ public enum DocumentValidationError: GiniVisionError{
     
     /// PDF length exceeded
     case pdfPageLengthExceeded
+    
+    /// Custom validation error
+    case custom(message: String)
     
 }
 
