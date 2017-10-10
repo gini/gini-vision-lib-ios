@@ -419,17 +419,17 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var alertViewControllerMessage = "Dokumente importieren"
+        var alertViewControllerMessage = "PDF importieren"
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
-            alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+            alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
                 self.filePickerManager.showGalleryPicker(from: self, errorHandler: { [unowned self] error in
                     if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
                         self.showPhotoLibraryPermissionDeniedError()
                     }
                 })
             })
-            alertViewControllerMessage = "Fotos oder Dokumente importieren"
+            alertViewControllerMessage = "Fotos oder PDF importieren"
         }
         
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
