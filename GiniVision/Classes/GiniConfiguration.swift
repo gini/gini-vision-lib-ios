@@ -427,7 +427,7 @@ import UIKit
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
      */
-    public var analysisLoadingIndicatorColor = UIColor.white
+    public var analysisLoadingIndicatorColor = Colors.Gini.blue
     
     /**
      Sets the text of the loading indicator on the analysis screen to the specified text.

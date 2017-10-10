@@ -71,23 +71,18 @@ import UIKit
         loadingIndicatorView.hidesWhenStopped = true
         loadingIndicatorView.activityIndicatorViewStyle = .whiteLarge
         
-        // Configure loading text
-        loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
-        loadingText.font = GiniConfiguration.sharedConfiguration.analysisLoadingTextFont
-        loadingText.textAlignment = .center
-        loadingText.textColor = .white
-        
         // Configure view hierachy
         view.addSubview(imageView)
         view.addSubview(loadingIndicatorView)
-        view.addSubview(loadingText)
-        
+
         if let document = document as? GiniPDFDocument {
-            loadingIndicatorView.color = .gray
+            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
             showPDFInformationView(withDocument:document)
         } else {
-            createOverlay()
+            addOverlay()
+            addLoadingText()
             showCaptureSuggestions()
+            self.view.bringSubview(toFront: loadingIndicatorView)
         }
         
         // Add constraints
@@ -140,15 +135,31 @@ import UIKit
         loadingIndicatorView.stopAnimating()
     }
     
-    public func createOverlay() {
+    fileprivate func addOverlay() {
         view.insertSubview(overlayView, aboveSubview: imageView)
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         
+        // Add Constraints
         ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .top, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .trailing, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: overlayView, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: 0)
+    }
+    
+    fileprivate func addLoadingText() {
+        view.insertSubview(loadingText, aboveSubview: overlayView)
+
+        loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
+        loadingText.font = GiniConfiguration.sharedConfiguration.analysisLoadingTextFont
+        loadingText.textAlignment = .center
+        loadingText.textColor = .white
+        
+        // Add Constraints
+        loadingText.translatesAutoresizingMaskIntoConstraints = false
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .trailing, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .top, relatedBy: .equal, toItem: loadingIndicatorView, attribute: .bottom, multiplier: 1, constant: 16)
+        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: 0)
     }
     
     fileprivate func showPDFInformationView(withDocument document:GiniPDFDocument) {
@@ -185,11 +196,7 @@ import UIKit
         ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0)
         
-        // Loading text
-        loadingText.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .trailing, relatedBy: .equal, toItem: imageView, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .top, relatedBy: .equal, toItem: loadingIndicatorView, attribute: .bottom, multiplier: 1, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: loadingText, attribute: .leading, relatedBy: .equal, toItem: imageView, attribute: .leading, multiplier: 1, constant: 0)
+    
         
     }
     
