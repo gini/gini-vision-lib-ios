@@ -63,7 +63,9 @@ internal class Camera {
             }
             
             // Set the orientation according to the current orientation of the interface
-            connection.videoOrientation = AVCaptureVideoOrientation(UIApplication.shared.statusBarOrientation)
+            DispatchQueue.main.sync {
+                connection.videoOrientation = AVCaptureVideoOrientation(UIApplication.shared.statusBarOrientation)
+            }
             
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
