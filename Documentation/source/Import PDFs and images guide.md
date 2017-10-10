@@ -1,6 +1,20 @@
 Import PDFs and images
 =============================
 
+
+If you want to add _File import_ feature on your app, first you need to specify the supported types (`fileImportSupportedTypes `) on the `GiniConfiguration` instance.
+
+```swift
+let giniConfiguration = GiniConfiguration()
+giniConfiguration.fileImportSupportedTypes = .pdf_and_images
+```
+
+These are the file import supported type cases: 
+
+* `pdf`
+* `pdf_and_images`
+* `none` (In case you want to diable _File import funcionality_, being the _default_ value)
+
 Import images from camera roll
 ----------------------
 
