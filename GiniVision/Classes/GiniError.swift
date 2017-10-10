@@ -75,7 +75,6 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     var message:String {
         switch self {
         case .exceededMaxFileSize:
-            print()
             return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
         case .imageFormatNotValid:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
