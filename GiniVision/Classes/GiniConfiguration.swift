@@ -206,7 +206,30 @@ import UIKit
      */
     public var cameraPreviewCornerGuidesColor = UIColor.white
     
+    /**
+     Sets the background color of the new file import button hint
+     */
+    public var fileImportToolTipBackgroundColor = UIColor.white
     
+    /**
+     Sets the text of the new file import button hint
+     */
+    public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipTextColor = UIColor.black
+    
+    /**
+     Sets the font of the new file import button hint
+     */
+    public var fileImportToolTipTextFont = UIFont.systemFont(ofSize: 14)
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     // MARK: Onboarding options
     /**
@@ -456,7 +479,7 @@ internal struct Colors {
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
-        
+        static var grey = Colors.UIColorHex(0xAFB2B3)        
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

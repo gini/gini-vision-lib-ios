@@ -79,6 +79,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
+    fileprivate var toolTipView: ToolTipView?
+    fileprivate var blurEffect: UIVisualEffectView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -170,6 +172,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
         }
+        
+        if ToolTipView.shouldShowFileImportToolTip {
+            createFileImportTip()
+            if !OnboardingContainerViewController.willBeShown {
+                showFileImportTip()
+            }
+        }
+        
     }
     
     /**
@@ -226,15 +236,23 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         camera?.stop()
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.toolTipView?.arrangeViews()
+        self.blurEffect?.frame = previewView.frame
+    }
+    
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         coordinator.animate(alongsideTransition: { [weak self] _ in
             guard let `self` = self else {
                 return 
             }
             (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
-        })
+            self.toolTipView?.arrangeViews()
+            
+            })
     }
     
     // MARK: Toggle UI elements
@@ -268,6 +286,41 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public func hideCameraOverlay() {
         previewView.guidesLayer?.isHidden = true
         previewView.frameLayer?.isHidden = true
+    }
+    
+    /**
+     Show the fileImportTip. Should be called when onboarding is dismissed.
+     */
+    public func showFileImportTip() {
+        self.toolTipView?.show(){
+            self.blurEffect?.alpha = 1
+        }
+        ToolTipView.shouldShowFileImportToolTip = false
+    }
+    
+    /**
+     Hide the fileImportTip. Should be called when onboarding is presented.
+     */
+    public func hideFileImportTip() {
+        self.toolTipView?.alpha = 0
+    }
+    
+    // MARK: Create tips
+    fileprivate func createFileImportTip() {
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
+        
+        toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
+                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
+                                  font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
+                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
+                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+        
+        toolTipView?.willDismiss = {
+            self.blurEffect?.removeFromSuperview()
+        }
     }
     
     // MARK: Image capture
@@ -332,6 +385,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     @objc fileprivate func showImportFileSheet() {
+        toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "Dokumente importieren"

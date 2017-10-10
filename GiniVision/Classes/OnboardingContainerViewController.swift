@@ -32,7 +32,7 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     
     // Resources
     fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationOnboardingContinue", title: "ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton)
-
+    
     // Output
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?
     
@@ -116,7 +116,7 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     
     fileprivate func addConstraints() {
         let superview = self.view
-
+        
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
@@ -188,3 +188,15 @@ extension OnboardingContainerViewController: UIScrollViewDelegate {
     }
     
 }
+
+// MARK: User defaults flags
+
+extension OnboardingContainerViewController {
+    static var willBeShown: Bool {
+        return (GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
+            !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed")) ||
+            GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch
+    }
+}
+
+
