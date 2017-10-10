@@ -12,7 +12,7 @@ Registering PDF and image file types
 
 Add the following to your `Info.plist`:
 
-``` sourceCode
+```swift
 <key>CFBundleDocumentTypes</key>
 <array>
         <dict>
@@ -67,7 +67,9 @@ func application(_ application: UIApplication, open url: URL, sourceApplication:
         let data = try? Data(contentsOf: url)
         
         // 2. Build the document
-        let document = GiniVisionDocumentBuilder(data: data).build()
+        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
+        documentBuilder.importMethod = .openWith
+        let document = documentBuilder.build()
         
         // 3. Validate document        
         do {
