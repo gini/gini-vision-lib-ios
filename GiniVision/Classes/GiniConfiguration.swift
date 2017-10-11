@@ -11,7 +11,7 @@ import UIKit
 /**
  The `GiniConfiguration` class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
  
- - note: Text can also be set by using the appropriate keys in `Localizable.strings` and `Localizable.stringsdict` files in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
+ - note: Text can also be set by using the appropriate keys in a `Localizable.strings` file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in `GiniVision` bundle.
  - note: Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in `GiniVision` bundle.
  - attention: If there are conflicting pairs of image and text for an interface element (e.g. `navigationBarCameraTitleCloseButton`) the image will always be preferred, while making sure the accessibility label is set.
  */
@@ -37,56 +37,6 @@ import UIKit
     
     
     // MARK: General options
-    
-    /**
-     Sets the background color in all screens of the Gini Vision Library to the specified color.
- 
-     - note: Screen API only.
-     */
-    public var backgroundColor = UIColor.black
-    
-    /**
-     Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
-     
-     - note: Used exclusively for accessibility label.
-     */
-    public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
-    
-    /**
-     Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
-     */
-    public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
-    
-    /**
-     Sets the font of the descriptional text when camera access was denied.
-     */
-    public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
-    
-    /**
-     Sets the text color of the descriptional text when camera access was denied.
-     */
-    public var cameraNotAuthorizedTextColor = UIColor.white
-    
-    /**
-     Sets the button title when camera access was denied, clicking the button will open the settings application.
-     */
-    public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
-    
-    /**
-     Sets the font of the button title when camera access was denied.
-     */
-    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
-    
-    /**
-     Sets the text color of the button title when camera access was denied.
-     */
-    public var cameraNotAuthorizedButtonTitleColor = UIColor.white
-    
-    /**
-     Sets the color of camera preview corner guides
-     */
-    public var cameraPreviewCornerGuidesColor = UIColor.white
-    
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.
      
@@ -95,46 +45,22 @@ import UIKit
     public var debugModeOn = false
     
     /**
-     Sets the message text of a general document validation error, shown in camera screen.
+     Sets the background color in all screens of the Gini Vision Library to the specified color.
+     
+     - note: Screen API only.
      */
-    public var documentValidationErrorGeneral = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general", comment: "Message text of a general document validation error shown in camera screen")
-    
-    /**
-     Sets the message text of a document validation error dialog when a file size is higher than 10MB
-     */
-    public var documentValidationErrorExcedeedFileSize = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize", comment: "Message text error shown in camera screen when a file size is higher than 10MB")
-    
-    /**
-     Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
-     */
-    public var documentValidationErrorTooManyPages = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages", comment: "Message text error shown in camera screen when a pdf length is higher than 10 pages")
-    
-    /**
-     Sets the message text of a document validation error dialog when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
-     */
-    public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
-    
-    /**
-     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
-     */
-    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
-    
-    /**
-     Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
-     */
-    
-    public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
+    public var backgroundColor = UIColor.black
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
-    
+     
      - note: Screen API only.
      */
     public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
     /**
      Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.
- 
+     
      - note: Screen API only.
      */
     public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
@@ -180,10 +106,42 @@ import UIKit
      */
     public var noticeErrorTextColor = UIColor.white
     
-    /** 
+    /**
      Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
      */
     public var noticeFont = UIFontPreferred(.regular, andSize: 12)
+    
+    
+    /**
+     Sets the message text of a general document validation error, shown in camera screen.
+     */
+    public var documentValidationErrorGeneral = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general", comment: "Message text of a general document validation error shown in camera screen")
+    
+    /**
+     Sets the message text of a document validation error dialog when a file size is higher than 10MB
+     */
+    public var documentValidationErrorExcedeedFileSize = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize", comment: "Message text error shown in camera screen when a file size is higher than 10MB")
+    
+    /**
+     Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
+     */
+    public var documentValidationErrorTooManyPages = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages", comment: "Message text error shown in camera screen when a pdf length is higher than 10 pages")
+    
+    /**
+     Sets the message text of a document validation error dialog when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
+     */
+    public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
+    
+    /**
+     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
+     */
+    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
+    
+    /**
+     Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
+     
+     */
+    public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
     
     /**
      Sets the title text in the navigation bar on the camera screen.
@@ -205,12 +163,78 @@ import UIKit
      - note: Screen API only.
      */
     public var navigationBarCameraTitleHelpButton = ""
-   
+    
+    /**
+     Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
+     
+     - note: Used exclusively for accessibility label.
+     */
+    public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
+    
     /**
      Sets the descriptional text when photo library access was denied, advising the user to authorize the photo library access in the settings application.
      */
     public var photoLibraryAccessDeniedMessageText = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied", comment: "This message is shown when Photo library permission is denied")
     
+    /**
+     Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
+     */
+    public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
+    
+    /**
+     Sets the font of the descriptional text when camera access was denied.
+     */
+    public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
+    
+    /**
+     Sets the text color of the descriptional text when camera access was denied.
+     */
+    public var cameraNotAuthorizedTextColor = UIColor.white
+    
+    /**
+     Sets the button title when camera access was denied, clicking the button will open the settings application.
+     */
+    public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
+    
+    /**
+     Sets the font of the button title when camera access was denied.
+     */
+    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
+    
+    /**
+     Sets the text color of the button title when camera access was denied.
+     */
+    public var cameraNotAuthorizedButtonTitleColor = UIColor.white
+    
+    /**
+     Sets the color of camera preview corner guides
+     */
+    public var cameraPreviewCornerGuidesColor = UIColor.white
+    
+    /**
+     Sets the background color of the new file import button hint
+     */
+    public var fileImportToolTipBackgroundColor = UIColor.white
+    
+    /**
+     Sets the text of the new file import button hint
+     */
+    public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipTextColor = UIColor.black
+    
+    /**
+     Sets the font of the new file import button hint
+     */
+    public var fileImportToolTipTextFont = UIFont.systemFont(ofSize: 14)
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     // MARK: Onboarding options
     /**
@@ -288,8 +312,8 @@ import UIKit
                 return pages
             }
             guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
-                  let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
-                  let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+                let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+                let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
                     return [UIView]()
             }
             let pages = [page1, page2, page3]
@@ -395,7 +419,7 @@ import UIKit
      */
     public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
-    /** 
+    /**
      Sets the back button text in the navigation bar on the analysis screen.
      */
     public var navigationBarAnalysisTitleBackButton = ""
@@ -449,7 +473,7 @@ import UIKit
      - returns: Instance of `GiniConfiguration`.
      */
     public override init() {}
-        
+    
 }
 
 internal struct Colors {
@@ -460,7 +484,7 @@ internal struct Colors {
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
-        
+        static var grey = Colors.UIColorHex(0xAFB2B3)
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {
@@ -473,3 +497,4 @@ internal struct Colors {
     }
     
 }
+
