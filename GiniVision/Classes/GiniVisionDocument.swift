@@ -8,6 +8,10 @@
 
 import Foundation
 
+/**
+ * Document processed by the _GiniVision_ library.
+ */
+
 @objc public protocol GiniVisionDocument:class {
     var type:GiniVisionDocumentType { get }
     var data:Data { get }
@@ -26,6 +30,15 @@ import Foundation
 
 // MARK: GiniVisionDocumentBuilder
 
+/**
+ * The `GiniVisionDocumentBuilder` provides a way to build a `GiniVisionDocument` from a `Data` object. The `DocumentSource` must be provided in the initialization, being optional but highly recommended setting the `DocumentImportMethod` afterwards. This could be an example of how a `GiniVisionDocument` should be built when it has been imported with the _Open with_ feature.
+ 
+ ```swift
+ let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
+ documentBuilder.importMethod = .openWith
+ let document = documentBuilder.build()
+ ```
+ */
 public class GiniVisionDocumentBuilder {
     
     let data:Data?
@@ -48,7 +61,7 @@ public class GiniVisionDocumentBuilder {
     /**
      Builds a `GiniVisionDocument`
      
-     - Returns: A `GiniVisionDocument` if `data` has a valid type or nil if it hasn't.
+     - Returns: A `GiniVisionDocument` if `data` has a valid type or `nil` if it hasn't.
      
      */
     public func build() -> GiniVisionDocument? {

@@ -1,0 +1,82 @@
+{
+   "xcodebuild_arguments":[
+      "-workspace",
+      "Example/GiniVision.xcworkspace",
+      "-scheme",
+      "GiniVision"
+   ],
+   "author":"Gini",
+   "author_url":"https://gini.net",
+   "module":"GiniVision",
+   "readme":"Documentation/Sections/Documentation.md",
+   "theme": "Documentation/jazzy-theme/",
+   "output":"Documentation/Api",
+   "github_url":"https://github.com/gini/gini-vision-lib-ios",
+   "hide_documentation_coverage":"true",
+
+   "documentation":"Documentation/source/*.md",
+   "abstract":"Documentation/Sections/*.md",
+
+   "custom_categories":[
+      {
+         "name":"Documentation",
+         "children":[
+	    "Installation",	
+            "Open with guide",
+	    "Import PDFs and images guide", 
+            "Changelog",
+            "License"
+         ]
+      },
+      {
+         "name":"Classes",
+         "children":[
+            "AnalysisViewController",
+            "CameraViewController",
+            "GiniConfiguration",
+            "GiniImageDocument",
+            "GiniPDFDocument",
+            "GiniVision",
+            "GiniVisionDocumentBuilder",
+            "OnboardingPage",
+            "OnboardingViewController",
+            "ReviewViewController"
+         ]
+      },
+      {
+         "name":"Enums",
+         "children":[
+            "CameraError",
+            "DocumentImportMethod",
+            "DocumentSource",
+            "DocumentValidationError",
+            "FilePickerError",
+            "GiniVisionDocumentType",
+            "ReviewError"
+         ]
+      },
+      {
+         "name":"Protocols",
+         "children":[
+            "AnalysisDelegate",
+            "GiniVisionDelegate",
+            "GiniVisionDocument",
+            "GiniVisionError"
+         ]
+      },
+      {
+         "name":"Typealiases",
+         "children":[
+            "CameraErrorBlock",
+            "CameraSuccessBlock",
+            "CameraScreenFailureBlock",
+            "CameraScreenSuccessBlock",
+            "NoticeAction",
+            "ReviewErrorBlock",
+            "ReviewSuccessBlock",
+            "ReviewScreenFailureBlock",
+            "ReviewScreenSuccessBlock"
+         ]
+      }
+   ]
+}

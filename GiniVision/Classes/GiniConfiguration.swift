@@ -39,28 +39,28 @@ import UIKit
     // MARK: General options
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.
-    
+     
      - warning: Should never be used outside of a development enviroment.
      */
     public var debugModeOn = false
     
     /**
      Sets the background color in all screens of the Gini Vision Library to the specified color.
- 
+     
      - note: Screen API only.
      */
     public var backgroundColor = UIColor.black
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
-    
+     
      - note: Screen API only.
      */
     public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
     /**
      Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.
- 
+     
      - note: Screen API only.
      */
     public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
@@ -106,7 +106,7 @@ import UIKit
      */
     public var noticeErrorTextColor = UIColor.white
     
-    /** 
+    /**
      Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
      */
     public var noticeFont = UIFontPreferred(.regular, andSize: 12)
@@ -131,15 +131,15 @@ import UIKit
      Sets the message text of a document validation error dialog when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
      */
     public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
-
+    
     /**
      Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
      */
     public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
     
     /**
-     Set the types supported by the file import feature. `none` by default
-
+     Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
+     
      */
     public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
     
@@ -312,8 +312,8 @@ import UIKit
                 return pages
             }
             guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
-                  let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
-                  let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
+                let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
+                let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
                     return [UIView]()
             }
             let pages = [page1, page2, page3]
@@ -419,7 +419,7 @@ import UIKit
      */
     public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
-    /** 
+    /**
      Sets the back button text in the navigation bar on the analysis screen.
      */
     public var navigationBarAnalysisTitleBackButton = ""
@@ -473,7 +473,7 @@ import UIKit
      - returns: Instance of `GiniConfiguration`.
      */
     public override init() {}
-        
+    
 }
 
 internal struct Colors {
@@ -484,7 +484,7 @@ internal struct Colors {
         static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
-        static var grey = Colors.UIColorHex(0xAFB2B3)        
+        static var grey = Colors.UIColorHex(0xAFB2B3)
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {
@@ -497,3 +497,4 @@ internal struct Colors {
     }
     
 }
+
