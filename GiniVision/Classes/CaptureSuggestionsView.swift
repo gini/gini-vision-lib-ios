@@ -95,7 +95,6 @@ final class CaptureSuggestionsView: UIView {
         // suggestionContainer
         itemSeparationConstraint = NSLayoutConstraint(item: suggestionContainer, attribute: .top, relatedBy: .equal, toItem: suggestionTitle, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight - suggestionTitleHeight)
-
         ConstraintUtils.addActiveConstraint(itemSeparationConstraint)
         
         // suggestionIcon
@@ -110,6 +109,7 @@ final class CaptureSuggestionsView: UIView {
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .trailing, relatedBy: .equal, toItem: suggestionContainer, attribute: .trailing, multiplier: 1, constant: 0, priority: 999)
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: suggestionContainer, attribute: .bottom, multiplier: 1, constant: -16, priority: 999)
         
+        // Center on align to margins depending on device
         if UIDevice.current.isIpad {
             ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .width, relatedBy: .lessThanOrEqual, toItem: self, attribute: .width, multiplier: 0.9, constant: 0)
             ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
