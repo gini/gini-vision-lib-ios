@@ -13,7 +13,7 @@ These are the file import supported type cases:
 
 * `pdf`
 * `pdf_and_images`
-* `none` (In case you want to diable _File import funcionality_, being the _default_ value).
+* `none` (In case you want to disable _File import funcionality_, being the _default_ value).
 
 Also if you want to add some custom validations for the imported `GiniVisionDocument`, you can specify them on the `GiniConfiguration` closure, `customDocumentValidations`. Here is an example:
 
