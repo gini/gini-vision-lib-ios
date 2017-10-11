@@ -26,9 +26,6 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         // Configure content controller
         contentController = AnalysisViewController(document)
         
-        // Configure title
-        title = GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitle
-        
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         

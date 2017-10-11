@@ -168,6 +168,14 @@ final class ToolTipView: UIView {
                     x = referenceViewAbsoluteFrame.origin.x  - size.width
                 }
             }
+            
+            if x < 0 || superview.frame.width - x < size.width {
+                x = superview.frame.width - size.width
+            }
+            
+            if superview.frame.height - y < size.height {
+                y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+            }
         }
         
         self.frame = CGRect(origin: CGPoint(x: x, y: y), size: size)

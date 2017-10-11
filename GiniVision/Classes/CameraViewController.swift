@@ -419,17 +419,17 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var alertViewControllerMessage = "Dokumente importieren"
+        var alertViewControllerMessage = "PDF importieren"
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
-            alertViewController.addAction(UIAlertAction(title: "Photos", style: .default) { [unowned self] _ in
+            alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
                 self.filePickerManager.showGalleryPicker(from: self, errorHandler: { [unowned self] error in
                     if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
                         self.showPhotoLibraryPermissionDeniedError()
                     }
                 })
             })
-            alertViewControllerMessage = "Fotos oder Dokumente importieren"
+            alertViewControllerMessage = "Fotos oder PDF importieren"
         }
         
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
@@ -555,12 +555,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0, priority:750)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .width, relatedBy: .equal, toItem: captureButton, attribute: .width, multiplier: 1.3, constant: 0)
         } else {
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority:750)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+
         }
     }
     
@@ -569,8 +569,17 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 70)
         ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+        
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: -16)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 16, priority:750)
+
+        } else {
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 16)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: -16, priority: 750)
+        }
     }
     
     fileprivate func addImportButtonConstraints() {
@@ -580,12 +589,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 60)
         } else {
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0, priority: 750)
             ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 16)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: -16)
         }
     }
     
