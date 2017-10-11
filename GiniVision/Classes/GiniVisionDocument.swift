@@ -70,19 +70,23 @@ extension GiniVisionDocument {
     fileprivate var MAX_FILE_SIZE:Int { // Bytes
         return 10 * 1024 * 1024
     }
+
+    fileprivate var customDocumentValidations: ((GiniVisionDocument) throws -> ())? {
+        return GiniConfiguration.sharedConfiguration.customDocumentValidations
+    }
     
     // MARK: File validation
     /**
-     Validates a document, checking if it has the correct size and type.
+     Validates a document. The validation process is done in the _global_ `DispatchQueue`.
      
-     - Throws: `DocumentValidationError.exceededMaxFileSize` if the size exceeds the max file size
-     Also throws type validation errors, see `checkType` implementations
+     - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
      
      */
     public func validate() throws {
         let document = self
         if !maxFileSizeExceeded(forData: document.data) {
             try checkType()
+            try customDocumentValidations?(self)
         } else {
             throw DocumentValidationError.exceededMaxFileSize
         }

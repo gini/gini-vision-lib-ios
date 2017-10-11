@@ -52,7 +52,7 @@ public enum FilePickerError: GiniVisionError {
 /**
  Errors thrown validating a document (image or pdf).
  */
-public enum DocumentValidationError: GiniVisionError{
+public enum DocumentValidationError: GiniVisionError, Equatable {
     
     /// Unknown error during review.
     case unknown
@@ -68,6 +68,30 @@ public enum DocumentValidationError: GiniVisionError{
     
     /// PDF length exceeded
     case pdfPageLengthExceeded
+    
+    /// Custom validation error
+    case custom(message: String)
+    
+    var message:String {
+        switch self {
+        case .exceededMaxFileSize:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
+        case .imageFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+        case .fileFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+        case .pdfPageLengthExceeded:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
+        case .custom(let message):
+            return message
+        case .unknown:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
+        }
+    }
+    
+    public static func ==(lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
+        return lhs.message == rhs.message
+    }
     
 }
 

@@ -133,6 +133,11 @@ import UIKit
     public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
 
     /**
+     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
+     */
+    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
+    
+    /**
      Set the types supported by the file import feature. `none` by default
 
      */
