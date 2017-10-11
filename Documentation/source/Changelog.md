@@ -1,6 +1,13 @@
 Changelog
 =========
 
+3.2.0-beta (2017-10-11)
+------------------
+
+-   Added file import support (both for PDFs and Images).
+-   Added _Open with_ support.
+-   New design for Camera and Analysis screens.
+
 3.1.0 (2017-08-28)
 ------------------
 
