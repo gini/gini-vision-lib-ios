@@ -7,6 +7,7 @@ Changelog
 -   Added file import support (both for PDFs and Images).
 -   Added _Open with_ support.
 -   New design for Camera and Analysis screens.
+-   Added Drag and Drop on iPad (iOS 11) for file import from Camera Screen.
 
 3.1.0 (2017-08-28)
 ------------------
