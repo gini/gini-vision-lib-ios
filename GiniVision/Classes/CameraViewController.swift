@@ -310,14 +310,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate func enableFileImport() {
         // Configure file picker
         filePickerManager.didPickFile = { [unowned self] document in
-            do {
-                try document.validate()
-                self.successBlock?(document, true)
-            } catch let error as DocumentValidationError {
-                self.showNotValidDocumentError(error: error)
-            } catch _ {
-                self.showNotValidDocumentError(error: DocumentValidationError.unknown)
-            }
+            self.validateImported(document: document)
         }
         
         // Configure import file button
@@ -329,6 +322,44 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         if #available(iOS 11.0, *) {
             addDropInteraction()
         }
+    }
+    
+    fileprivate func validateImported(document: GiniVisionDocument) {
+        let loadingView = addValidationLoadingView()
+        
+        DispatchQueue.global().async { [weak self] in
+            do {
+                try document.validate()
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.successBlock?(document, true)
+                }
+            } catch let error as DocumentValidationError {
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.showNotValidDocumentError(error: error)
+                }
+            } catch _ {
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.showNotValidDocumentError(error: DocumentValidationError.unknown)
+                }
+            }
+        }
+    }
+    
+    fileprivate func addValidationLoadingView() -> UIView {
+        let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        loadingIndicator.center = self.view.center
+        loadingIndicator.startAnimating()
+        
+        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blurredView.frame = self.view.bounds
+        blurredView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        blurredView.contentView.addSubview(loadingIndicator)
+        
+        self.view.addSubview(blurredView)
+        return blurredView
     }
     
     @objc fileprivate func showImportFileSheet() {
@@ -346,14 +377,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             })
             alertViewControllerMessage = "Fotos oder Dokumente importieren"
         }
-
+        
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
             self.filePickerManager.showDocumentPicker(from: self)
         })
         
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel) { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-        })
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil))
         
         alertViewController.message = alertViewControllerMessage
         alertViewController.popoverPresentationController?.sourceView = importFileButton
@@ -480,7 +509,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
         }
     }
-
+    
     fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         

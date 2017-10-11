@@ -29,7 +29,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         super.init(nibName: nil, bundle: nil)
         // Configure content controller and call delegate method on success
         contentController = CameraViewController(successBlock:
-            { document, isImported in
+            { [weak self ] document, isImported in
+                guard let `self` = self else { return }
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 let viewController:UIViewController
                 if isImported {
