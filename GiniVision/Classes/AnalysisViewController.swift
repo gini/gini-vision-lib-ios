@@ -64,7 +64,7 @@ import UIKit
         loadingText.textColor = .white
         return loadingText
     }()
-    fileprivate static let loadingIndicatorContainerHeight: CGFloat = 70
+    fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
     fileprivate lazy var loadingIndicatorContainer: UIView = {
         let loadingIndicatorContainer = UIView(frame: CGRect(origin: .zero, size: CGSize(width: loadingIndicatorContainerHeight, height: loadingIndicatorContainerHeight)))
         loadingIndicatorContainer.backgroundColor = .white
