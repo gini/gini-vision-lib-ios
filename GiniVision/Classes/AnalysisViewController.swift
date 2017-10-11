@@ -137,12 +137,6 @@ import UIKit
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-    }
-    
     // MARK: Toggle animation
     /**
      Displays a loading activity indicator. Should be called when document analysis is started.
