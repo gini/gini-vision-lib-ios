@@ -27,20 +27,31 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        
         // Configure content controller and call delegate method on success
-        contentController = CameraViewController(success:
-            { imageData in
+        contentController = CameraViewController(successBlock:
+            { [weak self ] document, isImported in
+                guard let `self` = self else { return }
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-                delegate?.didCapture(imageData)
+                let viewController:UIViewController
+                if isImported {
+                    if document.isReviewable {
+                        viewController = ReviewContainerViewController(document: document)
+                    } else {
+                        viewController = AnalysisContainerViewController(document: document)
+                    }
+                    delegate?.didImport?(document)
+                } else {
+                    viewController = ReviewContainerViewController(document: document)
+                    delegate?.didCapture(document.data)
+                }
                 
                 // Push review container view controller
                 DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(ReviewContainerViewController(imageData: imageData), animated: true)
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 }
-            }, failure: { error in
+            }, failureBlock: { error in
                 switch error {
-                case .notAuthorizedToUseDevice:
+                case CameraError.notAuthorizedToUseDevice:
                     print("GiniVision: Camera authorization denied.")
                 default:
                     print("GiniVision: Unknown error when using camera.")
@@ -49,7 +60,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Configure title
         title = GiniConfiguration.sharedConfiguration.navigationBarCameraTitle
-                
+        
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
@@ -92,7 +103,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         
         // Eventually show onboarding
         if GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
-           !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
+            !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
             showHelp = help
             UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
         } else if GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch {
@@ -121,11 +132,15 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         // Hide camera UI when overlay is shown
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
+        cameraViewController?.hideFileImportTip()
+        
         let vc = OnboardingContainerViewController {
             
             // Show camera UI when overlay is dismissed
             cameraViewController?.showCameraOverlay()
             cameraViewController?.showCaptureButton()
+            cameraViewController?.showFileImportTip()
+
         }
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
@@ -143,5 +158,4 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
-
 }

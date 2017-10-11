@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '3.0.5'
+  s.version          = '3.2.0-rc.1'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
   s.description      = <<-DESC
@@ -12,7 +12,7 @@ The captured images can be reviewed and rotated to the correct orientation by th
 to provide the best results when used with the Gini API.
                        DESC
 
-  s.homepage         = 'https://www.gini.net/developers/'
+  s.homepage         = 'https://www.gini.net/en/developer/'
   s.license          = { :type => 'Private', :file => 'LICENSE' }
   s.author           = { 'Peter Pult' => 'p.pult@gini.net' }
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }

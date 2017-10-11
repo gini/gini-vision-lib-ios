@@ -8,6 +8,8 @@
 
 import UIKit
 import AVFoundation
+import ImageIO
+import MobileCoreServices
 
 /**
  Returns an optional `UIImage` instance with the given `name` preferably from the client's bundle.
@@ -32,13 +34,22 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-internal func NSLocalizedStringPreferred(_ key: String, comment: String) -> String {
+internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
-    if  clientString != key {
-        return clientString
+    let format:String
+    
+    if clientString != key {
+        format = clientString
+    } else {
+        let bundle = Bundle(for: GiniVision.self)
+        format = NSLocalizedString(key, bundle: bundle, comment: comment)
     }
-    let bundle = Bundle(for: GiniVision.self)
-    return NSLocalizedString(key, bundle: bundle, comment: comment)
+
+    if let args = args {
+        return String.localizedStringWithFormat(format, args)
+    } else {
+        return format
+    }
 }
 
 /**
@@ -93,8 +104,9 @@ internal enum FontWeight {
 
 internal class ConstraintUtils {
     
-    class func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000) {
+    class func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000, identifier:String? = nil) {
         let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
+        constraint.identifier = identifier
         addActiveConstraint(constraint, priority: priority)
     }
     
@@ -138,5 +150,122 @@ internal extension AVCaptureDevice {
         flashMode = mode
         unlockForConfiguration()
     }
+}
+
+internal extension UIDevice {
+    var isIpad:Bool {
+        return self.userInterfaceIdiom == .pad
+    }
+    
+    var isIphone:Bool {
+        return self.userInterfaceIdiom == .phone
+    }
     
 }
+
+internal extension Collection where Iterator.Element == CFString {
+    
+    var strings: [ String ] {
+        return self.map { $0 as String }
+    }
+    
+}
+
+internal extension MutableCollection{
+    mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        
+        for (firstUnshuffled , unshuffledCount) in zip(indices, stride(from: c, to: 1, by: -1)) {
+            let d: IndexDistance = numericCast(arc4random_uniform(numericCast(unshuffledCount)))
+            guard d != 0 else { continue }
+            let i = index(firstUnshuffled, offsetBy: d)
+            self.swapAt(firstUnshuffled, i)
+        }
+    }
+}
+
+internal extension Sequence {
+    func shuffled() -> [Iterator.Element] {
+        var result = Array(self)
+        result.shuffle()
+        return result
+    }
+}
+
+internal extension Data {
+    private static let mimeTypeSignatures: [UInt8 : String] = [
+        0xFF : "image/jpeg",
+        0x89 : "image/png",
+        0x47 : "image/gif",
+        0x49 : "image/tiff",
+        0x4D : "image/tiff",
+        0x25 : "application/pdf",
+        0xD0 : "application/vnd",
+        0x46 : "text/plain",
+        ]
+    
+    var mimeType: String {
+        var c: UInt8 = 0
+        copyBytes(to: &c, count: 1)
+        return Data.mimeTypeSignatures[c] ?? "application/octet-stream"
+    }
+    
+    var utiFromMimeType: Unmanaged<CFString>? {
+        return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self.mimeType as CFString, nil)
+    }
+    
+    var isPDF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePDF)
+        }
+        return false
+    }
+    
+    var isImage:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeImage)
+        }
+        return false
+    }
+    
+    var isPNG:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePNG)
+        }
+        return false
+    }
+    
+    var isJPEG:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeJPEG)
+        }
+        return false
+    }
+    
+    var isGIF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeGIF)
+        }
+        return false
+    }
+    
+    var isTIFF:Bool {
+        if let uti = self.utiFromMimeType {
+            return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeTIFF)
+        }
+        return false
+    }
+    
+}
+
+internal extension UIApplication {
+    func openAppSettings() {
+        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+        if self.canOpenURL(settingsUrl) {
+            self.openURL(settingsUrl)
+        }
+    }
+}
+
+

@@ -14,12 +14,18 @@
 "ginivision.navigationbar.camera.help"         = "Hilfe";
 "ginivision.navigationbar.onboarding.continue" = "Weiter";
 "ginivision.navigationbar.review.back"         = "Zurück";
+"ginivision.navigationbar.review.close"        = "Schließen";
 "ginivision.navigationbar.review.continue"     = "Weiter";
 "ginivision.navigationbar.analysis.back"       = "Abbrechen";
 
 "ginivision.camera.captureButton" = "Auslösen";
 "ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
 "ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
+"ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
+"ginivision.camera.documentValidationError.general" = "Leider kann diese Datei nicht bearbeitet werden";
+"ginivision.camera.documentValidationError.excedeedFileSize" = "Diese Datei ist leider zu groß";
+"ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
+"ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 
 "ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
 "ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
@@ -29,3 +35,10 @@
 "ginivision.review.bottom"             = "Doppeltippen um Schärfe zu prüfen";
 "ginivision.review.rotateButton"       = "Dokument drehen";
 "ginivision.review.documentImageTitle" = "Dokument";
+
+"ginivision.analysis.loadingText" = "Dokument wird analysiert";
+"ginivision.analysis.suggestion.1" = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.analysis.suggestion.2" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
+"ginivision.analysis.suggestion.4" = "Seite glatt streichen";
+

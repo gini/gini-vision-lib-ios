@@ -27,10 +27,22 @@
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* AnalysisManager.swift */; };
 		0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */; };
+		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
+		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
+		1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */; };
+		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
+		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
+		1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE3AC841F729205004D75E0 /* Extensions.swift */; };
+		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
+		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
+		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
+		1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */; };
+		1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */; };
+		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
 		2C6F599D8B27A6A37706D1EA /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02ECA63474B5ED5FCF96CEA /* Pods_GiniVision_UITests.framework */; };
 		37975173A4FFCC2734442225 /* Pods_GiniVision_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* ScreenAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ScreenAPIViewController.swift */; };
+		607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
@@ -84,13 +96,24 @@
 		0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPICameraViewController.swift; sourceTree = "<group>"; };
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.debug.xcconfig"; sourceTree = "<group>"; };
+		1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF2Pages.pdf; sourceTree = "<group>"; };
+		1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentTests.swift; sourceTree = "<group>"; };
+		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
+		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1FE3AC841F729205004D75E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
+		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
+		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
+		1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated180.pdf"; sourceTree = "<group>"; };
+		1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIPDFDocumentTests.swift; sourceTree = "<group>"; };
+		1FEED2931F6AC0440068E8AB /* testPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF.pdf; sourceTree = "<group>"; };
 		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
 		28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* GiniVision_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiniVision_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* ScreenAPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPIViewController.swift; sourceTree = "<group>"; };
+		607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAPIViewController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -203,10 +226,12 @@
 				0AB97AFE1D646BA40024C266 /* Constants.m */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
+				1FE3AC841F729205004D75E0 /* Extensions.swift */,
 				0AEACE091D6385F700052120 /* AnalysisManager.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
-				607FACD71AFB9204008FA782 /* ScreenAPIViewController.swift */,
+				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
+				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
 				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
 				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
@@ -233,10 +258,14 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */,
+				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
-				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
+				1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */,
+				1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -245,6 +274,11 @@
 			isa = PBXGroup;
 			children = (
 				0A4C62AA1D4F535500A15FFA /* invoice.jpg */,
+				1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */,
+				1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */,
+				1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */,
+				1FEED2931F6AC0440068E8AB /* testPDF.pdf */,
+				1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */,
 				607FACEA1AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -358,10 +392,14 @@
 					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = JA825X8F7Z;
+						DevelopmentTeam = BQY9KX4V88;
 						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Keychain = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
 								enabled = 1;
 							};
 						};
@@ -406,10 +444,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */,
+				1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */,
+				1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
+				1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
+				1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */,
 				0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */,
 				0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */,
 			);
@@ -420,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */,
+				1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,9 +476,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/Gini-iOS-SDK/Gini_iOS_SDK.framework",
+				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini_iOS_SDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiniVision.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -462,13 +513,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GiniVision_UITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9324D24C4DE55209F9981728 /* [CP] Copy Pods Resources */ = {
@@ -492,13 +546,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GiniVision_Example-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A1E59DA48C5BFCA2EF00AC29 /* [CP] Embed Pods Frameworks */ = {
@@ -552,13 +609,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GiniVision_Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -583,12 +643,14 @@
 				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
 				0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */,
 				0AB97AFF1D646BA40024C266 /* Constants.m in Sources */,
-				607FACD81AFB9204008FA782 /* ScreenAPIViewController.swift in Sources */,
+				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
 				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
 				0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */,
+				1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */,
 				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,
+				1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,6 +659,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */,
+				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
+				1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */,
+				1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */,
 				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
@@ -689,13 +755,15 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.release;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -870,6 +938,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -877,7 +947,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.dev_development)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -893,14 +964,16 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVision_Example.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = GiniVision/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision.in-house";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "$(sigh_net.gini.ios.ginivision.in-house_enterprise)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "GiniVision_Example-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

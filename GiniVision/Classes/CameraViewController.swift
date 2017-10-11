@@ -10,18 +10,33 @@ import UIKit
 import AVFoundation
 
 /**
- Block which will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
-
+ Block that will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+ 
  - note: Component API only.
  */
 public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
 
 /**
- Block which will be executed if an error occurs on the camera screen. It contains a camera specific error.
+ Block that will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
+ 
+ - note: Component API only.
+ */
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument, _ isImported:Bool) -> ()
 
+/**
+ Block that will be executed if an error occurs on the camera. It contains a camera specific error.
+ 
  - note: Component API only.
  */
 public typealias CameraErrorBlock = (_ error: CameraError) -> ()
+
+/**
+ Block that will be executed if an error occurs on the camera screen.
+ 
+ - note: Component API only.
+ */
+public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
+
 
 /**
  The `CameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
@@ -34,15 +49,15 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
  * `ginivision.camera.captureButton`
  * `ginivision.camera.notAuthorized`
  * `ginivision.camera.notAuthorizedButton`
+ * `ginivision.camera.filepicker.photoLibraryAccessDenied`
  
  **Image resources for this screen**
  
  * `cameraCaptureButton`
- * `cameraCaptureButtonActive`
  * `cameraFocusLarge`
  * `cameraFocusSmall`
- * `cameraOverlay`
  * `cameraNotAuthorizedIcon`
+ * `documentImportButton`
  * `navigationCameraClose` (Screen API only.)
  * `navigationCameraHelp` (Screen API only.)
  
@@ -50,13 +65,8 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
  
  - note: Component API only.
  */
+
 @objc public final class CameraViewController: UIViewController {
-    
-    /**
-    Image view used to display a camera overlay like corners or a frame.
-    Use public methods `showCameraOverlay` and `hideCameraOverlay` to control visibility of overlay.
-    */
-    public var cameraOverlay = UIImageView()
     
     fileprivate enum CameraState {
         case valid, notValid
@@ -68,23 +78,25 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
+    fileprivate lazy var importFileButton = UIButton()
+    fileprivate var toolTipView: ToolTipView?
+    fileprivate var blurEffect: UIVisualEffectView?
+    fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
+                                                    UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
+                                                    UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
+                                                    UIInterfaceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
     
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
+    fileprivate var filePickerManager: FilePickerManager
     
     // Images
     fileprivate var defaultImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
     }
-    fileprivate var captureButtonNormalImage: UIImage? {
+    fileprivate var cameraCaptureButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
-    }
-    fileprivate var captureButtonActiveImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraCaptureButtonActive")
-    }
-    fileprivate var cameraOverlayImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraOverlay")
     }
     fileprivate var cameraFocusSmall: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusSmall")
@@ -92,25 +104,29 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
     fileprivate var cameraFocusLarge: UIImage? {
         return UIImageNamedPreferred(named: "cameraFocusLarge")
     }
+    fileprivate var documentImportButtonImage: UIImage? {
+        return UIImageNamedPreferred(named: "documentImportButton")
+    }
     
     // Output
-    fileprivate var successBlock: CameraSuccessBlock?
-    fileprivate var errorBlock: CameraErrorBlock?
-
+    fileprivate var successBlock: CameraScreenSuccessBlock?
+    fileprivate var failureBlock: CameraScreenFailureBlock?
+    
     /**
-     Designated intitializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
      
-     - parameter success: Success block to be executed when image was taken.
-     - parameter failure: Error block to be exectued if an error occurred.
+     - parameter success: Success block to be executed when document was picked or image was taken.
+     - parameter failure: Error block to be executed if an error occurred.
      
-     - returns: A view controller instance allowing the user to take a picture.
+     - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+    public init(successBlock: @escaping CameraScreenSuccessBlock, failureBlock: @escaping CameraScreenFailureBlock) {
+        filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
-        successBlock = success
-        errorBlock = failure
+        self.successBlock = successBlock
+        self.failureBlock = failureBlock
         
         // Configure camera
         do {
@@ -122,7 +138,7 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             default:
                 if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
             }
-            failure(error)
+            failureBlock(error)
         } catch _ {
             print("GiniVision: An unknown error occured.")
         }
@@ -131,30 +147,58 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         if let validCamera = camera {
             cameraState = .valid
             previewView.session = validCamera.session
-            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspect
+            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+            (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = getVideoOrientation()
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
             previewView.addGestureRecognizer(tapGesture)
             NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
         }
         
-        
-        // Configure camera overlay
-        cameraOverlay.image = cameraOverlayImage
-        cameraOverlay.contentMode = .scaleAspectFit
-        
         // Configure capture button
-        captureButton.setImage(captureButtonNormalImage, for: .normal)
-        captureButton.setImage(captureButtonActiveImage, for: .highlighted)
+        captureButton.setImage(cameraCaptureButtonImage, for: .normal)
         captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         
-        // Configure view hierachy
-        view.addSubview(previewView)
-        view.addSubview(cameraOverlay)
-        view.addSubview(controlsView)
+        // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
+        view.insertSubview(previewView, at: 0)
+        view.insertSubview(controlsView, aboveSubview: previewView)
+        
+        previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
+        
         // Add constraints
         addConstraints()
+        
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
+            enableFileImport()
+        }
+        
+        if ToolTipView.shouldShowFileImportToolTip {
+            createFileImportTip()
+            if !OnboardingContainerViewController.willBeShown {
+                showFileImportTip()
+            }
+        }
+        
+    }
+    
+    /**
+     Convenience initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     
+     - parameter success: Success block to be executed when an image was taken.
+     - parameter failure: Error block to be executed if an error occurred.
+     
+     - returns: A view controller instance allowing the user to take a picture.
+     */
+    
+    @nonobjc
+    @available(*, deprecated)
+    public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
+        self.init(successBlock: { data, _ in
+            success(data.data)
+        }, failureBlock: { error in
+            failure(error as! CameraError)
+        })
     }
     
     /**
@@ -192,16 +236,23 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         camera?.stop()
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.toolTipView?.arrangeViews()
+        self.blurEffect?.frame = previewView.frame
+    }
+    
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        // note that in the mapping left and right are reversed. That's because landscape values have different meanings
-        // in UIDeviceOrientation and AVCaptureVideoOrientation. Refer to their documentaion for more info
-        let orientationsMapping = [UIDeviceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                   UIDeviceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeLeft,
-                                   UIDeviceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeRight,
-                                   UIDeviceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
-        let orientation = UIDevice.current.orientation
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = orientationsMapping[orientation]!
+
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return 
+            }
+            (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
+            self.toolTipView?.arrangeViews()
+            
+            })
     }
     
     // MARK: Toggle UI elements
@@ -225,14 +276,51 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
      */
     public func showCameraOverlay() {
         guard cameraState == .valid else { return }
-        cameraOverlay.alpha = 1
+        previewView.guidesLayer?.isHidden = false
+        previewView.frameLayer?.isHidden = false
     }
     
     /**
      Hide the camera overlay. Should be called when onboarding is presented.
      */
     public func hideCameraOverlay() {
-        cameraOverlay.alpha = 0
+        previewView.guidesLayer?.isHidden = true
+        previewView.frameLayer?.isHidden = true
+    }
+    
+    /**
+     Show the fileImportTip. Should be called when onboarding is dismissed.
+     */
+    public func showFileImportTip() {
+        self.toolTipView?.show(){
+            self.blurEffect?.alpha = 1
+        }
+        ToolTipView.shouldShowFileImportToolTip = false
+    }
+    
+    /**
+     Hide the fileImportTip. Should be called when onboarding is presented.
+     */
+    public func hideFileImportTip() {
+        self.toolTipView?.alpha = 0
+    }
+    
+    // MARK: Create tips
+    fileprivate func createFileImportTip() {
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
+        
+        toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
+                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
+                                  font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
+                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
+                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+        
+        toolTipView?.willDismiss = {
+            self.blurEffect?.removeFromSuperview()
+        }
     }
     
     // MARK: Image capture
@@ -241,32 +329,157 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
             if GiniConfiguration.DEBUG {
                 // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
-                   let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    self.successBlock?(imageData)
+                    let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                    let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
+                    self.successBlock?(imageDocument, false)
                 }
             }
             return print("GiniVision: No camera initialized.")
         }
         camera.captureStillImage { inner in
             do {
-                var imageData = try inner()
-                
-                // Set meta information in image
-                let manager = ImageMetaInformationManager(imageData: imageData)
-                manager.filterMetaInformation()
-                if let richImageData = manager.imageData() {
-                    imageData = richImageData
-                }
+                let imageData = try inner()
+                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera, deviceOrientation: UIApplication.shared.statusBarOrientation)
                 
                 // Call success block
-                self.successBlock?(imageData as Data)
+                self.successBlock?(imageDocument, false)
             } catch let error as CameraError {
-                self.errorBlock?(error)
+                self.failureBlock?(error)
             } catch _ {
                 print("GiniVision: An unknown error occured.")
             }
         }
         
+    }
+    
+    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
+        if UIDevice.current.isIpad {
+            return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        }
+        return .portrait
+    }
+    
+    // MARK: Document import
+    fileprivate func enableFileImport() {
+        // Configure file picker
+        filePickerManager.didPickFile = { [unowned self] document in
+            self.validateImported(document: document)
+        }
+        
+        // Configure import file button
+        importFileButton.setImage(documentImportButtonImage, for: .normal)
+        importFileButton.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
+        controlsView.addSubview(importFileButton)
+        addImportButtonConstraints()
+        
+        if #available(iOS 11.0, *) {
+            addDropInteraction()
+        }
+    }
+    
+    fileprivate func validateImported(document: GiniVisionDocument) {
+        let loadingView = addValidationLoadingView()
+        
+        DispatchQueue.global().async { [weak self] in
+            do {
+                try document.validate()
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.successBlock?(document, true)
+                }
+            } catch let error as DocumentValidationError {
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.showNotValidDocumentError(error: error)
+                }
+            } catch _ {
+                DispatchQueue.main.async {
+                    loadingView.removeFromSuperview()
+                    self?.showNotValidDocumentError(error: DocumentValidationError.unknown)
+                }
+            }
+        }
+    }
+    
+    fileprivate func addValidationLoadingView() -> UIView {
+        let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        loadingIndicator.center = self.view.center
+        loadingIndicator.startAnimating()
+        
+        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blurredView.frame = self.view.bounds
+        blurredView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        blurredView.contentView.addSubview(loadingIndicator)
+        
+        self.view.addSubview(blurredView)
+        return blurredView
+    }
+    
+    @objc fileprivate func showImportFileSheet() {
+        toolTipView?.dismiss(withCompletion: nil)
+        
+        let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        var alertViewControllerMessage = "PDF importieren"
+        
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
+            alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
+                self.filePickerManager.showGalleryPicker(from: self, errorHandler: { [unowned self] error in
+                    if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
+                        self.showPhotoLibraryPermissionDeniedError()
+                    }
+                })
+            })
+            alertViewControllerMessage = "Fotos oder PDF importieren"
+        }
+        
+        alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
+            self.filePickerManager.showDocumentPicker(from: self)
+        })
+        
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil))
+        
+        alertViewController.message = alertViewControllerMessage
+        alertViewController.popoverPresentationController?.sourceView = importFileButton
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    @available(iOS 11.0, *)
+    fileprivate func addDropInteraction() {
+        let dropInteraction = UIDropInteraction(delegate: filePickerManager)
+        view.addInteraction(dropInteraction)
+    }
+    
+    
+    // MARK: Error dialogs
+    fileprivate func showPhotoLibraryPermissionDeniedError() {
+        let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
+        
+        let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
+        
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        
+        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: {_ in
+            alertViewController.dismiss(animated: true, completion: nil)
+            UIApplication.shared.openAppSettings()
+        }))
+        
+        self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
+        
+        let alertViewController = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+            alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        alertViewController.addAction(UIAlertAction(title: "Andere Datei wählen", style: .default, handler: { _ in
+            self.showImportFileSheet()
+        }))
+        
+        present(alertViewController, animated: true, completion: nil)
     }
     
     // MARK: Focus handling
@@ -303,71 +516,98 @@ public typealias CameraErrorBlock = (_ error: CameraError) -> ()
         }
         self.previewView.addSubview(imageView)
         UIView.animate(withDuration: 1.5,
-                                   animations: {
-                                    imageView.alpha = 0.0
-            },
-                                   completion: { (success: Bool) -> Void in
-                                    imageView.removeFromSuperview()
+                       animations: {
+                        imageView.alpha = 0.0
+        },
+                       completion: { (success: Bool) -> Void in
+                        imageView.removeFromSuperview()
         })
     }
     
     // MARK: Constraints
     fileprivate func addConstraints() {
-        let superview = self.view
-        
-        // Preview view
+        addPreviewViewConstraints()
+        addControlsViewConstraints()
+        addControlsViewButtonsConstraints()
+    }
+    
+    fileprivate func addPreviewViewConstraints() {
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
-        // lower priority constraints - will make the preview "want" to get bigger
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .equal, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .right, relatedBy: .equal, toItem: superview, attribute: .right, multiplier: 1, constant: 0, priority: 750)
-        
-        // required constraints - make sure the preview doesn't expand into other views or off-screen
-        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .left, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .left, multiplier: 1, constant: 0, priority: 1000)
-        ConstraintUtils.addActiveConstraint(item: superview!, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: previewView, attribute: .right, multiplier: 1, constant: 0, priority: 1000)
-        
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 3/4, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: previewView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
-        
-        // Camera overlay view
-        cameraOverlay.translatesAutoresizingMaskIntoConstraints = false
-        // All constraints here have a priority less than required to make sure they don't get broken
-        // when the view gets too small
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .top, multiplier: 1, constant: 0, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .trailing, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: -23, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .bottom, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: cameraOverlay, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .leading, multiplier: 1, constant: 23, priority: 999)
-        
-        // Controls view
-        controlsView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: captureButton, attribute: .height, multiplier: 1.1, constant: 0)
-        
-        // Capture button
-        captureButton.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 66)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 66)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        } else {
+            // lower priority constraints - will make the preview "want" to get bigger
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+        }
     }
+    
+    fileprivate func addControlsViewConstraints() {
+        controlsView.translatesAutoresizingMaskIntoConstraints = false
+        
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0, priority:750)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+
+        }
+    }
+    
+    fileprivate func addControlsViewButtonsConstraints() {
+        captureButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 70)
+        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
+        
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: -16)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 16, priority:750)
+
+        } else {
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 16)
+            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: -16, priority: 750)
+        }
+    }
+    
+    fileprivate func addImportButtonConstraints() {
+        importFileButton.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.isIpad {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 60)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0, priority: 750)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+        }
+    }
+    
+    // MARK: - Default and not authorized views
     
     fileprivate func addNotAuthorizedView() {
         
         // Add not authorized view
         let view = CameraNotAuthorizedView()
-        previewView.addSubview(view)
+        super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .width, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: previewView, attribute: .centerY, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: super.view, attribute: .width, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: super.view, attribute: .height, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: super.view, attribute: .centerX, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: super.view, attribute: .centerY, multiplier: 1, constant: 0)
         
         // Hide camera UI
         hideCameraOverlay()

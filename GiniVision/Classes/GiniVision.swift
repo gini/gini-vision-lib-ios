@@ -19,22 +19,28 @@ import UIKit
     /**
      Called when the user has taken an image.
      
-     - parameter imageData: JPEG image data including meta information.
+     - parameter fileData: JPEG image data including meta information or PDF data
      */
     func didCapture(_ imageData: Data)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
-     - parameter imageData: JPEG image data including eventually updated meta information.
+     - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
-    */
+     */
     func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
+    
+    /**
+     Called when the user has imported a file (image or PDF) from camera roll or document explorer
+     */
+    
+    @objc optional func didImport(_ document:GiniVisionDocument)
     
     /**
      Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.
@@ -87,12 +93,25 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate) -> UIViewController {
-        let cameraContainerViewController = CameraContainerViewController()
-        let navigationController = GiniNavigationViewController(rootViewController: cameraContainerViewController)
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
+        let viewController:UIViewController
+        
+        if let document = importedDocument {
+            if document.isReviewable {
+                viewController = ReviewContainerViewController(document: document)
+            } else {
+                viewController = AnalysisContainerViewController(document: document)
+            }
+            delegate.didImport?(document)
+        } else {
+            viewController = CameraContainerViewController()
+        }
+        
+        let navigationController = GiniNavigationViewController(rootViewController: viewController)
         navigationController.giniDelegate = delegate
         return navigationController
     }
@@ -104,12 +123,13 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return viewController(withDelegate: delegate)
+        return viewController(withDelegate: delegate, importedDocument:importedDocument)
     }
     
     /**

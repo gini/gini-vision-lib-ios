@@ -9,7 +9,7 @@ class ImageMetaInformationManagerTests: XCTestCase {
         return (try! Data(contentsOf: path!))
     }
     var manager: ImageMetaInformationManager {
-        return ImageMetaInformationManager(imageData: invoiceData)
+        return ImageMetaInformationManager(imageData: invoiceData, imageSource: .camera)
     }
     
     func testInitialization() {
@@ -40,12 +40,11 @@ class ImageMetaInformationManagerTests: XCTestCase {
     
     func testFilteringAndSettingRequiredFields() {
         let mutableManager = manager
-        mutableManager.filterMetaInformation()
-        guard let filteredData = mutableManager.imageData() else {
+        guard let filteredData = mutableManager.imageByAddingMetadata()else {
             return XCTFail("filtered image data should not be nil")
         }
         
-        let filteredManager = ImageMetaInformationManager(imageData: filteredData)
+        let filteredManager = ImageMetaInformationManager(imageData: filteredData, imageSource: .camera)
         XCTAssertNotNil(filteredManager.imageData, "image should not be nil")
         XCTAssertNotNil(filteredManager.metaInformation, "meta information should not be nil")
         guard let mutableInformation = filteredManager.metaInformation?.mutableCopy() as? NSMutableDictionary else {
@@ -54,5 +53,5 @@ class ImageMetaInformationManagerTests: XCTestCase {
         let key = kCGImagePropertyExifUserComment as String
         XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.contains("GiniVisionVer") == true, "filtered data did not set custom fields")
     }
-    
+        
 }

@@ -9,6 +9,11 @@
 import UIKit
 import GiniVision
 
+protocol ComponentAPICameraScreenDelegate:class {
+    func didPick(document:GiniVisionDocument)
+    func didTapClose()
+}
+
 /**
  View controller showing how to implement the camera using the Component API of the Gini Vision Library for iOS.
  */
@@ -16,32 +21,21 @@ class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    
-    fileprivate var imageData: Data?
+    var delegate:ComponentAPICameraScreenDelegate?
     
     // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*************************************************************************
-         * CAMERA SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
-         *************************************************************************/
-        
-        // 1. Create and set a custom configuration object needs to be done once before using any component of the Component API.
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.debugModeOn = true
-        GiniVision.setConfiguration(giniConfiguration)
-        
         // 2. Create the camera view controller
-        contentController = CameraViewController(success:
-            { imageData in
-                self.imageData = imageData
+        contentController = CameraViewController(successBlock:
+            { document, _ in
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "showReview", sender: self)
+                    self.delegate?.didPick(document: document)
                 }
-            }, failure: { error in
-                print("Component API camera view controller received error:\n\(error)")
-            })
+        }, failureBlock: { error in
+            print("Component API camera view controller received error:\n\(error)")
+        })
         
         // 3. Display the camera view controller
         displayContent(contentController)
@@ -69,18 +63,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func back(_ sender: AnyObject) {
-        dismiss(animated: true, completion: nil)
+        delegate?.didTapClose()
     }
-    
-    // MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showReview" {
-            if let imageData = imageData,
-               let vc = segue.destination as? ComponentAPIReviewViewController {
-                vc.imageData = imageData
-            }
-        }
-    }
-
 }
 

@@ -20,23 +20,26 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     // Resources
     fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationReviewContinue", title: "ginivision.navigationbar.review.continue", comment: "Button title in the navigation bar for the continue button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleContinueButton)
     
-    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
+    fileprivate lazy var backButtonResources = PreferredButtonResource(image: "navigationReviewBack", title: "ginivision.navigationbar.review.back", comment: "Button title in the navigation bar for the back button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarReviewTitleBackButton)
+    
+    fileprivate lazy var closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.review.close", comment: "Button title in the navigation bar for the close button on the review screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
     
     // Output
-    fileprivate var imageData: Data?
+    fileprivate var document: GiniVisionDocument?
     fileprivate var changes = false
     
-    init(imageData: Data) {
+    init(document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
         
-        self.imageData = imageData
+        self.document = document
         
         // Configure content controller and update image data on success
-        contentController = ReviewViewController(imageData, success:
-            { imageData in
-                self.imageData = imageData
+        contentController = ReviewViewController(self.document!, successBlock:
+            { [unowned self] document in
+                self.document = document
                 self.changes = true
-            }, failure: { error in
+       
+            }, failureBlock: { error in
                 print(error)
             })
         
@@ -45,9 +48,6 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
-        
-        // Configure back button
-        setupLeftNavigationItem(usingResources: backButtonResources, selector:#selector(back))
         
         // Configure continue button
         continueButton = GiniBarButtonItem(
@@ -78,18 +78,62 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         displayContent(contentController)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupLeftBarButton()
+    }
+    
+    fileprivate func setupLeftBarButton() {
+        guard let navController = navigationController else {
+            return
+        }
+        
+        // Configure back button. Needs to be done here because otherwise the navigation controller would be nil
+        if navigationItem.leftBarButtonItem == nil {
+            setupLeftNavigationItem(usingResources: backButtonPreferredResource(forNavController: navController), selector:#selector(back))
+        }
+    }
+    
     @IBAction func back() {
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelReview?()
-        _ = navigationController?.popViewController(animated: true)
+        
+        handleBackPressed()
+    }
+    
+    fileprivate func handleBackPressed() {
+        guard let navController = navigationController else {
+            return
+        }
+        
+        if self.isFirstViewController(inNavController: navController) {
+            navController.dismiss(animated: true, completion: nil)
+        } else {
+            _ = navController.popViewController(animated: true)
+        }
+    }
+    
+    fileprivate func backButtonPreferredResource(forNavController navController:UINavigationController) -> PreferredButtonResource {
+        if self.isFirstViewController(inNavController: navController) {
+            return closeButtonResources
+        }
+        return backButtonResources
+    }
+    
+    fileprivate func isFirstViewController(inNavController navController:UINavigationController) -> Bool {
+        if navController.viewControllers.count == 1 {
+            return true
+        }
+        return false
     }
     
     @IBAction func analyse() {
         let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-        delegate?.didReview(imageData!, withChanges: changes)
+        delegate?.didReview(document!.data, withChanges: changes)
         
         // Push analysis container view controller
-        navigationController?.pushViewController(AnalysisContainerViewController(imageData: imageData!), animated: true)
+        navigationController?.pushViewController(AnalysisContainerViewController(document: document!), animated: true)
     }
     
     // MARK: Constraints

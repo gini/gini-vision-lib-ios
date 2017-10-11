@@ -20,14 +20,11 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     // Properties
     fileprivate var noticeView: NoticeView?
     
-    init(imageData: Data) {
+    init(document: GiniVisionDocument) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        contentController = AnalysisViewController(imageData)
-        
-        // Configure title
-        title = GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitle
+        contentController = AnalysisViewController(document)
         
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
