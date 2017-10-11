@@ -10,6 +10,7 @@ fi
 
 echo "Starting documentation deploy... "
 
-# Create api documentation
-sh scripts/build-documentation-api.sh
-sh Documentation/deploy-documentation.sh
+## Create api documentation
+#sh scripts/build-documentation-api.sh
+#sh Documentation/deploy-documentation.sh
+
