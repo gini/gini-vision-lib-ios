@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.2.0-beta (2017-10-11)
+3.2.0-rc.1 (2017-10-11)
 ------------------
 
 -   Added file import support (both for PDFs and Images).

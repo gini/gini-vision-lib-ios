@@ -2,20 +2,20 @@ Import PDFs and images
 =============================
 
 
-If you want to add _File import_ feature on your app, first you need to specify the supported types (`fileImportSupportedTypes `) on the `GiniConfiguration` instance.
+If you want to add the _File import_ feature on your app, first you need to specify the supported types (`fileImportSupportedTypes `) on the `GiniConfiguration` instance.
 
 ```swift
 let giniConfiguration = GiniConfiguration()
 giniConfiguration.fileImportSupportedTypes = .pdf_and_images
 ```
 
-These are the file import supported type cases: 
+These are the cases for file import supported file types:
 
 * `pdf`
 * `pdf_and_images`
-* `none` (In case you want to disable _File import funcionality_, being the _default_ value).
+* `none` (In case you want to disable _File import_ funcionality, including UI related. This is the _default_ value).
 
-Also if you want to add some custom validations for the imported `GiniVisionDocument`, you can specify them on the `GiniConfiguration` closure, `customDocumentValidations`. Here is an example:
+Also if you want to add some custom validations for the imported `GiniVisionDocument`, you can specify them in the `GiniConfiguration` closure, `customDocumentValidations`. Here is an example:
 
 ```swift
 giniConfiguration.customDocumentValidations = { document in
@@ -30,7 +30,7 @@ giniConfiguration.customDocumentValidations = { document in
 Import images from camera roll
 ----------------------
 
-In case that you want to enable your app to import images from **Photo Gallery** and also support **iOS 10** you need to specify the `NSPhotoLibraryUsageDescription ` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when accessing the **Photo Gallery**.
+To enable your app to import images from **Photo Gallery** and also support **iOS 10** you need to specify the `NSPhotoLibraryUsageDescription ` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when accessing the **Photo Gallery**.
  
 Import images and PDFs from other apps
 ------------------------------------
