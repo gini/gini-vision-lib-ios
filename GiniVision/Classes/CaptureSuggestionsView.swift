@@ -56,6 +56,7 @@ final class CaptureSuggestionsView: UIView {
         suggestionText.text = suggestionTexts.first!
         
         super.init(frame: .zero)
+        alpha = 0
         
         suggestionContainer.addSubview(suggestionIcon)
         suggestionContainer.addSubview(suggestionText)
@@ -130,6 +131,7 @@ extension CaptureSuggestionsView {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
             guard let `self` = self, let superview = self.superview else { return }
             self.bottomConstraint.constant = 0
+            self.alpha = 1
             UIView.animate(withDuration: 0.5, animations: {
                 superview.layoutIfNeeded()
             }, completion: { _ in
