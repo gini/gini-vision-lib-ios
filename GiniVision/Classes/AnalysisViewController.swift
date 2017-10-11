@@ -69,11 +69,10 @@ import UIKit
         let loadingIndicatorContainer = UIView(frame: CGRect(origin: .zero, size: CGSize(width: loadingIndicatorContainerHeight, height: loadingIndicatorContainerHeight)))
         loadingIndicatorContainer.backgroundColor = .white
         loadingIndicatorContainer.layer.cornerRadius = loadingIndicatorContainerHeight / 2
-        loadingIndicatorContainer.layer.shadowOffset = CGSize(width: 0, height: 2)
+        loadingIndicatorContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
         loadingIndicatorContainer.layer.shadowRadius = 0.8
         loadingIndicatorContainer.layer.shadowOpacity = 0.2
         loadingIndicatorContainer.layer.shadowColor = UIColor.black.cgColor
-        loadingIndicatorContainer.backgroundColor = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
         return loadingIndicatorContainer
     }()
     fileprivate lazy var overlayView: UIView = {
@@ -103,7 +102,7 @@ import UIKit
         
         if let document = document as? GiniPDFDocument {
             addLoadingView(intoContainer: loadingIndicatorContainer)
-            //            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
+            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
             
             showPDFInformationView(withDocument:document)
         } else {
@@ -203,8 +202,8 @@ import UIKit
             ConstraintUtils.addActiveConstraint(item: container, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0)
             ConstraintUtils.addActiveConstraint(item: container, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: AnalysisViewController.loadingIndicatorContainerHeight)
             ConstraintUtils.addActiveConstraint(item: container, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: AnalysisViewController.loadingIndicatorContainerHeight)
-            ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0)
+            ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 1.5)
+            ConstraintUtils.addActiveConstraint(item: loadingIndicatorView, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 1.5)
             
         } else {
             self.view.addSubview(loadingIndicatorView)
