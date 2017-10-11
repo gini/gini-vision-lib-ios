@@ -13,7 +13,16 @@ These are the file import supported type cases:
 
 * `pdf`
 * `pdf_and_images`
-* `none` (In case you want to diable _File import funcionality_, being the _default_ value)
+* `none` (In case you want to diable _File import funcionality_, being the _default_ value).
+
+Also if you want to add some custom validations for the imported `GiniVisionDocument`
+        giniConfiguration.customDocumentValidations = { document in
+            // As an example of custom document validation, we add a more strict check for file size
+            let maxFileSize = 5 * 1024 * 1024
+            if document.data.count > maxFileSize {
+                throw DocumentValidationError.custom(message: "Diese Datei ist leider größer als 5MB")
+            }
+        }
 
 Import images from camera roll
 ----------------------
