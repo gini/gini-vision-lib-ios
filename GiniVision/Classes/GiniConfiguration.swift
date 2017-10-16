@@ -475,7 +475,7 @@ import UIKit
     /**
      Sets the color of the warning container background to the specified color
      */
-    public var noResultsWarningContainerBackgroundColor = Colors.Gini.rose
+    public var noResultsWarningContainerIconColor = Colors.Gini.rose
     
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.

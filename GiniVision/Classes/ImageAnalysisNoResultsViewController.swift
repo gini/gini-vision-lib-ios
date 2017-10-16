@@ -1,5 +1,5 @@
 //
-//  NoResultsViewController.swift
+//  ImageAnalysisNoResultsViewController.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/6/17.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 /**
- The `NoResultsViewController` provides a custom no results screen which shows some capture suggestions when there is no results when analysing an image.
+ The `ImageAnalysisNoResultsViewController` provides a custom no results screen which shows some capture suggestions when there is no results when analysing an image.
  
  **Text resources for this screen**
  
@@ -28,24 +28,28 @@ import UIKit
  * `captureSuggestion4`
  */
 
-public final class NoResultsViewController: UIViewController {
+public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     // Views
     var warningViewContainer: UIView = {
         let container = UIView()
-        container.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerBackgroundColor
         return container
     }()
+    var warningViewContainerBottomLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
     var warningViewIcon: UIImageView = {
-        let icon = UIImageView(image: UIImageNamedPreferred(named: "warningNoResults"))
+        let icon = UIImageView(image: UIImageNamedPreferred(named: "warningNoResults")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate))
         icon.contentMode = .scaleAspectFit
+        icon.tintColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
         return icon
     }()
     var warningViewText: UILabel = {
         let text = UILabel()
         text.numberOfLines = 0
         text.text = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis")
-        text.textColor = .white
         return text
     }()
     var suggestionsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
@@ -73,6 +77,7 @@ public final class NoResultsViewController: UIViewController {
         suggestionsCollectionView.dataSource = self
         suggestionsCollectionView.delegate = self
         
+        warningViewContainer.addSubview(warningViewContainerBottomLine)
         warningViewContainer.addSubview(warningViewIcon)
         warningViewContainer.addSubview(warningViewText)
         view.addSubview(warningViewContainer)
@@ -108,6 +113,11 @@ public final class NoResultsViewController: UIViewController {
         warningViewContainer.translatesAutoresizingMaskIntoConstraints = false
         warningViewText.translatesAutoresizingMaskIntoConstraints = false
         warningViewIcon.translatesAutoresizingMaskIntoConstraints = false
+        warningViewContainerBottomLine.translatesAutoresizingMaskIntoConstraints = false
+        
+        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.5)
+        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .width, relatedBy: .equal, toItem: warningViewContainer, attribute: .width, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
         
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 0)
@@ -129,7 +139,7 @@ public final class NoResultsViewController: UIViewController {
 
 // MARK: UICollectionViewDataSource
 
-extension NoResultsViewController: UICollectionViewDataSource {
+extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return captureSuggestions.count
     }
@@ -144,7 +154,7 @@ extension NoResultsViewController: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
+extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return suggestionsCollectionView.cellSize()
     }
