@@ -13,8 +13,16 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     static let cellIdentifier = "cellIdentifier"
     static let headerIdentifier = "headerIdentifier"
 
-    private let minimunCellHeight: CGFloat = 66.0
+    private let minimunCellHeight: CGFloat = 80.0
     private let headerHeight: CGFloat = 60.0
+    private let rowsInLandscape: CGFloat = 2.0
+    private var sectionInset: UIEdgeInsets {
+        if UIDevice.current.isIpad {
+            return UIEdgeInsetsMake(20, 20, 20, 20)
+        } else {
+            return .zero
+        }
+    }
 
     init(){
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
@@ -26,6 +34,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
+        layout.sectionInset = sectionInset
         
         if #available(iOS 9.0, *) {
             layout.sectionHeadersPinToVisibleBounds = true
@@ -37,11 +46,21 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     }
     
     func cellSize(ofSection section: Int = 0) -> CGSize{
-        var height: CGFloat = (self.frame.height - headerHeight) / CGFloat(self.numberOfItems(inSection: 0))
+        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
+        let isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
+        var height: CGFloat = (self.frame.height - headerHeight - layout.sectionInset.top - layout.sectionInset.bottom) / CGFloat(self.numberOfItems(inSection: section))
+        var width: CGFloat = (UIScreen.main.bounds.width - layout.sectionInset.left - layout.sectionInset.right)
+        
+        if isLandscape && UIDevice.current.isIpad {
+            height = height * rowsInLandscape
+            width = width / rowsInLandscape
+        }
+        
         if height < minimunCellHeight {
             height = minimunCellHeight
         }
-        return CGSize(width: UIScreen.main.bounds.width, height: height)
+        
+        return CGSize(width: width, height: height)
     }
     
     func headerSize() -> CGSize {
@@ -60,6 +79,8 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     var suggestionText: UILabel = {
         let suggestionText = UILabel()
         suggestionText.numberOfLines = 0
+        suggestionText.adjustsFontSizeToFitWidth = true
+        suggestionText.minimumScaleFactor = 10 / 16
         return suggestionText
     }()
     override init(frame: CGRect) {
