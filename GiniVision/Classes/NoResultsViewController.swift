@@ -3,6 +3,7 @@
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/6/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import Foundation
@@ -30,25 +31,25 @@ import UIKit
 public final class NoResultsViewController: UIViewController {
     
     // Views
-    fileprivate var warningViewContainer: UIView = {
+    var warningViewContainer: UIView = {
         let container = UIView()
         container.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerBackgroundColor
         return container
     }()
-    fileprivate var warningViewIcon: UIImageView = {
+    var warningViewIcon: UIImageView = {
         let icon = UIImageView(image: UIImageNamedPreferred(named: "warningNoResults"))
         icon.contentMode = .scaleAspectFit
         return icon
     }()
-    fileprivate var warningViewText: UILabel = {
+    var warningViewText: UILabel = {
         let text = UILabel()
         text.numberOfLines = 0
         text.text = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis")
         text.textColor = .white
         return text
     }()
-    fileprivate var suggestionsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
-    fileprivate var repeatAnalysisButton: UIButton = {
+    var suggestionsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
+    var repeatAnalysisButton: UIButton = {
         let repeatButton = UIButton()
         repeatButton.setTitle("Aufnahme wiederholen", for: .normal)
         repeatButton.setImage(UIImageNamedPreferred(named: "repeatAnalysis"), for: .normal)
@@ -57,7 +58,7 @@ public final class NoResultsViewController: UIViewController {
         return repeatButton
     }()
     
-    fileprivate let captureTips: [(image: UIImage?, text: String)] = [
+    let captureSuggestions: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "captureSuggestion1"), NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion3"), NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen")),
@@ -130,13 +131,13 @@ public final class NoResultsViewController: UIViewController {
 
 extension NoResultsViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return captureTips.count
+        return captureSuggestions.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier, for: indexPath) as! CaptureSuggestionsCollectionCell
-        cell.suggestionText.text = self.captureTips[indexPath.row].text
-        cell.suggestionImage.image = self.captureTips[indexPath.row].image
+        cell.suggestionText.text = self.captureSuggestions[indexPath.row].text
+        cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
         return cell
     }
 }
@@ -160,6 +161,5 @@ extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
         if scrollView.contentOffset.y < 0 {
             scrollView.contentOffset = .zero
         }
-        
     }
 }

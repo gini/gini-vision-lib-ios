@@ -112,14 +112,14 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
 
 final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     
-    private var headerTitle: UILabel = {
+    var headerTitle: UILabel = {
         let headerTitle = UILabel()
         headerTitle.translatesAutoresizingMaskIntoConstraints = false
         headerTitle.text = "Tipps für bessere Foto"
         headerTitle.numberOfLines = 0
         return headerTitle
     }()
-    private var bottomLine: UIView = {
+    var bottomLine: UIView = {
         let bottomLine = UIView()
         bottomLine.translatesAutoresizingMaskIntoConstraints = false
         bottomLine.backgroundColor = .black
