@@ -21,7 +21,7 @@ public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
  
  - note: Component API only.
  */
-public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument, _ isImported:Bool) -> ()
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
 
 /**
  Block that will be executed if an error occurs on the camera. It contains a camera specific error.
@@ -194,7 +194,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @nonobjc
     @available(*, deprecated)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
-        self.init(successBlock: { data, _ in
+        self.init(successBlock: { data in
             success(data.data)
         }, failureBlock: { error in
             failure(error as! CameraError)
@@ -331,7 +331,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
                     let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                    self.successBlock?(imageDocument, false)
+                    self.successBlock?(imageDocument)
                 }
             }
             return print("GiniVision: No camera initialized.")
@@ -342,7 +342,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera, deviceOrientation: UIApplication.shared.statusBarOrientation)
                 
                 // Call success block
-                self.successBlock?(imageDocument, false)
+                self.successBlock?(imageDocument)
             } catch let error as CameraError {
                 self.failureBlock?(error)
             } catch _ {
@@ -385,7 +385,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                 try document.validate()
                 DispatchQueue.main.async {
                     loadingView.removeFromSuperview()
-                    self?.successBlock?(document, true)
+                    self?.successBlock?(document)
                 }
             } catch let error as DocumentValidationError {
                 DispatchQueue.main.async {

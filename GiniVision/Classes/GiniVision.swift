@@ -17,11 +17,26 @@ import UIKit
 @objc public protocol GiniVisionDelegate {
     
     /**
+     Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
+     */
+    
+    @objc optional func didCapture(document: GiniVisionDocument)
+    
+    /**
      Called when the user has taken an image.
      
      - parameter fileData: JPEG image data including meta information or PDF data
      */
-    func didCapture(_ imageData: Data)
+    @available(*, deprecated)
+    @objc optional func didCapture(_ imageData: Data)
+    
+    /**
+     Called when the user has reviewed the image and potentially rotated it to the correct orientation.
+     
+     - parameter document:  `GiniVisionDocument`
+     - parameter changes:   Indicates whether `imageData` was altered.
+     */
+    @objc optional func didReview(document: GiniVisionDocument, withChanges changes: Bool)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -29,18 +44,13 @@ import UIKit
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
      */
-    func didReview(_ imageData: Data, withChanges changes: Bool)
+    @available(*, deprecated)
+    @objc optional func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
      Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
-    
-    /**
-     Called when the user has imported a file (image or PDF) from camera roll or document explorer
-     */
-    
-    @objc optional func didImport(_ document:GiniVisionDocument)
     
     /**
      Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.
@@ -58,6 +68,10 @@ import UIKit
      Called when the user navigates back from the analysis screen to the review screen. Should be used to cancel any ongoing analysis task on the image.
      */
     @objc optional func didCancelAnalysis()
+    
+}
+
+extension GiniVisionDelegate {
     
 }
 
@@ -106,7 +120,14 @@ import UIKit
             } else {
                 viewController = AnalysisContainerViewController(document: document)
             }
-            delegate.didImport?(document)
+            
+            if let didCapture = delegate.didCapture(document:) {
+                didCapture(document)
+            } else if let didCapture = delegate.didCapture(_:) {
+                didCapture(document.data)
+            } else {
+                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
+            }
         } else {
             viewController = CameraContainerViewController()
         }

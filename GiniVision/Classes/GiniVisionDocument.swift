@@ -17,6 +17,7 @@ import Foundation
     var data:Data { get }
     var previewImage:UIImage? { get }
     var isReviewable:Bool { get }
+    var isImported:Bool { get }
     
     func checkType() throws
 }

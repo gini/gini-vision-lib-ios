@@ -129,11 +129,18 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
     }
     
     @IBAction func analyse() {
-        let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
-        delegate?.didReview(document!.data, withChanges: changes)
+        guard let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate, let document = document else { return }
+        
+        if let didReview = delegate.didReview(document:withChanges:) {
+            didReview(document, changes)
+        } else if let didReview = delegate.didReview(_:withChanges:){
+            didReview(document.data, changes)
+        } else {
+            fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument, withChanges changes: Bool) should be implemented")
+        }
         
         // Push analysis container view controller
-        navigationController?.pushViewController(AnalysisContainerViewController(document: document!), animated: true)
+        navigationController?.pushViewController(AnalysisContainerViewController(document: document), animated: true)
     }
     
     // MARK: Constraints

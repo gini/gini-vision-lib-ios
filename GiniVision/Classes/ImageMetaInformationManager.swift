@@ -23,7 +23,7 @@ public enum DocumentImportMethod:String {
     case picker = "picker"
 }
 
-public enum DocumentSource {
+public enum DocumentSource: Equatable {
     case camera
     case external
     case appName(name: String?)
@@ -43,6 +43,10 @@ public enum DocumentSource {
             }
             return packageName
         }
+    }
+    
+    public static func ==(lhs: DocumentSource, rhs: DocumentSource) -> Bool {
+        return lhs.value == rhs.value
     }
 }
 
