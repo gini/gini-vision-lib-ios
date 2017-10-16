@@ -1,13 +1,14 @@
 //
-//  CaptureTipsCollectionView.swift
+//  CaptureSuggestionsCollectionView.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/6/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import UIKit
 
-final class CaptureTipsCollectionView: UICollectionView {
+final class CaptureSuggestionsCollectionView: UICollectionView {
     
     static let cellIdentifier = "cellIdentifier"
     static let headerIdentifier = "headerIdentifier"
@@ -17,8 +18,8 @@ final class CaptureTipsCollectionView: UICollectionView {
 
     init(){
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        self.register(CaptureTipsCollectionCell.self, forCellWithReuseIdentifier: CaptureTipsCollectionView.cellIdentifier)
-        self.register(CaptureTipsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier)
+        self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier)
+        self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier)
         self.showsVerticalScrollIndicator = false
         self.backgroundColor = .white
         
@@ -49,15 +50,18 @@ final class CaptureTipsCollectionView: UICollectionView {
 
 }
 
-final class CaptureTipsCollectionCell: UICollectionViewCell {
+final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     
-    var tipImage: UIImageView = {
-        let tipImage = UIImageView()
-        tipImage.contentMode = .scaleAspectFit
-        return tipImage
+    var suggestionImage: UIImageView = {
+        let suggestionImage = UIImageView()
+        suggestionImage.contentMode = .scaleAspectFit
+        return suggestionImage
     }()
-    var tipText: UILabel = UILabel()
-    
+    var suggestionText: UILabel = {
+        let suggestionText = UILabel()
+        suggestionText.numberOfLines = 0
+        return suggestionText
+    }()
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupCellViews()
@@ -68,24 +72,24 @@ final class CaptureTipsCollectionCell: UICollectionViewCell {
     }
     
     private func setupCellViews() {
-        self.addSubview(tipImage)
-        self.addSubview(tipText)
-        tipImage.translatesAutoresizingMaskIntoConstraints = false
-        tipText.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(suggestionImage)
+        self.addSubview(suggestionText)
+        suggestionImage.translatesAutoresizingMaskIntoConstraints = false
+        suggestionText.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .trailing, relatedBy: .equal, toItem: tipText, attribute: .leading, multiplier: 1.0, constant: -20)
-        ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 85)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .trailing, relatedBy: .equal, toItem: suggestionText, attribute: .leading, multiplier: 1.0, constant: -20)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 85)
         
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
-        ConstraintUtils.addActiveConstraint(item: tipText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
     }
 }
 
-final class CaptureTipsCollectionHeader: UICollectionReusableView {
+final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     
     private var headerTitle: UILabel = {
         let headerTitle = UILabel()
