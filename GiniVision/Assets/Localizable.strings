@@ -42,3 +42,5 @@
 "ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
 "ginivision.analysis.suggestion.4" = "Seite glatt streichen";
 
+"ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme";
+
