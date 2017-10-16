@@ -8,12 +8,31 @@
 import Foundation
 import UIKit
 
+/**
+ The `NoResultsViewController` provides a custom no results screen which shows some capture suggestions when there is no results when analysing an image.
+ 
+ **Text resources for this screen**
+ 
+ * `ginivision.noresults.warning`
+ 
+ - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized strings will make `AnalysisViewController` revert to the default iOS back button.
+ 
+ **Image resources for this screen**
+ 
+ * `repeatAnalysis`
+ * `warningNoResults`
+ * `captureSuggestion1`
+ * `captureSuggestion2`
+ * `captureSuggestion3`
+ * `captureSuggestion4`
+ */
+
 public final class NoResultsViewController: UIViewController {
     
     // Views
     fileprivate var warningViewContainer: UIView = {
         let container = UIView()
-        container.backgroundColor = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
+        container.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerBackgroundColor
         return container
     }()
     fileprivate var warningViewIcon: UIImageView = {
@@ -24,7 +43,7 @@ public final class NoResultsViewController: UIViewController {
     fileprivate var warningViewText: UILabel = {
         let text = UILabel()
         text.numberOfLines = 0
-        text.text = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme."
+        text.text = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis")
         text.textColor = .white
         return text
     }()
@@ -39,10 +58,10 @@ public final class NoResultsViewController: UIViewController {
     }()
     
     fileprivate let captureTips: [(image: UIImage?, text: String)] = [
-        (UIImageNamedPreferred(named: "onboardingTip1"), NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion text for analysis screen")),
-        (UIImageNamedPreferred(named: "onboardingTip3"), NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion text for analysis screen")),
-        (UIImageNamedPreferred(named: "onboardingTip4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion text for analysis screen")),
-        (UIImageNamedPreferred(named: "onboardingTip2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion text for analysis screen"))
+        (UIImageNamedPreferred(named: "captureSuggestion1"), NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion for analysis screen")),
+        (UIImageNamedPreferred(named: "captureSuggestion3"), NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion for analysis screen")),
+        (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen")),
+        (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen"))
     ]
     
     override public func loadView() {
