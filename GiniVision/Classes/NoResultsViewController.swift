@@ -17,8 +17,7 @@ public final class NoResultsViewController: UIViewController {
         return container
     }()
     fileprivate var warningViewIcon: UIImageView = {
-        let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
-        let icon = UIImageView(image: closeButtonResources.preferredImage)
+        let icon = UIImageView(image: UIImageNamedPreferred(named: "warningNoResults"))
         icon.contentMode = .scaleAspectFit
         return icon
     }()
@@ -31,10 +30,10 @@ public final class NoResultsViewController: UIViewController {
     }()
     fileprivate var suggestionsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
     fileprivate var repeatAnalysisButton: UIButton = {
-        let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
         let repeatButton = UIButton()
         repeatButton.setTitle("Aufnahme wiederholen", for: .normal)
-        repeatButton.setImage(closeButtonResources.preferredImage, for: .normal)
+        repeatButton.setImage(UIImageNamedPreferred(named: "repeatAnalysis"), for: .normal)
+        repeatButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
         repeatButton.backgroundColor = .black
         return repeatButton
     }()
