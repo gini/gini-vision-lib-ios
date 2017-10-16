@@ -57,6 +57,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         let repeatButton = UIButton()
         repeatButton.setTitle("Aufnahme wiederholen", for: .normal)
         repeatButton.setImage(UIImageNamedPreferred(named: "repeatAnalysis"), for: .normal)
+        repeatButton.addTarget(self, action: #selector(didTapRepeatAnalysisAction), for: .touchUpInside)
         repeatButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
         repeatButton.backgroundColor = .black
         return repeatButton
@@ -68,6 +69,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen"))
     ]
+    var didTapRepeatAnalysis: (() -> ()) = { }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,6 +136,12 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
         
+    }
+    
+    // MARK: Button action
+    
+    func didTapRepeatAnalysisAction() {
+        didTapRepeatAnalysis()
     }
 }
 
