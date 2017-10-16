@@ -20,6 +20,7 @@ final class CaptureTipsCollectionView: UICollectionView {
         self.register(CaptureTipsCollectionCell.self, forCellWithReuseIdentifier: CaptureTipsCollectionView.cellIdentifier)
         self.register(CaptureTipsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier)
         self.showsVerticalScrollIndicator = false
+        self.backgroundColor = .white
         
         guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
         layout.minimumLineSpacing = 0
@@ -50,8 +51,12 @@ final class CaptureTipsCollectionView: UICollectionView {
 
 final class CaptureTipsCollectionCell: UICollectionViewCell {
     
-    var tipImage: UIImageView!
-    var tipText: UILabel!
+    var tipImage: UIImageView = {
+        let tipImage = UIImageView()
+        tipImage.contentMode = .scaleAspectFit
+        return tipImage
+    }()
+    var tipText: UILabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -63,12 +68,9 @@ final class CaptureTipsCollectionCell: UICollectionViewCell {
     }
     
     private func setupCellViews() {
-        tipImage = UIImageView()
-        tipText = UILabel()
         self.addSubview(tipImage)
         self.addSubview(tipText)
         tipImage.translatesAutoresizingMaskIntoConstraints = false
-        tipImage.contentMode = .scaleAspectFit
         tipText.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: tipImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
@@ -85,8 +87,19 @@ final class CaptureTipsCollectionCell: UICollectionViewCell {
 
 final class CaptureTipsCollectionHeader: UICollectionReusableView {
     
-    private var headerTitle: UILabel!
-    private var bottomLine: UIView!
+    private var headerTitle: UILabel = {
+        let headerTitle = UILabel()
+        headerTitle.translatesAutoresizingMaskIntoConstraints = false
+        headerTitle.text = "Tipps für bessere Foto"
+        headerTitle.numberOfLines = 0
+        return headerTitle
+    }()
+    private var bottomLine: UIView = {
+        let bottomLine = UIView()
+        bottomLine.translatesAutoresizingMaskIntoConstraints = false
+        bottomLine.backgroundColor = .black
+        return bottomLine
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -99,15 +112,6 @@ final class CaptureTipsCollectionHeader: UICollectionReusableView {
     }
     
     private func setupHeaderViews() {
-        headerTitle = UILabel()
-        headerTitle.translatesAutoresizingMaskIntoConstraints = false
-        headerTitle.text = "Tipps für bessere Foto"
-        headerTitle.numberOfLines = 0
-        
-        bottomLine = UIView()
-        bottomLine.translatesAutoresizingMaskIntoConstraints = false
-        bottomLine.backgroundColor = .black
-        
         self.addSubview(headerTitle)
         self.addSubview(bottomLine)
         
