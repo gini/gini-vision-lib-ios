@@ -29,7 +29,7 @@ public final class NoResultsViewController: UIViewController {
         text.textColor = .white
         return text
     }()
-    fileprivate var tipsCollectionView: CaptureTipsCollectionView = CaptureTipsCollectionView()
+    fileprivate var tipsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
     fileprivate var repeatAnalysisButton: UIButton = {
         let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
         let repeatButton = UIButton()
@@ -40,10 +40,10 @@ public final class NoResultsViewController: UIViewController {
     }()
     
     fileprivate let captureTips: [(image: UIImage?, text: String)] = [
-        (UIImageNamedPreferred(named: "onboardingPage1"), "Deeeespacito1"),
-        (UIImageNamedPreferred(named: "onboardingPage2"), "Deeeespacito2"),
-        (UIImageNamedPreferred(named: "onboardingPage3"), "Deeeespacito3"),
-        (UIImageNamedPreferred(named: "onboardingPage1"), "Deeeespacito4")
+        (UIImageNamedPreferred(named: "onboardingTip1"), NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion text for analysis screen")),
+        (UIImageNamedPreferred(named: "onboardingTip2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion text for analysis screen")),
+        (UIImageNamedPreferred(named: "onboardingTip3"), NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion text for analysis screen")),
+        (UIImageNamedPreferred(named: "onboardingTip4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion text for analysis screen"))
     ]
     
     override public func loadView() {
@@ -111,9 +111,9 @@ extension NoResultsViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureTipsCollectionView.cellIdentifier, for: indexPath) as! CaptureTipsCollectionCell
-        cell.tipText.text = self.captureTips[indexPath.row].text
-        cell.tipImage.image = self.captureTips[indexPath.row].image
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier, for: indexPath) as! CaptureSuggestionsCollectionCell
+        cell.suggestionText.text = self.captureTips[indexPath.row].text
+        cell.suggestionImage.image = self.captureTips[indexPath.row].image
         return cell
     }
 }
@@ -130,7 +130,7 @@ extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureTipsCollectionView.headerIdentifier, for: indexPath)
+        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier, for: indexPath)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

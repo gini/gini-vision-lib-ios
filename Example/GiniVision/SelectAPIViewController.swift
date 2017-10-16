@@ -106,7 +106,8 @@ class SelectAPIViewController: UIViewController {
         }
         
         // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedDocument: document)
+//        return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedDocument: document)
+        return NoResultsViewController()
     }
     
 
