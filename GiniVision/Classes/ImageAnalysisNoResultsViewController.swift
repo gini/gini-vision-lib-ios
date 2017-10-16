@@ -37,7 +37,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     }()
     var warningViewContainerBottomLine: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .lightGray
         return view
     }()
     var warningViewIcon: UIImageView = {
