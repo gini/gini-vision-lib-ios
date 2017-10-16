@@ -122,7 +122,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     var bottomLine: UIView = {
         let bottomLine = UIView()
         bottomLine.translatesAutoresizingMaskIntoConstraints = false
-        bottomLine.backgroundColor = .black
+        bottomLine.backgroundColor = .lightGray
         return bottomLine
     }()
     
