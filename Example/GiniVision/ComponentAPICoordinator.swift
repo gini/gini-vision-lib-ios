@@ -91,10 +91,13 @@ final class ComponentAPICoordinator {
     }
     
     fileprivate func showNoResultsScreen() {
-        
         let vc: UIViewController
         if document?.type == .Image {
-            vc = ImageAnalysisNoResultsViewController()
+            let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+            imageAnalysisNoResultsViewController.didTapRepeatAnalysis = {
+                self.didTapRetry()
+            }
+            vc = imageAnalysisNoResultsViewController
         } else {
             let genericNoResults = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
             genericNoResults.delegate = self
