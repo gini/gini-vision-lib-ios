@@ -71,8 +71,8 @@ class SelectAPIViewController: UIViewController {
          ************************************************************************/
         
         // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-//        let vc = giniScreenAPI(withImportedDocument: nil)
-        let vc = NoResultsViewController()
+        let vc = giniScreenAPI(withImportedDocument: nil)
+
         // 2. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
         
@@ -198,7 +198,8 @@ class SelectAPIViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: false)
             }
         } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+//            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+            let vc = NoResultsViewController()
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: false)
             }

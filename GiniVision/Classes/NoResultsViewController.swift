@@ -64,10 +64,10 @@ public final class NoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen"))
     ]
     
-    override public func loadView() {
-        super.loadView()
-        view = UIView()
+    public override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = .white
+        edgesForExtendedLayout = []
         
         suggestionsCollectionView.dataSource = self
         suggestionsCollectionView.delegate = self
@@ -77,7 +77,6 @@ public final class NoResultsViewController: UIViewController {
         view.addSubview(warningViewContainer)
         view.addSubview(suggestionsCollectionView)
         view.addSubview(repeatAnalysisButton)
-        
         addConstraints()
         addConstraintsWarningView()
     }
