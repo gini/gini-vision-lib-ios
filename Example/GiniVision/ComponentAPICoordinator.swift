@@ -91,8 +91,15 @@ final class ComponentAPICoordinator {
     }
     
     fileprivate func showNoResultsScreen() {
-        let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-        vc.delegate = self
+        
+        let vc: UIViewController
+        if document?.type == .Image {
+            vc = ImageAnalysisNoResultsViewController()
+        } else {
+            let genericNoResults = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+            genericNoResults.delegate = self
+            vc = genericNoResults
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     
