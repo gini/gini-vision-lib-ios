@@ -11,15 +11,34 @@ import UIKit
 public final class NoResultsViewController: UIViewController {
     
     // Views
-    fileprivate var warningViewContainer: UIView!
-    fileprivate var warningViewIcon: UIImageView!
-    fileprivate var warningViewText: UILabel!
-    fileprivate var tipsCollectionView: CaptureTipsCollectionView!
-    fileprivate var repeatAnalysisButton: UIButton!
+    fileprivate var warningViewContainer: UIView = {
+        let container = UIView()
+        container.backgroundColor = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
+        return container
+    }()
+    fileprivate var warningViewIcon: UIImageView = {
+        let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+        let icon = UIImageView(image: closeButtonResources.preferredImage)
+        icon.contentMode = .scaleAspectFit
+        return icon
+    }()
+    fileprivate var warningViewText: UILabel = {
+        let text = UILabel()
+        text.numberOfLines = 0
+        text.text = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme."
+        text.textColor = .white
+        return text
+    }()
+    fileprivate var tipsCollectionView: CaptureTipsCollectionView = CaptureTipsCollectionView()
+    fileprivate var repeatAnalysisButton: UIButton = {
+        let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+        let repeatButton = UIButton()
+        repeatButton.setTitle("Aufnahme wiederholen", for: .normal)
+        repeatButton.setImage(closeButtonResources.preferredImage, for: .normal)
+        repeatButton.backgroundColor = .black
+        return repeatButton
+    }()
     
-    // Resources
-    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
-
     fileprivate let captureTips: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "onboardingPage1"), "Deeeespacito1"),
         (UIImageNamedPreferred(named: "onboardingPage2"), "Deeeespacito2"),
@@ -32,23 +51,6 @@ public final class NoResultsViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .white
         
-        warningViewContainer = UIView()
-        warningViewIcon = UIImageView(image: closeButtonResources.preferredImage)
-        warningViewText = UILabel()
-        tipsCollectionView = CaptureTipsCollectionView()
-        repeatAnalysisButton = UIButton()
-
-        warningViewContainer.backgroundColor = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
-        warningViewIcon.contentMode = .scaleAspectFit
-        warningViewText.numberOfLines = 0
-        warningViewText.text = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme."
-        warningViewText.textColor = .white
-        
-        repeatAnalysisButton.setTitle("Aufnahme wiederholen", for: .normal)
-        repeatAnalysisButton.setImage(closeButtonResources.preferredImage, for: .normal)
-        repeatAnalysisButton.backgroundColor = .black
-        
-        tipsCollectionView.backgroundColor = .white
         tipsCollectionView.dataSource = self
         tipsCollectionView.delegate = self
         
@@ -70,7 +72,7 @@ public final class NoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .trailing, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: repeatAnalysisButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
- 
+        
         ConstraintUtils.addActiveConstraint(item: tipsCollectionView, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: tipsCollectionView, attribute: .bottom, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .top, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: tipsCollectionView, attribute: .leading, multiplier: 1.0, constant: 0)
@@ -93,13 +95,15 @@ public final class NoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
         ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .trailing, relatedBy: .equal, toItem: warningViewText, attribute: .leading, multiplier: 1.0, constant: -16)
         ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 25)
-
+        
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
-
+        
     }
 }
+
+// MARK: UICollectionViewDataSource
 
 extension NoResultsViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -113,6 +117,8 @@ extension NoResultsViewController: UICollectionViewDataSource {
         return cell
     }
 }
+
+// MARK: UICollectionViewDelegateFlowLayout
 
 extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -131,6 +137,6 @@ extension NoResultsViewController: UICollectionViewDelegateFlowLayout {
         if scrollView.contentOffset.y < 0 {
             scrollView.contentOffset = .zero
         }
-
+        
     }
 }
