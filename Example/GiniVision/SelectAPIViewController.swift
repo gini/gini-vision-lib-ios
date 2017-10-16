@@ -198,8 +198,7 @@ class SelectAPIViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: false)
             }
         } else {
-//            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-            let vc = NoResultsViewController()
+            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: false)
             }

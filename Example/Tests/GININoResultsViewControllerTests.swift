@@ -11,10 +11,10 @@ import XCTest
 
 class GININoResultsViewControllerTests: XCTestCase {
     
-    var viewController: NoResultsViewController!
+    var viewController: ImageAnalysisNoResultsViewController!
     
     override func setUp() {
-        viewController = NoResultsViewController()
+        viewController = ImageAnalysisNoResultsViewController()
         _ = viewController.view
     }
     
@@ -36,11 +36,11 @@ class GININoResultsViewControllerTests: XCTestCase {
     }
     
     func testWarningBackgroundColor() {
-        let giniConfigurationColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerBackgroundColor
+        let giniConfigurationColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
         
-        let warningBackgroundColor = viewController.warningViewContainer.backgroundColor
+        let warningBackgroundColor = viewController.warningViewIcon.tintColor
         
-        XCTAssertEqual(giniConfigurationColor, warningBackgroundColor, "warningViewContainer background color should be the one declared in the GiniConfiguration file")
+        XCTAssertEqual(giniConfigurationColor, warningBackgroundColor, "warningViewContainerItem tint color should be the one declared in the GiniConfiguration file")
     }
     
     func testCollectionViewScrollUp() {
