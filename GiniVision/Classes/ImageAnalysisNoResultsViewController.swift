@@ -69,7 +69,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen"))
     ]
-    var didTapRepeatAnalysis: (() -> ()) = { }
+    public var didTapRepeatAnalysis: (() -> ()) = { }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
