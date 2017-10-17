@@ -54,9 +54,9 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     }()
     lazy var bottomButton: UIButton = {
         let bottomButton = UIButton()
-        bottomButton.setTitle(self.bottomButtonText, for: .normal)
+        bottomButton.setTitle("Zur Kamera", for: .normal)
         bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
-        bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
+        bottomButton.setImage(UIImageNamedPreferred(named: "cameraIcon"), for: .normal)
         bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
         bottomButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
         bottomButton.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
@@ -74,19 +74,14 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     fileprivate var suggestionsTitle: String?
     fileprivate var warningText: String?
     fileprivate var warningIconImage: UIImage?
-    fileprivate var bottomButtonText: String?
-    fileprivate var bottomButtonIconImage: UIImage?
     
     public init(suggestionsTitle: String? = "Tipps für bessere Foto",
                 warningText: String = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis"),
-                warningIcon: UIImage? = UIImageNamedPreferred(named: "warningNoResults")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
-                bottomButtonText: String? = "Aufnahme wiederholen", bottomButtonIconImage: UIImage? = UIImageNamedPreferred(named: "repeatIcon")) {
+                warningIcon: UIImage? = UIImageNamedPreferred(named: "warningNoResults")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)) {
         super.init(nibName: nil, bundle: nil)
         self.suggestionsTitle = suggestionsTitle
         self.warningText = warningText
         self.warningIconImage = warningIcon
-        self.bottomButtonText = bottomButtonText
-        self.bottomButtonIconImage = bottomButtonIconImage
     }
     
     required public init?(coder aDecoder: NSCoder) {
