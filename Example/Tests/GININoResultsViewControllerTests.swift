@@ -60,13 +60,4 @@ class GININoResultsViewControllerTests: XCTestCase {
         
         XCTAssertNotEqual(viewController.suggestionsCollectionView.contentOffset, .zero, "when collection view is scrollable, it should not be zero when it is scrolling down")
     }
-    
-    func testCollectionHeaderText() {
-        _ = viewController.suggestionsCollectionView.numberOfSections
-        let collectionHeader = viewController.suggestionsCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier, for: IndexPath(item: 0, section: 0)) as? CaptureSuggestionsCollectionHeader
-        
-        let collectionHeaderText = collectionHeader?.headerTitle.text
-        
-        XCTAssertEqual(collectionHeaderText, "Tipps für bessere Foto", "suggestion collection view header text should not be modified")
-    }
 }
