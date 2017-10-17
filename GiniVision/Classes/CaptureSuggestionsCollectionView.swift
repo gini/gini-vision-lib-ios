@@ -10,12 +10,16 @@ import UIKit
 
 final class CaptureSuggestionsCollectionView: UICollectionView {
     
-    static let cellIdentifier = "cellIdentifier"
-    static let headerIdentifier = "headerIdentifier"
+    static let cellIdentifier = "captureSuggestionsCellIdentifier"
+    static let headerIdentifier = "captureSuggestionsHeaderIdentifier"
 
     private let minimunCellHeight: CGFloat = 80.0
     private let headerHeight: CGFloat = 60.0
     private let rowsInLandscape: CGFloat = 2.0
+    private var captureSuggestionsCollectionLayout: UICollectionViewFlowLayout {
+        return collectionViewLayout as! UICollectionViewFlowLayout
+    }
+    
     public var sectionInset: UIEdgeInsets {
         if UIDevice.current.isIpad {
             return UIEdgeInsetsMake(20, 20, 20, 20)
@@ -35,13 +39,12 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         self.showsVerticalScrollIndicator = false
         self.backgroundColor = .white
         
-        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return }
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = sectionInset
+        captureSuggestionsCollectionLayout.minimumLineSpacing = 0
+        captureSuggestionsCollectionLayout.minimumInteritemSpacing = 0
+        captureSuggestionsCollectionLayout.sectionInset = sectionInset
         
         if #available(iOS 9.0, *) {
-            layout.sectionHeadersPinToVisibleBounds = true
+            captureSuggestionsCollectionLayout.sectionHeadersPinToVisibleBounds = true
         }
     }
     
@@ -50,10 +53,9 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     }
     
     func cellSize(ofSection section: Int = 0) -> CGSize{
-        guard let layout = self.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
         let isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
-        var height: CGFloat = (self.frame.height - headerHeight - layout.sectionInset.top - layout.sectionInset.bottom) / CGFloat(self.numberOfItems(inSection: section))
-        var width: CGFloat = (UIScreen.main.bounds.width - layout.sectionInset.left - layout.sectionInset.right)
+        var height: CGFloat = (self.frame.height - headerHeight - captureSuggestionsCollectionLayout.sectionInset.top - captureSuggestionsCollectionLayout.sectionInset.bottom) / CGFloat(self.numberOfItems(inSection: section))
+        var width: CGFloat = (UIScreen.main.bounds.width - captureSuggestionsCollectionLayout.sectionInset.left - captureSuggestionsCollectionLayout.sectionInset.right)
         
         if isLandscape && UIDevice.current.isIpad {
             height = height * rowsInLandscape
@@ -80,11 +82,13 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     
     var suggestionImage: UIImageView = {
         let suggestionImage = UIImageView()
+        suggestionImage.translatesAutoresizingMaskIntoConstraints = false
         suggestionImage.contentMode = .scaleAspectFit
         return suggestionImage
     }()
     var suggestionText: UILabel = {
         let suggestionText = UILabel()
+        suggestionText.translatesAutoresizingMaskIntoConstraints = false
         suggestionText.numberOfLines = 0
         suggestionText.adjustsFontSizeToFitWidth = true
         suggestionText.minimumScaleFactor = 10 / 16
@@ -102,8 +106,6 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     private func setupCellViews() {
         self.addSubview(suggestionImage)
         self.addSubview(suggestionText)
-        suggestionImage.translatesAutoresizingMaskIntoConstraints = false
-        suggestionText.translatesAutoresizingMaskIntoConstraints = false
         
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
