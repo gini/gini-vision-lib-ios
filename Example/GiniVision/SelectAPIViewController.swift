@@ -74,7 +74,7 @@ class SelectAPIViewController: UIViewController {
         let vc = giniScreenAPI(withImportedDocument: nil)
 
         // 2. Present the Gini Vision Library Screen API modally
-        present(vc, animated: true, completion: nil)
+        present(UINavigationController.init(rootViewController: ImageAnalysisNoResultsViewController()), animated: true, completion: nil)
         
         // 3. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
     }
