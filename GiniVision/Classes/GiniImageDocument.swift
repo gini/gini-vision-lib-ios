@@ -13,7 +13,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
     static let acceptedImageTypes:[String] = [kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String]
     
-    public var type: GiniVisionDocumentType = .Image
+    public var type: GiniVisionDocumentType = .image
     public var data:Data
     public var previewImage: UIImage?
     public var isReviewable: Bool

@@ -23,6 +23,9 @@ import UIKit
      - parameter action:  The action to be performed after the user tapped the error view.
      */
     func displayError(withMessage message: String?, andAction action: NoticeAction?)
+    
+    
+    func displayNoResultsScreen(completion: ((Bool) -> ()))
 }
 
 /**

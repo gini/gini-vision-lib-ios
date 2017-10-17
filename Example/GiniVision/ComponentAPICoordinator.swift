@@ -92,7 +92,7 @@ final class ComponentAPICoordinator {
     
     fileprivate func showNoResultsScreen() {
         let vc: UIViewController
-        if document?.type == .Image {
+        if document?.type == .image {
             let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
             imageAnalysisNoResultsViewController.didTapRepeatAnalysis = {
                 self.didTapRetry()

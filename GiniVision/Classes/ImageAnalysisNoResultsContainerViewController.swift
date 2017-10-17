@@ -1,14 +1,13 @@
 //
-//  AnalysisContainerViewController.swift
+//  ImageAnalysisNoResultsContainerViewController.swift
 //  GiniVision
 //
-//  Created by Peter Pult on 21/06/16.
-//  Copyright © 2016 Gini. All rights reserved.
+//  Created by Enrique del Pozo Gómez on 10/16/17.
 //
 
-import UIKit
+import Foundation
 
-internal class AnalysisContainerViewController: UIViewController, ContainerViewController {
+internal class ImageAnalysisNoResultsContainerViewController: UIViewController, ContainerViewController {
     
     // Container attributes
     internal var containerView     = UIView()
@@ -16,17 +15,12 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     
     // Resources
     fileprivate let backButtonResources = PreferredButtonResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
-    
-    // Properties
-    fileprivate var noticeView: NoticeView?
-    fileprivate var document: GiniVisionDocument
-    
-    init(document: GiniVisionDocument) {
-        self.document = document
+
+    init() {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        contentController = AnalysisViewController(document)
+        contentController = ImageAnalysisNoResultsViewController()
         
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
@@ -39,6 +33,9 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         
         // Add constraints
         addConstraints()
+        
+        // remove analysis from stack.
+
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,37 +46,14 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         super.viewDidLoad()
         
         // Add content to container view
-        displayContent(contentController)
-        
-        // Start loading animation
-        (contentController as? AnalysisViewController)?.showAnimation()
+        displayContent(contentController) 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
-        delegate?.didShowAnalysis?(self)
-    }
-    
-    @IBAction func back() {
+    @objc private func back() {
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        _ = navigationController?.popViewController(animated: true)
-    }
-    
-    fileprivate func showNotice(_ notice: NoticeView) {
-        if noticeView != nil {
-            noticeView?.hide(completion: {
-                self.noticeView = nil
-                self.showNotice(notice)
-            })
-        } else {
-            noticeView = notice
-            view.addSubview(noticeView!)
-            noticeView?.show()
-        }
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
     // MARK: Constraints
@@ -93,29 +67,4 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
-    
-}
-
-extension AnalysisContainerViewController: AnalysisDelegate {
-    
-    func displayError(withMessage message: String?, andAction action: NoticeAction?) {
-        let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
-        DispatchQueue.main.async { 
-            self.showNotice(notice)
-        }
-    }
-    
-    func displayNoResultsScreen(completion: ((_ shown: Bool) -> ())) {
-        if document.type == .image {
-            self.navigationController?.pushViewController(ImageAnalysisNoResultsContainerViewController(), animated: true)
-            if let viewControllers = (self.navigationController?.viewControllers.filter { vc in
-                !(vc is AnalysisContainerViewController)}) {
-                self.navigationController?.setViewControllers(viewControllers, animated: false)
-            }
-            completion(true)
-            return
-        }
-        completion(false)
-    }
-    
 }

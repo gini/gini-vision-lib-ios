@@ -33,6 +33,7 @@ class SelectAPIViewController: UIViewController {
         }
     }
     var document: GINIDocument?
+    var visionDocument: GiniVisionDocument?
     var errorMessage: String? {
         didSet {
             if let errorMessage = errorMessage {
@@ -180,12 +181,13 @@ class SelectAPIViewController: UIViewController {
     
     func show(_ result: GINIResult, fromDocument document: GINIDocument) {
         if let _ = analysisDelegate {
-            analysisDelegate = nil
-            present(result, fromDocument: document)
+            present(result, fromDocument: document) {
+                self.analysisDelegate = nil
+            }
         }
     }
     
-    func present(_ result: GINIResult, fromDocument document: GINIDocument) {
+    func present(_ result: GINIResult, fromDocument document: GINIDocument, completion: (() -> ())? = nil) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
@@ -196,17 +198,27 @@ class SelectAPIViewController: UIViewController {
             vc.document = document
             DispatchQueue.main.async {
                 self.navigationController?.pushViewController(vc, animated: false)
+                completion?()
             }
         } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+//            if let visionDocument = visionDocument, visionDocument.type == .image {
+//            } else {
+//                let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+//                DispatchQueue.main.async {
+//                    self.navigationController?.pushViewController(vc, animated: false)
+//                }
+//            }
+            
             DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: false)
+                self.analysisDelegate?.displayNoResultsScreen { shown in
+                    if !shown {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                    completion?()
+                }
             }
         }
-        
-        DispatchQueue.main.async { 
-            self.dismiss(animated: true, completion: nil)
-        }
+
     }
 }
 
@@ -215,6 +227,7 @@ extension SelectAPIViewController: GiniVisionDelegate {
         
     func didCapture(document: GiniVisionDocument) {
         print("Screen API received image data")
+        visionDocument = document
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withData: document.data)
@@ -222,6 +235,7 @@ extension SelectAPIViewController: GiniVisionDelegate {
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
+        visionDocument = document
         
         // Analyze reviewed data because changes were made by the user during review.
         if changes {

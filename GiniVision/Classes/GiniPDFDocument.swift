@@ -13,7 +13,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     static let acceptedPDFTypes:[String] = [kUTTypePDF as String]
     
-    public var type: GiniVisionDocumentType = .PDF
+    public var type: GiniVisionDocumentType = .pdf
     public let data:Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
