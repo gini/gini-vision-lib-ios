@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "filename" : "mobile_onboarding_screen_1_illustration.pdf"
+      "filename" : "mobile_onboarding_screen_1_illustration_black.pdf"
     },
     {
       "idiom" : "ipad",
-      "filename" : "ipad_onboarding_screen_1_illustration.pdf"
+      "filename" : "ipad_onboarding_screen_1_illustration_black.pdf"
     }
   ],
   "info" : {
