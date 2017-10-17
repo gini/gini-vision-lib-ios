@@ -470,6 +470,11 @@ import UIKit
     public var noResultsWarningContainerIconColor = Colors.Gini.rose
     
     /**
+     Sets the color of the bottom button to the specified color
+     */
+    public var noResultsBottomButtonColor = Colors.Gini.blue
+    
+    /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
      - returns: Instance of `GiniConfiguration`.

@@ -19,8 +19,7 @@ import UIKit
  - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized strings will make `AnalysisViewController` revert to the default iOS back button.
  
  **Image resources for this screen**
- 
- * `repeatAnalysis`
+
  * `warningNoResults`
  * `captureSuggestion1`
  * `captureSuggestion2`
@@ -31,36 +30,37 @@ import UIKit
 public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     // Views
-    var warningViewContainer: UIView = {
-        let container = UIView()
-        return container
-    }()
-    var warningViewContainerBottomLine: UIView = {
+    lazy var warningViewContainer: UIView = UIView()
+    lazy var warningViewContainerBottomLine: UIView = {
         let view = UIView()
         view.backgroundColor = .lightGray
         return view
     }()
-    var warningViewIcon: UIImageView = {
-        let icon = UIImageView(image: UIImageNamedPreferred(named: "warningNoResults")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate))
+    lazy var warningViewIcon: UIImageView = {
+        let icon = UIImageView(image: self.warningIconImage)
         icon.contentMode = .scaleAspectFit
         icon.tintColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
         return icon
     }()
-    var warningViewText: UILabel = {
+    lazy var warningViewText: UILabel = {
         let text = UILabel()
         text.numberOfLines = 0
-        text.text = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis")
+        text.text = self.warningText
         return text
     }()
-    var suggestionsCollectionView: CaptureSuggestionsCollectionView = CaptureSuggestionsCollectionView()
-    var repeatAnalysisButton: UIButton = {
-        let repeatButton = UIButton()
-        repeatButton.setTitle("Aufnahme wiederholen", for: .normal)
-        repeatButton.setImage(UIImageNamedPreferred(named: "repeatAnalysis"), for: .normal)
-        repeatButton.addTarget(self, action: #selector(didTapRepeatAnalysisAction), for: .touchUpInside)
-        repeatButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
-        repeatButton.backgroundColor = .black
-        return repeatButton
+    lazy var suggestionsCollectionView: CaptureSuggestionsCollectionView = {
+        let collection = CaptureSuggestionsCollectionView(withHeader: self.suggestionsTitle != nil)
+        return collection
+    }()
+    lazy var bottomButton: UIButton = {
+        let bottomButton = UIButton()
+        bottomButton.setTitle(self.bottomButtonText, for: .normal)
+        bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
+        bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
+        bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
+        bottomButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
+        bottomButton.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
+        return bottomButton
     }()
     
     let captureSuggestions: [(image: UIImage?, text: String)] = [
@@ -69,24 +69,50 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen"))
     ]
-    public var didTapRepeatAnalysis: (() -> ()) = { }
+    public var didTapBottomButton: (() -> ()) = { }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate var suggestionsTitle: String?
+    fileprivate var warningText: String?
+    fileprivate var warningIconImage: UIImage?
+    fileprivate var bottomButtonText: String?
+    fileprivate var bottomButtonIconImage: UIImage?
+    
+    public init(suggestionsTitle: String? = "Tipps für bessere Foto",
+                warningText: String = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis"),
+                warningIcon: UIImage? = UIImageNamedPreferred(named: "warningNoResults")?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
+                bottomButtonText: String? = "Aufnahme wiederholen", bottomButtonIconImage: UIImage? = UIImageNamedPreferred(named: "repeatIcon")) {
+        super.init(nibName: nil, bundle: nil)
+        self.suggestionsTitle = suggestionsTitle
+        self.warningText = warningText
+        self.warningIconImage = warningIcon
+        self.bottomButtonText = bottomButtonText
+        self.bottomButtonIconImage = bottomButtonIconImage
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func loadView() {
+        super.loadView()
         view.backgroundColor = .white
         edgesForExtendedLayout = []
         
-        suggestionsCollectionView.dataSource = self
-        suggestionsCollectionView.delegate = self
-        
         warningViewContainer.addSubview(warningViewContainerBottomLine)
-        warningViewContainer.addSubview(warningViewIcon)
         warningViewContainer.addSubview(warningViewText)
+        if warningIconImage != nil {
+            warningViewContainer.addSubview(warningViewIcon)
+        }
+        
         view.addSubview(warningViewContainer)
         view.addSubview(suggestionsCollectionView)
-        view.addSubview(repeatAnalysisButton)
+        view.addSubview(bottomButton)
+        
         addConstraints()
         addConstraintsWarningView()
+        
+        suggestionsCollectionView.dataSource = self
+        suggestionsCollectionView.delegate = self
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -97,18 +123,18 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     fileprivate func addConstraints() {
         suggestionsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        repeatAnalysisButton.translatesAutoresizingMaskIntoConstraints = false
+        bottomButton.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .trailing, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: repeatAnalysisButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .bottom, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: bottomButton, attribute: .leading, multiplier: 1.0, constant: -20)
+        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: bottomButton, attribute: .trailing, multiplier: 1.0, constant: 20)
+        ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
         
         ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .bottom, relatedBy: .equal, toItem: repeatAnalysisButton, attribute: .top, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .top, multiplier: 1.0, constant:0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .trailing, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: repeatAnalysisButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
     }
     
     fileprivate func addConstraintsWarningView() {
@@ -125,12 +151,16 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: warningViewContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
-        
-        ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .trailing, relatedBy: .equal, toItem: warningViewText, attribute: .leading, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 25)
+
+        if warningIconImage != nil {
+            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
+            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
+            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
+            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .trailing, relatedBy: .equal, toItem: warningViewText, attribute: .leading, multiplier: 1.0, constant: -16)
+            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 25)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
+        }
         
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
         ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
@@ -140,8 +170,8 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     // MARK: Button action
     
-    func didTapRepeatAnalysisAction() {
-        didTapRepeatAnalysis()
+    func didTapBottomButtonAction() {
+        didTapBottomButton()
     }
 }
 
@@ -172,12 +202,15 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier, for: indexPath)
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier, for: indexPath) as! CaptureSuggestionsCollectionHeader
+        header.headerTitle.text = self.suggestionsTitle
+        return header
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y < 0 {
             scrollView.contentOffset = .zero
         }
+        suggestionsCollectionView.collectionViewLayout.invalidateLayout()
     }
 }
