@@ -24,7 +24,13 @@ import UIKit
      */
     func displayError(withMessage message: String?, andAction action: NoticeAction?)
     
-    
+    /**
+     In case that the `GiniVisionDocument` analysed is an image it will display a no results screen
+     with some capture suggestions. It won't show any screen if it is not an image, pointing out
+     on the completion handler that any screen was shown.
+     
+     - parameter completion: Handler that returns `true` if a screen was shown or `false` if it wasn't.
+     */
     func displayNoResultsScreen(completion: ((Bool) -> ()))
 }
 

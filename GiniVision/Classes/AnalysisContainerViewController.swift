@@ -106,12 +106,15 @@ extension AnalysisContainerViewController: AnalysisDelegate {
     }
     
     func displayNoResultsScreen(completion: ((_ shown: Bool) -> ())) {
+        guard let giniNavController = self.navigationController as? GiniNavigationViewController else {
+            completion(false)
+            return
+        }
+        
         if document.type == .image {
-            self.navigationController?.pushViewController(ImageAnalysisNoResultsContainerViewController(), animated: true)
-            if let viewControllers = (self.navigationController?.viewControllers.filter { vc in
-                !(vc is AnalysisContainerViewController)}) {
-                self.navigationController?.setViewControllers(viewControllers, animated: false)
-            }
+            giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(), animated: true)
+            giniNavController.remove(viewControllerOfType: AnalysisContainerViewController.self)
+
             completion(true)
             return
         }

@@ -33,6 +33,14 @@ internal class GiniNavigationViewController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func remove<T>(viewControllerOfType vcType: T.Type) {
+        let filteredViewControllers = self.viewControllers.filter { vc in
+            !(vc is T)
+        }
+        
+        self.setViewControllers(filteredViewControllers, animated: false)
+    }
+    
 }
 
 internal extension GiniNavigationViewController {
