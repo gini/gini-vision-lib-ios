@@ -27,9 +27,8 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
             return UIEdgeInsetsMake(0, 0, 20, 0)
         }
     }
-    
 
-    init(){
+    init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier)
         self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier)
@@ -50,7 +49,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         fatalError("init(frame:collectionViewLayout:) should be used instead")
     }
     
-    func cellSize(ofSection section: Int = 0) -> CGSize{
+    func cellSize(ofSection section: Int = 0) -> CGSize {
         let isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
         var height: CGFloat = (self.frame.height - headerHeight - captureSuggestionsCollectionLayout.sectionInset.top - captureSuggestionsCollectionLayout.sectionInset.bottom) / CGFloat(self.numberOfItems(inSection: section))
         var width: CGFloat = (UIScreen.main.bounds.width - captureSuggestionsCollectionLayout.sectionInset.left - captureSuggestionsCollectionLayout.sectionInset.right)

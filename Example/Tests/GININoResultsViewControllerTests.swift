@@ -11,10 +11,9 @@ import XCTest
 
 class GININoResultsViewControllerTests: XCTestCase {
     
-    var viewController: ImageAnalysisNoResultsViewController!
+    var viewController: ImageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
     
     override func setUp() {
-        viewController = ImageAnalysisNoResultsViewController()
         _ = viewController.view
     }
     
