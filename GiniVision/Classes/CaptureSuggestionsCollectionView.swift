@@ -28,10 +28,8 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         }
     }
     
-    private let withHeader: Bool
 
-    init(withHeader: Bool = false){
-        self.withHeader = withHeader
+    init(){
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier)
         self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier)
@@ -70,10 +68,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     }
     
     func headerSize() -> CGSize {
-        if withHeader {
-            return CGSize(width: UIScreen.main.bounds.width, height: headerHeight)
-        }
-        return .zero
+        return CGSize(width: UIScreen.main.bounds.width, height: headerHeight)
     }
 
 }
@@ -96,17 +91,16 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     }()
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupCellViews()
+        addSubview(suggestionImage)
+        addSubview(suggestionText)
+        addConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(frame:) should be used instead")
     }
     
-    private func setupCellViews() {
-        self.addSubview(suggestionImage)
-        self.addSubview(suggestionText)
-        
+    private func addConstraints() {
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
@@ -136,18 +130,17 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
-        setupHeaderViews()
+        backgroundColor = .white
+        addSubview(headerTitle)
+        addSubview(bottomLine)
+        addConstraints()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(frame:) should be used instead")
     }
     
-    private func setupHeaderViews() {
-        self.addSubview(headerTitle)
-        self.addSubview(bottomLine)
-        
+    private func addConstraints() {
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)

@@ -55,7 +55,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         return text
     }()
     lazy var suggestionsCollectionView: CaptureSuggestionsCollectionView = {
-        let collection = CaptureSuggestionsCollectionView(withHeader: self.suggestionsTitle != nil)
+        let collection = CaptureSuggestionsCollectionView()
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
@@ -196,7 +196,10 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return suggestionsCollectionView.headerSize()
+        if self.suggestionsTitle != nil {
+            return suggestionsCollectionView.headerSize()
+        }
+        return .zero
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
