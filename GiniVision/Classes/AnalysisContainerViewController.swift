@@ -124,4 +124,16 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         completion(false)
     }
     
+    fileprivate func imageAnalyisNoResults(within nav: UINavigationController) -> ImageAnalysisNoResultsContainerViewController {
+        let isCameraViewControllerLoaded = nav.viewControllers.contains(where: { viewController in
+            return viewController is CameraContainerViewController
+        })
+        
+        if isCameraViewControllerLoaded {
+            return ImageAnalysisNoResultsContainerViewController()
+        } else {
+            return ImageAnalysisNoResultsContainerViewController()
+        }
+    }
+    
 }
