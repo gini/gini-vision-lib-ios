@@ -115,25 +115,18 @@ extension AnalysisContainerViewController: AnalysisDelegate {
             var filteredViewControllers = giniNavController.viewControllers.filter {
                 !($0 is AnalysisContainerViewController) && !($0 is ReviewContainerViewController)
             }
-            filteredViewControllers.append(imageAnalyisNoResults(within: giniNavController))
+            
+            let isCameraViewControllerLoaded = giniNavController.viewControllers.contains(where: { viewController in
+                return viewController is CameraContainerViewController
+            })
+            
+            filteredViewControllers.append(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded))
             giniNavController.setViewControllers(filteredViewControllers, animated: true)
 
             completion(true)
             return
         }
         completion(false)
-    }
-    
-    fileprivate func imageAnalyisNoResults(within nav: UINavigationController) -> ImageAnalysisNoResultsContainerViewController {
-        let isCameraViewControllerLoaded = nav.viewControllers.contains(where: { viewController in
-            return viewController is CameraContainerViewController
-        })
-        
-        if isCameraViewControllerLoaded {
-            return ImageAnalysisNoResultsContainerViewController()
-        } else {
-            return ImageAnalysisNoResultsContainerViewController(canGoBack: false)
-        }
     }
     
 }

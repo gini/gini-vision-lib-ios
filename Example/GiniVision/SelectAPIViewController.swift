@@ -206,14 +206,14 @@ extension SelectAPIViewController: GiniVisionDelegate {
     func didCapture(document: GiniVisionDocument) {
         print("Screen API received image data")
         
-        // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
+        // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withData: document.data)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
-        // Analyze reviewed when changes were made by the user during review or there is no result and is not analysing.
+        // Analyze reviewed document when changes were made by the user during review or there is no result and is not analysing.
         if changes || (!AnalysisManager.sharedManager.isAnalyzing && result == nil) {
             analyzeDocument(withData: document.data)
             return
