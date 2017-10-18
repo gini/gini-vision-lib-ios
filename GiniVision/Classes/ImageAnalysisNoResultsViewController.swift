@@ -86,7 +86,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     public var didTapBottomButton: (() -> ()) = { }
     
-    public init(suggestionsTitle: String? = "Tipps für bessere Foto",
+    public init(suggestionsTitle: String? = "Tipps für beste Ergebnisse:",
                 warningText: String = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis"),
                 warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
                 bottomButtonText: String? = "Zur Kamera",
