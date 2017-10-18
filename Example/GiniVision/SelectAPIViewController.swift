@@ -25,7 +25,8 @@ class SelectAPIViewController: UIViewController {
     var analysisDelegate: AnalysisDelegate? {
         didSet {
             if let result = result,
-                let document = document {
+                let document = document,
+                analysisDelegate != nil {
                 present(result, fromDocument: document)
             }
         }
@@ -35,13 +36,12 @@ class SelectAPIViewController: UIViewController {
         didSet {
             if let result = result,
                 let document = document,
-                let _ = analysisDelegate {
+                analysisDelegate != nil {
                 present(result, fromDocument: document)
             }
         }
-    }
+    }    
     var document: GINIDocument?
-    var visionDocument: GiniVisionDocument?
     var errorMessage: String? {
         didSet {
             if let errorMessage = errorMessage {
@@ -49,6 +49,7 @@ class SelectAPIViewController: UIViewController {
             }
         }
     }
+    
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -187,30 +188,40 @@ class SelectAPIViewController: UIViewController {
         })
     }
     
-    func present(_ result: GINIResult, fromDocument document: GINIDocument, completion: (() -> ())? = nil) {
+    func present(_ result: GINIResult, fromDocument document: GINIDocument) {
+        
+
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         if hasPayFive {
-            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
-            vc.result = result
-            vc.document = document
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: false)
-                completion?()
+            let customResultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+            customResultsScreen.result = result
+            customResultsScreen.document = document
+            DispatchQueue.main.async { [weak self] in
+                print("Presenting results screen...")
+                self?.navigationController?.pushViewController(customResultsScreen, animated: true)
+                self?.dismiss(animated: true, completion: nil)
+                self?.analysisDelegate = nil
+
             }
         } else {            
-            DispatchQueue.main.async {
-                self.analysisDelegate?.displayNoResultsScreen { shown in
+            DispatchQueue.main.async { [weak self] in
+                print("Presenting no results screen...")
+                self?.analysisDelegate?.displayNoResultsScreen { shown in
                     if !shown {
-                        self.dismiss(animated: true, completion: nil)
+                        let customNoResultsScreen = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                        self?.navigationController!.pushViewController(customNoResultsScreen, animated: true)
+
+                        self?.dismiss(animated: true, completion: nil)
                     }
-                    completion?()
+                    self?.analysisDelegate = nil
+
                 }
             }
         }
-
+        
     }
 }
 
@@ -219,7 +230,6 @@ extension SelectAPIViewController: GiniVisionDelegate {
         
     func didCapture(document: GiniVisionDocument) {
         print("Screen API received image data")
-        visionDocument = document
         
         // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withData: document.data)
@@ -227,7 +237,6 @@ extension SelectAPIViewController: GiniVisionDelegate {
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
-        self.visionDocument = document
         
         // Analyze reviewed when changes were made by the user during review or there is no result and is not analysing.
         if changes || (!AnalysisManager.sharedManager.isAnalyzing && result == nil) {
