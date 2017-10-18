@@ -115,7 +115,7 @@ extension AnalysisContainerViewController: AnalysisDelegate {
             var filteredViewControllers = giniNavController.viewControllers.filter {
                 !($0 is AnalysisContainerViewController) && !($0 is ReviewContainerViewController)
             }
-            filteredViewControllers.append(ImageAnalysisNoResultsContainerViewController())
+            filteredViewControllers.append(imageAnalyisNoResults(within: giniNavController))
             giniNavController.setViewControllers(filteredViewControllers, animated: true)
 
             completion(true)
@@ -132,7 +132,7 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         if isCameraViewControllerLoaded {
             return ImageAnalysisNoResultsContainerViewController()
         } else {
-            return ImageAnalysisNoResultsContainerViewController()
+            return ImageAnalysisNoResultsContainerViewController(canGoBack: false)
         }
     }
     

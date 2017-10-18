@@ -14,7 +14,8 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
     internal var contentController = UIViewController()
     
     // Resources
-    fileprivate let backButtonResources = PreferredButtonResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
+    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate let backButtonResources = PreferredButtonResource(image: "arrowBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
 
     init(canGoBack: Bool = true) {
         super.init(nibName: nil, bundle: nil)
@@ -23,9 +24,9 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         let imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController
         
         if canGoBack {
-            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: "", bottomButtonIcon: nil)
-        } else {
             imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+        } else {
+            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: nil, bottomButtonIcon: nil)
         }
         
         imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
@@ -37,7 +38,11 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
+        if canGoBack {
+            setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
+        } else {
+            setupLeftNavigationItem(usingResources: closeButtonResources, selector: #selector(close))
+        }
         
         // Configure view hierachy
         view.addSubview(containerView)
@@ -65,6 +70,10 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         delegate?.didCancelAnalysis?()
         
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func close() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     // MARK: Constraints
