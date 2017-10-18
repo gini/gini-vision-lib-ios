@@ -119,29 +119,6 @@ class SelectAPIViewController: UIViewController {
         return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedDocument: document)
     }
     
-
-    func giniComponentAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController? {
-        if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
-            let navBar = tabBar.viewControllers?.first as? UINavigationController {
-            if let document = document {
-                if document.isReviewable {
-                    if let reviewContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIReview") as? ComponentAPIReviewViewController {
-                        reviewContainer.document = document
-                        navBar.setViewControllers([reviewContainer], animated: false)
-                    }
-                } else {
-                    if let analysisContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController {
-                        analysisContainer.document = document
-                        navBar.setViewControllers([analysisContainer], animated: false)
-                    }
-                }
-            }
-            
-            return tabBar
-        }
-        return nil
-    }
-    
     // MARK: Handle analysis of document
     func analyzeDocument(withData data: Data) {
         
@@ -152,6 +129,7 @@ class SelectAPIViewController: UIViewController {
         
         cancelAnalsyis()
         imageData = data
+        
         print("Analysing document with size \(Double(data.count) / 1024.0)")
         AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
@@ -189,8 +167,6 @@ class SelectAPIViewController: UIViewController {
     }
     
     func present(_ result: GINIResult, fromDocument document: GINIDocument) {
-        
-
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         
@@ -213,7 +189,6 @@ class SelectAPIViewController: UIViewController {
                     if !shown {
                         let customNoResultsScreen = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
                         self?.navigationController!.pushViewController(customNoResultsScreen, animated: true)
-
                         self?.dismiss(animated: true, completion: nil)
                     }
                     self?.analysisDelegate = nil
