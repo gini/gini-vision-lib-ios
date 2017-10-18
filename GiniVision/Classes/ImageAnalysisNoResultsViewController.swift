@@ -19,7 +19,7 @@ import UIKit
  - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized strings will make `AnalysisViewController` revert to the default iOS back button.
  
  **Image resources for this screen**
-
+ 
  * `captureSuggestion1`
  * `captureSuggestion2`
  * `captureSuggestion3`
@@ -116,7 +116,10 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         
         view.addSubview(warningViewContainer)
         view.addSubview(suggestionsCollectionView)
-        view.addSubview(bottomButton)
+        
+        if bottomButtonText != nil {
+            view.addSubview(bottomButton)
+        }
         addConstraints()
         
         suggestionsCollectionView.dataSource = self
@@ -132,14 +135,18 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     fileprivate func addConstraints() {
         
         // Button
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .bottom, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: bottomButton, attribute: .leading, multiplier: 1.0, constant: -20)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: bottomButton, attribute: .trailing, multiplier: 1.0, constant: 20, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        if bottomButtonText != nil {
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .bottom, multiplier: 1.0, constant: 20)
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: bottomButton, attribute: .leading, multiplier: 1.0, constant: -20)
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: bottomButton, attribute: .trailing, multiplier: 1.0, constant: 20, priority: 999)
+            ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .top, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .bottom, multiplier: 1.0, constant:0, priority: 999)
+        } else {
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .bottom, multiplier: 1.0, constant:0, priority: 999)
+        }
         
         // Collection View
         ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .top, multiplier: 1.0, constant:0, priority: 999)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .trailing, multiplier: 1.0, constant: 0)
         
@@ -153,7 +160,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: warningViewContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
-
+        
         // Warning Icon
         if warningIconImage != nil {
             ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
@@ -219,3 +226,5 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
         }
     }
 }
+
+
