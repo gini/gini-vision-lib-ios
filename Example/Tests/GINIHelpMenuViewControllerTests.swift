@@ -53,7 +53,7 @@ class GINIHelpMenuViewControllerTests: XCTestCase {
         
         let viewController = helpMenuViewController.viewController(forRowWithId: unknownID)
         
-        XCTAssertNil(viewController, "should be nil since none viewController on the table has that ID")
+        XCTAssertNil(viewController, "should be nil since none viewController on the tableview has that ID")
     }
     
 }
