@@ -138,9 +138,11 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         // Button
         if bottomButtonText != nil {
             ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .bottom, multiplier: 1.0, constant: 20)
-            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: bottomButton, attribute: .leading, multiplier: 1.0, constant: -20)
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: bottomButton, attribute: .leading, multiplier: 1.0, constant: -20, priority: 999)
             ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: bottomButton, attribute: .trailing, multiplier: 1.0, constant: 20, priority: 999)
+            ConstraintUtils.addActiveConstraint(item: self.view, attribute: .centerX, relatedBy: .equal, toItem: bottomButton, attribute: .centerX, multiplier: 1.0, constant: 0)
             ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 375)
             ConstraintUtils.addActiveConstraint(item: bottomButton, attribute: .top, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .bottom, multiplier: 1.0, constant:0, priority: 999)
         } else {
             ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .bottom, multiplier: 1.0, constant:0, priority: 999)
@@ -227,5 +229,3 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
         }
     }
 }
-
-
