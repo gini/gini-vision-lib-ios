@@ -112,11 +112,11 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         }
         
         if document.type == .image {
-            giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(), animated: true)
-            let filteredViewControllers = giniNavController.viewControllers.filter {
+            var filteredViewControllers = giniNavController.viewControllers.filter {
                 !($0 is AnalysisContainerViewController) && !($0 is ReviewContainerViewController)
             }
-            giniNavController.setViewControllers(filteredViewControllers, animated: false)
+            filteredViewControllers.append(ImageAnalysisNoResultsContainerViewController())
+            giniNavController.setViewControllers(filteredViewControllers, animated: true)
 
             completion(true)
             return

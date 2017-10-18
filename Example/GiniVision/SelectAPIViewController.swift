@@ -22,13 +22,21 @@ class SelectAPIViewController: UIViewController {
         return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
-    var analysisDelegate: AnalysisDelegate?
+    var analysisDelegate: AnalysisDelegate? {
+        didSet {
+            if let result = result,
+                let document = document {
+                present(result, fromDocument: document)
+            }
+        }
+    }
     var imageData: Data?
     var result: GINIResult? {
         didSet {
             if let result = result,
-                let document = document {
-                show(result, fromDocument: document)
+                let document = document,
+                let _ = analysisDelegate {
+                present(result, fromDocument: document)
             }
         }
     }
@@ -179,14 +187,6 @@ class SelectAPIViewController: UIViewController {
         })
     }
     
-    func show(_ result: GINIResult, fromDocument document: GINIDocument) {
-        if let _ = analysisDelegate {
-            present(result, fromDocument: document) {
-                self.analysisDelegate = nil
-            }
-        }
-    }
-    
     func present(_ result: GINIResult, fromDocument document: GINIDocument, completion: (() -> ())? = nil) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
@@ -200,15 +200,7 @@ class SelectAPIViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: false)
                 completion?()
             }
-        } else {
-//            if let visionDocument = visionDocument, visionDocument.type == .image {
-//            } else {
-//                let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-//                DispatchQueue.main.async {
-//                    self.navigationController?.pushViewController(vc, animated: false)
-//                }
-//            }
-            
+        } else {            
             DispatchQueue.main.async {
                 self.analysisDelegate?.displayNoResultsScreen { shown in
                     if !shown {
@@ -235,24 +227,12 @@ extension SelectAPIViewController: GiniVisionDelegate {
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
-        visionDocument = document
+        self.visionDocument = document
         
-        // Analyze reviewed data because changes were made by the user during review.
-        if changes {
+        // Analyze reviewed when changes were made by the user during review or there is no result and is not analysing.
+        if changes || (!AnalysisManager.sharedManager.isAnalyzing && result == nil) {
             analyzeDocument(withData: document.data)
             return
-        }
-        
-        // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
-        if let result = result,
-            let document = self.document {
-            present(result, fromDocument: document)
-            return
-        }
-        
-        // Restart analysis if it was canceled and is currently not running.
-        if !AnalysisManager.sharedManager.isAnalyzing {
-            analyzeDocument(withData: document.data)
         }
     }
     
