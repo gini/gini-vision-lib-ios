@@ -62,9 +62,9 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     lazy var bottomButton: UIButton = {
         let bottomButton = UIButton()
         bottomButton.translatesAutoresizingMaskIntoConstraints = false
-        bottomButton.setTitle("Zur Kamera", for: .normal)
+        bottomButton.setTitle(self.bottomButtonText, for: .normal)
         bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
-        bottomButton.setImage(UIImage(named: "cameraIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil), for: .normal)
+        bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
         bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
         bottomButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20)
         bottomButton.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
@@ -81,16 +81,22 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     fileprivate var suggestionsTitle: String?
     fileprivate var warningText: String?
     fileprivate var warningIconImage: UIImage?
+    fileprivate var bottomButtonText: String?
+    fileprivate var bottomButtonIconImage: UIImage?
     
     public var didTapBottomButton: (() -> ()) = { }
     
     public init(suggestionsTitle: String? = "Tipps für bessere Foto",
                 warningText: String = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis"),
-                warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate)) {
+                warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
+                bottomButtonText: String? = "Zur Kamera",
+                bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)) {
         super.init(nibName: nil, bundle: nil)
         self.suggestionsTitle = suggestionsTitle
         self.warningText = warningText
         self.warningIconImage = warningIcon
+        self.bottomButtonText = bottomButtonText
+        self.bottomButtonIconImage = bottomButtonIcon
     }
     
     required public init?(coder aDecoder: NSCoder) {
