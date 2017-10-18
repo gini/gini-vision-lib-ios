@@ -38,10 +38,10 @@
 "ginivision.review.documentImageTitle" = "Dokument";
 
 "ginivision.analysis.loadingText" = "Dokument wird analysiert";
-"ginivision.analysis.suggestion.1" = "Seite vollständig in den angezeigten Rahmen einpassen";
-"ginivision.analysis.suggestion.2" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.1" = "Auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.2" = "Seite glatt streichen";
 "ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
-"ginivision.analysis.suggestion.4" = "Seite glatt streichen";
+"ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
 
 "ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte wiederholen Sie die Aufnahme";
 
