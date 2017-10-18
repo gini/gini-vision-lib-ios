@@ -16,11 +16,18 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
     // Resources
     fileprivate let backButtonResources = PreferredButtonResource(image: "navigationAnalysisBack", title: "ginivision.navigationbar.analysis.back", comment: "Button title in the navigation bar for the back button on the analysis screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarAnalysisTitleBackButton)
 
-    init() {
+    init(canGoBack: Bool = true) {
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+        let imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController
+        
+        if canGoBack {
+            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: "", bottomButtonIcon: nil)
+        } else {
+            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+        }
+        
         imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
             self?.back()
         }
