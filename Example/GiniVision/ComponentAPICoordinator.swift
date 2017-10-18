@@ -94,7 +94,7 @@ final class ComponentAPICoordinator {
         let vc: UIViewController
         if document?.type == .image {
             let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
-            imageAnalysisNoResultsViewController.didTapRepeatAnalysis = {
+            imageAnalysisNoResultsViewController.didTapBottomButton = {
                 self.didTapRetry()
             }
             vc = imageAnalysisNoResultsViewController

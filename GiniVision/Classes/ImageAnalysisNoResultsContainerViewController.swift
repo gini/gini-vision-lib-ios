@@ -20,7 +20,11 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        contentController = ImageAnalysisNoResultsViewController()
+        let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+        imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
+            self?.back()
+        }
+        contentController = imageAnalysisNoResultsViewController
         
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor

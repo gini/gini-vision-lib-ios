@@ -94,7 +94,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
     
-}
+} 
 
 extension AnalysisContainerViewController: AnalysisDelegate {
     
@@ -113,7 +113,10 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         
         if document.type == .image {
             giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(), animated: true)
-            giniNavController.remove(viewControllerOfType: AnalysisContainerViewController.self)
+            let filteredViewControllers = giniNavController.viewControllers.filter {
+                !($0 is AnalysisContainerViewController) && !($0 is ReviewContainerViewController)
+            }
+            giniNavController.setViewControllers(filteredViewControllers, animated: false)
 
             completion(true)
             return
