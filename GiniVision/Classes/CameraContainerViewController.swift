@@ -127,25 +127,8 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     }
     
     @IBAction func help() {
-        let cameraViewController = contentController as? CameraViewController
-        
-        // Hide camera UI when overlay is shown
-        cameraViewController?.hideCameraOverlay()
-        cameraViewController?.hideCaptureButton()
-        cameraViewController?.hideFileImportTip()
-        
-        let vc = OnboardingContainerViewController {
-            
-            // Show camera UI when overlay is dismissed
-            cameraViewController?.showCameraOverlay()
-            cameraViewController?.showCaptureButton()
-            cameraViewController?.showFileImportTip()
-
-        }
-
-        let navigationController = GiniNavigationViewController(rootViewController: vc)
-        navigationController.modalPresentationStyle = .overCurrentContext
-        present(navigationController, animated: true, completion: nil)
+        let helpMenu = HelpMenuViewController(style: .plain)
+        self.navigationController?.pushViewController(helpMenu, animated: true)
     }
     
     // MARK: Constraints
