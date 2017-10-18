@@ -85,7 +85,8 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
         suggestionText.numberOfLines = 0
         suggestionText.adjustsFontSizeToFitWidth = true
-        suggestionText.minimumScaleFactor = 10 / 16
+        suggestionText.font = UIFont.systemFont(ofSize: 14)
+        suggestionText.minimumScaleFactor = 10 / 14
         return suggestionText
     }()
     override init(frame: CGRect) {
@@ -118,7 +119,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         let headerTitle = UILabel()
         headerTitle.translatesAutoresizingMaskIntoConstraints = false
         headerTitle.numberOfLines = 0
-        headerTitle.font = UIFont.boldSystemFont(ofSize: 14)
+        headerTitle.font = UIFont.systemFont(ofSize: 14, weight: 500)
         return headerTitle
     }()
     var bottomLine: UIView = {

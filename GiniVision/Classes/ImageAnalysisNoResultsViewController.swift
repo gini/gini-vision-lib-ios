@@ -52,6 +52,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         text.translatesAutoresizingMaskIntoConstraints = false
         text.numberOfLines = 0
         text.text = self.warningText
+        text.font = UIFont.systemFont(ofSize: 14)
         return text
     }()
     lazy var suggestionsCollectionView: CaptureSuggestionsCollectionView = {
