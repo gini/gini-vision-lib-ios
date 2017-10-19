@@ -27,9 +27,10 @@
 "ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 
-"ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
-"ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
-"ginivision.onboarding.thirdPage"  = "Dokument\nvollständig in\nRahmen einpassen";
+"ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.onboarding.secondPage" = "Seite glatt streichen";
+"ginivision.onboarding.thirdPage"  = "Gerät parallel über die Seite halten";
+"ginivision.onboarding.forthPage"  = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
 
 "ginivision.review.top"                = "Dokument vollständig, scharf und in Leserichtung?";
 "ginivision.review.bottom"             = "Doppeltippen um Schärfe zu prüfen";
