@@ -79,7 +79,7 @@ class GINISupportedFormatsViewControllerTests: XCTestCase {
 
         let sectionImageItemBackgroundColor = supportedFormatsViewController.sections[indexPath.section].itemsImageBackgroundColor
         
-        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as! SupportedFormatTableViewCell
+        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as! SupportedFormatsTableViewCell
         let cellImageBackgroundColor = cell.imageBackgroundView.backgroundColor
         
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor, "cell iage background color should be the same as the one declared on initialization")

@@ -29,7 +29,7 @@ final class SupportedFormatsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Unterstützte Formate"
-        tableView.register(SupportedTypeTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(SupportedFormatsTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = rowHeight
         tableView.tableFooterView = UIView()
         tableView.sectionHeaderHeight = sectionHeight
@@ -56,7 +56,7 @@ final class SupportedFormatsViewController: UITableViewController {
         let section = sections[indexPath.section]
         let item = section.items[indexPath.row]
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SupportedTypeTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SupportedFormatsTableViewCell
         cell.textLabel?.text = item
         cell.imageView?.image = section.itemsImage
         cell.imageBackgroundView.backgroundColor = section.itemsImageBackgroundColor
@@ -70,7 +70,7 @@ final class SupportedFormatsViewController: UITableViewController {
 
 }
 
-final class SupportedTypeTableViewCell: UITableViewCell {
+final class SupportedFormatsTableViewCell: UITableViewCell {
     
     let imageViewSize = CGSize(width: 12, height: 12)
     let imageBackgroundSize = CGSize(width: 22, height: 22)
