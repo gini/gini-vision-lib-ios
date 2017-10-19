@@ -85,4 +85,12 @@ class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor, "cell iage background color should be the same as the one declared on initialization")
     }
     
+    func testTableViewCellType() {
+        let indexPath = IndexPath(row: 0, section: 0)
+
+        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath)
+        
+        XCTAssertNotNil(cell as? SupportedFormatsTableViewCell, "cell in this table view should always be of type SupportedFormatsTableViewCell")
+    }
+    
 }
