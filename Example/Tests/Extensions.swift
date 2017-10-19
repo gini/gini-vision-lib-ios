@@ -3,7 +3,7 @@
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 9/11/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import Foundation
