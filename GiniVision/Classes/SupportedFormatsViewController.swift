@@ -12,15 +12,17 @@ final class SupportedFormatsViewController: UITableViewController {
     let reuseIdentifier = "reuseIdentifier"
     let rowHeight: CGFloat = 70
     let sectionHeight: CGFloat = 70
-    var sections: [(title: String, items: [String], itemsImageBackgroundColor: UIColor)] = [
+    var sections: [(title: String, items: [String], itemsImage:UIImage?, itemsImageBackgroundColor: UIColor)] = [
         ("Folgende Formate werden unterstützt:",
          ["Computer-erstellte Überweisungsträger und Rechnungen",
           "Einseitige Bilder im jpg, png oder tif Format",
           "PDF Dokumente von bis zu 10 Seiten"],
+         UIImage(named: "supportedFormatsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil),
          GiniConfiguration.sharedConfiguration.supportedFormatsIconColor),
         ("Was nicht analysiert wird:",
          ["Handschrift",
           "Fotos von Bildschirme"],
+         UIImage(named: "nonSupportedFormatsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil),
          GiniConfiguration.sharedConfiguration.nonSupportedFormatsIconColor)
     ]
 
@@ -34,6 +36,10 @@ final class SupportedFormatsViewController: UITableViewController {
         tableView.allowsSelection = false
         tableView.backgroundColor = Colors.Gini.pearl
         tableView.alwaysBounceVertical = false
+        
+        if #available(iOS 11.0, *) { // On iOS is .automatic by default.
+            tableView.contentInsetAdjustmentBehavior = .never
+        }
     }
     
     // MARK: - Table view data source
@@ -49,9 +55,10 @@ final class SupportedFormatsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = sections[indexPath.section]
         let item = section.items[indexPath.row]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SupportedTypeTableViewCell
         cell.textLabel?.text = item
-        cell.imageView?.image = UIImageNamedPreferred(named: "navigationCameraClose")!.withRenderingMode(.alwaysTemplate)
+        cell.imageView?.image = section.itemsImage
         cell.imageBackgroundView.backgroundColor = section.itemsImageBackgroundColor
 
         return cell
@@ -65,7 +72,7 @@ final class SupportedFormatsViewController: UITableViewController {
 
 final class SupportedTypeTableViewCell: UITableViewCell {
     
-    let imageViewSize = CGSize(width: 12.5, height: 12.5)
+    let imageViewSize = CGSize(width: 12, height: 12)
     let imageBackgroundSize = CGSize(width: 22, height: 22)
     
     lazy var imageBackgroundView: UIView = {
@@ -77,11 +84,16 @@ final class SupportedTypeTableViewCell: UITableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        textLabel?.font = textLabel?.font.withSize(14)
-        textLabel?.numberOfLines = 0
+        
+        if let textLabel = textLabel {
+            textLabel.font = textLabel.font.withSize(14)
+            textLabel.numberOfLines = 0
+            textLabel.frame.origin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width, y: textLabel.frame.origin.y)
+        }
+    
         if let imageView = imageView {
             imageView.tintColor = .white
-            imageView.transform = CGAffineTransform(scaleX: imageViewSize.width / imageView.frame.width, y: imageViewSize.height / imageView.frame.height)
+            imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.origin.x, y: (self.frame.height - imageViewSize.height) / 2), size: imageViewSize)
             contentView.insertSubview(imageBackgroundView, belowSubview: imageView)
             addConstraints()
         }
