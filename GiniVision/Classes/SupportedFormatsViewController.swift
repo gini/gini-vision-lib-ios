@@ -7,24 +7,33 @@
 
 import UIKit
 
-final class SupportedTypesViewController: UITableViewController {
+final class SupportedFormatsViewController: UITableViewController {
     
     let reuseIdentifier = "reuseIdentifier"
     let rowHeight: CGFloat = 70
     let sectionHeight: CGFloat = 70
     var sections: [(title: String, items: [String], itemsImageBackgroundColor: UIColor)] = [
-        ("Section1",["1","2","3"], .green),
-        ("Section2",["4","5","6"], .red)
+        ("Folgende Formate werden unterstützt:",
+         ["Computer-erstellte Überweisungsträger und Rechnungen",
+          "Einseitige Bilder im jpg, png oder tif Format",
+          "PDF Dokumente von bis zu 10 Seiten"],
+         GiniConfiguration.sharedConfiguration.supportedFormatsIconColor),
+        ("Was nicht analysiert wird:",
+         ["Handschrift",
+          "Fotos von Bildschirme"],
+         GiniConfiguration.sharedConfiguration.nonSupportedFormatsIconColor)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Unterstützte Formate"
         tableView.register(SupportedTypeTableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = rowHeight
         tableView.tableFooterView = UIView()
         tableView.sectionHeaderHeight = sectionHeight
         tableView.allowsSelection = false
         tableView.backgroundColor = Colors.Gini.pearl
+        tableView.alwaysBounceVertical = false
     }
     
     // MARK: - Table view data source
@@ -43,14 +52,9 @@ final class SupportedTypesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SupportedTypeTableViewCell
         cell.textLabel?.text = item
         cell.imageView?.image = UIImageNamedPreferred(named: "navigationCameraClose")!.withRenderingMode(.alwaysTemplate)
-        cell.imageView?.tintColor = .white
         cell.imageBackgroundView.backgroundColor = section.itemsImageBackgroundColor
 
         return cell
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -73,11 +77,13 @@ final class SupportedTypeTableViewCell: UITableViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
+        textLabel?.font = textLabel?.font.withSize(14)
+        textLabel?.numberOfLines = 0
         if let imageView = imageView {
+            imageView.tintColor = .white
             imageView.transform = CGAffineTransform(scaleX: imageViewSize.width / imageView.frame.width, y: imageViewSize.height / imageView.frame.height)
             contentView.insertSubview(imageBackgroundView, belowSubview: imageView)
             addConstraints()
-
         }
     }
     

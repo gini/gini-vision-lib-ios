@@ -467,6 +467,18 @@ import UIKit
     public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
     
     
+    // MARK: Supported formats
+    
+    /**
+     Sets the color of the supported formats icon background to the specified color.
+     */
+    public var supportedFormatsIconColor = Colors.Gini.paleGreen
+
+    /**
+     Sets the color of the non supported formats icon background to the specified color.
+     */
+    public var nonSupportedFormatsIconColor = Colors.Gini.crimson
+    
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
@@ -486,6 +498,9 @@ internal struct Colors {
         static var bluishGreen = Colors.UIColorHex(0x007c99)
         static var grey = Colors.UIColorHex(0xAFB2B3)
         static var pearl = Colors.UIColorHex(0xFAFAFA)
+        static var paleGreen = Colors.UIColorHex(0xB8E986)
+        static var crimson = Colors.UIColorHex(0xFF4F65)
+
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

@@ -129,8 +129,7 @@ import UIKit
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return SupportedTypesViewController(style: .plain)
-//        return viewController(withDelegate: delegate, importedDocument:importedDocument)
+        return viewController(withDelegate: delegate, importedDocument:importedDocument)
     }
     
     /**
