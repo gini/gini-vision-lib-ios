@@ -30,7 +30,7 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         }
         
         imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
-            self?.back()
+            self?.backToCamera()
         }
         contentController = imageAnalysisNoResultsViewController
         
@@ -39,7 +39,7 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         
         // Configure close button
         if canGoBack {
-            setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
+            setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(backToCamera))
         } else {
             setupLeftNavigationItem(usingResources: closeButtonResources, selector: #selector(close))
         }
@@ -65,11 +65,13 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         displayContent(contentController) 
     }
     
-    @objc private func back() {
+    @objc private func backToCamera() {
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        _ = self.navigationController?.popViewController(animated: true)
+        if let cameraViewController = navigationController?.viewControllers.flatMap({ $0 as? CameraContainerViewController }).first {
+            _ = navigationController?.popToViewController(cameraViewController, animated: true)
+        }
     }
     
     @objc private func close() {

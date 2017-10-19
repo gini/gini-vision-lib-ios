@@ -32,7 +32,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
+        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(backToCamera))
         
         // Configure view hierachy
         view.addSubview(containerView)
@@ -112,16 +112,11 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         }
         
         if document.type == .image {
-            var filteredViewControllers = giniNavController.viewControllers.filter {
-                !($0 is AnalysisContainerViewController) && !($0 is ReviewContainerViewController)
-            }
-            
             let isCameraViewControllerLoaded = giniNavController.viewControllers.contains(where: { viewController in
                 return viewController is CameraContainerViewController
             })
-            
-            filteredViewControllers.append(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded))
-            giniNavController.setViewControllers(filteredViewControllers, animated: true)
+        
+            giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded), animated: true)
 
             completion(true)
             return
