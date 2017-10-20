@@ -11,10 +11,21 @@ final class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
     var reuseIdentifier = "reuseIdentifier"
-    var items: [(text: String, id: Int)] = [
+    private(set) var items: [(text: String, id: Int)] = [
         ("Tipps für beste Ergebnisse aus Fotos", 1),
         ("Dokumente aus anderen Apps öffnen", 2),
         ("Unterstützte Formate", 3)]
+    
+    init(showOpenWithTutorial:Bool = true) {
+        super.init(style: .plain)
+        if !showOpenWithTutorial {
+            items.remove(at: 1)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(showOpenWithTutorial:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

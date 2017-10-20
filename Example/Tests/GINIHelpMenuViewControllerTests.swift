@@ -11,7 +11,7 @@ import XCTest
 
 final class GINIHelpMenuViewControllerTests: XCTestCase {
     
-    let helpMenuViewController: HelpMenuViewController = HelpMenuViewController(style: .plain)
+    let helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
     
     override func setUp() {
         super.setUp()
