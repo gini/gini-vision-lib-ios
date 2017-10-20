@@ -316,7 +316,7 @@ import UIKit
             if let pages = onboardingCustomPages {
                 return pages
             }
-            guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+            guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText, rotateImageInLandscape: true),
                 let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
                 let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
                     return [UIView]()
