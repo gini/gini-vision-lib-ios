@@ -3,6 +3,7 @@
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/19/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import UIKit
