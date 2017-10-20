@@ -12,7 +12,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     
     static let cellIdentifier = "captureSuggestionsCellIdentifier"
     static let headerIdentifier = "captureSuggestionsHeaderIdentifier"
-
+    
     private let minimunCellHeight: CGFloat = 80.0
     private let headerHeight: CGFloat = 60.0
     private let rowsInLandscape: CGFloat = 2.0
@@ -27,7 +27,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
             return UIEdgeInsetsMake(0, 0, 20, 0)
         }
     }
-
+    
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier)
@@ -69,7 +69,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     func headerSize() -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: headerHeight)
     }
-
+    
 }
 
 final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
@@ -101,14 +101,16 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     }
     
     private func addConstraints() {
-        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -20)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0, priority: 999)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .trailing, relatedBy: .equal, toItem: suggestionText, attribute: .leading, multiplier: 1.0, constant: -20)
         ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 85)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 85)
+        ConstraintUtils.addActiveConstraint(item: suggestionImage, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
         
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 10)
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -10)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
     }
 }
@@ -151,6 +153,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.0)
-
+        
     }
 }
+
