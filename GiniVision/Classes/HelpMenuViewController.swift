@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HelpMenuViewController: UITableViewController {
+final class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
     var reuseIdentifier = "reuseIdentifier"

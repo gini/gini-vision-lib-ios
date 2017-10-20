@@ -529,7 +529,6 @@ internal struct Colors {
         static var paleGreen = Colors.UIColorHex(0xB8E986)
         static var crimson = Colors.UIColorHex(0xFF4F65)
         static var rose = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
-        
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {
