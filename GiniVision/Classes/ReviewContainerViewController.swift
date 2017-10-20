@@ -91,7 +91,7 @@ internal class ReviewContainerViewController: UIViewController, ContainerViewCon
         
         // Configure back button. Needs to be done here because otherwise the navigation controller would be nil
         if navigationItem.leftBarButtonItem == nil {
-            setupLeftNavigationItem(usingResources: backButtonPreferredResource(forNavController: navController), selector:#selector(backToCamera))
+            setupLeftNavigationItem(usingResources: backButtonPreferredResource(forNavController: navController), selector:#selector(back))
         }
     }
     

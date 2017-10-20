@@ -32,7 +32,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
         
         // Configure close button
-        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(backToCamera))
+        setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(back))
         
         // Configure view hierachy
         view.addSubview(containerView)
