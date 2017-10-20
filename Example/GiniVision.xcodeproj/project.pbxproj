@@ -261,14 +261,14 @@
 			isa = PBXGroup;
 			children = (
 				1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */,
+				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
 				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
+				1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */,
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
 				1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */,
 				1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
-				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
-				1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
