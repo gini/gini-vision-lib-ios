@@ -475,6 +475,13 @@ import UIKit
     public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
     
     
+    // MARK: Open with tutorial options
+    /**
+     Sets the color of step indicator for Open with tutorial
+
+     */
+    public var stepIndicatorColor = Colors.Gini.blue
+    
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
@@ -493,6 +500,8 @@ internal struct Colors {
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
         static var grey = Colors.UIColorHex(0xAFB2B3)
+        static var pearl = Colors.UIColorHex(0xF2F2F2)
+
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

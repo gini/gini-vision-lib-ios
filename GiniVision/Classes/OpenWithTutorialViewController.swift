@@ -11,10 +11,13 @@ typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImag
 
 final public  class OpenWithTutorialViewController: UICollectionViewController {
     let reuseIdentifier = "Cell"
-    let items: [OpenWithTutorialStep] = [
+    let appName: String = {
+       return Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
+    }()
+    lazy private(set) var items: [OpenWithTutorialStep] = [
         ("Wählen Sie bitte eine Rechnung aus", "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage")),
-        ("Aktivieren Sie die Teilen-Funktion", "Um die Datei an die <Banking App Name> weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage")),
-        ("Auf iPads können Sie auch “Drag-and-drop” nutzen", "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die <Banking App Name> gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die <Banking App Name> und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur <Banking App Name> hinüber.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage"))
+        ("Aktivieren Sie die Teilen-Funktion", "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage")),
+        ("Auf iPads können Sie auch “Drag-and-drop” nutzen", "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage"))
     ]
     private var stepsCollectionLayout: UICollectionViewFlowLayout {
         return self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
@@ -30,11 +33,14 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .lightGray
-        self.collectionView?.backgroundColor = .lightGray
+        self.view.backgroundColor = Colors.Gini.pearl
+        self.collectionView?.backgroundColor = nil
+
         self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         stepsCollectionLayout.minimumLineSpacing = 1
+        stepsCollectionLayout.minimumInteritemSpacing = 1
+
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -79,7 +85,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     lazy var stepIndicator: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
+        label.textColor = GiniConfiguration.sharedConfiguration.stepIndicatorColor
         return label
     }()
     
@@ -87,7 +93,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.frame.size = self.stepIndicatorCircleSize
-        view.layer.borderColor = Colors.Gini.raspberry.cgColor
+        view.layer.borderColor = Colors.Gini.pearl.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = self.stepIndicatorCircleSize.width / 2
         return view
