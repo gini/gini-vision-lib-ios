@@ -1,20 +1,27 @@
 //
-//  GININoResultsViewControllerTests.swift
+//  GINIImageAnalysisNoResultsViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/16/17.
-//  Copyright © 2017 CocoaPods. All rights reserved.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import XCTest
 @testable import GiniVision
 
-class GININoResultsViewControllerTests: XCTestCase {
+final class GINIImageAnalysisNoResultsViewControllerTests: XCTestCase {
     
-    var viewController: ImageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+    let viewControllerTitle = "Title"
+    lazy var viewController: ImageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(title: self.viewControllerTitle)
     
     override func setUp() {
         _ = viewController.view
+    }
+    
+    func testViewControllerTitle() {
+        let vcTitle = viewController.title
+        
+        XCTAssertEqual(viewControllerTitle, vcTitle, "view controller title should be equals to the one passed in the initialization")
     }
     
     func testSuggestionCollectionCount(){

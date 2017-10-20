@@ -87,13 +87,15 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     public var didTapBottomButton: (() -> ()) = { }
     
-    public init(suggestionsTitle: String? = "Tipps für beste Ergebnisse:",
-                warningText: String = NSLocalizedStringPreferred("ginivision.noresults.warning", comment: "Warning text that indicates that there was any result for this photo analysis"),
+    public init(title:String? = nil,
+                collectionHeader: String? = "Tipps für beste Ergebnisse:",
+                warningText: String = NSLocalizedString("ginivision.noresults.warning", bundle: Bundle(for: GiniVision.self), comment: "Warning text that indicates that there was any result for this photo analysis"),
                 warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
                 bottomButtonText: String? = "Zur Kamera",
                 bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)) {
         super.init(nibName: nil, bundle: nil)
-        self.suggestionsTitle = suggestionsTitle
+        self.title = title
+        self.suggestionsTitle = collectionHeader
         self.warningText = warningText
         self.warningIconImage = warningIcon
         self.bottomButtonText = bottomButtonText

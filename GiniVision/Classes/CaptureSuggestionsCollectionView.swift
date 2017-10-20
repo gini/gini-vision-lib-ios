@@ -13,7 +13,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     static let cellIdentifier = "captureSuggestionsCellIdentifier"
     static let headerIdentifier = "captureSuggestionsHeaderIdentifier"
     
-    private let minimunCellHeight: CGFloat = 80.0
+    private let cellHeight: (max: CGFloat, min: CGFloat) = (150.0, 80.0)
     private let headerHeight: CGFloat = 60.0
     private let rowsInLandscape: CGFloat = 2.0
     private var captureSuggestionsCollectionLayout: UICollectionViewFlowLayout {
@@ -22,7 +22,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     
     public var sectionInset: UIEdgeInsets {
         if UIDevice.current.isIpad {
-            return UIEdgeInsetsMake(20, 20, 20, 20)
+            return UIEdgeInsetsMake(0, 20, 20, 20)
         } else {
             return UIEdgeInsetsMake(0, 0, 20, 0)
         }
@@ -46,7 +46,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(frame:collectionViewLayout:) should be used instead")
+        fatalError("init() should be used instead")
     }
     
     func cellSize(ofSection section: Int = 0) -> CGSize {
@@ -59,8 +59,10 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
             width = width / rowsInLandscape
         }
         
-        if height < minimunCellHeight {
-            height = minimunCellHeight
+        if height < cellHeight.min {
+            height = cellHeight.min
+        } else if height > cellHeight.max {
+            height = cellHeight.max
         }
         
         return CGSize(width: width, height: height)
