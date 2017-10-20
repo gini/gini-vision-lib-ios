@@ -15,11 +15,11 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
        return Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     }()
     lazy private(set) var items: [OpenWithTutorialStep] = [
-        ("Wählen Sie bitte eine Rechnung aus", "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage")),
-        ("Aktivieren Sie die Teilen-Funktion", "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage")),
-        ("Auf iPads können Sie auch “Drag-and-drop” nutzen", "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.", UIImageNamedPreferred(named: "cameraDefaultDocumentImage"))
+        ("Wählen Sie bitte eine Rechnung aus", "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.", UIImageNamedPreferred(named: "openWithTutorialStep1")),
+        ("Aktivieren Sie die Teilen-Funktion", "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.", UIImageNamedPreferred(named: "openWithTutorialStep2")),
+        ("Auf iPads können Sie auch “Drag-and-drop” nutzen", "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.", UIImageNamedPreferred(named: "openWithTutorialStep3"))
     ]
-    private var stepsCollectionLayout: UICollectionViewFlowLayout {
+    fileprivate var stepsCollectionLayout: UICollectionViewFlowLayout {
         return self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
     }
 
@@ -73,7 +73,17 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
 
 extension OpenWithTutorialViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: 550)
+        let width: CGFloat
+        let height: CGFloat
+        
+        if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad {
+            width = UIScreen.main.bounds.width / CGFloat(items.count) - CGFloat(stepsCollectionLayout.minimumInteritemSpacing * CGFloat(items.count - 1))
+            height = collectionView.frame.height
+        } else {
+            width = UIScreen.main.bounds.width
+            height = 550
+        }
+        return CGSize(width: round(width), height: height)
     }
 }
 
@@ -103,6 +113,11 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
+        if UIDevice.current.isIpad {
+            label.font = UIFont.boldSystemFont(ofSize: 18)
+        } else {
+            label.font = UIFont.boldSystemFont(ofSize: 14)
+        }
         return label
     }()
     
@@ -111,6 +126,12 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lightGray
+        if UIDevice.current.isIpad {
+            label.font = UIFont.systemFont(ofSize: 16)
+        } else {
+            label.font = UIFont.systemFont(ofSize: 14)
+        }
+        
         return label
     }()
     
@@ -145,16 +166,18 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     private func addConstrains() {
         
         // stepIndicator
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        
         ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerX, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerX, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerY, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerY, multiplier: 1.0, constant: 0)
+        
+        // stepIndicatorCircle
+       
         ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.height)
         ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.width)
+        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
+        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
 
         // stepTitle
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .top, relatedBy: .equal, toItem: stepIndicator, attribute: .bottom, multiplier: 1.0, constant: 30)
+        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .top, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .bottom, multiplier: 1.0, constant: 30)
         ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
         ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
         
@@ -167,7 +190,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .top, relatedBy: .equal, toItem: stepSubTitle, attribute: .bottom, multiplier: 1.0, constant: 40)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -40, priority: 999)
+        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -40)
 
     }
     
