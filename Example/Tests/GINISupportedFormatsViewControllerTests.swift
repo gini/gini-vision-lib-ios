@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINISupportedFormatsViewControllerTests: XCTestCase {
+final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     let supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
     
