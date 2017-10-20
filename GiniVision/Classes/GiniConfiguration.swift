@@ -497,7 +497,7 @@ internal struct Colors {
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
         static var grey = Colors.UIColorHex(0xAFB2B3)
-        static var pearl = Colors.UIColorHex(0xFAFAFA)
+        static var pearl = UIColor(red: 0.950392, green: 0.950392, blue: 0.950392, alpha: 1)
         static var paleGreen = Colors.UIColorHex(0xB8E986)
         static var crimson = Colors.UIColorHex(0xFF4F65)
 
