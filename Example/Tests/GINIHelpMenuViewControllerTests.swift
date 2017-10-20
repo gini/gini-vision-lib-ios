@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINIHelpMenuViewControllerTests: XCTestCase {
+final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     let helpMenuViewController: HelpMenuViewController = HelpMenuViewController(style: .plain)
     
