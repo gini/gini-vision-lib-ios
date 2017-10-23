@@ -37,7 +37,7 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
         super.viewDidLoad()
         self.view.backgroundColor = Colors.Gini.pearl
         self.collectionView!.backgroundColor = nil
-
+        
         self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView!.register(OpenWithTutorialCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
@@ -54,7 +54,7 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
             self.collectionView?.collectionViewLayout.invalidateLayout()
         })
     }
-
+    
     // MARK: UICollectionViewDataSource
 
     override public func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -97,7 +97,7 @@ extension OpenWithTutorialViewController: UICollectionViewDelegateFlowLayout {
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let height: CGFloat = collectionView.frame.width > collectionView.frame.height ? 0 : 120
+        let height: CGFloat = collectionView.frame.width > collectionView.frame.height ? 0 : 130
         
         return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
@@ -112,6 +112,10 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textColor = .black
+        let textSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
+        label.font = label.font.withSize(textSize)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 12 / textSize
         return label
     }()
     
@@ -123,16 +127,14 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("init(frame:) should be used instead")
     }
     
     private func addConstraints() {
-        // headerTitle
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
         ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: padding.bottom)
-
     }
 }
 
@@ -162,11 +164,9 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.isIpad {
-            label.font = UIFont.boldSystemFont(ofSize: 18)
-        } else {
-            label.font = UIFont.boldSystemFont(ofSize: 14)
-        }
+        let textSize: CGFloat = UIDevice.current.isIpad ? 18 : 14
+        label.font = label.font.withSize(textSize)
+        
         return label
     }()
     
@@ -175,11 +175,8 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lightGray
-        if UIDevice.current.isIpad {
-            label.font = UIFont.systemFont(ofSize: 16)
-        } else {
-            label.font = UIFont.systemFont(ofSize: 14)
-        }
+        let textSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
+        label.font = label.font.withSize(textSize)
         
         return label
     }()
@@ -219,7 +216,6 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerY, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerY, multiplier: 1.0, constant: 0)
         
         // stepIndicatorCircle
-       
         ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.height)
         ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.width)
         ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
