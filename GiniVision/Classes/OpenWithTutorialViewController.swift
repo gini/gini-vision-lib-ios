@@ -3,34 +3,38 @@
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/20/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import UIKit
 
 typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImage?)
 
-final public  class OpenWithTutorialViewController: UICollectionViewController {
+final public class OpenWithTutorialViewController: UICollectionViewController {
     let cellIdentifier = "cellIdentifier"
     let headerIdentifier = "headerIdentifier"
-
-    let appName: String = {
-       return Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
-    }()
+    
     lazy private(set) var items: [OpenWithTutorialStep] = [
-        ("Wählen Sie bitte eine Rechnung aus",
-         "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.",
+        (NSLocalizedString("ginivision.help.openWithTutorial.step1.title", bundle: Bundle(for: GiniVision.self), comment: "first step title for open with tutorial"),
+         NSLocalizedString("ginivision.help.openWithTutorial.step1.subTitle", bundle: Bundle(for: GiniVision.self), comment: "first step subtitle for open with tutorial"),
          UIImageNamedPreferred(named: "openWithTutorialStep1")),
-        ("Aktivieren Sie die Teilen-Funktion",
-         "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.",
+        (NSLocalizedString("ginivision.help.openWithTutorial.step2.title", bundle: Bundle(for: GiniVision.self), comment: "second step title for open with tutorial"),
+         String(format: NSLocalizedString("ginivision.help.openWithTutorial.step2.subTitle", bundle: Bundle(for: GiniVision.self), comment: "second step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep2")),
-        ("Auf iPads können Sie auch “Drag-and-drop” nutzen",
-         "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.",
+        (NSLocalizedString("ginivision.help.openWithTutorial.step3.title", bundle: Bundle(for: GiniVision.self), comment: "third step title for open with tutorial"),
+         String(format: NSLocalizedString("ginivision.help.openWithTutorial.step3.subTitle", bundle: Bundle(for: GiniVision.self), comment: "third step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName, Bundle.main.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep3"))
     ]
+    
+    lazy var headerTitle: String = {
+        let localizedString = NSLocalizedString("ginivision.help.openWithTutorial.collectionHeader", bundle: Bundle(for: GiniVision.self), comment: "intoduction header for further steps")
+        return String(format: localizedString, Bundle.main.appName)
+    }()
+    
     fileprivate var stepsCollectionLayout: UICollectionViewFlowLayout {
         return self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
     }
-
+    
     public init() {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
@@ -41,6 +45,7 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        self.title = NSLocalizedString("ginivision.help.openWithTutorial.title", bundle: Bundle(for: GiniVision.self), comment: "title shown when the view controller is within a view controller")
         self.view.backgroundColor = Colors.Gini.pearl
         self.collectionView!.backgroundColor = nil
         
@@ -49,59 +54,56 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
         
         stepsCollectionLayout.minimumLineSpacing = 1
         stepsCollectionLayout.minimumInteritemSpacing = 1
-        stepsCollectionLayout.sectionInset = UIEdgeInsets(top: 1.0, left: 0.0, bottom: 0.0, right: 0.0)
-
+        stepsCollectionLayout.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+        stepsCollectionLayout.estimatedItemSize = estimatedCellSize(widthParentSize: view.frame.size)
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [unowned self] _ in
+            self.stepsCollectionLayout.estimatedItemSize = self.estimatedCellSize(widthParentSize: size)
             self.collectionView?.collectionViewLayout.invalidateLayout()
         })
     }
     
+    private func estimatedCellSize(widthParentSize size: CGSize) -> CGSize {
+        if size.width > size.height && UIDevice.current.isIpad {
+            let width:CGFloat = round(UIScreen.main.bounds.width / CGFloat(self.items.count) - CGFloat(self.stepsCollectionLayout.minimumInteritemSpacing * CGFloat(self.items.count - 1)))
+            return CGSize(width: width, height: UIScreen.main.bounds.height)
+        } else {
+            return CGSize(width: UIScreen.main.bounds.width, height: 550)
+        }
+    }
+    
     // MARK: UICollectionViewDataSource
-
+    
     override public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
+    
     override public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
-
+    
     override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
         cell.fillWith(item: items[indexPath.row], at: indexPath.row)
-    
+        
         return cell
     }
     
     public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! OpenWithTutorialCollectionHeader
-        header.headerTitle.text = "Digitale Rechnungen können nun noch komfortabler beglichen werden: Senden Sie einfach Ihre Rechnung als PDF direkt an Ihre \(self.appName). Diese wird automatisch für die Überweisung analysiert."
+        header.headerTitle.text = headerTitle
         return header
     }
+    
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
 
 extension OpenWithTutorialViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat
-        let height: CGFloat
-        
-        if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad {
-            width = UIScreen.main.bounds.width / CGFloat(items.count) - CGFloat(stepsCollectionLayout.minimumInteritemSpacing * CGFloat(items.count - 1))
-            height = collectionView.frame.height
-        } else {
-            width = UIScreen.main.bounds.width
-            height = 550
-        }
-        return CGSize(width: round(width), height: height)
-    }
-    
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let height: CGFloat = collectionView.frame.width > collectionView.frame.height ? 0 : 130
         
@@ -111,9 +113,16 @@ extension OpenWithTutorialViewController: UICollectionViewDelegateFlowLayout {
 
 final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
     
-    let padding:(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) = (20, 20, -20, -20)
+    let padding:(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) = (20, 20, 20, 20)
     
-    let headerTitle: UILabel = {
+    lazy var headerContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    lazy var headerTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -125,10 +134,19 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
         return label
     }()
     
+    lazy var bottomLine: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = nil
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        addSubview(headerTitle)
+        headerContainer.addSubview(headerTitle)
+        addSubview(headerContainer)
+        addSubview(bottomLine)
+
         addConstraints()
     }
     
@@ -137,119 +155,19 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
     }
     
     private func addConstraints() {
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: padding.bottom)
+        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
+        
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: headerContainer, attribute: .top, multiplier: 1.0, constant: padding.top)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: headerContainer, attribute: .leading, multiplier: 1.0, constant: padding.left)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: headerContainer, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
+        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: headerContainer, attribute: .bottom, multiplier: 1.0, constant: -padding.bottom)
+        
+        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .top, relatedBy: .equal, toItem: headerContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1)
     }
 }
-
-final class OpenWithTutorialCollectionCell: UICollectionViewCell {
-    
-    let padding:(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) = (40, 20, -40, -20)
-    let stepIndicatorCircleSize: CGSize = CGSize(width: 30, height: 30)
-    
-    lazy var stepIndicator: UILabel = {
-        var label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = GiniConfiguration.sharedConfiguration.stepIndicatorColor
-        return label
-    }()
-    
-    lazy var stepIndicatorCircle: UIView = {
-        var view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.frame.size = self.stepIndicatorCircleSize
-        view.layer.borderColor = Colors.Gini.pearl.cgColor
-        view.layer.borderWidth = 1
-        view.layer.cornerRadius = self.stepIndicatorCircleSize.width / 2
-        return view
-    }()
-    
-    lazy var stepTitle: UILabel = {
-        var label = UILabel()
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        let textSize: CGFloat = UIDevice.current.isIpad ? 18 : 14
-        label.font = label.font.withSize(textSize)
-        
-        return label
-    }()
-    
-    lazy var stepSubTitle: UILabel = {
-        var label = UILabel()
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
-        let textSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
-        label.font = label.font.withSize(textSize)
-        
-        return label
-    }()
-    
-    lazy var stepImage: UIImageView = {
-        var imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        imageView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        imageView.layer.shadowOpacity = 1
-        imageView.layer.shadowRadius = 14
-        return imageView
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .white
-        
-        addSubview(stepIndicator)
-        addSubview(stepIndicatorCircle)
-        addSubview(stepTitle)
-        addSubview(stepSubTitle)
-        addSubview(stepImage)
-        
-        addConstrains()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(frame:) should be used instead")
-    }
-    
-    private func addConstrains() {
-        
-        // stepIndicator
-        ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerX, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerX, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerY, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerY, multiplier: 1.0, constant: 0)
-        
-        // stepIndicatorCircle
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.height)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.width)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-
-        // stepTitle
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .top, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .bottom, multiplier: 1.0, constant: 30)
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
-        
-        // stepSubTitle
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .top, relatedBy: .equal, toItem: stepTitle, attribute: .bottom, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
-        
-        // stepImage
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .top, relatedBy: .equal, toItem: stepSubTitle, attribute: .bottom, multiplier: 1.0, constant: 40)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: padding.bottom)
-
-    }
-    
-    public func fillWith(item: OpenWithTutorialStep, at position: Int) {
-        stepIndicator.text = String(describing: position + 1)
-        stepTitle.text = item.title
-        stepSubTitle.text = item.subtitle
-        stepImage.image = item.image
-    }
-}
-
