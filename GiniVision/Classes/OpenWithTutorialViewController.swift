@@ -10,16 +10,22 @@ import UIKit
 typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImage?)
 
 final public  class OpenWithTutorialViewController: UICollectionViewController {
-    let reuseIdentifier = "Cell"
-    let headerIdentifier = "Header"
+    let cellIdentifier = "cellIdentifier"
+    let headerIdentifier = "headerIdentifier"
 
     let appName: String = {
        return Bundle.main.infoDictionary![kCFBundleNameKey as String] as! String
     }()
     lazy private(set) var items: [OpenWithTutorialStep] = [
-        ("Wählen Sie bitte eine Rechnung aus", "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.", UIImageNamedPreferred(named: "openWithTutorialStep1")),
-        ("Aktivieren Sie die Teilen-Funktion", "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.", UIImageNamedPreferred(named: "openWithTutorialStep2")),
-        ("Auf iPads können Sie auch “Drag-and-drop” nutzen", "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.", UIImageNamedPreferred(named: "openWithTutorialStep3"))
+        ("Wählen Sie bitte eine Rechnung aus",
+         "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.",
+         UIImageNamedPreferred(named: "openWithTutorialStep1")),
+        ("Aktivieren Sie die Teilen-Funktion",
+         "Um die Datei an die \(self.appName) weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die \(self.appName) aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.",
+            UIImageNamedPreferred(named: "openWithTutorialStep2")),
+        ("Auf iPads können Sie auch “Drag-and-drop” nutzen",
+         "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die \(self.appName) gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die \(self.appName) und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur \(self.appName) hinüber.",
+            UIImageNamedPreferred(named: "openWithTutorialStep3"))
     ]
     fileprivate var stepsCollectionLayout: UICollectionViewFlowLayout {
         return self.collectionView?.collectionViewLayout as! UICollectionViewFlowLayout
@@ -38,7 +44,7 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
         self.view.backgroundColor = Colors.Gini.pearl
         self.collectionView!.backgroundColor = nil
         
-        self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: cellIdentifier)
         self.collectionView!.register(OpenWithTutorialCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         
         stepsCollectionLayout.minimumLineSpacing = 1
@@ -66,7 +72,7 @@ final public  class OpenWithTutorialViewController: UICollectionViewController {
     }
 
     override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
         cell.fillWith(item: items[indexPath.row], at: indexPath.row)
     
         return cell
@@ -235,7 +241,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .top, relatedBy: .equal, toItem: stepSubTitle, attribute: .bottom, multiplier: 1.0, constant: 40)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: padding.right)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -40)
+        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: padding.bottom)
 
     }
     

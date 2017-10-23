@@ -42,7 +42,16 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.stepTitle.text, item.title, "step title should be the same as the one declared on initialiation")
         XCTAssertEqual(cell.stepSubTitle.text, item.subtitle, "step subtitle should be the same as the one declared on initialiation")
         XCTAssertEqual(cell.stepImage.image, item.image, "step image should be the same as the one declared on initialiation")
+    }
 
+    func testHeaderDissapearOnLandscape() {
+        let collectionView = openWithTutorialViewController.collectionView!
+        collectionView.frame.size = CGSize(width: 1, height: 0) // Simulate landscape
+        
+        let headerSize = openWithTutorialViewController.collectionView(collectionView, layout: collectionView.collectionViewLayout, referenceSizeForHeaderInSection: 0)
+        
+        XCTAssertEqual(headerSize.height, 0, "header size should be 0 on landscape mode")
+        
     }
     
 }
