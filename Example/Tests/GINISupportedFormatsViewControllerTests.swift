@@ -13,12 +13,29 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     let supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
     
+    var mockedSections:[(String, [String], UIImage?, UIColor)] {
+        return [
+            ("Section 1",["Item 1 Section 1", "Item 2 Section 1", "Item 3 Section 1"], loadImage(withName: "tabBarIconHelp"), UIColor.green),
+            ("Section 2",["Item 1 Section 1", "Item 2 Section 2"], loadImage(withName: "tabBarIconHelp"), UIColor.red),
+            ("Section 3",["Item 1 Section 3"], loadImage(withName: "tabBarIconHelp"), UIColor.yellow)
+        ]
+    }
+    
     override func setUp() {
         super.setUp()
+
         _ = supportedFormatsViewController.view
     }
     
     func testSectionsCount() {
+        supportedFormatsViewController.sections = mockedSections
+        
+        let tableSectionsCount = supportedFormatsViewController.numberOfSections(in: supportedFormatsViewController.tableView)
+        
+        XCTAssertEqual(3, tableSectionsCount, "sections count and table sections count should be always equal")
+    }
+    
+    func testSectionsMockedCount() {
         let sectionsCount = supportedFormatsViewController.sections.count
         
         let tableSectionsCount = supportedFormatsViewController.numberOfSections(in: supportedFormatsViewController.tableView)
@@ -27,21 +44,30 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testSectionItemsCount() {
-        let section = 0
-        let section0ItemsCount = supportedFormatsViewController.sections[section].items.count
+        supportedFormatsViewController.sections = mockedSections
+
+        let section3ItemsCount = 1
+        let tableSection3ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 2)
         
-        let tableSection0ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
+        XCTAssertEqual(section3ItemsCount, tableSection3ItemsCount, "items count inside section 3 and table section 3 items count should be always equal")
+    }
+    
+    func testTableCellMockedText() {
+        supportedFormatsViewController.sections = mockedSections
+
+        let indexPath = IndexPath(row: 1, section: 1)
+        let textForItem2tSection2 = "Item 2 Section 2"
+        let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
         
-        XCTAssertEqual(section0ItemsCount, tableSection0ItemsCount, "items count inside section 0 and table section 0 items count should be always equal")
+        XCTAssertEqual(textForCellAtIndexPath, textForItem2tSection2, "text for item 2 at section 2 should be equal to the one declared on initialization")
     }
     
     func testTableCellText() {
         let indexPath = IndexPath(row: 0, section: 0)
-        let textForItem0AtSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
-        
+        let textForItem0tSection0 = supportedFormatsViewController.sections[0].items[0]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
         
-        XCTAssertEqual(textForCellAtIndexPath, textForItem0AtSection0, "text for item 0 at section 0 should be equal to the one declared on initialization")
+        XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 0 at section 0 should be equal to the one declared on initialization")
     }
     
     func testSectionHeaderHeight() {
@@ -61,11 +87,12 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testSectionTitle() {
-        let section0Title = supportedFormatsViewController.sections[0].title
+        supportedFormatsViewController.sections = mockedSections
+
+        let section1Title = "Section 1"
+        let tableSection1Title = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, titleForHeaderInSection: 0)
         
-        let tableSection0Title = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, titleForHeaderInSection: 0)
-        
-        XCTAssertEqual(section0Title, tableSection0Title, "table view section 0 title should be equal to the one declare on initialization")
+        XCTAssertEqual(section1Title, tableSection1Title, "table view section 1 title should be equal to the one declare on initialization")
     }
     
     func testRowSelectionDisabled() {
