@@ -75,9 +75,9 @@ import UIKit
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        let rotationAngle:CGFloat = frame.width > frame.height ? -.pi / 2 : 0.0
         
         if needsToRotateImageInLandscape {
+            let rotationAngle:CGFloat = frame.width > frame.height ? -.pi / 2 : 0.0
             imageView.transform = CGAffineTransform(rotationAngle: rotationAngle)
         }
     }
