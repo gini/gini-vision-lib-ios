@@ -475,7 +475,7 @@ import UIKit
     public var supportedFormatsIconColor = Colors.Gini.paleGreen
 
     /**
-     Sets the color of the non supported formats icon background to the specified color.
+     Sets the color of the unsupported formats icon background to the specified color.
      */
     public var nonSupportedFormatsIconColor = Colors.Gini.crimson
     
