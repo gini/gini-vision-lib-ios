@@ -19,6 +19,7 @@ import UIKit
          OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
          OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
          OnboardingPage(image: myOnboardingImage3, text: "My Onboarding Page 3")
+         OnboardingPage(image: myOnboardingImage4, text: "My Onboarding Page 4")
      ]
      let onboardingController = OnboardingViewController(pages: pages, scrollViewDelegate: self)
      presentViewController(onboardingController, animated: true, completion: nil)
@@ -30,12 +31,14 @@ import UIKit
  * `ginivision.onboarding.firstPage`
  * `ginivision.onboarding.secondPage`
  * `ginivision.onboarding.thirdPage`
+ * `ginivision.onboarding.fourthPage`
  
  **Image resources for this screen**
  
  * `onboardingPage1` (Both iPhone and iPad sizes)
  * `onboardingPage2` (Both iPhone and iPad sizes)
  * `onboardingPage3` (Both iPhone and iPad sizes)
+ * `onboardingPage4` (Only iPad size)
  * `navigationOnboardingContinue` (Screen API only.)
  
  Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
