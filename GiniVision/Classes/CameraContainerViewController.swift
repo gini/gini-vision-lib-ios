@@ -127,7 +127,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     }
     
     @IBAction func showHelpMenu() {
-        let helpMenu = HelpMenuViewController(showOpenWithTutorial: GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none)
+        let helpMenu = HelpMenuViewController()
         self.navigationController?.pushViewController(helpMenu, animated: true)
     }
     

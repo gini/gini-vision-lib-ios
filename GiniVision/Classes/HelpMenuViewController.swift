@@ -10,17 +10,22 @@ import UIKit
 final class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
-    var reuseIdentifier = "reuseIdentifier"
-    private(set) var items: [(text: String, id: Int)] = [
-        ("Tipps für beste Ergebnisse aus Fotos", 1),
-        ("Dokumente aus anderen Apps öffnen", 2),
-        ("Unterstützte Formate", 3)]
-    
-    init(showOpenWithTutorial:Bool = true) {
-        super.init(style: .plain)
-        if !showOpenWithTutorial {
-            items.remove(at: 1)
+    var helpMenuCellIdentifier = "helpMenuCellIdentifier"
+    lazy var items: [(text: String, id: Int)] = {
+        var items = [
+            (NSLocalizedString("ginivision.helpmenu.firstItem", bundle: Bundle(for: GiniVision.self), comment: "help menu first item text"), 1),
+            (NSLocalizedString("ginivision.helpmenu.thirdItem", bundle: Bundle(for: GiniVision.self), comment: "help menu third item text"), 3)
+        ]
+        
+        if GiniConfiguration.sharedConfiguration.openWithEnabled {
+            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem", bundle: Bundle(for: GiniVision.self), comment: "help menu second item text"), 2), at: 1)
         }
+        
+        return items
+    }()
+    
+    init() {
+        super.init(style: .plain)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -29,13 +34,13 @@ final class HelpMenuViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Hilfe"
+        title = NSLocalizedString("ginivision.helpmenu.title", bundle: Bundle(for: GiniVision.self), comment: "help menu view controller title")
         tableView.tableFooterView = UIView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
         tableView.rowHeight = tableRowHeight
         tableView.backgroundColor = Colors.Gini.pearl
         
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *) { // On iOS is .automatic by default and it the transition to this view controller looks weird.
             tableView.contentInsetAdjustmentBehavior = .never
         }
     }
@@ -51,7 +56,7 @@ final class HelpMenuViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
         cell.textLabel?.text = items[indexPath.row].0
         cell.textLabel?.font = cell.textLabel?.font.withSize(14)
         cell.accessoryType = .disclosureIndicator

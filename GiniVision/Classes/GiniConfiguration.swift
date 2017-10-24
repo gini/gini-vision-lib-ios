@@ -236,6 +236,12 @@ import UIKit
      */
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
+    /**
+     Indicates if the open with feature is enabled or not. In case of `true`,
+     a new option with the open with tutorial wil be shown in the Help menu
+     */
+    public var openWithEnabled = false
+    
     // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.

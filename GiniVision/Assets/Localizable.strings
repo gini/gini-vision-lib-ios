@@ -65,3 +65,9 @@
 "ginivision.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
 "ginivision.supportedFormats.section.2.item.1" = "Handschrift";
 "ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirme";
+
+"ginivision.helpmenu.title" = "Hilfe";
+"ginivision.helpmenu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
+"ginivision.helpmenu.secondItem" = "Dokumente aus anderen Apps öffnen";
+"ginivision.helpmenu.thirdItem" = "Unterstützte Formate";
+
