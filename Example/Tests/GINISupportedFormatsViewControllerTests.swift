@@ -27,20 +27,12 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         _ = supportedFormatsViewController.view
     }
     
-    func testSectionsCount() {
+    func testSectionsMockedCount() {
         supportedFormatsViewController.sections = mockedSections
         
         let tableSectionsCount = supportedFormatsViewController.numberOfSections(in: supportedFormatsViewController.tableView)
         
         XCTAssertEqual(3, tableSectionsCount, "sections count and table sections count should be always equal")
-    }
-    
-    func testSectionsMockedCount() {
-        let sectionsCount = supportedFormatsViewController.sections.count
-        
-        let tableSectionsCount = supportedFormatsViewController.numberOfSections(in: supportedFormatsViewController.tableView)
-        
-        XCTAssertEqual(sectionsCount, tableSectionsCount, "sections count and table sections count should be always equal")
     }
     
     func testSectionItemsCount() {
@@ -62,12 +54,91 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(textForCellAtIndexPath, textForItem2tSection2, "text for item 2 at section 2 should be equal to the one declared on initialization")
     }
     
-    func testTableCellText() {
+    func testSectionsCount() {
+        let sectionsCount = supportedFormatsViewController.sections.count
+        let tableSectionsCount = supportedFormatsViewController.numberOfSections(in: supportedFormatsViewController.tableView)
+        
+        XCTAssertEqual(sectionsCount, tableSectionsCount, "sections count and table sections count should be always equal")
+    }
+    
+    func testFirstSectionProperties() {
         let indexPath = IndexPath(row: 0, section: 0)
-        let textForItem0tSection0 = supportedFormatsViewController.sections[0].items[0]
+        let section = supportedFormatsViewController.sections[indexPath.section]
+        let sectionImage = section.itemsImage
+        let sectionImageBackgroundColor = section.itemsImageBackgroundColor
+        let sectionItemsCount = section.items.count
+        let sectionTitle = section.title
+        
+        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as? SupportedFormatsTableViewCell
+        let header = supportedFormatsViewController.tableView.headerView(forSection: indexPath.section)
+        let tableViewSectionItemsCount = supportedFormatsViewController.tableView.numberOfRows(inSection: indexPath.section)
+        
+        XCTAssertNotNil(cell, "cell in this table view should always be of type SupportedFormatsTableViewCell")
+        XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
+        XCTAssertEqual(sectionImageBackgroundColor, cell?.imageBackgroundView.backgroundColor, "cell image background color should be equal to section image background colorsince it is the same for each item in the section")
+        XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
+        XCTAssertEqual(sectionTitle, header?.textLabel?.text, "header title should be equal to section title")
+        XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount, "section items count and table section items count should be always equal")
+    }
+    
+    func testSecondSectionProperties() {
+        let indexPath = IndexPath(row: 0, section: 1)
+        let section = supportedFormatsViewController.sections[indexPath.section]
+        let sectionImage = section.itemsImage
+        let sectionImageBackgroundColor = section.itemsImageBackgroundColor
+        let sectionItemsCount = section.items.count
+        let sectionTitle = section.title
+        
+        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as? SupportedFormatsTableViewCell
+        let header = supportedFormatsViewController.tableView.headerView(forSection: indexPath.section)
+        let tableViewSectionItemsCount = supportedFormatsViewController.tableView.numberOfRows(inSection: indexPath.section)
+        
+        XCTAssertNotNil(cell, "cell in this table view should always be of type SupportedFormatsTableViewCell")
+        XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
+        XCTAssertEqual(sectionImageBackgroundColor, cell?.imageBackgroundView.backgroundColor, "cell image background color should be equal to section image background colorsince it is the same for each item in the section")
+        XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
+        XCTAssertEqual(sectionTitle, header?.textLabel?.text, "header title should be equal to section title")
+        XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount, "section items count and table section items count should be always equal")
+    }
+    
+    func testFirstSupportedFormatCellText() {
+        let indexPath = IndexPath(row: 0, section: 0)
+        let textForItem0tSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
         
         XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 0 at section 0 should be equal to the one declared on initialization")
+    }
+    
+    func testSecondSupportedFormatCellText() {
+        let indexPath = IndexPath(row: 1, section: 0)
+        let textForItem0tSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
+        let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
+        
+        XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 1 at section 0 should be equal to the one declared on initialization")
+    }
+    
+    func testThirdSupportedFormatCellText() {
+        let indexPath = IndexPath(row: 2, section: 0)
+        let textForItem0tSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
+        let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
+        
+        XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 2 at section 0 should be equal to the one declared on initialization")
+    }
+    
+    func testFirstUnSupportedFormatCellText() {
+        let indexPath = IndexPath(row: 0, section: 1)
+        let textForItem0tSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
+        let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
+        
+        XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 0 at section 1 should be equal to the one declared on initialization")
+    }
+    
+    func testSecondUnSupportedFormatCellText() {
+        let indexPath = IndexPath(row: 1, section: 1)
+        let textForItem0tSection0 = supportedFormatsViewController.sections[indexPath.section].items[indexPath.row]
+        let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
+        
+        XCTAssertEqual(textForCellAtIndexPath, textForItem0tSection0, "text for item 1 at section 1 should be equal to the one declared on initialization")
     }
     
     func testSectionHeaderHeight() {
@@ -110,14 +181,6 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         let cellImageBackgroundColor = cell.imageBackgroundView.backgroundColor
         
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor, "cell image background color should be the same as the one declared on initialization")
-    }
-    
-    func testTableViewCellType() {
-        let indexPath = IndexPath(row: 0, section: 0)
-
-        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath)
-        
-        XCTAssertNotNil(cell as? SupportedFormatsTableViewCell, "cell in this table view should always be of type SupportedFormatsTableViewCell")
     }
     
 }
