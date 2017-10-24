@@ -14,21 +14,25 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
+    fileprivate var appName:String {
+        return GiniConfiguration.sharedConfiguration.openWithAppNameForTexts
+    }
+    
     lazy private(set) var items: [OpenWithTutorialStep] = [
         (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title", comment: "first step title for open with tutorial"),
          NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle", comment: "first step subtitle for open with tutorial"),
          UIImageNamedPreferred(named: "openWithTutorialStep1")),
         (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.title", comment: "second step title for open with tutorial"),
-         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle", comment: "second step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle", comment: "second step subtitle for open with tutorial"), self.appName, self.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep2")),
         (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.title", comment: "third step title for open with tutorial"),
-         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle", comment: "third step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName, Bundle.main.appName),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle", comment: "third step subtitle for open with tutorial"), self.appName, self.appName, self.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep3"))
     ]
     
     lazy var headerTitle: String = {
         let localizedString = NSLocalizedStringPreferred("ginivision.help.openWithTutorial.collectionHeader", comment: "intoduction header for further steps")
-        return String(format: localizedString, Bundle.main.appName)
+        return String(format: localizedString, self.appName)
     }()
     
     fileprivate var stepsCollectionLayout: OpenWithTutorialCollectionFlowLayout {

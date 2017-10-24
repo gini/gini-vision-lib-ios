@@ -483,6 +483,12 @@ import UIKit
     public var stepIndicatorColor = Colors.Gini.blue
     
     /**
+     Sets the text of app name for Open with tutorial texts
+     
+     */
+    public var openWithAppNameForTexts = Bundle.main.appName
+    
+    /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
      - returns: Instance of `GiniConfiguration`.
