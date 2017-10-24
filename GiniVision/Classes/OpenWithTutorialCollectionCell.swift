@@ -118,22 +118,22 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         guard let collectionView = superview as? UICollectionView else { return layoutAttributes }
-
-        var maxWidth: CGFloat = UIScreen.main.bounds.width - padding.left - padding.right
-        if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad {
-            maxWidth = (UIScreen.main.bounds.width / 3) - padding.left - padding.right
+        let isHorizontalLayout = collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad
+        var maxTextWidth: CGFloat = UIScreen.main.bounds.width - padding.left - padding.right
+        
+        if isHorizontalLayout {
+            maxTextWidth = (UIScreen.main.bounds.width / CGFloat(collectionView.numberOfItems(inSection: 0))) - padding.left - padding.right
         }
-        var height: CGFloat
+        
         let itemSeparations: CGFloat = padding.top + padding.bottom + indicatorToTitleDistance + titleToSubtitleDistance + subtitleToImageDistance
         let itemsHeight = stepIndicatorCircleSize.height +
             imageHeight +
-            stepTitle.textHeight(forWidth: maxWidth) +
-            stepSubTitle.textHeight(forWidth: maxWidth)
+            stepTitle.textHeight(forWidth: maxTextWidth) +
+            stepSubTitle.textHeight(forWidth: maxTextWidth)
         
-        height = itemsHeight + itemSeparations
+        var height: CGFloat = ceil(itemsHeight + itemSeparations)
         
-        
-        if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad && height < collectionView.frame.height {
+        if isHorizontalLayout && height < collectionView.frame.height {
             height = collectionView.frame.height
         }
         
@@ -145,7 +145,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     public func fillWith(item: OpenWithTutorialStep, at position: Int) {
         stepIndicator.text = String(describing: position + 1)
         stepTitle.text = item.title
-        stepSubTitle.text = item.subtitle + "    |||||    " + item.subtitle + "    |||||    " + item.subtitle
+        stepSubTitle.text = item.subtitle
         stepImage.image = item.image
     }
 }

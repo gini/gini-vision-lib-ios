@@ -48,6 +48,8 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
         self.title = NSLocalizedString("ginivision.help.openWithTutorial.title", bundle: Bundle(for: GiniVision.self), comment: "title shown when the view controller is within a view controller")
         self.view.backgroundColor = Colors.Gini.pearl
         self.collectionView!.backgroundColor = nil
+        self.edgesForExtendedLayout = []
+        self.automaticallyAdjustsScrollViewInsets = false
 
         self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: cellIdentifier)
         self.collectionView!.register(OpenWithTutorialCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
