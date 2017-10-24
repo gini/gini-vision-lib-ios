@@ -12,6 +12,13 @@ import XCTest
 final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     let helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
+    lazy var mockedItems: [(text: String,id: Int)] = {
+        return [
+            ("First item", 1),
+            ("Second item", 2),
+            ("Third item", 3)
+        ]
+    }()
     
     override func setUp() {
         super.setUp()
@@ -24,22 +31,34 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(numberOfSections, 1, "The number of sections of the table should be always 1")
     }
     
-    func testNumberOfRowsInSection0() {
+    func testItemsCount() {
         let itemsCount = helpMenuViewController.items.count
         
         let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
         
-        XCTAssertEqual(itemsCount, tableRowsCount, "the number of rows should be equal to the datasource items count")
+        XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
     }
     
-    func testCellTextAtIndexPath() {
+    func testItemsCountForMockedSection() {
+        helpMenuViewController.items = mockedItems
+        helpMenuViewController.tableView.reloadData()
+        
+        let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
+        
+        XCTAssertEqual(3, tableRowsCount, "the number of items should be equal to mocked items declared above")
+    }
+    
+    func testCellContent() {
         let indexPath = IndexPath(row: 0, section: 0)
         let itemText = helpMenuViewController.items[indexPath.row].text
+        let cellBackgroundColor = UIColor.white
+        let cellAccesoryType = UITableViewCellAccessoryType.disclosureIndicator
         
-        let cellTextAtIndexPath = helpMenuViewController.tableView(helpMenuViewController.tableView, cellForRowAt: indexPath).textLabel?.text
+        let cell = helpMenuViewController.tableView(helpMenuViewController.tableView, cellForRowAt: indexPath)
         
-        XCTAssertEqual(itemText, cellTextAtIndexPath, "cell text in the first row should be the same as the first item text")
-        
+        XCTAssertEqual(itemText, cell.textLabel?.text, "cell text in the first row should be the same as the first item text")
+        XCTAssertEqual(cellBackgroundColor, cell.backgroundColor, "cell background color should always be white")
+        XCTAssertEqual(cellAccesoryType, cell.accessoryType, "cell accesory type should be and a disclosure indicator")
     }
     
     func testTableRowheight() {
