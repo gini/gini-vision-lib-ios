@@ -18,7 +18,7 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
         return GiniConfiguration.sharedConfiguration.openWithAppNameForTexts
     }
     
-    lazy private(set) var items: [OpenWithTutorialStep] = [
+    lazy var items: [OpenWithTutorialStep] = [
         (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title", comment: "first step title for open with tutorial"),
          NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle", comment: "first step subtitle for open with tutorial"),
          UIImageNamedPreferred(named: "openWithTutorialStep1")),
