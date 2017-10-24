@@ -44,4 +44,5 @@
 "ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
 
 "ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte Aufnahme wiederholen.";
-
+"ginivision.noresults.collection.header" = "Tipps für beste Ergebnisse:";
+"ginivision.noresults.gotocamera" = "Zur Kamera";

@@ -10,8 +10,8 @@ import UIKit
 
 final class CaptureSuggestionsCollectionView: UICollectionView {
     
-    static let cellIdentifier = "captureSuggestionsCellIdentifier"
-    static let headerIdentifier = "captureSuggestionsHeaderIdentifier"
+    static let captureSuggestionsCellIdentifier = "captureSuggestionsCellIdentifier"
+    static let captureSuggestionsHeaderIdentifier = "captureSuggestionsHeaderIdentifier"
     
     private let cellHeight: (max: CGFloat, min: CGFloat) = (150.0, 80.0)
     private let headerHeight: CGFloat = 60.0
@@ -24,25 +24,22 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         if UIDevice.current.isIpad {
             return UIEdgeInsetsMake(0, 20, 20, 20)
         } else {
-            return UIEdgeInsetsMake(0, 0, 20, 0)
+            return UIEdgeInsetsMake(10, 0, 10, 0)
         }
     }
     
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier)
-        self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier)
+        self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier)
+        self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier)
         
         self.showsVerticalScrollIndicator = false
         self.backgroundColor = .white
         
-        captureSuggestionsCollectionLayout.minimumLineSpacing = 0
+        captureSuggestionsCollectionLayout.minimumLineSpacing = 10
         captureSuggestionsCollectionLayout.minimumInteritemSpacing = 0
         captureSuggestionsCollectionLayout.sectionInset = sectionInset
         
-        if #available(iOS 9.0, *) {
-            captureSuggestionsCollectionLayout.sectionHeadersPinToVisibleBounds = true
-        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -51,8 +48,15 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     
     func cellSize(ofSection section: Int = 0) -> CGSize {
         let isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
-        var height: CGFloat = (self.frame.height - headerHeight - captureSuggestionsCollectionLayout.sectionInset.top - captureSuggestionsCollectionLayout.sectionInset.bottom) / CGFloat(self.numberOfItems(inSection: section))
-        var width: CGFloat = (UIScreen.main.bounds.width - captureSuggestionsCollectionLayout.sectionInset.left - captureSuggestionsCollectionLayout.sectionInset.right)
+        let itemCount = CGFloat(self.numberOfItems(inSection: section))
+        var height: CGFloat = (self.frame.height -
+            headerHeight -
+            captureSuggestionsCollectionLayout.sectionInset.top -
+            captureSuggestionsCollectionLayout.sectionInset.bottom -
+            (captureSuggestionsCollectionLayout.minimumLineSpacing  * (itemCount - 1))) / itemCount
+        var width: CGFloat = (UIScreen.main.bounds.width -
+            captureSuggestionsCollectionLayout.sectionInset.left -
+            captureSuggestionsCollectionLayout.sectionInset.right)
         
         if isLandscape && UIDevice.current.isIpad {
             height = height * rowsInLandscape

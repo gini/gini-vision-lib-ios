@@ -88,10 +88,10 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     public var didTapBottomButton: (() -> ()) = { }
     
     public init(title:String? = nil,
-                collectionHeader: String? = "Tipps für beste Ergebnisse:",
+                collectionHeader: String? = NSLocalizedString("ginivision.noresults.collection.header", bundle: Bundle(for: GiniVision.self), comment: "no results suggestions collection header title"),
                 warningText: String = NSLocalizedString("ginivision.noresults.warning", bundle: Bundle(for: GiniVision.self), comment: "Warning text that indicates that there was any result for this photo analysis"),
                 warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
-                bottomButtonText: String? = "Zur Kamera",
+                bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera", bundle: Bundle(for: GiniVision.self), comment: "bottom button title (go to camera button)"),
                 bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)) {
         super.init(nibName: nil, bundle: nil)
         self.title = title
@@ -198,7 +198,7 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureSuggestionsCollectionView.cellIdentifier, for: indexPath) as! CaptureSuggestionsCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier, for: indexPath) as! CaptureSuggestionsCollectionCell
         cell.suggestionText.text = self.captureSuggestions[indexPath.row].text
         cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
         return cell
@@ -220,7 +220,7 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.headerIdentifier, for: indexPath) as! CaptureSuggestionsCollectionHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier, for: indexPath) as! CaptureSuggestionsCollectionHeader
         header.headerTitle.text = self.suggestionsTitle
         return header
     }
