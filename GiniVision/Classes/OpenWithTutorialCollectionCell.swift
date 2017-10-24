@@ -12,7 +12,8 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     
     let padding:(top: CGFloat, left: CGFloat, bottom: CGFloat, right: CGFloat) = (40, 20, 40, 20)
     let stepIndicatorCircleSize: CGSize = CGSize(width: 30, height: 30)
-    let imageMaxHeight: CGFloat = 250
+    let imageHeight: CGFloat = UIDevice.current.isIpad ? 250 : 190
+    
     let indicatorToTitleDistance: CGFloat = 30
     let titleToSubtitleDistance: CGFloat = 20
     let subtitleToImageDistance: CGFloat = 40
@@ -111,25 +112,29 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right, priority: 999)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0)
         ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -padding.bottom, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: imageMaxHeight)
+        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: imageHeight)
         
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
         guard let collectionView = superview as? UICollectionView else { return layoutAttributes }
-        layoutIfNeeded() // cell needs to layout since image might have an incorrect size.
-        
-        let height: CGFloat
+
+        var maxWidth: CGFloat = UIScreen.main.bounds.width - padding.left - padding.right
         if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad {
+            maxWidth = (UIScreen.main.bounds.width / 3) - padding.left - padding.right
+        }
+        var height: CGFloat
+        let itemSeparations: CGFloat = padding.top + padding.bottom + indicatorToTitleDistance + titleToSubtitleDistance + subtitleToImageDistance
+        let itemsHeight = stepIndicatorCircleSize.height +
+            imageHeight +
+            stepTitle.textHeight(forWidth: maxWidth) +
+            stepSubTitle.textHeight(forWidth: maxWidth)
+        
+        height = itemsHeight + itemSeparations
+        
+        
+        if collectionView.frame.width > collectionView.frame.height && UIDevice.current.isIpad && height < collectionView.frame.height {
             height = collectionView.frame.height
-        } else {
-            let itemSeparations: CGFloat = padding.top + padding.bottom + indicatorToTitleDistance + titleToSubtitleDistance + subtitleToImageDistance
-            let itemsHeight = stepIndicatorCircleSize.height +
-                stepImage.frame.height +
-                stepTitle.textHeight(forWidth: UIScreen.main.bounds.width - padding.left - padding.right) +
-                stepSubTitle.textHeight(forWidth: UIScreen.main.bounds.width - padding.left - padding.right)
-            
-            height = itemsHeight + itemSeparations
         }
         
         layoutAttributes.frame.size.height = height
@@ -140,7 +145,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     public func fillWith(item: OpenWithTutorialStep, at position: Int) {
         stepIndicator.text = String(describing: position + 1)
         stepTitle.text = item.title
-        stepSubTitle.text = item.subtitle
+        stepSubTitle.text = item.subtitle + "    |||||    " + item.subtitle + "    |||||    " + item.subtitle
         stepImage.image = item.image
     }
 }
