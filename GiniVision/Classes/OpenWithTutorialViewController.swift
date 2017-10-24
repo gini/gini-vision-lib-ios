@@ -11,23 +11,23 @@ import UIKit
 typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImage?)
 
 final public class OpenWithTutorialViewController: UICollectionViewController {
-    let cellIdentifier = "cellIdentifier"
-    let headerIdentifier = "headerIdentifier"
+    let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
+    let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
     lazy private(set) var items: [OpenWithTutorialStep] = [
-        (NSLocalizedString("ginivision.help.openWithTutorial.step1.title", bundle: Bundle(for: GiniVision.self), comment: "first step title for open with tutorial"),
-         NSLocalizedString("ginivision.help.openWithTutorial.step1.subTitle", bundle: Bundle(for: GiniVision.self), comment: "first step subtitle for open with tutorial"),
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title", comment: "first step title for open with tutorial"),
+         NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle", comment: "first step subtitle for open with tutorial"),
          UIImageNamedPreferred(named: "openWithTutorialStep1")),
-        (NSLocalizedString("ginivision.help.openWithTutorial.step2.title", bundle: Bundle(for: GiniVision.self), comment: "second step title for open with tutorial"),
-         String(format: NSLocalizedString("ginivision.help.openWithTutorial.step2.subTitle", bundle: Bundle(for: GiniVision.self), comment: "second step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName),
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.title", comment: "second step title for open with tutorial"),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle", comment: "second step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep2")),
-        (NSLocalizedString("ginivision.help.openWithTutorial.step3.title", bundle: Bundle(for: GiniVision.self), comment: "third step title for open with tutorial"),
-         String(format: NSLocalizedString("ginivision.help.openWithTutorial.step3.subTitle", bundle: Bundle(for: GiniVision.self), comment: "third step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName, Bundle.main.appName),
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.title", comment: "third step title for open with tutorial"),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle", comment: "third step subtitle for open with tutorial"), Bundle.main.appName, Bundle.main.appName, Bundle.main.appName),
             UIImageNamedPreferred(named: "openWithTutorialStep3"))
     ]
     
     lazy var headerTitle: String = {
-        let localizedString = NSLocalizedString("ginivision.help.openWithTutorial.collectionHeader", bundle: Bundle(for: GiniVision.self), comment: "intoduction header for further steps")
+        let localizedString = NSLocalizedStringPreferred("ginivision.help.openWithTutorial.collectionHeader", comment: "intoduction header for further steps")
         return String(format: localizedString, Bundle.main.appName)
     }()
     
@@ -51,12 +51,11 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
         self.edgesForExtendedLayout = []
         self.automaticallyAdjustsScrollViewInsets = false
 
-        self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        self.collectionView!.register(OpenWithTutorialCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        self.collectionView!.register(OpenWithTutorialCollectionCell.self, forCellWithReuseIdentifier: openWithTutorialCollectionCellIdentifier)
+        self.collectionView!.register(OpenWithTutorialCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier)
         
         stepsCollectionLayout.minimumLineSpacing = 1
         stepsCollectionLayout.minimumInteritemSpacing = 1
-        stepsCollectionLayout.sectionInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         stepsCollectionLayout.estimatedItemSize = estimatedCellSize(widthParentSize: view.frame.size)
     }
     
@@ -89,14 +88,14 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
     }
     
     override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: openWithTutorialCollectionCellIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
         cell.fillWith(item: items[indexPath.row], at: indexPath.row)
         
         return cell
     }
     
     public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! OpenWithTutorialCollectionHeader
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier, for: indexPath) as! OpenWithTutorialCollectionHeader
         header.headerTitle.text = headerTitle
         return header
     }
