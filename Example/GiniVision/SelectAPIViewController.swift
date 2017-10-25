@@ -72,7 +72,7 @@ class SelectAPIViewController: UIViewController {
         
         // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
         let vc = giniScreenAPI(withImportedDocument: nil)
-        
+
         // 2. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
         
