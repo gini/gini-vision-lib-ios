@@ -72,6 +72,27 @@ final class HelpMenuViewController: UITableViewController {
     }
     
     func viewController(forRowWithId id: Int) -> UIViewController? {
+        /*
+         switch id {
+         case 1:
+         let vc = ImageAnalysisNoResultsViewController(title: "Tipps für Fotos",
+         collectionHeader: nil,
+         warningText: "Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:",
+         warningIcon: nil)
+         vc.didTapBottomButton = {
+         if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraContainerViewController })?.first {
+         _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
+         }
+         }
+         return vc
+         case 2:
+         return OpenWithTutorialViewController()
+         case 3:
+         return SupportedFormatsViewController(style: .plain)
+         default:
+         return nil
+         }
+         */
         switch id {
         case 1:
             return HelpMenuViewController()
