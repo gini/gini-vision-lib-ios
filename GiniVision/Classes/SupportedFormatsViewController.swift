@@ -8,9 +8,9 @@
 
 import UIKit
 
+typealias SupportedFormatCollectionSection = (title: String, items: [String], itemsImage:UIImage?, itemsImageBackgroundColor: UIColor)
+
 final class SupportedFormatsViewController: UITableViewController {
-    
-    typealias SupportedFormatCollectionSection = (title: String, items: [String], itemsImage:UIImage?, itemsImageBackgroundColor: UIColor)
     
     let supportedFormatsCellIdentifier = "SupportedFormatsCellIdentifier"
     let rowHeight: CGFloat = 70
