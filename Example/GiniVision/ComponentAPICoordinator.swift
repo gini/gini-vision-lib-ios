@@ -15,8 +15,8 @@ final class ComponentAPICoordinator {
     fileprivate var document:GiniVisionDocument?
     fileprivate var navigationController: UINavigationController?
     fileprivate var tabBarController: UITabBarController?
-    fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
-    fileprivate var resultsScreen: ResultTableViewController?
+    fileprivate weak var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate weak var resultsScreen: ResultTableViewController?
     fileprivate var storyboard:UIStoryboard
     
     init(document:GiniVisionDocument?){
