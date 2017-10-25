@@ -71,6 +71,8 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         
         if let cameraViewController = navigationController?.viewControllers.flatMap({ $0 as? CameraContainerViewController }).first {
             _ = navigationController?.popToViewController(cameraViewController, animated: true)
+        } else {
+            self.dismiss(animated: true, completion: nil)
         }
     }
     

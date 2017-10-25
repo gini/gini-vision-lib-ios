@@ -24,7 +24,7 @@ class ComponentAPIReviewViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    var delegate: ComponentAPIReviewScreenDelegate?
+    weak var delegate: ComponentAPIReviewScreenDelegate?
     
     /**
      The image data of the captured document to be reviewed.
