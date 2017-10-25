@@ -471,6 +471,18 @@ import UIKit
     public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
     
     
+    // MARK: Supported formats
+    
+    /**
+     Sets the color of the supported formats icon background to the specified color.
+     */
+    public var supportedFormatsIconColor = Colors.Gini.paleGreen
+
+    /**
+     Sets the color of the unsupported formats icon background to the specified color.
+     */
+    public var nonSupportedFormatsIconColor = Colors.Gini.crimson
+    
     // MARK: Open with tutorial options
     /**
      Sets the color of the step indicator for the Open with tutorial
@@ -514,7 +526,10 @@ internal struct Colors {
         static var bluishGreen = Colors.UIColorHex(0x007c99)
         static var grey = Colors.UIColorHex(0xAFB2B3)
         static var pearl = Colors.UIColorHex(0xF2F2F2)
+        static var paleGreen = Colors.UIColorHex(0xB8E986)
+        static var crimson = Colors.UIColorHex(0xFF4F65)
         static var rose = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
+        
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

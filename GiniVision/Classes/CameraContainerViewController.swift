@@ -142,6 +142,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             cameraViewController?.showFileImportTip()
 
         }
+
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
         present(navigationController, animated: true, completion: nil)
