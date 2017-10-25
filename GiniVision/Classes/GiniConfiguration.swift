@@ -35,7 +35,6 @@ import UIKit
         case pdf_and_images
     }
     
-    
     // MARK: General options
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.
@@ -50,6 +49,14 @@ import UIKit
      - note: Screen API only.
      */
     public var backgroundColor = UIColor.black
+    
+    /**
+     Sets the font used in the GiniVision library by default.
+     */
+    public var font: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
+                                                           bold: UIFontPreferred(.bold, andSize: 14),
+                                                           light: UIFontPreferred(.light, andSize: 14),
+                                                           thin: UIFontPreferred(.thin, andSize: 14))
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
@@ -545,6 +552,5 @@ internal struct Colors {
             alpha: CGFloat(1.0)
         )
     }
-    
 }
 
