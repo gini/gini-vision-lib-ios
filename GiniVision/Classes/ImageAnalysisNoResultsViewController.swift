@@ -72,7 +72,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         return bottomButton
     }()
     
-    let captureSuggestions: [(image: UIImage?, text: String)] = [
+    var captureSuggestions: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "captureSuggestion1"), NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self), comment: "First suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion2"), NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self), comment: "Second suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion3"), NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion for analysis screen")),
@@ -223,11 +223,5 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier, for: indexPath) as! CaptureSuggestionsCollectionHeader
         header.headerTitle.text = self.suggestionsTitle
         return header
-    }
-    
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            scrollView.contentOffset = .zero
-        }
     }
 }
