@@ -13,7 +13,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     static let captureSuggestionsCellIdentifier = "captureSuggestionsCellIdentifier"
     static let captureSuggestionsHeaderIdentifier = "captureSuggestionsHeaderIdentifier"
     
-    private let cellHeight: (max: CGFloat, min: CGFloat) = (150.0, 80.0)
+    private let cellHeight: (max: CGFloat, min: CGFloat) = (180.0, 80.0)
     private let headerHeight: CGFloat = 60.0
     private let rowsInLandscape: CGFloat = 2.0
     private var captureSuggestionsCollectionLayout: UICollectionViewFlowLayout {
