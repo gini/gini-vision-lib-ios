@@ -21,7 +21,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    weak var delegate:ComponentAPICameraScreenDelegate?
+    var delegate:ComponentAPICameraScreenDelegate?
     
     // MARK: View life cycle
     override func viewDidLoad() {
