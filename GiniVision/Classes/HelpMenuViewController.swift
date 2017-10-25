@@ -3,11 +3,12 @@
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 10/18/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
 import UIKit
 
-final class HelpMenuViewController: UITableViewController {
+final public class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
@@ -28,11 +29,11 @@ final class HelpMenuViewController: UITableViewController {
         super.init(style: .plain)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(showOpenWithTutorial:) has not been implemented")
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("ginivision.helpmenu.title", bundle: Bundle(for: GiniVision.self), comment: "help menu view controller title")
         tableView.tableFooterView = UIView()
@@ -47,15 +48,15 @@ final class HelpMenuViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
         cell.textLabel?.text = items[indexPath.row].0
         cell.textLabel?.font = cell.textLabel?.font.withSize(14)
@@ -65,41 +66,29 @@ final class HelpMenuViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let viewController = viewController(forRowWithId: items[indexPath.row].id) {
             navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
     func viewController(forRowWithId id: Int) -> UIViewController? {
-        /*
-         switch id {
-         case 1:
-         let vc = ImageAnalysisNoResultsViewController(title: "Tipps für Fotos",
-         collectionHeader: nil,
-         warningText: "Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:",
-         warningIcon: nil)
-         vc.didTapBottomButton = {
-         if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraContainerViewController })?.first {
-         _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
-         }
-         }
-         return vc
-         case 2:
-         return OpenWithTutorialViewController()
-         case 3:
-         return SupportedFormatsViewController(style: .plain)
-         default:
-         return nil
-         }
-         */
         switch id {
         case 1:
-            return HelpMenuViewController()
+            let vc = ImageAnalysisNoResultsViewController(title: NSLocalizedString("ginivision.noresults.title", bundle:Bundle(for: GiniVision.self), comment: "navigation title shown on no results tips, when the screen is shown through the help menu"),
+                                                          collectionHeader: nil,
+                                                          warningText: NSLocalizedString("ginivision.noresults.warningHelpMenu", bundle:Bundle(for: GiniVision.self), comment: "warning text shown on no results tips, when the screen is shown through the help menu"),
+                                                          warningIcon: nil)
+            vc.didTapBottomButton = {
+                if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraContainerViewController })?.first {
+                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
+                }
+            }
+            return vc
         case 2:
-            return HelpMenuViewController()
+            return OpenWithTutorialViewController()
         case 3:
-            return HelpMenuViewController()
+            return SupportedFormatsViewController(style: .plain)
         default:
             return nil
         }

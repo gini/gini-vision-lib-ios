@@ -56,6 +56,8 @@
 "ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte Aufnahme wiederholen.";
 "ginivision.noresults.collection.header" = "Tipps für beste Ergebnisse:";
 "ginivision.noresults.gotocamera" = "Zur Kamera";
+"ginivision.noresults.title" = "Tipps für Fotos";
+"ginivision.noresults.warningHelpMenu" = "Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:";
 
 "ginivision.supportedFormats.title" = "Unterstützte Formate";
 "ginivision.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";

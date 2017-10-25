@@ -11,14 +11,19 @@ import XCTest
 
 final class GINIHelpMenuViewControllerTests: XCTestCase {
     
-    let helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
-    lazy var mockedItems: [(text: String,id: Int)] = {
-        return [
-            ("First item", 1),
-            ("Second item", 2),
-            ("Third item", 3)
+    var helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
+    var items: [(text: String, id: Int)] {
+        var items = [
+            (NSLocalizedString("ginivision.helpmenu.firstItem", bundle: Bundle(for: GiniVision.self), comment: "help menu first item text"), 1),
+            (NSLocalizedString("ginivision.helpmenu.thirdItem", bundle: Bundle(for: GiniVision.self), comment: "help menu third item text"), 3)
         ]
-    }()
+        
+        if GiniConfiguration.sharedConfiguration.openWithEnabled {
+            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem", bundle: Bundle(for: GiniVision.self), comment: "help menu second item text"), 2), at: 1)
+        }
+        
+        return items
+    }
     
     override func setUp() {
         super.setUp()
@@ -31,22 +36,30 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(numberOfSections, 1, "The number of sections of the table should be always 1")
     }
     
-    func testItemsCount() {
-        let itemsCount = helpMenuViewController.items.count
+    func testItemsCountOpenWithEnabled() {
+        GiniConfiguration.sharedConfiguration.openWithEnabled = true
+        helpMenuViewController = HelpMenuViewController()
+        _ = helpMenuViewController.view
+        
+        let itemsCount = items.count
         
         let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
         
         XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
     }
     
-    func testItemsCountForMockedSection() {
-        helpMenuViewController.items = mockedItems
-        helpMenuViewController.tableView.reloadData()
+    func testItemsCountOpenWithDisabled() {
+        GiniConfiguration.sharedConfiguration.openWithEnabled = false
+        helpMenuViewController = HelpMenuViewController()
+        
+        _ = helpMenuViewController.view
+        
+        let itemsCount = items.count
         
         let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
         
-        XCTAssertEqual(3, tableRowsCount, "the number of items should be equal to mocked items declared above")
-    }
+        XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
+    }    
     
     func testCellContent() {
         let indexPath = IndexPath(row: 0, section: 0)
@@ -64,7 +77,7 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     func testTableRowheight() {
         let tableRowHeight = helpMenuViewController.tableView.rowHeight
         
-        XCTAssertEqual(tableRowHeight, helpMenuViewController.tableRowHeight, "table row height should be the one declared on the initialization")
+        XCTAssertEqual(tableRowHeight, helpMenuViewController.tableRowHeight, "table row height should match")
     }
     
     func testNoViewControllerForUnknownID() {
