@@ -66,7 +66,11 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        _ = navigationController?.popViewController(animated: true)
+        if self == navigationController?.topViewController {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            _ = navigationController?.popViewController(animated: true)
+        }
     }
     
     fileprivate func showNotice(_ notice: NoticeView) {
@@ -94,13 +98,13 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
     }
     
-} 
+}
 
 extension AnalysisContainerViewController: AnalysisDelegate {
     
     func displayError(withMessage message: String?, andAction action: NoticeAction?) {
         let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
-        DispatchQueue.main.async { 
+        DispatchQueue.main.async {
             self.showNotice(notice)
         }
     }
@@ -125,3 +129,4 @@ extension AnalysisContainerViewController: AnalysisDelegate {
     }
     
 }
+
