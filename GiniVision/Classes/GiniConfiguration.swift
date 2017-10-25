@@ -292,6 +292,11 @@ import UIKit
     public var onboardingThirdPageText = NSLocalizedStringPreferred("ginivision.onboarding.thirdPage", comment: "Text on the third page of the onboarding screen")
     
     /**
+     Sets the text on the fourth onboarding page. (It is the first on iPad)
+     */
+    public var onboardingFourthPageText = NSLocalizedStringPreferred("ginivision.onboarding.fourthPage", comment: "Text on the fourth page of the onboarding screen")
+    
+    /**
      Sets the font of the text for all onboarding pages.
      */
     public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
@@ -308,23 +313,26 @@ import UIKit
      */
     public var onboardingPages: [UIView] {
         get {
-            if let pages = onboardingPrivatePages {
+            if let pages = onboardingCustomPages {
                 return pages
             }
-            guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText),
+            guard let page1 = OnboardingPage(imageNamed: "onboardingPage1", text: onboardingFirstPageText, rotateImageInLandscape: true),
                 let page2 = OnboardingPage(imageNamed: "onboardingPage2", text: onboardingSecondPageText),
                 let page3 = OnboardingPage(imageNamed: "onboardingPage3", text: onboardingThirdPageText) else {
                     return [UIView]()
             }
-            let pages = [page1, page2, page3]
-            onboardingPrivatePages = pages
-            return onboardingPrivatePages!
+            
+            onboardingCustomPages = [page1, page2, page3]
+            if UIDevice.current.isIpad {
+                onboardingCustomPages?.insert(OnboardingPage(imageNamed: "onboardingPage4", text: onboardingFourthPageText)!, at: 0)
+            }
+            return onboardingCustomPages!
         }
         set {
-            self.onboardingPrivatePages = newValue
+            self.onboardingCustomPages = newValue
         }
     }
-    fileprivate var onboardingPrivatePages: [UIView]?
+    fileprivate var onboardingCustomPages: [UIView]?
     
     
     
@@ -407,10 +415,6 @@ import UIKit
      */
     public var reviewTextBottomColor = UIColor.white
     
-    
-    
-    
-    
     // MARK: Analysis options
     /**
      Sets the title text in the navigation bar on the analysis screen.
@@ -479,6 +483,30 @@ import UIKit
      */
     public var nonSupportedFormatsIconColor = Colors.Gini.crimson
     
+    // MARK: Open with tutorial options
+    /**
+     Sets the color of the step indicator for the Open with tutorial
+
+     */
+    public var stepIndicatorColor = Colors.Gini.blue
+    
+    /**
+     Sets the text of the app name for the Open with tutorial texts
+     
+     */
+    public var openWithAppNameForTexts = Bundle.main.appName
+
+    // MARK: No results options
+    /**
+     Sets the color of the warning container background to the specified color
+     */
+    public var noResultsWarningContainerIconColor = Colors.Gini.rose
+    
+    /**
+     Sets the color of the bottom button to the specified color
+     */
+    public var noResultsBottomButtonColor = Colors.Gini.blue
+
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
@@ -500,7 +528,8 @@ internal struct Colors {
         static var pearl = Colors.UIColorHex(0xF2F2F2)
         static var paleGreen = Colors.UIColorHex(0xB8E986)
         static var crimson = Colors.UIColorHex(0xFF4F65)
-
+        static var rose = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
+        
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

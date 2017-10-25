@@ -13,5 +13,4 @@ class OnboardingViewControllerTests: XCTestCase {
     func testScrollViewAccessibility() {
         XCTAssertNotNil(vc.scrollView, "scroll view should be accessible and not nil")
     }
-
 }

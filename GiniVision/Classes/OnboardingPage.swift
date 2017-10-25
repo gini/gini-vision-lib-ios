@@ -18,6 +18,7 @@ import UIKit
     fileprivate var contentView = UIView()
     fileprivate var imageView = UIImageView()
     fileprivate var textLabel = UILabel()
+    fileprivate var needsToRotateImageInLandscape: Bool = false
     
     /**
      Designated initializer for the `OnboardingPage` class which allows to create a custom onboarding page just by passing an image and a text. The text will be displayed underneath the image.
@@ -27,13 +28,14 @@ import UIKit
      
      - returns: A simple custom view to be displayed in the onboarding.
      */
-    public init(image: UIImage, text: String) {
+    public init(image: UIImage, text: String, rotateImageInLandscape: Bool = false) {
         super.init(frame: CGRect.zero)
         
         // Set image and text
         imageView.image = image
         textLabel.text = text
-        
+        needsToRotateImageInLandscape = rotateImageInLandscape
+
         // Configure label
         textLabel.numberOfLines = 0
         textLabel.textColor = GiniConfiguration.sharedConfiguration.onboardingTextColor
@@ -57,9 +59,9 @@ import UIKit
      
      - returns: A simple custom view to be displayed in the onboarding or `nil` when no image with the given name could be found.
      */
-    public convenience init?(imageNamed imageName: String, text: String) {
+    public convenience init?(imageNamed imageName: String, text: String, rotateImageInLandscape: Bool = false) {
         guard let image = UIImageNamedPreferred(named: imageName) else { return nil }
-        self.init(image: image, text: text)
+        self.init(image: image, text: text, rotateImageInLandscape: rotateImageInLandscape)
     }
     
     /**
@@ -69,6 +71,15 @@ import UIKit
      */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if needsToRotateImageInLandscape {
+            let rotationAngle:CGFloat = frame.width > frame.height ? -.pi / 2 : 0.0
+            imageView.transform = CGAffineTransform(rotationAngle: rotationAngle)
+        }
     }
     
     // MARK: Constraints
@@ -96,7 +107,7 @@ import UIKit
         ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 250)
+        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 2/3, constant: 0)
         ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
     }
     

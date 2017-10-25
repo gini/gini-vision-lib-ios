@@ -27,9 +27,10 @@
 "ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 
-"ginivision.onboarding.firstPage"  = "Dokument\nflach\nfotografieren";
-"ginivision.onboarding.secondPage" = "Handy parallel\nzum Dokument\nhalten";
-"ginivision.onboarding.thirdPage"  = "Dokument\nvollständig in\nRahmen einpassen";
+"ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.onboarding.secondPage" = "Seite glatt streichen";
+"ginivision.onboarding.thirdPage"  = "Gerät parallel über die Seite halten";
+"ginivision.onboarding.fourthPage"  = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
 
 "ginivision.review.top"                = "Dokument vollständig, scharf und in Leserichtung?";
 "ginivision.review.bottom"             = "Doppeltippen um Schärfe zu prüfen";
@@ -37,10 +38,24 @@
 "ginivision.review.documentImageTitle" = "Dokument";
 
 "ginivision.analysis.loadingText" = "Dokument wird analysiert";
-"ginivision.analysis.suggestion.1" = "Seite vollständig in den angezeigten Rahmen einpassen";
-"ginivision.analysis.suggestion.2" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.1" = "Auf gute Beleuchtung achten";
+"ginivision.analysis.suggestion.2" = "Seite glatt streichen";
 "ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
-"ginivision.analysis.suggestion.4" = "Seite glatt streichen";
+"ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
+
+"ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";
+
+"ginivision.help.openWithTutorial.collectionHeader" = "Digitale Rechnungen können nun noch komfortabler beglichen werden: Senden Sie einfach Ihre Rechnung als PDF direkt an Ihre %@. Diese wird automatisch für die Überweisung analysiert.";
+"ginivision.help.openWithTutorial.step1.title" = "Wählen Sie bitte eine Rechnung aus";
+"ginivision.help.openWithTutorial.step1.subTitle" = "Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.";
+"ginivision.help.openWithTutorial.step2.title" = "Aktivieren Sie die Teilen-Funktion";
+"ginivision.help.openWithTutorial.step2.subTitle" = "Um die Datei an die %@ weiterzuleiten, verwenden Sie die Teilen-Funktion, dargestellt als ein Viereck mit hoch zeigendem Pfeil, und wählen Sie “Öffnen in...” oder “Datei freigeben”. Bitte wählen Sie dann die %@ aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.";
+"ginivision.help.openWithTutorial.step3.title" = "Auf iPads können Sie auch “Drag-and-drop” nutzen";
+"ginivision.help.openWithTutorial.step3.subTitle" = "Auf iPads können ab iOS 11 PDFs oder Fotos bequem aus der Datei-Browser-App per “Drag-and-drop” in die %@ gezogen werden, um den Überweisungsprozess zu starten. Hierfür öffnen Sie zunächst die %@ und bringen Sie die Datei-Browser-App als zweite App auf dem Screen an. Wählen Sie dann die gewünschte Datei aus und ziehen Sie diese zur %@ hinüber.";
+
+"ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte Aufnahme wiederholen.";
+"ginivision.noresults.collection.header" = "Tipps für beste Ergebnisse:";
+"ginivision.noresults.gotocamera" = "Zur Kamera";
 
 "ginivision.supportedFormats.title" = "Unterstützte Formate";
 "ginivision.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";

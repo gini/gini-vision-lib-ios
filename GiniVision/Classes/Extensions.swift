@@ -268,4 +268,22 @@ internal extension UIApplication {
     }
 }
 
+internal extension UILabel {
+    
+    func textHeight(forWidth width: CGFloat) -> CGFloat {
+        guard let text = self.text else {
+            return 0
+        }
+
+        let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        return text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName : font], context: nil).size.height
+    }
+}
+
+internal extension Bundle {
+    var appName: String {
+        return self.object(forInfoDictionaryKey: "CFBundleDisplayName") as! String
+    }
+}
+
 
