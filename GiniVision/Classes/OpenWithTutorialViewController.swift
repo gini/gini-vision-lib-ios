@@ -14,7 +14,7 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
-    fileprivate var appName:String {
+    var appName:String {
         return GiniConfiguration.sharedConfiguration.openWithAppNameForTexts
     }
     

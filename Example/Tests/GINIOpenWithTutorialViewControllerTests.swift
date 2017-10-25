@@ -13,16 +13,17 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
     
     let openWithTutorialViewController = OpenWithTutorialViewController()
     
-    var mockedItems:[OpenWithTutorialStep] {
-        return [
-            ("1 item title", "1 item subtitle", loadImage(withName: "tabBarIconHelp")),
-            ("2 item title", "2 item subtitle", loadImage(withName: "tabBarIconHelp")),
-            ("3 item title", "3 item subtitle", loadImage(withName: "tabBarIconHelp")),
-            ("4 item title", "4 item subtitle", loadImage(withName: "tabBarIconHelp")),
-            ("5 item title", "5 item subtitle", loadImage(withName: "tabBarIconHelp")),
-            ("6 item title", "6 item subtitle", loadImage(withName: "tabBarIconHelp"))
-        ]
-    }
+    lazy var items: [OpenWithTutorialStep] = [
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title", comment: "first step title for open with tutorial"),
+         NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle", comment: "first step subtitle for open with tutorial"),
+         UIImageNamedPreferred(named: "openWithTutorialStep1")),
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.title", comment: "second step title for open with tutorial"),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle", comment: "second step subtitle for open with tutorial"), self.openWithTutorialViewController.appName, self.openWithTutorialViewController.appName),
+         UIImageNamedPreferred(named: "openWithTutorialStep2")),
+        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.title", comment: "third step title for open with tutorial"),
+         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle", comment: "third step subtitle for open with tutorial"), self.openWithTutorialViewController.appName, self.openWithTutorialViewController.appName, self.openWithTutorialViewController.appName),
+         UIImageNamedPreferred(named: "openWithTutorialStep3"))
+    ]
     
     override func setUp() {
         super.setUp()
@@ -35,25 +36,15 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionsCount, 1, "sections count should always be 1")
     }
     
-    func testCollectionItemsCount() {
-        let itemsCount = openWithTutorialViewController.items.count
-        
+    func testCollectionItemsCount() {        
         let collectionSection0ItemsCount = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, numberOfItemsInSection: 0)
         
-        XCTAssertEqual(itemsCount, collectionSection0ItemsCount, "the items count in section 0 should be the same as the one declared on initialization")
-    }
-    
-    func testCollectionMockedItemsCount() {
-        openWithTutorialViewController.items = mockedItems
-        
-        let collectionSection0ItemsCount = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, numberOfItemsInSection: 0)
-        
-        XCTAssertEqual(6, collectionSection0ItemsCount, "the items count in section 0 should be the same as the one declared on initialization")
+        XCTAssertEqual(items.count, collectionSection0ItemsCount, "the items count in section 0 should be the same as the one declared on initialization")
     }
     
     func testFirstStepProperties() {
         let indexPath = IndexPath(row: 0, section: 0)
-        let item = openWithTutorialViewController.items[indexPath.row]
+        let item = items[indexPath.row]
         
         let cell = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, cellForItemAt: indexPath) as! OpenWithTutorialCollectionCell
         
@@ -65,7 +56,7 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
     
     func testSecondStepProperties() {
         let indexPath = IndexPath(row: 1, section: 0)
-        let item = openWithTutorialViewController.items[indexPath.row]
+        let item = items[indexPath.row]
         
         let cell = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, cellForItemAt: indexPath) as! OpenWithTutorialCollectionCell
         
@@ -77,7 +68,7 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
     
     func testThirdStepProperties() {
         let indexPath = IndexPath(row: 2, section: 0)
-        let item = openWithTutorialViewController.items[indexPath.row]
+        let item = items[indexPath.row]
         
         let cell = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, cellForItemAt: indexPath) as! OpenWithTutorialCollectionCell
         
@@ -85,19 +76,6 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.stepTitle.text, item.title, "step title for third step should be the same as the one declared on initialiation")
         XCTAssertEqual(cell.stepSubTitle.text, item.subtitle, "step for third step subtitle should be the same as the one declared on initialiation")
         XCTAssertEqual(cell.stepImage.image, item.image, "step image for third step should be the same as the one declared on initialiation")
-    }
-    
-    func testSixthMockedStepProperties() {
-        openWithTutorialViewController.items = mockedItems
-        let indexPath = IndexPath(row: 5, section: 0)
-        let item = openWithTutorialViewController.items[indexPath.row]
-        
-        let cell = openWithTutorialViewController.collectionView(openWithTutorialViewController.collectionView!, cellForItemAt: indexPath) as! OpenWithTutorialCollectionCell
-        
-        XCTAssertEqual(cell.stepIndicator.text, String(describing: indexPath.row + 1), "step indicator for sixth mocked step should be the same as the one declared on initialiation")
-        XCTAssertEqual(cell.stepTitle.text, item.title, "step title for sixth mocked step should be the same as the one declared on initialiation")
-        XCTAssertEqual(cell.stepSubTitle.text, item.subtitle, "step subtitle for sixth mocked step should be the same as the one declared on initialiation")
-        XCTAssertEqual(cell.stepImage.image, item.image, "step image for sixth mocked step should be the same as the one declared on initialiation")
     }
 
     func testHeaderDissapearInLandscape() {
