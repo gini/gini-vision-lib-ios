@@ -100,7 +100,7 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(cell.stepImage.image, item.image, "step image for sixth mocked step should be the same as the one declared on initialiation")
     }
 
-    func testHeaderDissapearOnLandscape() {
+    func testHeaderDissapearInLandscape() {
         let collectionView = openWithTutorialViewController.collectionView!
         openWithTutorialViewController.view.frame.size = CGSize(width: 1, height: 0) // Simulate landscape
         

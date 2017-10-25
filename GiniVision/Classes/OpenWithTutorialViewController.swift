@@ -75,7 +75,7 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
     private func estimatedCellSize(widthParentSize size: CGSize) -> CGSize {
         if size.width > size.height && UIDevice.current.isIpad {
             let width:CGFloat = round(UIScreen.main.bounds.width / CGFloat(self.items.count) - CGFloat(self.stepsCollectionLayout.minimumInteritemSpacing * CGFloat(self.items.count - 1)))
-            return CGSize(width: width, height: UIScreen.main.bounds.height)
+            return CGSize(width: width, height: size.height)
         } else {
             return CGSize(width: UIScreen.main.bounds.width, height: 550)
         }

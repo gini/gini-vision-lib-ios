@@ -477,13 +477,13 @@ import UIKit
     
     // MARK: Open with tutorial options
     /**
-     Sets the color of step indicator for Open with tutorial
+     Sets the color of the step indicator for the Open with tutorial
 
      */
     public var stepIndicatorColor = Colors.Gini.blue
     
     /**
-     Sets the text of app name for Open with tutorial texts
+     Sets the text of the app name for the Open with tutorial texts
      
      */
     public var openWithAppNameForTexts = Bundle.main.appName
