@@ -14,7 +14,6 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     static let captureSuggestionsHeaderIdentifier = "captureSuggestionsHeaderIdentifier"
     
     private let cellHeight: (max: CGFloat, min: CGFloat) = (180.0, 80.0)
-    private let headerHeight: CGFloat = 60.0
     private let rowsInLandscape: CGFloat = 2.0
     private var captureSuggestionsCollectionLayout: UICollectionViewFlowLayout {
         return collectionViewLayout as! UICollectionViewFlowLayout
@@ -24,7 +23,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         if UIDevice.current.isIpad {
             return UIEdgeInsetsMake(0, 20, 20, 20)
         } else {
-            return UIEdgeInsetsMake(10, 0, 10, 0)
+            return UIEdgeInsetsMake(20, 0, 20, 0)
         }
     }
     
@@ -36,7 +35,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         self.showsVerticalScrollIndicator = false
         self.backgroundColor = .white
         
-        captureSuggestionsCollectionLayout.minimumLineSpacing = 10
+        captureSuggestionsCollectionLayout.minimumLineSpacing = 20
         captureSuggestionsCollectionLayout.minimumInteritemSpacing = 0
         captureSuggestionsCollectionLayout.sectionInset = sectionInset
         
@@ -50,7 +49,8 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         let isLandscape = UIScreen.main.bounds.width > UIScreen.main.bounds.height
         let itemCount = CGFloat(self.numberOfItems(inSection: section))
         var height: CGFloat = (self.frame.height -
-            headerHeight -
+            CaptureSuggestionsCollectionHeader.topContainerHeight -
+            CaptureSuggestionsCollectionHeader.subHeaderHeight -
             captureSuggestionsCollectionLayout.sectionInset.top -
             captureSuggestionsCollectionLayout.sectionInset.bottom -
             (captureSuggestionsCollectionLayout.minimumLineSpacing  * (itemCount - 1))) / itemCount
@@ -72,8 +72,12 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         return CGSize(width: width, height: height)
     }
     
-    func headerSize() -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.width, height: headerHeight)
+    func headerSize(withSubHeader: Bool) -> CGSize {
+        var height = CaptureSuggestionsCollectionHeader.topContainerHeight
+        if withSubHeader {
+            height += CaptureSuggestionsCollectionHeader.subHeaderHeight
+        }
+        return CGSize(width: UIScreen.main.bounds.width, height: height)
     }
     
 }
