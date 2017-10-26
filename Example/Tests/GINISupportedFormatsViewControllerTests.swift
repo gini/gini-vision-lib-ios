@@ -11,7 +11,7 @@ import XCTest
 
 final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
-    let supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
+    var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
     
     var sections: [SupportedFormatCollectionSection] = [
         (NSLocalizedString("ginivision.supportedFormats.section.1.title", bundle: Bundle(for: GiniVision.self), comment: "title for supported formats section"),
@@ -66,6 +66,31 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
         XCTAssertEqual(sectionTitle, header?.textLabel?.text, "header title should be equal to section title")
         XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount, "section items count and table section items count should be always equal")
+    }
+    
+    func testFirstSectionItemsCountFileImportDisabled() {
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .none
+
+        supportedFormatsViewController = SupportedFormatsViewController()
+        _ = supportedFormatsViewController.view
+        
+        let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
+        
+        XCTAssertEqual(section1items, 1, "items count in section 1 should be 1 when file import is disabled")
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
+    }
+    
+    func testFirstSectionItemsCountFileImportDisabledForImages() {
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf
+        
+        supportedFormatsViewController = SupportedFormatsViewController()
+        _ = supportedFormatsViewController.view
+        
+        let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
+        
+        XCTAssertEqual(section1items, 2, "items count in section 1 should be 2 when file import is enabled only for pdfs")
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
+
     }
     
     func testSecondSectionProperties() {

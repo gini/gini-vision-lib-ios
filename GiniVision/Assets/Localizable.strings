@@ -63,7 +63,7 @@
 "ginivision.supportedFormats.title" = "Unterstützte Formate";
 "ginivision.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";
 "ginivision.supportedFormats.section.1.item.1" = "Computer-erstellte Überweisungsträger und Rechnungen";
-"ginivision.supportedFormats.section.1.item.2" = "Einseitige Bilder im jpg, png oder tif Format";
+"ginivision.supportedFormats.section.1.item.2" = "Einseitige Bilder im jpg, png, gif oder tiff Format";
 "ginivision.supportedFormats.section.1.item.3" = "PDF Dokumente von bis zu 10 Seiten";
 "ginivision.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
 "ginivision.supportedFormats.section.2.item.1" = "Handschrift";
