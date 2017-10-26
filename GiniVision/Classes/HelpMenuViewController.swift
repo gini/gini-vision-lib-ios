@@ -8,6 +8,12 @@
 
 import UIKit
 
+
+/**
+ The `HelpMenuViewController` provides explanations on how to take better pictures, how to use the open with feature and which formats are supported by Gini Vision Library.
+ 
+ */
+
 final public class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
