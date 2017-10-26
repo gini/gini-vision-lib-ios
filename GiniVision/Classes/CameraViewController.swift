@@ -171,12 +171,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
-        }
-        
-        if ToolTipView.shouldShowFileImportToolTip {
-            createFileImportTip()
-            if !OnboardingContainerViewController.willBeShown {
-                showFileImportTip()
+            if ToolTipView.shouldShowFileImportToolTip {
+                createFileImportTip()
+                if !OnboardingContainerViewController.willBeShown {
+                    showFileImportTip()
+                }
             }
         }
         
