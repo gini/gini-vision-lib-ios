@@ -75,7 +75,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     // User interface
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
-    fileprivate var captureButton = UIButton()
+    var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
@@ -293,6 +293,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public func showFileImportTip() {
         self.toolTipView?.show(){
             self.blurEffect?.alpha = 1
+            self.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
     }
@@ -319,6 +320,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         toolTipView?.willDismiss = {
             self.blurEffect?.removeFromSuperview()
+            self.captureButton.isEnabled = true
         }
     }
     

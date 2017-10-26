@@ -19,5 +19,20 @@ class CameraViewControllerTests: XCTestCase {
         XCTAssertNil(vc.toolTipView, "ToolTipView should not be created when file import is disabled.")
         
     }
+    
+    func testCaptureButtonDisabledWhenToolTipIsShown() {
+        ToolTipView.shouldShowFileImportToolTip = true
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
+        
+        // Disable onboarding on launch
+        GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch = false
+        GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch = false
+        
+        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
+        _ = vc.view
+        
+        XCTAssertFalse(vc.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
+        
+    }
 }
 
