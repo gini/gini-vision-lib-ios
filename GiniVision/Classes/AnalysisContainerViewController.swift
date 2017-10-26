@@ -66,7 +66,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        if self == navigationController?.topViewController {
+        if self == navigationController?.viewControllers.first {
             self.dismiss(animated: true, completion: nil)
         } else {
             _ = navigationController?.popViewController(animated: true)

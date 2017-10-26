@@ -22,15 +22,7 @@ class SelectAPIViewController: UIViewController {
         return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
-    var analysisDelegate: AnalysisDelegate? {
-        didSet {
-            if let result = result,
-                let document = document,
-                analysisDelegate != nil {
-                present(result, fromDocument: document)
-            }
-        }
-    }
+    var analysisDelegate: AnalysisDelegate? 
     var imageData: Data?
     var result: GINIResult? {
         didSet {
@@ -82,7 +74,7 @@ class SelectAPIViewController: UIViewController {
         
         // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
         let vc = giniScreenAPI(withImportedDocument: nil)
-
+        
         // 2. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
         
@@ -167,42 +159,48 @@ class SelectAPIViewController: UIViewController {
     }
     
     func present(_ result: GINIResult, fromDocument document: GINIDocument) {
-        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
+        let resultParameters = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
+        let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if hasPayFive {
-            let customResultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
-            customResultsScreen.result = result
-            customResultsScreen.document = document
-            DispatchQueue.main.async { [weak self] in
-                print("Presenting results screen...")
-                self?.navigationController?.pushViewController(customResultsScreen, animated: true)
-                self?.dismiss(animated: true, completion: nil)
-                self?.analysisDelegate = nil
-
-            }
+        if hasExtactions {
+            showResultsScreen()
         } else {            
-            DispatchQueue.main.async { [weak self] in
-                print("Presenting no results screen...")
-                self?.analysisDelegate?.displayNoResultsScreen { shown in
-                    if !shown {
-                        let customNoResultsScreen = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-                        self?.navigationController!.pushViewController(customNoResultsScreen, animated: true)
-                        self?.dismiss(animated: true, completion: nil)
-                    }
-                    self?.analysisDelegate = nil
-
+            showNoResultsScreen()
+        }
+    }
+    
+    fileprivate func showResultsScreen() {
+        let customResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+        customResultsScreen.result = result
+        customResultsScreen.document = document
+        DispatchQueue.main.async { [weak self] in
+            print("Presenting results screen...")
+            self?.navigationController?.pushViewController(customResultsScreen, animated: true)
+            self?.dismiss(animated: true, completion: nil)
+            self?.analysisDelegate = nil
+            
+        }
+    }
+    
+    fileprivate func showNoResultsScreen() {
+        DispatchQueue.main.async { [weak self] in
+            print("Presenting no results screen...")
+            self?.analysisDelegate?.displayNoResultsScreen { shown in
+                if !shown {
+                    let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                    self?.navigationController!.pushViewController(customNoResultsScreen, animated: true)
+                    self?.dismiss(animated: true, completion: nil)
                 }
+                self?.analysisDelegate = nil
+                
             }
         }
-        
     }
 }
 
 // MARK: Gini Vision delegate
 extension SelectAPIViewController: GiniVisionDelegate {
-        
+    
     func didCapture(document: GiniVisionDocument) {
         print("Screen API received image data")
         
@@ -236,6 +234,12 @@ extension SelectAPIViewController: GiniVisionDelegate {
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         print("Screen API started analysis screen")
         self.analysisDelegate = analysisDelegate
+        
+        // if there is already results, present them
+        if let result = result,
+            let document = document {
+            present(result, fromDocument: document)
+        }
         
         // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
         // Show any errors that occured while the user was still reviewing the image here.
