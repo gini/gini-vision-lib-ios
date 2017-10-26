@@ -91,6 +91,7 @@ class SelectAPIViewController: UIViewController {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
+        giniConfiguration.openWithEnabled = true
         giniConfiguration.navigationBarItemTintColor = UIColor.white
         giniConfiguration.customDocumentValidations = { document in
             // As an example of custom document validation, we add a more strict check for file size

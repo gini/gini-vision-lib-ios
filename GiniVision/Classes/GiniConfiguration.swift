@@ -236,6 +236,12 @@ import UIKit
      */
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
+    /**
+     Indicates whether the open with feature is enabled or not. In case of `true`,
+     a new option with the open with tutorial wil be shown in the Help menu
+     */
+    public var openWithEnabled = false
+    
     // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.
@@ -529,7 +535,6 @@ internal struct Colors {
         static var paleGreen = Colors.UIColorHex(0xB8E986)
         static var crimson = Colors.UIColorHex(0xFF4F65)
         static var rose = UIColor(red:0.99, green:0.42, blue:0.49, alpha:1)
-        
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

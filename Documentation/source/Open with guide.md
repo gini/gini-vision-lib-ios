@@ -4,10 +4,10 @@ Enable your app to open PDFs and Images
 General considerations
 ----------------------
 
-Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images.
-In order to determine that the file opened is valid (correct size, correct type and number of pages below the threshold on PDFs), it is necessary to validate it before using it. 
+Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images. To do so, just follow these steps:
 
-Registering PDF and image file types
+
+1. Register PDF and image file types
 ------------------------------------
 
 Add the following to your `Info.plist`:
@@ -53,11 +53,24 @@ You can also add these by going to your target’s *Info* tab and enter the valu
 
 -   [Document types](https://developer.apple.com/library/content/documentation/FileManagement/Conceptual/DocumentInteraction_TopicsForIOS/Articles/RegisteringtheFileTypesYourAppSupports.html) from _Apple documentation_.
 
-Handling incoming PDFs and images
+2. Enable it inside GiniVision
+---------------------------------
+In order to allow GiniVision library to handle files imported from other apps and to show the _Open With tutorial_ in the _Help_ menu, it is necessary to indicate it in the `GiniConfiguration`.
+
+```swift
+        let giniConfiguration = GiniConfiguration()
+        ...
+        ...
+        giniConfiguration.openWithEnabled = true
+```
+
+3. Handle incoming PDFs and images
 ---------------------------------
 
 When your app is requested to handle a PDF or an image your `AppDelegate`’s `application(_:open:options:)` (__Swift__) method is called. You can read the data from the received `URL` into an `Data`. 
 Once you have the `Data`, you must build a `GiniVisionDocument` with the `GiniVisionDocumentBuilder`, and then you should validate it to avoid further issues.
+
+In order to determine that the file opened is valid (correct size, correct type and number of pages below the threshold on PDFs), it is necessary to validate it before using it. 
 
 
 ```swift
@@ -88,3 +101,4 @@ func application(_ application: UIApplication, open url: URL, sourceApplication:
 
 -   [AppDelegate resource handling](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application) from _Apple Documentation_
 -   [Supported file formats](http://developer.gini.net/gini-api/html/documents.html#supported-file-formats) from _Gini API_
+
