@@ -19,7 +19,8 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
 
     init(canGoBack: Bool = true) {
         super.init(nibName: nil, bundle: nil)
-        
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
+
         // Configure content controller
         let imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController
         
@@ -34,9 +35,6 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         }
         contentController = imageAnalysisNoResultsViewController
         
-        // Configure colors
-        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor
-        
         // Configure close button
         if canGoBack {
             setupLeftNavigationItem(usingResources: backButtonResources, selector: #selector(backToCamera))
@@ -44,13 +42,9 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
             setupLeftNavigationItem(usingResources: closeButtonResources, selector: #selector(close))
         }
         
-        // Configure view hierachy
         view.addSubview(containerView)
         
-        // Add constraints
         addConstraints()
-        
-        // remove analysis from stack.
 
     }
     
@@ -61,7 +55,6 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Add content to container view
         displayContent(contentController) 
     }
     

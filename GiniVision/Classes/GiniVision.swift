@@ -71,10 +71,6 @@ import UIKit
     
 }
 
-extension GiniVisionDelegate {
-    
-}
-
 /**
  Convenience class to interact with the Gini Vision Library.
  
