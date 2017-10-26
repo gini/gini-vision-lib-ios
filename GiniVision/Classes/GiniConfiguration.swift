@@ -237,7 +237,7 @@ import UIKit
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
-     Indicates if the open with feature is enabled or not. In case of `true`,
+     Indicates whether the open with feature is enabled or not. In case of `true`,
      a new option with the open with tutorial wil be shown in the Help menu
      */
     public var openWithEnabled = false
