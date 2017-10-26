@@ -24,7 +24,7 @@ final class ToolTipView: UIView {
     fileprivate var itemSeparation: CGFloat = 16
     fileprivate var minimunDistanceToRefView: (above:CGFloat, below: CGFloat, left: CGFloat, right: CGFloat ) = (36, 36, 0, 0)
     fileprivate var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
-    fileprivate var maxWidth:CGFloat = 375
+    fileprivate var maxWidth:CGFloat = 414
     fileprivate var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     
     fileprivate var textWidth:CGFloat {
