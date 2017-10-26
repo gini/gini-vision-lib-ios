@@ -79,7 +79,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
-    fileprivate var toolTipView: ToolTipView?
+    var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
