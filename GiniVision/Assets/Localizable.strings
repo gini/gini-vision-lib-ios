@@ -66,10 +66,9 @@
 "ginivision.supportedFormats.section.1.item.3" = "PDF Dokumente von bis zu 10 Seiten";
 "ginivision.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
 "ginivision.supportedFormats.section.2.item.1" = "Handschrift";
-"ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirme";
+"ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirmen";
 
 "ginivision.helpmenu.title" = "Hilfe";
 "ginivision.helpmenu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
 "ginivision.helpmenu.secondItem" = "Dokumente aus anderen Apps öffnen";
 "ginivision.helpmenu.thirdItem" = "Unterstützte Formate";
-
