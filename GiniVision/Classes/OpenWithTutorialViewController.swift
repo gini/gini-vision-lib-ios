@@ -10,7 +10,7 @@ import UIKit
 
 typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImage?)
 
-final public class OpenWithTutorialViewController: UICollectionViewController {
+final class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
