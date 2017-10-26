@@ -316,7 +316,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                                   font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
-                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
         
         toolTipView?.willDismiss = {
             self.blurEffect?.removeFromSuperview()
