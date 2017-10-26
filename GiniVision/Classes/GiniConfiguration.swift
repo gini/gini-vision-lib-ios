@@ -77,14 +77,14 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
+    public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? .white
     
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.
      
      - note: Screen API only.
      */
-    public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.light, andSize: 16)
+    public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular, andSize: 16)
     
     /**
      Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
