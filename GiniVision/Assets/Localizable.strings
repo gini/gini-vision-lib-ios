@@ -26,6 +26,7 @@
 "ginivision.camera.documentValidationError.excedeedFileSize" = "Diese Datei ist leider zu groß";
 "ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
+"ginivision.camera.fileImportTip" = "Es können jetzt auch ganz einfach Dateien hochgeladen werden.";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";

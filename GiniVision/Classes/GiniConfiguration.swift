@@ -217,11 +217,6 @@ import UIKit
     public var fileImportToolTipBackgroundColor = UIColor.white
     
     /**
-     Sets the text of the new file import button hint
-     */
-    public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
-    
-    /**
      Sets the text color of the new file import button hint
      */
     public var fileImportToolTipTextColor = UIColor.black

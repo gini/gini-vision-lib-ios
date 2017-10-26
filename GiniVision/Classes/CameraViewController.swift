@@ -311,7 +311,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip", bundle: Bundle(for: GiniVision.self), comment: "tooltip text indicating new file import feature"),
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
                                   font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
