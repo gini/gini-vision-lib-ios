@@ -9,7 +9,7 @@
 import UIKit
 
 /**
- Provides a way to get all possible font weights used in the GiniVision library.
+ Provides a way to set all possible font weights used in the GiniVision library.
  
  **Possible weights:**
  
