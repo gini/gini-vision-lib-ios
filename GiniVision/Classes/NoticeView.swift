@@ -48,7 +48,9 @@ internal class NoticeView: UIView {
         textLabel.textAlignment = .center
         textLabel.adjustsFontSizeToFitWidth = true
         textLabel.minimumScaleFactor = 0.7
-        textLabel.font = GiniConfiguration.sharedConfiguration.noticeFont
+        textLabel.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
+            GiniConfiguration.sharedConfiguration.noticeFont :
+            GiniConfiguration.sharedConfiguration.font.regular.withSize(12)
         
         // Configure UI depending on type
         switch type {
