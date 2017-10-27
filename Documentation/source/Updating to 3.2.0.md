@@ -79,8 +79,8 @@ if hasPayFive {
 ```
 
 ### Custom font
-Now is possible to specify a custom font for the whole library, being not needed to specify a font for each text.
-You just need to specify the `GiniVisionFont` in the `GiniConfiguration.font` property. Previous defined fonts are no longer needed (`NavigationBarItemFont`, `NavigationBarTitleFont`, `NoticeFont`, `CameraNotAuthorizedTextFont`, `CameraNotAuthorizedButtonFont`, `OnboardingTextFont`,`ReviewTextTopFont` and `ReviewTextBottomFont`).
+Now it is possible to specify a custom font for the whole library, being not needed to specify a font for each text.
+You just need to specify the `GiniVisionFont` in the `GiniConfiguration.font` property. Previously defined fonts are no longer needed (`NavigationBarItemFont`, `NavigationBarTitleFont`, `NoticeFont`, `CameraNotAuthorizedTextFont`, `CameraNotAuthorizedButtonFont`, `OnboardingTextFont`,`ReviewTextTopFont` and `ReviewTextBottomFont`).
 
 ### iPad support
 On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want a particular orientation, you will need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*).

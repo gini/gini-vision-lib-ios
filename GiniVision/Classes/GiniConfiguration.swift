@@ -57,7 +57,7 @@ import UIKit
     public var customFont: GiniVisionFont?
 
     /*
-     In order to provide backward compatibility for previous defined fonts, it is needed to have different properties.
+     In order to provide backward compatibility for previously defined fonts, it is needed to have different properties.
      */
     var font: GiniVisionFont {
         if let font = customFont {
