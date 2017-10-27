@@ -29,6 +29,9 @@
 		0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */; };
 		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
+		1F62FA3A1FA2207800CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */; };
+		1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */; };
+		1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */; };
 		1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */; };
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
 		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
@@ -98,6 +101,9 @@
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF2Pages.pdf; sourceTree = "<group>"; };
+		1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
+		1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIImageAnalysisNoResultsViewControllerTests.swift; sourceTree = "<group>"; };
+		1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINISupportedFormatsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentTests.swift; sourceTree = "<group>"; };
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
@@ -264,9 +270,12 @@
 				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
 				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
 				1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */,
+				1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */,
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
+				1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */,
 				1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */,
+				1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */,
 				1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -665,9 +674,12 @@
 				1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */,
 				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
 				1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */,
+				1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */,
 				1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */,
 				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
+				1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */,
+				1F62FA3A1FA2207800CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
 				1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */,
 			);

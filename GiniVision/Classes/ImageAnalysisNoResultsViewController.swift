@@ -27,34 +27,7 @@ import UIKit
  */
 
 public final class ImageAnalysisNoResultsViewController: UIViewController {
-    
-    // Views
-    lazy var warningViewContainer: UIView = {
-        let container = UIView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        return container
-    }()
-    lazy var warningViewContainerBottomLine: UIView = {
-        let line = UIView()
-        line.translatesAutoresizingMaskIntoConstraints = false
-        line.backgroundColor = .lightGray
-        return line
-    }()
-    lazy var warningViewIcon: UIImageView = {
-        let icon = UIImageView(image: self.warningIconImage)
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        icon.contentMode = .scaleAspectFit
-        icon.tintColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
-        return icon
-    }()
-    lazy var warningViewText: UILabel = {
-        let text = UILabel()
-        text.translatesAutoresizingMaskIntoConstraints = false
-        text.numberOfLines = 0
-        text.text = self.warningText
-        text.font = GiniConfiguration.sharedConfiguration.font.regular.withSize(14)
-        return text
-    }()
+
     lazy var suggestionsCollectionView: CaptureSuggestionsCollectionView = {
         let collection = CaptureSuggestionsCollectionView()
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -79,31 +52,31 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion4"), NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion for analysis screen"))
     ]
     
-    fileprivate var suggestionsTitle: String?
-    fileprivate var warningText: String?
-    fileprivate var warningIconImage: UIImage?
+    fileprivate var subHeaderTitle: String?
+    fileprivate var topViewText: String?
+    fileprivate var topViewIcon: UIImage?
     fileprivate var bottomButtonText: String?
     fileprivate var bottomButtonIconImage: UIImage?
     
     public var didTapBottomButton: (() -> ()) = { }
     
     public init(title:String? = nil,
-                collectionHeader: String? = NSLocalizedString("ginivision.noresults.collection.header", bundle: Bundle(for: GiniVision.self), comment: "no results suggestions collection header title"),
-                warningText: String = NSLocalizedString("ginivision.noresults.warning", bundle: Bundle(for: GiniVision.self), comment: "Warning text that indicates that there was any result for this photo analysis"),
-                warningIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
+                subHeaderText: String? = NSLocalizedString("ginivision.noresults.collection.header", bundle: Bundle(for: GiniVision.self), comment: "no results suggestions collection header title"),
+                topViewText: String = NSLocalizedString("ginivision.noresults.warning", bundle: Bundle(for: GiniVision.self), comment: "Warning text that indicates that there was any result for this photo analysis"),
+                topViewIcon: UIImage? = UIImage(named: "warningNoResults", in: Bundle(for: GiniVision.self), compatibleWith: nil)?.withRenderingMode(UIImageRenderingMode.alwaysTemplate),
                 bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera", bundle: Bundle(for: GiniVision.self), comment: "bottom button title (go to camera button)"),
                 bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)) {
         super.init(nibName: nil, bundle: nil)
         self.title = title
-        self.suggestionsTitle = collectionHeader
-        self.warningText = warningText
-        self.warningIconImage = warningIcon
+        self.subHeaderTitle = subHeaderText
+        self.topViewText = topViewText
+        self.topViewIcon = topViewIcon
         self.bottomButtonText = bottomButtonText
         self.bottomButtonIconImage = bottomButtonIcon
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(suggestionsTitle:warningText:warningIcon:) has not been implemented")
+        fatalError("init(title:subHeaderText:topViewText:topViewIcon:bottomButtonText:bottomButtonIcon:) has not been implemented")
     }
     
     public override func loadView() {
@@ -111,13 +84,6 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         view.backgroundColor = .white
         edgesForExtendedLayout = []
         
-        warningViewContainer.addSubview(warningViewContainerBottomLine)
-        warningViewContainer.addSubview(warningViewText)
-        if warningIconImage != nil {
-            warningViewContainer.addSubview(warningViewIcon)
-        }
-        
-        view.addSubview(warningViewContainer)
         view.addSubview(suggestionsCollectionView)
         
         if bottomButtonText != nil {
@@ -137,6 +103,11 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     fileprivate func addConstraints() {
         
+        // Collection View
+        ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .leading, multiplier: 1.0, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .trailing, multiplier: 1.0, constant: 0)
+        
         // Button
         if bottomButtonText != nil {
             ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: bottomButton, attribute: .bottom, multiplier: 1.0, constant: 20)
@@ -149,39 +120,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         } else {
             ConstraintUtils.addActiveConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .bottom, multiplier: 1.0, constant:0, priority: 999)
         }
-        
-        // Collection View
-        ConstraintUtils.addActiveConstraint(item: suggestionsCollectionView, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: suggestionsCollectionView, attribute: .trailing, multiplier: 1.0, constant: 0)
-        
-        // Top warning view
-        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.5)
-        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .width, relatedBy: .equal, toItem: warningViewContainer, attribute: .width, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: warningViewContainerBottomLine, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        
-        // Warning Container
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: warningViewContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
-        
-        // Warning Icon
-        if warningIconImage != nil {
-            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
-            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
-            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
-            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .trailing, relatedBy: .equal, toItem: warningViewText, attribute: .leading, multiplier: 1.0, constant: -16)
-            ConstraintUtils.addActiveConstraint(item: warningViewIcon, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 25)
-        } else {
-            ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .leading, relatedBy: .equal, toItem: warningViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
-        }
-        
-        // Warning text
-        ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .top, relatedBy: .equal, toItem: warningViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .bottom, relatedBy: .equal, toItem: warningViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: warningViewText, attribute: .trailing, relatedBy: .equal, toItem: warningViewContainer, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
-        
+
     }
     
     // MARK: Button action
@@ -203,6 +142,10 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
         cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
         return cell
     }
+    
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -213,15 +156,16 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
     }
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if self.suggestionsTitle != nil {
-            return suggestionsCollectionView.headerSize()
-        }
-        return .zero
+        return suggestionsCollectionView.headerSize(withSubHeader: subHeaderTitle != nil)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier, for: indexPath) as! CaptureSuggestionsCollectionHeader
-        header.headerTitle.text = self.suggestionsTitle
+        header.subHeaderTitle.text = self.subHeaderTitle
+        header.topViewIcon.image = self.topViewIcon
+        header.topViewText.text = self.topViewText
+        header.shouldShowTopViewIcon = topViewIcon != nil
+        header.shouldShowSubHeader = subHeaderTitle != nil
         return header
     }
 }

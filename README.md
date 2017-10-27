@@ -77,10 +77,6 @@ giniConfiguration.backgroundColor = UIColor.white
 GiniVision.setConfiguration(giniConfiguration)
 ```
 
-## iPad support
-On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (*Screen* and *Component*). So in case you don't want a particular orientation, you need to disable it in your project settings (*Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation*).
-
-For `cameraOverlay` and `onboardingPage` assets it is also necessary to provide higher resolution images on iPad.
 
 ## Example
 

@@ -10,7 +10,7 @@ import UIKit
 
 typealias OpenWithTutorialStep = (title: String, subtitle: String, image: UIImage?)
 
-final public class OpenWithTutorialViewController: UICollectionViewController {
+final class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
@@ -39,15 +39,15 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
         return self.collectionView?.collectionViewLayout as! OpenWithTutorialCollectionFlowLayout
     }
     
-    public init() {
+    init() {
         super.init(collectionViewLayout: OpenWithTutorialCollectionFlowLayout())
     }
     
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init() should be called instead")
     }
     
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.title = NSLocalizedString("ginivision.help.openWithTutorial.title", bundle: Bundle(for: GiniVision.self), comment: "title shown when the view controller is within a view controller")
         self.view.backgroundColor = Colors.Gini.pearl
@@ -63,7 +63,7 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
         stepsCollectionLayout.estimatedItemSize = estimatedCellSize(widthParentSize: view.frame.size)
     }
     
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [unowned self] _ in
@@ -83,22 +83,22 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
     
     // MARK: UICollectionViewDataSource
     
-    override public func numberOfSections(in collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    override public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
     
-    override public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: openWithTutorialCollectionCellIdentifier, for: indexPath) as! OpenWithTutorialCollectionCell
         cell.fillWith(item: items[indexPath.row], at: indexPath.row)
         
         return cell
     }
     
-    public override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier, for: indexPath) as! OpenWithTutorialCollectionHeader
         header.headerTitle.text = headerTitle
         return header
@@ -109,7 +109,7 @@ final public class OpenWithTutorialViewController: UICollectionViewController {
 // MARK: UICollectionViewDelegateFlowLayout
 
 extension OpenWithTutorialViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let height: CGFloat = collectionView.frame.width > collectionView.frame.height ? 0 : 130
         
         return CGSize(width: UIScreen.main.bounds.width, height: height)

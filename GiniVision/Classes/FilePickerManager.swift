@@ -36,7 +36,7 @@ internal final class FilePickerManager:NSObject {
     }
     
     func showDocumentPicker(from:UIViewController) {
-        let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .open)
+        let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
     }

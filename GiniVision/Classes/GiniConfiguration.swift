@@ -98,7 +98,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? Colors.Gini.lightBlue
+    public var navigationBarTitleColor = UINavigationBar.appearance().titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? .white
     
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.
@@ -106,7 +106,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.light, andSize: 16)
+    public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular, andSize: 16)
     
     /**
      Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.
@@ -243,11 +243,6 @@ import UIKit
      Sets the background color of the new file import button hint
      */
     public var fileImportToolTipBackgroundColor = UIColor.white
-    
-    /**
-     Sets the text of the new file import button hint
-     */
-    public var fileImportToolTipText = "Du kannst jetzt auch ganz einfach Dateien hochladen."
     
     /**
      Sets the text color of the new file import button hint

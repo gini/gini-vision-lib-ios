@@ -8,6 +8,12 @@
 
 import UIKit
 
+
+/**
+ The `HelpMenuViewController` provides explanations on how to take better pictures, how to use the open with feature and which formats are supported by Gini Vision Library.
+ 
+ */
+
 final public class HelpMenuViewController: UITableViewController {
     
     let tableRowHeight: CGFloat = 64
@@ -76,9 +82,9 @@ final public class HelpMenuViewController: UITableViewController {
         switch id {
         case 1:
             let vc = ImageAnalysisNoResultsViewController(title: NSLocalizedString("ginivision.noresults.title", bundle:Bundle(for: GiniVision.self), comment: "navigation title shown on no results tips, when the screen is shown through the help menu"),
-                                                          collectionHeader: nil,
-                                                          warningText: NSLocalizedString("ginivision.noresults.warningHelpMenu", bundle:Bundle(for: GiniVision.self), comment: "warning text shown on no results tips, when the screen is shown through the help menu"),
-                                                          warningIcon: nil)
+                                                          subHeaderText: nil,
+                                                          topViewText: NSLocalizedString("ginivision.noresults.warningHelpMenu", bundle:Bundle(for: GiniVision.self), comment: "warning text shown on no results tips, when the screen is shown through the help menu"),
+                                                          topViewIcon: nil)
             vc.didTapBottomButton = {
                 if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraContainerViewController })?.first {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)

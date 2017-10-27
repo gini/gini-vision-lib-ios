@@ -75,11 +75,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     // User interface
     fileprivate var controlsView  = UIView()
     fileprivate var previewView   = CameraPreviewView()
-    fileprivate var captureButton = UIButton()
+    var captureButton = UIButton()
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate lazy var importFileButton = UIButton()
-    fileprivate var toolTipView: ToolTipView?
+    var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
@@ -171,12 +171,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
-        }
-        
-        if ToolTipView.shouldShowFileImportToolTip {
-            createFileImportTip()
-            if !OnboardingContainerViewController.willBeShown {
-                showFileImportTip()
+            if ToolTipView.shouldShowFileImportToolTip {
+                createFileImportTip()
+                if !OnboardingContainerViewController.willBeShown {
+                    showFileImportTip()
+                }
             }
         }
         
@@ -294,6 +293,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public func showFileImportTip() {
         self.toolTipView?.show(){
             self.blurEffect?.alpha = 1
+            self.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
     }
@@ -311,15 +311,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip", bundle: Bundle(for: GiniVision.self), comment: "tooltip text indicating new file import feature"),
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
                                   font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
-                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)
+                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
         
         toolTipView?.willDismiss = {
             self.blurEffect?.removeFromSuperview()
+            self.captureButton.isEnabled = true
         }
     }
     

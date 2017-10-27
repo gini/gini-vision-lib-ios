@@ -39,7 +39,8 @@
             "GiniPDFDocument",
             "GiniVision",
             "GiniVisionDocumentBuilder",
-	    "ImageAnalysisNoResultsViewController",
+            "HelpMenuViewController",
+            "ImageAnalysisNoResultsViewController",
             "OnboardingPage",
             "OnboardingViewController",
             "ReviewViewController"

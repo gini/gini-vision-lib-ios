@@ -11,7 +11,8 @@ import XCTest
 
 final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
-    let supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
+    var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
+    let initialGiniConfiguration = GiniConfiguration.sharedConfiguration
     
     var sections: [SupportedFormatCollectionSection] = [
         (NSLocalizedString("ginivision.supportedFormats.section.1.title", bundle: Bundle(for: GiniVision.self), comment: "title for supported formats section"),
@@ -29,7 +30,6 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
         _ = supportedFormatsViewController.view
     }
     
@@ -43,12 +43,15 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     func testSectionItemsCount() {
 
         let section2ItemsCount = sections[1].items.count
-        let tableSection3ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 1)
+        let tableSection2ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 1)
         
-        XCTAssertEqual(section2ItemsCount, tableSection3ItemsCount, "items count inside section 2 and table section 2 items count should be always equal")
+        XCTAssertEqual(section2ItemsCount, tableSection2ItemsCount, "items count inside section 2 and table section 2 items count should be always equal")
     }
     
     func testFirstSectionProperties() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 0, section: 0)
         let section = sections[indexPath.section]
         let sectionImage = section.itemsImage
@@ -66,6 +69,28 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionImage, cell?.imageView?.image, "cell image should be equal to section image since it is the same for each item in the section")
         XCTAssertEqual(sectionTitle, header?.textLabel?.text, "header title should be equal to section title")
         XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount, "section items count and table section items count should be always equal")
+    }
+    
+    func testFirstSectionItemsCountFileImportDisabled() {
+        setFileImportSupportedTypes(to: .none)
+        supportedFormatsViewController = SupportedFormatsViewController()
+        
+        _ = supportedFormatsViewController.view
+        
+        let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
+        
+        XCTAssertEqual(section1items, 1, "items count in section 1 should be 1 when file import is disabled")
+    }
+    
+    func testFirstSectionItemsCountFileImportDisabledForImages() {
+        setFileImportSupportedTypes(to: .pdf)
+        supportedFormatsViewController = SupportedFormatsViewController()
+        
+        _ = supportedFormatsViewController.view
+        
+        let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
+        
+        XCTAssertEqual(section1items, 2, "items count in section 1 should be 2 when file import is enabled only for pdfs")
     }
     
     func testSecondSectionProperties() {
@@ -89,6 +114,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testFirstSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 0, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
@@ -97,6 +125,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testSecondSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 1, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
@@ -105,6 +136,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testThirdSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 2, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
@@ -168,4 +202,14 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor, "cell image background color should be the same as the one declared on initialization")
     }
     
+    override func tearDown() {
+        super.tearDown()
+        GiniConfiguration.sharedConfiguration = initialGiniConfiguration
+    }
+    
+    fileprivate func setFileImportSupportedTypes(to supportedTypes: GiniConfiguration.GiniVisionImportFileTypes) {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.fileImportSupportedTypes = supportedTypes
+        GiniConfiguration.sharedConfiguration = giniConfiguration
+    }
 }

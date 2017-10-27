@@ -17,13 +17,14 @@ final class ToolTipView: UIView {
         case right
     }
     
-    fileprivate var arrowWidth:CGFloat = 20
+    fileprivate var arrowWidth:CGFloat = 30
     fileprivate var arrowHeight:CGFloat = 20
     fileprivate var closeButtonWidth:CGFloat = 20
     fileprivate var closeButtonHeight:CGFloat = 20
     fileprivate var itemSeparation: CGFloat = 16
+    fileprivate var minimunDistanceToRefView: (above:CGFloat, below: CGFloat, left: CGFloat, right: CGFloat ) = (36, 36, 0, 0)
     fileprivate var margin:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
-    fileprivate var maxWidth:CGFloat = 375
+    fileprivate var maxWidth:CGFloat = 414
     fileprivate var padding:(top:CGFloat, left:CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
     
     fileprivate var textWidth:CGFloat {
@@ -126,6 +127,7 @@ final class ToolTipView: UIView {
     // MARK: Arrange views
     fileprivate func arrangeFrame(withSuperView superView:UIView?) {
         guard let superview = superView, let referenceViewAbsoluteFrame = absoluteFrame(for: referenceView, inside: superView) else { return }
+        var refViewAbsFrame = referenceViewAbsoluteFrame
         let frameHeight = max(textSize.height, closeButtonHeight) + padding.top + padding.bottom + margin.top + margin.bottom
         let frameWidth = textSize.width + closeButtonWidth + padding.left + padding.right + itemSeparation + margin.left + margin.right
         let size = CGSize(width: frameWidth, height: frameHeight)
@@ -133,39 +135,45 @@ final class ToolTipView: UIView {
         var x:CGFloat = 0
         var y:CGFloat = 0
         
-        if referenceViewAbsoluteFrame != .zero {
+        if refViewAbsFrame != .zero {
             switch toolTipPosition {
             case .above:
                 x = referenceViewAbsoluteFrame.origin.x + referenceViewAbsoluteFrame.size.width - size.width
 
-                if referenceViewAbsoluteFrame.origin.y - size.height < 0 {
-                    y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+                refViewAbsFrame.origin.y = refViewAbsFrame.origin.y - minimunDistanceToRefView.above
+                if refViewAbsFrame.origin.y - size.height < 0 {
+                    y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height
                 } else {
-                    y = referenceViewAbsoluteFrame.origin.y - size.height
+                    y = refViewAbsFrame.origin.y - size.height
                 }
             case .below:
-                x = referenceViewAbsoluteFrame.origin.x + referenceViewAbsoluteFrame.size.width - size.width
+                x = refViewAbsFrame.origin.x + refViewAbsFrame.size.width - size.width
 
-                if referenceViewAbsoluteFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
-                    y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+                refViewAbsFrame.origin.y = refViewAbsFrame.origin.y + minimunDistanceToRefView.below
+                if refViewAbsFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
+                    y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height
                 } else {
-                    y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height
+                    y = refViewAbsFrame.origin.y + referenceView.frame.height
                 }
             case .left:
-                y = referenceViewAbsoluteFrame.origin.y - margin.top
+                y = refViewAbsFrame.midY - size.height / 2
+                
+                refViewAbsFrame.origin.x = refViewAbsFrame.origin.x - minimunDistanceToRefView.left
 
-                if referenceViewAbsoluteFrame.origin.x - size.width < 0 {
+                if refViewAbsFrame.origin.x - size.width < 0 {
                     x = superview.frame.width - size.width
                 } else {
-                    x = referenceViewAbsoluteFrame.origin.x - size.width
+                    x = refViewAbsFrame.origin.x - size.width
                 }
             case .right:
-                y = referenceViewAbsoluteFrame.origin.y - margin.top
+                y = refViewAbsFrame.origin.y - margin.top
 
-                if referenceViewAbsoluteFrame.origin.x + referenceView.frame.width + size.width > superview.frame.width {
+                refViewAbsFrame.origin.x = refViewAbsFrame.origin.x + minimunDistanceToRefView.right
+
+                if refViewAbsFrame.origin.x + referenceView.frame.width + size.width > superview.frame.width {
                     x = superview.frame.width - size.width
                 } else {
-                    x = referenceViewAbsoluteFrame.origin.x  - size.width
+                    x = refViewAbsFrame.origin.x  - size.width
                 }
             }
             
@@ -174,7 +182,7 @@ final class ToolTipView: UIView {
             }
             
             if superview.frame.height - y < size.height {
-                y = referenceViewAbsoluteFrame.origin.y + referenceViewAbsoluteFrame.height - size.height
+                y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height
             }
         }
         
@@ -195,10 +203,10 @@ final class ToolTipView: UIView {
             y = 0
         case .left:
             x = tipContainer.frame.width + tipContainer.frame.origin.x
-            y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height / 2 - self.frame.origin.y - arrowView.frame.width / 2
+            y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height / 2 - self.frame.origin.y - arrowView.frame.height / 2
         case .right:
             x = 0
-            y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height / 2 - self.frame.origin.y - arrowView.frame.width / 2
+            y = referenceViewAbsoluteFrame.origin.y + referenceView.frame.height / 2 - self.frame.origin.y - arrowView.frame.height / 2
         }
         arrowView.frame.origin = CGPoint(x: x, y: y)
     }
@@ -255,35 +263,37 @@ final class ToolTipView: UIView {
     
     // MARK: Draw arrow
     class fileprivate func arrow(withHeight height:CGFloat, width:CGFloat, color:UIColor, position:ToolTipPosition) -> UIView {
-        let arrowView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        arrowView.backgroundColor = color
-        
         let bezierPath = UIBezierPath()
-        
+        let arrowView: UIView
         switch position {
         case .above:
+            arrowView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
             bezierPath.move(to: CGPoint(x: 0, y: 0))
             bezierPath.addLine(to: CGPoint(x: width, y: 0))
             bezierPath.addLine(to: CGPoint(x: width / 2, y: height))
             bezierPath.addLine(to: CGPoint(x: 0, y: 0))
         case .below:
+            arrowView = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
             bezierPath.move(to: CGPoint(x: 0, y: height))
             bezierPath.addLine(to: CGPoint(x: width, y: height))
             bezierPath.addLine(to: CGPoint(x: width / 2, y: 0))
             bezierPath.addLine(to: CGPoint(x: 0, y: height))
         case .left:
+            arrowView = UIView(frame: CGRect(x: 0, y: 0, width: height, height: width))
             bezierPath.move(to: CGPoint(x: 0, y: 0))
             bezierPath.addLine(to: CGPoint(x: height, y: width / 2))
             bezierPath.addLine(to: CGPoint(x: 0, y: width))
             bezierPath.addLine(to: CGPoint(x: 0, y: 0))
         case .right:
+            arrowView = UIView(frame: CGRect(x: 0, y: 0, width: height, height: width))
             bezierPath.move(to: CGPoint(x: height, y: 0))
             bezierPath.addLine(to: CGPoint(x: 0, y: width / 2))
             bezierPath.addLine(to: CGPoint(x: height, y: width))
             bezierPath.addLine(to: CGPoint(x: height, y: 0))
         }
         bezierPath.close()
-        
+        arrowView.backgroundColor = color
+
         let shapeLayer = CAShapeLayer()
         shapeLayer.path = bezierPath.cgPath
         arrowView.layer.mask = shapeLayer

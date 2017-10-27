@@ -116,7 +116,7 @@ final class CaptureSuggestionsView: UIView {
             ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
         } else {
             ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
-            ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
+            ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
         }
 
         layoutIfNeeded()

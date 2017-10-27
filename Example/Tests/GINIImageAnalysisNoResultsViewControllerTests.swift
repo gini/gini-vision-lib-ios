@@ -90,30 +90,6 @@ final class GINIImageAnalysisNoResultsViewControllerTests: XCTestCase {
         
     }
     
-    func testWarningIconColor() {
-        let giniConfigurationColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
-        
-        let warningBackgroundColor = viewController.warningViewIcon.tintColor
-        
-        XCTAssertEqual(giniConfigurationColor, warningBackgroundColor, "warningViewContainerItem tint color should be the one declared in the GiniConfiguration file")
-    }
-    
-    func testNoCollectionHeaderWhenNoTitle() {
-        viewController = ImageAnalysisNoResultsViewController(collectionHeader: nil)
-        _ = viewController.view
-        
-        XCTAssertEqual(viewController.collectionView(viewController.suggestionsCollectionView, layout: viewController.suggestionsCollectionView.collectionViewLayout, referenceSizeForHeaderInSection: 0), CGSize.zero, "when there is no title for collection the header size should be (0,0)")
-    }
-    
-    func testNoWarningIconWhenNoImage() {
-        viewController = ImageAnalysisNoResultsViewController(warningIcon: nil)
-        _ = viewController.view
-        
-        let warningIcon = viewController.warningViewIcon
-        
-        XCTAssertFalse(viewController.warningViewContainer.subviews.contains(warningIcon))
-    }
-    
     func testNoBottomButtonWhenNoText() {
         viewController = ImageAnalysisNoResultsViewController(bottomButtonText: nil)
         _ = viewController.view
