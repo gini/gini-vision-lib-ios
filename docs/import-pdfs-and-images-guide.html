@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>License  Reference</title>
+    <title>Import PDFs and images guide  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="License  Reference"></a>
+    <a title="Import PDFs and images guide  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      License  Reference
+      Import PDFs and images guide  Reference
     </p>
 
     <div class="content-wrapper">
@@ -207,24 +207,40 @@
         <section class="section">
           <div class="section-content">
             
-            <h1 id='license' class='heading'>License</h1>
+            <h1 id='import-pdfs-and-images' class='heading'>Import PDFs and images</h1>
 
-<p>The Gini Vision Library for iOS is licensed under a Private License.</p>
-
-<p>Always make sure to ship all license notices and permissions with your application.</p>
-<pre class="highlight plaintext"><code>Copyright (c) 2014-2017, Gini GmbH
-All rights reserved.
-
-The Gini Vision Library is licensed through Gini GmbH ("Gini") and may not be
-used, altered or copied in any way without explicit permission by Gini. The
-terms of usage are defined in a separate usage agreement between Gini and the
-licensee, where the licensee can gain access to a non-exclusive,
-non-transferable usage right which is restricted for the time of a contractual
-relationship between Gini and the licensee.
-
-For license related inquiries contact Gini via the email address 
-technical-support@gini.net.
+<p>If you want to add the <em>File import</em> feature on your app, first you need to specify the supported types (<code>fileImportSupportedTypes</code>) on the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code> instance.</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">fileImportSupportedTypes</span> <span class="o">=</span> <span class="o">.</span><span class="n">pdf_and_images</span>
 </code></pre>
+
+<p>These are the cases for file import supported file types:</p>
+
+<ul>
+<li><code>pdf</code></li>
+<li><code>pdf_and_images</code></li>
+<li><code>none</code> (In case you want to disable <em>File import</em> funcionality, including UI related. This is the <em>default</em> value).</li>
+</ul>
+
+<p>Also if you want to add some custom validations for the imported <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code>, you can specify them in the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code> closure, <code>customDocumentValidations</code>. Here is an example:</p>
+<pre class="highlight swift"><code><span class="n">giniConfiguration</span><span class="o">.</span><span class="n">customDocumentValidations</span> <span class="o">=</span> <span class="p">{</span> <span class="n">document</span> <span class="k">in</span>
+    <span class="c1">// As an example of custom document validation, we add a more strict check for file size</span>
+    <span class="k">let</span> <span class="nv">maxFileSize</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="c1">// 5MB</span>
+    <span class="k">if</span> <span class="n">document</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">count</span> <span class="o">&gt;</span> <span class="n">maxFileSize</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="kt">DocumentValidationError</span><span class="o">.</span><span class="nf">custom</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="s">"Diese Datei ist leider größer als 5MB"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id='import-images-from-camera-roll' class='heading'>Import images from camera roll</h2>
+
+<p>To enable your app to import images from <strong>Photo Gallery</strong> and also support <strong>iOS 10</strong> you need to specify the <code>NSPhotoLibraryUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when accessing the <strong>Photo Gallery</strong>.</p>
+<h2 id='import-images-and-pdfs-from-other-apps' class='heading'>Import images and PDFs from other apps</h2>
+
+<p>In order to enable your app to import PDFs and images from other apps like <em>Dropbox</em>, <em>iCloud</em> or <em>Drive</em>, you need to enable <em>iCloud document support</em> in your app.</p>
+
+<p><center><img src="img/icloud_capabilities.png" border="1"/></center></p>
+
+<p>For more information take a look at <a href="https://developer.apple.com/library/content/documentation/General/Conceptual/iCloudDesignGuide/Chapters/Introduction.html#//apple_ref/doc/uid/TP40012094">Incorporating iCloud into Your App</a> guide from <em>Apple documentation</em>.</p>
 
           </div>
         </section>

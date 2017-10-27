@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>License  Reference</title>
+    <title>Documentation  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="License  Reference"></a>
+    <a title="Documentation  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      License  Reference
+      Documentation  Reference
     </p>
 
     <div class="content-wrapper">
@@ -206,29 +206,49 @@
 
         <section class="section">
           <div class="section-content">
-            
-            <h1 id='license' class='heading'>License</h1>
+            <h1>Documentation</h1>
+            <p><img src="img/GiniVision_Logo.png?raw=true" alt="Gini Vision Library for iOS"></p>
+<h1 id='gini-vision-library-for-ios' class='heading'>Gini Vision Library for iOS</h1>
 
-<p>The Gini Vision Library for iOS is licensed under a Private License.</p>
+<p><a href="https://travis-ci.org/gini/gini-vision-lib-ios"><img src="https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master" alt="CI Status"></a>
+<a href=""><img src="https://img.shields.io/badge/platform-iOS-lightgrey.svg" alt="Platform"></a>
+<a href=""><img src="https://img.shields.io/badge/devices-iPhone%20%7C%20iPad-blue.svg" alt="Devices"></a></p>
 
-<p>Always make sure to ship all license notices and permissions with your application.</p>
-<pre class="highlight plaintext"><code>Copyright (c) 2014-2017, Gini GmbH
-All rights reserved.
+<p>The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.</p>
 
-The Gini Vision Library is licensed through Gini GmbH ("Gini") and may not be
-used, altered or copied in any way without explicit permission by Gini. The
-terms of usage are defined in a separate usage agreement between Gini and the
-licensee, where the licensee can gain access to a non-exclusive,
-non-transferable usage right which is restricted for the time of a contractual
-relationship between Gini and the licensee.
+<p>By integrating this library into your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini backend.</p>
 
-For license related inquiries contact Gini via the email address 
-technical-support@gini.net.
-</code></pre>
+<p>Communication with the Gini backend is not part of this library. You can either use the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a> or implement communication with the Gini API yourself.</p>
+
+<p>The Gini Vision Library can be integrated in two ways, either by using the <em>Screen API</em> or the <em>Component API</em>. In the Screen API we provide pre-defined screens that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API, we provide independent views so you can design your own application as you wish. We strongly recommend keeping in mind our UI/UX guidelines, however.</p>
+
+<p>On <em>iPhone</em>, the Gini Vision Library has been designed for portrait orientation. In the Screen API, orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API&rsquo;s views to portrait orientation. This is specifically true for the camera view.</p>
+<h2 id='contents' class='heading'>Contents</h2>
+
+<ul>
+<li><a href="Installation.html">Installation</a></li>
+<li><a href="Updating-to-320.html">Updating to 3.2.0</a></li>
+<li><a href="Open-with-guide.html">Open with guide</a></li>
+<li><a href="Import-pdfs-and-images-guide.html">Import PDFs and Images guide</a></li>
+<li><a href="Changelog.html">Changelog</a></li>
+<li><a href="License.html">License</a></li>
+</ul>
+<h2 id='api' class='heading'>API</h2>
+
+<ul>
+<li><a href="Classes.html">Classes</a></li>
+<li><a href="Enums.html">Enums</a></li>
+<li><a href="Protocols.html">Protocols</a></li>
+<li><a href="Typealiases.html">Typealiases</a></li>
+</ul>
 
           </div>
         </section>
 
+        <section class="section">
+          <div class="section-content">
+          </div>
+        </section>
 
       </article>
     </div>

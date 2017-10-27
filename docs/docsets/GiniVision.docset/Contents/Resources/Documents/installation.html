@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>License  Reference</title>
+    <title>Installation  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="License  Reference"></a>
+    <a title="Installation  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      License  Reference
+      Installation  Reference
     </p>
 
     <div class="content-wrapper">
@@ -207,24 +207,53 @@
         <section class="section">
           <div class="section-content">
             
-            <h1 id='license' class='heading'>License</h1>
+            <h1 id='installation' class='heading'>Installation</h1>
 
-<p>The Gini Vision Library for iOS is licensed under a Private License.</p>
+<p>Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.</p>
 
-<p>Always make sure to ship all license notices and permissions with your application.</p>
-<pre class="highlight plaintext"><code>Copyright (c) 2014-2017, Gini GmbH
-All rights reserved.
+<p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for <q>Keychain Sharing</q> in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
+<h2 id='swift-versions' class='heading'>Swift versions</h2>
 
-The Gini Vision Library is licensed through Gini GmbH ("Gini") and may not be
-used, altered or copied in any way without explicit permission by Gini. The
-terms of usage are defined in a separate usage agreement between Gini and the
-licensee, where the licensee can gain access to a non-exclusive,
-non-transferable usage right which is restricted for the time of a contractual
-relationship between Gini and the licensee.
+<p>The Gini Vision Library is entirely (re-)written in <strong>Swift 3</strong>. <strong>Swift 2.3</strong> support can be found in a separate branch or the <code>2.3.3-beta</code> release. Please keep in mind that these versions are deprecated and will not receive any new features or bug fixes.</p>
 
-For license related inquiries contact Gini via the email address 
-technical-support@gini.net.
+<p>The last <strong>Swift 2.2</strong> release is <code>2.0.3</code>.</p>
+
+<p>If you use CocoaPods you can specify a branch with:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'GiniVision'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/gini/gini-vision-lib-ios.git'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'swift-2.3'</span> <span class="c1"># or use 'swift3'</span>
 </code></pre>
+<h2 id='cocoapods' class='heading'>CocoaPods</h2>
+
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>gem install cocoapods
+</code></pre>
+
+<blockquote>
+<p>CocoaPods 1.1.0+ is required to build Gini Vision Library.</p>
+</blockquote>
+
+<p>To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+<pre class="highlight ruby"><code><span class="n">source</span> <span class="s1">'https://github.com/gini/gini-podspecs.git'</span>
+<span class="n">source</span> <span class="s1">'https://github.com/CocoaPods/Specs.git'</span>
+
+<span class="n">pod</span> <span class="s2">"GiniVision"</span>
+</code></pre>
+
+<p><strong>Note:</strong> You need to add Gini&rsquo;s podspec repository as a source.</p>
+
+<p>Then run the following command:</p>
+<pre class="highlight shell"><code><span class="gp">$ </span>pod install
+</code></pre>
+<h2 id='manually' class='heading'>Manually</h2>
+
+<p>If you prefer not to use a dependency management tool, you can integrate the Gini Vision Library into your project manually.
+To do so drop the GiniVision (classes and assets) folder into your project and add the files to your target.</p>
+
+<p>Xcode will automatically check your project for swift files and will create an autogenerated import header for you.
+Use this header in an Objective-C project by adding</p>
+<pre class="highlight plaintext"><code>#import "YourProjectName-Swift.h"
+</code></pre>
+
+<p>to your implementation or header files. Note that spaces in your project name result in underscores. So <code>Your Project</code> becomes <code>Your_Project-Swift.h</code>.</p>
 
           </div>
         </section>
