@@ -26,20 +26,4 @@ class GINIOnboardingUITests: XCTestCase {
         XCTAssert(screenAPIButton.exists, "should be back to launch screen including the screen api launch button")
     }
     
-    func testScreenAPIShowAndHideOnboarding() {
-        app.buttons["Screen API"].tap()
-        
-        let helpButton = app.navigationBars["Dokument fotografieren"].buttons["Hilfe"]
-        helpButton.tap()
-        
-        let continueButton = app.navigationBars["Anleitung"].buttons["Weiter"]
-        
-        // This works, because Onboarding should be dismissed when the last page is reached. ;)
-        while continueButton.exists {
-            continueButton.tap()
-        }
-        
-        XCTAssert(helpButton.exists, "should be back to camera screen")
-    }
-    
 }
