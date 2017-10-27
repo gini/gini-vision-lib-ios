@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 /**
  Provides a way to get all possible font weights used in the GiniVision library.
  
@@ -22,8 +21,15 @@ import UIKit
  */
 
 public struct GiniVisionFont {
-    var regular: UIFont
-    var bold: UIFont
-    var light: UIFont
-    var thin: UIFont
+    public var regular: UIFont
+    public var bold: UIFont
+    public var light: UIFont
+    public var thin: UIFont
+    
+    public init(regular: UIFont, bold: UIFont, light: UIFont, thin: UIFont) {
+        self.regular = regular
+        self.bold = bold
+        self.light = light
+        self.thin = thin
+    }
 }
