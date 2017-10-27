@@ -27,7 +27,9 @@ internal class GiniBarButtonItem: UIBarButtonItem {
         self.accessibilityLabel = title
         
         var attributes = titleTextAttributes(for: .normal) ?? [String : AnyObject]()
-        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarItemFont
+        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.customFont == nil ?
+            GiniConfiguration.sharedConfiguration.navigationBarItemFont :
+            GiniConfiguration.sharedConfiguration.font.regular.withSize(16)
         setTitleTextAttributes(attributes, for: .normal)
     }
     
