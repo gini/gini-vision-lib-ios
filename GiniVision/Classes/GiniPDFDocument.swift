@@ -13,10 +13,11 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     static let acceptedPDFTypes:[String] = [kUTTypePDF as String]
     
-    public var type: GiniVisionDocumentType = .PDF
+    public var type: GiniVisionDocumentType = .pdf
     public let data:Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
+    public var isImported: Bool
     
     private let MAX_PDF_PAGES_COUNT = 10
     private(set) var numberPages:Int = 0
@@ -33,6 +34,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     init(data:Data) {
         self.data = data
         self.isReviewable = false
+        self.isImported = true
         super.init()
         
         if let dataProvider = CGDataProvider(data: data as CFData), let pdfDocument = CGPDFDocument(dataProvider) {

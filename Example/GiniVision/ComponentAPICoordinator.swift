@@ -15,8 +15,8 @@ final class ComponentAPICoordinator {
     fileprivate var document:GiniVisionDocument?
     fileprivate var navigationController: UINavigationController?
     fileprivate var tabBarController: UITabBarController?
-    fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
-    fileprivate var resultsScreen: ResultTableViewController?
+    fileprivate weak var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate weak var resultsScreen: ResultTableViewController?
     fileprivate var storyboard:UIStoryboard
     
     init(document:GiniVisionDocument?){
@@ -91,8 +91,18 @@ final class ComponentAPICoordinator {
     }
     
     fileprivate func showNoResultsScreen() {
-        let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-        vc.delegate = self
+        let vc: UIViewController
+        if document?.type == .image {
+            let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+            imageAnalysisNoResultsViewController.didTapBottomButton = { [unowned self] in
+                self.didTapRetry()
+            }
+            vc = imageAnalysisNoResultsViewController
+        } else {
+            let genericNoResults = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+            genericNoResults.delegate = self
+            vc = genericNoResults
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
     

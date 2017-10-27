@@ -29,20 +29,23 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         super.init(nibName: nil, bundle: nil)
         // Configure content controller and call delegate method on success
         contentController = CameraViewController(successBlock:
-            { [weak self ] document, isImported in
+            { [weak self ] document in
                 guard let `self` = self else { return }
-                let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate
                 let viewController:UIViewController
-                if isImported {
-                    if document.isReviewable {
-                        viewController = ReviewContainerViewController(document: document)
-                    } else {
-                        viewController = AnalysisContainerViewController(document: document)
-                    }
-                    delegate?.didImport?(document)
-                } else {
+                if document.isReviewable {
                     viewController = ReviewContainerViewController(document: document)
-                    delegate?.didCapture(document.data)
+                } else {
+                    viewController = AnalysisContainerViewController(document: document)
+                }
+                
+                guard let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate else { return }
+                
+                if let didCapture = delegate.didCapture(document:) {
+                    didCapture(document)
+                } else if let didCapture = delegate.didCapture(_:) {
+                    didCapture(document.data)
+                } else {
+                    fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
                 }
                 
                 // Push review container view controller
@@ -145,6 +148,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             cameraViewController?.showCameraOverlay()
             cameraViewController?.showCaptureButton()
             cameraViewController?.showFileImportTip()
+            
         }
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext

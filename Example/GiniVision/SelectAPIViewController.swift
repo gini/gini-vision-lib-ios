@@ -22,16 +22,17 @@ class SelectAPIViewController: UIViewController {
         return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
-    var analysisDelegate: AnalysisDelegate?
+    var analysisDelegate: AnalysisDelegate? 
     var imageData: Data?
     var result: GINIResult? {
         didSet {
             if let result = result,
-                let document = document {
-                show(result, fromDocument: document)
+                let document = document,
+                analysisDelegate != nil {
+                present(result, fromDocument: document)
             }
         }
-    }
+    }    
     var document: GINIDocument?
     var errorMessage: String? {
         didSet {
@@ -40,6 +41,7 @@ class SelectAPIViewController: UIViewController {
             }
         }
     }
+    
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -72,7 +74,7 @@ class SelectAPIViewController: UIViewController {
         
         // 1. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
         let vc = giniScreenAPI(withImportedDocument: nil)
-
+        
         // 2. Present the Gini Vision Library Screen API modally
         present(vc, animated: true, completion: nil)
         
@@ -110,29 +112,6 @@ class SelectAPIViewController: UIViewController {
         return GiniVision.viewController(withDelegate: self, withConfiguration: giniConfiguration, importedDocument: document)
     }
     
-
-    func giniComponentAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController? {
-        if let tabBar = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
-            let navBar = tabBar.viewControllers?.first as? UINavigationController {
-            if let document = document {
-                if document.isReviewable {
-                    if let reviewContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIReview") as? ComponentAPIReviewViewController {
-                        reviewContainer.document = document
-                        navBar.setViewControllers([reviewContainer], animated: false)
-                    }
-                } else {
-                    if let analysisContainer = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController {
-                        analysisContainer.document = document
-                        navBar.setViewControllers([analysisContainer], animated: false)
-                    }
-                }
-            }
-            
-            return tabBar
-        }
-        return nil
-    }
-    
     // MARK: Handle analysis of document
     func analyzeDocument(withData data: Data) {
         
@@ -143,6 +122,7 @@ class SelectAPIViewController: UIViewController {
         
         cancelAnalsyis()
         imageData = data
+        
         print("Analysing document with size \(Double(data.count) / 1024.0)")
         AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
             do {
@@ -179,34 +159,41 @@ class SelectAPIViewController: UIViewController {
         })
     }
     
-    func show(_ result: GINIResult, fromDocument document: GINIDocument) {
-        if let _ = analysisDelegate {
-            analysisDelegate = nil
-            present(result, fromDocument: document)
+    func present(_ result: GINIResult, fromDocument document: GINIDocument) {
+        let resultParameters = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
+        let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
+        
+        if hasExtactions {
+            showResultsScreen()
+        } else {            
+            showNoResultsScreen()
         }
     }
     
-    func present(_ result: GINIResult, fromDocument document: GINIDocument) {
-        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if hasPayFive {
-            let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
-            vc.result = result
-            vc.document = document
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: false)
-            }
-        } else {
-            let vc = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: false)
-            }
+    fileprivate func showResultsScreen() {
+        let customResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+        customResultsScreen.result = result
+        customResultsScreen.document = document
+        DispatchQueue.main.async { [weak self] in
+            print("Presenting results screen...")
+            self?.navigationController?.pushViewController(customResultsScreen, animated: true)
+            self?.dismiss(animated: true, completion: nil)
+            self?.analysisDelegate = nil
+            
         }
-        
-        DispatchQueue.main.async { 
-            self.dismiss(animated: true, completion: nil)
+    }
+    
+    fileprivate func showNoResultsScreen() {
+        DispatchQueue.main.async { [weak self] in
+            print("Presenting no results screen...")
+            guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
+            let shown = analysisDelegate.tryDisplayNoResultsScreen()
+            if !shown {
+                let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                self.navigationController!.pushViewController(customNoResultsScreen, animated: true)
+                self.dismiss(animated: true, completion: nil)
+            }
+            self.analysisDelegate = nil
         }
     }
 }
@@ -214,39 +201,20 @@ class SelectAPIViewController: UIViewController {
 // MARK: Gini Vision delegate
 extension SelectAPIViewController: GiniVisionDelegate {
     
-    func didImport(_ document: GiniVisionDocument) {
-        print("Document imported")
+    func didCapture(document: GiniVisionDocument) {
+        print("Screen API received image data")
         
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(withData: document.data)
     }
     
-    func didCapture(_ imageData: Data) {
-        print("Screen API received image data")
-        
-        // Analyze image data right away with the Gini SDK for iOS to have results in as early as possible.
-        analyzeDocument(withData: imageData)
-    }
-    
-    func didReview(_ imageData: Data, withChanges changes: Bool) {
+    func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
-        // Analyze reviewed data because changes were made by the user during review.
-        if changes {
-            analyzeDocument(withData: imageData)
+        // Analyze reviewed document when changes were made by the user during review or there is no result and is not analysing.
+        if changes || (!AnalysisManager.sharedManager.isAnalyzing && result == nil) {
+            analyzeDocument(withData: document.data)
             return
-        }
-        
-        // Present already existing results retrieved from the first analysis process initiated in `didCapture:`.
-        if let result = result,
-            let document = document {
-            present(result, fromDocument: document)
-            return
-        }
-        
-        // Restart analysis if it was canceled and is currently not running.
-        if !AnalysisManager.sharedManager.isAnalyzing {
-            analyzeDocument(withData: imageData)
         }
     }
     
@@ -266,6 +234,12 @@ extension SelectAPIViewController: GiniVisionDelegate {
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         print("Screen API started analysis screen")
         self.analysisDelegate = analysisDelegate
+        
+        // if there is already results, present them
+        if let result = result,
+            let document = document {
+            present(result, fromDocument: document)
+        }
         
         // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
         // Show any errors that occured while the user was still reviewing the image here.

@@ -17,6 +17,7 @@ import Foundation
     var data:Data { get }
     var previewImage:UIImage? { get }
     var isReviewable:Bool { get }
+    var isImported:Bool { get }
     
     func checkType() throws
 }
@@ -24,8 +25,8 @@ import Foundation
 // MARK: GiniVisionDocumentType
 
 @objc public enum GiniVisionDocumentType:Int {
-    case PDF = 0
-    case Image = 1
+    case pdf = 0
+    case image = 1
 }
 
 // MARK: GiniVisionDocumentBuilder

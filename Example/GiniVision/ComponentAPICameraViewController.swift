@@ -29,7 +29,7 @@ class ComponentAPICameraViewController: UIViewController {
         
         // 2. Create the camera view controller
         contentController = CameraViewController(successBlock:
-            { document, _ in
+            { document in
                 DispatchQueue.main.async {
                     self.delegate?.didPick(document: document)
                 }

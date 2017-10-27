@@ -23,6 +23,14 @@ import UIKit
      - parameter action:  The action to be performed after the user tapped the error view.
      */
     func displayError(withMessage message: String?, andAction action: NoticeAction?)
+    
+    /**
+     In case that the `GiniVisionDocument` analysed is an image it will display a no results screen
+     with some capture suggestions. It won't show any screen if it is not an image, return `false` in that case.
+     
+     - returns: `true` if the screen was shown or `false` if it wasn't.
+     */
+    func tryDisplayNoResultsScreen() -> Bool
 }
 
 /**

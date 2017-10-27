@@ -19,8 +19,10 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
     
     // Properties
     fileprivate var noticeView: NoticeView?
+    fileprivate var document: GiniVisionDocument
     
     init(document: GiniVisionDocument) {
+        self.document = document
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
@@ -64,7 +66,11 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         let delegate = (navigationController as? GiniNavigationViewController)?.giniDelegate
         delegate?.didCancelAnalysis?()
         
-        _ = navigationController?.popViewController(animated: true)
+        if self == navigationController?.viewControllers.first {
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            _ = navigationController?.popViewController(animated: true)
+        }
     }
     
     fileprivate func showNotice(_ notice: NoticeView) {
@@ -98,9 +104,27 @@ extension AnalysisContainerViewController: AnalysisDelegate {
     
     func displayError(withMessage message: String?, andAction action: NoticeAction?) {
         let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
-        DispatchQueue.main.async { 
+        DispatchQueue.main.async {
             self.showNotice(notice)
         }
     }
     
+    func tryDisplayNoResultsScreen() -> Bool {
+        guard let giniNavController = self.navigationController as? GiniNavigationViewController else {
+            return false
+        }
+        
+        if document.type == .image {
+            let isCameraViewControllerLoaded = giniNavController.viewControllers.contains(where: { viewController in
+                return viewController is CameraContainerViewController
+            })
+        
+            giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded), animated: true)
+
+            return true
+        }
+        return false
+    }
+    
 }
+
