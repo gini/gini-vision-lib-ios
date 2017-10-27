@@ -12,6 +12,10 @@ import XCTest
 final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
+    let initialGiniConfiguration:GiniConfiguration = {
+        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
+        return GiniConfiguration.sharedConfiguration
+    }()
     
     var sections: [SupportedFormatCollectionSection] = [
         (NSLocalizedString("ginivision.supportedFormats.section.1.title", bundle: Bundle(for: GiniVision.self), comment: "title for supported formats section"),
@@ -29,7 +33,7 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-
+        GiniConfiguration.sharedConfiguration = initialGiniConfiguration
         _ = supportedFormatsViewController.view
     }
     
@@ -69,7 +73,7 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testFirstSectionItemsCountFileImportDisabled() {
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .none
+        setFileImportSupportedTypes(to: .none)
 
         supportedFormatsViewController = SupportedFormatsViewController()
         _ = supportedFormatsViewController.view
@@ -77,11 +81,10 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
         
         XCTAssertEqual(section1items, 1, "items count in section 1 should be 1 when file import is disabled")
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
     }
     
     func testFirstSectionItemsCountFileImportDisabledForImages() {
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf
+        setFileImportSupportedTypes(to: .pdf)
         
         supportedFormatsViewController = SupportedFormatsViewController()
         _ = supportedFormatsViewController.view
@@ -89,8 +92,6 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
         
         XCTAssertEqual(section1items, 2, "items count in section 1 should be 2 when file import is enabled only for pdfs")
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
-
     }
     
     func testSecondSectionProperties() {
@@ -193,4 +194,14 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor, "cell image background color should be the same as the one declared on initialization")
     }
     
+    override func tearDown() {
+        super.tearDown()
+        GiniConfiguration.sharedConfiguration = initialGiniConfiguration
+    }
+    
+    fileprivate func setFileImportSupportedTypes(to supportedTypes: GiniConfiguration.GiniVisionImportFileTypes) {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.fileImportSupportedTypes = supportedTypes
+        GiniConfiguration.sharedConfiguration = giniConfiguration
+    }
 }
