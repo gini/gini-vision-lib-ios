@@ -35,7 +35,6 @@ import UIKit
         case pdf_and_images
     }
     
-    
     // MARK: General options
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.
@@ -50,6 +49,27 @@ import UIKit
      - note: Screen API only.
      */
     public var backgroundColor = UIColor.black
+    
+    /**
+     Sets the font used in the GiniVision library by default.
+     */
+    
+    public var customFont: GiniVisionFont?
+
+    /*
+     In order to provide backward compatibility for previously defined fonts, it is needed to have different properties.
+     */
+    var font: GiniVisionFont {
+        if let font = customFont {
+            return font
+        }
+        return defaultFont
+    }
+    
+    let defaultFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
+                                                     bold: UIFontPreferred(.bold, andSize: 14),
+                                                     light: UIFontPreferred(.light, andSize: 14),
+                                                     thin: UIFontPreferred(.thin, andSize: 14))
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
@@ -67,6 +87,7 @@ import UIKit
     
     /**
      Sets the font of all navigation items in all screens of the Gini Vision Library to the globally specified font or a default font.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
      
      - note: Screen API only.
      */
@@ -81,7 +102,8 @@ import UIKit
     
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.
-     
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      - note: Screen API only.
      */
     public var navigationBarTitleFont = UINavigationBar.appearance().titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.light, andSize: 16)
@@ -108,6 +130,8 @@ import UIKit
     
     /**
      Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      */
     public var noticeFont = UIFontPreferred(.regular, andSize: 12)
     
@@ -183,6 +207,8 @@ import UIKit
     
     /**
      Sets the font of the descriptional text when camera access was denied.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      */
     public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
     
@@ -198,6 +224,8 @@ import UIKit
     
     /**
      Sets the font of the button title when camera access was denied.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      */
     public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
     
@@ -225,11 +253,6 @@ import UIKit
      Sets the text color of the new file import button hint
      */
     public var fileImportToolTipTextColor = UIColor.black
-    
-    /**
-     Sets the font of the new file import button hint
-     */
-    public var fileImportToolTipTextFont = UIFont.systemFont(ofSize: 14)
     
     /**
      Sets the text color of the new file import button hint
@@ -304,6 +327,8 @@ import UIKit
     
     /**
      Sets the font of the text for all onboarding pages.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      */
     public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
     
@@ -378,7 +403,8 @@ import UIKit
     
     /**
      The text at the top of the review screen is displayed as a notice and can not be set individually.
-     
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      - seeAlso: `noticeFont`
      */
     public var reviewTextTopFont: UIFont {
@@ -408,6 +434,8 @@ import UIKit
     
     /**
      Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+
      */
     public var reviewTextBottom = NSLocalizedStringPreferred("ginivision.review.bottom", comment: "Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image")
     
@@ -445,11 +473,6 @@ import UIKit
     public var analysisLoadingText = NSLocalizedStringPreferred("ginivision.analysis.loadingText", comment: "Text appearing at the center of the analysis screen indicating that the document is being analysed")
     
     /**
-     Sets the font of the loading text on the analysis screen to the specified font
-     */
-    public var analysisLoadingTextFont = UIFont.systemFont(ofSize: 18)
-    
-    /**
      Sets the color of the PDF information view on the analysis screen to the specified color.
      */
     public var analysisPDFInformationBackgroundColor = Colors.Gini.bluishGreen
@@ -460,21 +483,11 @@ import UIKit
     public var analysisPDFInformationTextColor = UIColor.white
     
     /**
-     Sets the font of the PDF information view on the analysis screen to the specified font
-     */
-    public var analysisPDFInformationTextFont = UIFont.systemFont(ofSize: 16)
-    
-    /**
      Sets the text appearing at the top of the analysis screen indicating pdf number of pages
      */
     public func analysisPDFNumberOfPages(pagesCount count:Int) -> String{
         return NSLocalizedStringPreferred("ginivision.analysis.pdfpages", comment: "Text appearing at the top of the analysis screen indicating pdf number of pages", args: count)
     }
-    
-    /**
-     Sets the font of the Suggestions text view on the analysis screen to the specified font
-     */
-    public var analysisSuggestionsTextFont = UIFont.systemFont(ofSize: 14)
     
     
     // MARK: Supported formats
@@ -483,7 +496,7 @@ import UIKit
      Sets the color of the supported formats icon background to the specified color.
      */
     public var supportedFormatsIconColor = Colors.Gini.paleGreen
-
+    
     /**
      Sets the color of the unsupported formats icon background to the specified color.
      */
@@ -492,7 +505,7 @@ import UIKit
     // MARK: Open with tutorial options
     /**
      Sets the color of the step indicator for the Open with tutorial
-
+     
      */
     public var stepIndicatorColor = Colors.Gini.blue
     
@@ -501,7 +514,7 @@ import UIKit
      
      */
     public var openWithAppNameForTexts = Bundle.main.appName
-
+    
     // MARK: No results options
     /**
      Sets the color of the warning container background to the specified color
@@ -512,7 +525,7 @@ import UIKit
      Sets the color of the bottom button to the specified color
      */
     public var noResultsBottomButtonColor = Colors.Gini.blue
-
+    
     /**
      Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
@@ -545,6 +558,5 @@ internal struct Colors {
             alpha: CGFloat(1.0)
         )
     }
-    
 }
 

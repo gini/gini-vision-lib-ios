@@ -14,7 +14,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         let headerTitle = UILabel()
         headerTitle.translatesAutoresizingMaskIntoConstraints = false
         headerTitle.numberOfLines = 0
-        headerTitle.font = UIFont.boldSystemFont(ofSize: 14)
+        headerTitle.font = GiniConfiguration.sharedConfiguration.font.bold.withSize(14)
         return headerTitle
     }()
     var bottomLine: UIView = {

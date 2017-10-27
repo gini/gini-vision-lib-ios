@@ -67,7 +67,7 @@ import UIKit
     fileprivate var loadingIndicatorText:UILabel = {
         var loadingText = UILabel()
         loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
-        loadingText.font = GiniConfiguration.sharedConfiguration.analysisLoadingTextFont
+        loadingText.font = GiniConfiguration.sharedConfiguration.font.regular.withSize(18)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
         return loadingText
@@ -217,7 +217,7 @@ import UIKit
         let pdfInformationView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
                                                     subtitle: GiniConfiguration.sharedConfiguration.analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                                     textColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextColor,
-                                                    textFont: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextFont,
+                                                    textFont: GiniConfiguration.sharedConfiguration.font.regular.withSize(16),
                                                     backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
                                                     superView: self.view,
                                                     viewBelow: self.imageView)
@@ -227,7 +227,7 @@ import UIKit
     
     fileprivate func showCaptureSuggestions() {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
-                                                        font:GiniConfiguration.sharedConfiguration.analysisSuggestionsTextFont)
+                                                        font:GiniConfiguration.sharedConfiguration.font.regular.withSize(14))
         captureSuggestions.start()
     }
 }

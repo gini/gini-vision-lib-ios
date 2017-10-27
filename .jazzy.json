@@ -67,6 +67,12 @@
          ]
       },
       {
+	"name":"Structs",
+	"children":[
+	    "GiniVisionFont"
+	]
+      },
+      {
          "name":"Typealiases",
          "children":[
             "CameraErrorBlock",

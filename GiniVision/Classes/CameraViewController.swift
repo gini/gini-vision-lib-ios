@@ -313,7 +313,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         toolTipView = ToolTipView(text: GiniConfiguration.sharedConfiguration.fileImportToolTipText,
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                                  font: GiniConfiguration.sharedConfiguration.fileImportToolTipTextFont,
+                                  font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .below : .above)

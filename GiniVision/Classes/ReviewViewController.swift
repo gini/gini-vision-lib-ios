@@ -136,7 +136,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         bottomLabel.textAlignment = .right
         bottomLabel.adjustsFontSizeToFitWidth = true
         bottomLabel.minimumScaleFactor = 0.7
-        bottomLabel.font = GiniConfiguration.sharedConfiguration.reviewTextBottomFont
+        bottomLabel.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
+            GiniConfiguration.sharedConfiguration.reviewTextBottomFont :
+            GiniConfiguration.sharedConfiguration.font.thin.withSize(12)
         
         // Configure view hierachy
         view.addSubview(scrollView)
