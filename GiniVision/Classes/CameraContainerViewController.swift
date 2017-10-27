@@ -19,7 +19,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     fileprivate var helpButton  = UIBarButtonItem()
     
     // Properties
-    fileprivate var showHelp: (() -> ())?
+    fileprivate var showOnboarding: (() -> ())?
     
     // Resources
     fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
@@ -82,7 +82,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             title: helpButtonResources.preferredText,
             style: .plain,
             target: self,
-            action: #selector(help)
+            action: #selector(showHelpMenu)
         )
         
         // Configure view hierachy
@@ -107,18 +107,18 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         // Eventually show onboarding
         if GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
             !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
-            showHelp = help
+            showOnboarding = showOnboardingScreen
             UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
         } else if GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch {
-            showHelp = help
+            showOnboarding = showOnboardingScreen
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        showHelp?()
-        showHelp = nil
+        showOnboarding?()
+        showOnboarding = nil
     }
     
     @IBAction func close() {
@@ -129,7 +129,12 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         GiniConfiguration.sharedConfiguration = GiniConfiguration()
     }
     
-    @IBAction func help() {
+    @IBAction func showHelpMenu() {
+        let helpMenu = HelpMenuViewController()
+        self.navigationController?.pushViewController(helpMenu, animated: true)
+    }
+    
+    fileprivate func showOnboardingScreen() {
         let cameraViewController = contentController as? CameraViewController
         
         // Hide camera UI when overlay is shown
@@ -145,7 +150,6 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             cameraViewController?.showFileImportTip()
             
         }
-
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
         present(navigationController, animated: true, completion: nil)

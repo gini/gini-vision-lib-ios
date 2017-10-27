@@ -111,6 +111,11 @@ import UIKit
         let viewController:UIViewController
         
         if let document = importedDocument {
+            
+            if !GiniConfiguration.sharedConfiguration.openWithEnabled {
+                fatalError("You are trying to import a file from other app when the Open With feature is not enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
+            }
+            
             if document.isReviewable {
                 viewController = ReviewContainerViewController(document: document)
             } else {

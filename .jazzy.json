@@ -21,7 +21,8 @@
       {
          "name":"Documentation",
          "children":[
-	    "Installation",	
+	    "Installation",
+	    "Updating to 3.2.0",
             "Open with guide",
 	    "Import PDFs and images guide", 
             "Changelog",
@@ -38,6 +39,7 @@
             "GiniPDFDocument",
             "GiniVision",
             "GiniVisionDocumentBuilder",
+	    "ImageAnalysisNoResultsViewController",
             "OnboardingPage",
             "OnboardingViewController",
             "ReviewViewController"

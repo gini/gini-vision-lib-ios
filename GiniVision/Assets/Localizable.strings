@@ -56,6 +56,8 @@
 "ginivision.noresults.warning" = "Es konnten keine Daten ausgelesen werden. Bitte Aufnahme wiederholen.";
 "ginivision.noresults.collection.header" = "Tipps für beste Ergebnisse:";
 "ginivision.noresults.gotocamera" = "Zur Kamera";
+"ginivision.noresults.title" = "Tipps für Fotos";
+"ginivision.noresults.warningHelpMenu" = "Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:";
 
 "ginivision.supportedFormats.title" = "Unterstützte Formate";
 "ginivision.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";
@@ -65,3 +67,9 @@
 "ginivision.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
 "ginivision.supportedFormats.section.2.item.1" = "Handschrift";
 "ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirme";
+
+"ginivision.helpmenu.title" = "Hilfe";
+"ginivision.helpmenu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
+"ginivision.helpmenu.secondItem" = "Dokumente aus anderen Apps öffnen";
+"ginivision.helpmenu.thirdItem" = "Unterstützte Formate";
+
