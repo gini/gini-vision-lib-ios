@@ -26,12 +26,11 @@ import UIKit
     
     /**
      In case that the `GiniVisionDocument` analysed is an image it will display a no results screen
-     with some capture suggestions. It won't show any screen if it is not an image, pointing out
-     on the completion handler that any screen was shown.
+     with some capture suggestions. It won't show any screen if it is not an image, return `false` in that case.
      
-     - parameter completion: Handler that returns `true` if a screen was shown or `false` if it wasn't.
+     - returns: `true` if the screen was shown or `false` if it wasn't.
      */
-    func displayNoResultsScreen(completion: ((Bool) -> ()))
+    func tryDisplayNoResultsScreen() -> Bool
 }
 
 /**

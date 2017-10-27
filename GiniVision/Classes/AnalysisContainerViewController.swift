@@ -109,10 +109,9 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         }
     }
     
-    func displayNoResultsScreen(completion: ((_ shown: Bool) -> ())) {
+    func tryDisplayNoResultsScreen() -> Bool {
         guard let giniNavController = self.navigationController as? GiniNavigationViewController else {
-            completion(false)
-            return
+            return false
         }
         
         if document.type == .image {
@@ -122,10 +121,9 @@ extension AnalysisContainerViewController: AnalysisDelegate {
         
             giniNavController.pushViewController(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded), animated: true)
 
-            completion(true)
-            return
+            return true
         }
-        completion(false)
+        return false
     }
     
 }

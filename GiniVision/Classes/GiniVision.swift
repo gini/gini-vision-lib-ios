@@ -122,7 +122,7 @@ import UIKit
             } else if let didCapture = delegate.didCapture(_:) {
                 didCapture(document.data)
             } else {
-                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
+                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) or delegate.didCapture(_:imageData) should be implemented")
             }
         } else {
             viewController = CameraContainerViewController()

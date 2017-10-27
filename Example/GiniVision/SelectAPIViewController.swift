@@ -185,15 +185,14 @@ class SelectAPIViewController: UIViewController {
     fileprivate func showNoResultsScreen() {
         DispatchQueue.main.async { [weak self] in
             print("Presenting no results screen...")
-            self?.analysisDelegate?.displayNoResultsScreen { shown in
-                if !shown {
-                    let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-                    self?.navigationController!.pushViewController(customNoResultsScreen, animated: true)
-                    self?.dismiss(animated: true, completion: nil)
-                }
-                self?.analysisDelegate = nil
-                
+            guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
+            let shown = analysisDelegate.tryDisplayNoResultsScreen()
+            if !shown {
+                let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                self.navigationController!.pushViewController(customNoResultsScreen, animated: true)
+                self.dismiss(animated: true, completion: nil)
             }
+            self.analysisDelegate = nil
         }
     }
 }
