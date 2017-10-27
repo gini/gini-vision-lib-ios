@@ -12,10 +12,7 @@ import XCTest
 final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
-    let initialGiniConfiguration:GiniConfiguration = {
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
-        return GiniConfiguration.sharedConfiguration
-    }()
+    let initialGiniConfiguration = GiniConfiguration.sharedConfiguration
     
     var sections: [SupportedFormatCollectionSection] = [
         (NSLocalizedString("ginivision.supportedFormats.section.1.title", bundle: Bundle(for: GiniVision.self), comment: "title for supported formats section"),
@@ -46,12 +43,15 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     func testSectionItemsCount() {
 
         let section2ItemsCount = sections[1].items.count
-        let tableSection3ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 1)
+        let tableSection2ItemsCount = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 1)
         
-        XCTAssertEqual(section2ItemsCount, tableSection3ItemsCount, "items count inside section 2 and table section 2 items count should be always equal")
+        XCTAssertEqual(section2ItemsCount, tableSection2ItemsCount, "items count inside section 2 and table section 2 items count should be always equal")
     }
     
     func testFirstSectionProperties() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 0, section: 0)
         let section = sections[indexPath.section]
         let sectionImage = section.itemsImage
@@ -73,8 +73,8 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     func testFirstSectionItemsCountFileImportDisabled() {
         setFileImportSupportedTypes(to: .none)
-
         supportedFormatsViewController = SupportedFormatsViewController()
+        
         _ = supportedFormatsViewController.view
         
         let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
@@ -84,8 +84,8 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     func testFirstSectionItemsCountFileImportDisabledForImages() {
         setFileImportSupportedTypes(to: .pdf)
-        
         supportedFormatsViewController = SupportedFormatsViewController()
+        
         _ = supportedFormatsViewController.view
         
         let section1items = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, numberOfRowsInSection: 0)
@@ -114,6 +114,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testFirstSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 0, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
@@ -122,6 +125,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testSecondSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 1, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
@@ -130,6 +136,9 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     }
     
     func testThirdSupportedFormatCellText() {
+        setFileImportSupportedTypes(to: .pdf_and_images)
+        supportedFormatsViewController = SupportedFormatsViewController()
+
         let indexPath = IndexPath(row: 2, section: 0)
         let textForItem0tSection0 = sections[indexPath.section].items[indexPath.row]
         let textForCellAtIndexPath = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath).textLabel?.text
