@@ -33,7 +33,6 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        GiniConfiguration.sharedConfiguration = initialGiniConfiguration
         _ = supportedFormatsViewController.view
     }
     
