@@ -1,7 +1,8 @@
-![Gini Vision Library for iOS](img/GiniVision_Logo.png)
+![Gini Vision Library for iOS](img/GiniVision_Logo.png?raw=true)
 
 # Gini Vision Library for iOS
 
+[![CI Status](https://travis-ci.org/gini/gini-vision-lib-ios.svg?branch=master)](https://travis-ci.org/gini/gini-vision-lib-ios)
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)]()
 [![Devices](https://img.shields.io/badge/devices-iPhone%20%7C%20iPad-blue.svg)]()
 
@@ -18,12 +19,12 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
 
 ##Contents
 
-* [Installation](installation.html)
-* [Updating to 3.2.0](updating-to-320.html)
-* [Open with guide](open-with-guide.html)
-* [Import PDFs and Images guide](import-pdfs-and-images-guide.html)
-* [Changelog](changelog.html)
-* [License](license.html)
+* [Installation](Installation.html)
+* [Updating to 3.2.0](Updating-to-320.html)
+* [Open with guide](Open-with-guide.html)
+* [Import PDFs and Images guide](Import-pdfs-and-images-guide.html)
+* [Changelog](Changelog.html)
+* [License](License.html)
 
 ##API
 
