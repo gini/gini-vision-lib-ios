@@ -64,12 +64,46 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
 @objc public final class ReviewViewController: UIViewController {
     
     // User interface
-    fileprivate var scrollView   = UIScrollView()
-    fileprivate var imageView    = UIImageView()
-    fileprivate var topView      = UIView()
-    fileprivate var bottomView   = UIView()
-    fileprivate var rotateButton = UIButton()
-    fileprivate var bottomLabel  = UILabel()
+    fileprivate var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
+        doubleTapGesture.numberOfTapsRequired = 2
+        scrollView.addGestureRecognizer(doubleTapGesture)
+        return scrollView
+    }()
+    fileprivate var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
+        return imageView
+    }()
+    fileprivate var topView: UIView = {
+       return NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
+    }()
+    fileprivate var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
+        return view
+    }()
+    fileprivate var rotateButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
+        button.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
+        return button
+    }()
+    fileprivate var bottomLabel: UILabel = {
+        let label = UILabel()
+        label.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
+        label.numberOfLines = 0
+        label.textColor = GiniConfiguration.sharedConfiguration.reviewTextBottomColor
+        label.textAlignment = .right
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.7
+        label.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
+            GiniConfiguration.sharedConfiguration.reviewTextBottomFont :
+            GiniConfiguration.sharedConfiguration.font.thin.withSize(12)
+        return label
+    }()
     
     // Properties
     fileprivate var imageViewBottomConstraint: NSLayoutConstraint!
@@ -100,56 +134,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     public init(_ document: GiniVisionDocument, successBlock: @escaping ReviewScreenSuccessBlock, failureBlock: @escaping ReviewScreenFailureBlock) {
         super.init(nibName: nil, bundle: nil)
         
-        // Set callback
+        self.currentDocument = document
         self.successBlock = successBlock
         self.failureBlock = failureBlock
-        
-        // Initialize currentDocument
-        currentDocument = document
-        
-        // Configure scroll view
-        scrollView.delegate = self
-        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
-        doubleTapGesture.numberOfTapsRequired = 2
-        scrollView.addGestureRecognizer(doubleTapGesture)
-        
-        // Configure image view
-        imageView.image = document.previewImage
-        imageView.contentMode = .scaleAspectFit
-        imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
-        
-        // Configure top view
-        topView = NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
-        
-        // Configure bottom view
-        bottomView.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
-        
-        // Configure rotate button
-        rotateButton.setImage(rotateButtonImage, for: .normal)
-        rotateButton.addTarget(self, action: #selector(rotate), for: .touchUpInside)
-        rotateButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
-        
-        // Configure bottom label
-        bottomLabel.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
-        bottomLabel.numberOfLines = 0
-        bottomLabel.textColor = GiniConfiguration.sharedConfiguration.reviewTextBottomColor
-        bottomLabel.textAlignment = .right
-        bottomLabel.adjustsFontSizeToFitWidth = true
-        bottomLabel.minimumScaleFactor = 0.7
-        bottomLabel.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.reviewTextBottomFont :
-            GiniConfiguration.sharedConfiguration.font.thin.withSize(12)
-        
-        // Configure view hierachy
-        view.addSubview(scrollView)
-        view.addSubview(topView)
-        view.addSubview(bottomView)
-        scrollView.addSubview(imageView)
-        bottomView.addSubview(rotateButton)
-        bottomView.addSubview(bottomLabel)
-        
-        // Add constraints
-        addConstraints()
     }
     
     /**
@@ -179,6 +166,24 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
      */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func loadView() {
+        super.loadView()
+        
+        scrollView.delegate = self
+        imageView.image = currentDocument?.previewImage
+        rotateButton.setImage(rotateButtonImage, for: .normal)
+        
+        // Configure view hierachy
+        view.addSubview(scrollView)
+        view.addSubview(topView)
+        view.addSubview(bottomView)
+        scrollView.addSubview(imageView)
+        bottomView.addSubview(rotateButton)
+        bottomView.addSubview(bottomLabel)
+        
+        addConstraints()
     }
     
     /**

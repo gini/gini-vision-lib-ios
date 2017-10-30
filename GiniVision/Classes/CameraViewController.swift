@@ -73,14 +73,32 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     // User interface
-    fileprivate var controlsView  = UIView()
-    fileprivate var previewView   = CameraPreviewView()
-    var captureButton = UIButton()
-    fileprivate var focusIndicatorImageView: UIImageView?
-    fileprivate var defaultImageView: UIImageView?
-    fileprivate lazy var importFileButton = UIButton()
-    var toolTipView: ToolTipView?
+    lazy var captureButton: UIButton = {
+        let button = UIButton()
+        button.setImage(self.cameraCaptureButtonImage, for: .normal)
+        button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
+        button.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
+        return button
+    }()
+    fileprivate lazy var importFileButton: UIButton = {
+        let button = UIButton()
+        button.setImage(self.documentImportButtonImage, for: .normal)
+        button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
+        return button
+    }()
+    fileprivate lazy var previewView: CameraPreviewView = {
+        let previewView = CameraPreviewView()
+        (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
+        (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = self.getVideoOrientation()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
+        previewView.addGestureRecognizer(tapGesture)
+        return previewView
+    }()
     fileprivate var blurEffect: UIVisualEffectView?
+    fileprivate var controlsView  = UIView()
+    fileprivate var defaultImageView: UIImageView?
+    fileprivate var focusIndicatorImageView: UIImageView?
+    var toolTipView: ToolTipView?
     fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
                                                     UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
                                                     UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
@@ -89,7 +107,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     // Properties
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
-    fileprivate var filePickerManager: FilePickerManager
+    fileprivate lazy var filePickerManager: FilePickerManager = {
+        return FilePickerManager()
+    }()
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -121,7 +141,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
     public init(successBlock: @escaping CameraScreenSuccessBlock, failureBlock: @escaping CameraScreenFailureBlock) {
-        filePickerManager = FilePickerManager()
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -142,43 +161,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         } catch _ {
             print("GiniVision: An unknown error occured.")
         }
-        
-        // Configure preview view
-        if let validCamera = camera {
-            cameraState = .valid
-            previewView.session = validCamera.session
-            (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
-            (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = getVideoOrientation()
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
-            previewView.addGestureRecognizer(tapGesture)
-            NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
-        }
-        
-        // Configure capture button
-        captureButton.setImage(cameraCaptureButtonImage, for: .normal)
-        captureButton.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
-        captureButton.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
-        
-        // Configure view hierachy. Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
-        view.insertSubview(previewView, at: 0)
-        view.insertSubview(controlsView, aboveSubview: previewView)
-        
-        previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
-        controlsView.addSubview(captureButton)
-        
-        // Add constraints
-        addConstraints()
-        
-        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
-            enableFileImport()
-            if ToolTipView.shouldShowFileImportToolTip {
-                createFileImportTip()
-                if !OnboardingContainerViewController.willBeShown {
-                    showFileImportTip()
-                }
-            }
-        }
-        
     }
     
     /**
@@ -211,6 +193,39 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    public override func loadView() {
+        super.loadView()
+        
+        if let validCamera = camera {
+            cameraState = .valid
+            previewView.session = validCamera.session
+            NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
+        }
+        
+        view.insertSubview(previewView, at: 0) // Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
+        view.insertSubview(controlsView, aboveSubview: previewView)
+        
+        previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
+        controlsView.addSubview(captureButton)
+        
+        // Add constraints
+        addConstraints()
+    }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
+            enableFileImport()
+            if ToolTipView.shouldShowFileImportToolTip {
+                createFileImportTip()
+                if !OnboardingContainerViewController.willBeShown {
+                    showFileImportTip()
+                }
+            }
+        }
     }
     
     /**
@@ -318,7 +333,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
         
-        toolTipView?.willDismiss = {
+        toolTipView?.willDismiss = { [weak self] in
+            guard let `self` = self else { return }
             self.blurEffect?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
@@ -368,8 +384,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         }
         
         // Configure import file button
-        importFileButton.setImage(documentImportButtonImage, for: .normal)
-        importFileButton.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
         

@@ -89,8 +89,7 @@ import UIKit
         return overlayView
     }()
     
-    
-    fileprivate var document:GiniVisionDocument?
+    fileprivate let document:GiniVisionDocument
     
     /**
      Designated intitializer for the `AnalysisViewController`.
@@ -100,26 +99,8 @@ import UIKit
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
     public init(_ document: GiniVisionDocument) {
-        super.init(nibName: nil, bundle: nil)
-        
         self.document = document
-        self.imageView.image = document.previewImage
-        
-        // Configure view hierachy
-        addImageView()
-        
-        if let document = document as? GiniPDFDocument {
-            addLoadingView(intoContainer: loadingIndicatorContainer)
-            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
-            
-            showPDFInformationView(withDocument:document)
-        } else {
-            addLoadingView()
-            addLoadingText(below: loadingIndicatorView)
-            addOverlay()
-            
-            showCaptureSuggestions()
-        }
+        super.init(nibName: nil, bundle: nil)
     }
     
     /**
@@ -143,6 +124,27 @@ import UIKit
      */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func loadView() {
+        super.loadView()
+        self.imageView.image = self.document.previewImage
+        
+        // Configure view hierachy
+        addImageView()
+        
+        if let document = document as? GiniPDFDocument {
+            addLoadingView(intoContainer: loadingIndicatorContainer)
+            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
+            
+            showPDFInformationView(withDocument:document)
+        } else {
+            addLoadingView()
+            addLoadingText(below: loadingIndicatorView)
+            addOverlay()
+            
+            showCaptureSuggestions()
+        }
     }
     
     // MARK: Toggle animation
