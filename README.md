@@ -27,7 +27,7 @@ The Gini Vision Library consists of three main screens
 
 * Camera: The actual camera screen to capture the image of the document or to import either a PDF or an image.
 * Review: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction.
-* Analysis: Provides a UI for the analysis process of the document by showing the user capture tips when an image is analyzed or the document information when it is a PDF. In both cases an image preview of the document analyzed.
+* Analysis: Provides a UI for the analysis process of the document by showing the user capture tips when an image is analyzed or the document information when it is a PDF. In both cases an image preview of the document analyzed will be shown.
 
 As mentioned before the Gini Vision Library provides two integration options. A Screen API that is easy to implement and a more complex, but also more flexible Component API. Both APIs can access the complete functionality of the library.
 
