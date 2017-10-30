@@ -333,7 +333,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
         
-        toolTipView?.willDismiss = {
+        toolTipView?.willDismiss = { [weak self] in
+            guard let `self` = self else { return }
             self.blurEffect?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
