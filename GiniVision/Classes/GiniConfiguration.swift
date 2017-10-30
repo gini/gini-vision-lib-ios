@@ -35,13 +35,15 @@ import UIKit
         case pdf_and_images
     }
     
-    // MARK: General options
     /**
-     Can be turned on during development to unlock extra information and to save captured images to camera roll.
+     Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
      
-     - warning: Should never be used outside of a development enviroment.
+     - returns: Instance of `GiniConfiguration`.
      */
-    public var debugModeOn = false
+    public override init() {}
+    
+    
+    // MARK: General options
     
     /**
      Sets the background color in all screens of the Gini Vision Library to the specified color.
@@ -51,11 +53,16 @@ import UIKit
     public var backgroundColor = UIColor.black
     
     /**
+     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
+     */
+    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
+    
+    /**
      Sets the font used in the GiniVision library by default.
      */
     
     public var customFont: GiniVisionFont?
-
+    
     /*
      In order to provide backward compatibility for previously defined fonts, it is needed to have different properties.
      */
@@ -70,6 +77,13 @@ import UIKit
                                                      bold: UIFontPreferred(.bold, andSize: 14),
                                                      light: UIFontPreferred(.light, andSize: 14),
                                                      thin: UIFontPreferred(.thin, andSize: 14))
+    
+    /**
+     Can be turned on during development to unlock extra information and to save captured images to camera roll.
+     
+     - warning: Should never be used outside of a development enviroment.
+     */
+    public var debugModeOn = false
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.
@@ -135,6 +149,68 @@ import UIKit
      */
     public var noticeFont = UIFontPreferred(.regular, andSize: 12)
     
+    /**
+     Indicates whether the open with feature is enabled or not. In case of `true`,
+     a new option with the open with tutorial wil be shown in the Help menu
+     */
+    public var openWithEnabled = false
+    
+    /**
+     Sets the descriptional text when photo library access was denied, advising the user to authorize the photo library access in the settings application.
+     */
+    public var photoLibraryAccessDeniedMessageText = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied", comment: "This message is shown when Photo library permission is denied")
+    
+    
+    
+    
+    // MARK: Camera options
+    
+    /**
+     Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
+     
+     - note: Used exclusively for accessibility label.
+     */
+    public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
+    
+    /**
+     Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
+     */
+    public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
+    
+    /**
+     Sets the font of the descriptional text when camera access was denied.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+     
+     */
+    public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
+    
+    /**
+     Sets the text color of the descriptional text when camera access was denied.
+     */
+    public var cameraNotAuthorizedTextColor = UIColor.white
+    
+    /**
+     Sets the button title when camera access was denied, clicking the button will open the settings application.
+     */
+    public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
+    
+    /**
+     Sets the font of the button title when camera access was denied.
+     (Deprecated, use `GiniConfiguration.customFont` instead)
+     
+     */
+    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
+    
+    /**
+     Sets the text color of the button title when camera access was denied.
+     */
+    public var cameraNotAuthorizedButtonTitleColor = UIColor.white
+    
+    /**
+     Sets the color of camera preview corner guides
+     */
+    public var cameraPreviewCornerGuidesColor = UIColor.white
+    
     
     /**
      Sets the message text of a general document validation error, shown in camera screen.
@@ -157,15 +233,25 @@ import UIKit
     public var documentValidationErrorWrongFormat = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat", comment: "Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
     
     /**
-     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
-     */
-    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
-    
-    /**
      Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
      
      */
     public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
+    
+    /**
+     Sets the background color of the new file import button hint
+     */
+    public var fileImportToolTipBackgroundColor = UIColor.white
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipTextColor = UIColor.black
+    
+    /**
+     Sets the text color of the new file import button hint
+     */
+    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
      Sets the title text in the navigation bar on the camera screen.
@@ -188,77 +274,8 @@ import UIKit
      */
     public var navigationBarCameraTitleHelpButton = ""
     
-    /**
-     Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.
-     
-     - note: Used exclusively for accessibility label.
-     */
-    public var cameraCaptureButtonTitle = NSLocalizedStringPreferred("ginivision.camera.captureButton", comment: "Title for capture button in camera screen will be used exclusively for accessibility label")
     
-    /**
-     Sets the descriptional text when photo library access was denied, advising the user to authorize the photo library access in the settings application.
-     */
-    public var photoLibraryAccessDeniedMessageText = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied", comment: "This message is shown when Photo library permission is denied")
     
-    /**
-     Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.
-     */
-    public var cameraNotAuthorizedText = NSLocalizedStringPreferred("ginivision.camera.notAuthorized", comment: "Description text when the camera is not authorized and the user is advised to change that in the settings app")
-    
-    /**
-     Sets the font of the descriptional text when camera access was denied.
-     (Deprecated, use `GiniConfiguration.customFont` instead)
-
-     */
-    public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
-    
-    /**
-     Sets the text color of the descriptional text when camera access was denied.
-     */
-    public var cameraNotAuthorizedTextColor = UIColor.white
-    
-    /**
-     Sets the button title when camera access was denied, clicking the button will open the settings application.
-     */
-    public var cameraNotAuthorizedButtonTitle = NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton", comment: "Button title to open the settings app")
-    
-    /**
-     Sets the font of the button title when camera access was denied.
-     (Deprecated, use `GiniConfiguration.customFont` instead)
-
-     */
-    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
-    
-    /**
-     Sets the text color of the button title when camera access was denied.
-     */
-    public var cameraNotAuthorizedButtonTitleColor = UIColor.white
-    
-    /**
-     Sets the color of camera preview corner guides
-     */
-    public var cameraPreviewCornerGuidesColor = UIColor.white
-    
-    /**
-     Sets the background color of the new file import button hint
-     */
-    public var fileImportToolTipBackgroundColor = UIColor.white
-    
-    /**
-     Sets the text color of the new file import button hint
-     */
-    public var fileImportToolTipTextColor = UIColor.black
-    
-    /**
-     Sets the text color of the new file import button hint
-     */
-    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
-    
-    /**
-     Indicates whether the open with feature is enabled or not. In case of `true`,
-     a new option with the open with tutorial wil be shown in the Help menu
-     */
-    public var openWithEnabled = false
     
     // MARK: Onboarding options
     /**
@@ -362,6 +379,7 @@ import UIKit
     
     
     
+    
     // MARK: Review options
     /**
      Sets the title text in the navigation bar on the review screen.
@@ -444,18 +462,9 @@ import UIKit
      */
     public var reviewTextBottomColor = UIColor.white
     
-    // MARK: Analysis options
-    /**
-     Sets the title text in the navigation bar on the analysis screen.
-     
-     - note: Screen API only.
-     */
-    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
-    /**
-     Sets the back button text in the navigation bar on the analysis screen.
-     */
-    public var navigationBarAnalysisTitleBackButton = ""
+    
+    // MARK: Analysis options
     
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
@@ -484,25 +493,35 @@ import UIKit
         return NSLocalizedStringPreferred("ginivision.analysis.pdfpages", comment: "Text appearing at the top of the analysis screen indicating pdf number of pages", args: count)
     }
     
-    
-    // MARK: Supported formats
+    /**
+     Sets the title text in the navigation bar on the analysis screen.
+     
+     - note: Screen API only.
+     */
+    public var navigationBarAnalysisTitle = NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title", comment: "Title in the navigation bar on the analysis screen")
     
     /**
-     Sets the color of the supported formats icon background to the specified color.
+     Sets the back button text in the navigation bar on the analysis screen.
      */
-    public var supportedFormatsIconColor = Colors.Gini.paleGreen
+    public var navigationBarAnalysisTitleBackButton = ""
+    
+    
+    
+    // MARK: Supported formats
     
     /**
      Sets the color of the unsupported formats icon background to the specified color.
      */
     public var nonSupportedFormatsIconColor = Colors.Gini.crimson
     
-    // MARK: Open with tutorial options
     /**
-     Sets the color of the step indicator for the Open with tutorial
-     
+     Sets the color of the supported formats icon background to the specified color.
      */
-    public var stepIndicatorColor = Colors.Gini.blue
+    public var supportedFormatsIconColor = Colors.Gini.paleGreen
+    
+    
+    
+    // MARK: Open with tutorial options
     
     /**
      Sets the text of the app name for the Open with tutorial texts
@@ -510,11 +529,15 @@ import UIKit
      */
     public var openWithAppNameForTexts = Bundle.main.appName
     
-    // MARK: No results options
     /**
-     Sets the color of the warning container background to the specified color
+     Sets the color of the step indicator for the Open with tutorial
+     
      */
-    public var noResultsWarningContainerIconColor = Colors.Gini.rose
+    public var stepIndicatorColor = Colors.Gini.blue
+    
+    
+    
+    // MARK: No results options
     
     /**
      Sets the color of the bottom button to the specified color
@@ -522,12 +545,9 @@ import UIKit
     public var noResultsBottomButtonColor = Colors.Gini.blue
     
     /**
-     Returns a `GiniConfiguration` instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.
-     
-     - returns: Instance of `GiniConfiguration`.
+     Sets the color of the warning container background to the specified color
      */
-    public override init() {}
-    
+    public var noResultsWarningContainerIconColor = Colors.Gini.rose
 }
 
 internal struct Colors {
