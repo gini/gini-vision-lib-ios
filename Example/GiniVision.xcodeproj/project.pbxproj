@@ -395,7 +395,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = CocoaPods;
+				ORGANIZATIONNAME = "Gini GmbH";
 				TargetAttributes = {
 					0A3B96511D478BF700BFEF05 = {
 						CreatedOnToolsVersion = 7.3.1;
