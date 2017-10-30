@@ -19,19 +19,15 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
 
 ## Documentation
 
-Further documentation can be found in our
-
-* [Integration Guide](http://developer.gini.net/gini-vision-lib-ios/docs/) and
-* [API Documentation](http://developer.gini.net/gini-vision-lib-ios/api/)
+Further documentation can be found in our [website](http://developer.gini.net/gini-vision-lib-ios/docs/)
 
 ## Architecture
 
-The Gini Vision Library consists of four main screens
+The Gini Vision Library consists of three main screens
 
-* Onboarding: Provides useful hints to the users how to take a perfect photo of a document,
-* Camera: The actual camera screen to capture the image of the document,
-* Review: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction,
-* Analysis: Provides a UI for the analysis process of the document by showing the user a loading indicator and the image of the document.
+* Camera: The actual camera screen to capture the image of the document or to import either a PDF or an image.
+* Review: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction.
+* Analysis: Provides a UI for the analysis process of the document by showing the user capture tips when an image is analyzed or the document information when it is a PDF. In both cases an image preview of the document analyzed.
 
 As mentioned before the Gini Vision Library provides two integration options. A Screen API that is easy to implement and a more complex, but also more flexible Component API. Both APIs can access the complete functionality of the library.
 
