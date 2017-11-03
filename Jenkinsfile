@@ -31,7 +31,7 @@ pipeline {
       steps {
         sh 'rm -rf build'
         sh 'mkdir build'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive -allowProvisioningUpdates'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build'
         sh 'rm -rf build'
       }
