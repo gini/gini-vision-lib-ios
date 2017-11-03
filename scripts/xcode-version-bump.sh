@@ -31,3 +31,6 @@ else
 fi
 
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $NEWVERSIONSTRING" "$infoPlist"
+
+git add .
+git commit -m "Bumped ExampleApp version to $NEWVERSIONSTRING($buildNumber)"
