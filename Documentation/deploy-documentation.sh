@@ -1,37 +1,22 @@
 #!/bin/bash
-set -e # Exit with nonzero exit code if anything fails
+jazzy --config .jazzy.json
 
-# Pull requests and commits to other branches shouldn't try to deploy
-if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then
-    echo "Skipping documentation deploy."
-    exit 0
-fi
+github_user=$1
+github_password=$2
 
-cd Documentation
-virtualenv ./virtualenv
-source virtualenv/bin/activate
-pip install -r requirements.txt
-
-make clean
-make html
-
-cd build
+cd Documentation/
 rm -rf gh-pages
-git clone -b gh-pages https://${DOC_PUSH_TOKEN}@github.com/gini/gini-vision-lib-ios.git gh-pages
+git clone -b gh-pages https://"$github_user":"$github_password"@github.com/gini/gini-vision-lib-ios.git gh-pages
 
-rm -rf gh-pages/*
 mkdir gh-pages/docs
-cp -a html/. gh-pages/docs/
-
-mkdir gh-pages/api
-cp -a ../Api/. gh-pages/api/
+cp -R Api/. gh-pages/docs/
 
 cd gh-pages
 touch .nojekyll
 
-git config user.name "Travis CI"
-git config user.email "hello@gini.net" # Use Schorschis Account
-git add -u
 git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Deploy Gini Vision Library for iOS documentation to Github Pages'
+git commit -a -m 'Updated Gini Vision Library for documentation'
 git push
+
+cd ..
+rm -rf gh-pages/
