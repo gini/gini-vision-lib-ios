@@ -29,3 +29,4 @@ fi
 
 git add .
 git commit -m "Bumped Example app version to $NEWVERSIONSTRING"
+git push
