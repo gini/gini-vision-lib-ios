@@ -2,11 +2,6 @@
 
 infoPlist="Example/GiniVision/Info.plist"
 
-#Build number bump
-buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$infoPlist")
-buildNumber=$(($buildNumber + 1))
-/usr/libexec/PlistBuddy -c "Set :CFBundleVersion $buildNumber" "$infoPlist"
-
 #Version name bump
 VERSIONNUM=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "$infoPlist")
 
@@ -33,4 +28,4 @@ fi
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $NEWVERSIONSTRING" "$infoPlist"
 
 git add .
-git commit -m "Bumped ExampleApp version to $NEWVERSIONSTRING($buildNumber)"
+git commit -m "Bumped Example app version to $NEWVERSIONSTRING"
