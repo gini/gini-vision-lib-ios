@@ -27,5 +27,12 @@ pipeline {
         sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
       }
     }
+    stage('HockeyApp upload') {
+      steps {
+        mkdir 'build'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive'
+        sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build'
+      }
+    }
   }
 }
