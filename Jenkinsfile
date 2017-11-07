@@ -45,5 +45,13 @@ pipeline {
         sh 'rm -rf build'
       }
     }
+    stage('Pod lint') {
+      when {
+        branch 'master'
+      }
+      steps {
+        sh '/usr/local/bin/pod lib lint'
+      }
+    }
   }
 }
