@@ -1,4 +1,0 @@
-git_url ENV['GIT_CERTS_URL']
-username ENV['APPLE_ID']
-team_id ENV['APPLE_TEAM_ID']
-team_name ENV['APPLE_TEAM_NAME']
