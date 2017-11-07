@@ -2,6 +2,8 @@
 
 infoPlist="Example/GiniVision/Info.plist"
 
+git checkout develop
+
 #Build number bump
 buildNumber=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "$infoPlist")
 buildNumber=$(($buildNumber + 1))
