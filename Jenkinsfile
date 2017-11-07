@@ -50,7 +50,7 @@ pipeline {
         branch 'master'
       }
       steps {
-        sh '/usr/local/bin/pod lib lint'
+        sh '/usr/local/bin/pod lib lint --allow-warnings'
       }
     }
   }
