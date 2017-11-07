@@ -269,24 +269,25 @@ To implement this feature you can follow <a href="Import-pdfs-and-images-guide.h
 </ul>
 
 <p>Information about the document formats supported by the Gini Vision Library. Both supported and unsupported icon circle color can be changed in <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)supportedFormatsIconColor">GiniConfiguration.supportedFormatsIconColor</a></code> and <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)nonSupportedFormatsIconColor">GiniConfiguration.nonSupportedFormatsIconColor</a></code> properties.</p>
+
+<p>All these new assets can be found in the <a href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
 <h3 id='no-results-screen' class='heading'>No results screen</h3>
 
 <p>The Gini Vision Library contains a new screen providing tips for users in order to achieve better results from images. This screen is displayed only for images (pictures taken by the camera and imported images).</p>
 
 <p>The No Results Screen should be requested only when none of the required extractions were received.</p>
 
-<p>When using the <strong>Screen API</strong>, once the analysis has been completed you can call the <code>AnalysisDelegate.displayNoResultsScreen()</code> as follows:</p>
-<pre class="highlight swift"><code><span class="k">if</span> <span class="n">hasPayFive</span> <span class="p">{</span>
+<p>When using the <strong>Screen API</strong>, once the analysis has been completed you can call the <code><a href="Protocols/AnalysisDelegate.html#/c:@M@GiniVision@objc(pl)AnalysisDelegate(im)tryDisplayNoResultsScreen">AnalysisDelegate.tryDisplayNoResultsScreen()</a></code> as follows:</p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="n">hasExtractions</span> <span class="p">{</span>
     <span class="c1">// Show the extractions</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>            
-    <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">async</span> <span class="p">{</span> <span class="p">[</span><span class="k">weak</span> <span class="k">self</span><span class="p">]</span> <span class="k">in</span>
-        <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">analysisDelegate</span><span class="p">?</span><span class="o">.</span><span class="n">displayNoResultsScreen</span> <span class="p">{</span> <span class="n">shown</span> <span class="k">in</span>
-            <span class="k">if</span> <span class="o">!</span><span class="n">shown</span> <span class="p">{</span> 
-                <span class="c1">// Show custom no results screen or exit Screen API</span>
-            <span class="p">}</span>
-            <span class="k">self</span><span class="p">?</span><span class="o">.</span><span class="n">analysisDelegate</span> <span class="o">=</span> <span class="kc">nil</span>
-        <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+    <span class="k">let</span> <span class="nv">shown</span> <span class="o">=</span> <span class="n">analysisDelegate</span><span class="o">.</span><span class="nf">tryDisplayNoResultsScreen</span><span class="p">()</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">shown</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">customNoResultsScreen</span> <span class="o">=</span> <span class="kt">UIStoryboard</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Main"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"noResultScreen"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">NoResultViewController</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">!.</span><span class="nf">pushViewController</span><span class="p">(</span><span class="n">customNoResultsScreen</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
+        <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
     <span class="p">}</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">analysisDelegate</span> <span class="o">=</span> <span class="kc">nil</span>
 <span class="p">}</span>
 </code></pre>
 <h3 id='custom-font' class='heading'>Custom font</h3>
@@ -311,8 +312,8 @@ You just need to specify the <code><a href="Structs/GiniVisionFont.html">GiniVis
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-10-27)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.4</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-11-07)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
