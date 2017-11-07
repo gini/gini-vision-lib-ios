@@ -33,6 +33,7 @@ pipeline {
         HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
       }
       steps {
+        sh 'rm -rf build'
         sh 'mkdir build'
         sh 'scripts/build-number-bump.sh'
         sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive'
