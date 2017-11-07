@@ -7,7 +7,6 @@ pipeline {
     stage('Prerequisites') {
       steps {
         sh '/usr/local/bin/pod install --project-directory=Example/'
-        sh 'gem install jazzy'
       }
     }
     stage('Build') {
