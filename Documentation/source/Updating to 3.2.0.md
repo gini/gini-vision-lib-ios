@@ -55,6 +55,8 @@ A guide on how to import files from other apps via “open with”. Images can b
 
 Information about the document formats supported by the Gini Vision Library. Both supported and unsupported icon circle color can be changed in `GiniConfiguration.supportedFormatsIconColor` and `GiniConfiguration.nonSupportedFormatsIconColor` properties.
 
+All these new assets can be found in the [Gini Vision Library UI Assets](https://github.com/gini/gini-vision-lib-assets) repository.
+
 ### No results screen
 
 The Gini Vision Library contains a new screen providing tips for users in order to achieve better results from images. This screen is displayed only for images (pictures taken by the camera and imported images).
