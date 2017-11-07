@@ -15,7 +15,7 @@ cd gh-pages
 touch .nojekyll
 
 git add .
-git commit -a -m 'Updated Gini Vision Library for documentation'
+git commit -a -m 'Updated Gini Vision Library documentation'
 git push
 
 cd ..
