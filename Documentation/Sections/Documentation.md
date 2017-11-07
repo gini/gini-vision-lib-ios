@@ -1,4 +1,4 @@
-![Gini Vision Library for iOS](../../GiniVision_Logo.png?raw=true)
+![Gini Vision Library for iOS](img/GiniVision_Logo.png)
 
 # Gini Vision Library for iOS
 
