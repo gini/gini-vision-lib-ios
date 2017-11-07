@@ -73,6 +73,8 @@ giniConfiguration.backgroundColor = UIColor.white
 GiniVision.setConfiguration(giniConfiguration)
 ```
 
+## Customization
+The [Gini Vision Library UI Assets](https://github.com/gini/gini-vision-lib-assets) repository can be used as an aid for customizing the UI.
 
 ## Example
 

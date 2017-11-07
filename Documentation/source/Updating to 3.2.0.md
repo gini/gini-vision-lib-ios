@@ -55,26 +55,27 @@ A guide on how to import files from other apps via “open with”. Images can b
 
 Information about the document formats supported by the Gini Vision Library. Both supported and unsupported icon circle color can be changed in `GiniConfiguration.supportedFormatsIconColor` and `GiniConfiguration.nonSupportedFormatsIconColor` properties.
 
+All these new assets can be found in the [Gini Vision Library UI Assets](https://github.com/gini/gini-vision-lib-assets) repository.
+
 ### No results screen
 
 The Gini Vision Library contains a new screen providing tips for users in order to achieve better results from images. This screen is displayed only for images (pictures taken by the camera and imported images).
 
 The No Results Screen should be requested only when none of the required extractions were received.
 
-When using the __Screen API__, once the analysis has been completed you can call the `AnalysisDelegate.displayNoResultsScreen()` as follows:
+When using the __Screen API__, once the analysis has been completed you can call the `AnalysisDelegate.tryDisplayNoResultsScreen()` as follows:
 
 ```swift
-if hasPayFive {
+if hasExtractions {
 	// Show the extractions
-} else {            
-	DispatchQueue.main.async { [weak self] in
-		self?.analysisDelegate?.displayNoResultsScreen { shown in
-			if !shown { 
-				// Show custom no results screen or exit Screen API
-			}
-			self?.analysisDelegate = nil
-		}
+} else { 
+	let shown = analysisDelegate.tryDisplayNoResultsScreen()
+	if !shown {
+		let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+		self.navigationController!.pushViewController(customNoResultsScreen, animated: true)
+		self.dismiss(animated: true, completion: nil)
 	}
+	self.analysisDelegate = nil
 }
 ```
 
