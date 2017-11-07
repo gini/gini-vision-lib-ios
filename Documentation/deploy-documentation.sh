@@ -1,5 +1,5 @@
 #!/bin/bash
-jazzy --config .jazzy.json
+/usr/local/bin/jazzy --config .jazzy.json
 
 github_user=$1
 github_password=$2
