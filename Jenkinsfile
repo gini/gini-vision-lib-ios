@@ -28,10 +28,17 @@ pipeline {
       }
     }
     stage('HockeyApp upload') {
+      environment {
+        HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
+        HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
+      }
       steps {
         sh 'mkdir build'
+        sh 'build-number-bump.sh'
         sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
+        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/GiniVision-Example.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
+
         sh 'rm -rf build'
       }
     }
