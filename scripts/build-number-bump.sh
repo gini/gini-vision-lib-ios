@@ -11,4 +11,3 @@ buildNumber=$(($buildNumber + 1))
 
 git add .
 git commit -m "Bumped Example app build number to $buildNumber [ci skip]"
-git push
