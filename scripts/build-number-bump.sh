@@ -1,8 +1,10 @@
 #!/bin/bash
 
 infoPlist="Example/GiniVision/Info.plist"
+hockey_api_key=$1
+hockey_app_id=$2
 
-hockeyLastBuildNumber=$(curl -H "X-HockeyAppToken: 044a1b5cec5946ff960e9bd646486f27" https://rink.hockeyapp.net/api/2/apps/c9a58ca1b2b14e6d9d5f463ae91d35b6/app_versions | python -c "import sys, json; print json.load(sys.stdin)['app_versions'][0]['version']")
+hockeyLastBuildNumber=$(curl -H "X-HockeyAppToken: $hockey_api_key" https://rink.hockeyapp.net/api/2/apps/$hockey_app_id/app_versions | python -c "import sys, json; print json.load(sys.stdin)['app_versions'][0]['version']")
 
 #Build number bump
 buildNumber=$(($hockeyLastBuildNumber + 1))
