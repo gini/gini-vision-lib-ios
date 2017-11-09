@@ -10,19 +10,25 @@ import Foundation
 import GiniVision
 import Gini_iOS_SDK
 
+protocol ComponentAPICoordinatorDelegate: class {
+    func didFinish()
+}
+
 final class ComponentAPICoordinator: NSObject {
     
+    weak var delegate: ComponentAPICoordinatorDelegate?
     fileprivate var document:GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate var storyboard:UIStoryboard
-
-    fileprivate lazy var navigationController: UINavigationController = {
+    
+    fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
+    fileprivate lazy var newDocumentViewController: UINavigationController = {
         let navBarViewController = UINavigationController()
         navBarViewController.navigationBar.barTintColor = self.giniColor
         navBarViewController.navigationBar.tintColor = .white
         return navBarViewController
     }()
-    fileprivate lazy var tabBarController: UITabBarController = {
+    fileprivate lazy var componentAPITabBarController: UITabBarController = {
         let tabBarViewController = UITabBarController()
         tabBarViewController.tabBar.barTintColor = self.giniColor
         tabBarViewController.tabBar.tintColor = .white
@@ -33,10 +39,11 @@ final class ComponentAPICoordinator: NSObject {
         
         return tabBarViewController
     }()
-    fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
     
-    fileprivate weak var analysisScreen: ComponentAPIAnalysisViewController?
-    fileprivate weak var resultsScreen: ResultTableViewController?
+    fileprivate var cameraScreen: ComponentAPICameraViewController?
+    fileprivate var reviewScreen: ComponentAPIReviewViewController?
+    fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate var resultsScreen: ResultTableViewController?
     
     init(document:GiniVisionDocument?){
         self.document = document
@@ -44,12 +51,13 @@ final class ComponentAPICoordinator: NSObject {
         
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
+        giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         GiniVision.setConfiguration(giniConfiguration)
     }
     
     func start(from rootViewController:UIViewController) {
         self.setupTabBar()
-        self.navigationController.delegate = self
+        self.newDocumentViewController.delegate = self
         
         if let document = document {
             if document.isReviewable {
@@ -61,61 +69,49 @@ final class ComponentAPICoordinator: NSObject {
             showCameraScreen()
         }
         
-        rootViewController.present(tabBarController, animated: true, completion: nil)
+        rootViewController.present(componentAPITabBarController, animated: true, completion: nil)
         
-    }
-    
-    fileprivate func setupTabBar() {
-        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
-        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
-        
-        self.navigationController.tabBarItem = navTabBarItem
-        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
-        
-        self.tabBarController.setViewControllers([navigationController, componentAPIOnboardingViewController], animated: true)
     }
     
     // MARK: Show screens
     fileprivate func showCameraScreen() {
-        let cameraContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera") as! ComponentAPICameraViewController
-        cameraContainer.delegate = self
-        navigationController.pushViewController(cameraContainer, animated: true)
+        cameraScreen = self.storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera") as? ComponentAPICameraViewController
+        cameraScreen?.delegate = self
+        newDocumentViewController.pushViewController(cameraScreen!, animated: true)
     }
     
     fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
-        let reviewContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview") as! ComponentAPIReviewViewController
-        reviewContainer.delegate = self
-        reviewContainer.document = document
-        addCloseButtonIfNeeded(onViewController: reviewContainer)
+        reviewScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview") as? ComponentAPIReviewViewController
+        reviewScreen?.delegate = self
+        reviewScreen?.document = document
+        addCloseButtonIfNeeded(onViewController: reviewScreen!)
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
         AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         
-        navigationController.pushViewController(reviewContainer, animated: true)
+        newDocumentViewController.pushViewController(reviewScreen!, animated: true)
     }
     
     fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
-        let analysisContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as! ComponentAPIAnalysisViewController
-        analysisContainer.delegate = self
-        analysisContainer.document = document
-        analysisScreen = analysisContainer
-        addCloseButtonIfNeeded(onViewController: analysisContainer)
+        analysisScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController
+        analysisScreen?.delegate = self
+        analysisScreen?.document = document
+        addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
         // In case that the view is loaded but is not analysing (i.e: user imported a PDF with the Open With feature), it should start.
         if !AnalysisManager.sharedManager.isAnalyzing {
             AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }
         
-        navigationController.pushViewController(analysisContainer, animated: true)
+        newDocumentViewController.pushViewController(analysisScreen!, animated: true)
     }
     
     fileprivate func showResultsTableScreen(forDocument document: GINIDocument, withResult result:GINIResult) {
-        let vc = storyboard.instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
-        vc.result = result
-        vc.document = document
-        resultsScreen = vc
-        navigationController.pushViewController(vc, animated: true)
+        resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController
+        resultsScreen?.result = result
+        resultsScreen?.document = document
+        newDocumentViewController.pushViewController(resultsScreen!, animated: true)
     }
     
     fileprivate func showNoResultsScreen() {
@@ -131,28 +127,39 @@ final class ComponentAPICoordinator: NSObject {
             genericNoResults.delegate = self
             vc = genericNoResults
         }
-        navigationController.pushViewController(vc, animated: true)
+        newDocumentViewController.pushViewController(vc, animated: true)
     }
     
     // MARK: Other
+    fileprivate func setupTabBar() {
+        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
+        
+        self.newDocumentViewController.tabBarItem = navTabBarItem
+        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
+        
+        self.componentAPITabBarController.setViewControllers([newDocumentViewController, componentAPIOnboardingViewController], animated: true)
+    }
+    
     @objc fileprivate func dismissTabBarController() {
         AnalysisManager.sharedManager.cancelAnalysis()
-        tabBarController.dismiss(animated: true, completion: nil)
+        componentAPITabBarController.dismiss(animated: true, completion: nil)
+        delegate?.didFinish()
     }
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
-        if navigationController.viewControllers.isEmpty {
+        if newDocumentViewController.viewControllers.isEmpty {
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
         }
     }
     
     fileprivate func removeFromStack(_ viewController: UIViewController) {
-        var navigationStack = navigationController.viewControllers
-
+        var navigationStack = newDocumentViewController.viewControllers
+        
         if let index = navigationStack.index(of: viewController) {
             navigationStack.remove(at: index)
             
-            navigationController.setViewControllers(navigationStack, animated: false)
+            newDocumentViewController.setViewControllers(navigationStack, animated: false)
         }
     }
 }
@@ -161,7 +168,8 @@ final class ComponentAPICoordinator: NSObject {
 
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController is ComponentAPICameraViewController {
+        let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from)
+        if let _ = fromViewController as? ComponentAPIReviewViewController, viewController is ComponentAPICameraViewController {
             AnalysisManager.sharedManager.cancelAnalysis()
         }
     }
@@ -187,7 +195,7 @@ extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
 
 extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
     
-    func didReview(document: GiniVisionDocument) {        
+    func didReview(document: GiniVisionDocument) {
         // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
         if let result = AnalysisManager.sharedManager.result,
             let document = AnalysisManager.sharedManager.document {
@@ -245,8 +253,8 @@ extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
     func didTapRetry() {
-        if navigationController.viewControllers.count != 1 {
-            _ = navigationController.popToRootViewController(animated: true)
+        if newDocumentViewController.viewControllers.count != 1 {
+            _ = newDocumentViewController.popToRootViewController(animated: true)
         } else {
             dismissTabBarController()
         }
@@ -270,7 +278,7 @@ extension ComponentAPICoordinator {
             removeFromStack(analysisScreen)
         }
         
-        if navigationController.viewControllers.count == 2 {
+        if newDocumentViewController.viewControllers.count == 2 {
             if let resultsScreen = resultsScreen {
                 resultsScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
             }

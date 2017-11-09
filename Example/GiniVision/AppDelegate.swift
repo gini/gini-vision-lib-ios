@@ -66,8 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
             
             alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { _ in
-                let componentAPICoordinator = ComponentAPICoordinator(document: document)
-                componentAPICoordinator.start(from: selectAPIVC)
+                selectAPIVC.componentAPICoordinator = ComponentAPICoordinator(document:document)
+                selectAPIVC.componentAPICoordinator?.delegate = selectAPIVC
+                selectAPIVC.componentAPICoordinator?.start(from: selectAPIVC)
             })
         } catch {
             // 4.1. Create alert which shows an error pointing out that it is not a valid document

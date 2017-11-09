@@ -27,7 +27,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
      The image data of the captured document to be reviewed.
      */
     var document: GiniVisionDocument?
-    var delegate: ComponentAPIAnalysisScreenDelegate?
+    weak var delegate: ComponentAPIAnalysisScreenDelegate?
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()

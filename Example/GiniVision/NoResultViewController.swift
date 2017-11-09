@@ -15,7 +15,7 @@ protocol NoResultsScreenDelegate:class {
 class NoResultViewController: UIViewController {
     
     @IBOutlet var rotateImageView: UIImageView!
-    var delegate:NoResultsScreenDelegate?
+    weak var delegate:NoResultsScreenDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

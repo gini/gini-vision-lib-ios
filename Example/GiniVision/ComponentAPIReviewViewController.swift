@@ -23,7 +23,7 @@ class ComponentAPIReviewViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    var delegate: ComponentAPIReviewScreenDelegate?
+    weak var delegate: ComponentAPIReviewScreenDelegate?
     var document: GiniVisionDocument!
     
     // MARK: View life cycle

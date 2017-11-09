@@ -21,7 +21,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    var delegate:ComponentAPICameraScreenDelegate?
+    weak var delegate:ComponentAPICameraScreenDelegate?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -29,9 +29,9 @@ class ComponentAPICameraViewController: UIViewController {
         
         // 2. Create the camera view controller
         contentController = CameraViewController(successBlock:
-            { document in
+            { [weak self] document in
                 DispatchQueue.main.async {
-                    self.delegate?.didPick(document: document)
+                    self?.delegate?.didPick(document: document)
                 }
         }, failureBlock: { error in
             print("Component API camera view controller received error:\n\(error)")

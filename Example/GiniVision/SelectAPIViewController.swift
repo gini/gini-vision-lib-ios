@@ -22,6 +22,7 @@ class SelectAPIViewController: UIViewController {
         return ProcessInfo.processInfo.arguments.contains("--UITest")
     }
     
+    var componentAPICoordinator: ComponentAPICoordinator?
     var analysisDelegate: AnalysisDelegate? 
     var imageData: Data?
     var result: GINIResult? {
@@ -82,9 +83,9 @@ class SelectAPIViewController: UIViewController {
     }
     
     @IBAction func launchComponentAPI(_ sender: Any) {
-        
-        let componentAPICoordinator = ComponentAPICoordinator(document: nil)
-        componentAPICoordinator.start(from: self)
+        componentAPICoordinator = ComponentAPICoordinator(document: nil)
+        componentAPICoordinator?.delegate = self
+        componentAPICoordinator?.start(from: self)
     }
     
     func giniScreenAPI(withImportedDocument document:GiniVisionDocument?) -> UIViewController {
@@ -195,6 +196,12 @@ class SelectAPIViewController: UIViewController {
             }
             self.analysisDelegate = nil
         }
+    }
+}
+
+extension SelectAPIViewController: ComponentAPICoordinatorDelegate {
+    func didFinish() {
+        self.componentAPICoordinator = nil
     }
 }
 
