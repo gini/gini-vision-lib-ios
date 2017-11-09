@@ -13,11 +13,30 @@ import Gini_iOS_SDK
 final class ComponentAPICoordinator: NSObject {
     
     fileprivate var document:GiniVisionDocument?
-    fileprivate var navigationController: UINavigationController?
-    fileprivate var tabBarController: UITabBarController?
+    fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
+    fileprivate var storyboard:UIStoryboard
+
+    fileprivate lazy var navigationController: UINavigationController = {
+        let navBarViewController = UINavigationController()
+        navBarViewController.navigationBar.barTintColor = self.giniColor
+        navBarViewController.navigationBar.tintColor = .white
+        return navBarViewController
+    }()
+    fileprivate lazy var tabBarController: UITabBarController = {
+        let tabBarViewController = UITabBarController()
+        tabBarViewController.tabBar.barTintColor = self.giniColor
+        tabBarViewController.tabBar.tintColor = .white
+        
+        if #available(iOS 10.0, *) {
+            tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
+        }
+        
+        return tabBarViewController
+    }()
+    fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
+    
     fileprivate weak var analysisScreen: ComponentAPIAnalysisViewController?
     fileprivate weak var resultsScreen: ResultTableViewController?
-    fileprivate var storyboard:UIStoryboard
     
     init(document:GiniVisionDocument?){
         self.document = document
@@ -29,30 +48,38 @@ final class ComponentAPICoordinator: NSObject {
     }
     
     func start(from rootViewController:UIViewController) {
-        if let tabBar = storyboard.instantiateViewController(withIdentifier: "ComponentAPI") as? UITabBarController,
-            let navBar = tabBar.viewControllers?.first as? UINavigationController {
-            self.tabBarController = tabBar
-            self.navigationController = navBar
-            self.navigationController?.delegate = self
-            if let document = document {
-                if document.isReviewable {
-                    showReviewScreen(withDocument: document)
-                } else {
-                    showAnalysisScreen(withDocument: document)
-                }
+        self.setupTabBar()
+        self.navigationController.delegate = self
+        
+        if let document = document {
+            if document.isReviewable {
+                showReviewScreen(withDocument: document)
             } else {
-                showCameraScreen()
+                showAnalysisScreen(withDocument: document)
             }
-            
-            rootViewController.present(tabBar, animated: true, completion: nil)
+        } else {
+            showCameraScreen()
         }
+        
+        rootViewController.present(tabBarController, animated: true, completion: nil)
+        
+    }
+    
+    fileprivate func setupTabBar() {
+        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
+        
+        self.navigationController.tabBarItem = navTabBarItem
+        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
+        
+        self.tabBarController.setViewControllers([navigationController, componentAPIOnboardingViewController], animated: true)
     }
     
     // MARK: Show screens
     fileprivate func showCameraScreen() {
         let cameraContainer = storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera") as! ComponentAPICameraViewController
         cameraContainer.delegate = self
-        navigationController?.pushViewController(cameraContainer, animated: true)
+        navigationController.pushViewController(cameraContainer, animated: true)
     }
     
     fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
@@ -65,7 +92,7 @@ final class ComponentAPICoordinator: NSObject {
         // to have results in as early as possible.
         AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         
-        navigationController?.pushViewController(reviewContainer, animated: true)
+        navigationController.pushViewController(reviewContainer, animated: true)
     }
     
     fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
@@ -80,7 +107,7 @@ final class ComponentAPICoordinator: NSObject {
             AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }
         
-        navigationController?.pushViewController(analysisContainer, animated: true)
+        navigationController.pushViewController(analysisContainer, animated: true)
     }
     
     fileprivate func showResultsTableScreen(forDocument document: GINIDocument, withResult result:GINIResult) {
@@ -88,7 +115,7 @@ final class ComponentAPICoordinator: NSObject {
         vc.result = result
         vc.document = document
         resultsScreen = vc
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     fileprivate func showNoResultsScreen() {
@@ -104,27 +131,28 @@ final class ComponentAPICoordinator: NSObject {
             genericNoResults.delegate = self
             vc = genericNoResults
         }
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     // MARK: Other
     @objc fileprivate func dismissTabBarController() {
         AnalysisManager.sharedManager.cancelAnalysis()
-        tabBarController?.dismiss(animated: true, completion: nil)
+        tabBarController.dismiss(animated: true, completion: nil)
     }
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
-        if let navBar = navigationController, navBar.viewControllers.isEmpty {
+        if navigationController.viewControllers.isEmpty {
             viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
         }
     }
     
     fileprivate func removeFromStack(_ viewController: UIViewController) {
-        if var navigationStack = navigationController?.viewControllers,
-            let index = navigationStack.index(of: viewController) {
+        var navigationStack = navigationController.viewControllers
+
+        if let index = navigationStack.index(of: viewController) {
             navigationStack.remove(at: index)
             
-            navigationController?.setViewControllers(navigationStack, animated: false)
+            navigationController.setViewControllers(navigationStack, animated: false)
         }
     }
 }
@@ -210,15 +238,15 @@ extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
     func didDisappear() {
         NotificationCenter.default.removeObserver(self)
     }
-
+    
 }
 
 // MARK: NoResultsScreenDelegate
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
     func didTapRetry() {
-        if let navVC = navigationController, navVC.viewControllers.count != 1 {
-            _ = navVC.popToRootViewController(animated: true)
+        if navigationController.viewControllers.count != 1 {
+            _ = navigationController.popToRootViewController(animated: true)
         } else {
             dismissTabBarController()
         }
@@ -242,7 +270,7 @@ extension ComponentAPICoordinator {
             removeFromStack(analysisScreen)
         }
         
-        if navigationController?.viewControllers.count == 2 {
+        if navigationController.viewControllers.count == 2 {
             if let resultsScreen = resultsScreen {
                 resultsScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
             }

@@ -31,7 +31,7 @@ final public class HelpMenuViewController: UITableViewController {
         return items
     }()
     
-    init() {
+    public init() {
         super.init(style: .plain)
     }
     
