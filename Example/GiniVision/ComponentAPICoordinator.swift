@@ -10,7 +10,7 @@ import Foundation
 import GiniVision
 import Gini_iOS_SDK
 
-final class ComponentAPICoordinator {
+final class ComponentAPICoordinator: NSObject {
     
     fileprivate var document:GiniVisionDocument?
     fileprivate var navigationController: UINavigationController?
@@ -33,6 +33,7 @@ final class ComponentAPICoordinator {
             let navBar = tabBar.viewControllers?.first as? UINavigationController {
             self.tabBarController = tabBar
             self.navigationController = navBar
+            self.navigationController?.delegate = self
             if let document = document {
                 if document.isReviewable {
                     showReviewScreen(withDocument: document)
@@ -128,6 +129,16 @@ final class ComponentAPICoordinator {
     }
 }
 
+// MARK: UINavigationControllerDelegate
+
+extension ComponentAPICoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController is ComponentAPICameraViewController {
+            AnalysisManager.sharedManager.cancelAnalysis()
+        }
+    }
+}
+
 // MARK: ComponentAPICameraScreenDelegate
 
 extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
@@ -148,16 +159,7 @@ extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
 
 extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
     
-    func didReview(documentReviewed: GiniVisionDocument) {
-        if documentReviewed.data != document?.data {
-            document = documentReviewed
-            if let documentData = document?.data {
-                AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
-                showAnalysisScreen(withDocument: documentReviewed)
-            }
-            return
-        }
-        
+    func didReview(document: GiniVisionDocument) {        
         // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
         if let result = AnalysisManager.sharedManager.result,
             let document = AnalysisManager.sharedManager.document {
@@ -167,15 +169,16 @@ extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
         
         // Restart analysis if it was canceled and is currently not running.
         if !AnalysisManager.sharedManager.isAnalyzing {
-            if let documentData = document?.data {
+            if let documentData = self.document?.data {
                 AnalysisManager.sharedManager.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
             }
         }
         
-        showAnalysisScreen(withDocument: documentReviewed)
+        showAnalysisScreen(withDocument: document)
     }
     
-    func didCancelReview() {
+    func didRotate(document: GiniVisionDocument) {
+        self.document = document
         AnalysisManager.sharedManager.cancelAnalysis()
     }
 }
