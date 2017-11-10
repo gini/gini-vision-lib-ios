@@ -134,6 +134,15 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         }
     }
     
+    // The first screen should not be the analysis screen, in that case it should finish
+    fileprivate func popToFirstScreen() {
+        if screenAPIViewController.viewControllers.count > 1 {
+            screenAPIViewController.popToRootViewController(animated: true)
+        } else {
+            self.delegate?.screenAPI(coordinator: self, didFinish: ())
+        }
+    }
+    
 }
 
 // MARK: UINavigationControllerDelegate
@@ -142,7 +151,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         let fromVC = navigationController.transitionCoordinator?.viewController(forKey: .from)
         if fromVC is NoResultViewController || fromVC is ResultTableViewController {
-            self.delegate?.screenAPI(coordinator: self, didFinish: ())
+            popToFirstScreen()
         }
     }
 }
@@ -151,7 +160,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
 
 extension ScreenAPICoordinator: NoResultsScreenDelegate {
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
-        self.screenAPIViewController.popToRootViewController(animated: true)
+        popToFirstScreen()
     }
 }
 
