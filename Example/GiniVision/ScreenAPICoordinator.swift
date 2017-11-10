@@ -41,7 +41,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     var errorMessage: String? {
         didSet {
             if let errorMessage = errorMessage {
-                show(errorMessage: errorMessage)
+                DispatchQueue.main.async {[weak self] in
+                    guard let `self` = self else { return }
+                    self.show(errorMessage: errorMessage)
+                }
             }
         }
     }
@@ -62,7 +65,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         cancelAnalsyis()
         visionDocument = document
         
-        print("Analysing document with size \(Double(document.data.count) / 1024.0)")
         documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: { (result, document, error) in
             if let _ = error {
                 self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
@@ -114,7 +116,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         customResultsScreen.document = document
         documentService.sendFeedback(forDocument: document!)
         DispatchQueue.main.async { [weak self] in
-            print("Presenting results screen...")
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
             self?.analysisDelegate = nil
         }
@@ -122,7 +123,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
     fileprivate func showNoResultsScreen() {
         DispatchQueue.main.async { [weak self] in
-            print("Presenting no results screen...")
             guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
             let shown = analysisDelegate.tryDisplayNoResultsScreen()
             if !shown {
@@ -161,15 +161,11 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 extension ScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
-        print("Screen API received image data")
-        
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(visionDocument: document)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
-        
         // Analyze reviewed document when changes were made by the user during review or there is no result and is not analysing.
         if changes || (!documentService.isAnalyzing && result == nil) {
             analyzeDocument(visionDocument: document)
@@ -178,20 +174,16 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCancelCapturing() {
-        print("Screen API canceled capturing")
         delegate?.screenAPI(coordinator: self, didFinish: ())
     }
     
     // Optional delegate methods
     func didCancelReview() {
-        print("Screen API canceled review")
-        
         // Cancel analysis process to avoid unnecessary network calls.
         cancelAnalsyis()
     }
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
-        print("Screen API started analysis screen")
         self.analysisDelegate = analysisDelegate
         
         // if there is already results, present them
@@ -209,8 +201,6 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCancelAnalysis() {
-        print("Screen API canceled analysis")
-        
         analysisDelegate = nil
         
         // Cancel analysis process to avoid unnecessary network calls.

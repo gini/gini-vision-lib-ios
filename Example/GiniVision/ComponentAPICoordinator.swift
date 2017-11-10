@@ -193,6 +193,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+        newDocumentViewController.setNavigationBarHidden(viewController is ComponentAPICameraViewController, animated: true)
+        
         if fromViewController is ComponentAPIReviewViewController && viewController is ComponentAPICameraViewController {
             documentService.cancelAnalysis()
         }

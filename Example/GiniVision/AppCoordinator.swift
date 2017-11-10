@@ -105,9 +105,8 @@ final class AppCoordinator: Coordinator {
         alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { [weak self] _ in
             self?.showComponentAPI(withImportedDocument: document)
         })
-        
+            
         rootViewController.present(alertViewController, animated: true, completion: nil)
-        
     }
     
     fileprivate func showExternalDocumentNotValidDialog() {

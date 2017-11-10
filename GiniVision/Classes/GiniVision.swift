@@ -8,13 +8,6 @@
 
 import UIKit
 
-/**
-    Integration options for Gini Vision library.
- */
-public enum GiniVisionAPIType {
-    case screen
-    case component
-}
 
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.

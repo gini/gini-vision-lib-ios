@@ -109,7 +109,7 @@ final class DocumentService {
          * ANALYZE DOCUMENT WITH THE GINI SDK FOR IOS *
          **********************************************/
         
-        print("Started analysis process")
+        print("🔎 Started document analysis with size \(Double(data.count) / 1024.0)")
         
         // Get current Gini SDK instance to upload image and process exctraction.
         let sdk = giniSDK
@@ -153,7 +153,7 @@ final class DocumentService {
             if let document = task?.result as? GINIDocument {
                 documentId = document.documentId
                 self.document = document
-                print("Created document with id: \(documentId!)")
+                print("📄 Created document with id: \(documentId!)")
             } else {
                 print("Error creating document")
             }
@@ -163,11 +163,11 @@ final class DocumentService {
             // 4. Handle results
         }).continue({ (task: BFTask?) -> AnyObject! in
             if token.cancelled || (task?.isCancelled == true) {
-                print("Canceled analysis process")
+                print("❌ Canceled analysis process")
                 return BFTask.cancelled()
             }
             
-            print("Finished analysis process")
+            print("✅ Finished analysis process")
             
             if let error = task?.error {
                 self.error = error
@@ -262,7 +262,7 @@ final class DocumentService {
             }
             
             let resultString = (task?.result as? GINIResult)?.description ?? "n/a"
-            print("Updated extractions:\n\(resultString)")
+            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n\(resultString)\n--------------------------\n")
             return nil
         })
     }
