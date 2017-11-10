@@ -15,6 +15,7 @@ final class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     fileprivate let window: UIWindow
     fileprivate let documentService: DocumentService
+    fileprivate var screenAPIViewController: UIViewController?
 
     var rootViewController: UIViewController {
         return selectAPIViewController
@@ -24,7 +25,6 @@ final class AppCoordinator: Coordinator {
         selectAPIViewController.delegate = self
         return selectAPIViewController
     }()
-    fileprivate var screenAPIViewController: UIViewController?
 
     
     lazy var giniConfiguration: GiniConfiguration = {
@@ -76,10 +76,6 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
-        // When a document is imported with "Open with", a dialog which allows to choose between both APIs
-        // is shown in the main screen
-        popToRootViewControllerIfNeeded()
-        
         let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
             self?.showScreenAPI(withImportedDocument: document)
@@ -97,6 +93,8 @@ final class AppCoordinator: Coordinator {
         alertViewController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         })
+        
+        rootViewController.present(alertViewController, animated: true, completion: nil)
     }
     
     func processExternalDocument(withUrl url: URL, sourceApplication: String?) {
@@ -107,6 +105,10 @@ final class AppCoordinator: Coordinator {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
         documentBuilder.importMethod = .openWith
         let document = documentBuilder.build()
+        
+        // When a document is imported with "Open with", a dialog allowing to choose between both APIs
+        // is shown in the main screen. Therefore it needs to go to the main screen if it is not there yet.
+        popToRootViewControllerIfNeeded()
         
         // 3. Validate document
         do {
