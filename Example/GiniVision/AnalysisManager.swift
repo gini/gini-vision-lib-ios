@@ -9,6 +9,7 @@
 
 import UIKit
 import Gini_iOS_SDK
+import GiniVision
 
 let GINIAnalysisManagerDidReceiveResultNotification = "GINIAnalysisManagerDidReceiveResultNotification"
 let GINIAnalysisManagerDidReceiveErrorNotification  = "GINIAnalysisManagerDidReceiveErrorNotification"
@@ -23,9 +24,10 @@ typealias GINIResult = [String: GINIExtraction]
 class AnalysisManager {
     
     /**
-     Singleton method returning an instance of the analysis manager.
+     GiniSDK property to have global access to the Gini API.
      */
-    static let sharedManager = AnalysisManager()
+    
+    var giniSDK: GiniSDK?
     
     /**
      Most current result dictionary from analysis.
@@ -60,6 +62,29 @@ class AnalysisManager {
         isAnalyzing = false
     }
     
+    init() {
+        // Populate setting with according values
+        populateSettingsPage()
+        
+        // Prefer client credentials from settings before config file
+        let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
+        let customClientSecret = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientSecretKey) ?? ""
+        let clientId = customClientId != "" ? customClientId : kGiniClientId
+        let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
+        
+        // Set up GiniSDK with your credentials.
+        let builder = GINISDKBuilder.anonymousUser(withClientID: clientId, clientSecret: clientSecret, userEmailDomain: "example.com")
+        self.giniSDK = builder?.build()
+        
+        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
+    }
+    
+    func populateSettingsPage() {
+        UserDefaults.standard.setValue(GiniVision.versionString, forKey: kSettingsGiniVisionVersionKey)
+        UserDefaults.standard.setValue(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, forKey: kSettingsExampleAppVersionKey)
+        UserDefaults.standard.synchronize()
+    }
+    
     /**
      Analyzes the given image data returning possible extraction values.
      
@@ -86,7 +111,7 @@ class AnalysisManager {
         print("Started analysis process")
         
         // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = (UIApplication.shared.delegate as! AppDelegate).giniSDK
+        let sdk = giniSDK
         
         // Create a document task manager to handle document tasks on the Gini API.
         let manager = sdk?.documentTaskManager
@@ -111,14 +136,14 @@ class AnalysisManager {
             }
             return task?.result
             
-        // 2. Create a document from the given image data
+            // 2. Create a document from the given image data
         }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             if token.cancelled {
                 return BFTask.cancelled()
             }
             return manager?.createDocument(withFilename: fileName, from: data, docType: "")
             
-        // 3. Get extractions from the document
+            // 3. Get extractions from the document
         }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
             if token.cancelled {
                 return BFTask.cancelled()
@@ -134,7 +159,7 @@ class AnalysisManager {
             
             return self.document?.extractions
             
-        // 4. Handle results
+            // 4. Handle results
         }).continue({ (task: BFTask?) -> AnyObject! in
             if token.cancelled || (task?.isCancelled == true) {
                 print("Canceled analysis process")
@@ -152,7 +177,7 @@ class AnalysisManager {
                 notificationName = GINIAnalysisManagerDidReceiveErrorNotification
                 completion?({ _ in throw error })
             } else if let document = self.document,
-                      let result = task?.result as? GINIResult {
+                let result = task?.result as? GINIResult {
                 self.result = result
                 self.document = document
                 userInfo = [
@@ -178,13 +203,21 @@ class AnalysisManager {
             
             return nil
             
-        // 5. Finish process
+            // 5. Finish process
         }).continue({ (_: BFTask?) -> AnyObject! in
             self.isAnalyzing = false
             return nil
         })
     }
     
+    /*
+     If a valid document is set, send feedback on it.
+     This is just to show case how to give feedback using the Gini SDK for iOS.
+     In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
+     
+     - parameter document: Gini document.
+
+     */
     func sendFeedback(forDocument document: GINIDocument) {
         
         /*******************************************
@@ -192,7 +225,7 @@ class AnalysisManager {
          *******************************************/
         
         // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = (UIApplication.shared.delegate as! AppDelegate).giniSDK
+        let sdk = giniSDK
         
         // 1. Get session
         _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in

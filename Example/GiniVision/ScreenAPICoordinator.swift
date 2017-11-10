@@ -24,8 +24,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
+    let documentService: AnalysisManager
     var analysisDelegate: AnalysisDelegate?
-    var documentData: Data?
+    var visionDocument: GiniVisionDocument?
+    var visionConfiguration: GiniConfiguration
     var result: GINIResult? {
         didSet {
             if let result = result,
@@ -44,20 +46,24 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         }
     }
     
+    init(configuration: GiniConfiguration, importedDocument document: GiniVisionDocument?, documentService: AnalysisManager) {
+        self.visionConfiguration = configuration
+        self.visionDocument = document
+        self.documentService = documentService
+    }
     
-    init(configuration: GiniConfiguration, importedDocument document: GiniVisionDocument?) {
-        super.init()
-        screenAPIViewController = GiniVision.viewController(withDelegate: self, withConfiguration: configuration, importedDocument: document) as! UINavigationController
+    func start() {
+        screenAPIViewController = GiniVision.viewController(withDelegate: self, withConfiguration: visionConfiguration, importedDocument: visionDocument) as! UINavigationController
         screenAPIViewController.delegate = self
     }
     
     // MARK: Handle analysis of document
-    func analyzeDocument(withData data: Data) {
+    func analyzeDocument(visionDocument document: GiniVisionDocument) {
         cancelAnalsyis()
-        documentData = data
+        visionDocument = document
         
-        print("Analysing document with size \(Double(data.count) / 1024.0)")
-        AnalysisManager.sharedManager.analyzeDocument(withData: data, cancelationToken: CancelationToken(), completion: { inner in
+        print("Analysing document with size \(Double(document.data.count) / 1024.0)")
+        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: { inner in
             do {
                 guard let response = try inner?(),
                     let result = response.0,
@@ -73,22 +79,22 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     func cancelAnalsyis() {
-        AnalysisManager.sharedManager.cancelAnalysis()
+        documentService.cancelAnalysis()
         result = nil
         document = nil
         errorMessage = nil
-        documentData = nil
+        visionDocument = nil
     }
     
     // MARK: Handle results from analysis process
     func show(errorMessage message: String) {
-        guard let imageData = self.documentData else {
+        guard let document = self.visionDocument else {
             return
         }
         
         // Display an error with a custom message and custom action on the analysis screen
         analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
-            self.analyzeDocument(withData: imageData)
+            self.analyzeDocument(visionDocument: document)
         })
     }
     
@@ -107,6 +113,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         let customResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
         customResultsScreen.result = result
         customResultsScreen.document = document
+        documentService.sendFeedback(forDocument: document!)
         DispatchQueue.main.async { [weak self] in
             print("Presenting results screen...")
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
@@ -158,15 +165,15 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
         print("Screen API received image data")
         
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        analyzeDocument(withData: document.data)
+        analyzeDocument(visionDocument: document)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         print("Screen API received updated image data with \(changes ? "changes" : "no changes")")
         
         // Analyze reviewed document when changes were made by the user during review or there is no result and is not analysing.
-        if changes || (!AnalysisManager.sharedManager.isAnalyzing && result == nil) {
-            analyzeDocument(withData: document.data)
+        if changes || (!documentService.isAnalyzing && result == nil) {
+            analyzeDocument(visionDocument: document)
             return
         }
     }

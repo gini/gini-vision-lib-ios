@@ -14,18 +14,18 @@ final class AppCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
-    
-    var screenAPIViewController: UIViewController?
-    
+    let documentService:AnalysisManager
+
     var rootViewController: UIViewController {
         return selectAPIViewController
     }
-    
     lazy var selectAPIViewController: SelectAPIViewController = {
         let selectAPIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectAPIViewController") as! SelectAPIViewController
         selectAPIViewController.delegate = self
         return selectAPIViewController
     }()
+    var screenAPIViewController: UIViewController?
+
     
     lazy var giniConfiguration: GiniConfiguration = {
         let giniConfiguration = GiniConfiguration()
@@ -44,6 +44,7 @@ final class AppCoordinator: Coordinator {
     }()
     
     init(window: UIWindow) {
+        self.documentService = AnalysisManager()
         self.window = window
     }
     
@@ -57,15 +58,16 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showScreenAPI(withImportedDocument document:GiniVisionDocument? = nil) {
-        let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration, importedDocument: document)
+        let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration, importedDocument: document, documentService: documentService)
         screenAPICoordinator.delegate = self
+        screenAPICoordinator.start()
         add(childCoordinator: screenAPICoordinator)
 
         rootViewController.present(screenAPICoordinator.rootViewController, animated: true, completion: nil)
     }
     
     fileprivate func showComponentAPI(withImportedDocument document:GiniVisionDocument? = nil) {
-        let componentAPICoordinator = ComponentAPICoordinator(document: document, configuration: giniConfiguration)
+        let componentAPICoordinator = ComponentAPICoordinator(document: document, configuration: giniConfiguration, documentService: documentService)
         componentAPICoordinator.delegate = self
         componentAPICoordinator.start()
         add(childCoordinator: componentAPICoordinator)
