@@ -14,7 +14,7 @@ final class AppCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
     let window: UIWindow
-    let documentService:AnalysisManager
+    let documentService: DocumentService
 
     var rootViewController: UIViewController {
         return selectAPIViewController
@@ -44,7 +44,7 @@ final class AppCoordinator: Coordinator {
     }()
     
     init(window: UIWindow) {
-        self.documentService = AnalysisManager()
+        self.documentService = DocumentService()
         self.window = window
     }
     

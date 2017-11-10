@@ -21,7 +21,7 @@ typealias GINIResult = [String: GINIExtraction]
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
  */
-class AnalysisManager {
+final class DocumentService {
     
     /**
      GiniSDK property to have global access to the Gini API.

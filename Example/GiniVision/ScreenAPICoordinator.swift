@@ -24,7 +24,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
-    let documentService: AnalysisManager
+    let documentService: DocumentService
     var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
@@ -46,7 +46,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         }
     }
     
-    init(configuration: GiniConfiguration, importedDocument document: GiniVisionDocument?, documentService: AnalysisManager) {
+    init(configuration: GiniConfiguration, importedDocument document: GiniVisionDocument?, documentService: DocumentService) {
         self.visionConfiguration = configuration
         self.visionDocument = document
         self.documentService = documentService

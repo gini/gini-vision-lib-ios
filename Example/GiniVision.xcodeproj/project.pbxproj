@@ -24,7 +24,7 @@
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AB97AFF1D646BA40024C266 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB97AFE1D646BA40024C266 /* Constants.m */; };
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
-		0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* AnalysisManager.swift */; };
+		0AEACE0A1D6385F700052120 /* DocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* DocumentService.swift */; };
 		0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */; };
 		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
 		1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */; };
@@ -95,7 +95,7 @@
 		0AB97AFD1D646BA40024C266 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		0AB97AFE1D646BA40024C266 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
-		0AEACE091D6385F700052120 /* AnalysisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisManager.swift; sourceTree = "<group>"; };
+		0AEACE091D6385F700052120 /* DocumentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentService.swift; sourceTree = "<group>"; };
 		0AEACE0B1D63867F00052120 /* Dev-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dev-Config.xcconfig"; sourceTree = "<group>"; };
 		0AEACE0C1D63867F00052120 /* Release-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Config.xcconfig"; sourceTree = "<group>"; };
 		0AEACE0F1D6386AA00052120 /* In-House-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "In-House-Config.xcconfig"; sourceTree = "<group>"; };
@@ -238,7 +238,6 @@
 			children = (
 				0AB97AFD1D646BA40024C266 /* Constants.h */,
 				0AB97AFE1D646BA40024C266 /* Constants.m */,
-				0AEACE091D6385F700052120 /* AnalysisManager.swift */,
 				1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
@@ -247,16 +246,17 @@
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
 				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
+				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
+				0AEACE091D6385F700052120 /* DocumentService.swift */,
 				1FE3AC841F729205004D75E0 /* Extensions.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
+				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
 				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
-				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
 			);
 			name = "Example for GiniVision";
 			path = GiniVision;
@@ -664,7 +664,7 @@
 				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
 				1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */,
 				1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */,
-				0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */,
+				0AEACE0A1D6385F700052120 /* DocumentService.swift in Sources */,
 				0AB97AFF1D646BA40024C266 /* Constants.m in Sources */,
 				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
 				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,

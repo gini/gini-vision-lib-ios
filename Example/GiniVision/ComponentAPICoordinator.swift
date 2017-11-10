@@ -17,7 +17,7 @@ protocol ComponentAPICoordinatorDelegate: class {
 final class ComponentAPICoordinator: NSObject, Coordinator {
     
     weak var delegate: ComponentAPICoordinatorDelegate?
-    fileprivate let documentService: AnalysisManager
+    fileprivate let documentService: DocumentService
     fileprivate var document:GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate var storyboard:UIStoryboard
@@ -51,7 +51,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
     fileprivate var resultsScreen: ResultTableViewController?
     
-    init(document:GiniVisionDocument?, configuration: GiniConfiguration, documentService: AnalysisManager){
+    init(document:GiniVisionDocument?, configuration: GiniConfiguration, documentService: DocumentService){
         self.document = document
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.documentService = documentService
