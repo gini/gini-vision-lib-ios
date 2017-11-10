@@ -52,6 +52,28 @@ final class AppCoordinator: Coordinator {
         self.showSelectAPIScreen()
     }
     
+    func processExternalDocument(withUrl url: URL, sourceApplication: String?) {
+        // 1. Read data imported from url
+        let data = try? Data(contentsOf: url)
+        
+        // 2. Build the document
+        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
+        documentBuilder.importMethod = .openWith
+        let document = documentBuilder.build()
+        
+        // When a document is imported with "Open with", a dialog allowing to choose between both APIs
+        // is shown in the main screen. Therefore it needs to go to the main screen if it is not there yet.
+        popToRootViewControllerIfNeeded()
+        
+        // 3. Validate document
+        do {
+            try document?.validate()
+            showOpenWithSwitchDialog(forDocument: document!)
+        } catch {
+            showExternalDocumentNotValidDialog()
+        }
+    }
+    
     fileprivate func showSelectAPIScreen() {
         self.window.rootViewController = rootViewController
         self.window.makeKeyAndVisible()
@@ -95,28 +117,6 @@ final class AppCoordinator: Coordinator {
         })
         
         rootViewController.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    func processExternalDocument(withUrl url: URL, sourceApplication: String?) {
-        // 1. Read data imported from url
-        let data = try? Data(contentsOf: url)
-        
-        // 2. Build the document
-        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
-        documentBuilder.importMethod = .openWith
-        let document = documentBuilder.build()
-        
-        // When a document is imported with "Open with", a dialog allowing to choose between both APIs
-        // is shown in the main screen. Therefore it needs to go to the main screen if it is not there yet.
-        popToRootViewControllerIfNeeded()
-        
-        // 3. Validate document
-        do {
-            try document?.validate()
-            showOpenWithSwitchDialog(forDocument: document!)
-        } catch {
-            showExternalDocumentNotValidDialog()
-        }
     }
     
     fileprivate func popToRootViewControllerIfNeeded() {
