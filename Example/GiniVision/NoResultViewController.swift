@@ -9,7 +9,7 @@
 import UIKit
 
 protocol NoResultsScreenDelegate:class {
-    func didTapRetry()
+    func noResults(viewController: NoResultViewController, didTapRetry:())
 }
 
 class NoResultViewController: UIViewController {
@@ -24,6 +24,6 @@ class NoResultViewController: UIViewController {
     }
     
     @IBAction func retry(_ sender: AnyObject) {
-        delegate?.didTapRetry()
+        delegate?.noResults(viewController: self, didTapRetry: ())
     }
 }

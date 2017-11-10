@@ -10,9 +10,9 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIReviewScreenDelegate:class {
-    func didReview(document:GiniVisionDocument)
-    func didRotate(document:GiniVisionDocument)
+protocol ComponentAPIReviewViewControllerDelegate:class {
+    func componentAPIReview(viewController: ComponentAPIReviewViewController, didReviewDocument document:GiniVisionDocument)
+    func componentAPIReview(viewController: ComponentAPIReviewViewController, didRotate document:GiniVisionDocument)
 }
 
 /**
@@ -23,7 +23,7 @@ class ComponentAPIReviewViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    weak var delegate: ComponentAPIReviewScreenDelegate?
+    weak var delegate: ComponentAPIReviewViewControllerDelegate?
     var document: GiniVisionDocument!
     
     // MARK: View life cycle
@@ -36,10 +36,11 @@ class ComponentAPIReviewViewController: UIViewController {
         
         // 1. Create the review view controller
         contentController = ReviewViewController(document, successBlock:
-            { [unowned self] document in
+            { [weak self] document in
+                guard let `self` = self else { return }
                 // Update current image data when image is rotated by user
                 self.document = document
-                self.delegate?.didRotate(document: document)
+                self.delegate?.componentAPIReview(viewController: self, didRotate: document)
 
             }, failureBlock: { error in
                 print("Component API review view controller received error:\n\(error)")
@@ -60,7 +61,7 @@ class ComponentAPIReviewViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func showAnalysis(_ sender: AnyObject) {
-        delegate?.didReview(document: document)
+        delegate?.componentAPIReview(viewController: self, didReviewDocument: document)
     }
 }
 

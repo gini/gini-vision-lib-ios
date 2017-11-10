@@ -11,15 +11,20 @@ import GiniVision
 import Gini_iOS_SDK
 
 protocol ComponentAPICoordinatorDelegate: class {
-    func didFinish()
+    func componentAPI(coordinator: ComponentAPICoordinator, didFinish:())
 }
 
-final class ComponentAPICoordinator: NSObject {
+final class ComponentAPICoordinator: NSObject, Coordinator {
     
     weak var delegate: ComponentAPICoordinatorDelegate?
     fileprivate var document:GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate var storyboard:UIStoryboard
+    var rootViewController: UIViewController {
+        return self.componentAPITabBarController
+    }
+    
+    var childCoordinators: [Coordinator] = []
     
     fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
     fileprivate lazy var newDocumentViewController: UINavigationController = {
@@ -45,17 +50,13 @@ final class ComponentAPICoordinator: NSObject {
     fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
     fileprivate var resultsScreen: ResultTableViewController?
     
-    init(document:GiniVisionDocument?){
+    init(document:GiniVisionDocument?, configuration: GiniConfiguration){
         self.document = document
         self.storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.debugModeOn = true
-        giniConfiguration.fileImportSupportedTypes = .pdf_and_images
-        GiniVision.setConfiguration(giniConfiguration)
+        GiniVision.setConfiguration(configuration)
     }
     
-    func start(from rootViewController:UIViewController) {
+    func start() {
         self.setupTabBar()
         self.newDocumentViewController.delegate = self
         
@@ -68,9 +69,6 @@ final class ComponentAPICoordinator: NSObject {
         } else {
             showCameraScreen()
         }
-        
-        rootViewController.present(componentAPITabBarController, animated: true, completion: nil)
-        
     }
     
     // MARK: Show screens
@@ -144,7 +142,7 @@ final class ComponentAPICoordinator: NSObject {
     @objc fileprivate func dismissTabBarController() {
         AnalysisManager.sharedManager.cancelAnalysis()
         componentAPITabBarController.dismiss(animated: true, completion: nil)
-        delegate?.didFinish()
+        delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
@@ -162,6 +160,15 @@ final class ComponentAPICoordinator: NSObject {
             newDocumentViewController.setViewControllers(navigationStack, animated: false)
         }
     }
+    
+    func didTapRetry() {
+        if (newDocumentViewController.viewControllers.flatMap { $0 as? ComponentAPICameraViewController}).first == nil {
+            dismissTabBarController()
+            return
+        }
+        _ = newDocumentViewController.popToRootViewController(animated: true)
+        
+    }
 }
 
 // MARK: UINavigationControllerDelegate
@@ -177,8 +184,8 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 
 // MARK: ComponentAPICameraScreenDelegate
 
-extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
-    func didPick(document: GiniVisionDocument) {
+extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
+    func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument) {
         if document.isReviewable {
             showReviewScreen(withDocument: document)
         } else {
@@ -186,16 +193,15 @@ extension ComponentAPICoordinator: ComponentAPICameraScreenDelegate {
         }
     }
     
-    func didTapClose() {
+    func componentAPICamera(viewController: UIViewController, didTapClose: ()) {
         dismissTabBarController()
     }
 }
 
 // MARK: ComponentAPIReviewScreenDelegate
 
-extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
-    
-    func didReview(document: GiniVisionDocument) {
+extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
+    func componentAPIReview(viewController: ComponentAPIReviewViewController, didReviewDocument document: GiniVisionDocument) {
         // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
         if let result = AnalysisManager.sharedManager.result,
             let document = AnalysisManager.sharedManager.document {
@@ -213,7 +219,7 @@ extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
         showAnalysisScreen(withDocument: document)
     }
     
-    func didRotate(document: GiniVisionDocument) {
+    func componentAPIReview(viewController: ComponentAPIReviewViewController, didRotate document: GiniVisionDocument) {
         self.document = document
         AnalysisManager.sharedManager.cancelAnalysis()
     }
@@ -221,18 +227,19 @@ extension ComponentAPICoordinator: ComponentAPIReviewScreenDelegate {
 
 // MARK: ComponentAPIAnalysisScreenDelegate
 
-extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
-    func didTapErrorButton() {
+extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didCancelAnalysis: ()) {
+        AnalysisManager.sharedManager.cancelAnalysis()
+
+    }
+    
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
         if let document = document {
             AnalysisManager.sharedManager.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
         }
     }
     
-    func didCancelAnalysis() {
-        AnalysisManager.sharedManager.cancelAnalysis()
-    }
-    
-    func didAppear() {
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didAppear: ()) {
         // Subscribe to analysis events which will be fired when the analysis process ends.
         // Either with a valid result or an error.
         NotificationCenter.default.addObserver(self, selector: #selector(handleAnalysis(errorNotification:)), name: NSNotification.Name(rawValue: GINIAnalysisManagerDidReceiveErrorNotification), object: nil)
@@ -243,21 +250,16 @@ extension ComponentAPICoordinator: ComponentAPIAnalysisScreenDelegate {
         handleExistingResults()
     }
     
-    func didDisappear() {
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didDisappear: ()) {
         NotificationCenter.default.removeObserver(self)
     }
-    
 }
 
 // MARK: NoResultsScreenDelegate
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
-    func didTapRetry() {
-        if newDocumentViewController.viewControllers.count != 1 {
-            _ = newDocumentViewController.popToRootViewController(animated: true)
-        } else {
-            dismissTabBarController()
-        }
+    func noResults(viewController: NoResultViewController, didTapRetry: ()) {
+        self.didTapRetry()
     }
 }
 

@@ -10,11 +10,11 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIAnalysisScreenDelegate:class {
-    func didCancelAnalysis()
-    func didTapErrorButton()
-    func didAppear()
-    func didDisappear()
+protocol ComponentAPIAnalysisViewControllerDelegate:class {
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didCancelAnalysis: ())
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ())
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didAppear: ())
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didDisappear: ())
 }
 
 /**
@@ -27,7 +27,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
      The image data of the captured document to be reviewed.
      */
     var document: GiniVisionDocument?
-    weak var delegate: ComponentAPIAnalysisScreenDelegate?
+    weak var delegate: ComponentAPIAnalysisViewControllerDelegate?
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
@@ -58,8 +58,8 @@ class ComponentAPIAnalysisViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.didAppear()
-        
+        delegate?.componentAPIAnalysis(viewController: self, didAppear: ())
+
         (contentController as? AnalysisViewController)?.showAnimation()
     }
     
@@ -67,10 +67,9 @@ class ComponentAPIAnalysisViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         if isMovingFromParentViewController || isBeingDismissed {
-            delegate?.didCancelAnalysis()
+            delegate?.componentAPIAnalysis(viewController: self, didCancelAnalysis: ())
         }
-        
-        delegate?.didDisappear()
+        delegate?.componentAPIAnalysis(viewController: self, didDisappear: ())
     }
     
     // Displays the content controller inside the container view
@@ -85,7 +84,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     @IBAction func errorButtonTapped(_ sender: AnyObject) {
         (contentController as? AnalysisViewController)?.showAnimation()
         hideErrorButton()
-        delegate?.didTapErrorButton()
+        delegate?.componentAPIAnalysis(viewController: self, didTapErrorButton: ())
     }
     
     // MARK: Error button handling

@@ -9,9 +9,9 @@
 import UIKit
 import GiniVision
 
-protocol ComponentAPICameraScreenDelegate:class {
-    func didPick(document:GiniVisionDocument)
-    func didTapClose()
+protocol ComponentAPICameraViewControllerDelegate:class {
+    func componentAPICamera(viewController: UIViewController, didPickDocument document:GiniVisionDocument)
+    func componentAPICamera(viewController: UIViewController, didTapClose: ())
 }
 
 /**
@@ -21,7 +21,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    weak var delegate:ComponentAPICameraScreenDelegate?
+    weak var delegate:ComponentAPICameraViewControllerDelegate?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -30,8 +30,9 @@ class ComponentAPICameraViewController: UIViewController {
         // 2. Create the camera view controller
         contentController = CameraViewController(successBlock:
             { [weak self] document in
+                guard let `self` = self else { return }
                 DispatchQueue.main.async {
-                    self?.delegate?.didPick(document: document)
+                    self.delegate?.componentAPICamera(viewController: self, didPickDocument: document)
                 }
         }, failureBlock: { error in
             print("Component API camera view controller received error:\n\(error)")
@@ -63,7 +64,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func back(_ sender: AnyObject) {
-        delegate?.didTapClose()
+        delegate?.componentAPICamera(viewController: self, didTapClose: ())
     }
 }
 
