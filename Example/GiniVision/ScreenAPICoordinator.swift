@@ -63,17 +63,16 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         visionDocument = document
         
         print("Analysing document with size \(Double(document.data.count) / 1024.0)")
-        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: { inner in
-            do {
-                guard let response = try inner?(),
-                    let result = response.0,
-                    let document = response.1 else {
-                        return self.errorMessage = "Ein unbekannter Fehler ist aufgetreten. Wiederholen"
-                }
+        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: { (result, document, error) in
+            if let _ = error {
+                self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
+                return
+            }
+            
+            if let result = result,
+                let document = document {
                 self.document = document
                 self.result = result
-            } catch _ {
-                self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
             }
         })
     }

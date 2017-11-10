@@ -45,6 +45,20 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
+    fileprivate lazy var didDocumentAnalysisComplete: DocumentAnalysisCompletion = {(result, document, error) in
+        DispatchQueue.main.async {
+            if let error = error {
+                self.handleAnalysis(error: error)
+                return
+            }
+            
+            if let result = result,
+                let document = document {
+                self.handleAnalysis(result, fromDocument: document)
+            }
+        }
+        return
+    }
     
     fileprivate var cameraScreen: ComponentAPICameraViewController?
     fileprivate var reviewScreen: ComponentAPIReviewViewController?
@@ -88,7 +102,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
-        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
+        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
         
         newDocumentViewController.pushViewController(reviewScreen!, animated: true)
     }
@@ -101,7 +115,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         // In case that the view is loaded but is not analysing (i.e: user imported a PDF with the Open With feature), it should start.
         if !documentService.isAnalyzing {
-            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
+            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
         }
         
         newDocumentViewController.pushViewController(analysisScreen!, animated: true)
@@ -178,8 +192,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from)
-        if let _ = fromViewController as? ComponentAPIReviewViewController, viewController is ComponentAPICameraViewController {
+        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
+        if fromViewController is ComponentAPIReviewViewController && viewController is ComponentAPICameraViewController {
+            documentService.cancelAnalysis()
+        }
+        
+        if fromViewController is ComponentAPIAnalysisViewController && viewController is ComponentAPIReviewViewController {
             documentService.cancelAnalysis()
         }
     }
@@ -215,7 +233,7 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
         // Restart analysis if it was canceled and is currently not running.
         if !documentService.isAnalyzing {
             if let documentData = self.document?.data {
-                documentService.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: nil)
+                documentService.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
             }
         }
         
@@ -230,31 +248,11 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
 
 // MARK: ComponentAPIAnalysisScreenDelegate
 
-extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didCancelAnalysis: ()) {
-        documentService.cancelAnalysis()
-
-    }
-    
+extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {    
     func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
         if let document = document {
-            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: nil)
+            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
         }
-    }
-    
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didAppear: ()) {
-        // Subscribe to analysis events which will be fired when the analysis process ends.
-        // Either with a valid result or an error.
-        NotificationCenter.default.addObserver(self, selector: #selector(handleAnalysis(errorNotification:)), name: NSNotification.Name(rawValue: GINIAnalysisManagerDidReceiveErrorNotification), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleAnalysis(resultNotification:)), name: NSNotification.Name(rawValue: GINIAnalysisManagerDidReceiveResultNotification), object: nil)
-        
-        // Because results may come in during view controller transition,
-        // check for already existent results in shared analysis manager.
-        handleExistingResults()
-    }
-    
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didDisappear: ()) {
-        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -301,6 +299,10 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func handleAnalysis(errorNotification notification: Notification) {
         let error = notification.userInfo?[GINIAnalysisManagerErrorUserInfoKey] as? NSError
+        analysisScreen?.displayError(error)
+    }
+    
+    fileprivate func handleAnalysis(error: Error) {
         analysisScreen?.displayError(error)
     }
     

@@ -18,6 +18,7 @@ let GINIAnalysisManagerErrorUserInfoKey             = "GINIAnalysisManagerErrorU
 let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocumentUserInfoKey"
 
 typealias GINIResult = [String: GINIExtraction]
+typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> ())
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
  */
@@ -96,7 +97,7 @@ final class DocumentService {
      */
     func analyzeDocument(withData data: Data,
                          cancelationToken token: CancelationToken,
-                         completion: ((_ inner: (() throws -> (GINIResult?, GINIDocument?))?) -> ())?) {
+                         completion: DocumentAnalysisCompletion?) {
         
         // Cancel any running analysis process and set cancelation token.
         cancelAnalysis()
@@ -168,37 +169,22 @@ final class DocumentService {
             
             print("Finished analysis process")
             
-            let userInfo: [AnyHashable: Any]
-            let notificationName: String
-            
             if let error = task?.error {
                 self.error = error
-                userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
-                notificationName = GINIAnalysisManagerDidReceiveErrorNotification
-                completion?({ _ in throw error })
+                completion?(nil, nil, error)
             } else if let document = self.document,
                 let result = task?.result as? GINIResult {
                 self.result = result
                 self.document = document
-                userInfo = [
-                    GINIAnalysisManagerResultDictionaryUserInfoKey: result,
-                    GINIAnalysisManagerDocumentUserInfoKey: document
-                ]
-                notificationName = GINIAnalysisManagerDidReceiveResultNotification
-                completion?({ _ in return (result, document) })
+                completion?(result, document, nil)
             } else {
                 enum AnalysisError: Error {
                     case unknown
                 }
                 let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
                 self.error = error
-                userInfo = [ GINIAnalysisManagerErrorUserInfoKey: error ]
-                notificationName = GINIAnalysisManagerDidReceiveErrorNotification
-                completion?({ _ in throw AnalysisError.unknown })
+                completion?(nil, nil, AnalysisError.unknown)
                 return nil
-            }
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName), object: self, userInfo: userInfo)
             }
             
             return nil
@@ -216,7 +202,7 @@ final class DocumentService {
      In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
      
      - parameter document: Gini document.
-
+     
      */
     func sendFeedback(forDocument document: GINIDocument) {
         

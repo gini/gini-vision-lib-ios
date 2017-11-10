@@ -11,10 +11,7 @@ import GiniVision
 import Gini_iOS_SDK
 
 protocol ComponentAPIAnalysisViewControllerDelegate:class {
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didCancelAnalysis: ())
     func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ())
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didAppear: ())
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didDisappear: ())
 }
 
 /**
@@ -58,18 +55,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.componentAPIAnalysis(viewController: self, didAppear: ())
-
         (contentController as? AnalysisViewController)?.showAnimation()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if isMovingFromParentViewController || isBeingDismissed {
-            delegate?.componentAPIAnalysis(viewController: self, didCancelAnalysis: ())
-        }
-        delegate?.componentAPIAnalysis(viewController: self, didDisappear: ())
     }
     
     // Displays the content controller inside the container view
