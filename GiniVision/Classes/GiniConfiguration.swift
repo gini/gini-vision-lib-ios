@@ -29,6 +29,10 @@ import UIKit
         return sharedConfiguration.debugModeOn
     }
     
+    /**
+     Supported document types by Gini Vision library.
+    */
+    
     public enum GiniVisionImportFileTypes {
         case none
         case pdf

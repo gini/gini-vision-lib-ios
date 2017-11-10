@@ -14,11 +14,6 @@ protocol SelectAPIViewControllerDelegate:class {
     func selectAPI(viewController: SelectAPIViewController, didSelectApi api: GiniVisionAPIType)
 }
 
-enum GiniVisionAPIType {
-    case screen
-    case component
-}
-
 /**
  View controller showing how to capture an image of a document using the Screen API of the Gini Vision Library for iOS
  and how to process it using the Gini SDK for iOS.

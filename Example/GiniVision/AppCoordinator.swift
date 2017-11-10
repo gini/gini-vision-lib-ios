@@ -13,8 +13,8 @@ import GiniVision
 final class AppCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
-    let window: UIWindow
-    let documentService: DocumentService
+    fileprivate let window: UIWindow
+    fileprivate let documentService: DocumentService
 
     var rootViewController: UIViewController {
         return selectAPIViewController
@@ -24,7 +24,7 @@ final class AppCoordinator: Coordinator {
         selectAPIViewController.delegate = self
         return selectAPIViewController
     }()
-    var screenAPIViewController: UIViewController?
+    fileprivate var screenAPIViewController: UIViewController?
 
     
     lazy var giniConfiguration: GiniConfiguration = {
@@ -76,11 +76,10 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
-        // This is only a shortcut for demo purposes since if the current root view controller is not
-        // the ScreenAPIViewController (a GiniVisionDelegate), it won't do anything.
+        // When a document is imported with "Open with", a dialog which allows to choose between both APIs
+        // is shown in the main screen
         popToRootViewControllerIfNeeded()
         
-        // 4. Create an alert which allow users to open imported file either with the ScreenAPI or the ComponentAPI
         let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
             self?.showScreenAPI(withImportedDocument: document)
@@ -94,7 +93,6 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showExternalDocumentNotValidDialog() {
-        // 4.1. Create alert which shows an error pointing out that it is not a valid document
         let alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Dies ist kein gültiges Dokument", preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
             alertViewController.dismiss(animated: true, completion: nil)
@@ -110,6 +108,7 @@ final class AppCoordinator: Coordinator {
         documentBuilder.importMethod = .openWith
         let document = documentBuilder.build()
         
+        // 3. Validate document
         do {
             try document?.validate()
             showOpenWithSwitchDialog(forDocument: document!)
