@@ -17,7 +17,7 @@ protocol ComponentAPICameraViewControllerDelegate:class {
 /**
  View controller showing how to implement the camera using the Component API of the Gini Vision Library for iOS.
  */
-class ComponentAPICameraViewController: UIViewController {
+final class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()

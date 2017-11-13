@@ -12,7 +12,7 @@ protocol NoResultsScreenDelegate:class {
     func noResults(viewController: NoResultViewController, didTapRetry:())
 }
 
-class NoResultViewController: UIViewController {
+final class NoResultViewController: UIViewController {
     
     @IBOutlet var rotateImageView: UIImageView!
     weak var delegate:NoResultsScreenDelegate?

@@ -12,7 +12,7 @@ import GiniVision
 /**
  View controller showing how to implement the onboarding screen using the Component API of the Gini Vision Library for iOS.
  */
-class ComponentAPIOnboardingViewController: UIViewController {
+final class ComponentAPIOnboardingViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()

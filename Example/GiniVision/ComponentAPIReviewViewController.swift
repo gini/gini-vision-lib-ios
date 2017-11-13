@@ -19,7 +19,7 @@ protocol ComponentAPIReviewViewControllerDelegate:class {
  View controller showing how to implement the review screen using the Component API of the Gini Vision Library for iOS and
  how to process the previously captured image using the Gini SDK for iOS
  */
-class ComponentAPIReviewViewController: UIViewController {
+final class ComponentAPIReviewViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
