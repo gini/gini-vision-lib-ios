@@ -115,6 +115,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         customResultsScreen.result = result
         customResultsScreen.document = document
         documentService.sendFeedback(forDocument: document!)
+        
         DispatchQueue.main.async { [weak self] in
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
             self?.analysisDelegate = nil
@@ -134,25 +135,18 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         }
     }
     
-    // The first screen should not be the analysis screen, in that case it should finish
-    fileprivate func popToFirstScreen() {
-        if screenAPIViewController.viewControllers.count > 1 {
-            screenAPIViewController.popToRootViewController(animated: true)
-        } else {
-            self.delegate?.screenAPI(coordinator: self, didFinish: ())
-        }
-    }
-    
 }
 
 // MARK: UINavigationControllerDelegate
 
 extension ScreenAPICoordinator: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        let fromVC = navigationController.transitionCoordinator?.viewController(forKey: .from)
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // Since the NoResultViewController and ResultTableViewController are in the navigation stack,
+        // when it is necessary to go back, it dismiss the ScreenAPI so the Analysis screen is not shown again
         if fromVC is NoResultViewController || fromVC is ResultTableViewController {
-            popToFirstScreen()
+            self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
+        return nil
     }
 }
 
@@ -160,7 +154,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
 
 extension ScreenAPICoordinator: NoResultsScreenDelegate {
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
-        popToFirstScreen()
+        screenAPIViewController.popToRootViewController(animated: true)
     }
 }
 

@@ -45,19 +45,21 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
-    fileprivate lazy var didDocumentAnalysisComplete: DocumentAnalysisCompletion = {(result, document, error) in
-        DispatchQueue.main.async {
-            if let error = error {
-                self.handleAnalysis(error: error)
-                return
-            }
-            
-            if let result = result,
-                let document = document {
-                self.handleAnalysis(result, fromDocument: document)
+    fileprivate var didDocumentAnalysisComplete: DocumentAnalysisCompletion {
+        return {(result, document, error) in
+            DispatchQueue.main.async { [weak self] in
+                if let error = error {
+                    self?.handleAnalysis(error: error)
+                    return
+                }
+                
+                if let result = result,
+                    let document = document {
+                    self?.handleAnalysis(result, fromDocument: document)
+                }
             }
         }
-        return
+        
     }
     
     fileprivate var cameraScreen: ComponentAPICameraViewController?
@@ -126,6 +128,10 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         resultsScreen?.result = result
         resultsScreen?.document = document
         documentService.sendFeedback(forDocument: document)
+        
+        if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
+            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
+        }
         
         newDocumentViewController.pushViewController(resultsScreen!, animated: true)
     }
@@ -282,12 +288,6 @@ extension ComponentAPICoordinator {
         if let analysisScreen = analysisScreen {
             removeFromStack(analysisScreen)
         }
-        
-        if newDocumentViewController.viewControllers.count == 2 {
-            if let resultsScreen = resultsScreen {
-                resultsScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
-            }
-        }
     }
     
     fileprivate func handleExistingResults() {
@@ -299,22 +299,8 @@ extension ComponentAPICoordinator {
         }
     }
     
-    @objc fileprivate func handleAnalysis(errorNotification notification: Notification) {
-        let error = notification.userInfo?[GINIAnalysisManagerErrorUserInfoKey] as? NSError
-        analysisScreen?.displayError(error)
-    }
-    
     fileprivate func handleAnalysis(error: Error) {
         analysisScreen?.displayError(error)
-    }
-    
-    @objc fileprivate func handleAnalysis(resultNotification notification: Notification) {
-        if let result = notification.userInfo?[GINIAnalysisManagerResultDictionaryUserInfoKey] as? GINIResult,
-            let document = notification.userInfo?[GINIAnalysisManagerDocumentUserInfoKey] as? GINIDocument {
-            handleAnalysis(result, fromDocument: document)
-        } else {
-            analysisScreen?.displayError(nil)
-        }
     }
 }
 
