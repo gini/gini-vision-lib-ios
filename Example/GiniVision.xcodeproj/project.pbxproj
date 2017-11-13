@@ -39,7 +39,6 @@
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
 		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
 		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
-		1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE3AC841F729205004D75E0 /* Extensions.swift */; };
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
 		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
@@ -114,7 +113,6 @@
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
 		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		1FE3AC841F729205004D75E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
 		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
 		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
 				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
 				0AEACE091D6385F700052120 /* DocumentService.swift */,
-				1FE3AC841F729205004D75E0 /* Extensions.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
 				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
@@ -669,7 +666,6 @@
 				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
 				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
 				1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */,
-				1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */,
 				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,

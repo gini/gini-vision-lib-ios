@@ -17,16 +17,16 @@ protocol ComponentAPICoordinatorDelegate: class {
 final class ComponentAPICoordinator: NSObject, Coordinator {
     
     weak var delegate: ComponentAPICoordinatorDelegate?
-    fileprivate let documentService: DocumentService
-    fileprivate var document:GiniVisionDocument?
-    fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
-    fileprivate var storyboard:UIStoryboard
+    var childCoordinators: [Coordinator] = []
     var rootViewController: UIViewController {
         return self.componentAPITabBarController
     }
     
-    var childCoordinators: [Coordinator] = []
+    fileprivate let documentService: DocumentService
+    fileprivate var document:GiniVisionDocument?
+    fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     
+    fileprivate lazy var storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
     fileprivate lazy var newDocumentViewController: UINavigationController = {
         let navBarViewController = UINavigationController()
@@ -54,12 +54,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                 }
                 
                 if let result = result,
-                    let document = document {
+                    let document = document,
+                    let _ = self?.analysisScreen {
                     self?.handleAnalysis(result, fromDocument: document)
                 }
             }
         }
-        
     }
     
     fileprivate var cameraScreen: ComponentAPICameraViewController?
@@ -69,7 +69,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     init(document:GiniVisionDocument?, configuration: GiniConfiguration, documentService: DocumentService){
         self.document = document
-        self.storyboard = UIStoryboard(name: "Main", bundle: nil)
         self.documentService = documentService
         GiniVision.setConfiguration(configuration)
     }
@@ -130,7 +129,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         documentService.sendFeedback(forDocument: document)
         
         if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
-            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
+            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPI))
         }
         
         push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
@@ -164,15 +163,14 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         self.componentAPITabBarController.setViewControllers([newDocumentViewController, componentAPIOnboardingViewController], animated: true)
     }
     
-    @objc fileprivate func dismissTabBarController() {
+    @objc fileprivate func closeComponentAPI() {
         documentService.cancelAnalysis()
-        componentAPITabBarController.dismiss(animated: true, completion: nil)
         delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
         if newDocumentViewController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPI))
         }
     }
     
@@ -189,11 +187,11 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     func didTapRetry() {
         if (newDocumentViewController.viewControllers.flatMap { $0 as? ComponentAPICameraViewController}).first == nil {
-            dismissTabBarController()
+            closeComponentAPI()
             return
         }
 
-        _ = newDocumentViewController.popToRootViewController(animated: true)
+        newDocumentViewController.popToRootViewController(animated: true)
     }
 }
 
@@ -205,10 +203,12 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         newDocumentViewController.setNavigationBarHidden(viewController is ComponentAPICameraViewController, animated: true)
         
         if fromViewController is ComponentAPIReviewViewController && viewController is ComponentAPICameraViewController {
+            reviewScreen = nil
             documentService.cancelAnalysis()
         }
         
         if fromViewController is ComponentAPIAnalysisViewController && viewController is ComponentAPIReviewViewController {
+            analysisScreen = nil
             documentService.cancelAnalysis()
         }
     }
@@ -226,7 +226,7 @@ extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
     }
     
     func componentAPICamera(viewController: UIViewController, didTapClose: ()) {
-        dismissTabBarController()
+        closeComponentAPI()
     }
 }
 
