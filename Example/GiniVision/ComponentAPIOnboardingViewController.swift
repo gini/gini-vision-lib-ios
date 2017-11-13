@@ -21,14 +21,10 @@ final class ComponentAPIOnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*****************************************************************************
-         * ONBOARDING SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
-         *****************************************************************************/
-        
-        // 2. Create the onboarding view controller
+        // 1. Create the onboarding view controller
         contentController = OnboardingViewController(scrollViewDelegate: nil)
         
-        // 3. Display the onboarding view controller
+        // 2. Display the onboarding view controller
         displayContent(contentController)
     }
     

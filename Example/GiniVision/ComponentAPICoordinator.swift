@@ -126,13 +126,14 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController
         resultsScreen?.result = result
         resultsScreen?.document = document
-        documentService.sendFeedback(forDocument: document)
         
         if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
             resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPI))
         }
         
         push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        
+        documentService.sendFeedback(forDocument: document)
     }
     
     fileprivate func showNoResultsScreen() {

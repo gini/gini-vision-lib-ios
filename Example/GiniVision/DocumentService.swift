@@ -206,10 +206,6 @@ final class DocumentService {
      */
     func sendFeedback(forDocument document: GINIDocument) {
         
-        /*******************************************
-         * SEND FEEDBACK WITH THE GINI SDK FOR IOS *
-         *******************************************/
-        
         // Get current Gini SDK instance to upload image and process exctraction.
         let sdk = giniSDK
         
