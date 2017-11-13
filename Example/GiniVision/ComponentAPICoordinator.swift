@@ -133,7 +133,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(dismissTabBarController))
         }
         
-        newDocumentViewController.pushViewController(resultsScreen!, animated: true)
+        push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
     }
     
     fileprivate func showNoResultsScreen() {
@@ -149,7 +149,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             genericNoResults.delegate = self
             vc = genericNoResults
         }
-        newDocumentViewController.pushViewController(vc, animated: true)
+        
+        push(viewController: vc, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
     }
     
     // MARK: Other
@@ -175,14 +176,15 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         }
     }
     
-    fileprivate func removeFromStack(_ viewController: UIViewController) {
+    fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
         var navigationStack = newDocumentViewController.viewControllers
         
-        if let index = navigationStack.index(of: viewController) {
+        if let deleteViewController = (navigationStack.flatMap { $0 as? T }.first) as? UIViewController,
+            let index = navigationStack.index(of: deleteViewController){
             navigationStack.remove(at: index)
-            
-            newDocumentViewController.setViewControllers(navigationStack, animated: false)
         }
+        navigationStack.append(viewController)
+        newDocumentViewController.setViewControllers(navigationStack, animated: true)
     }
     
     func didTapRetry() {
@@ -190,6 +192,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             dismissTabBarController()
             return
         }
+
         _ = newDocumentViewController.popToRootViewController(animated: true)
     }
 }
@@ -283,10 +286,6 @@ extension ComponentAPICoordinator {
             showResultsTableScreen(forDocument: document, withResult: result)
         } else {
             showNoResultsScreen()
-        }
-        
-        if let analysisScreen = analysisScreen {
-            removeFromStack(analysisScreen)
         }
     }
     
