@@ -58,6 +58,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     func start() {
         screenAPIViewController = GiniVision.viewController(withDelegate: self, withConfiguration: visionConfiguration, importedDocument: visionDocument) as! UINavigationController
         screenAPIViewController.delegate = self
+        screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
     // MARK: Handle analysis of document

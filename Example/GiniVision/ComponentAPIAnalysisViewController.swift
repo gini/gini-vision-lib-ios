@@ -48,13 +48,9 @@ final class ComponentAPIAnalysisViewController: UIViewController {
         guard let document = document else { return }
         
         contentController = AnalysisViewController(document)
-        
+
         // 3. Display the analysis view controller
         displayContent(contentController)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         (contentController as? AnalysisViewController)?.showAnimation()
     }
     
