@@ -62,10 +62,10 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         }
     }
     
-    fileprivate var cameraScreen: ComponentAPICameraViewController?
-    fileprivate var reviewScreen: ComponentAPIReviewViewController?
-    fileprivate var analysisScreen: ComponentAPIAnalysisViewController?
-    fileprivate var resultsScreen: ResultTableViewController?
+    fileprivate(set) var cameraScreen: ComponentAPICameraViewController?
+    fileprivate(set) var reviewScreen: ComponentAPIReviewViewController?
+    fileprivate(set) var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate(set) var resultsScreen: ResultTableViewController?
     
     init(document:GiniVisionDocument?, configuration: GiniConfiguration, documentService: DocumentService){
         self.document = document
