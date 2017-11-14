@@ -35,7 +35,7 @@
 		1F62FA3A1FA2207800CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */; };
 		1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */; };
 		1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */; };
-		1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */; };
+		1F8547641F56E44700B1CAC6 /* GINIVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */; };
 		1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */; };
 		1F94118B1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */; };
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
@@ -111,7 +111,7 @@
 		1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
 		1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIImageAnalysisNoResultsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINISupportedFormatsViewControllerTests.swift; sourceTree = "<group>"; };
-		1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentTests.swift; sourceTree = "<group>"; };
+		1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIVisionDocumentTests.swift; sourceTree = "<group>"; };
 		1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
@@ -286,7 +286,7 @@
 				1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */,
 				1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */,
 				1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */,
-				1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */,
+				1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */,
 				1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */,
@@ -691,7 +691,7 @@
 				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
 				1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */,
 				1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */,
-				1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */,
+				1F8547641F56E44700B1CAC6 /* GINIVisionDocumentTests.swift in Sources */,
 				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
 				1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */,
