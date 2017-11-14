@@ -128,12 +128,11 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         resultsScreen?.document = document
         
         if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
-            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPI))
+            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPIFromResults))
         }
         
         push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
-        
-        documentService.sendFeedback(forDocument: document)
+        analysisScreen = nil
     }
     
     fileprivate func showNoResultsScreen() {
@@ -151,6 +150,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         }
         
         push(viewController: vc, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        analysisScreen = nil
+
     }
     
     // MARK: Other
@@ -167,6 +168,13 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     @objc fileprivate func closeComponentAPI() {
         documentService.cancelAnalysis()
         delegate?.componentAPI(coordinator: self, didFinish: ())
+    }
+    
+    @objc fileprivate func closeComponentAPIFromResults() {
+        if let document = resultsScreen?.document {
+            documentService.sendFeedback(forDocument: document)
+        }
+        closeComponentAPI()
     }
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
@@ -211,6 +219,10 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         if fromViewController is ComponentAPIAnalysisViewController && viewController is ComponentAPIReviewViewController {
             analysisScreen = nil
             documentService.cancelAnalysis()
+        }
+        
+        if let resultsScreen = fromViewController as? ResultTableViewController {
+            documentService.sendFeedback(forDocument: resultsScreen.document)
         }
     }
 }

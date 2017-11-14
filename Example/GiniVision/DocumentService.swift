@@ -258,6 +258,8 @@ final class DocumentService {
             }
             
             let resultString = (task?.result as? GINIResult)?.description ?? "n/a"
+            print("🚀 Feedback sent")
+
             print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n\(resultString)\n--------------------------\n")
             return nil
         })

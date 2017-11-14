@@ -115,7 +115,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         let customResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
         customResultsScreen.result = result
         customResultsScreen.document = document
-        documentService.sendFeedback(forDocument: document!)
         
         DispatchQueue.main.async { [weak self] in
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
@@ -144,9 +143,15 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         // Since the NoResultViewController and ResultTableViewController are in the navigation stack,
         // when it is necessary to go back, it dismiss the ScreenAPI so the Analysis screen is not shown again
-        if fromVC is NoResultViewController || fromVC is ResultTableViewController {
+        if fromVC is NoResultViewController {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
+        
+        if fromVC is ResultTableViewController {
+            self.delegate?.screenAPI(coordinator: self, didFinish: ())
+            documentService.sendFeedback(forDocument: document!)
+        }
+        
         return nil
     }
 }
