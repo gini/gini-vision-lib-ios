@@ -9,13 +9,13 @@
 import UIKit
 
 protocol NoResultsScreenDelegate:class {
-    func didTapRetry()
+    func noResults(viewController: NoResultViewController, didTapRetry:())
 }
 
-class NoResultViewController: UIViewController {
+final class NoResultViewController: UIViewController {
     
     @IBOutlet var rotateImageView: UIImageView!
-    var delegate:NoResultsScreenDelegate?
+    weak var delegate:NoResultsScreenDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +24,6 @@ class NoResultViewController: UIViewController {
     }
     
     @IBAction func retry(_ sender: AnyObject) {
-        delegate?.didTapRetry()
+        delegate?.noResults(viewController: self, didTapRetry: ())
     }
 }

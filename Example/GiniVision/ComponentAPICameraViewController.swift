@@ -9,19 +9,19 @@
 import UIKit
 import GiniVision
 
-protocol ComponentAPICameraScreenDelegate:class {
-    func didPick(document:GiniVisionDocument)
-    func didTapClose()
+protocol ComponentAPICameraViewControllerDelegate:class {
+    func componentAPICamera(viewController: UIViewController, didPickDocument document:GiniVisionDocument)
+    func componentAPICamera(viewController: UIViewController, didTapClose: ())
 }
 
 /**
  View controller showing how to implement the camera using the Component API of the Gini Vision Library for iOS.
  */
-class ComponentAPICameraViewController: UIViewController {
+final class ComponentAPICameraViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
-    var delegate:ComponentAPICameraScreenDelegate?
+    weak var delegate:ComponentAPICameraViewControllerDelegate?
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -29,9 +29,10 @@ class ComponentAPICameraViewController: UIViewController {
         
         // 2. Create the camera view controller
         contentController = CameraViewController(successBlock:
-            { document in
+            { [weak self] document in
+                guard let `self` = self else { return }
                 DispatchQueue.main.async {
-                    self.delegate?.didPick(document: document)
+                    self.delegate?.componentAPICamera(viewController: self, didPickDocument: document)
                 }
         }, failureBlock: { error in
             print("Component API camera view controller received error:\n\(error)")
@@ -39,18 +40,6 @@ class ComponentAPICameraViewController: UIViewController {
         
         // 3. Display the camera view controller
         displayContent(contentController)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // Displays the content controller inside the container view
@@ -63,7 +52,7 @@ class ComponentAPICameraViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func back(_ sender: AnyObject) {
-        delegate?.didTapClose()
+        delegate?.componentAPICamera(viewController: self, didTapClose: ())
     }
 }
 

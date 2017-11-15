@@ -14,7 +14,6 @@
 		0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */; };
 		0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
-		0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */; };
 		0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */; };
 		0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */; };
 		0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */; };
@@ -25,18 +24,23 @@
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AB97AFF1D646BA40024C266 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB97AFE1D646BA40024C266 /* Constants.m */; };
 		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
-		0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* AnalysisManager.swift */; };
+		0AEACE0A1D6385F700052120 /* DocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* DocumentService.swift */; };
 		0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */; };
 		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
+		1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */; };
+		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
+		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
+		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		1F62FA3A1FA2207800CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */; };
 		1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */; };
 		1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */; };
-		1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */; };
+		1F8547641F56E44700B1CAC6 /* GINIVisionDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */; };
+		1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */; };
+		1F94118B1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */; };
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
 		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
 		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
-		1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE3AC841F729205004D75E0 /* Extensions.swift */; };
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
 		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
@@ -80,7 +84,6 @@
 		0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINICameraUITests.swift; path = UITests/GINICameraUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
 		0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GiniVision_Example.entitlements; sourceTree = SOURCE_ROOT; };
-		0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOnboardingViewControllerTests.swift; sourceTree = "<group>"; };
 		0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINICameraViewControllerTests.swift; sourceTree = "<group>"; };
@@ -93,7 +96,7 @@
 		0AB97AFD1D646BA40024C266 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		0AB97AFE1D646BA40024C266 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
-		0AEACE091D6385F700052120 /* AnalysisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalysisManager.swift; sourceTree = "<group>"; };
+		0AEACE091D6385F700052120 /* DocumentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentService.swift; sourceTree = "<group>"; };
 		0AEACE0B1D63867F00052120 /* Dev-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Dev-Config.xcconfig"; sourceTree = "<group>"; };
 		0AEACE0C1D63867F00052120 /* Release-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Release-Config.xcconfig"; sourceTree = "<group>"; };
 		0AEACE0F1D6386AA00052120 /* In-House-Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "In-House-Config.xcconfig"; sourceTree = "<group>"; };
@@ -101,14 +104,19 @@
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF2Pages.pdf; sourceTree = "<group>"; };
+		1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
+		1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		1F2E1AA01FB58EC900E1022A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
 		1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
 		1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIImageAnalysisNoResultsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINISupportedFormatsViewControllerTests.swift; sourceTree = "<group>"; };
-		1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentTests.swift; sourceTree = "<group>"; };
+		1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIVisionDocumentTests.swift; sourceTree = "<group>"; };
+		1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
+		1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
 		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		1FE3AC841F729205004D75E0 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
 		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
 		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
@@ -232,21 +240,23 @@
 			children = (
 				0AB97AFD1D646BA40024C266 /* Constants.h */,
 				0AB97AFE1D646BA40024C266 /* Constants.m */,
+				1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
-				1FE3AC841F729205004D75E0 /* Extensions.swift */,
-				0AEACE091D6385F700052120 /* AnalysisManager.swift */,
+				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
+				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
+				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
+				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
+				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
+				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
+				0AEACE091D6385F700052120 /* DocumentService.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
+				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
 				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
-				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
-				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
-				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
-				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
-				0A5A7D651D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift */,
-				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
+				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
 			name = "Example for GiniVision";
@@ -269,14 +279,16 @@
 				1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */,
 				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
 				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
+				1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */,
 				1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */,
 				1F62FA351FA2207200CEA828 /* GINIImageAnalysisNoResultsViewControllerTests.swift */,
 				607FACEB1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift */,
 				0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */,
 				1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */,
 				1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */,
+				1F94118A1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift */,
 				1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */,
-				1F8547631F56E44700B1CAC6 /* GiniVisionDocumentTests.swift */,
+				1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -394,7 +406,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Gini GmbH";
 				TargetAttributes = {
 					0A3B96511D478BF700BFEF05 = {
@@ -653,15 +665,17 @@
 			files = (
 				0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */,
 				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
-				0AEACE0A1D6385F700052120 /* AnalysisManager.swift in Sources */,
+				1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */,
+				1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */,
+				0AEACE0A1D6385F700052120 /* DocumentService.swift in Sources */,
 				0AB97AFF1D646BA40024C266 /* Constants.m in Sources */,
 				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
 				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
-				0A5A7D661D2CFA3E0007C98D /* ComponentAPIOnboardingViewController.swift in Sources */,
-				1FE3AC851F729205004D75E0 /* Extensions.swift in Sources */,
+				1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */,
 				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,
+				1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */,
 				1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
@@ -671,11 +685,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */,
+				1F94118B1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift in Sources */,
 				1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */,
 				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
 				1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */,
 				1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */,
-				1F8547641F56E44700B1CAC6 /* GiniVisionDocumentTests.swift in Sources */,
+				1F8547641F56E44700B1CAC6 /* GINIVisionDocumentTests.swift in Sources */,
 				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
 				1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */,
@@ -729,14 +745,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -863,14 +885,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -913,14 +941,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;

@@ -1,5 +1,5 @@
 //
-//  GINIFilePickerManagerTests.swift
+//  GINIVisionDocumentTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 8/30/17.

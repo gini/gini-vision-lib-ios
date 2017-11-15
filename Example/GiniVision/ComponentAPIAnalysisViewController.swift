@@ -10,24 +10,21 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIAnalysisScreenDelegate:class {
-    func didCancelAnalysis()
-    func didTapErrorButton()
-    func didAppear()
-    func didDisappear()
+protocol ComponentAPIAnalysisViewControllerDelegate:class {
+    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ())
 }
 
 /**
  View controller showing how to implement the analysis screen using the Component API of the Gini Vision Library for iOS and
  how to process the previously reviewed image using the Gini SDK for iOS
  */
-class ComponentAPIAnalysisViewController: UIViewController {
+final class ComponentAPIAnalysisViewController: UIViewController {
     
     /**
      The image data of the captured document to be reviewed.
      */
     var document: GiniVisionDocument?
-    var delegate: ComponentAPIAnalysisScreenDelegate?
+    weak var delegate: ComponentAPIAnalysisViewControllerDelegate?
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
@@ -51,26 +48,10 @@ class ComponentAPIAnalysisViewController: UIViewController {
         guard let document = document else { return }
         
         contentController = AnalysisViewController(document)
-        
+
         // 3. Display the analysis view controller
         displayContent(contentController)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        delegate?.didAppear()
-        
         (contentController as? AnalysisViewController)?.showAnimation()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        if isMovingFromParentViewController || isBeingDismissed {
-            delegate?.didCancelAnalysis()
-        }
-        
-        delegate?.didDisappear()
     }
     
     // Displays the content controller inside the container view
@@ -85,7 +66,7 @@ class ComponentAPIAnalysisViewController: UIViewController {
     @IBAction func errorButtonTapped(_ sender: AnyObject) {
         (contentController as? AnalysisViewController)?.showAnimation()
         hideErrorButton()
-        delegate?.didTapErrorButton()
+        delegate?.componentAPIAnalysis(viewController: self, didTapErrorButton: ())
     }
     
     // MARK: Error button handling

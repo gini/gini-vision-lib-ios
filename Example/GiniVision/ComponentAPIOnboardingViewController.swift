@@ -1,5 +1,5 @@
 //
-//  ComponentAPIOnboardingViewController.swift
+//  ComponentAPIHelpViewController.swift
 //  GiniVision
 //
 //  Created by Peter Pult on 06/07/2016.
@@ -12,7 +12,7 @@ import GiniVision
 /**
  View controller showing how to implement the onboarding screen using the Component API of the Gini Vision Library for iOS.
  */
-class ComponentAPIOnboardingViewController: UIViewController {
+final class ComponentAPIOnboardingViewController: UIViewController {
     
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
@@ -21,17 +21,10 @@ class ComponentAPIOnboardingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        /*****************************************************************************
-         * ONBOARDING SCREEN OF THE COMPONENT API OF THE GINI VISION LIBRARY FOR IOS *
-         *****************************************************************************/
-        
-        // (1. If not already done: Create and set a custom configuration object)
-        // See `ComponentAPICameraViewController.swift` for implementation details.
-        
-        // 2. Create the onboarding view controller
+        // 1. Create the onboarding view controller
         contentController = OnboardingViewController(scrollViewDelegate: nil)
         
-        // 3. Display the onboarding view controller
+        // 2. Display the onboarding view controller
         displayContent(contentController)
     }
     
