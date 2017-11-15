@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.2.1 (2017-11-15)
+------------------
+
+-   Fixed access control on help menu screen view controller initializer.
+-   Fixed minor bugs.
+
 3.2.0 (2017-10-27)
 ------------------
 
