@@ -8,5 +8,7 @@
     <string>BQY9KX4V88</string>
     <key>iCloudContainerEnvironment</key>
     <string>Production</string>
+    <key>compileBitcode</key>
+    <false/>
 </dict>
 </plist>

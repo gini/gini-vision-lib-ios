@@ -5,7 +5,11 @@ pipeline {
   }
   stages {
     stage('Prerequisites') {
+      environment {
+        GEONOSIS_USER_PASSWORD = credentials('GeonosisUserPassword')
+      }
       steps {
+        sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh '/usr/local/bin/pod install --project-directory=Example/'
       }
     }
@@ -35,12 +39,12 @@ pipeline {
         HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
         HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
         CLIENT_ID = credentials('VisionClientID')
-        CLIENT_Password = credentials('VisionClientPassword')
+        CLIENT_PASSWORD = credentials('VisionClientPassword')
       }
       steps {
         sh 'rm -rf build'
         sh 'mkdir build'
-        sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_Password}'
+        sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
         sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
         sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive | /usr/local/bin/xcpretty -c'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates | /usr/local/bin/xcpretty -c'
