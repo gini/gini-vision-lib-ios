@@ -12,6 +12,7 @@ import Gini_iOS_SDK
 
 protocol SelectAPIViewControllerDelegate:class {
     func selectAPI(viewController: SelectAPIViewController, didSelectApi api: GiniVisionAPIType)
+    func selectAPI(viewController: SelectAPIViewController, didTapSettings: ())
 }
 
 /**
@@ -28,7 +29,7 @@ enum GiniVisionAPIType {
  */
 final class SelectAPIViewController: UIViewController {
     
-    @IBOutlet weak var metaInformationLabel: UILabel!
+    @IBOutlet weak var metaInformationButton: UIButton!
     
     weak var delegate: SelectAPIViewControllerDelegate?
     
@@ -39,15 +40,21 @@ final class SelectAPIViewController: UIViewController {
         let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
-        metaInformationLabel.text = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
+        metaInformationButton.setTitle("Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)", for: .normal)
+        
     }
     
     // MARK: User interaction
     @IBAction func launchScreenAPI(_ sender: Any) {
         delegate?.selectAPI(viewController: self, didSelectApi: .screen)
     }
-    
+
     @IBAction func launchComponentAPI(_ sender: Any) {
         delegate?.selectAPI(viewController: self, didSelectApi: .component)
     }
+    
+    @IBAction func launchSettings(_ sender: Any) {
+        delegate?.selectAPI(viewController: self, didTapSettings: ())
+    }
+    
 }
