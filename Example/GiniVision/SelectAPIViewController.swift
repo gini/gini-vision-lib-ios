@@ -29,7 +29,7 @@ enum GiniVisionAPIType {
  */
 final class SelectAPIViewController: UIViewController {
     
-    @IBOutlet weak var metaInformationLabel: UIButton!
+    @IBOutlet weak var metaInformationButton: UIButton!
     
     weak var delegate: SelectAPIViewControllerDelegate?
     
@@ -40,7 +40,7 @@ final class SelectAPIViewController: UIViewController {
         let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
-        metaInformationLabel.setTitle("Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)", for: .normal)
+        metaInformationButton.setTitle("Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)", for: .normal)
         
     }
     

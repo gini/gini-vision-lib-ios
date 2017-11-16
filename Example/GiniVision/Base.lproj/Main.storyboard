@@ -266,7 +266,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="SQK-hk-Ah4"/>
                     <connections>
-                        <outlet property="metaInformationLabel" destination="40A-WQ-jHQ" id="S7F-xE-0Nc"/>
+                        <outlet property="metaInformationButton" destination="40A-WQ-jHQ" id="S7F-xE-0Nc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQd-cL-q81" userLabel="First Responder" sceneMemberID="firstResponder"/>
