@@ -1,5 +1,5 @@
 //
-//  ExampleSettingsViewController.swift
+//  SettingsViewController.swift
 //  GiniVision_Example
 //
 //  Created by Enrique del Pozo Gómez on 10/30/17.
@@ -9,8 +9,13 @@
 import UIKit
 import GiniVision
 
-final class ExampleSettingsViewController: UIViewController {
+protocol SettingsViewControllerDelegate: class {
+    func settings(settingViewController: SettingsViewController, didChangeConfiguration configuration: GiniConfiguration)
+}
+
+final class SettingsViewController: UIViewController {
     
+    weak var delegate: SettingsViewControllerDelegate?
     var giniConfiguration: GiniConfiguration!
 
     @IBOutlet weak var fileImportControl: UISegmentedControl!
@@ -25,6 +30,8 @@ final class ExampleSettingsViewController: UIViewController {
             giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         default: return
         }
+        
+        delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
     }
     
     @IBAction func closeButton(_ sender: Any) {
@@ -33,6 +40,7 @@ final class ExampleSettingsViewController: UIViewController {
     
     @IBAction func openWithSwitch(_ sender: UISwitch) {
         giniConfiguration.openWithEnabled = sender.isOn
+        delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
     }
     
     override func viewDidLoad() {

@@ -234,7 +234,7 @@
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <segue destination="jLX-Py-40o" kind="presentation" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="pGe-C3-Mhd"/>
+                                    <action selector="launchSettings:" destination="Ggv-ZP-h5h" eventType="touchUpInside" id="Tfb-tc-51t"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -266,17 +266,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="SQK-hk-Ah4"/>
                     <connections>
-                        <outlet property="exampleAppSettingsButton" destination="40A-WQ-jHQ" id="kIi-xB-2Wp"/>
+                        <outlet property="metaInformationLabel" destination="40A-WQ-jHQ" id="S7F-xE-0Nc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VQd-cL-q81" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2424" y="-255"/>
         </scene>
-        <!--Example Settings View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="Kzg-pN-qlA">
             <objects>
-                <viewController id="jLX-Py-40o" customClass="ExampleSettingsViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settingsViewController" id="jLX-Py-40o" customClass="SettingsViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="kpE-ut-yIQ"/>
                         <viewControllerLayoutGuide type="bottom" id="LAk-oa-XC9"/>
@@ -292,22 +292,22 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Jl-Kr-1sd">
-                                            <rect key="frame" x="1" y="268" width="373" height="131"/>
+                                            <rect key="frame" x="16" y="268" width="343" height="131"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Open with" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVO-kR-liJ">
-                                                    <rect key="frame" x="16" y="21" width="284" height="21"/>
+                                                    <rect key="frame" x="16" y="21" width="254" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yit-Ul-7WY">
-                                                    <rect key="frame" x="308" y="16" width="51" height="31"/>
+                                                    <rect key="frame" x="278" y="16" width="51" height="31"/>
                                                     <connections>
                                                         <action selector="openWithSwitch:" destination="jLX-Py-40o" eventType="valueChanged" id="Izp-34-DoH"/>
                                                     </connections>
                                                 </switch>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3hb-V8-sDY">
-                                                    <rect key="frame" x="16" y="87" width="341" height="29"/>
+                                                    <rect key="frame" x="16" y="87" width="311" height="29"/>
                                                     <segments>
                                                         <segment title="Disabled"/>
                                                         <segment title="PDF"/>
@@ -319,7 +319,7 @@
                                                     </connections>
                                                 </segmentedControl>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="File import:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRx-ac-e4V">
-                                                    <rect key="frame" x="16" y="58" width="341" height="21"/>
+                                                    <rect key="frame" x="16" y="58" width="311" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -351,7 +351,9 @@
                                         </button>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="9Jl-Kr-1sd" firstAttribute="leading" secondItem="eer-tI-Ukv" secondAttribute="leading" constant="16" id="DSt-uz-z4Y"/>
                                         <constraint firstAttribute="trailing" secondItem="42r-Zq-01h" secondAttribute="trailing" constant="16" id="k9S-dK-djb"/>
+                                        <constraint firstAttribute="trailing" secondItem="9Jl-Kr-1sd" secondAttribute="trailing" constant="16" id="kYl-fl-79x"/>
                                         <constraint firstItem="42r-Zq-01h" firstAttribute="leading" secondItem="eer-tI-Ukv" secondAttribute="leading" constant="16" id="okM-s6-3eW"/>
                                         <constraint firstItem="42r-Zq-01h" firstAttribute="top" secondItem="9Jl-Kr-1sd" secondAttribute="bottom" constant="16" id="q5K-lu-fwJ"/>
                                         <constraint firstItem="9Jl-Kr-1sd" firstAttribute="centerY" secondItem="eer-tI-Ukv" secondAttribute="centerY" id="s2i-RX-8Ib"/>

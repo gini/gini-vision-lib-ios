@@ -97,6 +97,15 @@ final class AppCoordinator: Coordinator {
         rootViewController.present(componentAPICoordinator.rootViewController, animated: true, completion: nil)
     }
     
+    fileprivate func showSettings() {
+        let settingsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+        settingsViewController.delegate = self
+        settingsViewController.giniConfiguration = giniConfiguration
+        settingsViewController.modalPresentationStyle = .overFullScreen
+        
+        rootViewController.present(settingsViewController, animated: true, completion: nil)
+    }
+    
     fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
         let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
@@ -137,6 +146,16 @@ extension AppCoordinator: SelectAPIViewControllerDelegate {
         case .component:
             showComponentAPI()
         }
+    }
+    
+    func selectAPI(viewController: SelectAPIViewController, didTapSettings: ()) {
+        showSettings()
+    }
+}
+
+extension AppCoordinator: SettingsViewControllerDelegate {
+    func settings(settingViewController: SettingsViewController, didChangeConfiguration configuration: GiniConfiguration) {
+        giniConfiguration = configuration
     }
 }
 
