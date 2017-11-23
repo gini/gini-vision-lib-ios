@@ -64,7 +64,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
 @objc public final class ReviewViewController: UIViewController {
     
     // User interface
-    fileprivate var scrollView: UIScrollView = {
+    fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
@@ -85,7 +85,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         view.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
         return view
     }()
-    fileprivate var rotateButton: UIButton = {
+    fileprivate lazy var rotateButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
         button.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
