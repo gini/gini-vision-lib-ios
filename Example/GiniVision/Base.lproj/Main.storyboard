@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -522,42 +521,23 @@
                                 <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qKw-iS-pof">
-                                <rect key="frame" x="0.0" y="607" width="375" height="60"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGF-nB-l7v">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
-                                        <color key="backgroundColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
-                                        <state key="normal" title="Foto erneut aufnehmen">
-                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <state key="disabled" title="Bankkonto verknüpfen">
-                                            <color key="titleColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="retry:" destination="pIn-fG-Rai" eventType="touchUpInside" id="QEw-yi-VNO"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGF-nB-l7v">
+                                <rect key="frame" x="36" y="597" width="303" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="rGF-nB-l7v" firstAttribute="leading" secondItem="qKw-iS-pof" secondAttribute="leading" id="5XZ-TL-IoG"/>
-                                    <constraint firstAttribute="width" secondItem="qKw-iS-pof" secondAttribute="height" multiplier="11:2" id="9VW-JF-NYD"/>
-                                    <constraint firstAttribute="trailing" secondItem="rGF-nB-l7v" secondAttribute="trailing" id="C9A-Dv-16F"/>
-                                    <constraint firstAttribute="height" constant="60" id="DhH-kS-wrR"/>
-                                    <constraint firstItem="rGF-nB-l7v" firstAttribute="leading" secondItem="qKw-iS-pof" secondAttribute="leading" id="FqU-Gl-8wO"/>
-                                    <constraint firstAttribute="bottom" secondItem="rGF-nB-l7v" secondAttribute="bottom" id="OQC-Uy-epC"/>
-                                    <constraint firstAttribute="trailing" secondItem="rGF-nB-l7v" secondAttribute="trailing" id="gZZ-b6-hGO"/>
-                                    <constraint firstAttribute="bottom" secondItem="rGF-nB-l7v" secondAttribute="bottom" id="gut-aD-d9i"/>
-                                    <constraint firstItem="rGF-nB-l7v" firstAttribute="top" secondItem="qKw-iS-pof" secondAttribute="top" id="nYx-de-stD"/>
+                                    <constraint firstAttribute="height" constant="50" id="Cfq-Qa-xLm"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="9VW-JF-NYD"/>
-                                    </mask>
-                                </variation>
-                            </view>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
+                                <state key="normal" title="Foto erneut aufnehmen">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <state key="disabled" title="Bankkonto verknüpfen">
+                                    <color key="titleColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="retry:" destination="pIn-fG-Rai" eventType="touchUpInside" id="QEw-yi-VNO"/>
+                                </connections>
+                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reviewRotateButton" translatesAutoresizingMaskIntoConstraints="NO" id="g01-Yw-KKa">
                                 <rect key="frame" x="175.5" y="240" width="24" height="24"/>
                                 <color key="tintColor" red="0.0" green="0.61960784310000006" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -578,22 +558,22 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="3WR-c9-tM1" firstAttribute="top" secondItem="dWP-XX-MgH" secondAttribute="bottom" constant="9" id="0yn-CO-Lh8"/>
                             <constraint firstItem="g01-Yw-KKa" firstAttribute="top" secondItem="3WR-c9-tM1" secondAttribute="bottom" id="4lc-St-IVz"/>
                             <constraint firstItem="dq1-1G-cuV" firstAttribute="top" secondItem="JXc-eh-Te3" secondAttribute="bottom" constant="45" id="7t3-rr-TIz"/>
                             <constraint firstItem="dWP-XX-MgH" firstAttribute="leading" secondItem="XDW-h4-mhd" secondAttribute="leadingMargin" id="Bdl-dw-50R"/>
                             <constraint firstItem="dq1-1G-cuV" firstAttribute="top" secondItem="JXc-eh-Te3" secondAttribute="bottom" constant="45" id="C7J-ln-V7n"/>
-                            <constraint firstAttribute="trailing" secondItem="qKw-iS-pof" secondAttribute="trailing" id="DoD-hQ-EKh"/>
                             <constraint firstItem="dWP-XX-MgH" firstAttribute="top" secondItem="dq1-1G-cuV" secondAttribute="bottom" constant="40" id="JNf-6x-3LR"/>
                             <constraint firstItem="3WR-c9-tM1" firstAttribute="leading" secondItem="XDW-h4-mhd" secondAttribute="leading" constant="20" id="SDv-fZ-AoS"/>
                             <constraint firstItem="dq1-1G-cuV" firstAttribute="leading" secondItem="XDW-h4-mhd" secondAttribute="leadingMargin" id="V6R-F1-H2r"/>
                             <constraint firstItem="g01-Yw-KKa" firstAttribute="centerX" secondItem="XDW-h4-mhd" secondAttribute="centerX" id="VE8-p7-74B"/>
-                            <constraint firstItem="qKw-iS-pof" firstAttribute="leading" secondItem="XDW-h4-mhd" secondAttribute="leading" id="a38-vo-QPn"/>
+                            <constraint firstItem="rGF-nB-l7v" firstAttribute="leading" secondItem="XDW-h4-mhd" secondAttribute="leadingMargin" constant="20" id="aKd-K0-EBe"/>
                             <constraint firstItem="dWP-XX-MgH" firstAttribute="trailing" secondItem="XDW-h4-mhd" secondAttribute="trailingMargin" id="ima-uN-ztI"/>
-                            <constraint firstItem="q1e-9E-wVG" firstAttribute="top" secondItem="qKw-iS-pof" secondAttribute="bottom" id="jyJ-3Y-xz8"/>
                             <constraint firstItem="dq1-1G-cuV" firstAttribute="trailing" secondItem="XDW-h4-mhd" secondAttribute="trailingMargin" id="lwI-f9-cIg"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rGF-nB-l7v" secondAttribute="trailing" constant="20" id="o5J-cT-RfQ"/>
+                            <constraint firstItem="q1e-9E-wVG" firstAttribute="top" secondItem="rGF-nB-l7v" secondAttribute="bottom" constant="20" id="rRn-Dg-IAS"/>
                             <constraint firstItem="dq1-1G-cuV" firstAttribute="top" secondItem="JXc-eh-Te3" secondAttribute="bottom" constant="45" id="y0j-Xb-Dl6"/>
                             <constraint firstAttribute="trailing" secondItem="3WR-c9-tM1" secondAttribute="trailing" constant="20" id="zES-WY-bmV"/>
                         </constraints>

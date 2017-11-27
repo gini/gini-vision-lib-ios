@@ -229,6 +229,7 @@ import UIKit
     
     fileprivate func showCaptureSuggestions() {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
+                                                        bottomLayout: bottomLayoutGuide,        
                                                         font:GiniConfiguration.sharedConfiguration.font.regular.withSize(14))
         captureSuggestions.start()
     }
