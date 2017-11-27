@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.2.2 (2017-11-27)
+------------------
+
+-   Adapted UI for iPhone X
+-   Fixed double tap issue on Review screen
+
 3.2.1 (2017-11-15)
 ------------------
 
@@ -46,19 +52,19 @@ Changelog
 -   Added support for landscape mode in CameraViewController.
 -   Removed The GINI prefix from library classes.
 
-3.0.2-beta (2017-01-19) 
+3.0.2-beta (2017-01-19)
 ------------------
 
 Swift 3 support.
 
 -   Project language conversion to Swift 3
 
-2.3.3-beta (2017-02-01) 
+2.3.3-beta (2017-02-01)
 ------------------
 
 -   Added support for landscape mode in GINICameraViewController
 
-2.3.2-beta (2017-01-19) 
+2.3.2-beta (2017-01-19)
 ------------------
 
 
