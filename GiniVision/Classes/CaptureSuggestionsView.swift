@@ -25,6 +25,7 @@ final class CaptureSuggestionsView: UIView {
     fileprivate var itemSeparationConstraint:NSLayoutConstraint = NSLayoutConstraint()
     fileprivate var bottomConstraint:NSLayoutConstraint = NSLayoutConstraint()
     fileprivate let repeatInterval:TimeInterval = 5
+    fileprivate let superViewBottomLayout: UILayoutSupport
     
     fileprivate let suggestionIconImage = UIImage(named: "analysisSuggestionsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
     fileprivate var suggestionTexts:[String] = [
@@ -33,10 +34,11 @@ final class CaptureSuggestionsView: UIView {
         NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self), comment: "Third suggestion text for analysis screen"),
         NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self), comment: "Forth suggestion text for analysis screen")]
     
-    init(superView: UIView, font:UIFont) {
+    init(superView: UIView, bottomLayout: UILayoutSupport, font:UIFont) {
         suggestionContainer = UIView()
         suggestionTitle = UILabel()
         suggestionText = UILabel()
+        superViewBottomLayout = bottomLayout
 
         suggestionIcon = UIImageView(image: suggestionIconImage)
         suggestionIcon.contentMode = .scaleAspectFit
@@ -81,7 +83,7 @@ final class CaptureSuggestionsView: UIView {
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
         
         // self
-        bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: containerHeight)
+        bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: superViewBottomLayout, attribute: .top, multiplier: 1, constant: containerHeight)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight)

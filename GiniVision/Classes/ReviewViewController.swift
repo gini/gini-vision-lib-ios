@@ -303,7 +303,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         bottomView.translatesAutoresizingMaskIntoConstraints = false
         ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
         ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
+        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .bottom, relatedBy: .equal, toItem: self.bottomLayoutGuide, attribute: .top
+            , multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: rotateButton, attribute: .height, multiplier: 1, constant: 0)
         
