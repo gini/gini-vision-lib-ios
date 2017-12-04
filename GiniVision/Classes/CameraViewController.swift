@@ -357,20 +357,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             }
             return print("GiniVision: No camera initialized.")
         }
-        camera.captureStillImage { inner in
-            do {
-                let imageData = try inner()
-                let imageDocument = GiniImageDocument(data: imageData,
-                                                      imageSource: .camera,
-                                                      deviceOrientation: UIApplication.shared.statusBarOrientation)
-                
-                // Call success block
-                self.successBlock?(imageDocument)
-            } catch let error as CameraError {
-                self.failureBlock?(error)
-            } catch _ {
-                print("GiniVision: An unknown error occured.")
+        camera.captureStillImage {[weak self] imageData, error in
+            guard let imageData = imageData, error == nil else {
+                self?.failureBlock?(error ?? .captureFailed)
+                return
             }
+            
+            let imageDocument = GiniImageDocument(data: imageData,
+                                                  imageSource: .camera,
+                                                  deviceOrientation: UIApplication.shared.statusBarOrientation)
+            self?.successBlock?(imageDocument)
         }
         
     }

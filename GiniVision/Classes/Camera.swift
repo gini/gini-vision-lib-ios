@@ -76,11 +76,11 @@ internal class Camera: NSObject {
         }
     }
     
-    func captureStillImage(_ completion: @escaping (_ inner: () throws -> Data) -> ()) {
+    func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else {
-                return completion({ _ in throw CameraError.noInputDevice })
+                return completion(nil, .noInputDevice)
             }
             
             // Set the orientation according to the current orientation of the interface
@@ -92,14 +92,11 @@ internal class Camera: NSObject {
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
                 (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
-                guard error == nil else { return completion({ _ in throw CameraError.captureFailed }) }
-                let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
-                completion({ _ in
-                    guard let data = imageData else {
-                        throw CameraError.captureFailed
-                    }
-                    return data
-                })
+                guard error != nil else {
+                    completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer), nil)
+                    return
+                }
+                completion(nil, .captureFailed)
             }
         }
     }
