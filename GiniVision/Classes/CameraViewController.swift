@@ -10,36 +10,39 @@ import UIKit
 import AVFoundation
 
 /**
- Block that will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.
+ Block that will be executed when the camera successfully takes a picture.
+ It contains the JPEG representation of the image including meta information about the image.
  
  - note: Component API only.
  */
-public typealias CameraSuccessBlock = (_ imageData: Data) -> ()
+public typealias CameraSuccessBlock = (_ imageData: Data) -> Void
 
 /**
- Block that will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
+ Block that will be executed when the camera screen successfully takes a picture or pick a document/picture.
+ It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
+ It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
  
  - note: Component API only.
  */
-public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> Void
 
 /**
  Block that will be executed if an error occurs on the camera. It contains a camera specific error.
  
  - note: Component API only.
  */
-public typealias CameraErrorBlock = (_ error: CameraError) -> ()
+public typealias CameraErrorBlock = (_ error: CameraError) -> Void
 
 /**
  Block that will be executed if an error occurs on the camera screen.
  
  - note: Component API only.
  */
-public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
-
+public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
 /**
- The `CameraViewController` provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
+ The `CameraViewController` provides a custom camera screen which enables the user to take a
+ photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
  
  **Text resources for this screen**
  
@@ -88,8 +91,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }()
     fileprivate lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
-        (previewView.layer as! AVCaptureVideoPreviewLayer).videoGravity = AVLayerVideoGravityResizeAspectFill
-        (previewView.layer as! AVCaptureVideoPreviewLayer).connection?.videoOrientation = self.getVideoOrientation()
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
         return previewView
@@ -99,10 +102,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     var toolTipView: ToolTipView?
-    fileprivate let interfaceOrientationsMapping = [UIInterfaceOrientation.portrait: AVCaptureVideoOrientation.portrait,
-                                                    UIInterfaceOrientation.landscapeRight: AVCaptureVideoOrientation.landscapeRight,
-                                                    UIInterfaceOrientation.landscapeLeft: AVCaptureVideoOrientation.landscapeLeft,
-                                                    UIInterfaceOrientation.portraitUpsideDown: AVCaptureVideoOrientation.portraitUpsideDown]
+    fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
+        .portrait: .portrait,
+        .landscapeRight: .landscapeRight,
+        .landscapeLeft: .landscapeLeft,
+        .portraitUpsideDown: .portraitUpsideDown
+    ]
     
     // Properties
     fileprivate var camera: Camera?
@@ -133,7 +138,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var failureBlock: CameraScreenFailureBlock?
     
     /**
-     Designated initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `CameraViewController` which allows
+     to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when document was picked or image was taken.
      - parameter failure: Error block to be executed if an error occurred.
@@ -148,7 +154,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.failureBlock = failureBlock
         
         // Configure camera
-        camera = Camera() { error in
+        camera = Camera { error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
@@ -162,7 +168,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     /**
-     Convenience initializer for the `CameraViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Convenience initializer for the `CameraViewController` which allows
+     to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when an image was taken.
      - parameter failure: Error block to be executed if an error occurred.
@@ -175,7 +182,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.init(successBlock: { data in
             success(data.data)
         }, failureBlock: { error in
-            failure(error as! CameraError)
+            failure(error as? CameraError ?? .unknown)
         })
     }
     
@@ -204,7 +211,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                                                    object: camera?.videoDeviceInput?.device)
         }
         
-        view.insertSubview(previewView, at: 0) // Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
+        // `previewView` must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
+        view.insertSubview(previewView, at: 0)
         view.insertSubview(controlsView, aboveSubview: previewView)
         
         previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
@@ -258,15 +266,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-
+        
         coordinator.animate(alongsideTransition: { [weak self] _ in
             guard let `self` = self else {
                 return 
             }
-            (self.previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
+            let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+            previewLayer?.connection?.videoOrientation = self.getVideoOrientation()
             self.toolTipView?.arrangeViews()
             
-            })
+        })
     }
     
     // MARK: Toggle UI elements
@@ -306,7 +315,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      Show the fileImportTip. Should be called when onboarding is dismissed.
      */
     public func showFileImportTip() {
-        self.toolTipView?.show(){
+        self.toolTipView?.show {
             self.blurEffect?.alpha = 1
             self.captureButton.isEnabled = false
         }
@@ -348,7 +357,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
             if GiniConfiguration.DEBUG {
-                // Retrieve image from default image view to make sure image was set and therefor the correct states were checked before.
+                // Retrieve image from default image view to make sure image
+                // was set and therefor the correct states were checked before.
                 if let image = self.defaultImageView?.image,
                     let imageData = UIImageJPEGRepresentation(image, 0.2) {
                     let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
@@ -473,7 +483,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         view.addInteraction(dropInteraction)
     }
     
-    
     // MARK: Error dialogs
     fileprivate func showPhotoLibraryPermissionDeniedError() {
         let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
@@ -511,7 +520,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
         guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
         let devicePoint = previewLayer.captureDevicePointOfInterest(for: sender.location(in: sender.view))
-        camera?.focusWithMode(.autoFocus, exposeWithMode: .autoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
+        camera?.focus(withMode: .autoFocus,
+                      exposeWithMode: .autoExpose,
+                      atDevicePoint: devicePoint,
+                      monitorSubjectAreaChange: true)
         let imageView = createFocusIndicator(withImage: cameraFocusSmall,
                                              atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
         showFocusIndicator(imageView)
@@ -519,12 +531,13 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     @objc fileprivate func subjectAreaDidChange(_ notification: Notification) {
         guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-
         let devicePoint = CGPoint(x: 0.5, y: 0.5)
-        camera?.focusWithMode(.continuousAutoFocus,
-                              exposeWithMode: .continuousAutoExposure,
-                              atDevicePoint: devicePoint,
-                              monitorSubjectAreaChange: false)
+        
+        camera?.focus(withMode: .continuousAutoFocus,
+                      exposeWithMode: .continuousAutoExposure,
+                      atDevicePoint: devicePoint,
+                      monitorSubjectAreaChange: false)
+        
         let imageView = createFocusIndicator(withImage: cameraFocusLarge,
                                              atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
         showFocusIndicator(imageView)
@@ -550,7 +563,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                        animations: {
                         imageView.alpha = 0.0
         },
-                       completion: { (success: Bool) -> Void in
+                       completion: { _ in
                         imageView.removeFromSuperview()
         })
     }
@@ -591,7 +604,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top)
             Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
             Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-
         }
     }
     
@@ -605,7 +617,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
             Contraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
             Contraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .trailing, constant: -16)
             Contraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading, constant: 16, priority: 750)
-
         } else {
             Contraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
             Contraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top, constant: 16)
@@ -659,6 +670,4 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         Contraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
         Contraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
-    
 }
-

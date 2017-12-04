@@ -51,19 +51,19 @@ internal class Camera: NSObject {
         }
     }
     
-    func focusWithMode(_ focusMode: AVCaptureFocusMode,
-                       exposeWithMode exposureMode: AVCaptureExposureMode,
-                       atDevicePoint point: CGPoint,
-                       monitorSubjectAreaChange: Bool) {
+    func focus(withMode mode: AVCaptureFocusMode,
+               exposeWithMode exposureMode: AVCaptureExposureMode,
+               atDevicePoint point: CGPoint,
+               monitorSubjectAreaChange: Bool) {
         sessionQueue.async {
             guard let device = self.videoDeviceInput?.device else { return }
             guard case .some = try? device.lockForConfiguration() else {
                 return print("Could not lock device for configuration")
             }
             
-            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
+            if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(mode) {
                 device.focusPointOfInterest = point
-                device.focusMode = focusMode
+                device.focusMode = mode
             }
             
             if device.isExposurePointOfInterestSupported && device.isExposureModeSupported(exposureMode) {
@@ -92,11 +92,11 @@ internal class Camera: NSObject {
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?
                 .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
-                guard error != nil else {
-                    completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
-                    return
-                }
-                completion(nil, .captureFailed)
+                    guard error != nil else {
+                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
+                        return
+                    }
+                    completion(nil, .captureFailed)
             }
         }
     }
@@ -170,7 +170,7 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         
         if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObjectTypeQRCode {
-            print(metadataObj)
+            // Create Gini Document
         }
     }
 }
