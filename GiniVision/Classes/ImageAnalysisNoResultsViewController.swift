@@ -104,21 +104,21 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     fileprivate func addConstraints() {
         
         // Collection View
-        Contraints.active(item: suggestionsCollectionView, attr: .top, relatedBy: .equal, to: self.view, attr: .top, multiplier: 1.0)
-        Contraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: suggestionsCollectionView, attr: .leading, multiplier: 1.0)
-        Contraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: suggestionsCollectionView, attr: .trailing, multiplier: 1.0)
+        Contraints.active(item: suggestionsCollectionView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+        Contraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: suggestionsCollectionView, attr: .leading)
+        Contraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: suggestionsCollectionView, attr: .trailing)
         
         // Button
         if bottomButtonText != nil {
-            Contraints.active(item: self.bottomLayoutGuide, attr: .top, relatedBy: .equal, to: bottomButton, attr: .bottom, multiplier: 1.0, constant: 20)
-            Contraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: bottomButton, attr: .leading, multiplier: 1.0, constant: -20, priority: 999)
-            Contraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: bottomButton, attr: .trailing, multiplier: 1.0, constant: 20, priority: 999)
-            Contraints.active(item: self.view, attr: .centerX, relatedBy: .equal, to: bottomButton, attr: .centerX, multiplier: 1.0)
-            Contraints.active(item: bottomButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: 60)
-            Contraints.active(item: bottomButton, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: 375)
-            Contraints.active(item: bottomButton, attr: .top, relatedBy: .equal, to: suggestionsCollectionView, attr: .bottom, multiplier: 1.0, constant:0, priority: 999)
+            Contraints.active(item: self.bottomLayoutGuide, attr: .top, relatedBy: .equal, to: bottomButton, attr: .bottom, constant: 20)
+            Contraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: bottomButton, attr: .leading, constant: -20, priority: 999)
+            Contraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: bottomButton, attr: .trailing, constant: 20, priority: 999)
+            Contraints.active(item: self.view, attr: .centerX, relatedBy: .equal, to: bottomButton, attr: .centerX)
+            Contraints.active(item: bottomButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 60)
+            Contraints.active(item: bottomButton, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute, constant: 375)
+            Contraints.active(item: bottomButton, attr: .top, relatedBy: .equal, to: suggestionsCollectionView, attr: .bottom, constant:0, priority: 999)
         } else {
-            Contraints.active(item: self.view, attr: .bottom, relatedBy: .equal, to: suggestionsCollectionView, attr: .bottom, multiplier: 1.0, constant:0, priority: 999)
+            Contraints.active(item: self.view, attr: .bottom, relatedBy: .equal, to: suggestionsCollectionView, attr: .bottom, constant:0, priority: 999)
         }
 
     }

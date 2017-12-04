@@ -117,8 +117,8 @@ final class CaptureSuggestionsView: UIView {
             Contraints.active(item: suggestionContainer, attr: .width, relatedBy: .lessThanOrEqual, to: self, attr: .width, multiplier: 0.9)
             Contraints.active(item: suggestionText, attr: .centerX, relatedBy: .equal, to: self, attr: .centerX)
         } else {
-            Contraints.active(item: suggestionContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: 20)
-            Contraints.active(item: suggestionContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0, constant: -20, priority: 999)
+            Contraints.active(item: suggestionContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
+            Contraints.active(item: suggestionContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -20, priority: 999)
         }
 
         layoutIfNeeded()
