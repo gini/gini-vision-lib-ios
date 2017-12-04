@@ -16,6 +16,7 @@ internal class Camera: NSObject {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
+    var didDetectQR: ((GiniVisionDocument) -> Void)?
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
                                                                      attributes: [])
     fileprivate let application: UIApplication
