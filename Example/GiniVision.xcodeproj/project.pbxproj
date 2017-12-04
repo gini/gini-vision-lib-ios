@@ -374,6 +374,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				1A1C04866FBA7F9B880F73B0 /* [CP] Embed Pods Frameworks */,
 				B9409933634455CEACC67988 /* [CP] Copy Pods Resources */,
+				1FE5C1321FD582370086AA08 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -521,6 +522,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		1FE5C1321FD582370086AA08 /* Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftlint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 		21D215BFC39DBB730369EF88 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

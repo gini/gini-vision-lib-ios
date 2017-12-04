@@ -1,0 +1,21 @@
+included:
+  - ../GiniVision
+
+excluded:
+  - Pods/
+
+disabled_rules: # rule identifiers to exclude from running
+  - trailing_newline
+  - trailing_whitespace
+  - large_tuple
+  - identifier_name
+
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+line_length:
+- 120 # warning
+- 600 # error
+
+identifier_name: warning
+shorthand_operator: warning
