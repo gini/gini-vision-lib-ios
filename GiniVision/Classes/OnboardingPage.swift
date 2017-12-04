@@ -90,27 +90,27 @@ import UIKit
             
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .top, multiplier: 1, constant: 30)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .centerY, relatedBy: .equal, toItem: superview, attribute: .centerY, multiplier: 1, constant: 5, priority: 999)
+        Contraints.active(item: contentView, attr: .top, relatedBy: .greaterThanOrEqual, to: superview, attr: .top, constant: 30)
+        Contraints.active(item: contentView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
+        Contraints.active(item: contentView, attr: .centerY, relatedBy: .equal, to: superview, attr: .centerY, constant: 5, priority: 999)
     
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .width, multiplier: 1, constant: 612)
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .width, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .width, multiplier: 1, constant: 75)
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 360)
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 100)
-        ConstraintUtils.addActiveConstraint(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0)
+        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
+        Contraints.active(item: imageView, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .width, constant: 612)
+        Contraints.active(item: imageView, attr: .width, relatedBy: .greaterThanOrEqual, to: nil, attr: .width, constant: 75)
+        Contraints.active(item: imageView, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .height, constant: 360)
+        Contraints.active(item: imageView, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height, constant: 100)
+        Contraints.active(item: imageView, attr: .centerX, relatedBy: .equal, to: contentView, attr: .centerX)
 
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: imageView, attribute: .bottom, multiplier: 1, constant: 35)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: contentView, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 2/3, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
+        Contraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: imageView, attr: .bottom, constant: 35)
+        Contraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: contentView, attr: .trailing)
+        Contraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: contentView, attr: .bottom)
+        Contraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
+        Contraints.active(item: textLabel, attr: .width, relatedBy: .equal, to: superview, attr: .width, multiplier: 2/3)
+        Contraints.active(item: textLabel, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height, constant: 70)
     }
     
 }

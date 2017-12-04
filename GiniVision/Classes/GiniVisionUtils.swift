@@ -99,17 +99,17 @@ internal enum FontWeight {
     }
 }
 
-internal class ConstraintUtils {
+internal class Contraints {
     
-    class func addActiveConstraint(item view1: Any,
-                                   attribute attr1: NSLayoutAttribute,
-                                   relatedBy relation: NSLayoutRelation,
-                                   toItem view2: Any?,
-                                   attribute attr2: NSLayoutAttribute,
-                                   multiplier: CGFloat = 1.0,
-                                   constant: CGFloat = 0,
-                                   priority: UILayoutPriority = 1000,
-                                   identifier: String? = nil) {
+    class func active(item view1: Any,
+                      attr attr1: NSLayoutAttribute,
+                      relatedBy relation: NSLayoutRelation,
+                      to view2: Any?,
+                      attr attr2: NSLayoutAttribute,
+                      multiplier: CGFloat = 1.0,
+                      constant: CGFloat = 0,
+                      priority: UILayoutPriority = 1000,
+                      identifier: String? = nil) {
         
         let constraint = NSLayoutConstraint(item: view1,
                                             attribute: attr1,
@@ -117,12 +117,12 @@ internal class ConstraintUtils {
                                             toItem: view2, attribute: attr2,
                                             multiplier: multiplier,
                                             constant: constant)
-        addActive(constraint: constraint, priority: priority, identifier: identifier)
+        active(constraint: constraint, priority: priority, identifier: identifier)
     }
     
-    class func addActive(constraint: NSLayoutConstraint,
-                         priority: UILayoutPriority = 1000,
-                         identifier: String? = nil) {
+    class func active(constraint: NSLayoutConstraint,
+                      priority: UILayoutPriority = 1000,
+                      identifier: String? = nil) {
         constraint.priority = priority
         constraint.identifier = identifier
         constraint.isActive = true

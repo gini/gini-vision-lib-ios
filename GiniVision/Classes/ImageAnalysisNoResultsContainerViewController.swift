@@ -78,9 +78,9 @@ internal class ImageAnalysisNoResultsContainerViewController: UIViewController, 
         
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+        Contraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: containerView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: containerView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Contraints.active(item: containerView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
     }
 }

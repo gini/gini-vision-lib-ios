@@ -52,20 +52,20 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
     }
     
     private func addConstraints() {
-        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: headerContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
+        Contraints.active(item: headerContainer, attr: .top, relatedBy: .equal, to: self, attr: .top, multiplier: 1.0)
+        Contraints.active(item: headerContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0)
+        Contraints.active(item: headerContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0)
         
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .top, relatedBy: .equal, toItem: headerContainer, attribute: .top, multiplier: 1.0, constant: padding.top)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .leading, relatedBy: .equal, toItem: headerContainer, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .trailing, relatedBy: .equal, toItem: headerContainer, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
-        ConstraintUtils.addActiveConstraint(item: headerTitle, attribute: .bottom, relatedBy: .equal, toItem: headerContainer, attribute: .bottom, multiplier: 1.0, constant: -padding.bottom)
+        Contraints.active(item: headerTitle, attr: .top, relatedBy: .equal, to: headerContainer, attr: .top, multiplier: 1.0, constant: padding.top)
+        Contraints.active(item: headerTitle, attr: .leading, relatedBy: .equal, to: headerContainer, attr: .leading, multiplier: 1.0, constant: padding.left)
+        Contraints.active(item: headerTitle, attr: .trailing, relatedBy: .equal, to: headerContainer, attr: .trailing, multiplier: 1.0, constant: -padding.right)
+        Contraints.active(item: headerTitle, attr: .bottom, relatedBy: .equal, to: headerContainer, attr: .bottom, multiplier: 1.0, constant: -padding.bottom)
         
-        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .top, relatedBy: .equal, toItem: headerContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 1)
+        Contraints.active(item: bottomLine, attr: .top, relatedBy: .equal, to: headerContainer, attr: .bottom, multiplier: 1.0)
+        Contraints.active(item: bottomLine, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0)
+        Contraints.active(item: bottomLine, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0)
+        Contraints.active(item: bottomLine, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, multiplier: 1.0)
+        Contraints.active(item: bottomLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: 1)
     }
 }
 

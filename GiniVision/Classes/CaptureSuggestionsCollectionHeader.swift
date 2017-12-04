@@ -87,35 +87,35 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     
     private func addConstraints() {
         // Top view container bottom line
-        ConstraintUtils.addActiveConstraint(item: topViewContainerBottomLine, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0.5)
-        ConstraintUtils.addActiveConstraint(item: topViewContainerBottomLine, attribute: .width, relatedBy: .equal, toItem: topViewContainer, attribute: .width, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topViewContainerBottomLine, attribute: .top, relatedBy: .equal, toItem: topViewContainer, attribute: .bottom, multiplier: 1.0, constant: 0)
+        Contraints.active(item: topViewContainerBottomLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: 0.5)
+        Contraints.active(item: topViewContainerBottomLine, attr: .width, relatedBy: .equal, to: topViewContainer, attr: .width, multiplier: 1.0)
+        Contraints.active(item: topViewContainerBottomLine, attr: .top, relatedBy: .equal, to: topViewContainer, attr: .bottom, multiplier: 1.0)
         
         // Top Container
-        ConstraintUtils.addActiveConstraint(item: topViewContainer, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topViewContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topViewContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topViewContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 100)
+        Contraints.active(item: topViewContainer, attr: .top, relatedBy: .equal, to: self, attr: .top, multiplier: 1.0)
+        Contraints.active(item: topViewContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0)
+        Contraints.active(item: topViewContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0)
+        Contraints.active(item: topViewContainer, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: 100)
         bottomTopViewContainerConstraint = NSLayoutConstraint(item: topViewContainer, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
 
         // Top Icon
-        ConstraintUtils.addActiveConstraint(item: topViewIcon, attribute: .top, relatedBy: .equal, toItem: topViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: topViewIcon, attribute: .bottom, relatedBy: .equal, toItem: topViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: topViewIcon, attribute: .leading, relatedBy: .equal, toItem: topViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: topViewIcon, attribute: .trailing, relatedBy: .equal, toItem: topViewText, attribute: .leading, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: topViewIcon, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: topViewIconWidth)
+        Contraints.active(item: topViewIcon, attr: .top, relatedBy: .equal, to: topViewContainer, attr: .top, multiplier: 1.0, constant: 16)
+        Contraints.active(item: topViewIcon, attr: .bottom, relatedBy: .equal, to: topViewContainer, attr: .bottom, multiplier: 1.0, constant: -16)
+        Contraints.active(item: topViewIcon, attr: .leading, relatedBy: .equal, to: topViewContainer, attr: .leading, multiplier: 1.0, constant: 16)
+        Contraints.active(item: topViewIcon, attr: .trailing, relatedBy: .equal, to: topViewText, attr: .leading, multiplier: 1.0, constant: -16)
+        Contraints.active(item: topViewIcon, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: topViewIconWidth)
         
         // Top text
-        ConstraintUtils.addActiveConstraint(item: topViewText, attribute: .top, relatedBy: .equal, toItem: topViewContainer, attribute: .top, multiplier: 1.0, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: topViewText, attribute: .bottom, relatedBy: .equal, toItem: topViewContainer, attribute: .bottom, multiplier: 1.0, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: topViewText, attribute: .trailing, relatedBy: .equal, toItem: topViewContainer, attribute: .trailing, multiplier: 1.0, constant: -16, priority: 999)
+        Contraints.active(item: topViewText, attr: .top, relatedBy: .equal, to: topViewContainer, attr: .top, multiplier: 1.0, constant: 16)
+        Contraints.active(item: topViewText, attr: .bottom, relatedBy: .equal, to: topViewContainer, attr: .bottom, multiplier: 1.0, constant: -16)
+        Contraints.active(item: topViewText, attr: .trailing, relatedBy: .equal, to: topViewContainer, attr: .trailing, multiplier: 1.0, constant: -16, priority: 999)
         leadingTopViewTextConstraint = NSLayoutConstraint(item: topViewText, attribute: .leading, relatedBy: .equal, toItem: topViewContainer, attribute: .leading, multiplier: 1.0, constant: 16)
         
         // Sub header title
-        ConstraintUtils.addActiveConstraint(item: subHeaderTitle, attribute: .top, relatedBy: .equal, toItem: topViewContainerBottomLine, attribute: .bottom, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: subHeaderTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
-        ConstraintUtils.addActiveConstraint(item: subHeaderTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20)
-        ConstraintUtils.addActiveConstraint(item: subHeaderTitle, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0)
+        Contraints.active(item: subHeaderTitle, attr: .top, relatedBy: .equal, to: topViewContainerBottomLine, attr: .bottom, multiplier: 1.0, constant: 20)
+        Contraints.active(item: subHeaderTitle, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: 20)
+        Contraints.active(item: subHeaderTitle, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0, constant: -20)
+        Contraints.active(item: subHeaderTitle, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, multiplier: 1.0)
         
     }
 }

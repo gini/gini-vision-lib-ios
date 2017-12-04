@@ -275,10 +275,10 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -286,40 +286,40 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1, constant: 0)
         imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0)
         imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActive(constraint: imageViewTopConstraint)
-        ConstraintUtils.addActive(constraint: imageViewTrailingConstraint)
-        ConstraintUtils.addActive(constraint: imageViewBottomConstraint)
-        ConstraintUtils.addActive(constraint: imageViewLeadingConstraint)
+        Contraints.active(constraint: imageViewTopConstraint)
+        Contraints.active(constraint: imageViewTrailingConstraint)
+        Contraints.active(constraint: imageViewBottomConstraint)
+        Contraints.active(constraint: imageViewLeadingConstraint)
         
         // Top view
         topView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: topView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: topView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 35)
+        Contraints.active(item: topView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: topView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: topView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: topView, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
         
         // Bottom view
         bottomView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .bottom, relatedBy: .equal, toItem: self.bottomLayoutGuide, attribute: .top
-            , multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: bottomView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: rotateButton, attribute: .height, multiplier: 1, constant: 0)
+        Contraints.active(item: bottomView, attr: .top, relatedBy: .equal, to: scrollView, attr: .bottom, priority: 750)
+        Contraints.active(item: bottomView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: bottomView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top
+            )
+        Contraints.active(item: bottomView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: bottomView, attr: .height, relatedBy: .greaterThanOrEqual, to: rotateButton, attr: .height)
         
         // Rotate button
         rotateButton.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: rotateButton, attribute: .leading, relatedBy: .equal, toItem: bottomView, attribute: .leading, multiplier: 1, constant: 15)
-        ConstraintUtils.addActiveConstraint(item: rotateButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 33)
-        ConstraintUtils.addActiveConstraint(item: rotateButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 33)
-        ConstraintUtils.addActiveConstraint(item: rotateButton, attribute: .centerY, relatedBy: .equal, toItem: bottomView, attribute: .centerY, multiplier: 1, constant: 0)
+        Contraints.active(item: rotateButton, attr: .leading, relatedBy: .equal, to: bottomView, attr: .leading, constant: 15)
+        Contraints.active(item: rotateButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 33)
+        Contraints.active(item: rotateButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
+        Contraints.active(item: rotateButton, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
         
         // Bottom label
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: bottomLabel, attribute: .trailing, relatedBy: .equal, toItem: bottomView, attribute: .trailing, multiplier: 1, constant: -20)
-        ConstraintUtils.addActiveConstraint(item: bottomLabel, attribute: .leading, relatedBy: .equal, toItem: rotateButton, attribute: .trailing, multiplier: 1, constant: 30, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: bottomLabel, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 33)
-        ConstraintUtils.addActiveConstraint(item: bottomLabel, attribute: .centerY, relatedBy: .equal, toItem: bottomView, attribute: .centerY, multiplier: 1, constant: 0)
+        Contraints.active(item: bottomLabel, attr: .trailing, relatedBy: .equal, to: bottomView, attr: .trailing, constant: -20)
+        Contraints.active(item: bottomLabel, attr: .leading, relatedBy: .equal, to: rotateButton, attr: .trailing, constant: 30, priority: 999)
+        Contraints.active(item: bottomLabel, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
+        Contraints.active(item: bottomLabel, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
         
         view.layoutIfNeeded()
     }

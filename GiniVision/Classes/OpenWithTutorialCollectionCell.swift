@@ -87,32 +87,32 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     private func addConstrains() {
         
         // stepIndicator
-        ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerX, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerX, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: stepIndicator, attribute: .centerY, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .centerY, multiplier: 1.0, constant: 0)
+        Contraints.active(item: stepIndicator, attr: .centerX, relatedBy: .equal, to: stepIndicatorCircle, attr: .centerX, multiplier: 1.0)
+        Contraints.active(item: stepIndicator, attr: .centerY, relatedBy: .equal, to: stepIndicatorCircle, attr: .centerY, multiplier: 1.0)
         
         // stepIndicatorCircle
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.height)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.width)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: padding.top)
-        ConstraintUtils.addActiveConstraint(item: stepIndicatorCircle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
+        Contraints.active(item: stepIndicatorCircle, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.height)
+        Contraints.active(item: stepIndicatorCircle, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: stepIndicatorCircleSize.width)
+        Contraints.active(item: stepIndicatorCircle, attr: .top, relatedBy: .equal, to: self, attr: .top, multiplier: 1.0, constant: padding.top)
+        Contraints.active(item: stepIndicatorCircle, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: padding.left)
         
         // stepTitle
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .top, relatedBy: .equal, toItem: stepIndicatorCircle, attribute: .bottom, multiplier: 1.0, constant: indicatorToTitleDistance)
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: stepTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
+        Contraints.active(item: stepTitle, attr: .top, relatedBy: .equal, to: stepIndicatorCircle, attr: .bottom, multiplier: 1.0, constant: indicatorToTitleDistance)
+        Contraints.active(item: stepTitle, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: padding.left)
+        Contraints.active(item: stepTitle, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0, constant: -padding.right)
         
         // stepSubTitle
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .top, relatedBy: .equal, toItem: stepTitle, attribute: .bottom, multiplier: 1.0, constant: titleToSubtitleDistance)
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left)
-        ConstraintUtils.addActiveConstraint(item: stepSubTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right)
+        Contraints.active(item: stepSubTitle, attr: .top, relatedBy: .equal, to: stepTitle, attr: .bottom, multiplier: 1.0, constant: titleToSubtitleDistance)
+        Contraints.active(item: stepSubTitle, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: padding.left)
+        Contraints.active(item: stepSubTitle, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0, constant: -padding.right)
         
         // stepImage
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .top, relatedBy: .equal, toItem: stepSubTitle, attribute: .bottom, multiplier: 1.0, constant: subtitleToImageDistance)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: padding.left, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -padding.right, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .bottom, relatedBy: .lessThanOrEqual, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -padding.bottom, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: stepImage, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: imageHeight)
+        Contraints.active(item: stepImage, attr: .top, relatedBy: .equal, to: stepSubTitle, attr: .bottom, multiplier: 1.0, constant: subtitleToImageDistance)
+        Contraints.active(item: stepImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading, multiplier: 1.0, constant: padding.left, priority: 999)
+        Contraints.active(item: stepImage, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, multiplier: 1.0, constant: -padding.right, priority: 999)
+        Contraints.active(item: stepImage, attr: .centerX, relatedBy: .equal, to: self, attr: .centerX, multiplier: 1.0)
+        Contraints.active(item: stepImage, attr: .bottom, relatedBy: .lessThanOrEqual, to: self, attr: .bottom, multiplier: 1.0, constant: -padding.bottom, priority: 999)
+        Contraints.active(item: stepImage, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, multiplier: 1.0, constant: imageHeight)
         
     }
     
