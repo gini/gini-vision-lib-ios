@@ -154,7 +154,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.failureBlock = failureBlock
         
         // Configure camera
-        camera = Camera { error in
+        self.camera = Camera { error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
@@ -165,6 +165,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 failureBlock(error)
             }
         }
+        self.camera?.didDetectQR = successBlock
     }
     
     /**
