@@ -90,10 +90,10 @@ internal class Camera: NSObject {
             }
             
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
-            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
-                (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
+            self.stillImageOutput?
+                .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
                 guard error != nil else {
-                    completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer), nil)
+                    completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
                     return
                 }
                 completion(nil, .captureFailed)
@@ -136,7 +136,7 @@ internal class Camera: NSObject {
         let output = AVCaptureStillImageOutput()
         
         if self.session.canAddOutput(output) {
-            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG];
+            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
             self.session.addOutput(output)
             self.stillImageOutput = output
         } else {
@@ -144,7 +144,7 @@ internal class Camera: NSObject {
         }
     }
     
-    fileprivate func setupQRScanningOutput(){
+    fileprivate func setupQRScanningOutput() {
         let qrOutput = AVCaptureMetadataOutput()
         
         if self.session.canAddOutput(qrOutput) {
