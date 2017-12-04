@@ -550,15 +550,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+            Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Contraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
+            Contraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading, priority: 750)
         } else {
             // lower priority constraints - will make the preview "want" to get bigger
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: previewView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
+            Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Contraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         }
     }
     
@@ -566,15 +566,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         controlsView.translatesAutoresizingMaskIntoConstraints = false
         
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: self.view, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: previewView, attribute: .trailing, multiplier: 1, constant: 0, priority:750)
+            Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
+            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing, priority: 750)
         } else {
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .top, relatedBy: .equal, toItem: previewView, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .bottom, relatedBy: .equal, toItem: self.bottomLayoutGuide, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .trailing, relatedBy: .equal, toItem: self.view, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: controlsView, attribute: .leading, relatedBy: .equal, toItem: self.view, attribute: .leading, multiplier: 1, constant: 0)
+            Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
+            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top)
+            Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
 
         }
     }
@@ -582,31 +582,31 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .width, multiplier: 1, constant: 70)
-        ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 70)
+        Contraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 70)
+        Contraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 70)
         
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: -16)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 16, priority:750)
+            Contraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
+            Contraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .trailing, constant: -16)
+            Contraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading, constant: 16, priority: 750)
 
         } else {
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .centerX, relatedBy: .equal, toItem: controlsView, attribute: .centerX, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .top, relatedBy: .equal, toItem: controlsView, attribute: .top, multiplier: 1, constant: 16)
-            ConstraintUtils.addActiveConstraint(item: captureButton, attribute: .bottom, relatedBy: .equal, toItem: controlsView, attribute: .bottom, multiplier: 1, constant: -16, priority: 750)
+            Contraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
+            Contraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top, constant: 16)
+            Contraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom, constant: -16, priority: 750)
         }
     }
     
     fileprivate func addImportButtonConstraints() {
         importFileButton.translatesAutoresizingMaskIntoConstraints = false
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: controlsView, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .top, relatedBy: .equal, toItem: captureButton, attribute: .bottom, multiplier: 1, constant: 60)
+            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .trailing)
+            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading)
+            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton, attr: .bottom, constant: 60)
         } else {
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .centerY, relatedBy: .equal, toItem: controlsView, attribute: .centerY, multiplier: 1, constant: 0, priority: 750)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .leading, relatedBy: .equal, toItem: controlsView, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: importFileButton, attribute: .trailing, relatedBy: .equal, toItem: captureButton, attribute: .leading, multiplier: 1, constant: 0, priority: 750)
+            Contraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY, priority: 750)
+            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading)
+            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton, attr: .leading, priority: 750)
         }
     }
     
@@ -619,10 +619,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .width, relatedBy: .equal, toItem: super.view, attribute: .width, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: super.view, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerX, relatedBy: .equal, toItem: super.view, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: view, attribute: .centerY, relatedBy: .equal, toItem: super.view, attribute: .centerY, multiplier: 1, constant: 0)
+        Contraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
+        Contraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
+        Contraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
+        Contraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
         
         // Hide camera UI
         hideCameraOverlay()
@@ -638,10 +638,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         previewView.addSubview(defaultImageView)
         
         defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .width, relatedBy: .equal, toItem: previewView, attribute: .width, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .height, relatedBy: .equal, toItem: previewView, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerX, relatedBy: .equal, toItem: previewView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: defaultImageView, attribute: .centerY, relatedBy: .equal, toItem: previewView, attribute: .centerY, multiplier: 1, constant: 0)
+        Contraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
+        Contraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
+        Contraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
+        Contraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
     
 }

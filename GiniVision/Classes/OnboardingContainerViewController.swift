@@ -119,25 +119,25 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .bottom, relatedBy: .greaterThanOrEqual, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .equal, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .width, relatedBy: .lessThanOrEqual, toItem: superview, attribute: .width, multiplier: 1, constant: 0, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: containerView, attribute: .centerX, relatedBy: .equal, toItem: superview, attribute: .centerX, multiplier: 1, constant: 0)
+        Contraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview, attr: .bottom, priority: 750)
+        Contraints.active(item: containerView, attr: .width, relatedBy: .equal, to: superview, attr: .width, priority: 750)
+        Contraints.active(item: containerView, attr: .width, relatedBy: .lessThanOrEqual, to: superview, attr: .width, priority: 999)
+        Contraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
         
         // Page control container view
         pageControlContainerView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .top, relatedBy: .equal, toItem: containerView, attribute: .bottom, multiplier: 1, constant: 0, priority: 750)
-        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: pageControlContainerView, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: pageControl, attribute: .height, multiplier: 1.1, constant: 0)
+        Contraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView, attr: .bottom, priority: 750)
+        Contraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Contraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual, to: pageControl, attr: .height, multiplier: 1.1)
         
         // Page control
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 55)
-        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerX, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerX, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: pageControl, attribute: .centerY, relatedBy: .equal, toItem: pageControlContainerView, attribute: .centerY, multiplier: 1, constant: 0)
+        Contraints.active(item: pageControl, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 55)
+        Contraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView, attr: .centerX)
+        Contraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView, attr: .centerY)
     }
 }
 
