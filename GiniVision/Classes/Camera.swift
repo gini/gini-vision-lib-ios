@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-internal class Camera {
+internal class Camera: NSObject {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()
@@ -18,8 +18,9 @@ internal class Camera {
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
     
-    init() throws {
-        try setupSession()
+    override init() {
+        super.init()
+        try! setupSession()
     }
     
     // MARK: Public methods
@@ -130,6 +131,11 @@ internal class Camera {
         }
         
         let output = AVCaptureStillImageOutput()
+        let qrOutput = AVCaptureMetadataOutput()
+        self.session.addOutput(qrOutput)
+        qrOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        qrOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        
         if self.session.canAddOutput(output) {
             output.outputSettings = [ AVVideoCodecKey: AVVideoCodecJPEG ];
             self.session.addOutput(output)
@@ -139,5 +145,17 @@ internal class Camera {
         }
         
         self.session.commitConfiguration()
+    }
+}
+
+extension Camera: AVCaptureMetadataOutputObjectsDelegate {
+    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
+        print()
+        // Get the metadata object.
+        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        
+        if metadataObj.type == AVMetadataObjectTypeQRCode {
+
+        }
     }
 }
