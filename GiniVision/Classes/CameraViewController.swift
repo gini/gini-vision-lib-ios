@@ -198,7 +198,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         if let validCamera = camera {
             cameraState = .valid
             previewView.session = validCamera.session
-            NotificationCenter.default.addObserver(self, selector: #selector(subjectAreaDidChange), name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange, object: camera?.videoDeviceInput?.device)
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(subjectAreaDidChange),
+                                                   name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange,
+                                                   object: camera?.videoDeviceInput?.device)
         }
         
         view.insertSubview(previewView, at: 0) // Must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
@@ -323,12 +326,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip", bundle: Bundle(for: GiniVision.self), comment: "tooltip text indicating new file import feature"),
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
+                                                          bundle: Bundle(for: GiniVision.self),
+                                                          comment: "tooltip text indicating new file import feature"),
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
                                   font: GiniConfiguration.sharedConfiguration.customFont.regular.withSize(14),
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
-                                  referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
+                                  referenceView: importFileButton,
+                                  superView: self.view,
+                                  position: UIDevice.current.isIpad ? .left : .above)
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
@@ -353,7 +360,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         camera.captureStillImage { inner in
             do {
                 let imageData = try inner()
-                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera, deviceOrientation: UIApplication.shared.statusBarOrientation)
+                let imageDocument = GiniImageDocument(data: imageData,
+                                                      imageSource: .camera,
+                                                      deviceOrientation: UIApplication.shared.statusBarOrientation)
                 
                 // Call success block
                 self.successBlock?(imageDocument)
@@ -504,16 +513,24 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate typealias FocusIndicator = UIImageView
     
     @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
-        let devicePoint = (previewView.layer as! AVCaptureVideoPreviewLayer).captureDevicePointOfInterest(for: sender.location(in: sender.view))
+        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
+        let devicePoint = previewLayer.captureDevicePointOfInterest(for: sender.location(in: sender.view))
         camera?.focusWithMode(.autoFocus, exposeWithMode: .autoExpose, atDevicePoint: devicePoint, monitorSubjectAreaChange: true)
-        let imageView = createFocusIndicator(withImage: cameraFocusSmall, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePoint(ofInterest: devicePoint))
+        let imageView = createFocusIndicator(withImage: cameraFocusSmall,
+                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
         showFocusIndicator(imageView)
     }
     
     @objc fileprivate func subjectAreaDidChange(_ notification: Notification) {
+        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
+
         let devicePoint = CGPoint(x: 0.5, y: 0.5)
-        camera?.focusWithMode(.continuousAutoFocus, exposeWithMode: .continuousAutoExposure, atDevicePoint: devicePoint, monitorSubjectAreaChange: false)
-        let imageView = createFocusIndicator(withImage: cameraFocusLarge, atPoint: (previewView.layer as! AVCaptureVideoPreviewLayer).pointForCaptureDevicePoint(ofInterest: devicePoint))
+        camera?.focusWithMode(.continuousAutoFocus,
+                              exposeWithMode: .continuousAutoExposure,
+                              atDevicePoint: devicePoint,
+                              monitorSubjectAreaChange: false)
+        let imageView = createFocusIndicator(withImage: cameraFocusLarge,
+                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
         showFocusIndicator(imageView)
     }
     

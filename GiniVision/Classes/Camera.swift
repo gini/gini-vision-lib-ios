@@ -17,18 +17,18 @@ internal class Camera: NSObject {
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
+    fileprivate let application: UIApplication
     
-    convenience init(completion: ((CameraError?) -> Void)) {
-        self.init()
+    init(application: UIApplication = UIApplication.shared, completion: ((CameraError?) -> Void)) {
+        self.application = application
+        super.init()
         do {
             try setupSession()
             
             self.session.beginConfiguration()
-            
             self.setupInput()
             self.setupPhotoCaptureOutput()
-            self.setupQRScanning()
-            
+            self.setupQRScanningOutput()
             self.session.commitConfiguration()
         } catch let error as CameraError {
             completion(error)
@@ -83,12 +83,14 @@ internal class Camera: NSObject {
             }
             
             // Set the orientation according to the current orientation of the interface
-            DispatchQueue.main.sync {
-                connection.videoOrientation = AVCaptureVideoOrientation(UIApplication.shared.statusBarOrientation)
+            DispatchQueue.main.sync { [weak self] in
+                guard let `self` = self else { return }
+                connection.videoOrientation = AVCaptureVideoOrientation(self.application.statusBarOrientation)
             }
             
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
-            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
+            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, 
+                error: Error?) -> Void in
                 guard error == nil else { return completion({ _ in throw CameraError.captureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                 completion({ _ in
@@ -103,11 +105,11 @@ internal class Camera: NSObject {
     
     // MARK: Private methods
     fileprivate func setupSession() throws {
-        let videoDevice: AVCaptureDevice? = {
+        var videoDevice: AVCaptureDevice? {
             let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).filter { ($0 as? AVCaptureDevice)?.position == .back }
             guard let device = devices.first as? AVCaptureDevice else { return nil }
             return device
-        }()
+        }
         
         do {
             self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
@@ -142,7 +144,7 @@ internal class Camera: NSObject {
         }
     }
     
-    fileprivate func setupQRScanning(){
+    fileprivate func setupQRScanningOutput(){
         let qrOutput = AVCaptureMetadataOutput()
         
         if self.session.canAddOutput(qrOutput) {
@@ -156,8 +158,11 @@ internal class Camera: NSObject {
     }
 }
 
+// MARK: AVCaptureMetadataOutputObjectsDelegate
+
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
-    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!,
+    func captureOutput(_ output: AVCaptureOutput!,
+                       didOutputMetadataObjects metadataObjects: [Any]!,
                        from connection: AVCaptureConnection!) {
         if metadataObjects.isEmpty {
             return
