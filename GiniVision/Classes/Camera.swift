@@ -21,6 +21,7 @@ internal class Camera: NSObject {
     override init() {
         super.init()
         try! setupSession()
+        setupQRScanning()
     }
     
     // MARK: Public methods
@@ -82,24 +83,6 @@ internal class Camera: NSObject {
         }
     }
     
-    class func saveImageFromData(_ data: Data) {
-        PHPhotoLibrary.requestAuthorization({ (status: PHAuthorizationStatus) -> Void in
-            guard status == .authorized else { return print("No access to photo library granted") }
-            
-            // Check for iOS to make sure `PHAssetCreationRequest` class is available
-            if #available(iOS 9.0, *) {
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetCreationRequest.forAsset().addResource(with: .photo, data: data, options: nil)
-                },
-                                                       completionHandler: { (success: Bool, error: Error?) -> Void in
-                                                        guard success else { return print("Could not save image to photo library") }
-                })
-            } else {
-                // TODO: Add option for older iOS
-            }
-        })
-    }
-    
     // MARK: Private methods
     fileprivate func setupSession() throws {
         // Setup is not performed asynchronously because of KVOs
@@ -122,6 +105,14 @@ internal class Camera: NSObject {
         }
         
         self.session.beginConfiguration()
+        self.setupInput()
+        self.setupPhotoCaptureOutput()
+        self.setupQRScanning()
+        
+        self.session.commitConfiguration()
+    }
+    
+    fileprivate func setupInput() {
         // Specify that we are capturing a photo, this will reset the format to be 4:3
         self.session.sessionPreset = AVCaptureSessionPresetPhoto
         if self.session.canAddInput(self.videoDeviceInput) {
@@ -129,12 +120,10 @@ internal class Camera: NSObject {
         } else {
             print("Could not add video device input to the session")
         }
-        
+    }
+    
+    fileprivate func setupPhotoCaptureOutput() {
         let output = AVCaptureStillImageOutput()
-        let qrOutput = AVCaptureMetadataOutput()
-        self.session.addOutput(qrOutput)
-        qrOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-        qrOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         
         if self.session.canAddOutput(output) {
             output.outputSettings = [ AVVideoCodecKey: AVVideoCodecJPEG ];
@@ -143,19 +132,32 @@ internal class Camera: NSObject {
         } else {
             print("Could not add still image output to the session")
         }
+    }
+    
+    fileprivate func setupQRScanning(){
+        let qrOutput = AVCaptureMetadataOutput()
         
-        self.session.commitConfiguration()
+        if self.session.canAddOutput(qrOutput) {
+            self.session.addOutput(qrOutput)
+            
+            qrOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            qrOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+        } else {
+            print("Could not add metadata output to the session")
+        }
     }
 }
 
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
-    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!, from connection: AVCaptureConnection!) {
-        print()
-        // Get the metadata object.
-        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+    func captureOutput(_ output: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [Any]!,
+                       from connection: AVCaptureConnection!) {
+        if metadataObjects.isEmpty {
+            return
+        }
         
-        if metadataObj.type == AVMetadataObjectTypeQRCode {
-
+        if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject,
+            metadataObj.type == AVMetadataObjectTypeQRCode {
+            print(metadataObj)
         }
     }
 }
