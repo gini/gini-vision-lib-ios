@@ -148,18 +148,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.failureBlock = failureBlock
         
         // Configure camera
-        do {
-            camera = try Camera()
-        } catch let error as CameraError {
-            switch error {
-            case .notAuthorizedToUseDevice:
-                addNotAuthorizedView()
-            default:
-                if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+        camera = Camera() { error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                }
+                failureBlock(error)
             }
-            failureBlock(error)
-        } catch _ {
-            print("GiniVision: An unknown error occured.")
         }
     }
     

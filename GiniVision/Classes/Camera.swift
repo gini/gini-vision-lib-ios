@@ -18,10 +18,23 @@ internal class Camera: NSObject {
     var stillImageOutput: AVCaptureStillImageOutput?
     fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
     
-    override init() {
-        super.init()
-        try! setupSession()
-        setupQRScanning()
+    convenience init(completion: ((CameraError?) -> Void)) {
+        self.init()
+        do {
+            try setupSession()
+            
+            self.session.beginConfiguration()
+            
+            self.setupInput()
+            self.setupPhotoCaptureOutput()
+            self.setupQRScanning()
+            
+            self.session.commitConfiguration()
+        } catch let error as CameraError {
+            completion(error)
+        } catch {
+            completion(.unknown)
+        }
     }
     
     // MARK: Public methods
@@ -37,10 +50,15 @@ internal class Camera: NSObject {
         }
     }
     
-    func focusWithMode(_ focusMode: AVCaptureFocusMode, exposeWithMode exposureMode: AVCaptureExposureMode, atDevicePoint point: CGPoint, monitorSubjectAreaChange: Bool) {
+    func focusWithMode(_ focusMode: AVCaptureFocusMode,
+                       exposeWithMode exposureMode: AVCaptureExposureMode,
+                       atDevicePoint point: CGPoint,
+                       monitorSubjectAreaChange: Bool) {
         sessionQueue.async {
             guard let device = self.videoDeviceInput?.device else { return }
-            guard case .some = try? device.lockForConfiguration() else { return print("Could not lock device for configuration") }
+            guard case .some = try? device.lockForConfiguration() else {
+                return print("Could not lock device for configuration")
+            }
             
             if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(focusMode) {
                 device.focusPointOfInterest = point
@@ -85,31 +103,21 @@ internal class Camera: NSObject {
     
     // MARK: Private methods
     fileprivate func setupSession() throws {
-        // Setup is not performed asynchronously because of KVOs
-        func deviceWithMediaType(_ mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(withMediaType: mediaType).filter { ($0 as? AVCaptureDevice)?.position == position }
+        let videoDevice: AVCaptureDevice? = {
+            let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).filter { ($0 as? AVCaptureDevice)?.position == .back }
             guard let device = devices.first as? AVCaptureDevice else { return nil }
             return device
-        }
+        }()
         
-        let videoDevice = deviceWithMediaType(AVMediaTypeVideo, preferringPosition: .back)
         do {
             self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch let error as NSError {
-            print("Could not create video device input \(error)")
             if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
                 throw CameraError.notAuthorizedToUseDevice
             } else {
                 throw CameraError.unknown
             }
         }
-        
-        self.session.beginConfiguration()
-        self.setupInput()
-        self.setupPhotoCaptureOutput()
-        self.setupQRScanning()
-        
-        self.session.commitConfiguration()
     }
     
     fileprivate func setupInput() {
@@ -140,7 +148,7 @@ internal class Camera: NSObject {
         if self.session.canAddOutput(qrOutput) {
             self.session.addOutput(qrOutput)
             
-            qrOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
             qrOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
         } else {
             print("Could not add metadata output to the session")
