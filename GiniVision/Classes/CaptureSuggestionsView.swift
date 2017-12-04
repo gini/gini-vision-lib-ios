@@ -87,7 +87,7 @@ final class CaptureSuggestionsView: UIView {
         ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight)
-        ConstraintUtils.addActiveConstraint(bottomConstraint)
+        ConstraintUtils.addActive(constraint: bottomConstraint)
 
         // suggestionTitle
         ConstraintUtils.addActiveConstraint(item: suggestionTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
@@ -98,7 +98,7 @@ final class CaptureSuggestionsView: UIView {
         // suggestionContainer
         itemSeparationConstraint = NSLayoutConstraint(item: suggestionContainer, attribute: .top, relatedBy: .equal, toItem: suggestionTitle, attribute: .bottom, multiplier: 1, constant: 0)
         ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight - suggestionTitleHeight)
-        ConstraintUtils.addActiveConstraint(itemSeparationConstraint)
+        ConstraintUtils.addActive(constraint: itemSeparationConstraint)
         
         // suggestionIcon
         ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .leading, relatedBy: .equal, toItem: suggestionContainer, attribute: .leading, multiplier: 1, constant: 0)

@@ -287,10 +287,10 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1, constant: 0)
         imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0)
         imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(imageViewTopConstraint)
-        ConstraintUtils.addActiveConstraint(imageViewTrailingConstraint)
-        ConstraintUtils.addActiveConstraint(imageViewBottomConstraint)
-        ConstraintUtils.addActiveConstraint(imageViewLeadingConstraint)
+        ConstraintUtils.addActive(constraint: imageViewTopConstraint)
+        ConstraintUtils.addActive(constraint: imageViewTrailingConstraint)
+        ConstraintUtils.addActive(constraint: imageViewBottomConstraint)
+        ConstraintUtils.addActive(constraint: imageViewLeadingConstraint)
         
         // Top view
         topView.translatesAutoresizingMaskIntoConstraints = false
