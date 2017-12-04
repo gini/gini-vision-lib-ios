@@ -16,7 +16,8 @@ internal class Camera: NSObject {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
-    fileprivate lazy var sessionQueue:DispatchQueue = DispatchQueue(label: "session queue", attributes: [])
+    fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
+                                                                     attributes: [])
     fileprivate let application: UIApplication
     
     init(application: UIApplication = UIApplication.shared, completion: ((CameraError?) -> Void)) {
@@ -89,8 +90,8 @@ internal class Camera: NSObject {
             }
             
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
-            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) { (imageDataSampleBuffer: CMSampleBuffer?, 
-                error: Error?) -> Void in
+            self.stillImageOutput?.captureStillImageAsynchronously(from: connection) {
+                (imageDataSampleBuffer: CMSampleBuffer?, error: Error?) -> Void in
                 guard error == nil else { return completion({ _ in throw CameraError.captureFailed }) }
                 let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(imageDataSampleBuffer)
                 completion({ _ in
@@ -106,7 +107,9 @@ internal class Camera: NSObject {
     // MARK: Private methods
     fileprivate func setupSession() throws {
         var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).filter { ($0 as? AVCaptureDevice)?.position == .back }
+            let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).filter {
+                ($0 as? AVCaptureDevice)?.position == .back
+            }
             guard let device = devices.first as? AVCaptureDevice else { return nil }
             return device
         }
@@ -136,7 +139,7 @@ internal class Camera: NSObject {
         let output = AVCaptureStillImageOutput()
         
         if self.session.canAddOutput(output) {
-            output.outputSettings = [ AVVideoCodecKey: AVVideoCodecJPEG ];
+            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG];
             self.session.addOutput(output)
             self.stillImageOutput = output
         } else {
