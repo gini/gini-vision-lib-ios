@@ -145,30 +145,30 @@ import UIKit
         
         // Scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .bottom, relatedBy: .equal, toItem: superview, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: scrollView, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
+        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .width, relatedBy: .equal, toItem: scrollView, attribute: .width, multiplier: pagesCount, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: contentView, attribute: .height, relatedBy: .equal, toItem: scrollView, attribute: .height, multiplier: 1, constant: 0)
+        Contraints.active(item: contentView, attr: .top, relatedBy: .equal, to: scrollView, attr: .top)
+        Contraints.active(item: contentView, attr: .trailing, relatedBy: .equal, to: scrollView, attr: .trailing)
+        Contraints.active(item: contentView, attr: .bottom, relatedBy: .equal, to: scrollView, attr: .bottom)
+        Contraints.active(item: contentView, attr: .leading, relatedBy: .equal, to: scrollView, attr: .leading)
+        Contraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width, multiplier: pagesCount)
+        Contraints.active(item: contentView, attr: .height, relatedBy: .equal, to: scrollView, attr: .height)
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
-            ConstraintUtils.addActiveConstraint(item: page, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: page, attribute: .bottom, relatedBy: .equal, toItem: contentView, attribute: .bottom, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: page, attribute: .width, relatedBy: .equal, toItem: contentView, attribute: .width, multiplier: 1/pagesCount, constant: 0)
+            Contraints.active(item: page, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
+            Contraints.active(item: page, attr: .bottom, relatedBy: .equal, to: contentView, attr: .bottom)
+            Contraints.active(item: page, attr: .width, relatedBy: .equal, to: contentView, attr: .width, multiplier: 1/pagesCount)
             if page == pages.first {
-                ConstraintUtils.addActiveConstraint(item: page, attribute: .leading, relatedBy: .equal, toItem: contentView, attribute: .leading, multiplier: 1, constant: 0)
+                Contraints.active(item: page, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
             } else {
                 let previousPage = pages[pages.index(of: page)! - 1]
-                ConstraintUtils.addActiveConstraint(item: page, attribute: .leading, relatedBy: .equal, toItem: previousPage, attribute: .trailing, multiplier: 1, constant: 0)
+                Contraints.active(item: page, attr: .leading, relatedBy: .equal, to: previousPage, attr: .trailing)
             }
         }
     }

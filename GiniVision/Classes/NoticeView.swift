@@ -128,18 +128,18 @@ internal class NoticeView: UIView {
             
             // Superview
             self.translatesAutoresizingMaskIntoConstraints = false
-            ConstraintUtils.addActiveConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 35)
+            Contraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+            Contraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+            Contraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+            Contraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
         }
         
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -20, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 20)
+        Contraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top)
+        Contraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -20, priority: 999)
+        Contraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
+        Contraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
     }
     
 }
