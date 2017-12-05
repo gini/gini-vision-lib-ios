@@ -370,7 +370,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             return print("GiniVision: No camera initialized.")
         }
         camera.captureStillImage {[weak self] imageData, error in
-            guard let imageData = imageData, error == nil else {
+            guard let imageData = imageData,
+                error == nil else {
                 self?.failureBlock?(error ?? .captureFailed)
                 return
             }
