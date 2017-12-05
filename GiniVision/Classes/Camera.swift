@@ -172,6 +172,7 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObjectTypeQRCode {
             // Create Gini Document
+            print(metadataObj.stringValue)
         }
     }
 }

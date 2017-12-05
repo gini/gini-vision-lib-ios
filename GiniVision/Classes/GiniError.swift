@@ -68,7 +68,6 @@ public protocol GiniVisionError:Error {}
     
     /// PDF length exceeded
     case pdfPageLengthExceeded
-    
     var message:String {
         switch self {
         case .exceededMaxFileSize:
@@ -84,7 +83,7 @@ public protocol GiniVisionError:Error {}
         }
     }
     
-    public static func ==(lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
+    public static func == (lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
         return lhs.message == rhs.message
     }
 }
