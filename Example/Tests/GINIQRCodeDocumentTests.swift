@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINIQRCodeDocumentTests: XCTestCase {
+final class GINIQRCodeDocumentTests: XCTestCase {
     
     func testBezahlQRCodeExtractions() {
         let qrDocument = GiniQRCodeDocument(scannedString: "bank://singlepaymentsepa?name=Gini%20Online%20Shop" +

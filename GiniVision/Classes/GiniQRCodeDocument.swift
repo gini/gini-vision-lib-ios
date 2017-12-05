@@ -16,8 +16,14 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
     
     public let scannedString: String
     public var extractedParameters: [String: Any] = [:]
-    fileprivate var qrCodeFormat: QRCodesFormat?
     fileprivate let epc06912LinesCount = 12
+    fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
+        if self.scannedString.starts(with: "bank://") {
+            return .bezahlcode
+        } else {
+            return self.scannedString.splitlines.count == self.epc06912LinesCount ? .epc06912 : nil
+        }
+    }()
     
     fileprivate enum QRCodesFormat {
         case epc06912
@@ -27,8 +33,7 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
     public init(scannedString: String) {
         self.data = scannedString.data(using: String.Encoding.utf8) ?? Data(count: 0)
         self.scannedString = scannedString
-        self.qrCodeFormat = qrCodeFormatFrom(string: scannedString)
-        self.extractedParameters = extractParameters(forString: scannedString)
+        self.extractedParameters = extractParameters(from: scannedString)
     }
     
     public func checkType() throws {
@@ -36,64 +41,67 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
     }
-    
-    fileprivate func qrCodeFormatFrom(string: String) -> QRCodesFormat? {
-        if string.starts(with: "bank://") {
-            return .bezahlcode
-        } else {
-            return string.splitlines.count == epc06912LinesCount ? .epc06912 : nil
-        }
-    }
-    
-    fileprivate func extractParameters(forString string: String) -> [String: Any] {
+}
+
+// MARK: Extractions
+
+extension GiniQRCodeDocument {
+    fileprivate func extractParameters(from string: String) -> [String: Any] {
         switch qrCodeFormat {
         case .some(.bezahlcode):
-            if let queryParameters = URL(string: string)?.queryParameters {
-                var parameters: [String: Any] = [:]
-                
-                if let bic = queryParameters["bic"] {
-                    parameters["bic"] = bic
-                }
-                if let paymentRecipient = queryParameters["name"] {
-                    parameters["paymentRecipient"] = paymentRecipient
-                }
-                if let iban = queryParameters["iban"] as? String,
-                    IBANValidator().isValid(iban: iban) {
-                    parameters["iban"] = iban
-                }
-                if let paymentReference = queryParameters["reason"] {
-                    parameters["paymentReference"] = paymentReference
-                }
-                if let amount = queryParameters["amount"] as? String,
-                    let currency = queryParameters["currency"] as? String,
-                    let amountNormalized = normalize(amount: amount, currency: currency) {
-                    parameters["amountToPay"] = amountNormalized
-                }
-                
-                return parameters
-            }
-
-            return [:]
+            return extractParameters(fromBezhalCodeString: string)
         case .some(.epc06912):
-            let lines = string.splitlines
-            var parameters: [String: Any] = [
-                "bic": lines[4],
-                "paymentRecipient": lines[5],
-                "paymentReference": lines[9]
-            ]
-            
-            if IBANValidator().isValid(iban: lines[6]) {
-                parameters["iban"] = lines[6]
-            }
-            
-            if let amountToPay = normalize(amount: lines[7], currency: nil) {
-                parameters["amountToPay"] = amountToPay
-            }
-            
-            return parameters
+            return extractParameters(fromEPC06912CodeString: string)
         case .none:
             return [:]
         }
+    }
+    
+    fileprivate func extractParameters(fromBezhalCodeString string: String) -> [String: Any] {
+        var parameters: [String: Any] = [:]
+        
+        if let queryParameters = URL(string: string)?.queryParameters {
+            
+            if let bic = queryParameters["bic"] {
+                parameters["bic"] = bic
+            }
+            if let paymentRecipient = queryParameters["name"] {
+                parameters["paymentRecipient"] = paymentRecipient
+            }
+            if let iban = queryParameters["iban"] as? String,
+                IBANValidator().isValid(iban: iban) {
+                parameters["iban"] = iban
+            }
+            if let paymentReference = queryParameters["reason"] {
+                parameters["paymentReference"] = paymentReference
+            }
+            if let amount = queryParameters["amount"] as? String,
+                let currency = queryParameters["currency"] as? String,
+                let amountNormalized = normalize(amount: amount, currency: currency) {
+                parameters["amountToPay"] = amountNormalized
+            }
+        }
+        
+        return parameters
+    }
+    
+    fileprivate func extractParameters(fromEPC06912CodeString string: String) -> [String: Any] {
+        let lines = string.splitlines
+        var parameters: [String: Any] = [
+            "bic": lines[4],
+            "paymentRecipient": lines[5],
+            "paymentReference": lines[9]
+        ]
+        
+        if IBANValidator().isValid(iban: lines[6]) {
+            parameters["iban"] = lines[6]
+        }
+        
+        if let amountToPay = normalize(amount: lines[7], currency: nil) {
+            parameters["amountToPay"] = amountToPay
+        }
+        
+        return parameters
     }
     
     fileprivate func normalize(amount: String, currency: String?) -> String? {
@@ -107,8 +115,7 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
         } else if let currency = currency {
             return amount + ":" + currency
         }
-       
+        
         return nil
     }
-    
 }
