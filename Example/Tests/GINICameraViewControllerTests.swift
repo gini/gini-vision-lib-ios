@@ -3,9 +3,10 @@ import XCTest
 
 class CameraViewControllerTests: XCTestCase {
     
-    var vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
+    var vc: CameraViewController!
     
     func testInitialization() {
+        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
         XCTAssertNotNil(vc, "view controller should not be nil")
     }
     

@@ -1,5 +1,7 @@
 included:
   - ../GiniVision
+  - GiniVision
+  - Tests
 
 excluded:
   - Pods/
