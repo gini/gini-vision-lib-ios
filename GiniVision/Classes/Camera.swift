@@ -169,10 +169,16 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject,
+        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObjectTypeQRCode {
             // Create Gini Document
-            print(metadataObj.stringValue)
+            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue)
+            do {
+                try qrDocument.validate()
+                didDetectQR?(qrDocument)
+            } catch {
+                
+            }
         }
     }
 }
