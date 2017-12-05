@@ -60,23 +60,23 @@ final class PDFInformationView: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: superview, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 95)
+        Contraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 95)
 
         if let viewBelow = viewBelow {
-            ConstraintUtils.addActiveConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: viewBelow, attribute: .top, multiplier: 1, constant: 0)
+            Contraints.active(item: self, attr: .bottom, relatedBy: .equal, to: viewBelow, attr: .top)
         }
         
-        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .bottom, relatedBy: .equal, toItem: subtitleLabel, attribute: .top, multiplier: 1, constant: -16)
-        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16, priority:999)
+        Contraints.active(item: titleLabel, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: 16)
+        Contraints.active(item: titleLabel, attr: .bottom, relatedBy: .equal, to: subtitleLabel, attr: .top, constant: -16)
+        Contraints.active(item: titleLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 16)
+        Contraints.active(item: titleLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -16, priority:999)
 
-        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 16)
-        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -16, priority:999)
-        ConstraintUtils.addActiveConstraint(item: subtitleLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -16, priority:999)
+        Contraints.active(item: subtitleLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 16)
+        Contraints.active(item: subtitleLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -16, priority:999)
+        Contraints.active(item: subtitleLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -16, priority:999)
 
     }
     

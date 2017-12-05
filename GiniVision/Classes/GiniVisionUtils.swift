@@ -41,7 +41,7 @@ internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: C
         let bundle = Bundle(for: GiniVision.self)
         format = NSLocalizedString(key, bundle: bundle, comment: comment)
     }
-
+    
     if let args = args {
         return String.localizedStringWithFormat(format, args)
     } else {
@@ -99,16 +99,32 @@ internal enum FontWeight {
     }
 }
 
-internal class ConstraintUtils {
+internal class Contraints {
     
-    class func addActiveConstraint(item view1: AnyObject, attribute attr1: NSLayoutAttribute, relatedBy relation: NSLayoutRelation, toItem view2: AnyObject?, attribute attr2: NSLayoutAttribute, multiplier: CGFloat, constant c: CGFloat, priority: UILayoutPriority = 1000, identifier:String? = nil) {
-        let constraint = NSLayoutConstraint(item: view1, attribute: attr1, relatedBy: relation, toItem: view2, attribute: attr2, multiplier: multiplier, constant: c)
-        constraint.identifier = identifier
-        addActiveConstraint(constraint, priority: priority)
+    class func active(item view1: Any,
+                      attr attr1: NSLayoutAttribute,
+                      relatedBy relation: NSLayoutRelation,
+                      to view2: Any?,
+                      attr attr2: NSLayoutAttribute,
+                      multiplier: CGFloat = 1.0,
+                      constant: CGFloat = 0,
+                      priority: UILayoutPriority = 1000,
+                      identifier: String? = nil) {
+        
+        let constraint = NSLayoutConstraint(item: view1,
+                                            attribute: attr1,
+                                            relatedBy: relation,
+                                            toItem: view2, attribute: attr2,
+                                            multiplier: multiplier,
+                                            constant: constant)
+        active(constraint: constraint, priority: priority, identifier: identifier)
     }
     
-    class func addActiveConstraint(_ constraint: NSLayoutConstraint, priority: UILayoutPriority = 1000) {
+    class func active(constraint: NSLayoutConstraint,
+                      priority: UILayoutPriority = 1000,
+                      identifier: String? = nil) {
         constraint.priority = priority
+        constraint.identifier = identifier
         constraint.isActive = true
     }
     

@@ -84,41 +84,41 @@ final class CaptureSuggestionsView: UIView {
         
         // self
         bottomConstraint = NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: superViewBottomLayout, attribute: .top, multiplier: 1, constant: containerHeight)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: superview, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: superview, attribute: .trailing, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: self, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight)
-        ConstraintUtils.addActiveConstraint(bottomConstraint)
+        Contraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Contraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: containerHeight)
+        Contraints.active(constraint: bottomConstraint)
 
         // suggestionTitle
-        ConstraintUtils.addActiveConstraint(item: suggestionTitle, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionTitle, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 8)
-        ConstraintUtils.addActiveConstraint(item: suggestionTitle, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -8, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: suggestionTitle, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: suggestionTitleHeight)
+        Contraints.active(item: suggestionTitle, attr: .top, relatedBy: .equal, to: self, attr: .top)
+        Contraints.active(item: suggestionTitle, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 8)
+        Contraints.active(item: suggestionTitle, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -8, priority: 999)
+        Contraints.active(item: suggestionTitle, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: suggestionTitleHeight)
 
         // suggestionContainer
         itemSeparationConstraint = NSLayoutConstraint(item: suggestionContainer, attribute: .top, relatedBy: .equal, toItem: suggestionTitle, attribute: .bottom, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: containerHeight - suggestionTitleHeight)
-        ConstraintUtils.addActiveConstraint(itemSeparationConstraint)
+        Contraints.active(item: suggestionContainer, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: containerHeight - suggestionTitleHeight)
+        Contraints.active(constraint: itemSeparationConstraint)
         
         // suggestionIcon
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .leading, relatedBy: .equal, toItem: suggestionContainer, attribute: .leading, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .height, relatedBy: .lessThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 48)
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .width, relatedBy: .equal, toItem: suggestionIcon, attribute: .height, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .centerY, relatedBy: .equal, toItem: suggestionContainer, attribute: .centerY, multiplier: 1, constant: 0)
-        ConstraintUtils.addActiveConstraint(item: suggestionIcon, attribute: .trailing, relatedBy: .equal, toItem: suggestionText, attribute: .leading, multiplier: 1, constant: -16)
+        Contraints.active(item: suggestionIcon, attr: .leading, relatedBy: .equal, to: suggestionContainer, attr: .leading)
+        Contraints.active(item: suggestionIcon, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute, constant: 48)
+        Contraints.active(item: suggestionIcon, attr: .width, relatedBy: .equal, to: suggestionIcon, attr: .height)
+        Contraints.active(item: suggestionIcon, attr: .centerY, relatedBy: .equal, to: suggestionContainer, attr: .centerY)
+        Contraints.active(item: suggestionIcon, attr: .trailing, relatedBy: .equal, to: suggestionText, attr: .leading, constant: -16)
         
         // suggestionText
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .top, relatedBy: .equal, toItem: suggestionContainer, attribute: .top, multiplier: 1, constant: 16, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .trailing, relatedBy: .equal, toItem: suggestionContainer, attribute: .trailing, multiplier: 1, constant: 0, priority: 999)
-        ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .bottom, relatedBy: .equal, toItem: suggestionContainer, attribute: .bottom, multiplier: 1, constant: -16, priority: 999)
+        Contraints.active(item: suggestionText, attr: .top, relatedBy: .equal, to: suggestionContainer, attr: .top, constant: 16, priority: 999)
+        Contraints.active(item: suggestionText, attr: .trailing, relatedBy: .equal, to: suggestionContainer, attr: .trailing, priority: 999)
+        Contraints.active(item: suggestionText, attr: .bottom, relatedBy: .equal, to: suggestionContainer, attr: .bottom, constant: -16, priority: 999)
         
         // Center on align to margins depending on device
         if UIDevice.current.isIpad {
-            ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .width, relatedBy: .lessThanOrEqual, toItem: self, attribute: .width, multiplier: 0.9, constant: 0)
-            ConstraintUtils.addActiveConstraint(item: suggestionText, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
+            Contraints.active(item: suggestionContainer, attr: .width, relatedBy: .lessThanOrEqual, to: self, attr: .width, multiplier: 0.9)
+            Contraints.active(item: suggestionText, attr: .centerX, relatedBy: .equal, to: self, attr: .centerX)
         } else {
-            ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 20)
-            ConstraintUtils.addActiveConstraint(item: suggestionContainer, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -20, priority: 999)
+            Contraints.active(item: suggestionContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
+            Contraints.active(item: suggestionContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -20, priority: 999)
         }
 
         layoutIfNeeded()
