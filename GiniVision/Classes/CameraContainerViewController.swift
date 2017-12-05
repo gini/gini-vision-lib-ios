@@ -19,39 +19,46 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     fileprivate var helpButton  = UIBarButtonItem()
     
     // Properties
-    fileprivate var showOnboarding: (() -> ())?
+    fileprivate var showOnboarding: (() -> Void)?
     
     // Resources
-    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose", title: "ginivision.navigationbar.camera.close", comment: "Button title in the navigation bar for the close button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
-    fileprivate let helpButtonResources = PreferredButtonResource(image: "navigationCameraHelp", title: "ginivision.navigationbar.camera.help", comment: "Button title in the navigation bar for the help button on the camera screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton)
+    fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose",
+                                                                   title: "ginivision.navigationbar.camera.close",
+                                                                   comment: "Button title in the navigation bar for the close button on the camera screen",
+                                                                   configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate let helpButtonResources = PreferredButtonResource(image: "navigationCameraHelp",
+                                                                  title: "ginivision.navigationbar.camera.help",
+                                                                  comment: "Button title in the navigation bar for the help button on the camera screen",
+                                                                  configEntry: GiniConfiguration.sharedConfiguration.navigationBarCameraTitleHelpButton)
     
     init() {
         super.init(nibName: nil, bundle: nil)
         // Configure content controller and call delegate method on success
-        contentController = CameraViewController(successBlock:
-            { [weak self ] document in
-                guard let `self` = self else { return }
-                let viewController:UIViewController
-                if document.isReviewable {
-                    viewController = ReviewContainerViewController(document: document)
-                } else {
-                    viewController = AnalysisContainerViewController(document: document)
-                }
-                
-                guard let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate else { return }
-                
-                if let didCapture = delegate.didCapture(document:) {
-                    didCapture(document)
-                } else if let didCapture = delegate.didCapture(_:) {
-                    didCapture(document.data)
-                } else {
-                    fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
-                }
-                
-                // Push review container view controller
-                DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(viewController, animated: true)
-                }
+        contentController = CameraViewController(successBlock: { [weak self ] document in
+            guard let `self` = self,
+                let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate else {
+                    return
+            }
+
+            let viewController:UIViewController
+            if document.isReviewable {
+                viewController = ReviewContainerViewController(document: document)
+            } else {
+                viewController = AnalysisContainerViewController(document: document)
+            }
+            
+            if let didCapture = delegate.didCapture(document:) {
+                didCapture(document)
+            } else if let didCapture = delegate.didCapture(_:) {
+                didCapture(document.data)
+            } else {
+                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
+            }
+            
+            // Push review container view controller
+            DispatchQueue.main.async {
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
             }, failureBlock: { error in
                 switch error {
                 case CameraError.notAuthorizedToUseDevice:
