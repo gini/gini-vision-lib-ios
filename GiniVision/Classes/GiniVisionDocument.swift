@@ -27,6 +27,7 @@ import Foundation
 @objc public enum GiniVisionDocumentType: Int {
     case pdf = 0
     case image = 1
+    case qrcode = 2
 }
 
 // MARK: GiniVisionDocumentBuilder
