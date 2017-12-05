@@ -35,26 +35,5 @@ class CameraViewControllerTests: XCTestCase {
         XCTAssertFalse(vc.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
         
     }
-    
-    func testCaptureImage() {
-        let expect = expectation(description: "image is captured")
-        vc = CameraViewController(successBlock: { document in
-            XCTAssertTrue(document.type == .image, "document should be an image")
-            expect.fulfill()
-        }, failureBlock: { _ in
-            XCTFail()
-            expect.fulfill()
-        })
-        
-        _ = vc.view
-        vc.viewWillAppear(true)
-        vc.captureButton.sendActions(for: .touchUpInside)
-        
-        waitForExpectations(timeout: 5.0) { error in
-            if let error = error {
-                XCTFail("An error ocurried when capturing image: \(error)")
-            }
-        }
-    }
 }
 
