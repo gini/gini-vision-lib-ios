@@ -49,14 +49,18 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         }
     }
     
-    init(configuration: GiniConfiguration, importedDocument document: GiniVisionDocument?, documentService: DocumentService) {
+    init(configuration: GiniConfiguration,
+         importedDocument document: GiniVisionDocument?,
+         documentService: DocumentService) {
         self.visionConfiguration = configuration
         self.visionDocument = document
         self.documentService = documentService
     }
     
     func start() {
-        screenAPIViewController = GiniVision.viewController(withDelegate: self, withConfiguration: visionConfiguration, importedDocument: visionDocument) as! UINavigationController
+        screenAPIViewController = GiniVision.viewController(withDelegate: self,
+                                                            withConfiguration: visionConfiguration,
+                                                            importedDocument: visionDocument) as! UINavigationController
         screenAPIViewController.delegate = self
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
@@ -66,8 +70,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         cancelAnalsyis()
         visionDocument = document
         
-        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: { (result, document, error) in
-            if let _ = error {
+        documentService.analyzeDocument(withData: document.data,
+                                        cancelationToken: CancelationToken(),
+                                        completion: { (result, document, error) in
+            if error != nil {
                 self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
                 return
             }
@@ -112,7 +118,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showResultsScreen() {
-        let customResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+        let customResultsScreen = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
         customResultsScreen.result = result
         customResultsScreen.document = document
         
@@ -127,7 +134,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
             guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
             let shown = analysisDelegate.tryDisplayNoResultsScreen()
             if !shown {
-                let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil)
+                    .instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
                 customNoResultsScreen.delegate = self
                 self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
             }
@@ -140,7 +148,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
 // MARK: UINavigationControllerDelegate
 
 extension ScreenAPICoordinator: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         // Since the NoResultViewController and ResultTableViewController are in the navigation stack,
         // when it is necessary to go back, it dismiss the ScreenAPI so the Analysis screen is not shown again
         self.delegate?.screenAPI(coordinator: self, didFinish: ())
@@ -161,19 +172,14 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
     }
 }
 
-
 // MARK: GiniVisionDelegate
 
 extension ScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        
         if let qrDocument = document as? GiniQRCodeDocument {
-            print(qrDocument.extractedParameters)
-            
             result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
-
                 result[parameter.key] = GINIExtraction(name: parameter.key,
                                                        value: parameter.value,
                                                        entity: parameter.value,
@@ -186,7 +192,8 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        // Analyze reviewed document when changes were made by the user during review or there is no result and is not analysing.
+        // Analyze reviewed document when changes were made by the user during review or
+        // there is no result and is not analysing.
         if changes || (!documentService.isAnalyzing && result == nil) {
             analyzeDocument(visionDocument: document)
             return
@@ -212,7 +219,8 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
             present(result, fromDocument: document)
         }
         
-        // The analysis screen is where the user should be confronted with any errors occuring during the analysis process.
+        // The analysis screen is where the user should be confronted with
+        // any errors occuring during the analysis process.
         // Show any errors that occured while the user was still reviewing the image here.
         // Make sure to only show errors relevant to the user.
         if let errorMessage = errorMessage {
@@ -226,6 +234,5 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
         // Cancel analysis process to avoid unnecessary network calls.
         cancelAnalsyis()
     }
-    
     
 }
