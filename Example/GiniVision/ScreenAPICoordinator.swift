@@ -149,7 +149,9 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
         
         if fromVC is ResultTableViewController {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
-            documentService.sendFeedback(forDocument: document!)
+            if let document = document {
+                documentService.sendFeedback(forDocument: document)
+            }
         }
         
         return nil
@@ -171,7 +173,18 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        analyzeDocument(visionDocument: document)
+        
+        if let qrDocument = document as? GiniQRCodeDocument {
+            print(qrDocument.extractedParameters)
+            
+            result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
+                let extraction: GINIExtraction = GINIExtraction(name: parameter.key, value: parameter.value as! String, entity: parameter.value  as! String, box: [:])
+                result[parameter.key] = extraction
+            }
+            showResultsScreen()
+        } else {
+            analyzeDocument(visionDocument: document)
+        }
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
