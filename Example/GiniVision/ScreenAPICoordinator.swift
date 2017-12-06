@@ -154,10 +154,14 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         // Since the NoResultViewController and ResultTableViewController are in the navigation stack,
         // when it is necessary to go back, it dismiss the ScreenAPI so the Analysis screen is not shown again
-        self.delegate?.screenAPI(coordinator: self, didFinish: ())
-
+        
+        if fromVC is NoResultViewController {
+            self.delegate?.screenAPI(coordinator: self, didFinish: ())
+        }
+        
         if let document = document, fromVC is ResultTableViewController {
-            documentService.sendFeedback(forDocument: document)
+            self.delegate?.screenAPI(coordinator: self, didFinish: ())
+            self.documentService.sendFeedback(forDocument: document)
         }
         
         return nil
