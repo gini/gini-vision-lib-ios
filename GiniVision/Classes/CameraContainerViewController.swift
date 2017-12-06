@@ -20,6 +20,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     
     // Properties
     fileprivate var showOnboarding: (() -> Void)?
+    fileprivate var qrDocument: GiniQRCodeDocument?
     
     // Resources
     fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose",
@@ -39,26 +40,23 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 let delegate = (self.navigationController as? GiniNavigationViewController)?.giniDelegate else {
                     return
             }
-
-            let viewController:UIViewController
-            if document.isReviewable {
-                viewController = ReviewContainerViewController(document: document)
+            
+            if let qrDocument = document as? GiniQRCodeDocument {
+                self.qrDocument = qrDocument
             } else {
-                viewController = AnalysisContainerViewController(document: document)
+                if self.qrDocument == nil {
+                    self.showNextScreen(forDocument: document)
+                }
+                
+                if let didCapture = delegate.didCapture(document:) {
+                    didCapture(self.qrDocument ?? document)
+                } else if let didCapture = delegate.didCapture(_:) {
+                    didCapture(document.data)
+                } else {
+                    fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
+                }
             }
             
-            if let didCapture = delegate.didCapture(document:) {
-                didCapture(document)
-            } else if let didCapture = delegate.didCapture(_:) {
-                didCapture(document.data)
-            } else {
-                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
-            }
-            
-            // Push review container view controller
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(viewController, animated: true)
-            }
             }, failureBlock: { error in
                 switch error {
                 case CameraError.notAuthorizedToUseDevice:
@@ -160,6 +158,20 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
         present(navigationController, animated: true, completion: nil)
+    }
+    
+    fileprivate func showNextScreen(forDocument document: GiniVisionDocument) {
+        let viewController: UIViewController
+        if document.isReviewable {
+            viewController = ReviewContainerViewController(document: document)
+        } else {
+            viewController = AnalysisContainerViewController(document: document)
+        }
+        
+        // Push review container view controller
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
     }
     
     // MARK: Constraints
