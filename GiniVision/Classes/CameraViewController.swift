@@ -101,6 +101,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var controlsView  = UIView()
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
+    fileprivate var qrCodeDetectedPopup: QRCodeDetectedPopupView?
     var toolTipView: ToolTipView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
         .portrait: .portrait,
@@ -115,6 +116,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate lazy var filePickerManager: FilePickerManager = {
         return FilePickerManager()
     }()
+    fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -165,7 +167,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 failureBlock(error)
             }
         }
-        self.camera?.didDetectQR = successBlock
+        self.camera?.didDetectQR = {[weak self] qrDocument in
+            self?.detectedQRCodeDocument = qrDocument
+            DispatchQueue.main.async {
+                self?.showQRDetectedPopup()
+            }
+        }
     }
     
     /**
@@ -390,6 +397,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
         return .portrait
     }
+    
+    fileprivate func showQRDetectedPopup() { if qrCodeDetectedPopup == nil { qrCodeDetectedPopup = QRCodeDetectedPopupView(superView: self.view) } }
     
     // MARK: Document import
     fileprivate func enableFileImport() {

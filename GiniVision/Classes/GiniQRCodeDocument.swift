@@ -7,7 +7,7 @@
 
 import Foundation
 
-final public class GiniQRCodeDocument: GiniVisionDocument {
+@objc final public class GiniQRCodeDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .qrcode
     public var data: Data
     public var previewImage: UIImage?
@@ -33,6 +33,7 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
     public init(scannedString: String) {
         self.data = scannedString.data(using: String.Encoding.utf8) ?? Data(count: 0)
         self.scannedString = scannedString
+        super.init()
         self.extractedParameters = extractParameters(from: scannedString)
     }
     
