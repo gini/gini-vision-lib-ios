@@ -143,15 +143,10 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         // Since the NoResultViewController and ResultTableViewController are in the navigation stack,
         // when it is necessary to go back, it dismiss the ScreenAPI so the Analysis screen is not shown again
-        if fromVC is NoResultViewController {
-            self.delegate?.screenAPI(coordinator: self, didFinish: ())
-        }
-        
-        if fromVC is ResultTableViewController {
-            self.delegate?.screenAPI(coordinator: self, didFinish: ())
-            if let document = document {
-                documentService.sendFeedback(forDocument: document)
-            }
+        self.delegate?.screenAPI(coordinator: self, didFinish: ())
+
+        if let document = document, fromVC is ResultTableViewController {
+            documentService.sendFeedback(forDocument: document)
         }
         
         return nil
@@ -178,8 +173,11 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
             print(qrDocument.extractedParameters)
             
             result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
-                let extraction: GINIExtraction = GINIExtraction(name: parameter.key, value: parameter.value as! String, entity: parameter.value  as! String, box: [:])
-                result[parameter.key] = extraction
+
+                result[parameter.key] = GINIExtraction(name: parameter.key,
+                                                       value: parameter.value,
+                                                       entity: parameter.value,
+                                                       box: [:])
             }
             showResultsScreen()
         } else {

@@ -15,7 +15,7 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
     public var isImported: Bool = false
     
     public let scannedString: String
-    public var extractedParameters: [String: Any] = [:]
+    public var extractedParameters: [String: String] = [:]
     fileprivate let epc06912LinesCount = 12
     fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
@@ -46,7 +46,7 @@ final public class GiniQRCodeDocument: GiniVisionDocument {
 // MARK: Extractions
 
 extension GiniQRCodeDocument {
-    fileprivate func extractParameters(from string: String) -> [String: Any] {
+    fileprivate func extractParameters(from string: String) -> [String: String] {
         switch qrCodeFormat {
         case .some(.bezahlcode):
             return extractParameters(fromBezhalCodeString: string)
@@ -57,22 +57,22 @@ extension GiniQRCodeDocument {
         }
     }
     
-    fileprivate func extractParameters(fromBezhalCodeString string: String) -> [String: Any] {
-        var parameters: [String: Any] = [:]
+    fileprivate func extractParameters(fromBezhalCodeString string: String) -> [String: String] {
+        var parameters: [String: String] = [:]
         
         if let queryParameters = URL(string: string)?.queryParameters {
             
-            if let bic = queryParameters["bic"] {
+            if let bic = queryParameters["bic"] as? String {
                 parameters["bic"] = bic
             }
-            if let paymentRecipient = queryParameters["name"] {
+            if let paymentRecipient = queryParameters["name"] as? String {
                 parameters["paymentRecipient"] = paymentRecipient
             }
             if let iban = queryParameters["iban"] as? String,
                 IBANValidator().isValid(iban: iban) {
                 parameters["iban"] = iban
             }
-            if let paymentReference = queryParameters["reason"] {
+            if let paymentReference = queryParameters["reason"] as? String {
                 parameters["paymentReference"] = paymentReference
             }
             if let amount = queryParameters["amount"] as? String,
@@ -85,9 +85,9 @@ extension GiniQRCodeDocument {
         return parameters
     }
     
-    fileprivate func extractParameters(fromEPC06912CodeString string: String) -> [String: Any] {
+    fileprivate func extractParameters(fromEPC06912CodeString string: String) -> [String: String] {
         let lines = string.splitlines
-        var parameters: [String: Any] = [
+        var parameters: [String: String] = [
             "bic": lines[4],
             "paymentRecipient": lines[5],
             "paymentReference": lines[9]
