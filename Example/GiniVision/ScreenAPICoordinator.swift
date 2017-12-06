@@ -182,17 +182,20 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        if let qrDocument = document as? GiniQRCodeDocument {
-            result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
-                result[parameter.key] = GINIExtraction(name: parameter.key,
-                                                       value: parameter.value,
-                                                       entity: parameter.value,
-                                                       box: [:])
-            }
-            showResultsScreen()
-        } else {
-            analyzeDocument(visionDocument: document)
-        }
+        analyzeDocument(visionDocument: document)
+
+//        if let qrDocument = document as? GiniQRCodeDocument {
+//            result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
+//                result[parameter.key] = GINIExtraction(name: parameter.key,
+//                                                       value: parameter.value,
+//                                                       entity: parameter.value,
+//                                                       box: [:])
+//            }
+//            showResultsScreen()
+    }
+    
+    func didDetect(qrDocument: GiniQRCodeDocument) {
+        print("QRCodeDetected and processed by the user")
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {

@@ -43,6 +43,12 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             
             if let qrDocument = document as? GiniQRCodeDocument {
                 self.qrDocument = qrDocument
+                if let didDetect = delegate.didDetect(qrDocument: ) {
+                    didDetect(qrDocument)
+                } else {
+                    fatalError("QR Code detection is enabled but `GiniVisionDelegate.didCapture`" +
+                        "method wasn't implement")
+                }
             } else {
                 if self.qrDocument == nil {
                     self.showNextScreen(forDocument: document)
