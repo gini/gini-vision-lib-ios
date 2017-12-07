@@ -173,7 +173,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
             guard let `self` = self else { return }
-            self.showPopup(forDetected: qrDocument)
+            self.showPopup(forQRDetected: qrDocument)
         }
     }
     
@@ -287,8 +287,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             
         })
     }
-    
-    // MARK: Toggle UI elements
+}
+
+// MARK: - Toggle UI elements
+
+extension CameraViewController {
+
     /**
      Show the capture button. Should be called when onboarding is dismissed.
      */
@@ -338,32 +342,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public func hideFileImportTip() {
         self.toolTipView?.alpha = 0
     }
-    
-    // MARK: Create tips
-    fileprivate func createFileImportTip() {
-        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
-        blurEffect?.alpha = 0
-        self.view.addSubview(blurEffect!)
-        
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
-                                                          bundle: Bundle(for: GiniVision.self),
-                                                          comment: "tooltip text indicating new file import feature"),
-                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                                  font: GiniConfiguration.sharedConfiguration.customFont.regular.withSize(14),
-                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
-                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
-                                  referenceView: importFileButton,
-                                  superView: self.view,
-                                  position: UIDevice.current.isIpad ? .left : .above)
-        
-        toolTipView?.willDismiss = { [weak self] in
-            guard let `self` = self else { return }
-            self.blurEffect?.removeFromSuperview()
-            self.captureButton.isEnabled = true
-        }
-    }
-    
-    // MARK: Image capture
+}
+
+// MARK: - Image capture
+
+extension CameraViewController {
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
             if GiniConfiguration.DEBUG {
@@ -399,14 +382,17 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return .portrait
     }
     
-    fileprivate func showPopup(forDetected document: GiniQRCodeDocument) {
-        if self.detectedQRCodeDocument != document {
+    fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument) {
+        if self.detectedQRCodeDocument != qrDocument {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              bottomView: self.controlsView,
-                                                             document: document,
+                                                             document: qrDocument,
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
+                newQRCodePopup.didTapDone = {
+                    self.successBlock?(qrDocument)
+                }
                 
                 let showCompletion: (() -> Void) = {
                     self.qrCodeDetectedPopup = newQRCodePopup
@@ -418,12 +404,73 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 } else {
                     showCompletion()
                 }
-                self.detectedQRCodeDocument = document
+                self.detectedQRCodeDocument = qrDocument
             }
         }
     }
     
-    // MARK: Document import
+}
+
+// MARK: - Focus handling
+
+extension CameraViewController {
+    fileprivate typealias FocusIndicator = UIImageView
+    
+    @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
+        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
+        let devicePoint = previewLayer.captureDevicePointOfInterest(for: sender.location(in: sender.view))
+        camera?.focus(withMode: .autoFocus,
+                      exposeWithMode: .autoExpose,
+                      atDevicePoint: devicePoint,
+                      monitorSubjectAreaChange: true)
+        let imageView = createFocusIndicator(withImage: cameraFocusSmall,
+                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    @objc fileprivate func subjectAreaDidChange(_ notification: Notification) {
+        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
+        let devicePoint = CGPoint(x: 0.5, y: 0.5)
+        
+        camera?.focus(withMode: .continuousAutoFocus,
+                      exposeWithMode: .continuousAutoExposure,
+                      atDevicePoint: devicePoint,
+                      monitorSubjectAreaChange: false)
+        
+        let imageView = createFocusIndicator(withImage: cameraFocusLarge,
+                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
+        showFocusIndicator(imageView)
+    }
+    
+    fileprivate func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> FocusIndicator? {
+        guard let image = image else { return nil }
+        let imageView = UIImageView(image: image)
+        imageView.center = point
+        return imageView
+    }
+    
+    fileprivate func showFocusIndicator(_ imageView: FocusIndicator?) {
+        guard cameraState == .valid else { return }
+        guard let imageView = imageView else { return }
+        for subView in self.previewView.subviews {
+            if let focusIndicator = subView as? FocusIndicator {
+                focusIndicator.removeFromSuperview()
+            }
+        }
+        self.previewView.addSubview(imageView)
+        UIView.animate(withDuration: 1.5,
+                       animations: {
+                        imageView.alpha = 0.0
+        },
+                       completion: { _ in
+                        imageView.removeFromSuperview()
+        })
+    }
+}
+
+// MARK: - Document import
+
+extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure file picker
         filePickerManager.didPickFile = { [unowned self] document in
@@ -518,7 +565,29 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.addInteraction(dropInteraction)
     }
     
-    // MARK: Error dialogs
+    fileprivate func createFileImportTip() {
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
+        
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
+                                                          bundle: Bundle(for: GiniVision.self),
+                                                          comment: "tooltip text indicating new file import feature"),
+                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
+                                  font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
+                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
+                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                                  referenceView: importFileButton,
+                                  superView: self.view,
+                                  position: UIDevice.current.isIpad ? .left : .above)
+        
+        toolTipView?.willDismiss = { [weak self] in
+            guard let `self` = self else { return }
+            self.blurEffect?.removeFromSuperview()
+            self.captureButton.isEnabled = true
+        }
+    }
+    
     fileprivate func showPhotoLibraryPermissionDeniedError() {
         let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
         
@@ -548,60 +617,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         present(alertViewController, animated: true, completion: nil)
     }
-    
-    // MARK: Focus handling
-    fileprivate typealias FocusIndicator = UIImageView
-    
-    @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
-        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-        let devicePoint = previewLayer.captureDevicePointOfInterest(for: sender.location(in: sender.view))
-        camera?.focus(withMode: .autoFocus,
-                      exposeWithMode: .autoExpose,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: true)
-        let imageView = createFocusIndicator(withImage: cameraFocusSmall,
-                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
-        showFocusIndicator(imageView)
-    }
-    
-    @objc fileprivate func subjectAreaDidChange(_ notification: Notification) {
-        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-        let devicePoint = CGPoint(x: 0.5, y: 0.5)
-        
-        camera?.focus(withMode: .continuousAutoFocus,
-                      exposeWithMode: .continuousAutoExposure,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: false)
-        
-        let imageView = createFocusIndicator(withImage: cameraFocusLarge,
-                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
-        showFocusIndicator(imageView)
-    }
-    
-    fileprivate func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> FocusIndicator? {
-        guard let image = image else { return nil }
-        let imageView = UIImageView(image: image)
-        imageView.center = point
-        return imageView
-    }
-    
-    fileprivate func showFocusIndicator(_ imageView: FocusIndicator?) {
-        guard cameraState == .valid else { return }
-        guard let imageView = imageView else { return }
-        for subView in self.previewView.subviews {
-            if let focusIndicator = subView as? FocusIndicator {
-                focusIndicator.removeFromSuperview()
-            }
-        }
-        self.previewView.addSubview(imageView)
-        UIView.animate(withDuration: 1.5,
-                       animations: {
-                        imageView.alpha = 0.0
-        },
-                       completion: { _ in
-                        imageView.removeFromSuperview()
-        })
-    }
 }
 
 // MARK: - Constraints
@@ -620,7 +635,8 @@ extension CameraViewController {
             Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
             Contraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
             Contraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading, priority: 750)
+            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading,
+                              priority: 750)
         } else {
             // lower priority constraints - will make the preview "want" to get bigger
             Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
@@ -636,10 +652,12 @@ extension CameraViewController {
             Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
             Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
             Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing, priority: 750)
+            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing,
+                              priority: 750)
         } else {
             Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
-            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top)
+            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+                              attr: .top)
             Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
             Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
         }
@@ -653,25 +671,35 @@ extension CameraViewController {
         
         if UIDevice.current.isIpad {
             Contraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
-            Contraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .trailing, constant: -16)
-            Contraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading, constant: 16, priority: 750)
+            Contraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+                              attr: .trailing, constant: -16)
+            Contraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading,
+                              constant: 16, priority: 750)
         } else {
             Contraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
-            Contraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top, constant: 16)
-            Contraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom, constant: -16, priority: 750)
+            Contraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top,
+                              constant: 16)
+            Contraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom,
+                              constant: -16, priority: 750)
         }
     }
     
     fileprivate func addImportButtonConstraints() {
         importFileButton.translatesAutoresizingMaskIntoConstraints = false
         if UIDevice.current.isIpad {
-            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .trailing)
-            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading)
-            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton, attr: .bottom, constant: 60)
+            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+                              attr: .trailing)
+            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
+                              attr: .leading)
+            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
+                              attr: .bottom, constant: 60)
         } else {
-            Contraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY, priority: 750)
-            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading)
-            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton, attr: .leading, priority: 750)
+            Contraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
+                              attr: .centerY, priority: 750)
+            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
+                              attr: .leading)
+            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
+                              attr: .leading, priority: 750)
         }
     }
 }
