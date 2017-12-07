@@ -11,7 +11,7 @@ import Foundation
     public var type: GiniVisionDocumentType = .qrcode
     public var data: Data
     public lazy var previewImage: UIImage? = {
-       return self.generateQRCodeImage(from: self.data)
+        return self.generateQRCodeImage(from: self.data)
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
@@ -100,8 +100,8 @@ extension GiniQRCodeDocument {
                 parameters["paymentReference"] = paymentReference
             }
             if let amount = queryParameters["amount"] as? String,
-                let currency = queryParameters["currency"] as? String,
-                let amountNormalized = normalize(amount: amount, currency: currency) {
+                let amountNormalized = normalize(amount: amount,
+                                                 currency: queryParameters["currency"] as? String ?? "EUR") {
                 parameters["amountToPay"] = amountNormalized
             }
         }
@@ -130,9 +130,9 @@ extension GiniQRCodeDocument {
     
     fileprivate func normalize(amount: String, currency: String?) -> String? {
         let regexCurrency = try? NSRegularExpression(pattern: "[aA-zZ]", options: [])
+        let length = amount.count < 3 ? amount.count : 3
         
-        if let matches = regexCurrency?.matches(in: amount, options: [], range: NSRange(location: 0, length: 3)),
-            matches.count == 3 {
+        if regexCurrency?.numberOfMatches(in: amount, options: [], range: NSRange(location: 0, length: length)) == 3 {
             let currency = amount.substring(to: String.Index(encodedOffset: 3))
             let quantity = amount.substring(from: String.Index(encodedOffset: 3))
             return quantity + ":" + currency
