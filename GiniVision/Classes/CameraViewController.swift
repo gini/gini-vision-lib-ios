@@ -387,8 +387,10 @@ extension CameraViewController {
         if self.detectedQRCodeDocument != qrDocument {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
+                self.detectedQRCodeDocument = qrDocument
+
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
-                                                             bottomView: self.controlsView,
+                                                             refView: self.previewView,
                                                              document: qrDocument,
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
                 newQRCodePopup.didTapDone = {
@@ -405,7 +407,6 @@ extension CameraViewController {
                 } else {
                     showCompletion()
                 }
-                self.detectedQRCodeDocument = qrDocument
             }
         }
     }
