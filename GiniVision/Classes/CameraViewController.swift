@@ -172,8 +172,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             }
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
-            self?.detectedQRCodeDocument = qrDocument
-            DispatchQueue.main.async { self?.showPopup(forDetected: qrDocument) }
+            guard let `self` = self else { return }
+            self.showPopup(forDetected: qrDocument)
         }
     }
     
@@ -380,8 +380,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         camera.captureStillImage {[weak self] imageData, error in
             guard let imageData = imageData,
                 error == nil else {
-                self?.failureBlock?(error ?? .captureFailed)
-                return
+                    self?.failureBlock?(error ?? .captureFailed)
+                    return
             }
             
             let imageDocument = GiniImageDocument(data: imageData,
@@ -399,9 +399,29 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return .portrait
     }
     
-    fileprivate func showPopup(forDetected document: GiniQRCodeDocument) { if qrCodeDetectedPopup == nil { qrCodeDetectedPopup = QRCodeDetectedPopupView(parent: self.view, bottomView: controlsView, document: document, giniConfiguration: GiniConfiguration.sharedConfiguration)
-        qrCodeDetectedPopup?.show()
-        } }
+    fileprivate func showPopup(forDetected document: GiniQRCodeDocument) {
+        if self.detectedQRCodeDocument != document {
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
+                let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
+                                                             bottomView: self.controlsView,
+                                                             document: document,
+                                                             giniConfiguration: GiniConfiguration.sharedConfiguration)
+                
+                let showCompletion: (() -> Void) = {
+                    self.qrCodeDetectedPopup = newQRCodePopup
+                    self.qrCodeDetectedPopup?.show()
+                }
+                
+                if let qrCodeDetectedPopup = self.qrCodeDetectedPopup {
+                    qrCodeDetectedPopup.hide(completion: showCompletion)
+                } else {
+                    showCompletion()
+                }
+                self.detectedQRCodeDocument = document
+            }
+        }
+    }
     
     // MARK: Document import
     fileprivate func enableFileImport() {
@@ -585,7 +605,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 }
 
 // MARK: - Constraints
-    
+
 extension CameraViewController {
     fileprivate func addConstraints() {
         addPreviewViewConstraints()

@@ -38,7 +38,7 @@ final class QRCodeDetectedPopupView: UIView {
     var didTapDone: (() -> Void) = {}
     
     init(parent: UIView, bottomView: UIView, document: GiniQRCodeDocument, giniConfiguration: GiniConfiguration) {
-        super.init(frame: .zero)
+        super.init(frame: bottomView.frame)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
         addShadow()
@@ -54,6 +54,7 @@ final class QRCodeDetectedPopupView: UIView {
         proceedButton.setTitleColor(UIColor.red.withAlphaComponent(0.5), for: .highlighted)
         
         addConstraints(onSuperView: parent, bottomView: bottomView)
+        layoutIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -111,7 +112,11 @@ final class QRCodeDetectedPopupView: UIView {
     @objc fileprivate func didTapDoneAction() {
         didTapDone()
     }
-    
+}
+
+// MARK: - Animations
+
+extension QRCodeDetectedPopupView {
     func show(after seconds: TimeInterval = 0) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
             guard let `self` = self, let superview = self.superview else { return }
@@ -128,7 +133,7 @@ final class QRCodeDetectedPopupView: UIView {
         })
     }
     
-    func hide(after seconds: TimeInterval) {
+    func hide(after seconds: TimeInterval = 0, completion: (() -> Void)? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
             guard let `self` = self, let superview = self.superview else { return }
             self.bottomConstraint?.constant = self.imageSize.height +
@@ -142,8 +147,8 @@ final class QRCodeDetectedPopupView: UIView {
                             superview.layoutIfNeeded()
             }, completion: { [weak self] _ in
                 self?.removeFromSuperview()
+                completion?()
             })
         })
     }
 }
-
