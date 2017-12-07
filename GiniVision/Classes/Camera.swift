@@ -182,7 +182,7 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
                 try qrDocument.validate()
                 didDetectQR?(qrDocument)
             } catch {
-                
+                print("Not valid QR: ", metadataObj.stringValue.splitlines.count, " ", metadataObj.stringValue)
             }
         }
     }

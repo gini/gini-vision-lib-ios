@@ -15,15 +15,15 @@ final class GINIQRCodeDocumentTests: XCTestCase {
         let qrDocument = GiniQRCodeDocument(scannedString: "bank://singlepaymentsepa?name=Gini%20Online%20Shop" +
             "&reason=A12345-6789&iban=DE89370400440532013000&bic=GINIBICXXX&amount=47%2C65&currency=EUR")
         XCTAssertNoThrow(try qrDocument.validate(), "should throw an error since is valid")
-        XCTAssertEqual(qrDocument.extractedParameters["amountToPay"] as? String, "47,65:EUR",
+        XCTAssertEqual(qrDocument.extractedParameters["amountToPay"], "47,65:EUR",
                        "amountToPay should match")
-        XCTAssertEqual(qrDocument.extractedParameters["paymentRecipient"] as? String, "Gini Online Shop",
+        XCTAssertEqual(qrDocument.extractedParameters["paymentRecipient"], "Gini Online Shop",
                        "paymentRecipient should match")
-        XCTAssertEqual(qrDocument.extractedParameters["paymentReference"] as? String, "A12345-6789",
+        XCTAssertEqual(qrDocument.extractedParameters["paymentReference"], "A12345-6789",
                        "paymentReference should match")
-        XCTAssertEqual(qrDocument.extractedParameters["iban"] as? String, "DE89370400440532013000",
+        XCTAssertEqual(qrDocument.extractedParameters["iban"], "DE89370400440532013000",
                        "iban should match")
-        XCTAssertEqual(qrDocument.extractedParameters["bic"] as? String, "GINIBICXXX",
+        XCTAssertEqual(qrDocument.extractedParameters["bic"], "GINIBICXXX",
                        "bic should match")
     }
     
@@ -32,15 +32,15 @@ final class GINIQRCodeDocumentTests: XCTestCase {
             "EUR1456.89\n\n457845789452\n\nDiverse Autoteile, Re 789452 KN 457845"
         let qrDocument = GiniQRCodeDocument(scannedString: scannedString)
         XCTAssertNoThrow(try qrDocument.validate(), "should throw an error since is valid")
-        XCTAssertEqual(qrDocument.extractedParameters["amountToPay"] as? String, "1456.89:EUR",
+        XCTAssertEqual(qrDocument.extractedParameters["amountToPay"], "1456.89:EUR",
                        "amountToPay should match")
-        XCTAssertEqual(qrDocument.extractedParameters["paymentRecipient"] as? String, "Max Mustermann",
+        XCTAssertEqual(qrDocument.extractedParameters["paymentRecipient"], "Max Mustermann",
                        "paymentRecipient should match")
-        XCTAssertEqual(qrDocument.extractedParameters["paymentReference"] as? String, "457845789452",
+        XCTAssertEqual(qrDocument.extractedParameters["paymentReference"], "457845789452",
                        "paymentReference should match")
-        XCTAssertEqual(qrDocument.extractedParameters["iban"] as? String, "DE52210900070088299309",
+        XCTAssertEqual(qrDocument.extractedParameters["iban"], "DE52210900070088299309",
                        "iban should match")
-        XCTAssertEqual(qrDocument.extractedParameters["bic"] as? String, "GENODEF1KIL",
+        XCTAssertEqual(qrDocument.extractedParameters["bic"], "GENODEF1KIL",
                        "bic should match")
 
     }
