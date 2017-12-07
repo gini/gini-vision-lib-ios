@@ -11,7 +11,7 @@ final class QRCodeDetectedPopupView: UIView {
     
     let maxWidth: CGFloat = 375.0
     let margin: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
-    let padding: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
+    let padding: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (20, 20, 10, 10)
     let imageSize: CGSize = CGSize(width: 35, height: 35)
     let hiddingDelay: TimeInterval = 10.0
     var bottomConstraint: NSLayoutConstraint?
@@ -25,7 +25,9 @@ final class QRCodeDetectedPopupView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "We have found a QR Code!"
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.minimumScaleFactor = 10/14
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
     lazy var proceedButton: UIButton = {
@@ -51,6 +53,7 @@ final class QRCodeDetectedPopupView: UIView {
         
         qrImage.image = document.previewImage
         qrText.font = giniConfiguration.font.regular.withSize(14)
+        proceedButton.titleLabel?.font = giniConfiguration.font.bold
         proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor, for: .normal)
         proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor.withAlphaComponent(0.5),
                                     for: .highlighted)
@@ -89,20 +92,23 @@ final class QRCodeDetectedPopupView: UIView {
                           constant: imageSize.height)
         Contraints.active(item: qrImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
                           constant: padding.left)
-        Contraints.active(item: qrImage, attr: .trailing, relatedBy: .equal, to: qrText, attr: .leading,
-                          constant: -padding.right)
         Contraints.active(item: qrImage, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
         Contraints.active(item: qrImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -padding.bottom)
+        Contraints.active(item: qrImage, attr: .trailing, relatedBy: .equal, to: qrText, attr: .leading,
+                          constant: -padding.right / 2, priority: 999)
         
+        Contraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         Contraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton, attr: .leading,
                           constant: -padding.right)
-        Contraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
-        
         Contraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         Contraints.active(item: proceedButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                           constant: -padding.right)
-        
+        if let minButtonWidth = proceedButton.titleLabel?.intrinsicContentSize.width {
+            Contraints.active(item: proceedButton, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                              constant: minButtonWidth)
+        }
+
     }
     
     fileprivate func addShadow() {

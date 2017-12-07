@@ -105,7 +105,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var blurEffect: UIVisualEffectView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
-    fileprivate var qrCodeDetectedPopup: QRCodeDetectedPopupView?
     var toolTipView: ToolTipView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
         .portrait: .portrait,
@@ -387,7 +386,8 @@ extension CameraViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 self.detectedQRCodeDocument = qrDocument
-
+                let currentQRCodePopup = self.view.subviews.flatMap { $0 as? QRCodeDetectedPopupView }.first
+                
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              refView: self.previewView,
                                                              document: qrDocument,
@@ -395,16 +395,13 @@ extension CameraViewController {
                 newQRCodePopup.didTapDone = {
                     self.successBlock?(qrDocument)
                 }
-                
-                let showCompletion: (() -> Void) = {
-                    self.qrCodeDetectedPopup = newQRCodePopup
-                    self.qrCodeDetectedPopup?.show()
-                }
-                
-                if let qrCodeDetectedPopup = self.qrCodeDetectedPopup {
-                    qrCodeDetectedPopup.hide(completion: showCompletion)
+
+                if let qrCodeDetectedPopup = currentQRCodePopup {
+                    qrCodeDetectedPopup.hide {
+                        newQRCodePopup.show()
+                    }
                 } else {
-                    showCompletion()
+                    newQRCodePopup.show()
                 }
             }
         }
