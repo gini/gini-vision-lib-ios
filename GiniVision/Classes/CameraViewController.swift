@@ -160,7 +160,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.failureBlock = failureBlock
         
         // Configure camera
-        self.camera = Camera { error in
+        self.camera = Camera(giniConfiguration: GiniConfiguration.sharedConfiguration) { error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:

@@ -21,7 +21,9 @@ internal class Camera: NSObject {
                                                                      attributes: [])
     fileprivate let application: UIApplication
     
-    init(application: UIApplication = UIApplication.shared, completion: ((CameraError?) -> Void)) {
+    init(application: UIApplication = UIApplication.shared,
+         giniConfiguration: GiniConfiguration,
+         completion: ((CameraError?) -> Void)) {
         self.application = application
         super.init()
         do {
@@ -30,7 +32,10 @@ internal class Camera: NSObject {
             self.session.beginConfiguration()
             self.setupInput()
             self.setupPhotoCaptureOutput()
-            self.setupQRScanningOutput()
+            
+            if giniConfiguration.qrCodeScanningEnabled {
+                self.setupQRScanningOutput()
+            }
             self.session.commitConfiguration()
         } catch let error as CameraError {
             completion(error)

@@ -10,7 +10,8 @@ import UIKit
 import GiniVision
 
 protocol SettingsViewControllerDelegate: class {
-    func settings(settingViewController: SettingsViewController, didChangeConfiguration configuration: GiniConfiguration)
+    func settings(settingViewController: SettingsViewController,
+                  didChangeConfiguration configuration: GiniConfiguration)
 }
 
 final class SettingsViewController: UIViewController {
@@ -20,6 +21,7 @@ final class SettingsViewController: UIViewController {
 
     @IBOutlet weak var fileImportControl: UISegmentedControl!
     @IBOutlet weak var openWithSwitch: UISwitch!
+    @IBOutlet weak var qrCodeScanningSwitch: UISwitch!
     @IBAction func fileImportOptions(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -43,9 +45,14 @@ final class SettingsViewController: UIViewController {
         delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
     }
     
+    @IBAction func qrCodeScanningSwitch(_ sender: UISwitch) {
+        giniConfiguration.qrCodeScanningEnabled = sender.isOn
+        delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: true)
+        qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: true)
 
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:
