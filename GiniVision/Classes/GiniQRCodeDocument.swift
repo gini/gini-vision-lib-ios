@@ -15,9 +15,9 @@ import Foundation
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
-    
-    public let scannedString: String
     public lazy var extractedParameters: [String: String] = self.extractParameters(from: self.scannedString)
+    
+    fileprivate let scannedString: String
     fileprivate let epc06912LinesCount = 12
     fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
@@ -55,6 +55,15 @@ import Foundation
         }
         
         return nil
+    }
+}
+
+extension GiniQRCodeDocument {
+    public override func isEqual(_ object: Any?) -> Bool {
+        if let object = object as? GiniQRCodeDocument {
+            return self.scannedString == object.scannedString
+        }
+        return false
     }
 }
 
