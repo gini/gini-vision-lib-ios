@@ -102,6 +102,7 @@ final class AppCoordinator: Coordinator {
         settingsViewController.delegate = self
         settingsViewController.giniConfiguration = giniConfiguration
         settingsViewController.modalPresentationStyle = .overFullScreen
+        settingsViewController.modalTransitionStyle = .crossDissolve
         
         rootViewController.present(settingsViewController, animated: true, completion: nil)
     }

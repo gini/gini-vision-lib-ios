@@ -282,7 +282,10 @@ import UIKit
      */
     public var navigationBarCameraTitleHelpButton = ""
     
-    
+    /**
+     Sets the text color of the QR Code popup button
+     */
+    public var qrCodePopupButtonColor = Colors.Gini.blue
     
     
     // MARK: Onboarding options
