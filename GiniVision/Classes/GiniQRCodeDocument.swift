@@ -23,7 +23,12 @@ import Foundation
         if self.scannedString.starts(with: "bank://") {
             return .bezahlcode
         } else {
-            return self.scannedString.splitlines.count == self.epc06912LinesCount ? .epc06912 : nil
+            let lines = self.scannedString.splitlines
+            if (lines[1] == "001" || lines[1] == "002") &&
+                (lines[2] == "1" || lines[2] == "2") {
+                return .epc06912
+            }
+            return nil
         }
     }()
     
@@ -39,7 +44,7 @@ import Foundation
     }
     
     public func checkType() throws {
-        if self.qrCodeFormat == nil {
+        if self.qrCodeFormat == nil || self.extractedParameters.isEmpty {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
     }
@@ -96,7 +101,8 @@ extension GiniQRCodeDocument {
                 IBANValidator().isValid(iban: iban) {
                 parameters["iban"] = iban
             }
-            if let paymentReference = queryParameters["reason"] as? String {
+            if let paymentReference = queryParameters["reason"] as? String ??
+                queryParameters["reason1"] as? String {
                 parameters["paymentReference"] = paymentReference
             }
             if let amount = queryParameters["amount"] as? String,
@@ -111,11 +117,19 @@ extension GiniQRCodeDocument {
     
     fileprivate func extractParameters(fromEPC06912CodeString string: String) -> [String: String] {
         let lines = string.splitlines
-        var parameters: [String: String] = [
-            "bic": lines[4],
-            "paymentRecipient": lines[5],
-            "paymentReference": lines[9]
-        ]
+        var parameters: [String: String] = [:]
+        
+        if !lines[4].isEmpty {
+            parameters["bic"] = lines[4]
+        }
+        
+        if !lines[5].isEmpty {
+            parameters["paymentRecipient"] = lines[5]
+        }
+        
+        if !lines[9].isEmpty {
+            parameters["paymentReference"] = lines[9]
+        }
         
         if IBANValidator().isValid(iban: lines[6]) {
             parameters["iban"] = lines[6]
