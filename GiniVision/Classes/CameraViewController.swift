@@ -97,8 +97,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         previewView.addGestureRecognizer(tapGesture)
         return previewView
     }()
+    fileprivate lazy var controlsView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
     fileprivate var blurEffect: UIVisualEffectView?
-    fileprivate var controlsView  = UIView()
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate var qrCodeDetectedPopup: QRCodeDetectedPopupView?
@@ -169,9 +173,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
             self?.detectedQRCodeDocument = qrDocument
-            DispatchQueue.main.async {
-                self?.showQRDetectedPopup()
-            }
+            DispatchQueue.main.async { self?.showPopup(forDetected: qrDocument) }
         }
     }
     
@@ -398,7 +400,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return .portrait
     }
     
-    fileprivate func showQRDetectedPopup() { if qrCodeDetectedPopup == nil { qrCodeDetectedPopup = QRCodeDetectedPopupView(superView: self.view) } }
+    fileprivate func showPopup(forDetected document: GiniQRCodeDocument) { if qrCodeDetectedPopup == nil { qrCodeDetectedPopup = QRCodeDetectedPopupView(parent: self.view, bottomView: controlsView, document: document, giniConfiguration: GiniConfiguration.sharedConfiguration)
+        qrCodeDetectedPopup?.show()
+        } }
     
     // MARK: Document import
     fileprivate func enableFileImport() {
@@ -573,8 +577,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                         imageView.removeFromSuperview()
         })
     }
+}
+
+// MARK: - Constraints
     
-    // MARK: Constraints
+extension CameraViewController {
     fileprivate func addConstraints() {
         addPreviewViewConstraints()
         addControlsViewConstraints()
@@ -642,9 +649,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton, attr: .leading, priority: 750)
         }
     }
-    
-    // MARK: - Default and not authorized views
-    
+}
+
+// MARK: - Default and not authorized views
+
+extension CameraViewController {
     fileprivate func addNotAuthorizedView() {
         
         // Add not authorized view

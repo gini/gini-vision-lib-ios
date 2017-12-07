@@ -10,7 +10,12 @@ import UIKit
 final class QRCodeDetectedPopupView: UIView {
     
     let maxWidth: CGFloat = 375.0
-    let padding: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
+    let margin: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
+    let padding: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
+    let imageSize: CGSize = CGSize(width: 35, height: 35)
+    let hiddingDelay: TimeInterval = 6.0
+    var bottomConstraint: NSLayoutConstraint?
+    
     lazy var qrImage: UIImageView = {
         let imageView = UIImageView(image: UIImageNamedPreferred(named: "toolTipCloseButton"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,66 +25,125 @@ final class QRCodeDetectedPopupView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "We have found a QR Code!"
+        label.numberOfLines = 0
         return label
     }()
     lazy var proceedButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Continue", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitle("Use it!", for: .normal)
         button.addTarget(self, action: #selector(self.didTapDoneAction), for: .touchUpInside)
         return button
     }()
     var didTapDone: (() -> Void) = {}
     
-    init(superView: UIView) {
+    init(parent: UIView, bottomView: UIView, document: GiniQRCodeDocument, giniConfiguration: GiniConfiguration) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
+        addShadow()
         
-        superView.addSubview(self)
+        parent.insertSubview(self, belowSubview: bottomView)
         addSubview(qrImage)
         addSubview(qrText)
         addSubview(proceedButton)
         
-        addConstraints(onSuperView: superView)
+        qrImage.image = document.previewImage
+        qrText.font = giniConfiguration.font.regular.withSize(14)
+        proceedButton.setTitleColor(.red, for: .normal)
+        proceedButton.setTitleColor(UIColor.red.withAlphaComponent(0.5), for: .highlighted)
+        
+        addConstraints(onSuperView: parent, bottomView: bottomView)
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    fileprivate func addConstraints(onSuperView superView: UIView) {
+    fileprivate func addConstraints(onSuperView superView: UIView, bottomView: UIView) {
         Contraints.active(item: self, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: maxWidth)
         Contraints.active(item: self, attr: .leading, relatedBy: .greaterThanOrEqual, to: superView, attr: .leading,
-                          constant: padding.left)
+                          constant: margin.left)
         Contraints.active(item: self, attr: .trailing, relatedBy: .lessThanOrEqual, to: superView, attr: .trailing,
-                          constant: -padding.right)
-        Contraints.active(item: self, attr: .top, relatedBy: .equal, to: superView, attr: .top, constant: padding.top)
+                          constant: -margin.right)
+        bottomConstraint = NSLayoutConstraint(item: self,
+                                              attribute: .bottom,
+                                              relatedBy: .equal,
+                                              toItem: bottomView,
+                                              attribute: .top,
+                                              multiplier: 1.0,
+                                              constant: imageSize.height +
+                                                padding.top +
+                                                padding.bottom +
+                                                margin.bottom)
+        Contraints.active(constraint: bottomConstraint!)
         
-        Contraints.active(item: qrImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 15)
-        Contraints.active(item: qrImage, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 15)
+        Contraints.active(item: qrImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: imageSize.width)
+        Contraints.active(item: qrImage, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: imageSize.height)
         Contraints.active(item: qrImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
                           constant: padding.left)
-        Contraints.active(item: qrImage, attr: .centerY, relatedBy: .equal, to: qrText, attr: .centerY)
         Contraints.active(item: qrImage, attr: .trailing, relatedBy: .equal, to: qrText, attr: .leading,
                           constant: -padding.right)
-        
-        Contraints.active(item: qrText, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
-        Contraints.active(item: qrText, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+        Contraints.active(item: qrImage, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
+        Contraints.active(item: qrImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -padding.bottom)
+        
         Contraints.active(item: qrText, attr: .trailing, relatedBy: .equal, to: proceedButton, attr: .leading,
                           constant: -padding.right)
+        Contraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         
-        Contraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrText, attr: .centerY)
+        Contraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         Contraints.active(item: proceedButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                           constant: -padding.right)
         
     }
     
-    func didTapDoneAction() {
+    fileprivate func addShadow() {
+        self.layer.shadowOffset = CGSize(width: 0, height: 2)
+        self.layer.shadowRadius = 0.8
+        self.layer.shadowOpacity = 0.2
+        self.layer.shadowColor = UIColor.black.cgColor
+    }
+    
+    @objc fileprivate func didTapDoneAction() {
         didTapDone()
+    }
+    
+    func show(after seconds: TimeInterval = 0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
+            guard let `self` = self, let superview = self.superview else { return }
+            self.bottomConstraint?.constant = -self.margin.bottom
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseInOut],
+                           animations: {
+                            superview.layoutIfNeeded()
+            }, completion: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.hide(after: self.hiddingDelay)
+            })
+        })
+    }
+    
+    func hide(after seconds: TimeInterval) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
+            guard let `self` = self, let superview = self.superview else { return }
+            self.bottomConstraint?.constant = self.imageSize.height +
+                self.padding.top +
+                self.padding.bottom +
+                self.margin.bottom
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           options: [.curveEaseInOut],
+                           animations: {
+                            superview.layoutIfNeeded()
+            }, completion: { [weak self] _ in
+                self?.removeFromSuperview()
+            })
+        })
     }
 }
 
