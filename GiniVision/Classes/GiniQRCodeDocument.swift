@@ -10,12 +10,14 @@ import Foundation
 @objc final public class GiniQRCodeDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .qrcode
     public var data: Data
-    public var previewImage: UIImage?
+    public lazy var previewImage: UIImage? = {
+       return self.generateQRCodeImage(from: self.data)
+    }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
     
     public let scannedString: String
-    public var extractedParameters: [String: String] = [:]
+    public lazy var extractedParameters: [String: String] = self.extractParameters(from: self.scannedString)
     fileprivate let epc06912LinesCount = 12
     fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
@@ -31,16 +33,28 @@ import Foundation
     }
     
     public init(scannedString: String) {
-        self.data = scannedString.data(using: String.Encoding.utf8) ?? Data(count: 0)
+        self.data = scannedString.data(using: String.Encoding.isoLatin1) ?? Data(count: 0)
         self.scannedString = scannedString
         super.init()
-        self.extractedParameters = extractParameters(from: scannedString)
     }
     
     public func checkType() throws {
         if self.qrCodeFormat == nil {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
+    }
+    
+    fileprivate func generateQRCodeImage(from data: Data) -> UIImage? {
+        let filter = CIFilter(name: "CIQRCodeGenerator")
+        
+        filter?.setValue(data, forKey: "inputMessage")
+        filter?.setValue("Q", forKey: "inputCorrectionLevel")
+        
+        if let outputImage = filter?.outputImage {
+            return UIImage(ciImage: outputImage.applying(CGAffineTransform(scaleX: 2, y: 2)))
+        }
+        
+        return nil
     }
 }
 
