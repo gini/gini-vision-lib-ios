@@ -13,7 +13,7 @@ final class QRCodeDetectedPopupView: UIView {
     let margin: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
     let padding: (left: CGFloat, right: CGFloat, top: CGFloat, bottom: CGFloat) = (10, 10, 10, 10)
     let imageSize: CGSize = CGSize(width: 35, height: 35)
-    let hiddingDelay: TimeInterval = 6.0
+    let hiddingDelay: TimeInterval = 10.0
     var bottomConstraint: NSLayoutConstraint?
     
     lazy var qrImage: UIImageView = {
@@ -50,8 +50,9 @@ final class QRCodeDetectedPopupView: UIView {
         
         qrImage.image = document.previewImage
         qrText.font = giniConfiguration.font.regular.withSize(14)
-        proceedButton.setTitleColor(.red, for: .normal)
-        proceedButton.setTitleColor(UIColor.red.withAlphaComponent(0.5), for: .highlighted)
+        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor, for: .normal)
+        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor.withAlphaComponent(0.5),
+                                    for: .highlighted)
         
         addConstraints(onSuperView: parent, bottomView: bottomView)
         layoutIfNeeded()

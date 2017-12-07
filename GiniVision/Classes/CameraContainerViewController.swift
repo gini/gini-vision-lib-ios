@@ -46,7 +46,7 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                 if let didDetect = delegate.didDetect(qrDocument: ) {
                     didDetect(qrDocument)
                 } else {
-                    fatalError("QR Code detection is enabled but `GiniVisionDelegate.didCapture`" +
+                    fatalError("QR Code scanning is enabled but `GiniVisionDelegate.didCapture`" +
                         "method wasn't implement")
                 }
             } else {
