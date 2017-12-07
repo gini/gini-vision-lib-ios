@@ -73,16 +73,16 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         documentService.analyzeDocument(withData: document.data,
                                         cancelationToken: CancelationToken(),
                                         completion: { (result, document, error) in
-            if error != nil {
-                self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
-                return
-            }
-            
-            if let result = result,
-                let document = document {
-                self.document = document
-                self.result = result
-            }
+                                            if error != nil {
+                                                self.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
+                                                return
+                                            }
+                                            
+                                            if let result = result,
+                                                let document = document {
+                                                self.document = document
+                                                self.result = result
+                                            }
         })
     }
     
@@ -159,9 +159,11 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
         
-        if let document = document, fromVC is ResultTableViewController {
+        if fromVC is ResultTableViewController {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
-            self.documentService.sendFeedback(forDocument: document)
+            if let document = document {
+                self.documentService.sendFeedback(forDocument: document)
+            }
         }
         
         return nil
@@ -183,19 +185,25 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         analyzeDocument(visionDocument: document)
-
-//        if let qrDocument = document as? GiniQRCodeDocument {
-//            result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
-//                result[parameter.key] = GINIExtraction(name: parameter.key,
-//                                                       value: parameter.value,
-//                                                       entity: parameter.value,
-//                                                       box: [:])
-//            }
-//            showResultsScreen()
+        
+        //        if let qrDocument = document as? GiniQRCodeDocument {
+        //            result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
+        //                result[parameter.key] = GINIExtraction(name: parameter.key,
+        //                                                       value: parameter.value,
+        //                                                       entity: parameter.value,
+        //                                                       box: [:])
+        //            }
+        //            showResultsScreen()
     }
     
     func didDetect(qrDocument: GiniQRCodeDocument) {
-        print("QRCodeDetected and processed by the user")
+        result = qrDocument.extractedParameters.reduce(into: [String: GINIExtraction]()) { (result, parameter) in
+            result[parameter.key] = GINIExtraction(name: parameter.key,
+                                                   value: parameter.value,
+                                                   entity: parameter.value,
+                                                   box: [:])
+        }
+        showResultsScreen()
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
