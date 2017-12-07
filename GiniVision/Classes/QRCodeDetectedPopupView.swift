@@ -37,13 +37,14 @@ final class QRCodeDetectedPopupView: UIView {
     }()
     var didTapDone: (() -> Void) = {}
     
-    init(parent: UIView, bottomView: UIView, document: GiniQRCodeDocument, giniConfiguration: GiniConfiguration) {
-        super.init(frame: bottomView.frame)
+    init(parent: UIView, refView: UIView, document: GiniQRCodeDocument, giniConfiguration: GiniConfiguration) {
+        super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .white
         addShadow()
         
-        parent.insertSubview(self, belowSubview: bottomView)
+        parent.insertSubview(self, aboveSubview: refView)
+
         addSubview(qrImage)
         addSubview(qrText)
         addSubview(proceedButton)
@@ -54,7 +55,7 @@ final class QRCodeDetectedPopupView: UIView {
         proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor.withAlphaComponent(0.5),
                                     for: .highlighted)
         
-        addConstraints(onSuperView: parent, bottomView: bottomView)
+        addConstraints(onSuperView: parent, refView: refView)
         layoutIfNeeded()
     }
     
@@ -62,18 +63,19 @@ final class QRCodeDetectedPopupView: UIView {
         super.init(coder: aDecoder)
     }
     
-    fileprivate func addConstraints(onSuperView superView: UIView, bottomView: UIView) {
+    fileprivate func addConstraints(onSuperView superView: UIView, refView: UIView) {
         Contraints.active(item: self, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: maxWidth)
         Contraints.active(item: self, attr: .leading, relatedBy: .greaterThanOrEqual, to: superView, attr: .leading,
                           constant: margin.left)
         Contraints.active(item: self, attr: .trailing, relatedBy: .lessThanOrEqual, to: superView, attr: .trailing,
                           constant: -margin.right)
+        Contraints.active(item: self, attr: .centerX, relatedBy: .equal, to: refView, attr: .centerX)
         bottomConstraint = NSLayoutConstraint(item: self,
                                               attribute: .bottom,
                                               relatedBy: .equal,
-                                              toItem: bottomView,
-                                              attribute: .top,
+                                              toItem: refView,
+                                              attribute: .bottom,
                                               multiplier: 1.0,
                                               constant: imageSize.height +
                                                 padding.top +
@@ -93,7 +95,7 @@ final class QRCodeDetectedPopupView: UIView {
         Contraints.active(item: qrImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -padding.bottom)
         
-        Contraints.active(item: qrText, attr: .trailing, relatedBy: .equal, to: proceedButton, attr: .leading,
+        Contraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton, attr: .leading,
                           constant: -padding.right)
         Contraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         
