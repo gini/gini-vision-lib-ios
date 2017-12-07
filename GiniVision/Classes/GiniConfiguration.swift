@@ -155,6 +155,10 @@ import UIKit
      */
     public var photoLibraryAccessDeniedMessageText = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied", comment: "This message is shown when Photo library permission is denied")
     
+    /**
+     Indicates whether the QR Code scanning feature is enabled or not.
+     */
+    public var qrCodeScanningEnabled = false
     
     
     

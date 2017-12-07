@@ -38,17 +38,31 @@ class GINISettingsViewControllerTests: XCTestCase {
         XCTAssertEqual(settingsViewController.giniConfiguration.fileImportSupportedTypes, .pdf_and_images, "pdf and image types should be supported in the gini configuration")
     }
     
-    func testSwitchOn() {
+    func testOpenWithSwitchOn() {
         settingsViewController.openWithSwitch.isOn = true
         settingsViewController.openWithSwitch.sendActions(for: .valueChanged)
         
         XCTAssertTrue(settingsViewController.giniConfiguration.openWithEnabled, "open with feature should be enabled in the gini configuration")
     }
     
-    func testSwitchOff() {
+    func testOpenWithSwitchOff() {
         settingsViewController.openWithSwitch.isOn = false
         settingsViewController.openWithSwitch.sendActions(for: .valueChanged)
 
         XCTAssertFalse(settingsViewController.giniConfiguration.openWithEnabled, "open with feature should not be enabled in the gini configuration")
+    }
+    
+    func testQrCodeScanningSwitchOn() {
+        settingsViewController.qrCodeScanningSwitch.isOn = true
+        settingsViewController.qrCodeScanningSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertTrue(settingsViewController.giniConfiguration.qrCodeScanningEnabled, "qr code scanning should be enabled in the gini configuration")
+    }
+    
+    func testQrCodeScanningSwitchOff() {
+        settingsViewController.qrCodeScanningSwitch.isOn = false
+        settingsViewController.qrCodeScanningSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertFalse(settingsViewController.giniConfiguration.qrCodeScanningEnabled, "qr code scanning should not be enabled in the gini configuration")
     }
 }
