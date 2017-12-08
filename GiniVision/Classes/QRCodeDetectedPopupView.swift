@@ -49,25 +49,28 @@ final class QRCodeDetectedPopupView: UIView {
         backgroundColor = .white
         addShadow()
         
+        qrImage.image = document.previewImage
+        setupViews(with: giniConfiguration)
+        
         parent.insertSubview(self, aboveSubview: refView)
-
         addSubview(qrImage)
         addSubview(qrText)
         addSubview(proceedButton)
-        
-        qrImage.image = document.previewImage
-        qrText.font = giniConfiguration.font.regular.withSize(14)
-        proceedButton.titleLabel?.font = giniConfiguration.font.bold
-        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor, for: .normal)
-        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor.withAlphaComponent(0.5),
-                                    for: .highlighted)
-        
         addConstraints(onSuperView: parent, refView: refView)
+        
         layoutIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    fileprivate func setupViews(with giniConfiguration: GiniConfiguration) {
+        qrText.font = giniConfiguration.font.regular.withSize(14)
+        proceedButton.titleLabel?.font = giniConfiguration.font.bold
+        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor, for: .normal)
+        proceedButton.setTitleColor(giniConfiguration.qrCodePopupButtonColor.withAlphaComponent(0.5),
+                                    for: .highlighted)
     }
     
     fileprivate func addConstraints(onSuperView superView: UIView, refView: UIView) {
