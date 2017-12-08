@@ -7,11 +7,12 @@
 
 import Foundation
 
-
 extension URL {
     var queryParameters: [String: Any]? {
-        return URLComponents(string: self.absoluteString)?.queryItems?.reduce(into: [String: Any]()) { (dict, queryItem) in
-            dict[queryItem.name] = queryItem.value
+        return URLComponents(string: self.absoluteString)?
+            .queryItems?
+            .reduce(into: [String: Any]()) { (dict, queryItem) in
+                dict[queryItem.name] = queryItem.value
         }
     }
 }
