@@ -68,18 +68,6 @@ internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UI
     }
 }
 
-internal func generateQRCodeImage(from data: Data) -> UIImage? {
-    let filter = CIFilter(name: "CIQRCodeGenerator")
-    
-    filter?.setValue(data, forKey: "inputMessage")
-    filter?.setValue("Q", forKey: "inputCorrectionLevel")
-    
-    if let outputImage = filter?.outputImage {
-        return UIImage(ciImage: outputImage.applying(CGAffineTransform(scaleX: 2, y: 2)))
-    }
-    
-    return nil
-}
 
 internal struct AnimationDuration {
     static var slow = 1.0

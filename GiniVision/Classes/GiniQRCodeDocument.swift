@@ -11,7 +11,7 @@ import Foundation
     public var type: GiniVisionDocumentType = .qrcode
     public var data: Data
     public lazy var previewImage: UIImage? = {
-        return generateQRCodeImage(from: self.data)
+        return UIImage(qrData: self.data)
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
