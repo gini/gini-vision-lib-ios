@@ -24,7 +24,8 @@ import Foundation
             return .bezahlcode
         } else {
             let lines = self.scannedString.splitlines
-            if (lines[1] == "001" || lines[1] == "002") &&
+            if lines.count > 8 &&
+                (lines[1] == "001" || lines[1] == "002") &&
                 (lines[2] == "1" || lines[2] == "2") {
                 return .epc06912
             }
@@ -62,6 +63,8 @@ import Foundation
         return nil
     }
 }
+
+// MARK: Equatable
 
 extension GiniQRCodeDocument {
     public override func isEqual(_ object: Any?) -> Bool {
