@@ -200,14 +200,6 @@
               </li>
             </ul>
           </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Classes.html">Other Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
-              </li>
-            </ul>
-          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -289,8 +281,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>CameraViewController</code> provides a custom camera screen which enables the user to take a
-photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
+                        <p>The <code>CameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 
@@ -514,10 +505,10 @@ photo of a document to be analyzed. The user can focus the camera manually if th
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GiniVisionDocumentBuilder</code> provides a way to build a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> from a <code>Data</code> object and
-a <code><a href="Enums/DocumentSource.html">DocumentSource</a></code>. Additionally the <code><a href="Enums/DocumentImportMethod.html">DocumentImportMethod</a></code> can bet set after builder iniatilization.
-This is an example of how a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> should be built when it has been imported
-with the <em>Open with</em> feature.</p>
+                        
+<ul>
+<li>The <code>GiniVisionDocumentBuilder</code> provides a way to build a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> from a <code>Data</code> object. The <code><a href="Enums/DocumentSource.html">DocumentSource</a></code> must be provided in the initialization, being optional but highly recommended setting the <code><a href="Enums/DocumentImportMethod.html">DocumentImportMethod</a></code> afterwards. This could be an example of how a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> should be built when it has been imported with the <em>Open with</em> feature.</li>
+</ul>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">documentBuilder</span> <span class="o">=</span> <span class="kt">GiniVisionDocumentBuilder</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">documentSource</span><span class="p">:</span> <span class="o">.</span><span class="nf">appName</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="n">sourceApplication</span><span class="p">))</span>
 <span class="n">documentBuilder</span><span class="o">.</span><span class="n">importMethod</span> <span class="o">=</span> <span class="o">.</span><span class="n">openWith</span>
 <span class="k">let</span> <span class="nv">document</span> <span class="o">=</span> <span class="n">documentBuilder</span><span class="o">.</span><span class="nf">build</span><span class="p">()</span>

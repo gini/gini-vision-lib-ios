@@ -200,14 +200,6 @@
               </li>
             </ul>
           </li>
-          <li class="nav-group-name">
-            <a class="nav-group-name-link" href="Other Classes.html">Other Classes</a>
-            <ul class="nav-group-tasks">
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
-              </li>
-            </ul>
-          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -248,7 +240,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/CameraError.html">CameraError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/CameraError.html">CameraError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -268,8 +260,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Block that will be executed when the camera successfully takes a picture.
-It contains the JPEG representation of the image including meta information about the image.</p>
+                        <p>Block that will be executed when the camera successfully takes a picture. It contains the JPEG representation of the image including meta information about the image.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -281,7 +272,7 @@ It contains the JPEG representation of the image including meta information abou
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -313,7 +304,7 @@ It contains the JPEG representation of the image including meta information abou
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenFailureBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:10GiniVision0aB5ErrorP">GiniVisionError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenFailureBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Protocols.html#/s:10GiniVision0aB5ErrorP">GiniVisionError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -333,9 +324,7 @@ It contains the JPEG representation of the image including meta information abou
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Block that will be executed when the camera screen successfully takes a picture or pick a document/picture.
-It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
-It also contains if the document has been imported from camera-roll/document-explorer or from the camera.</p>
+                        <p>Block that will be executed when the camera screen successfully takes a picture or pick a document/picture. It contains the JPEG representation of the image including meta information about the image, or the PDF Data. It also contains if the document has been imported from camera-roll/document-explorer or from the camera.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Component API only.
@@ -347,7 +336,7 @@ It also contains if the document has been imported from camera-roll/document-exp
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">document</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">document</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">()</span></code></pre>
 
                         </div>
                       </div>
