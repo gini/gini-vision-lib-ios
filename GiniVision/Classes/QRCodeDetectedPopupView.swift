@@ -22,18 +22,22 @@ final class QRCodeDetectedPopupView: UIView {
         return imageView
     }()
     lazy var qrText: UILabel = {
+        let message = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.message",
+                                      comment: "Proceed button title")
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "We have found a QR Code!"
+        label.text = message
         label.numberOfLines = 1
         label.minimumScaleFactor = 10/14
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     lazy var proceedButton: UIButton = {
+        let title = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.buttonTitle",
+                                      comment: "Proceed button title")
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Use it!", for: .normal)
+        button.setTitle(title, for: .normal)
         button.addTarget(self, action: #selector(self.didTapDoneAction), for: .touchUpInside)
         return button
     }()

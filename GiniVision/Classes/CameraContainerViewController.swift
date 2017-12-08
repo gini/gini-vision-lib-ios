@@ -20,7 +20,6 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
     
     // Properties
     fileprivate var showOnboarding: (() -> Void)?
-    fileprivate var qrDocument: GiniQRCodeDocument?
     
     // Resources
     fileprivate let closeButtonResources = PreferredButtonResource(image: "navigationCameraClose",
@@ -42,7 +41,6 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
             }
             
             if let qrDocument = document as? GiniQRCodeDocument {
-                self.qrDocument = qrDocument
                 if let didDetect = delegate.didDetect(qrDocument: ) {
                     didDetect(qrDocument)
                 } else {
@@ -50,12 +48,10 @@ internal class CameraContainerViewController: UIViewController, ContainerViewCon
                         "method wasn't implement")
                 }
             } else {
-                if self.qrDocument == nil {
-                    self.showNextScreen(forDocument: document)
-                }
+                self.showNextScreen(forDocument: document)
                 
                 if let didCapture = delegate.didCapture(document:) {
-                    didCapture(self.qrDocument ?? document)
+                    didCapture(document)
                 } else if let didCapture = delegate.didCapture(_:) {
                     didCapture(document.data)
                 } else {
