@@ -176,13 +176,12 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObjectTypeQRCode {
-            // Create Gini Document
             let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue)
             do {
                 try qrDocument.validate()
                 didDetectQR?(qrDocument)
             } catch {
-                print("Not valid QR: ", metadataObj.stringValue.splitlines.count, " ", metadataObj.stringValue)
+
             }
         }
     }
