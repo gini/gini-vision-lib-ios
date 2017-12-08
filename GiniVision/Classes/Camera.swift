@@ -16,12 +16,14 @@ internal class Camera: NSObject {
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
-    var didDetectQR: ((GiniVisionDocument) -> Void)?
+    var didDetectQR: ((GiniQRCodeDocument) -> Void)?
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
                                                                      attributes: [])
     fileprivate let application: UIApplication
     
-    init(application: UIApplication = UIApplication.shared, completion: ((CameraError?) -> Void)) {
+    init(application: UIApplication = UIApplication.shared,
+         giniConfiguration: GiniConfiguration,
+         completion: ((CameraError?) -> Void)) {
         self.application = application
         super.init()
         do {
@@ -30,7 +32,10 @@ internal class Camera: NSObject {
             self.session.beginConfiguration()
             self.setupInput()
             self.setupPhotoCaptureOutput()
-            self.setupQRScanningOutput()
+            
+            if giniConfiguration.qrCodeScanningEnabled {
+                self.setupQRScanningOutput()
+            }
             self.session.commitConfiguration()
         } catch let error as CameraError {
             completion(error)
@@ -169,9 +174,15 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject,
+        if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObjectTypeQRCode {
-            // Create Gini Document
+            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue)
+            do {
+                try qrDocument.validate()
+                didDetectQR?(qrDocument)
+            } catch {
+
+            }
         }
     }
 }

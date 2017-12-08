@@ -12,27 +12,31 @@ import Foundation
  * Document processed by the _GiniVision_ library.
  */
 
-@objc public protocol GiniVisionDocument:class {
-    var type:GiniVisionDocumentType { get }
-    var data:Data { get }
-    var previewImage:UIImage? { get }
-    var isReviewable:Bool { get }
-    var isImported:Bool { get }
+@objc public protocol GiniVisionDocument: class {
+    var type: GiniVisionDocumentType { get }
+    var data: Data { get }
+    var previewImage: UIImage? { get }
+    var isReviewable: Bool { get }
+    var isImported: Bool { get }
     
     func checkType() throws
 }
 
 // MARK: GiniVisionDocumentType
 
-@objc public enum GiniVisionDocumentType:Int {
+@objc public enum GiniVisionDocumentType: Int {
     case pdf = 0
     case image = 1
+    case qrcode = 2
 }
 
 // MARK: GiniVisionDocumentBuilder
 
 /**
- * The `GiniVisionDocumentBuilder` provides a way to build a `GiniVisionDocument` from a `Data` object. The `DocumentSource` must be provided in the initialization, being optional but highly recommended setting the `DocumentImportMethod` afterwards. This could be an example of how a `GiniVisionDocument` should be built when it has been imported with the _Open with_ feature.
+ The `GiniVisionDocumentBuilder` provides a way to build a `GiniVisionDocument` from a `Data` object and
+ a `DocumentSource`. Additionally the `DocumentImportMethod` can bet set after builder iniatilization.
+ This is an example of how a `GiniVisionDocument` should be built when it has been imported
+ with the _Open with_ feature.
  
  ```swift
  let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
@@ -42,10 +46,10 @@ import Foundation
  */
 public class GiniVisionDocumentBuilder {
     
-    let data:Data?
-    var documentSource:DocumentSource
-    public var deviceOrientation:UIInterfaceOrientation?
-    public var importMethod:DocumentImportMethod?
+    let data: Data?
+    var documentSource: DocumentSource
+    public var deviceOrientation: UIInterfaceOrientation?
+    public var importMethod: DocumentImportMethod?
     
     /**
      Initializes a `GiniVisionDocumentBuilder` with a Data object
@@ -54,7 +58,7 @@ public class GiniVisionDocumentBuilder {
      
      */
     
-    public init(data:Data?, documentSource:DocumentSource) {
+    public init(data: Data?, documentSource: DocumentSource) {
         self.data = data
         self.documentSource = documentSource
     }
@@ -70,7 +74,10 @@ public class GiniVisionDocumentBuilder {
             if data.isPDF {
                 return GiniPDFDocument(data: data)
             } else if data.isImage {
-                return GiniImageDocument(data: data, imageSource: documentSource, imageImportMethod: importMethod, deviceOrientation: deviceOrientation)
+                return GiniImageDocument(data: data,
+                                         imageSource: documentSource,
+                                         imageImportMethod: importMethod,
+                                         deviceOrientation: deviceOrientation)
             }
         }
         return nil
@@ -81,11 +88,11 @@ public class GiniVisionDocumentBuilder {
 
 extension GiniVisionDocument {
     
-    fileprivate var MAX_FILE_SIZE:Int { // Bytes
+    fileprivate var MAX_FILE_SIZE: Int { // Bytes
         return 10 * 1024 * 1024
     }
 
-    fileprivate var customDocumentValidations: ((GiniVisionDocument) throws -> ())? {
+    fileprivate var customDocumentValidations: ((GiniVisionDocument) throws -> Void)? {
         return GiniConfiguration.sharedConfiguration.customDocumentValidations
     }
     
@@ -108,12 +115,10 @@ extension GiniVisionDocument {
     
     // MARK: File size check
     
-    fileprivate func maxFileSizeExceeded(forData data:Data) -> Bool {
+    fileprivate func maxFileSizeExceeded(forData data: Data) -> Bool {
         if data.count > MAX_FILE_SIZE {
             return true
         }
         return false
     }
 }
-
-

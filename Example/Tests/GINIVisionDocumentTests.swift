@@ -9,7 +9,6 @@
 import XCTest
 @testable import GiniVision
 
-
 class GINIVisionDocumentTests: XCTestCase {
     
     var filePickerManager:FilePickerManager {

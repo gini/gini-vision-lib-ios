@@ -69,6 +69,9 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     /// PDF length exceeded
     case pdfPageLengthExceeded
     
+    /// QR Code format not valid
+    case qrCodeFormatNotValid
+    
     /// Custom validation error
     case custom(message: String)
     
@@ -84,12 +87,14 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
             return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
         case .custom(let message):
             return message
+        case .qrCodeFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         case .unknown:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
         }
     }
     
-    public static func ==(lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
+    public static func == (lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
         return lhs.message == rhs.message
     }
     
