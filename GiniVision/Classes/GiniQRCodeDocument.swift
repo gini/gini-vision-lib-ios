@@ -24,7 +24,7 @@ import Foundation
             return .bezahlcode
         } else {
             let lines = self.scannedString.splitlines
-            if lines.count > 8 &&
+            if lines.count > 9 &&
                 (lines[1] == "001" || lines[1] == "002") &&
                 (lines[2] == "1" || lines[2] == "2") {
                 return .epc06912
