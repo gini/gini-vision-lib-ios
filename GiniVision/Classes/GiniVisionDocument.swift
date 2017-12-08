@@ -33,10 +33,10 @@ import Foundation
 // MARK: GiniVisionDocumentBuilder
 
 /**
- The `GiniVisionDocumentBuilder` provides a way to build a `GiniVisionDocument` from a `Data` object.
- The `DocumentSource` must be provided in the initialization, being optional but highly recommended
- setting the `DocumentImportMethod` afterwards. This could be an example of how a `GiniVisionDocument`
- should be built when it has been imported with the _Open with_ feature.
+ The `GiniVisionDocumentBuilder` provides a way to build a `GiniVisionDocument` from a `Data` object and
+ a `DocumentSource`. Additionally the `DocumentImportMethod` can bet set after builder iniatilization.
+ This is an example of how a `GiniVisionDocument` should be built when it has been imported
+ with the _Open with_ feature.
  
  ```swift
  let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))

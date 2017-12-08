@@ -11,7 +11,7 @@ import Foundation
     public var type: GiniVisionDocumentType = .qrcode
     public var data: Data
     public lazy var previewImage: UIImage? = {
-        return self.generateQRCodeImage(from: self.data)
+        return generateQRCodeImage(from: self.data)
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
@@ -48,19 +48,6 @@ import Foundation
         if self.qrCodeFormat == nil || self.extractedParameters.isEmpty {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
-    }
-    
-    fileprivate func generateQRCodeImage(from data: Data) -> UIImage? {
-        let filter = CIFilter(name: "CIQRCodeGenerator")
-        
-        filter?.setValue(data, forKey: "inputMessage")
-        filter?.setValue("Q", forKey: "inputCorrectionLevel")
-        
-        if let outputImage = filter?.outputImage {
-            return UIImage(ciImage: outputImage.applying(CGAffineTransform(scaleX: 2, y: 2)))
-        }
-        
-        return nil
     }
 }
 
