@@ -32,7 +32,7 @@ import UIKit
     @objc optional func didCapture(_ imageData: Data)
     
     /**
-     Called when a QR Code has been detect in the camera screen and the user wants to proceed with it.
+     Called when a QR Code has been detected in the camera screen and the user wants to proceed with it.
      */
     
     @objc optional func didDetect(qrDocument: GiniQRCodeDocument)

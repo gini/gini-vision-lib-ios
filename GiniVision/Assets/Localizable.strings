@@ -27,8 +27,8 @@
 "ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 "ginivision.camera.fileImportTip" = "Es können jetzt auch ganz einfach Dateien hochgeladen werden.";
-"ginivision.camera.qrCodeDetectedPopup.message" = "QR detected!";
-"ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Use it!";
+"ginivision.camera.qrCodeDetectedPopup.message" = "QR verwenden?";
+"ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Hier geht’s weiter.";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";

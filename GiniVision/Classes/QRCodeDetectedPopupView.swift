@@ -137,7 +137,7 @@ extension QRCodeDetectedPopupView {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
             guard let `self` = self, let superview = self.superview else { return }
             self.bottomConstraint?.constant = -self.margin.bottom
-            UIView.animate(withDuration: 0.5,
+            UIView.animate(withDuration: AnimationDuration.medium,
                            delay: 0,
                            options: [.curveEaseInOut],
                            animations: {
@@ -156,7 +156,7 @@ extension QRCodeDetectedPopupView {
                 self.padding.top +
                 self.padding.bottom +
                 self.margin.bottom
-            UIView.animate(withDuration: 0.5,
+            UIView.animate(withDuration: AnimationDuration.medium,
                            delay: 0,
                            options: [.curveEaseInOut],
                            animations: {
