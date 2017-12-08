@@ -1,11 +1,17 @@
 Changelog
 =========
 
+
 3.2.3 (2018-01-17)
 ------------------
 
 -   Fixed enum visibility, custom document validations closure and
     custom font property on GiniConfiguration (for Objective C projects).
+
+3.3.0-beta (2017-12-08)
+------------------
+
+-   Added QR Code scanning in camera screen (beta)
 
 3.2.2 (2017-11-27)
 ------------------
