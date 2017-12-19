@@ -132,13 +132,13 @@ extension GiniScreenAPICoordinator {
     
     @objc fileprivate func back() {
         if self.screenAPINavigationController.viewControllers.count == 1 {
-            self.close()
+            self.closeScreenApi()
         } else {
             self.screenAPINavigationController.popViewController(animated: true)
         }
     }
     
-    @objc fileprivate func close() {
+    @objc fileprivate func closeScreenApi() {
         self.containerNavigationController?.coordinator = nil
         self.visionDelegate?.didCancelCapturing()
     }
@@ -359,7 +359,7 @@ extension GiniScreenAPICoordinator {
             imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: nil,
                                                                                         bottomButtonIcon: nil)
             setupNavigationItem(usingResources: cameraCloseButtonResources,
-                                selector: #selector(close),
+                                selector: #selector(closeScreenApi),
                                 position: .left,
                                 onViewController: imageAnalysisNoResultsViewController)
         }
