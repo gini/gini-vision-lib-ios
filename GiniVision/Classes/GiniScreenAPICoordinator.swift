@@ -172,11 +172,13 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if visionDocument != nil && fromVC == analysisViewController && toVC == reviewViewController {
-            visionDelegate?.didCancelAnalysis?()
-        }
-        if visionDocument != nil && fromVC == reviewViewController && toVC == cameraViewController {
-            visionDelegate?.didCancelReview?()
+        if visionDocument != nil {
+            if fromVC == analysisViewController && toVC == reviewViewController {
+                visionDelegate?.didCancelAnalysis?()
+            }
+            if fromVC == reviewViewController && toVC == cameraViewController {
+                visionDelegate?.didCancelReview?()
+            }
         }
         
         return nil
