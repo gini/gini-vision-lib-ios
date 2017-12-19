@@ -61,7 +61,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         let giniScreenApiViewController = GiniVision.viewController(withDelegate: self,
                                                             withConfiguration: visionConfiguration,
                                                             importedDocument: visionDocument)
-        screenAPIViewController = UINavigationController(rootViewController: giniScreenApiViewController)
+        screenAPIViewController = RootNavigationController(rootViewController: giniScreenApiViewController)
         screenAPIViewController.setNavigationBarHidden(true, animated: false)
         screenAPIViewController.delegate = self
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
@@ -140,6 +140,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                 let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil)
                     .instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
                 customNoResultsScreen.delegate = self
+                self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
                 self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
             }
             self.analysisDelegate = nil
