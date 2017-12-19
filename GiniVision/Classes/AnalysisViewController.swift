@@ -90,6 +90,7 @@ import UIKit
     }()
     
     fileprivate let document:GiniVisionDocument
+    var didShowAnalysis: (() -> Void)?
     
     /**
      Designated intitializer for the `AnalysisViewController`.
@@ -144,6 +145,11 @@ import UIKit
             
             showCaptureSuggestions()
         }
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        didShowAnalysis?()
     }
     
     // MARK: Toggle animation
