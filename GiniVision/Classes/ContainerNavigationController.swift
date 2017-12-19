@@ -14,11 +14,11 @@ final class ContainerNavigationController: UIViewController {
     var coordinator: GiniScreenAPICoordinator?
     
     override var shouldAutorotate: Bool {
-        return rootViewController.shouldAutorotate
+        return true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return rootViewController.supportedInterfaceOrientations
+        return UIDevice.current.isIpad ? .all : .portrait
     }
     
     init(rootViewController: UINavigationController, parent: GiniScreenAPICoordinator) {

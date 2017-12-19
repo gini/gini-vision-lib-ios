@@ -31,6 +31,7 @@
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
 		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
+		1F53F5101FE967C5009E2677 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootViewController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* GINISettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
@@ -111,6 +112,7 @@
 		1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA01FB58EC900E1022A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
+		1F53F50F1FE967C5009E2677 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINISettingsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F62FA341FA2207100CEA828 /* GINIOpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
+				1F53F50F1FE967C5009E2677 /* RootViewController.swift */,
 			);
 			name = "Example for GiniVision";
 			path = GiniVision;
@@ -688,6 +691,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */,
+				1F53F5101FE967C5009E2677 /* RootViewController.swift in Sources */,
 				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
 				1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */,
 				1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */,

@@ -137,7 +137,7 @@ import UIKit
             addLoadingView(intoContainer: loadingIndicatorContainer)
             loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
             
-            showPDFInformationView(withDocument:document)
+            showPDFInformationView(withDocument: document)
         } else {
             addLoadingView()
             addLoadingText(below: loadingIndicatorView)
