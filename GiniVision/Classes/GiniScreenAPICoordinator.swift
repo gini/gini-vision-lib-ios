@@ -30,11 +30,14 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
         self.setupReviewScreen(withDocument: self.visionDocument!)
     fileprivate lazy var analysisViewController: AnalysisViewController =
         self.setupAnalysisScreen(withDocument: self.visionDocument!)
+    fileprivate lazy var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController =
+        self.setupImageAnalysisNoResultsScreen()
     
     fileprivate weak var visionDelegate: GiniVisionDelegate?
     fileprivate var giniConfiguration: GiniConfiguration
     fileprivate var visionDocument: GiniVisionDocument?
     fileprivate var noticeView: NoticeView?
+    fileprivate var changesOnReview: Bool = false
     fileprivate enum NavBarItemPosition {
         case left, right
     }
@@ -60,7 +63,8 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate lazy var reviewContinueButtonResources =
         PreferredButtonResource(image: "navigationReviewContinue",
                                 title: "ginivision.navigationbar.review.continue",
-                                comment: "Button title in the navigation bar for the continue button on the review screen",
+                                comment: "Button title in the navigation bar for " +
+                                         "the continue button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
     
     fileprivate lazy var reviewBackButtonResources =
@@ -128,11 +132,15 @@ extension GiniScreenAPICoordinator {
     
     @objc fileprivate func back() {
         if self.screenAPINavigationController.viewControllers.count == 1 {
-            self.containerNavigationController?.coordinator = nil
-            self.visionDelegate?.didCancelCapturing()
+            self.close()
         } else {
             self.screenAPINavigationController.popViewController(animated: true)
         }
+    }
+    
+    @objc fileprivate func close() {
+        self.containerNavigationController?.coordinator = nil
+        self.visionDelegate?.didCancelCapturing()
     }
     
     @objc fileprivate func showHelpMenu() {
@@ -140,12 +148,10 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc fileprivate func goToAnalysis() {
-        print("Analyze")
-        let changes = false
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(visionDocument!, changes)
-        } else if let didReview = visionDelegate?.didReview(_:withChanges:){
-            didReview(visionDocument!.data, changes)
+            didReview(visionDocument!, changesOnReview)
+        } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
+            didReview(visionDocument!.data, changesOnReview)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
@@ -153,12 +159,28 @@ extension GiniScreenAPICoordinator {
         
         self.screenAPINavigationController.pushViewController(analysisViewController, animated: true)
     }
+    
+    @objc fileprivate func backToCamera() {
+        screenAPINavigationController.popToViewController(cameraViewController, animated: true)
+    }
 }
 
 // MARK: - Navigation delegate
 
 extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
-    
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if fromVC == analysisViewController && toVC == reviewViewController {
+            visionDelegate?.didCancelAnalysis?()
+        }
+        if fromVC == reviewViewController && toVC == cameraViewController {
+            visionDelegate?.didCancelReview?()
+        }
+        
+        return nil
+    }
 }
 
 // MARK: - Camera Screen
@@ -214,7 +236,7 @@ internal extension GiniScreenAPICoordinator {
                             selector: #selector(showHelpMenu),
                             position: .right,
                             onViewController: cameraViewController)
-
+        
         return cameraViewController
     }
     
@@ -235,6 +257,7 @@ internal extension GiniScreenAPICoordinator {
     fileprivate func setupReviewScreen(withDocument document: GiniVisionDocument) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [unowned self] document in
             self.visionDocument = document
+            self.changesOnReview = true
             }, failureBlock: { error in
                 print(error)
         })
@@ -319,6 +342,37 @@ extension GiniScreenAPICoordinator {
     }
 }
 
+// MARK: - ImageAnalysisNoResults screen
+
+extension GiniScreenAPICoordinator {
+    fileprivate func setupImageAnalysisNoResultsScreen() -> ImageAnalysisNoResultsViewController {
+        let imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController
+        let isCameraViewControllerLoaded = screenAPINavigationController.viewControllers.contains(cameraViewController)
+        
+        if isCameraViewControllerLoaded {
+            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
+            setupNavigationItem(usingResources: reviewBackButtonResources,
+                                selector: #selector(backToCamera),
+                                position: .left,
+                                onViewController: imageAnalysisNoResultsViewController)
+        } else {
+            imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: nil,
+                                                                                        bottomButtonIcon: nil)
+            setupNavigationItem(usingResources: cameraCloseButtonResources,
+                                selector: #selector(close),
+                                position: .left,
+                                onViewController: imageAnalysisNoResultsViewController)
+        }
+        
+        imageAnalysisNoResultsViewController.view.backgroundColor = giniConfiguration.backgroundColor
+        imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
+            self?.backToCamera()
+        }
+        
+        return imageAnalysisNoResultsViewController
+    }
+}
+
 // MARK: - AnalysisDelegate
 
 extension GiniScreenAPICoordinator: AnalysisDelegate {
@@ -331,10 +385,7 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     
     func tryDisplayNoResultsScreen() -> Bool {
         if let visionDocument = visionDocument, visionDocument.type == .image {
-            let isCameraViewControllerLoaded = screenAPINavigationController.viewControllers.contains(where: { viewController in
-                return viewController is CameraContainerViewController
-            })
-            screenAPINavigationController.pushViewController(ImageAnalysisNoResultsContainerViewController(canGoBack: isCameraViewControllerLoaded), animated: true)
+            screenAPINavigationController.pushViewController(imageAnalysisNoResultsViewController, animated: true)
             return true
         }
         return false
