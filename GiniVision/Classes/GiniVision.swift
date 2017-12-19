@@ -115,34 +115,35 @@ import UIKit
      - returns: A presentable navigation view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
-        let viewController:UIViewController
-        
-        if let document = importedDocument {
-            
-            if !GiniConfiguration.sharedConfiguration.openWithEnabled {
-                fatalError("You are trying to import a file from other app when the Open With feature is not enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
-            }
-            
-            if document.isReviewable {
-                viewController = ReviewContainerViewController(document: document)
-            } else {
-                viewController = AnalysisContainerViewController(document: document)
-            }
-            
-            if let didCapture = delegate.didCapture(document:) {
-                didCapture(document)
-            } else if let didCapture = delegate.didCapture(_:) {
-                didCapture(document.data)
-            } else {
-                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) or delegate.didCapture(_:imageData) should be implemented")
-            }
-        } else {
-            viewController = CameraContainerViewController()
-        }
-        
-        let navigationController = GiniNavigationViewController(rootViewController: viewController)
-        navigationController.giniDelegate = delegate
-        return navigationController
+//        let viewController:UIViewController
+//
+//        if let document = importedDocument {
+//
+//            if !GiniConfiguration.sharedConfiguration.openWithEnabled {
+//                fatalError("You are trying to import a file from other app when the Open With feature is not enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
+//            }
+//
+//            if document.isReviewable {
+//                viewController = ReviewContainerViewController(document: document)
+//            } else {
+//                viewController = AnalysisContainerViewController(document: document)
+//            }
+//
+//            if let didCapture = delegate.didCapture(document:) {
+//                didCapture(document)
+//            } else if let didCapture = delegate.didCapture(_:) {
+//                didCapture(document.data)
+//            } else {
+//                fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) or delegate.didCapture(_:imageData) should be implemented")
+//            }
+//        } else {
+//            viewController = CameraContainerViewController()
+//        }
+//
+//        let navigationController = GiniNavigationViewController(rootViewController: viewController)
+//        navigationController.giniDelegate = delegate
+        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate, document: importedDocument, giniConfiguration: GiniConfiguration.sharedConfiguration)
+        return screenCoordinator.rootViewController
     }
     
     /**
