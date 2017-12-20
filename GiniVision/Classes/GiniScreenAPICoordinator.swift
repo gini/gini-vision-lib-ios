@@ -8,31 +8,22 @@
 
 import Foundation
 
-internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
-    
-    var childCoordinators: [Coordinator] = []
-    lazy var rootViewController: UIViewController = {
-        return self.containerNavigationController!
-    }()
-    
-    fileprivate lazy var containerNavigationController: ContainerNavigationController? =
-        ContainerNavigationController(rootViewController: self.screenAPINavigationController,
-                                      parent: self)
+internal final class GiniScreenAPICoordinator: NSObject {
+
     fileprivate lazy var screenAPINavigationController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.delegate = self
         navigationController.applyStyle(withConfiguration: self.giniConfiguration)
         return navigationController
     }()
-    fileprivate lazy var cameraViewController: CameraViewController =
-        self.setupCameraViewController()
-    fileprivate lazy var reviewViewController: ReviewViewController =
-        self.setupReviewScreen(withDocument: self.visionDocument!)
-    fileprivate lazy var analysisViewController: AnalysisViewController =
-        self.setupAnalysisScreen(withDocument: self.visionDocument!)
-    fileprivate lazy var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController =
-        self.setupImageAnalysisNoResultsScreen()
     
+    // Screens
+    fileprivate var cameraViewController: CameraViewController?
+    fileprivate var reviewViewController: ReviewViewController?
+    fileprivate var analysisViewController: AnalysisViewController?
+    fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
+    
+    // Properties
     fileprivate weak var visionDelegate: GiniVisionDelegate?
     fileprivate var giniConfiguration: GiniConfiguration
     fileprivate var visionDocument: GiniVisionDocument?
@@ -74,20 +65,14 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
     
     init(withDelegate delegate: GiniVisionDelegate,
-         document: GiniVisionDocument?,
          giniConfiguration: GiniConfiguration) {
         self.visionDelegate = delegate
         self.giniConfiguration = giniConfiguration
-        self.visionDocument = document
         super.init()
-        self.setupFirstScreen(withDocument: document)
     }
-}
-
-// MARK: - Private methods
-
-extension GiniScreenAPICoordinator {
-    fileprivate func setupFirstScreen(withDocument document: GiniVisionDocument?) {
+    
+    func start(withDocument document: GiniVisionDocument?) -> UIViewController {
+        self.visionDocument = document
         let viewController: UIViewController
         if let document = document {
             if !giniConfiguration.openWithEnabled {
@@ -96,18 +81,28 @@ extension GiniScreenAPICoordinator {
             }
             
             if document.isReviewable {
-                viewController = self.reviewViewController
+                self.reviewViewController = self.createReviewScreen(withDocument: document)
+                viewController = self.reviewViewController!
             } else {
-                viewController = self.analysisViewController
+                self.analysisViewController = self.createAnalysisScreen(withDocument: document)
+                viewController = self.analysisViewController!
             }
             self.didCapture(withDocument: document)
         } else {
-            viewController = self.cameraViewController
+            self.cameraViewController = self.createCameraViewController()
+            viewController = self.cameraViewController!
         }
         
         self.screenAPINavigationController.setViewControllers([viewController], animated: false)
+        return ContainerNavigationController(rootViewController: self.screenAPINavigationController,
+                                             parent: self)
     }
-    
+}
+
+// MARK: - Private methods
+
+extension GiniScreenAPICoordinator {
+
     fileprivate func setupNavigationItem(usingResources preferredResources: PreferredButtonResource,
                                          selector: Selector,
                                          position: NavBarItemPosition,
@@ -139,7 +134,6 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc fileprivate func closeScreenApi() {
-        self.containerNavigationController?.coordinator = nil
         self.visionDelegate?.didCancelCapturing()
     }
     
@@ -157,11 +151,14 @@ extension GiniScreenAPICoordinator {
                 "withChanges changes: Bool) should be implemented")
         }
         
-        self.screenAPINavigationController.pushViewController(analysisViewController, animated: true)
+        self.analysisViewController = createAnalysisScreen(withDocument: visionDocument!)
+        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
     @objc fileprivate func backToCamera() {
-        screenAPINavigationController.popToViewController(cameraViewController, animated: true)
+        if let cameraViewController = cameraViewController {
+            screenAPINavigationController.popToViewController(cameraViewController, animated: true)
+        }
     }
 }
 
@@ -174,9 +171,11 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if visionDocument != nil {
             if fromVC == analysisViewController && toVC == reviewViewController {
+                analysisViewController = nil
                 visionDelegate?.didCancelAnalysis?()
             }
             if fromVC == reviewViewController && toVC == cameraViewController {
+                reviewViewController = nil
                 visionDelegate?.didCancelReview?()
             }
         }
@@ -189,7 +188,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 
 internal extension GiniScreenAPICoordinator {
     
-    func setupCameraViewController() -> CameraViewController {
+    func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(successBlock: { [weak self ] document in
             guard let `self` = self,
                 let delegate = self.visionDelegate else {
@@ -206,9 +205,11 @@ internal extension GiniScreenAPICoordinator {
                 }
             } else {
                 if document.isReviewable {
-                    self.screenAPINavigationController.pushViewController(self.reviewViewController, animated: true)
+                    self.reviewViewController = self.createReviewScreen(withDocument: document)
+                    self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
                 } else {
-                    self.screenAPINavigationController.pushViewController(self.analysisViewController, animated: true)
+                    self.analysisViewController = self.createAnalysisScreen(withDocument: document)
+                    self.screenAPINavigationController.pushViewController(self.analysisViewController!, animated: true)
                 }
                 self.didCapture(withDocument: document)
             }
@@ -256,8 +257,9 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Review Screen
 
 internal extension GiniScreenAPICoordinator {
-    fileprivate func setupReviewScreen(withDocument document: GiniVisionDocument) -> ReviewViewController {
-        let reviewViewController = ReviewViewController(document, successBlock: { [unowned self] document in
+    fileprivate func createReviewScreen(withDocument document: GiniVisionDocument) -> ReviewViewController {
+        let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
+            guard let `self` = self else { return }
             self.visionDocument = document
             self.changesOnReview = true
             }, failureBlock: { error in
@@ -284,32 +286,19 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Analysis Screen
 
 internal extension GiniScreenAPICoordinator {
-    fileprivate func setupAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
+    fileprivate func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
         let viewController = AnalysisViewController(document)
         viewController.view.backgroundColor = giniConfiguration.backgroundColor
         viewController.didShowAnalysis = { [weak self] in
             guard let `self` = self else { return }
             self.visionDelegate?.didShowAnalysis?(self)
-            self.analysisViewController.showAnimation()
+            self.analysisViewController?.showAnimation()
         }
         setupNavigationItem(usingResources: self.analysisBackButtonResources,
                             selector: #selector(back),
                             position: .left,
                             onViewController: viewController)
         return viewController
-    }
-    
-    fileprivate func show(notice: NoticeView) {
-        if noticeView != nil {
-            noticeView?.hide(completion: {
-                self.noticeView = nil
-                self.show(notice: notice)
-            })
-        } else {
-            noticeView = notice
-            analysisViewController.view.addSubview(noticeView!)
-            noticeView?.show()
-        }
     }
 }
 
@@ -327,15 +316,15 @@ extension GiniScreenAPICoordinator {
     }
     
     private func showOnboardingScreen() {
-        cameraViewController.hideCameraOverlay()
-        cameraViewController.hideCaptureButton()
-        cameraViewController.hideFileImportTip()
+        cameraViewController?.hideCameraOverlay()
+        cameraViewController?.hideCaptureButton()
+        cameraViewController?.hideFileImportTip()
         
         let vc = OnboardingContainerViewController { [weak self] in
             guard let `self` = self else { return }
-            self.cameraViewController.showCameraOverlay()
-            self.cameraViewController.showCaptureButton()
-            self.cameraViewController.showFileImportTip()
+            self.cameraViewController?.showCameraOverlay()
+            self.cameraViewController?.showCaptureButton()
+            self.cameraViewController?.showFileImportTip()
         }
         
         let navigationController = GiniNavigationViewController(rootViewController: vc)
@@ -347,9 +336,14 @@ extension GiniScreenAPICoordinator {
 // MARK: - ImageAnalysisNoResults screen
 
 extension GiniScreenAPICoordinator {
-    fileprivate func setupImageAnalysisNoResultsScreen() -> ImageAnalysisNoResultsViewController {
+    fileprivate func createImageAnalysisNoResultsScreen() -> ImageAnalysisNoResultsViewController {
         let imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController
-        let isCameraViewControllerLoaded = screenAPINavigationController.viewControllers.contains(cameraViewController)
+        let isCameraViewControllerLoaded: Bool = {
+            guard let cameraViewController = cameraViewController else {
+                return false
+            }
+            return screenAPINavigationController.viewControllers.contains(cameraViewController)
+        }()
         
         if isCameraViewControllerLoaded {
             imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
@@ -366,7 +360,6 @@ extension GiniScreenAPICoordinator {
                                 onViewController: imageAnalysisNoResultsViewController)
         }
         
-        imageAnalysisNoResultsViewController.view.backgroundColor = giniConfiguration.backgroundColor
         imageAnalysisNoResultsViewController.didTapBottomButton = { [weak self] in
             self?.backToCamera()
         }
@@ -387,10 +380,24 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     
     func tryDisplayNoResultsScreen() -> Bool {
         if let visionDocument = visionDocument, visionDocument.type == .image {
-            screenAPINavigationController.pushViewController(imageAnalysisNoResultsViewController, animated: true)
+            imageAnalysisNoResultsViewController = createImageAnalysisNoResultsScreen()
+            screenAPINavigationController.pushViewController(imageAnalysisNoResultsViewController!, animated: true)
             return true
         }
         return false
+    }
+    
+    private func show(notice: NoticeView) {
+        if noticeView != nil {
+            noticeView?.hide(completion: {
+                self.noticeView = nil
+                self.show(notice: notice)
+            })
+        } else {
+            noticeView = notice
+            analysisViewController?.view.addSubview(noticeView!)
+            noticeView?.show()
+        }
     }
 }
 

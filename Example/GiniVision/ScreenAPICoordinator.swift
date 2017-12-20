@@ -62,6 +62,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                                                             withConfiguration: visionConfiguration,
                                                             importedDocument: visionDocument)
         screenAPIViewController = RootNavigationController(rootViewController: giniScreenApiViewController)
+        screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
+        screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor
         screenAPIViewController.setNavigationBarHidden(true, animated: false)
         screenAPIViewController.delegate = self
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
