@@ -142,8 +142,8 @@ import UIKit
 //
 //        let navigationController = GiniNavigationViewController(rootViewController: viewController)
 //        navigationController.giniDelegate = delegate
-        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate, document: importedDocument, giniConfiguration: GiniConfiguration.sharedConfiguration)
-        return screenCoordinator.rootViewController
+        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate, giniConfiguration: GiniConfiguration.sharedConfiguration)
+        return screenCoordinator.start(withDocument: importedDocument)
     }
     
     /**

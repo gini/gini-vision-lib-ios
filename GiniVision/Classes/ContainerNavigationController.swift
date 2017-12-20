@@ -31,8 +31,13 @@ final class ContainerNavigationController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        print("")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         addChildViewController(rootViewController)
         view.addSubview(rootViewController.view)
         rootViewController.willMove(toParentViewController: self)
