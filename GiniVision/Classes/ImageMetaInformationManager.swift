@@ -68,6 +68,7 @@ public enum DocumentSource: Equatable {
     }
 }
 
+// swiftlint:disable file_length
 internal class ImageMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
