@@ -63,8 +63,7 @@ final class DocumentService {
         isAnalyzing = false
     }
     
-    init() {        
-        // Prefer client credentials from settings before config file
+    init() {
         let clientId = ProcessInfo.processInfo.environment["client_id"] ?? ""
         let clientSecret = ProcessInfo.processInfo.environment["client_password"] ?? ""
         
