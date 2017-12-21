@@ -35,28 +35,28 @@ internal final class GiniScreenAPICoordinator: NSObject {
     }
     
     // Resources
-    fileprivate lazy var analysisBackButtonResources =
+    fileprivate lazy var backButtonResource =
+        PreferredButtonResource(image: "navigationReviewBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the back button on the review screen",
+                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+    fileprivate lazy var cancelButtonResource =
         PreferredButtonResource(image: "navigationAnalysisBack",
                                 title: "ginivision.navigationbar.analysis.back",
                                 comment: "Button title in the navigation bar for" +
             "the back button on the analysis screen",
                                 configEntry: self.giniConfiguration.navigationBarAnalysisTitleBackButton)
-    fileprivate lazy var cameraCloseButtonResources =
+    fileprivate lazy var closeButtonResource =
         PreferredButtonResource(image: "navigationCameraClose",
                                 title: "ginivision.navigationbar.camera.close",
                                 comment: "Button title in the navigation bar for the close button on the camera screen",
                                 configEntry: self.giniConfiguration.navigationBarCameraTitleCloseButton)
-    fileprivate lazy var cameraHelpButtonResources =
+    fileprivate lazy var helpButtonResource =
         PreferredButtonResource(image: "navigationCameraHelp",
                                 title: "ginivision.navigationbar.camera.help",
                                 comment: "Button title in the navigation bar for the help button on the camera screen",
                                 configEntry: self.giniConfiguration.navigationBarCameraTitleHelpButton)
-    fileprivate lazy var reviewBackButtonResources =
-        PreferredButtonResource(image: "navigationReviewBack",
-                                title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
-    fileprivate lazy var reviewContinueButtonResources =
+    fileprivate lazy var nextButtonResource =
         PreferredButtonResource(image: "navigationReviewContinue",
                                 title: "ginivision.navigationbar.review.continue",
                                 comment: "Button title in the navigation bar for " +
@@ -228,12 +228,12 @@ internal extension GiniScreenAPICoordinator {
             self.showOnboardingIfNeeded()
         }
         
-        setupNavigationItem(usingResources: cameraCloseButtonResources,
+        setupNavigationItem(usingResources: closeButtonResource,
                             selector: #selector(back),
                             position: .left,
                             onViewController: cameraViewController)
         
-        setupNavigationItem(usingResources: cameraHelpButtonResources,
+        setupNavigationItem(usingResources: helpButtonResource,
                             selector: #selector(showHelpMenuScreen),
                             position: .right,
                             onViewController: cameraViewController)
@@ -283,7 +283,8 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Review Screen
 
 internal extension GiniScreenAPICoordinator {
-    fileprivate func createReviewScreen(withDocument document: GiniVisionDocument, isFirstScreen: Bool = false) -> ReviewViewController {
+    fileprivate func createReviewScreen(withDocument document: GiniVisionDocument,
+                                        isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
             self.visionDocument = document
@@ -295,12 +296,12 @@ internal extension GiniScreenAPICoordinator {
         reviewViewController.title = giniConfiguration.navigationBarReviewTitle
         reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
         
-        setupNavigationItem(usingResources: reviewContinueButtonResources,
+        setupNavigationItem(usingResources: nextButtonResource,
                             selector: #selector(showAnalysisScreen),
                             position: .right,
                             onViewController: reviewViewController)
         
-        let backResource = isFirstScreen ? cameraCloseButtonResources : reviewBackButtonResources
+        let backResource = isFirstScreen ? closeButtonResource : backButtonResource
         setupNavigationItem(usingResources: backResource,
                             selector: #selector(back),
                             position: .left,
@@ -320,7 +321,7 @@ internal extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             self.visionDelegate?.didShowAnalysis?(self)
         }
-        setupNavigationItem(usingResources: self.analysisBackButtonResources,
+        setupNavigationItem(usingResources: self.cancelButtonResource,
                             selector: #selector(back),
                             position: .left,
                             onViewController: viewController)
@@ -342,14 +343,14 @@ extension GiniScreenAPICoordinator {
         
         if isCameraViewControllerLoaded {
             imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
-            setupNavigationItem(usingResources: reviewBackButtonResources,
+            setupNavigationItem(usingResources: backButtonResource,
                                 selector: #selector(backToCamera),
                                 position: .left,
                                 onViewController: imageAnalysisNoResultsViewController)
         } else {
             imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController(bottomButtonText: nil,
                                                                                         bottomButtonIcon: nil)
-            setupNavigationItem(usingResources: cameraCloseButtonResources,
+            setupNavigationItem(usingResources: closeButtonResource,
                                 selector: #selector(closeScreenApi),
                                 position: .left,
                                 onViewController: imageAnalysisNoResultsViewController)
