@@ -21,7 +21,7 @@ internal class CameraNotAuthorizedView: UIView {
         return UIImageNamedPreferred(named: "cameraNotAuthorizedIcon")
     }
     
-    init() {
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         super.init(frame: CGRect.zero)
         
         // Configure image view
@@ -29,21 +29,22 @@ internal class CameraNotAuthorizedView: UIView {
         imageView.contentMode = .scaleAspectFit
         
         // Configure label
-        label.text = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedText
+        label.text = giniConfiguration.cameraNotAuthorizedText
         label.numberOfLines = 0
-        label.textColor = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
+        label.textColor = giniConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .center
-        label.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont :
-            GiniConfiguration.sharedConfiguration.font.thin.withSize(20)
+        label.font = giniConfiguration.customFont == nil ?
+            giniConfiguration.cameraNotAuthorizedTextFont :
+            giniConfiguration.font.thin.withSize(20)
         
         // Configure button
-        button.setTitle(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
-        button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
-        button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8), for: .highlighted)
-        button.titleLabel?.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont :
-            GiniConfiguration.sharedConfiguration.font.regular.withSize(20)
+        button.setTitle(giniConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
+        button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
+        button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8),
+                             for: .highlighted)
+        button.titleLabel?.font = giniConfiguration.customFont == nil ?
+            giniConfiguration.cameraNotAuthorizedButtonFont :
+            giniConfiguration.font.regular.withSize(20)
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         
         // Configure view hierachy
@@ -75,17 +76,23 @@ internal class CameraNotAuthorizedView: UIView {
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: contentView, attr: .top, relatedBy: .greaterThanOrEqual, to: superview, attr: .top, constant: 30)
+        Contraints.active(item: contentView, attr: .top, relatedBy: .greaterThanOrEqual, to: superview, attr: .top,
+                          constant: 30)
         Contraints.active(item: contentView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
-        Contraints.active(item: contentView, attr: .centerY, relatedBy: .equal, to: superview, attr: .centerY, constant: 5, priority: 999)
+        Contraints.active(item: contentView, attr: .centerY, relatedBy: .equal, to: superview, attr: .centerY,
+                          constant: 5, priority: 999)
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
-        Contraints.active(item: imageView, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .width, constant: 204)
-        Contraints.active(item: imageView, attr: .width, relatedBy: .greaterThanOrEqual, to: nil, attr: .width, constant: 75)
-        Contraints.active(item: imageView, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .height, constant: 75)
-        Contraints.active(item: imageView, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height, constant: 50)
+        Contraints.active(item: imageView, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .width,
+                          constant: 204)
+        Contraints.active(item: imageView, attr: .width, relatedBy: .greaterThanOrEqual, to: nil, attr: .width,
+                          constant: 75)
+        Contraints.active(item: imageView, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .height,
+                          constant: 75)
+        Contraints.active(item: imageView, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height,
+                          constant: 50)
         Contraints.active(item: imageView, attr: .centerX, relatedBy: .equal, to: contentView, attr: .centerX)
         
         // Text label
@@ -94,7 +101,8 @@ internal class CameraNotAuthorizedView: UIView {
         Contraints.active(item: label, attr: .trailing, relatedBy: .equal, to: contentView, attr: .trailing)
         Contraints.active(item: label, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
         Contraints.active(item: label, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 250)
-        Contraints.active(item: label, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height, constant: 70)
+        Contraints.active(item: label, attr: .height, relatedBy: .greaterThanOrEqual, to: nil, attr: .height,
+                          constant: 70)
         
         // Button
         button.translatesAutoresizingMaskIntoConstraints = false

@@ -26,12 +26,16 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
         if let textLabel = textLabel {
             textLabel.font = textLabel.font.withSize(14)
             textLabel.numberOfLines = 0
-            textLabel.frame.origin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width, y: textLabel.frame.origin.y)
+            let textOrigin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width,
+                                     y: textLabel.frame.origin.y)
+            textLabel.frame.origin = textOrigin
         }
         
         if let imageView = imageView {
             imageView.tintColor = .white
-            imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.origin.x, y: (self.frame.height - imageViewSize.height) / 2), size: imageViewSize)
+            imageView.frame = CGRect(origin: CGPoint(x: imageView.frame.origin.x,
+                                                     y: (self.frame.height - imageViewSize.height) / 2),
+                                     size: imageViewSize)
             contentView.insertSubview(imageBackgroundView, belowSubview: imageView)
             addConstraints()
         }
@@ -41,7 +45,9 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
         Contraints.active(item: imageBackgroundView, attr: .centerX, relatedBy: .equal, to: imageView!, attr: .centerX)
         Contraints.active(item: imageBackgroundView, attr: .centerY, relatedBy: .equal, to: imageView!, attr: .centerY)
         
-        Contraints.active(item: imageBackgroundView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 22)
-        Contraints.active(item: imageBackgroundView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 22)
+        Contraints.active(item: imageBackgroundView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 22)
+        Contraints.active(item: imageBackgroundView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 22)
     }
 }

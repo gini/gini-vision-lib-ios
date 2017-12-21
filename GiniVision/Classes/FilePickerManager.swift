@@ -12,7 +12,7 @@ import Photos
 
 internal final class FilePickerManager:NSObject {
     
-    var didPickFile:((GiniVisionDocument) -> ()) = { _ in }
+    var didPickFile:((GiniVisionDocument) -> Void) = { _ in }
     fileprivate var acceptedDocumentTypes:[String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
@@ -26,7 +26,7 @@ internal final class FilePickerManager:NSObject {
     
     // MARK: Picker presentation
     
-    func showGalleryPicker(from:UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> ()) {
+    func showGalleryPicker(from:UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
             let imagePicker:UIImagePickerController = UIImagePickerController()
             imagePicker.sourceType = .photoLibrary
@@ -54,7 +54,7 @@ internal final class FilePickerManager:NSObject {
     
     // MARK: Photo library permission
     
-    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> (), authorizedHandler: @escaping (() -> ())) {
+    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void, authorizedHandler: @escaping (() -> Void)) {
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             authorizedHandler()

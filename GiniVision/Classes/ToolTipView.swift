@@ -48,7 +48,7 @@ final class ToolTipView: UIView {
     fileprivate var textLabel:UILabel
     fileprivate var tipContainer: UIView
     
-    var willDismiss: (() -> ())?
+    var willDismiss: (() -> Void)?
     
     init(text:String, textColor:UIColor, font:UIFont, backgroundColor: UIColor, closeButtonColor: UIColor, referenceView: UIView, superView:UIView, position: ToolTipPosition) {
         
@@ -305,14 +305,14 @@ final class ToolTipView: UIView {
 
 extension ToolTipView {
     
-    func show(alongsideAnimations:(() -> ())? = nil){
+    func show(alongsideAnimations:(() -> Void)? = nil){
         UIView.animate(withDuration: 0.5){
             self.alpha = 1
             alongsideAnimations?()
         }
     }
     
-    func dismiss(withCompletion completion: (() -> ())? = nil) {
+    func dismiss(withCompletion completion: (() -> Void)? = nil) {
         willDismiss?()
         self.removeFromSuperview()
         completion?()

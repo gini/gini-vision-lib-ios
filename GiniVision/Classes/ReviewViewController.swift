@@ -9,35 +9,42 @@
 import UIKit
 
 /**
- Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image.
+ Block that will be executed each time the user rotates a picture. It contains the
+ JPEG representation of the image including meta information about the rotated image.
  
  - note: Component API only.
  */
-public typealias ReviewSuccessBlock = (_ imageData: Data) -> ()
+public typealias ReviewSuccessBlock = (_ imageData: Data) -> Void
 
 /**
- Block that will be executed each time the user rotates a picture. It contains the JPEG representation of the image including meta information about the rotated image. In the case of a PDF, it should proceed to analysis screen once it has been validated.
+ Block that will be executed each time the user rotates a picture. It contains the
+ JPEG representation of the image including meta information about the rotated image.
+ In the case of a PDF, it should proceed to analysis screen once it has been validated.
  
  - note: Component API only.
  */
-public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument) -> ()
+public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument) -> Void
 
 /**
  Block that will be executed when an error occurs on the review screen. It contains a review specific error.
  
  - note: Component API only.
  */
-public typealias ReviewErrorBlock = (_ error: ReviewError) -> ()
+public typealias ReviewErrorBlock = (_ error: ReviewError) -> Void
 
 /**
  Block that will be executed if an error occurs on the review screen.
  
  - note: Component API only.
  */
-public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
+public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
 /**
- The `ReviewViewController` provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.
+ The `ReviewViewController` provides a custom review screen. The user has the option to check
+ for blurriness and document orientation. If the result is not satisfying, the user can either
+ return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be
+ uploaded to Gini’s backend immediately after having been taken as it is safe to assume that
+ in most cases the photo is good enough to be processed further.
  
  **Text resources for this screen**
  
@@ -49,7 +56,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
  * `ginivision.review.rotateButton`
  * `ginivision.review.bottom`
  
- - note: Setting `ginivision.navigationbar.review.back` explicitly to the empty string in your localized strings will make `ReviewViewController` revert to the default iOS back button.
+ - note: Setting `ginivision.navigationbar.review.back` explicitly to the empty string in your
+ localized strings will make `ReviewViewController` revert to the default iOS back button.
  
  **Image resources for this screen**
  
@@ -82,7 +90,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }()
     fileprivate var bottomView: UIView = {
         let view = UIView()
-        view.backgroundColor = GiniConfiguration.sharedConfiguration.reviewBottomViewBackgroundColor.withAlphaComponent(0.8)
+        view.backgroundColor = GiniConfiguration.sharedConfiguration
+            .reviewBottomViewBackgroundColor
+            .withAlphaComponent(0.8)
         return view
     }()
     fileprivate lazy var rotateButton: UIButton = {
@@ -110,7 +120,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var imageViewLeadingConstraint: NSLayoutConstraint!
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
-    fileprivate var currentDocument:GiniVisionDocument?
+    fileprivate var currentDocument: GiniVisionDocument?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -121,9 +131,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     fileprivate var successBlock: ReviewScreenSuccessBlock?
     fileprivate var failureBlock: ReviewScreenFailureBlock?
     
-    
     /**
-     Designated initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Designated initializer for the `ReviewViewController` which allows to set a success block and
+     an error block which will be executed accordingly.
      
      - parameter document:  JPEG representation or PDF as a result from the camera, camera roll or file explorer.
      - parameter success:   Success block to be executed when image was rotated.
@@ -131,7 +141,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
      
      - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ document: GiniVisionDocument, successBlock: @escaping ReviewScreenSuccessBlock, failureBlock: @escaping ReviewScreenFailureBlock) {
+    public init(_ document: GiniVisionDocument,
+                successBlock: @escaping ReviewScreenSuccessBlock,
+                failureBlock: @escaping ReviewScreenFailureBlock) {
         super.init(nibName: nil, bundle: nil)
         
         self.currentDocument = document
@@ -140,7 +152,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     }
     
     /**
-     Convenience initializer for the `ReviewViewController` which allows to set a success block and an error block which will be executed accordingly.
+     Convenience initializer for the `ReviewViewController` which allows to set a success block
+     and an error block which will be executed accordingly.
      
      - parameter imageData:  JPEG representation as a result from the camera.
      - parameter success:    Success block to be executed when image was rotated.
@@ -151,7 +164,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
     
     @nonobjc
     @available(*, deprecated)
-    public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
+    public convenience init(_ imageData: Data,
+                            success: @escaping ReviewSuccessBlock,
+                            failure: @escaping ReviewErrorBlock) {
         self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { document in
             success(document.data)
         }, failureBlock: { error in
@@ -283,10 +298,17 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         // Image view
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageViewTopConstraint = NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal, toItem: scrollView, attribute: .top, multiplier: 1, constant: 0)
-        imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal, toItem: scrollView, attribute: .trailing, multiplier: 1, constant: 0)
-        imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal, toItem: scrollView, attribute: .bottom, multiplier: 1, constant: 0)
-        imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal, toItem: scrollView, attribute: .leading, multiplier: 1, constant: 0)
+        imageViewTopConstraint = NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal,
+                                                    toItem: scrollView, attribute: .top, multiplier: 1, constant: 0)
+        imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal,
+                                                         toItem: scrollView, attribute: .trailing, multiplier: 1,
+                                                         constant: 0)
+        imageViewBottomConstraint = NSLayoutConstraint(item: imageView, attribute: .bottom, relatedBy: .equal,
+                                                       toItem: scrollView, attribute: .bottom, multiplier: 1,
+                                                       constant: 0)
+        imageViewLeadingConstraint = NSLayoutConstraint(item: imageView, attribute: .leading, relatedBy: .equal,
+                                                        toItem: scrollView, attribute: .leading, multiplier: 1,
+                                                        constant: 0)
         Contraints.active(constraint: imageViewTopConstraint)
         Contraints.active(constraint: imageViewTrailingConstraint)
         Contraints.active(constraint: imageViewBottomConstraint)
@@ -306,19 +328,23 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         Contraints.active(item: bottomView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top
             )
         Contraints.active(item: bottomView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-        Contraints.active(item: bottomView, attr: .height, relatedBy: .greaterThanOrEqual, to: rotateButton, attr: .height)
+        Contraints.active(item: bottomView, attr: .height, relatedBy: .greaterThanOrEqual, to: rotateButton,
+                          attr: .height)
         
         // Rotate button
         rotateButton.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: rotateButton, attr: .leading, relatedBy: .equal, to: bottomView, attr: .leading, constant: 15)
+        Contraints.active(item: rotateButton, attr: .leading, relatedBy: .equal, to: bottomView, attr: .leading,
+                          constant: 15)
         Contraints.active(item: rotateButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 33)
         Contraints.active(item: rotateButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
         Contraints.active(item: rotateButton, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
         
         // Bottom label
         bottomLabel.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: bottomLabel, attr: .trailing, relatedBy: .equal, to: bottomView, attr: .trailing, constant: -20)
-        Contraints.active(item: bottomLabel, attr: .leading, relatedBy: .equal, to: rotateButton, attr: .trailing, constant: 30, priority: 999)
+        Contraints.active(item: bottomLabel, attr: .trailing, relatedBy: .equal, to: bottomView, attr: .trailing,
+                          constant: -20)
+        Contraints.active(item: bottomLabel, attr: .leading, relatedBy: .equal, to: rotateButton, attr: .trailing,
+                          constant: 30, priority: 999)
         Contraints.active(item: bottomLabel, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
         Contraints.active(item: bottomLabel, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
         

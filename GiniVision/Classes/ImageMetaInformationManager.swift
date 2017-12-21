@@ -11,14 +11,13 @@ import ImageIO
 import AVFoundation
 import MobileCoreServices
 
-
 typealias MetaInformation = NSDictionary
 
 /// The JPEG compression level that will be used if nothing else
 /// is specified in imageData(withCompression:)
 let JPEGDefaultCompression:CGFloat = 0.4
 
-public enum DocumentImportMethod:String {
+public enum DocumentImportMethod: String {
     case openWith = "openwith"
     case picker = "picker"
 }
@@ -28,7 +27,7 @@ public enum DocumentSource: Equatable {
     case external
     case appName(name: String?)
     
-    var value:String {
+    var value: String {
         switch self {
         case .camera:
             return "camera"
@@ -45,11 +44,10 @@ public enum DocumentSource: Equatable {
         }
     }
     
-    public static func ==(lhs: DocumentSource, rhs: DocumentSource) -> Bool {
+    public static func == (lhs: DocumentSource, rhs: DocumentSource) -> Bool {
         return lhs.value == rhs.value
     }
 }
-
 
 internal class ImageMetaInformationManager {
     
@@ -87,16 +85,19 @@ internal class ImageMetaInformationManager {
     
     // Due to future image rotations on ReviewViewController, it is necessary to preserve the device orientation
     // when the picture is taken.
-    fileprivate var deviceOrientationOnCapture:String?
-    fileprivate var imageSource:DocumentSource
-    fileprivate var imageImportMethod:DocumentImportMethod?
+    fileprivate var deviceOrientationOnCapture: String?
+    fileprivate var imageSource: DocumentSource
+    fileprivate var imageImportMethod: DocumentImportMethod?
     
-    init(imageData data: Data, deviceOrientation:UIInterfaceOrientation? = nil, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil) {
+    init(imageData data: Data,
+         deviceOrientation: UIInterfaceOrientation? = nil,
+         imageSource: DocumentSource,
+         imageImportMethod: DocumentImportMethod? = nil) {
         self.imageData = data
         self.imageSource = imageSource
         self.imageImportMethod = imageImportMethod
         metaInformation = metaInformation(fromImageData: data)
-
+        
         // If the image has the DeviceOrientation, it should not be added again
         // because current device orientation could be different.
         // deviceOrientation must be always nil except when the picture has just been taken.
@@ -111,7 +112,8 @@ internal class ImageMetaInformationManager {
     
     // Returns the current image but with all meta information added
     func imageByAddingMetadata(withCompression compression: CGFloat = JPEGDefaultCompression) -> Data? {
-        guard let image = imageData, let information = metaInformation, (image.isJPEG || image.isTIFF) else { return nil }
+        guard let image = imageData,
+            let information = metaInformation, (image.isJPEG || image.isTIFF) else { return nil }
         
         let targetData = NSMutableData()
         let destination = CGImageDestinationCreateWithData(targetData, kUTTypeJPEG, 1, nil)
@@ -128,10 +130,11 @@ internal class ImageMetaInformationManager {
         return nil
     }
     
-    func rotate(degrees:Int, imageOrientation: UIImageOrientation) {
+    func rotate(degrees: Int, imageOrientation: UIImageOrientation) {
         update(imageOrientation: imageOrientation)
         let information = metaInformation as? NSMutableDictionary
-        information?.set(metaInformation: userComment(rotationDegrees: degrees) as AnyObject?, forKey: kCGImagePropertyExifUserComment as String)
+        information?.set(metaInformation: userComment(rotationDegrees: degrees) as AnyObject?,
+                         forKey: kCGImagePropertyExifUserComment as String)
     }
     
     func update(imageOrientation orientation: UIImageOrientation) {
@@ -150,22 +153,27 @@ internal class ImageMetaInformationManager {
     fileprivate func update(_ orientation: Int, onMetaInformation information: MetaInformation) -> MetaInformation {
         guard let updatedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
         // Set both keys in case one is changed in the future all orientations will still be set correctly
-        updatedInformation.set(metaInformation: orientation as AnyObject?, forKey: kCGImagePropertyTIFFOrientation as String)
-        updatedInformation.set(metaInformation: orientation as AnyObject?, forKey: kCGImagePropertyOrientation as String)
+        updatedInformation.set(metaInformation: orientation as AnyObject?,
+                               forKey: kCGImagePropertyTIFFOrientation as String)
+        updatedInformation.set(metaInformation: orientation as AnyObject?,
+                               forKey: kCGImagePropertyOrientation as String)
         return updatedInformation
     }
     
     fileprivate func addDefaultValues(toMetaInformation information: MetaInformation) -> MetaInformation {
         var defaultInformation = information
-        defaultInformation = add(requiredValuesWithKeys: cfRequiredExifKeys.strings, toMetaInformation: defaultInformation)
-        defaultInformation = add(requiredValuesWithKeys: cfRequiredTiffKeys.strings, toMetaInformation: defaultInformation)
+        defaultInformation = add(requiredValuesWithKeys: cfRequiredExifKeys.strings,
+                                 toMetaInformation: defaultInformation)
+        defaultInformation = add(requiredValuesWithKeys: cfRequiredTiffKeys.strings,
+                                 toMetaInformation: defaultInformation)
         return defaultInformation
     }
     
-    fileprivate func add(requiredValuesWithKeys keys: [String], toMetaInformation information: MetaInformation) -> MetaInformation {
+    fileprivate func add(requiredValuesWithKeys keys: [String],
+                         toMetaInformation information: MetaInformation) -> MetaInformation {
         guard let addedInformation = information.mutableCopy() as? NSMutableDictionary else { return information }
         for key in keys {
-            if let _ = addedInformation.getMetaInformation(forKey: key) {
+            if addedInformation.getMetaInformation(forKey: key) != nil {
                 continue
             }
             addedInformation.set(metaInformation: value(forMetaKey: key), forKey: key)
@@ -181,7 +189,8 @@ internal class ImageMetaInformationManager {
     
     fileprivate func metaInformation(fromImageData data: Data) -> MetaInformation? {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
-            let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation? else { return nil }
+            let metaInformation = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as MetaInformation?
+            else { return nil }
         return metaInformation
     }
     
@@ -202,12 +211,16 @@ internal class ImageMetaInformationManager {
         return nil
     }
     
-    fileprivate func userComment(rotationDegrees:Int? = nil) -> String {
+    fileprivate func userComment(rotationDegrees: Int? = nil) -> String {
         let platform = "iOS"
         let osVersion = UIDevice.current.systemVersion
         let giniVisionVersion = GiniVision.versionString
         let uuid = imageUUID()
-        var comment = "\(userCommentPlatform)=\(platform),\(userCommentOSVer)=\(osVersion),\(userCommentGiniVersionVer)=\(giniVisionVersion),\(userCommentContentId)=\(uuid),\(userCommentSource)=\(imageSource.value)"
+        var comment = "\(userCommentPlatform)=\(platform)," +
+            "\(userCommentOSVer)=\(osVersion)," +
+            "\(userCommentGiniVersionVer)=\(giniVisionVersion)," +
+            "\(userCommentContentId)=\(uuid)," +
+        "\(userCommentSource)=\(imageSource.value)"
         
         if let imageImportMethod = imageImportMethod, imageSource.value != DocumentSource.camera.value {
             comment += ",\(userCommentImportMethod)=\(imageImportMethod.rawValue)"
@@ -245,9 +258,9 @@ internal class ImageMetaInformationManager {
         return Int(self.value(forUserCommentField: userCommentRotation) ?? "0")
     }
     
-    fileprivate func value(forUserCommentField field:String) -> String? {
+    fileprivate func value(forUserCommentField field: String) -> String? {
         let exifDict = metaInformation as? NSMutableDictionary
-        let existingUserComment = exifDict?.getMetaInformation(forKey:kCGImagePropertyExifUserComment as String)
+        let existingUserComment = exifDict?.getMetaInformation(forKey: kCGImagePropertyExifUserComment as String)
         let components = existingUserComment?.components(separatedBy: ",")
         let userCommentComponent = components?.filter({ (component) -> Bool in
             return component.contains(field)
@@ -259,8 +272,7 @@ internal class ImageMetaInformationManager {
     fileprivate func deviceName() -> String? {
         var systemInfo = utsname()
         uname(&systemInfo)
-        let code = withUnsafeMutablePointer(to: &systemInfo.machine) {
-            ptr in String(cString: UnsafeRawPointer(ptr).assumingMemoryBound(to: CChar.self))
+        let code = withUnsafeMutablePointer(to: &systemInfo.machine) { ptr in String(cString: UnsafeRawPointer(ptr).assumingMemoryBound(to: CChar.self))
         }
         return code
     }
@@ -288,7 +300,7 @@ internal class ImageMetaInformationManager {
         return number
     }
     
-    fileprivate func normalizedDegrees(imageRotation:Int) -> Int {
+    fileprivate func normalizedDegrees(imageRotation: Int) -> Int {
         var normalized = imageRotation % 360
         if imageRotation < 0 {
             normalized += 360
