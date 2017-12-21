@@ -28,11 +28,7 @@ final class ContainerNavigationController: UIViewController {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        print("")
+        fatalError("init(rootViewController:parent:) has not been implemented")
     }
     
     override func viewDidLoad() {
