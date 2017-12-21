@@ -37,8 +37,7 @@ final class SelectAPIViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
-        let clientId = customClientId != "" ? customClientId : kGiniClientId
+        let clientId = ProcessInfo.processInfo.environment["client_id"] ?? ""
         
         let metaTitle = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
         metaInformationButton.setTitle(metaTitle, for: .normal)

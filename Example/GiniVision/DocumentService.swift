@@ -63,17 +63,10 @@ final class DocumentService {
         isAnalyzing = false
     }
     
-    init() {
-        // Populate setting with according values
-        populateSettingsPage()
-        
+    init() {        
         // Prefer client credentials from settings before config file
-        let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
-        let customClientSecret = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientSecretKey) ?? ""
-        let clientId = customClientId != "" ? customClientId : kGiniClientId
-        let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
-        let test1 = ProcessInfo.processInfo.environment["client_id"]
-        let test2 = ProcessInfo.processInfo.environment["client_password"]
+        let clientId = ProcessInfo.processInfo.environment["client_id"] ?? ""
+        let clientSecret = ProcessInfo.processInfo.environment["client_password"] ?? ""
         
         // Set up GiniSDK with your credentials.
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
@@ -82,14 +75,6 @@ final class DocumentService {
         self.giniSDK = builder?.build()
         
         print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
-    }
-    
-    func populateSettingsPage() {
-        let bundleShortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        UserDefaults.standard.setValue(GiniVision.versionString, forKey: kSettingsGiniVisionVersionKey)
-        UserDefaults.standard.setValue(bundleShortVersion,
-                                       forKey: kSettingsExampleAppVersionKey)
-        UserDefaults.standard.synchronize()
     }
     
     /**
