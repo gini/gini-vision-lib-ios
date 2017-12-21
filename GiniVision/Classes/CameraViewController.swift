@@ -120,7 +120,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return FilePickerManager()
     }()
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
-    
+    var didShowCamera: (() -> Void)?
+
     // Images
     fileprivate var defaultImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
@@ -244,6 +245,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 }
             }
         }
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        didShowCamera?()
     }
     
     /**

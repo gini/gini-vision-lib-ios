@@ -58,9 +58,13 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        screenAPIViewController = GiniVision.viewController(withDelegate: self,
+        let viewController = GiniVision.viewController(withDelegate: self,
                                                             withConfiguration: visionConfiguration,
-                                                            importedDocument: visionDocument) as! UINavigationController
+                                                            importedDocument: visionDocument)
+        screenAPIViewController = RootNavigationController(rootViewController: viewController)
+        screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
+        screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor
+        screenAPIViewController.setNavigationBarHidden(true, animated: false)
         screenAPIViewController.delegate = self
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
@@ -124,6 +128,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         customResultsScreen.document = document
         
         DispatchQueue.main.async { [weak self] in
+            self?.screenAPIViewController.setNavigationBarHidden(false, animated: false)
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
             self?.analysisDelegate = nil
         }
@@ -137,6 +142,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                 let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil)
                     .instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
                 customNoResultsScreen.delegate = self
+                self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
                 self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
             }
             self.analysisDelegate = nil

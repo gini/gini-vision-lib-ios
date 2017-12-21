@@ -86,7 +86,7 @@ final public class HelpMenuViewController: UITableViewController {
                                                           topViewText: NSLocalizedString("ginivision.noresults.warningHelpMenu", bundle:Bundle(for: GiniVision.self), comment: "warning text shown on no results tips, when the screen is shown through the help menu"),
                                                           topViewIcon: nil)
             vc.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraContainerViewController })?.first {
+                if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraViewController })?.first {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
                 }
             }

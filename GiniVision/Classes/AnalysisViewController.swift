@@ -62,6 +62,7 @@ import UIKit
         let indicatorView = UIActivityIndicatorView()
         indicatorView.hidesWhenStopped = true
         indicatorView.activityIndicatorViewStyle = .whiteLarge
+        indicatorView.startAnimating()
         return indicatorView
     }()
     fileprivate var loadingIndicatorText:UILabel = {
@@ -90,6 +91,7 @@ import UIKit
     }()
     
     fileprivate let document:GiniVisionDocument
+    var didShowAnalysis: (() -> Void)?
     
     /**
      Designated intitializer for the `AnalysisViewController`.
@@ -137,7 +139,7 @@ import UIKit
             addLoadingView(intoContainer: loadingIndicatorContainer)
             loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
             
-            showPDFInformationView(withDocument:document)
+            showPDFInformationView(withDocument: document)
         } else {
             addLoadingView()
             addLoadingText(below: loadingIndicatorView)
@@ -145,6 +147,11 @@ import UIKit
             
             showCaptureSuggestions()
         }
+    }
+    
+    override public func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        didShowAnalysis?()
     }
     
     // MARK: Toggle animation
