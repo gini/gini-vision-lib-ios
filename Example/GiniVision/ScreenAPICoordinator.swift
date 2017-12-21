@@ -25,7 +25,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     var screenAPIViewController: UINavigationController!
     
     let documentService: DocumentService
-    var analysisDelegate: AnalysisDelegate?
+    weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
     var result: GINIResult? {
