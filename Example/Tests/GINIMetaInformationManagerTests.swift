@@ -6,7 +6,7 @@ class ImageMetaInformationManagerTests: XCTestCase {
     
     var invoiceData: Data {
         let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
-        return (try! Data(contentsOf: path!))
+        return (try? Data(contentsOf: path!))!
     }
     var manager: ImageMetaInformationManager {
         return ImageMetaInformationManager(imageData: invoiceData, imageSource: .camera)
@@ -35,7 +35,8 @@ class ImageMetaInformationManagerTests: XCTestCase {
         let value = "MyCompany"
         let key = kCGImagePropertyTIFFMake as String
         mutableInformation.set(metaInformation: value as AnyObject?, forKey: key)
-        XCTAssert(mutableInformation.getMetaInformation(forKey: key) as? String == value, "failed to set value correctly on meta information")
+        XCTAssert(mutableInformation.getMetaInformation(forKey: key) as? String == value,
+                  "failed to set value correctly on meta information")
     }
     
     func testFilteringAndSettingRequiredFields() {
@@ -51,7 +52,8 @@ class ImageMetaInformationManagerTests: XCTestCase {
             return XCTFail("failed to retrieve mutable meta information from filtered image data")
         }
         let key = kCGImagePropertyExifUserComment as String
-        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.contains("GiniVisionVer") == true, "filtered data did not set custom fields")
+        XCTAssert((mutableInformation.getMetaInformation(forKey: key) as? String)?.contains("GiniVisionVer") == true,
+                  "filtered data did not set custom fields")
     }
         
 }
