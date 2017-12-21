@@ -9,11 +9,18 @@
 import UIKit
 
 /**
- The `OnboardingViewController` provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.
+ The `OnboardingViewController` provides a custom onboarding screen which presents some
+ introductory screens to the user on how to get the camera in a perfect position etc.
+ By default, three screens are pre-configured.
  
- To allow displaying the onboarding as a transparent modal view, set the `modalPresentationStyle` of the container class to `.OverCurrentContext`. Add a blank page at the end to make it possible to "swipe away" the onboarding. To achieve this, the container class needs to implement `UIScrollViewDelegate` and dismiss the view when the last (empty) page is reached. With the `UIScrollViewDelegate` callbacks it is also possible to add a custom page control and update the current page accordingly.
+ To allow displaying the onboarding as a transparent modal view, set the `modalPresentationStyle`
+ of the container class to `.OverCurrentContext`. Add a blank page at the end to make it possible
+ to "swipe away" the onboarding. To achieve this, the container class needs to implement `UIScrollViewDelegate`
+ and dismiss the view when the last (empty) page is reached. With the `UIScrollViewDelegate` callbacks
+ it is also possible to add a custom page control and update the current page accordingly.
  
- Use the `OnboardingPage` class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.
+ Use the `OnboardingPage` class to quickly create custom onboarding pages in a nice consistent design.
+ See below how easy it is to present an custom onboarding view controller.
  
      let pages = [
          OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
@@ -47,7 +54,6 @@ import UIKit
  */
 @objc public final class OnboardingViewController: UIViewController {
     
-    
     /**
      Scroll view used to display different onboarding pages.
      */
@@ -62,12 +68,14 @@ import UIKit
     private var contentView = UIView()
 
     /**
-     Designated intitializer for the `OnboardingViewController` which allows to pass a custom set of views which will be displayed in horizontal scroll view.
+     Designated intitializer for the `OnboardingViewController` which allows to pass a custom set of
+     views which will be displayed in horizontal scroll view.
      
      - parameter pages:              An array of views to be displayed in the scroll view.
      - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
      
-     - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
+     - returns: A view controller instance intended to allow the user to get a brief overview over
+     the functionality provided by the Gini Vision Library.
      */
     public init(pages: [UIView], scrollViewDelegate: UIScrollViewDelegate?) {
         super.init(nibName: nil, bundle: nil)
@@ -93,11 +101,13 @@ import UIKit
     }
     
     /**
-     Convenience initializer for the `OnboardingViewController` which will set a predefined set of views as the onboarding pages.
+     Convenience initializer for the `OnboardingViewController` which will set a predefined set
+     of views as the onboarding pages.
      
      - parameter scrollViewDelegate: The receiver for the scroll view delegate callbacks.
      
-     - returns: A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.
+     - returns: A view controller instance intended to allow the user to get a brief overview over
+     the functionality provided by the Gini Vision Library.
      */
     public convenience init(scrollViewDelegate: UIScrollViewDelegate?) {
         self.init(pages: GiniConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: scrollViewDelegate)
@@ -121,7 +131,8 @@ import UIKit
         var offset = scrollView.contentOffset
         offset.x += scrollView.frame.width
         // Make sure there is no overflow and scrolling only happens from page to page
-        guard offset.x < scrollView.contentSize.width && offset.x.truncatingRemainder(dividingBy: scrollView.frame.width) == 0 else {
+        guard offset.x < scrollView.contentSize.width &&
+            offset.x.truncatingRemainder(dividingBy: scrollView.frame.width) == 0 else {
             return
         }
         scrollView.setContentOffset(offset, animated: animated)
@@ -131,7 +142,7 @@ import UIKit
      Center page in case it is not centered (i.e after rotation)
      
      */
-    public func centerTo(page:Int) {
+    public func centerTo(page: Int) {
         var offset = scrollView.contentOffset
         offset.x = scrollView.frame.width * CGFloat(page)
                 
@@ -156,14 +167,16 @@ import UIKit
         Contraints.active(item: contentView, attr: .trailing, relatedBy: .equal, to: scrollView, attr: .trailing)
         Contraints.active(item: contentView, attr: .bottom, relatedBy: .equal, to: scrollView, attr: .bottom)
         Contraints.active(item: contentView, attr: .leading, relatedBy: .equal, to: scrollView, attr: .leading)
-        Contraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width, multiplier: pagesCount)
+        Contraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width,
+                          multiplier: pagesCount)
         Contraints.active(item: contentView, attr: .height, relatedBy: .equal, to: scrollView, attr: .height)
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
             Contraints.active(item: page, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
             Contraints.active(item: page, attr: .bottom, relatedBy: .equal, to: contentView, attr: .bottom)
-            Contraints.active(item: page, attr: .width, relatedBy: .equal, to: contentView, attr: .width, multiplier: 1/pagesCount)
+            Contraints.active(item: page, attr: .width, relatedBy: .equal, to: contentView, attr: .width,
+                              multiplier: 1/pagesCount)
             if page == pages.first {
                 Contraints.active(item: page, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
             } else {

@@ -9,7 +9,7 @@
 import MobileCoreServices
 
 internal extension Data {
-    private static let mimeTypeSignatures: [UInt8 : String] = [
+    private static let mimeTypeSignatures: [UInt8: String] = [
         0xFF: "image/jpeg",
         0x89: "image/png",
         0x47: "image/gif",

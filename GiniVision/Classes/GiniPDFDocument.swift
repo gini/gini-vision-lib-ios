@@ -11,19 +11,18 @@ import MobileCoreServices
 
 final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
-    static let acceptedPDFTypes:[String] = [kUTTypePDF as String]
+    static let acceptedPDFTypes: [String] = [kUTTypePDF as String]
     
     public var type: GiniVisionDocumentType = .pdf
-    public let data:Data
+    public let data: Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
     
     private let MAX_PDF_PAGES_COUNT = 10
-    private(set) var numberPages:Int = 0
-    private(set) var pdfTitle:String?
+    private(set) var numberPages: Int = 0
+    private(set) var pdfTitle: String?
 
-    
     /**
      Initializes a GiniPDFDocument with a preview image (from the first page)
      
@@ -31,7 +30,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
      
      */
     
-    init(data:Data) {
+    init(data: Data) {
         self.data = data
         self.isReviewable = false
         self.isImported = true
@@ -75,16 +74,18 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         }
     }
     
-    fileprivate func renderFirstPage(fromPdf pdf:CGPDFDocument) -> UIImage? {
-        var pdfImage:UIImage?
+    fileprivate func renderFirstPage(fromPdf pdf: CGPDFDocument) -> UIImage? {
+        var pdfImage: UIImage?
         let pdfDoc = pdf
         
-        if let pdfPage:CGPDFPage = pdfDoc.page(at: 1) {
-            let pageRect:CGRect = normalizedRect(forBoxRect: pdfPage.getBoxRect(.cropBox), withRotationAngle: pdfPage.rotationAngle)
+        if let pdfPage: CGPDFPage = pdfDoc.page(at: 1) {
+            let pageRect: CGRect = normalizedRect(forBoxRect: pdfPage.getBoxRect(.cropBox),
+                                                 withRotationAngle: pdfPage.rotationAngle)
             
             // Create context
-            UIGraphicsBeginImageContextWithOptions(CGSize(width: pageRect.width, height: pageRect.height), false, 0.0)
-            let context:CGContext = UIGraphicsGetCurrentContext()!
+            UIGraphicsBeginImageContextWithOptions(CGSize(width: pageRect.width,
+                                                          height: pageRect.height), false, 0.0)
+            let context: CGContext = UIGraphicsGetCurrentContext()!
             
             // Fill context color
             context.setFillColor(UIColor.white.cgColor)
@@ -93,7 +94,10 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
             // Align PDF's cropBox to the context
             context.translateBy(x: 0, y: pageRect.size.height)
             context.scaleBy(x: 1, y: -1)
-            context.concatenate(pdfPage.getDrawingTransform(.cropBox, rect: pageRect, rotate: 0, preserveAspectRatio: true))
+            context.concatenate(pdfPage.getDrawingTransform(.cropBox,
+                                                            rect: pageRect,
+                                                            rotate: 0,
+                                                            preserveAspectRatio: true))
 
             // Draw PDF into context
             context.drawPDFPage(pdfPage)
@@ -105,7 +109,8 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         return pdfImage
     }
     
-    fileprivate func normalizedRect(forBoxRect rect:CGRect, withRotationAngle rotationAngle:Int32) -> CGRect {
+    fileprivate func normalizedRect(forBoxRect rect: CGRect,
+                                    withRotationAngle rotationAngle: Int32) -> CGRect {
         var rect = rect
         
         // In case that the image was rotated 90 or 270, final rect should be rotated to portrait
@@ -121,7 +126,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
 
 // MARK: NSItemProviderReading
 
-extension GiniPDFDocument:NSItemProviderReading {
+extension GiniPDFDocument: NSItemProviderReading {
     
     static public var readableTypeIdentifiersForItemProvider: [String] {
         return [kUTTypePDF as String]
@@ -132,5 +137,3 @@ extension GiniPDFDocument:NSItemProviderReading {
     }
     
 }
-
-

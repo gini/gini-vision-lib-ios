@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol GiniVisionError:Error {}
+public protocol GiniVisionError: Error {}
 
 /**
  Errors thrown on the camera screen or during camera initialization.
@@ -68,6 +68,7 @@ public protocol GiniVisionError:Error {}
     
     /// PDF length exceeded
     case pdfPageLengthExceeded
+
     var message:String {
         switch self {
         case .exceededMaxFileSize:
@@ -119,4 +120,3 @@ public class CustomDocumentValidationResult: NSObject {
         return CustomDocumentValidationResult(withSuccess: false, error: error)
     }
 }
-

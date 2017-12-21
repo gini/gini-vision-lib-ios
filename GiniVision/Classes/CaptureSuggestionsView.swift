@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 final class CaptureSuggestionsView: UIView {
     
     fileprivate enum CaptureSuggestionsState {

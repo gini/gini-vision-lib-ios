@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     
     var suggestionImage: UIImageView = {
@@ -39,16 +38,22 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
     
     private func addConstraints() {
         Contraints.active(item: suggestionImage, attr: .top, relatedBy: .equal, to: self, attr: .top, priority: 999)
-        Contraints.active(item: suggestionImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, priority: 999)
-        Contraints.active(item: suggestionImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
-        Contraints.active(item: suggestionImage, attr: .trailing, relatedBy: .equal, to: suggestionText, attr: .leading, constant: -20)
-        Contraints.active(item: suggestionImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 85)
-        Contraints.active(item: suggestionImage, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute, constant: 85)
+        Contraints.active(item: suggestionImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+                          priority: 999)
+        Contraints.active(item: suggestionImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
+                          constant: 20)
+        Contraints.active(item: suggestionImage, attr: .trailing, relatedBy: .equal, to: suggestionText,
+                          attr: .leading, constant: -20)
+        Contraints.active(item: suggestionImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 85)
+        Contraints.active(item: suggestionImage, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
+                          constant: 85)
         Contraints.active(item: suggestionImage, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY)
         
         Contraints.active(item: suggestionText, attr: .top, relatedBy: .equal, to: self, attr: .top)
         Contraints.active(item: suggestionText, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
-        Contraints.active(item: suggestionText, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -20, priority: 999)
+        Contraints.active(item: suggestionText, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+                          constant: -20, priority: 999)
     }
 }
 

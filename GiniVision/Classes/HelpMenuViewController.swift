@@ -8,9 +8,9 @@
 
 import UIKit
 
-
 /**
- The `HelpMenuViewController` provides explanations on how to take better pictures, how to use the open with feature and which formats are supported by Gini Vision Library.
+ The `HelpMenuViewController` provides explanations on how to take better pictures, how to
+ use the open with feature and which formats are supported by Gini Vision Library.
  
  */
 
@@ -20,12 +20,18 @@ final public class HelpMenuViewController: UITableViewController {
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     lazy var items: [(text: String, id: Int)] = {
         var items = [
-            (NSLocalizedString("ginivision.helpmenu.firstItem", bundle: Bundle(for: GiniVision.self), comment: "help menu first item text"), 1),
-            (NSLocalizedString("ginivision.helpmenu.thirdItem", bundle: Bundle(for: GiniVision.self), comment: "help menu third item text"), 3)
+            (NSLocalizedString("ginivision.helpmenu.firstItem",
+                               bundle: Bundle(for: GiniVision.self),
+                               comment: "help menu first item text"), 1),
+            (NSLocalizedString("ginivision.helpmenu.thirdItem",
+                               bundle: Bundle(for: GiniVision.self),
+                               comment: "help menu third item text"), 3)
         ]
         
         if GiniConfiguration.sharedConfiguration.openWithEnabled {
-            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem", bundle: Bundle(for: GiniVision.self), comment: "help menu second item text"), 2), at: 1)
+            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
+                                            bundle: Bundle(for: GiniVision.self),
+                                            comment: "help menu second item text"), 2), at: 1)
         }
         
         return items
@@ -41,13 +47,16 @@ final public class HelpMenuViewController: UITableViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = NSLocalizedString("ginivision.helpmenu.title", bundle: Bundle(for: GiniVision.self), comment: "help menu view controller title")
+        title = NSLocalizedString("ginivision.helpmenu.title",
+                                  bundle: Bundle(for: GiniVision.self),
+                                  comment: "help menu view controller title")
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
         tableView.rowHeight = tableRowHeight
         tableView.backgroundColor = Colors.Gini.pearl
         
-        if #available(iOS 11.0, *) { // On iOS is .automatic by default and it the transition to this view controller looks weird.
+        // On iOS is .automatic by default and it the transition to this view controller looks weird.
+        if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
     }
@@ -81,12 +90,23 @@ final public class HelpMenuViewController: UITableViewController {
     func viewController(forRowWithId id: Int) -> UIViewController? {
         switch id {
         case 1:
-            let vc = ImageAnalysisNoResultsViewController(title: NSLocalizedString("ginivision.noresults.title", bundle:Bundle(for: GiniVision.self), comment: "navigation title shown on no results tips, when the screen is shown through the help menu"),
+            let title = NSLocalizedString("ginivision.noresults.title",
+                                          bundle: Bundle(for: GiniVision.self),
+                                          comment: "navigation title shown on no results tips, " +
+                                                   "when the screen is shown through the help menu")
+            let topViewText = NSLocalizedString("ginivision.noresults.warningHelpMenu",
+                                                bundle: Bundle(for: GiniVision.self),
+                                                comment: "warning text shown on no results tips, " +
+                                                         "when the screen is shown through the help menu")
+            let vc = ImageAnalysisNoResultsViewController(title: title,
                                                           subHeaderText: nil,
-                                                          topViewText: NSLocalizedString("ginivision.noresults.warningHelpMenu", bundle:Bundle(for: GiniVision.self), comment: "warning text shown on no results tips, when the screen is shown through the help menu"),
+                                                          topViewText: topViewText,
                                                           topViewIcon: nil)
             vc.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?.viewControllers.flatMap { $0 as? CameraViewController })?.first {
+                if let cameraViewController = (self.navigationController?
+                    .viewControllers
+                    .flatMap { $0 as? CameraViewController })?
+                    .first {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
                 }
             }

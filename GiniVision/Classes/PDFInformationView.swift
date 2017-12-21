@@ -80,7 +80,7 @@ final class PDFInformationView: UIView {
                           constant: -16)
         Contraints.active(item: titleLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 16)
         Contraints.active(item: titleLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
-                          constant: -16, priority:999)
+                          constant: -16, priority: 999)
 
         Contraints.active(item: subtitleLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
                           constant: 16)
@@ -127,6 +127,3 @@ extension PDFInformationView {
         })
     }
 }
-
-
-

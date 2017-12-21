@@ -169,7 +169,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { document in
             success(document.data)
         }, failureBlock: { error in
-            failure(error as! ReviewError)
+            failure((error as? ReviewError)!)
         })
     }
     
