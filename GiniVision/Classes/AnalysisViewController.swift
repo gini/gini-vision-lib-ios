@@ -62,6 +62,7 @@ import UIKit
         let indicatorView = UIActivityIndicatorView()
         indicatorView.hidesWhenStopped = true
         indicatorView.activityIndicatorViewStyle = .whiteLarge
+        indicatorView.startAnimating()
         return indicatorView
     }()
     fileprivate var loadingIndicatorText:UILabel = {
