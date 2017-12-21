@@ -60,13 +60,16 @@ final class GINIImageNoResultsViewControllerTests: XCTestCase {
         let suggestion1Text = items[indexPath.row].text
         let suggestion1Image = items[indexPath.row].image
         
-        let suggestionCollectionCell = viewController.collectionView(viewController.suggestionsCollectionView,
-                                                                     cellForItemAt: indexPath) as? CaptureSuggestionsCollectionCell
+        let suggestionCollectionCell = viewController
+            .collectionView(viewController.suggestionsCollectionView,
+                            cellForItemAt: indexPath) as? CaptureSuggestionsCollectionCell
         
         XCTAssertEqual(suggestion1Text, suggestionCollectionCell!.suggestionText.text,
-                       "first suggestionsCollectionView item text should be equal to first captureSuggestions item text")
+                       "first suggestionsCollectionView item text should be equal to " +
+                       "first captureSuggestions item text")
         XCTAssertEqual(suggestion1Image, suggestionCollectionCell!.suggestionImage.image,
-                       "first suggestionsCollectionView item image should be equal to first captureSuggestions item image")
+                       "first suggestionsCollectionView item image should be equal to first " +
+                       "captureSuggestions item image")
 
     }
     
