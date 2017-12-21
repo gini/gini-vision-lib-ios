@@ -13,10 +13,11 @@ class GINIAnalysisViewControllerTests: XCTestCase {
     
     func testPDFPagesCountLocalizedString() {
         let key = "ginivision.analysis.pdfpages"
-        let localizedString = NSLocalizedStringPreferred(key, comment: "Text appearing at the top of the analysis screen indicating pdf number of pages", args: 2)
+        let localizedString = NSLocalizedStringPreferred(key,
+                                                         comment: "Text appearing at the top of the " +
+                                                                  "analysis screen indicating pdf number of pages",
+                                                         args: 2)
 
         XCTAssertNotEqual(key, localizedString)
     }
-
-    
 }

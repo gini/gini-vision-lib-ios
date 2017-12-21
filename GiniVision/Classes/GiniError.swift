@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol GiniVisionError:Error {}
+public protocol GiniVisionError: Error {}
 
 /**
  Errors thrown on the camera screen or during camera initialization.
@@ -75,7 +75,7 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     /// Custom validation error
     case custom(message: String)
     
-    var message:String {
+    var message: String {
         switch self {
         case .exceededMaxFileSize:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
@@ -99,6 +99,3 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     }
     
 }
-
-
-

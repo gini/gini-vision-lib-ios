@@ -23,11 +23,13 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate let documentService: DocumentService
-    fileprivate var document:GiniVisionDocument?
+    fileprivate var document: GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     
-    fileprivate lazy var storyboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-    fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController = self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController") as! ComponentAPIOnboardingViewController
+    fileprivate lazy var storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+    fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController =
+        (self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController")
+            as? ComponentAPIOnboardingViewController)!
     fileprivate lazy var newDocumentViewController: UINavigationController = {
         let navBarViewController = UINavigationController()
         navBarViewController.navigationBar.barTintColor = self.giniColor
@@ -55,7 +57,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                 
                 if let result = result,
                     let document = document,
-                    let _ = self?.analysisScreen {
+                    self?.analysisScreen != nil {
                     self?.handleAnalysis(result, fromDocument: document)
                 }
             }
@@ -67,7 +69,9 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var analysisScreen: ComponentAPIAnalysisViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     
-    init(document:GiniVisionDocument?, configuration: GiniConfiguration, documentService: DocumentService){
+    init(document: GiniVisionDocument?,
+         configuration: GiniConfiguration,
+         documentService: DocumentService) {
         self.document = document
         self.documentService = documentService
         GiniVision.setConfiguration(configuration)
@@ -90,45 +94,59 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     // MARK: Show screens
     fileprivate func showCameraScreen() {
-        cameraScreen = self.storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera") as? ComponentAPICameraViewController
+        cameraScreen = self.storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera")
+            as? ComponentAPICameraViewController
         cameraScreen?.delegate = self
         newDocumentViewController.pushViewController(cameraScreen!, animated: true)
     }
     
     fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
-        reviewScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview") as? ComponentAPIReviewViewController
+        reviewScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview")
+            as? ComponentAPIReviewViewController
         reviewScreen?.delegate = self
         reviewScreen?.document = document
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
         // to have results in as early as possible.
-        documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
+        documentService.analyzeDocument(withData: document.data,
+                                        cancelationToken: CancelationToken(),
+                                        completion: didDocumentAnalysisComplete)
         
         newDocumentViewController.pushViewController(reviewScreen!, animated: true)
     }
     
     fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
-        analysisScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis") as? ComponentAPIAnalysisViewController
+        analysisScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis")
+            as? ComponentAPIAnalysisViewController
         analysisScreen?.delegate = self
         analysisScreen?.document = document
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
-        // In case that the view is loaded but is not analysing (i.e: user imported a PDF with the Open With feature), it should start.
+        // In case that the view is loaded but is not analysing (i.e: user imported a PDF with
+        // the Open With feature), it should start.
         if !documentService.isAnalyzing {
-            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
+            documentService.analyzeDocument(withData: document.data,
+                                            cancelationToken: CancelationToken(),
+                                            completion: didDocumentAnalysisComplete)
         }
         
         newDocumentViewController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(forDocument document: GINIDocument, withResult result:GINIResult) {
-        resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController
+    fileprivate func showResultsTableScreen(forDocument document: GINIDocument,
+                                            withResult result: GINIResult) {
+        resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
+            as? ResultTableViewController
         resultsScreen?.result = result
         resultsScreen?.document = document
         
         if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
-            resultsScreen!.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPIFromResults))
+            resultsScreen!.navigationItem
+                .rightBarButtonItem = UIBarButtonItem(title: "Schließen",
+                                                      style: .plain,
+                                                      target: self,
+                                                      action: #selector(closeComponentAPIFromResults))
         }
         
         push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
@@ -144,9 +162,10 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             }
             vc = imageAnalysisNoResultsViewController
         } else {
-            let genericNoResults = storyboard.instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
-            genericNoResults.delegate = self
-            vc = genericNoResults
+            let genericNoResults = storyboard
+                .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController
+            genericNoResults!.delegate = self
+            vc = genericNoResults!
         }
         
         push(viewController: vc, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
@@ -162,7 +181,9 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         self.newDocumentViewController.tabBarItem = navTabBarItem
         self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
         
-        self.componentAPITabBarController.setViewControllers([newDocumentViewController, componentAPIOnboardingViewController], animated: true)
+        self.componentAPITabBarController.setViewControllers([newDocumentViewController,
+                                                              componentAPIOnboardingViewController],
+                                                             animated: true)
     }
     
     @objc fileprivate func closeComponentAPI() {
@@ -179,7 +200,10 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
         if newDocumentViewController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen", style: .plain, target: self, action: #selector(closeComponentAPI))
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
+                                                                              style: .plain,
+                                                                              target: self,
+                                                                              action: #selector(closeComponentAPI))
         }
     }
     
@@ -187,7 +211,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         var navigationStack = newDocumentViewController.viewControllers
         
         if let deleteViewController = (navigationStack.flatMap { $0 as? T }.first) as? UIViewController,
-            let index = navigationStack.index(of: deleteViewController){
+            let index = navigationStack.index(of: deleteViewController) {
             navigationStack.remove(at: index)
         }
         navigationStack.append(viewController)
@@ -207,16 +231,22 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 // MARK: UINavigationControllerDelegate
 
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        guard let fromViewController = navigationController.transitionCoordinator?.viewController(forKey: .from) else { return }
-        newDocumentViewController.setNavigationBarHidden(viewController is ComponentAPICameraViewController, animated: true)
+    func navigationController(_ navigationController: UINavigationController,
+                              willShow viewController: UIViewController,
+                              animated: Bool) {
+        guard let fromViewController = navigationController
+            .transitionCoordinator?.viewController(forKey: .from) else { return }
+        newDocumentViewController
+            .setNavigationBarHidden(viewController is ComponentAPICameraViewController, animated: true)
         
-        if fromViewController is ComponentAPIReviewViewController && viewController is ComponentAPICameraViewController {
+        if fromViewController is ComponentAPIReviewViewController &&
+            viewController is ComponentAPICameraViewController {
             reviewScreen = nil
             documentService.cancelAnalysis()
         }
         
-        if fromViewController is ComponentAPIAnalysisViewController && viewController is ComponentAPIReviewViewController {
+        if fromViewController is ComponentAPIAnalysisViewController &&
+            viewController is ComponentAPIReviewViewController {
             analysisScreen = nil
             documentService.cancelAnalysis()
         }
@@ -246,7 +276,8 @@ extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
 // MARK: ComponentAPIReviewScreenDelegate
 
 extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
-    func componentAPIReview(viewController: ComponentAPIReviewViewController, didReviewDocument document: GiniVisionDocument) {
+    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+                            didReviewDocument document: GiniVisionDocument) {
         // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
         if let result = documentService.result,
             let document = documentService.document {
@@ -257,7 +288,9 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
         // Restart analysis if it was canceled and is currently not running.
         if !documentService.isAnalyzing {
             if let documentData = self.document?.data {
-                documentService.analyzeDocument(withData: documentData, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
+                documentService.analyzeDocument(withData: documentData,
+                                                cancelationToken: CancelationToken(),
+                                                completion: didDocumentAnalysisComplete)
             }
         }
         
@@ -275,7 +308,9 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
 extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {    
     func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
         if let document = document {
-            documentService.analyzeDocument(withData: document.data, cancelationToken: CancelationToken(), completion: didDocumentAnalysisComplete)
+            documentService.analyzeDocument(withData: document.data,
+                                            cancelationToken: CancelationToken(),
+                                            completion: didDocumentAnalysisComplete)
         }
     }
 }
@@ -315,8 +350,3 @@ extension ComponentAPICoordinator {
         analysisScreen?.displayError(error)
     }
 }
-
-
-
-
-

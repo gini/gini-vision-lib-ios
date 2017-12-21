@@ -10,7 +10,7 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol SelectAPIViewControllerDelegate:class {
+protocol SelectAPIViewControllerDelegate: class {
     func selectAPI(viewController: SelectAPIViewController, didSelectApi api: GiniVisionAPIType)
     func selectAPI(viewController: SelectAPIViewController, didTapSettings: ())
 }
@@ -40,7 +40,8 @@ final class SelectAPIViewController: UIViewController {
         let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         
-        metaInformationButton.setTitle("Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)", for: .normal)
+        let metaTitle = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
+        metaInformationButton.setTitle(metaTitle, for: .normal)
         
     }
     

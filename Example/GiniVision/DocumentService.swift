@@ -6,7 +6,6 @@
 //  Copyright © 2016 Gini. All rights reserved.
 //
 
-
 import UIKit
 import Gini_iOS_SDK
 import GiniVision
@@ -18,7 +17,8 @@ let GINIAnalysisManagerErrorUserInfoKey             = "GINIAnalysisManagerErrorU
 let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocumentUserInfoKey"
 
 typealias GINIResult = [String: GINIExtraction]
-typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> ())
+typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> Void)
+
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
  */
@@ -74,15 +74,19 @@ final class DocumentService {
         let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
         
         // Set up GiniSDK with your credentials.
-        let builder = GINISDKBuilder.anonymousUser(withClientID: clientId, clientSecret: clientSecret, userEmailDomain: "example.com")
+        let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
+                                                   clientSecret: clientSecret,
+                                                   userEmailDomain: "example.com")
         self.giniSDK = builder?.build()
         
         print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
     }
     
     func populateSettingsPage() {
+        let bundleShortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         UserDefaults.standard.setValue(GiniVision.versionString, forKey: kSettingsGiniVisionVersionKey)
-        UserDefaults.standard.setValue(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String, forKey: kSettingsExampleAppVersionKey)
+        UserDefaults.standard.setValue(bundleShortVersion,
+                                       forKey: kSettingsExampleAppVersionKey)
         UserDefaults.standard.synchronize()
     }
     
@@ -95,6 +99,7 @@ final class DocumentService {
      - parameter cancelationToken: The cancelation token.
      - parameter completion:       The completion block handling the result.
      */
+    // swiftlint:disable function_body_length
     func analyzeDocument(withData data: Data,
                          cancelationToken token: CancelationToken,
                          completion: DocumentAnalysisCompletion?) {
@@ -118,7 +123,7 @@ final class DocumentService {
         let manager = sdk?.documentTaskManager
         
         // Create a file name for the document.
-        let fileName = "your_filename";
+        let fileName = "your_filename"
         
         var documentId: String?
         
@@ -138,7 +143,7 @@ final class DocumentService {
             return task?.result
             
             // 2. Create a document from the given image data
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+        }).continue(successBlock: { _ -> AnyObject! in
             if token.cancelled {
                 return BFTask.cancelled()
             }
@@ -199,7 +204,8 @@ final class DocumentService {
     /*
      If a valid document is set, send feedback on it.
      This is just to show case how to give feedback using the Gini SDK for iOS.
-     In a real world application feedback should be triggered after the user has evaluated and eventually corrected the extractions.
+     In a real world application feedback should be triggered after the user
+     has evaluated and eventually corrected the extractions.
      
      - parameter document: Gini document.
      
@@ -211,13 +217,13 @@ final class DocumentService {
         
         // 1. Get session
         _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
-            if (task?.error != nil) {
+            if task?.error != nil {
                 return sdk?.sessionManager.logIn()
             }
             return task?.result
             
             // 2. Get extractions from the document
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+        }).continue(successBlock: { _ -> AnyObject! in
             return document.extractions
             
             // 3. Create and send feedback on the document
@@ -237,7 +243,10 @@ final class DocumentService {
             // Feedback should only be send for labels which the user has seen. Unseen labels should be filtered out.
             
             let bicValue = "BYLADEM1001"
-            let bic = extractions["bic"] as? GINIExtraction ?? GINIExtraction(name: "bic", value: "", entity: "bic", box: nil)!
+            let bic = extractions["bic"] as? GINIExtraction ?? GINIExtraction(name: "bic",
+                                                                              value: "",
+                                                                              entity: "bic",
+                                                                              box: nil)!
             bic.value = bicValue
             extractions["bic"] = bic
             // Repeat this step for all altered fields.
@@ -247,7 +256,7 @@ final class DocumentService {
             return documentTaskManager?.update(document)
             
             // 4. Check if feedback was send successfully (only for testing purposes)
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+        }).continue(successBlock: { _ -> AnyObject! in
             return document.extractions
             
             // 5. Handle results
@@ -260,7 +269,8 @@ final class DocumentService {
             let resultString = (task?.result as? GINIResult)?.description ?? "n/a"
             print("🚀 Feedback sent")
 
-            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n\(resultString)\n--------------------------\n")
+            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n" +
+                "\(resultString)\n--------------------------\n")
             return nil
         })
     }

@@ -9,15 +9,15 @@
 import MobileCoreServices
 
 internal extension Data {
-    private static let mimeTypeSignatures: [UInt8 : String] = [
-        0xFF : "image/jpeg",
-        0x89 : "image/png",
-        0x47 : "image/gif",
-        0x49 : "image/tiff",
-        0x4D : "image/tiff",
-        0x25 : "application/pdf",
-        0xD0 : "application/vnd",
-        0x46 : "text/plain",
+    private static let mimeTypeSignatures: [UInt8: String] = [
+        0xFF: "image/jpeg",
+        0x89: "image/png",
+        0x47: "image/gif",
+        0x49: "image/tiff",
+        0x4D: "image/tiff",
+        0x25: "application/pdf",
+        0xD0: "application/vnd",
+        0x46: "text/plain"
         ]
     
     var mimeType: String {
@@ -30,42 +30,42 @@ internal extension Data {
         return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, self.mimeType as CFString, nil)
     }
     
-    var isPDF:Bool {
+    var isPDF: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePDF)
         }
         return false
     }
     
-    var isImage:Bool {
+    var isImage: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeImage)
         }
         return false
     }
     
-    var isPNG:Bool {
+    var isPNG: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypePNG)
         }
         return false
     }
     
-    var isJPEG:Bool {
+    var isJPEG: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeJPEG)
         }
         return false
     }
     
-    var isGIF:Bool {
+    var isGIF: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeGIF)
         }
         return false
     }
     
-    var isTIFF:Bool {
+    var isTIFF: Bool {
         if let uti = self.utiFromMimeType {
             return UTTypeConformsTo(uti.takeRetainedValue(), kUTTypeTIFF)
         }

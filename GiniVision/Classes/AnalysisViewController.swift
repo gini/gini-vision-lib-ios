@@ -34,13 +34,15 @@ import UIKit
 }
 
 /**
- The `AnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.
+ The `AnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity.
+ The user should have the option of canceling the process by navigating back to the review screen.
  
  **Text resources for this screen**
  
  * `ginivision.navigationbar.analysis.back` (Screen API only.)
  
- - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized strings will make `AnalysisViewController` revert to the default iOS back button.
+ - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your
+ localized strings will make `AnalysisViewController` revert to the default iOS back button.
  
  **Image resources for this screen**
  
@@ -65,7 +67,7 @@ import UIKit
         indicatorView.startAnimating()
         return indicatorView
     }()
-    fileprivate var loadingIndicatorText:UILabel = {
+    fileprivate var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
         loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
         loadingText.font = GiniConfiguration.sharedConfiguration.font.regular.withSize(18)
@@ -75,7 +77,9 @@ import UIKit
     }()
     fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
     fileprivate lazy var loadingIndicatorContainer: UIView = {
-        let loadingIndicatorContainer = UIView(frame: CGRect(origin: .zero, size: CGSize(width: loadingIndicatorContainerHeight, height: loadingIndicatorContainerHeight)))
+        let loadingIndicatorContainer = UIView(frame: CGRect(origin: .zero,
+                                                             size: CGSize(width: loadingIndicatorContainerHeight,
+                                                                          height: loadingIndicatorContainerHeight)))
         loadingIndicatorContainer.backgroundColor = .white
         loadingIndicatorContainer.layer.cornerRadius = loadingIndicatorContainerHeight / 2
         loadingIndicatorContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -90,7 +94,7 @@ import UIKit
         return overlayView
     }()
     
-    fileprivate let document:GiniVisionDocument
+    fileprivate let document: GiniVisionDocument
     var didShowAnalysis: (() -> Void)?
     
     /**
@@ -115,7 +119,7 @@ import UIKit
     
     @nonobjc
     @available(*, deprecated)
-    public convenience init(_ imageData:Data) {
+    public convenience init(_ imageData: Data) {
         self.init(GiniImageDocument(data: imageData, imageSource: .external))
     }
     
@@ -139,13 +143,14 @@ import UIKit
             addLoadingView(intoContainer: loadingIndicatorContainer)
             loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
             
-            showPDFInformationView(withDocument: document)
+            showPDFInformationView(withDocument: document,
+                                   giniConfiguration: GiniConfiguration.sharedConfiguration)
         } else {
             addLoadingView()
             addLoadingText(below: loadingIndicatorView)
             addOverlay()
             
-            showCaptureSuggestions()
+            showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
         }
     }
     
@@ -158,7 +163,8 @@ import UIKit
     /**
      Displays a loading activity indicator. Should be called when document analysis is started.
      
-     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor` on the `GiniConfiguration` class.
+     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor`
+     on the `GiniConfiguration` class.
      */
     public func showAnimation() {
         loadingIndicatorView.startAnimating()
@@ -175,8 +181,10 @@ import UIKit
         self.view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.view, attr: .top, priority: 999)
-        Contraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom, priority: 999)
+        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.view, attr: .top,
+                          priority: 999)
+        Contraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom,
+                          priority: 999)
         Contraints.active(item: imageView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         Contraints.active(item: imageView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
     }
@@ -191,12 +199,14 @@ import UIKit
         Contraints.active(item: overlayView, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
     }
     
-    fileprivate func addLoadingText(below:UIView) {
+    fileprivate func addLoadingText(below: UIView) {
         self.view.addSubview(loadingIndicatorText)
         loadingIndicatorText.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: loadingIndicatorText, attr: .trailing, relatedBy: .equal, to: imageView, attr: .trailing)
-        Contraints.active(item: loadingIndicatorText, attr: .top, relatedBy: .equal, to: below, attr: .bottom, constant: 16)
+        Contraints.active(item: loadingIndicatorText, attr: .trailing, relatedBy: .equal, to: imageView,
+                          attr: .trailing)
+        Contraints.active(item: loadingIndicatorText, attr: .top, relatedBy: .equal, to: below, attr: .bottom,
+                          constant: 16)
         Contraints.active(item: loadingIndicatorText, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
     }
     
@@ -210,34 +220,42 @@ import UIKit
             
             Contraints.active(item: container, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
             Contraints.active(item: container, attr: .centerY, relatedBy: .equal, to: self.view, attr: .centerY)
-            Contraints.active(item: container, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: AnalysisViewController.loadingIndicatorContainerHeight)
-            Contraints.active(item: container, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: AnalysisViewController.loadingIndicatorContainerHeight)
-            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: container, attr: .centerX, constant: 1.5)
-            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: container, attr: .centerY, constant: 1.5)
+            Contraints.active(item: container, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                              constant: AnalysisViewController.loadingIndicatorContainerHeight)
+            Contraints.active(item: container, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                              constant: AnalysisViewController.loadingIndicatorContainerHeight)
+            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: container,
+                              attr: .centerX, constant: 1.5)
+            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: container,
+                              attr: .centerY, constant: 1.5)
             
         } else {
             self.view.addSubview(loadingIndicatorView)
-            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
-            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: self.view, attr: .centerY)
+            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: self.view,
+                              attr: .centerX)
+            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: self.view,
+                              attr: .centerY)
         }
     }
     
-    fileprivate func showPDFInformationView(withDocument document:GiniPDFDocument) {
-        let pdfInformationView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
-                                                    subtitle: GiniConfiguration.sharedConfiguration.analysisPDFNumberOfPages(pagesCount: document.numberPages),
-                                                    textColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextColor,
-                                                    textFont: GiniConfiguration.sharedConfiguration.font.regular.withSize(16),
-                                                    backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
-                                                    superView: self.view,
-                                                    viewBelow: self.imageView)
+    fileprivate func showPDFInformationView(withDocument document: GiniPDFDocument,
+                                            giniConfiguration: GiniConfiguration) {
+        let pdfView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
+                                         subtitle: giniConfiguration
+                                            .analysisPDFNumberOfPages(pagesCount: document.numberPages),
+                                         textColor: giniConfiguration.analysisPDFInformationTextColor,
+                                         textFont: giniConfiguration.font.regular.withSize(16),
+                                         backgroundColor: giniConfiguration.analysisPDFInformationBackgroundColor,
+                                         superView: self.view,
+                                         viewBelow: self.imageView)
         
-        pdfInformationView.show()
+        pdfView.show()
     }
     
-    fileprivate func showCaptureSuggestions() {
+    fileprivate func showCaptureSuggestions(giniConfiguration: GiniConfiguration) {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
                                                         bottomLayout: bottomLayoutGuide,        
-                                                        font:GiniConfiguration.sharedConfiguration.font.regular.withSize(14))
+                                                        font: giniConfiguration.font.regular.withSize(14))
         captureSuggestions.start()
     }
 }

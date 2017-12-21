@@ -21,12 +21,12 @@ final class AppCoordinator: Coordinator {
         return selectAPIViewController
     }
     lazy var selectAPIViewController: SelectAPIViewController = {
-        let selectAPIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "selectAPIViewController") as! SelectAPIViewController
+        let selectAPIViewController = (UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "selectAPIViewController") as? SelectAPIViewController)!
         selectAPIViewController.delegate = self
         return selectAPIViewController
     }()
 
-    
     lazy var giniConfiguration: GiniConfiguration = {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
@@ -80,8 +80,10 @@ final class AppCoordinator: Coordinator {
         self.window.makeKeyAndVisible()
     }
     
-    fileprivate func showScreenAPI(withImportedDocument document:GiniVisionDocument? = nil) {
-        let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration, importedDocument: document, documentService: documentService)
+    fileprivate func showScreenAPI(withImportedDocument document: GiniVisionDocument? = nil) {
+        let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
+                                                        importedDocument: document,
+                                                        documentService: documentService)
         screenAPICoordinator.delegate = self
         screenAPICoordinator.start()
         add(childCoordinator: screenAPICoordinator)
@@ -89,8 +91,10 @@ final class AppCoordinator: Coordinator {
         rootViewController.present(screenAPICoordinator.rootViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showComponentAPI(withImportedDocument document:GiniVisionDocument? = nil) {
-        let componentAPICoordinator = ComponentAPICoordinator(document: document, configuration: giniConfiguration, documentService: documentService)
+    fileprivate func showComponentAPI(withImportedDocument document: GiniVisionDocument? = nil) {
+        let componentAPICoordinator = ComponentAPICoordinator(document: document,
+                                                              configuration: giniConfiguration,
+                                                              documentService: documentService)
         componentAPICoordinator.delegate = self
         componentAPICoordinator.start()
         add(childCoordinator: componentAPICoordinator)
@@ -99,7 +103,8 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showSettings() {
-        let settingsViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "settingsViewController") as! SettingsViewController
+        let settingsViewController = (UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "settingsViewController") as? SettingsViewController)!
         settingsViewController.delegate = self
         settingsViewController.giniConfiguration = giniConfiguration
         settingsViewController.modalPresentationStyle = .overFullScreen
@@ -109,7 +114,10 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
-        let alertViewController = UIAlertController(title: "Importierte Datei", message: "Möchten Sie die importierte Datei mit dem ScreenAPI oder ComponentAPI verwenden?", preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: "Importierte Datei",
+                                                    message: "Möchten Sie die importierte Datei mit dem " +
+                                                             "ScreenAPI oder ComponentAPI verwenden?",
+                                                    preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
             self?.showScreenAPI(withImportedDocument: document)
         })        
@@ -121,7 +129,9 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showExternalDocumentNotValidDialog() {
-        let alertViewController = UIAlertController(title: "Ungültiges Dokument", message: "Dies ist kein gültiges Dokument", preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: "Ungültiges Dokument",
+                                                    message: "Dies ist kein gültiges Dokument",
+                                                    preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         })
@@ -156,7 +166,8 @@ extension AppCoordinator: SelectAPIViewControllerDelegate {
 }
 
 extension AppCoordinator: SettingsViewControllerDelegate {
-    func settings(settingViewController: SettingsViewController, didChangeConfiguration configuration: GiniConfiguration) {
+    func settings(settingViewController: SettingsViewController,
+                  didChangeConfiguration configuration: GiniConfiguration) {
         giniConfiguration = configuration
     }
 }

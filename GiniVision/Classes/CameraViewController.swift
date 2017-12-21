@@ -68,6 +68,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
  
  - note: Component API only.
  */
+//swiftlint:disable file_length
 
 @objc public final class CameraViewController: UIViewController {
     
@@ -239,7 +240,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
             if ToolTipView.shouldShowFileImportToolTip {
-                createFileImportTip()
+                createFileImportTip(giniConfiguration: GiniConfiguration.sharedConfiguration)
                 if !OnboardingContainerViewController.willBeShown {
                     showFileImportTip()
                 }
@@ -564,7 +565,7 @@ extension CameraViewController {
         view.addInteraction(dropInteraction)
     }
     
-    fileprivate func createFileImportTip() {
+    fileprivate func createFileImportTip(giniConfiguration: GiniConfiguration) {
         blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
@@ -572,10 +573,10 @@ extension CameraViewController {
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "tooltip text indicating new file import feature"),
-                                  textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                                  font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
-                                  backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
-                                  closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
+                                  textColor: giniConfiguration.fileImportToolTipTextColor,
+                                  font: giniConfiguration.font.regular.withSize(14),
+                                  backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor,
+                                  closeButtonColor: giniConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton,
                                   superView: self.view,
                                   position: UIDevice.current.isIpad ? .left : .above)

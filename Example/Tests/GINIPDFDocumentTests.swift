@@ -27,7 +27,9 @@ class GINIPDFDocumentTests: XCTestCase {
     func testPDFNonRotated() {
         let imageSize = pdfNonRotated.previewImage!.size
         
-        XCTAssert(imageSize.height > imageSize.width, "Height must be greater than width since image has not rotationAngle and the pdf is in portrait orientation by default")
+        XCTAssert(imageSize.height > imageSize.width,
+                  "Height must be greater than width since image has not rotationAngle " +
+                  "and the pdf is in portrait orientation by default")
     }
     
     func testPDFRotated90() {
@@ -35,7 +37,9 @@ class GINIPDFDocumentTests: XCTestCase {
         
         let imageSize = pdfDocument.previewImage!.size
         
-        XCTAssert(imageSize.height < imageSize.width, "Height must be less than width since image has a rotationAngle of 90 degrees and the pdf is in portrait orientation by default")
+        XCTAssert(imageSize.height < imageSize.width,
+                  "Height must be less than width since image has a rotationAngle of 90 " +
+                  "degrees and the pdf is in portrait orientation by default")
     }
     
     func testPDFRotated180() {
@@ -43,7 +47,9 @@ class GINIPDFDocumentTests: XCTestCase {
         
         let imageSize = pdfDocument.previewImage!.size
         
-        XCTAssert(imageSize.height > imageSize.width, "Height must be greater than width since image has a rotationAngle of 180 degrees and the pdf is in portrait orientation by default")
+        XCTAssert(imageSize.height > imageSize.width,
+                  "Height must be greater than width since image has a rotationAngle of 180 " +
+                  "degrees and the pdf is in portrait orientation by default")
     }
     
     func testPDFRotated270() {
@@ -51,7 +57,9 @@ class GINIPDFDocumentTests: XCTestCase {
         
         let imageSize = pdfDocument.previewImage!.size
         
-        XCTAssert(imageSize.height < imageSize.width, "Height must be less than width since image has a rotationAngle of 270 degrees and the pdf is in portrait orientation by default")
+        XCTAssert(imageSize.height < imageSize.width,
+                  "Height must be less than width since image has a rotationAngle of 270 degrees " +
+                  "and the pdf is in portrait orientation by default")
     }
     
 }

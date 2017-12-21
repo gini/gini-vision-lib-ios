@@ -10,13 +10,16 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIReviewViewControllerDelegate:class {
-    func componentAPIReview(viewController: ComponentAPIReviewViewController, didReviewDocument document:GiniVisionDocument)
-    func componentAPIReview(viewController: ComponentAPIReviewViewController, didRotate document:GiniVisionDocument)
+protocol ComponentAPIReviewViewControllerDelegate: class {
+    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+                            didReviewDocument document: GiniVisionDocument)
+    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+                            didRotate document: GiniVisionDocument)
 }
 
 /**
- View controller showing how to implement the review screen using the Component API of the Gini Vision Library for iOS and
+ View controller showing how to implement the review screen using
+ the Component API of the Gini Vision Library for iOS and
  how to process the previously captured image using the Gini SDK for iOS
  */
 final class ComponentAPIReviewViewController: UIViewController {
@@ -35,8 +38,7 @@ final class ComponentAPIReviewViewController: UIViewController {
          *************************************************************************/
         
         // 1. Create the review view controller
-        contentController = ReviewViewController(document, successBlock:
-            { [weak self] document in
+        contentController = ReviewViewController(document, successBlock: { [weak self] document in
                 guard let `self` = self else { return }
                 // Update current image data when image is rotated by user
                 self.document = document

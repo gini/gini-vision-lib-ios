@@ -16,12 +16,17 @@ class GINIScreenAPICoordinatorTests: XCTestCase {
     var screenAPICoordinator: ScreenAPICoordinator?
     
     func testInitialization() {
-        screenAPICoordinator = ScreenAPICoordinator(configuration: GiniConfiguration(), importedDocument: nil, documentService: documentService)
+        screenAPICoordinator = ScreenAPICoordinator(configuration: GiniConfiguration(),
+                                                    importedDocument: nil,
+                                                    documentService: documentService)
         screenAPICoordinator?.start()
         
-        XCTAssertNotNil(screenAPICoordinator?.rootViewController, "the root view controller should never be nil")
-        XCTAssertTrue(screenAPICoordinator?.childCoordinators.count == 0, "there should not be child coordinators on initialization")
-        XCTAssertNotNil(screenAPICoordinator?.screenAPIViewController.delegate as? ScreenAPICoordinator, "screen API view controller delegate should be the coordinator")
+        XCTAssertNotNil(screenAPICoordinator?.rootViewController,
+                        "the root view controller should never be nil")
+        XCTAssertTrue(screenAPICoordinator?.childCoordinators.count == 0,
+                      "there should not be child coordinators on initialization")
+        XCTAssertNotNil(screenAPICoordinator?.screenAPIViewController.delegate as? ScreenAPICoordinator,
+                        "screen API view controller delegate should be the coordinator")
     }
 
 }

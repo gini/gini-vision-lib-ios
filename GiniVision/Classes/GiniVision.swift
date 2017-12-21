@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
  Makes use of callbacks for handling incoming data and to control view controller presentation.
@@ -55,24 +54,28 @@ import UIKit
     @objc optional func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
-     Called when the user cancels capturing on the camera screen. Should be used to dismiss the presented view controller.
+     Called when the user cancels capturing on the camera screen.
+     Should be used to dismiss the presented view controller.
      */
     func didCancelCapturing()
     
     /**
-     Called when the user navigates back from the review screen to the camera potentially to retake an image. Should be used to cancel any ongoing analysis task on the image.
+     Called when the user navigates back from the review screen to the camera potentially to
+     retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
     @objc optional func didCancelReview()
     
     /**
-     Called when the user is presented with the analsis screen. Use the `analysisDelegate` object to inform the user about the current status of the analysis task.
+     Called when the user is presented with the analsis screen. Use the `analysisDelegate`
+     object to inform the user about the current status of the analysis task.
      
      - parameter analysisDelegate: The analsis delegate to send updates to.
      */
     @objc optional func didShowAnalysis(_ analysisDelegate: AnalysisDelegate)
     
     /**
-     Called when the user navigates back from the analysis screen to the review screen. Should be used to cancel any ongoing analysis task on the image.
+     Called when the user navigates back from the analysis screen to the review screen.
+     Should be used to cancel any ongoing analysis task on the image.
      */
     @objc optional func didCancelAnalysis()
     
@@ -83,11 +86,18 @@ import UIKit
  
  The Gini Vision Library provides views for capturing, reviewing and analysing documents.
  
- By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
+ By integrating this library in your application you can allow your users to easily take a picture of
+ a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
  
- The Gini Vision Library can be integrated in two ways, either by using the **Screen API** or the **Component API**. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.
+ The Gini Vision Library can be integrated in two ways, either by using the **Screen API** or
+ the **Component API**. The Screen API provides a fully pre-configured navigation controller for
+ easy integration, while the Component API provides single view controllers for advanced
+ integration with more freedom for customization.
  
- - important: When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the `CameraViewController` as an entry point with the `OnboardingViewController` presented on top of it. After capturing let the user review the document with the `ReviewViewController` and finally present the `AnalysisViewController` while the user waits for the analysis results.
+ - important: When using the Component API we advise you to use a similar flow as suggested in the
+ Screen API. Use the `CameraViewController` as an entry point with the `OnboardingViewController` presented on
+ top of it. After capturing let the user review the document with the `ReviewViewController` and finally present
+ the `AnalysisViewController` while the user waits for the analysis results.
  */
 @objc public final class GiniVision: NSObject {
     
@@ -101,38 +111,47 @@ import UIKit
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        GiniConfiguration.sharedConfiguration = configuration // TODO: Make a copy to avoid changes during usage
+        GiniConfiguration.sharedConfiguration = configuration
     }
     
     /**
-     Returns a navigation view controller with the camera screen loaded and ready to go. It's the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles all screens and transitions out of the box.
+     Returns a navigation view controller with the camera screen loaded and ready to go. It's the
+     easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
+     all screens and transitions out of the box.
      
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController.
+     It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
-        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate, giniConfiguration: GiniConfiguration.sharedConfiguration)
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                     importedDocument: GiniVisionDocument? = nil) -> UIViewController {
+        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
+                                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
         return screenCoordinator.start(withDocument: importedDocument)
     }
     
     /**
-     Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
+     Returns a navigation view controller with the camera screen loaded and ready to go.
+     Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
      
      - note: Screen API only.
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
-     - parameter importedDocument:  A document which comes from a source different than CameraViewController. It should be validated before calling this method.
+     - parameter importedDocument:  A document which comes from a source different than CameraViewController.
+     It should be validated before calling this method.
      
      - returns: A presentable navigation view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate, withConfiguration configuration: GiniConfiguration, importedDocument:GiniVisionDocument? = nil) -> UIViewController {
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                     withConfiguration configuration: GiniConfiguration,
+                                     importedDocument: GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
-        return viewController(withDelegate: delegate, importedDocument:importedDocument)
+        return viewController(withDelegate: delegate, importedDocument: importedDocument)
     }
     
     /**
