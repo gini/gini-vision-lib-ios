@@ -13,17 +13,16 @@ final class OpenWithTutorialCollectionFlowLayout: UICollectionViewFlowLayout {
         if let attrs = super.layoutAttributesForElements(in: rect) {
             var baseline: CGFloat = -2
             var sameLineElements = [UICollectionViewLayoutAttributes]()
-            for element in attrs {
-                if element.representedElementCategory == .cell {
+            for element in attrs where element.representedElementCategory == .cell {
                     let frame = element.frame
                     let centerY = frame.midY
                     if abs(centerY - baseline) > 1 {
                         baseline = centerY
-                        OpenWithTutorialCollectionFlowLayout.alignToTopForSameLineElements(sameLineElements: sameLineElements)
+                        OpenWithTutorialCollectionFlowLayout
+                            .alignToTopForSameLineElements(sameLineElements: sameLineElements)
                         sameLineElements.removeAll()
                     }
                     sameLineElements.append(element)
-                }
             }
             OpenWithTutorialCollectionFlowLayout.alignToTopForSameLineElements(sameLineElements: sameLineElements)
             return attrs
@@ -36,9 +35,9 @@ final class OpenWithTutorialCollectionFlowLayout: UICollectionViewFlowLayout {
             return
         }
         
-        let sorted = sameLineElements.sorted { (obj1: UICollectionViewLayoutAttributes, obj2: UICollectionViewLayoutAttributes) -> Bool in
-            let height1 = obj1.frame.size.height
-            let height2 = obj2.frame.size.height
+        let sorted = sameLineElements.sorted {
+            let height1 = $0.frame.size.height
+            let height2 = $1.frame.size.height
             let delta = height1 - height2
             return delta <= 0
         }

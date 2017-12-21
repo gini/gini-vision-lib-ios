@@ -17,7 +17,7 @@ internal class GiniBarButtonItem: UIBarButtonItem {
         self.action = action
         
         // Prioritize image over title
-        if let _ = image {
+        if image != nil {
             self.image = image
         } else {
             self.title = title
@@ -27,9 +27,10 @@ internal class GiniBarButtonItem: UIBarButtonItem {
         self.accessibilityLabel = title
         
         var attributes = titleTextAttributes(for: .normal) ?? [String : AnyObject]()
-        attributes[NSFontAttributeName] = Optional(GiniConfiguration.sharedConfiguration.customFont) == nil ?
+        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
             GiniConfiguration.sharedConfiguration.customFont.regular.withSize(16) :
             GiniConfiguration.sharedConfiguration.navigationBarItemFont
+        
         setTitleTextAttributes(attributes, for: .normal)
     }
     

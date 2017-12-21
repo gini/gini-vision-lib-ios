@@ -11,7 +11,7 @@ import UIKit
 /**
  Block that will be executed when the onboarding was dismissed.
  */
-internal typealias OnboardingContainerCompletionBlock = () -> ()
+internal typealias OnboardingContainerCompletionBlock = () -> Void
 
 /**
  Container class for `OnboardingViewController`.
@@ -31,34 +31,40 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     fileprivate let backgroundAlpha: CGFloat = 0.85
     
     // Resources
-    fileprivate let continueButtonResources = PreferredButtonResource(image: "navigationOnboardingContinue", title: "ginivision.navigationbar.onboarding.continue", comment: "Button title in the navigation bar for the continue button on the onboarding screen", configEntry: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton)
+    fileprivate let continueButtonResources =
+        PreferredButtonResource(image: "navigationOnboardingContinue",
+                                title: "ginivision.navigationbar.onboarding.continue",
+                                comment: "Button title in the navigation bar for the " +
+                                         "continue button on the onboarding screen",
+                                configEntry: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton)
     
     // Output
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?
     
-    init(withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+         withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
         completionBlock = completion
         
         // Configure content controller
-        var pages = GiniConfiguration.sharedConfiguration.onboardingPages
+        var pages = giniConfiguration.onboardingPages
         pages.append(UIView()) // Add an empty last page to transition nicely back to camera
         contentController = OnboardingViewController(pages: pages,
                                                      scrollViewDelegate: self)
         
         // Configure title
-        title = GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitle
+        title = giniConfiguration.navigationBarOnboardingTitle
         
         // Configure colors
-        view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
+        view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
         // Configure page control
         pageControl.currentPage = 0
         pageControl.numberOfPages = pages.count
-        pageControl.currentPageIndicatorTintColor = GiniConfiguration.sharedConfiguration.onboardingCurrentPageIndicatorColor
-        pageControl.pageIndicatorTintColor = GiniConfiguration.sharedConfiguration.onboardingPageIndicatorColor
+        pageControl.currentPageIndicatorTintColor = giniConfiguration.onboardingCurrentPageIndicatorColor
+        pageControl.pageIndicatorTintColor = giniConfiguration.onboardingPageIndicatorColor
         
         // Configure continue button
         continueButton = GiniBarButtonItem(
@@ -120,24 +126,34 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview, attr: .bottom, priority: 750)
-        Contraints.active(item: containerView, attr: .width, relatedBy: .equal, to: superview, attr: .width, priority: 750)
-        Contraints.active(item: containerView, attr: .width, relatedBy: .lessThanOrEqual, to: superview, attr: .width, priority: 999)
+        Contraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview,
+                          attr: .bottom, priority: 750)
+        Contraints.active(item: containerView, attr: .width, relatedBy: .equal, to: superview, attr: .width,
+                          priority: 750)
+        Contraints.active(item: containerView, attr: .width, relatedBy: .lessThanOrEqual, to: superview,
+                          attr: .width, priority: 999)
         Contraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
         
         // Page control container view
         pageControlContainerView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView, attr: .bottom, priority: 750)
-        Contraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Contraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Contraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-        Contraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual, to: pageControl, attr: .height, multiplier: 1.1)
+        Contraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView,
+                          attr: .bottom, priority: 750)
+        Contraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview,
+                          attr: .trailing)
+        Contraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview,
+                          attr: .bottom)
+        Contraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview,
+                          attr: .leading)
+        Contraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual,
+                          to: pageControl, attr: .height, multiplier: 1.1)
         
         // Page control
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: pageControl, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 55)
-        Contraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView, attr: .centerX)
-        Contraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView, attr: .centerY)
+        Contraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView,
+                          attr: .centerX)
+        Contraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView,
+                          attr: .centerY)
     }
 }
 
@@ -168,9 +184,11 @@ extension OnboardingContainerViewController: UIScrollViewDelegate {
         // Update background alpha
         var alpha = backgroundAlpha
         if contentOffsetX > 0 {
-            alpha = min(backgroundAlpha, 1 - fabs(frameOffsetX/fixedFrame.width)) // Lighten the background when overflowing to the right
+            // Lighten the background when overflowing to the right
+            alpha = min(backgroundAlpha, 1 - fabs(frameOffsetX/fixedFrame.width))
         } else {
-            alpha = max(backgroundAlpha, fabs((contentOffsetX*0.3)/fixedFrame.width) + backgroundAlpha) // Darken the background when overflowing to the left
+            // Darken the background when overflowing to the left
+            alpha = max(backgroundAlpha, fabs((contentOffsetX*0.3)/fixedFrame.width) + backgroundAlpha)
         }
         view.backgroundColor = view.backgroundColor?.withAlphaComponent(alpha)
     }
@@ -198,5 +216,3 @@ extension OnboardingContainerViewController {
             GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch
     }
 }
-
-

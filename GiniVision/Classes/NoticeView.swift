@@ -9,11 +9,12 @@
 import UIKit
 
 /**
- Block that will be executed when a notice is tapped. Can be used to restart a process or to give the user further guidance.
+ Block that will be executed when a notice is tapped. Can be used to restart a
+ process or to give the user further guidance.
  
  - note: Screen API only.
  */
-public typealias NoticeAction = () -> ()
+public typealias NoticeAction = () -> Void
 
 internal enum NoticeType {
     case information, error
@@ -100,11 +101,11 @@ internal class NoticeView: UIView {
         }
     }
     
-    func hide(_ animated: Bool = true, completion: (() -> ())?) {
+    func hide(_ animated: Bool = true, completion: (() -> Void)?) {
         if animated {
             UIView.animate(withDuration: 0.5, animations: {
                 self.alpha = 0.0
-            }, completion: { (success: Bool) in
+            }, completion: { _ in
                 completion?()
                 self.removeFromSuperview()
             }) 
@@ -137,7 +138,8 @@ internal class NoticeView: UIView {
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top)
-        Contraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -20, priority: 999)
+        Contraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+                          constant: -20, priority: 999)
         Contraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
         Contraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
     }

@@ -9,6 +9,6 @@ import Foundation
 
 internal extension Bundle {
     var appName: String {
-        return self.object(forInfoDictionaryKey: "CFBundleDisplayName") as! String
+        return self.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? ""
     }
 }

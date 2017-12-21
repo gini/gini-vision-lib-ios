@@ -33,7 +33,7 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  */
 internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
-    let format:String
+    let format: String
     
     if clientString != key {
         format = clientString
@@ -160,6 +160,3 @@ internal struct Colors {
         )
     }
 }
-
-
-

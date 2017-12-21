@@ -12,26 +12,26 @@ import AVFoundation
 internal class CameraPreviewView: UIView {
     
     let frameColor = UIColor(white: 0.0, alpha: 0.7)
-    let guideLineLength:CGFloat = 50.0
-    let guideLineWidth:CGFloat = 2.0
+    let guideLineLength: CGFloat = 50.0
+    let guideLineWidth: CGFloat = 2.0
     /// the size of the guides compared to the size of the whole view
     /// 0.9 = 90% of the view
-    let guideLineSize:CGFloat = 0.9
+    let guideLineSize: CGFloat = 0.9
     var guideColor = UIColor.white
     
-    var guidesLayer:CAShapeLayer? = nil
-    var frameLayer:CAShapeLayer? = nil
+    var guidesLayer: CAShapeLayer?
+    var frameLayer: CAShapeLayer?
     
-    override class var layerClass : AnyClass {
+    override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.classForCoder()
     }
     
     var session: AVCaptureSession {
         get {
-            return (self.layer as! AVCaptureVideoPreviewLayer).session
+            return (self.layer as? AVCaptureVideoPreviewLayer)!.session
         }
         set(newSession) {
-            (self.layer as! AVCaptureVideoPreviewLayer).session = newSession
+            (self.layer as? AVCaptureVideoPreviewLayer)!.session = newSession
         }
     }
     
@@ -45,7 +45,7 @@ internal class CameraPreviewView: UIView {
 
 extension CameraPreviewView {
     
-    func drawGuides(withColor color:UIColor) {
+    func drawGuides(withColor color: UIColor) {
         guideColor = color
         createGuides()
         createGrayFrame()
@@ -74,7 +74,7 @@ extension CameraPreviewView {
         // ratio of a standard A4 piece of paper
         guides.frame = biggestA4SizeRect()
         guides.position = center
-        guides.path = guidePath(size:guides.frame.size)
+        guides.path = guidePath(size: guides.frame.size)
     }
     
     fileprivate func positionFrame() {
@@ -98,18 +98,19 @@ extension CameraPreviewView {
     }
     
     fileprivate func biggestA4SizeRect() -> CGRect {
-        let a4Ratio:CGFloat = 21.0 / 31.0
+        let a4Ratio: CGFloat = 21.0 / 31.0
         let wholeFrame = bounds
         let maxWidth = wholeFrame.width * guideLineSize
         let maxHeight = wholeFrame.height * guideLineSize
 
-        if (maxHeight > maxWidth || UIApplication.shared.statusBarOrientation.isPortrait) && maxWidth > maxHeight * a4Ratio {
+        if (maxHeight > maxWidth || UIApplication.shared.statusBarOrientation.isPortrait) &&
+            maxWidth > maxHeight * a4Ratio {
             return CGRect(x: 0, y: 0, width: maxHeight * a4Ratio, height: maxHeight)
-        }
-        else {
-            let height:CGFloat
-            if maxWidth > maxHeight * a4Ratio  {
-                // This only happens when the app is on landscape mode and it fills all the window (no SplitMode on iPads).
+        } else {
+            let height: CGFloat
+            if maxWidth > maxHeight * a4Ratio {
+                // This only happens when the app is on landscape mode and
+                // it fills all the window (no SplitMode on iPads).
                 // In this case the a4 would be landscape (31.0 / 21.0)
                 height = maxWidth * a4Ratio
             } else {
@@ -119,7 +120,7 @@ extension CameraPreviewView {
         }
     }
     
-    fileprivate func guidePath(size:CGSize) -> CGPath {
+    fileprivate func guidePath(size: CGSize) -> CGPath {
         let guidePath = UIBezierPath()
         
         guidePath.move(to: CGPoint(x: 0.0, y: guideLineLength))
@@ -140,7 +141,7 @@ extension CameraPreviewView {
         return guidePath.cgPath
     }
     
-    fileprivate func styleLayer(_ layer:CAShapeLayer) {
+    fileprivate func styleLayer(_ layer: CAShapeLayer) {
         layer.strokeColor = guideColor.cgColor
         layer.fillColor = UIColor.clear.cgColor
         layer.lineWidth = guideLineWidth

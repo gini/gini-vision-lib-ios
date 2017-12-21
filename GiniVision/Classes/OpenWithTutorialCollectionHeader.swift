@@ -56,16 +56,21 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
         Contraints.active(item: headerContainer, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
         Contraints.active(item: headerContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
         
-        Contraints.active(item: headerTitle, attr: .top, relatedBy: .equal, to: headerContainer, attr: .top, constant: padding.top)
-        Contraints.active(item: headerTitle, attr: .leading, relatedBy: .equal, to: headerContainer, attr: .leading, constant: padding.left)
-        Contraints.active(item: headerTitle, attr: .trailing, relatedBy: .equal, to: headerContainer, attr: .trailing, constant: -padding.right)
-        Contraints.active(item: headerTitle, attr: .bottom, relatedBy: .equal, to: headerContainer, attr: .bottom, constant: -padding.bottom)
+        Contraints.active(item: headerTitle, attr: .top, relatedBy: .equal, to: headerContainer, attr: .top,
+                          constant: padding.top)
+        Contraints.active(item: headerTitle, attr: .leading, relatedBy: .equal, to: headerContainer, attr: .leading,
+                          constant: padding.left)
+        Contraints.active(item: headerTitle, attr: .trailing, relatedBy: .equal, to: headerContainer, attr: .trailing,
+                          constant: -padding.right)
+        Contraints.active(item: headerTitle, attr: .bottom, relatedBy: .equal, to: headerContainer, attr: .bottom,
+                          constant: -padding.bottom)
         
         Contraints.active(item: bottomLine, attr: .top, relatedBy: .equal, to: headerContainer, attr: .bottom)
         Contraints.active(item: bottomLine, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
         Contraints.active(item: bottomLine, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
         Contraints.active(item: bottomLine, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
-        Contraints.active(item: bottomLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 1)
+        Contraints.active(item: bottomLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 1)
     }
 }
 

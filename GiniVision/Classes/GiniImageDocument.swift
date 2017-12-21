@@ -11,29 +11,39 @@ import MobileCoreServices
 
 final public class GiniImageDocument: NSObject, GiniVisionDocument {
     
-    static let acceptedImageTypes:[String] = [kUTTypeJPEG as String, kUTTypePNG as String, kUTTypeGIF as String, kUTTypeTIFF as String]
+    static let acceptedImageTypes: [String] = [kUTTypeJPEG as String,
+                                               kUTTypePNG as String,
+                                               kUTTypeGIF as String,
+                                               kUTTypeTIFF as String]
     
     public var type: GiniVisionDocumentType = .image
-    public var data:Data
+    public var data: Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
     
-    fileprivate let metaInformationManager:ImageMetaInformationManager
+    fileprivate let metaInformationManager: ImageMetaInformationManager
     
     /**
      Initializes a GiniImageDocument.
      
      - Parameter data: PDF data
-     - Parameter deviceOrientation: Device orientation when a picture was taken from the camera. In other cases it should be `nil`
+     - Parameter deviceOrientation: Device orientation when a picture was taken from the camera.
+                                    In other cases it should be `nil`
      
      */
     
-    init(data: Data, imageSource:DocumentSource, imageImportMethod:DocumentImportMethod? = nil, deviceOrientation:UIInterfaceOrientation? = nil) {
+    init(data: Data,
+         imageSource: DocumentSource,
+         imageImportMethod: DocumentImportMethod? = nil,
+         deviceOrientation: UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
         self.isReviewable = true
         self.isImported = imageSource != DocumentSource.camera
-        self.metaInformationManager = ImageMetaInformationManager(imageData: data, deviceOrientation:deviceOrientation, imageSource:imageSource, imageImportMethod:imageImportMethod)
+        self.metaInformationManager = ImageMetaInformationManager(imageData: data,
+                                                                  deviceOrientation: deviceOrientation,
+                                                                  imageSource: imageSource,
+                                                                  imageImportMethod: imageImportMethod)
         
         if let dataWithMetadata = metaInformationManager.imageByAddingMetadata() {
             self.data = dataWithMetadata
@@ -59,7 +69,8 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         }
     }
     
-    func rotateImage(degrees:Int, imageOrientation:UIImageOrientation) {
+    func rotateImage(degrees: Int,
+                     imageOrientation: UIImageOrientation) {
         metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
         guard let data = metaInformationManager.imageByAddingMetadata() else { return }
         self.data = data
@@ -69,14 +80,14 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
 
 // MARK: NSItemProviderReading
 
-extension GiniImageDocument:NSItemProviderReading {
+extension GiniImageDocument: NSItemProviderReading {
     
     static public var readableTypeIdentifiersForItemProvider: [String] {
         return acceptedImageTypes
     }
     
     static public func object(withItemProviderData data: Data, typeIdentifier: String) throws -> Self {
-        return self.init(data:data, imageSource: .external, imageImportMethod: .picker)
+        return self.init(data: data, imageSource: .external, imageImportMethod: .picker)
     }
     
 }

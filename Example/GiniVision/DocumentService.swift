@@ -18,7 +18,7 @@ let GINIAnalysisManagerErrorUserInfoKey             = "GINIAnalysisManagerErrorU
 let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocumentUserInfoKey"
 
 typealias GINIResult = [String: GINIExtraction]
-typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> ())
+typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> Void)
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
  */
