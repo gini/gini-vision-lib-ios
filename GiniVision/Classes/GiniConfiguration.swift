@@ -22,6 +22,7 @@ import UIKit
               (e.g. `navigationBarCameraTitleCloseButton`) the image will always be preferred,
               while making sure the accessibility label is set.
  */
+// swiftlint:disable file_length
 @objc public final class GiniConfiguration: NSObject {
     
     /**

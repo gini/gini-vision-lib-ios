@@ -78,12 +78,14 @@ final class CaptureSuggestionsView: UIView {
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
         
         addConstraints()
+        layoutIfNeeded()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("You should use init() initializer")
     }
     
+    //swiftlint:disable function_body_length
     fileprivate func addConstraints() {
         guard let superview = superview else { return }
         
@@ -144,8 +146,6 @@ final class CaptureSuggestionsView: UIView {
             Contraints.active(item: suggestionContainer, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                               constant: -20, priority: 999)
         }
-
-        layoutIfNeeded()
     }
 }
 

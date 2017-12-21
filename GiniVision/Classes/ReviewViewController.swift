@@ -74,22 +74,29 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     // User interface
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(doubleTapGesture)
+
         return scrollView
     }()
     fileprivate var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
         return imageView
     }()
     fileprivate var topView: UIView = {
-       return NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
+        let topView = NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
+        topView.translatesAutoresizingMaskIntoConstraints = false
+       return topView
     }()
     fileprivate var bottomView: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = GiniConfiguration.sharedConfiguration
             .reviewBottomViewBackgroundColor
             .withAlphaComponent(0.8)
@@ -97,12 +104,15 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     }()
     fileprivate lazy var rotateButton: UIButton = {
         let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
         button.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
+
         return button
     }()
     fileprivate var bottomLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
         label.numberOfLines = 0
         label.textColor = GiniConfiguration.sharedConfiguration.reviewTextBottomColor
@@ -199,6 +209,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         bottomView.addSubview(bottomLabel)
         
         addConstraints()
+        view.layoutIfNeeded()
     }
     
     /**
@@ -287,17 +298,13 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     // MARK: Constraints
     fileprivate func addConstraints() {
-        let superview = view
-        
         // Scroll view
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: view, attr: .top)
+        Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: view, attr: .bottom)
+        Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // Image view
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageViewTopConstraint = NSLayoutConstraint(item: imageView, attribute: .top, relatedBy: .equal,
                                                     toItem: scrollView, attribute: .top, multiplier: 1, constant: 0)
         imageViewTrailingConstraint = NSLayoutConstraint(item: imageView, attribute: .trailing, relatedBy: .equal,
@@ -315,24 +322,20 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Contraints.active(constraint: imageViewLeadingConstraint)
         
         // Top view
-        topView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: topView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: topView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Contraints.active(item: topView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: topView, attr: .top, relatedBy: .equal, to: view, attr: .top)
+        Contraints.active(item: topView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: topView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: topView, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
         
         // Bottom view
-        bottomView.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: bottomView, attr: .top, relatedBy: .equal, to: scrollView, attr: .bottom, priority: 750)
-        Contraints.active(item: bottomView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Contraints.active(item: bottomView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top
-            )
-        Contraints.active(item: bottomView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: bottomView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: bottomView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top)
+        Contraints.active(item: bottomView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomView, attr: .height, relatedBy: .greaterThanOrEqual, to: rotateButton,
                           attr: .height)
         
         // Rotate button
-        rotateButton.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: rotateButton, attr: .leading, relatedBy: .equal, to: bottomView, attr: .leading,
                           constant: 15)
         Contraints.active(item: rotateButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 33)
@@ -340,15 +343,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Contraints.active(item: rotateButton, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
         
         // Bottom label
-        bottomLabel.translatesAutoresizingMaskIntoConstraints = false
         Contraints.active(item: bottomLabel, attr: .trailing, relatedBy: .equal, to: bottomView, attr: .trailing,
                           constant: -20)
         Contraints.active(item: bottomLabel, attr: .leading, relatedBy: .equal, to: rotateButton, attr: .trailing,
                           constant: 30, priority: 999)
         Contraints.active(item: bottomLabel, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
         Contraints.active(item: bottomLabel, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
-        
-        view.layoutIfNeeded()
     }
     
 }

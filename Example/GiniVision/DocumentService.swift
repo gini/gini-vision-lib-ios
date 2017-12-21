@@ -18,6 +18,7 @@ let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocume
 
 typealias GINIResult = [String: GINIExtraction]
 typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> Void)
+
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
  */
@@ -98,6 +99,7 @@ final class DocumentService {
      - parameter cancelationToken: The cancelation token.
      - parameter completion:       The completion block handling the result.
      */
+    // swiftlint:disable function_body_length
     func analyzeDocument(withData data: Data,
                          cancelationToken token: CancelationToken,
                          completion: DocumentAnalysisCompletion?) {

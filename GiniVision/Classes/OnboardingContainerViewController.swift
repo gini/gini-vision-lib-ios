@@ -30,14 +30,6 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
     fileprivate var continueButton           = UIBarButtonItem()
     fileprivate let backgroundAlpha: CGFloat = 0.85
     
-    // Resources
-    fileprivate let continueButtonResources =
-        PreferredButtonResource(image: "navigationOnboardingContinue",
-                                title: "ginivision.navigationbar.onboarding.continue",
-                                comment: "Button title in the navigation bar for the " +
-                                         "continue button on the onboarding screen",
-                                configEntry: GiniConfiguration.sharedConfiguration.navigationBarOnboardingTitleContinueButton)
-    
     // Output
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?
     
@@ -67,6 +59,12 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         pageControl.pageIndicatorTintColor = giniConfiguration.onboardingPageIndicatorColor
         
         // Configure continue button
+        let continueButtonResources =
+            PreferredButtonResource(image: "navigationOnboardingContinue",
+                                    title: "ginivision.navigationbar.onboarding.continue",
+                                    comment: "Button title in the navigation bar for the " +
+                                             "continue button on the onboarding screen",
+                                    configEntry: giniConfiguration.navigationBarOnboardingTitleContinueButton)
         continueButton = GiniBarButtonItem(
             image: continueButtonResources.preferredImage,
             title: continueButtonResources.preferredText,
