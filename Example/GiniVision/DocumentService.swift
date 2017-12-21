@@ -72,6 +72,8 @@ final class DocumentService {
         let customClientSecret = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientSecretKey) ?? ""
         let clientId = customClientId != "" ? customClientId : kGiniClientId
         let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
+        let test1 = ProcessInfo.processInfo.environment["client_id"]
+        let test2 = ProcessInfo.processInfo.environment["client_password"]
         
         // Set up GiniSDK with your credentials.
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
