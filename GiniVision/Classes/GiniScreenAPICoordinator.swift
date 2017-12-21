@@ -9,7 +9,7 @@
 import Foundation
 
 internal final class GiniScreenAPICoordinator: NSObject {
-
+    
     fileprivate lazy var screenAPINavigationController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.delegate = self
@@ -18,17 +18,18 @@ internal final class GiniScreenAPICoordinator: NSObject {
     }()
     
     // Screens
-    fileprivate var cameraViewController: CameraViewController?
-    fileprivate var reviewViewController: ReviewViewController?
     fileprivate var analysisViewController: AnalysisViewController?
+    fileprivate var cameraViewController: CameraViewController?
     fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
+    fileprivate var reviewViewController: ReviewViewController?
     
     // Properties
-    fileprivate weak var visionDelegate: GiniVisionDelegate?
-    fileprivate var giniConfiguration: GiniConfiguration
-    fileprivate var visionDocument: GiniVisionDocument?
-    fileprivate var noticeView: NoticeView?
     fileprivate var changesOnReview: Bool = false
+    fileprivate var giniConfiguration: GiniConfiguration
+    fileprivate var noticeView: NoticeView?
+    fileprivate weak var visionDelegate: GiniVisionDelegate?
+    fileprivate var visionDocument: GiniVisionDocument?
+    
     fileprivate enum NavBarItemPosition {
         case left, right
     }
@@ -50,20 +51,18 @@ internal final class GiniScreenAPICoordinator: NSObject {
                                 title: "ginivision.navigationbar.camera.help",
                                 comment: "Button title in the navigation bar for the help button on the camera screen",
                                 configEntry: self.giniConfiguration.navigationBarCameraTitleHelpButton)
-    
-    fileprivate lazy var reviewContinueButtonResources =
-        PreferredButtonResource(image: "navigationReviewContinue",
-                                title: "ginivision.navigationbar.review.continue",
-                                comment: "Button title in the navigation bar for " +
-                                         "the continue button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
-    
     fileprivate lazy var reviewBackButtonResources =
         PreferredButtonResource(image: "navigationReviewBack",
                                 title: "ginivision.navigationbar.review.back",
                                 comment: "Button title in the navigation bar for the back button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
-    
+    fileprivate lazy var reviewContinueButtonResources =
+        PreferredButtonResource(image: "navigationReviewContinue",
+                                title: "ginivision.navigationbar.review.continue",
+                                comment: "Button title in the navigation bar for " +
+            "the continue button on the review screen",
+                                configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
+
     init(withDelegate delegate: GiniVisionDelegate,
          giniConfiguration: GiniConfiguration) {
         self.visionDelegate = delegate
@@ -81,7 +80,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
             }
             
             if document.isReviewable {
-                self.reviewViewController = self.createReviewScreen(withDocument: document)
+                self.reviewViewController = self.createReviewScreen(withDocument: document, isFirstScreen: true)
                 viewController = self.reviewViewController!
             } else {
                 self.analysisViewController = self.createAnalysisScreen(withDocument: document)
@@ -102,7 +101,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
 // MARK: - Private methods
 
 extension GiniScreenAPICoordinator {
-
+    
     fileprivate func setupNavigationItem(usingResources preferredResources: PreferredButtonResource,
                                          selector: Selector,
                                          position: NavBarItemPosition,
@@ -137,11 +136,11 @@ extension GiniScreenAPICoordinator {
         self.visionDelegate?.didCancelCapturing()
     }
     
-    @objc fileprivate func showHelpMenu() {
+    @objc fileprivate func showHelpMenuScreen() {
         self.screenAPINavigationController.pushViewController(HelpMenuViewController(), animated: true)
     }
     
-    @objc fileprivate func goToAnalysis() {
+    @objc fileprivate func showAnalysisScreen() {
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
             didReview(visionDocument!, changesOnReview)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
@@ -187,7 +186,6 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 // MARK: - Camera Screen
 
 internal extension GiniScreenAPICoordinator {
-    
     func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(successBlock: { [weak self ] document in
             guard let `self` = self,
@@ -236,7 +234,7 @@ internal extension GiniScreenAPICoordinator {
                             onViewController: cameraViewController)
         
         setupNavigationItem(usingResources: cameraHelpButtonResources,
-                            selector: #selector(showHelpMenu),
+                            selector: #selector(showHelpMenuScreen),
                             position: .right,
                             onViewController: cameraViewController)
         
@@ -252,59 +250,7 @@ internal extension GiniScreenAPICoordinator {
             fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
         }
     }
-}
-
-// MARK: - Review Screen
-
-internal extension GiniScreenAPICoordinator {
-    fileprivate func createReviewScreen(withDocument document: GiniVisionDocument) -> ReviewViewController {
-        let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
-            guard let `self` = self else { return }
-            self.visionDocument = document
-            self.changesOnReview = true
-            }, failureBlock: { error in
-                print(error)
-        })
-        
-        reviewViewController.title = giniConfiguration.navigationBarReviewTitle
-        reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
-        
-        setupNavigationItem(usingResources: reviewContinueButtonResources,
-                            selector: #selector(goToAnalysis),
-                            position: .right,
-                            onViewController: reviewViewController)
-        
-        setupNavigationItem(usingResources: reviewBackButtonResources,
-                            selector: #selector(back),
-                            position: .left,
-                            onViewController: reviewViewController)
-        
-        return reviewViewController
-    }
-}
-
-// MARK: - Analysis Screen
-
-internal extension GiniScreenAPICoordinator {
-    fileprivate func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
-        let viewController = AnalysisViewController(document)
-        viewController.view.backgroundColor = giniConfiguration.backgroundColor
-        viewController.didShowAnalysis = { [weak self] in
-            guard let `self` = self else { return }
-            self.visionDelegate?.didShowAnalysis?(self)
-            self.analysisViewController?.showAnimation()
-        }
-        setupNavigationItem(usingResources: self.analysisBackButtonResources,
-                            selector: #selector(back),
-                            position: .left,
-                            onViewController: viewController)
-        return viewController
-    }
-}
-
-// MARK: - Onboarding Screen
-
-extension GiniScreenAPICoordinator {
+    
     fileprivate func showOnboardingIfNeeded() {
         if giniConfiguration.onboardingShowAtFirstLaunch &&
             !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
@@ -330,6 +276,55 @@ extension GiniScreenAPICoordinator {
         let navigationController = GiniNavigationViewController(rootViewController: vc)
         navigationController.modalPresentationStyle = .overCurrentContext
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
+    }
+    
+}
+
+// MARK: - Review Screen
+
+internal extension GiniScreenAPICoordinator {
+    fileprivate func createReviewScreen(withDocument document: GiniVisionDocument, isFirstScreen: Bool = false) -> ReviewViewController {
+        let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
+            guard let `self` = self else { return }
+            self.visionDocument = document
+            self.changesOnReview = true
+            }, failureBlock: { error in
+                print(error)
+        })
+        
+        reviewViewController.title = giniConfiguration.navigationBarReviewTitle
+        reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
+        
+        setupNavigationItem(usingResources: reviewContinueButtonResources,
+                            selector: #selector(showAnalysisScreen),
+                            position: .right,
+                            onViewController: reviewViewController)
+        
+        let backResource = isFirstScreen ? cameraCloseButtonResources : reviewBackButtonResources
+        setupNavigationItem(usingResources: backResource,
+                            selector: #selector(back),
+                            position: .left,
+                            onViewController: reviewViewController)
+        
+        return reviewViewController
+    }
+}
+
+// MARK: - Analysis Screen
+
+internal extension GiniScreenAPICoordinator {
+    fileprivate func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
+        let viewController = AnalysisViewController(document)
+        viewController.view.backgroundColor = giniConfiguration.backgroundColor
+        viewController.didShowAnalysis = { [weak self] in
+            guard let `self` = self else { return }
+            self.visionDelegate?.didShowAnalysis?(self)
+        }
+        setupNavigationItem(usingResources: self.analysisBackButtonResources,
+                            selector: #selector(back),
+                            position: .left,
+                            onViewController: viewController)
+        return viewController
     }
 }
 
@@ -400,4 +395,3 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
         }
     }
 }
-
