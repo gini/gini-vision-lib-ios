@@ -58,10 +58,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     func start() {
-        let giniScreenApiViewController = GiniVision.viewController(withDelegate: self,
+        let viewController = GiniVision.viewController(withDelegate: self,
                                                             withConfiguration: visionConfiguration,
                                                             importedDocument: visionDocument)
-        screenAPIViewController = RootNavigationController(rootViewController: giniScreenApiViewController)
+        screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
         screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor
         screenAPIViewController.setNavigationBarHidden(true, animated: false)

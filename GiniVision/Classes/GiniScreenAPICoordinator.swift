@@ -289,8 +289,7 @@ internal extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             self.visionDocument = document
             self.changesOnReview = true
-            }, failureBlock: { error in
-                print(error)
+            }, failureBlock: { _ in
         })
         
         reviewViewController.title = giniConfiguration.navigationBarReviewTitle
