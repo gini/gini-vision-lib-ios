@@ -15,7 +15,7 @@ typealias MetaInformation = NSDictionary
 
 /// The JPEG compression level that will be used if nothing else
 /// is specified in imageData(withCompression:)
-let JPEGDefaultCompression:CGFloat = 0.4
+let JPEGDefaultCompression: CGFloat = 0.4
 
 public enum DocumentImportMethod: String {
     case openWith = "openwith"

@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol NoResultsScreenDelegate:class {
+protocol NoResultsScreenDelegate: class {
     func noResults(viewController: NoResultViewController, didTapRetry:())
 }
 
 final class NoResultViewController: UIViewController {
     
     @IBOutlet var rotateImageView: UIImageView!
-    weak var delegate:NoResultsScreenDelegate?
+    weak var delegate: NoResultsScreenDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()

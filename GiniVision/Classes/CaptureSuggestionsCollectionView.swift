@@ -16,21 +16,24 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
     private let cellHeight: (max: CGFloat, min: CGFloat) = (180.0, 80.0)
     private let rowsInLandscape: CGFloat = 2.0
     private var captureSuggestionsCollectionLayout: UICollectionViewFlowLayout {
-        return collectionViewLayout as! UICollectionViewFlowLayout
+        return (collectionViewLayout as? UICollectionViewFlowLayout)!
     }
     
     public var sectionInset: UIEdgeInsets {
         if UIDevice.current.isIpad {
-            return UIEdgeInsetsMake(0, 20, 20, 20)
+            return UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
         } else {
-            return UIEdgeInsetsMake(20, 0, 20, 0)
+            return UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         }
     }
     
     init() {
         super.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        self.register(CaptureSuggestionsCollectionCell.self, forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier)
-        self.register(CaptureSuggestionsCollectionHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier)
+        self.register(CaptureSuggestionsCollectionCell.self,
+                      forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier)
+        self.register(CaptureSuggestionsCollectionHeader.self,
+                      forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                      withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier)
         
         self.showsVerticalScrollIndicator = false
         self.backgroundColor = .white
@@ -59,8 +62,8 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
             captureSuggestionsCollectionLayout.sectionInset.right)
         
         if isLandscape && UIDevice.current.isIpad {
-            height = height * rowsInLandscape
-            width = width / rowsInLandscape
+            height *= rowsInLandscape
+            width /= rowsInLandscape
         }
         
         if height < cellHeight.min {

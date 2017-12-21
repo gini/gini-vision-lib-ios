@@ -24,25 +24,24 @@ enum ResourceOrigin {
 
 struct PreferredButtonResource {
     
-    let imageName:String?
-    let localizedTextKey:String?
-    let localizedTextComment:String?
-    let localizedConfigEntry:String?
+    let imageName: String?
+    let localizedTextKey: String?
+    let localizedTextComment: String?
+    let localizedConfigEntry: String?
     let appBundle = Bundle.main
     let libBundle = Bundle(for: GiniVision.self)
-    var imageSource:ResourceOrigin {
+    var imageSource: ResourceOrigin {
         if let name = imageName {
             if UIImage(named: name, in: appBundle, compatibleWith: nil) != nil {
                 return .custom
-            }
-            else if UIImage(named: name, in: libBundle, compatibleWith: nil) != nil {
+            } else if UIImage(named: name, in: libBundle, compatibleWith: nil) != nil {
                 return .library
             }
         }
         return.unknown
     }
     
-    var textSource:ResourceOrigin {
+    var textSource: ResourceOrigin {
         if localizedConfigEntry != nil && !localizedConfigEntry!.isEmpty {
             return .custom
         }
@@ -61,21 +60,21 @@ struct PreferredButtonResource {
         return .unknown
     }
 
-    init(image:String?, title:String?, comment:String?, configEntry:String? = nil) {
+    init(image: String?, title: String?, comment: String?, configEntry: String? = nil) {
         imageName = image
         localizedTextKey = title
         localizedTextComment = comment
         localizedConfigEntry = configEntry
     }
 
-    var preferredImage:UIImage? {
+    var preferredImage: UIImage? {
         if !shouldIgnoreImage && imageName != nil {
             return UIImageNamedPreferred(named: imageName!)
         }
         return nil
     }
     
-    var preferredText:String? {
+    var preferredText: String? {
         guard localizedConfigEntry == nil || localizedConfigEntry?.isEmpty == true else {
             return localizedConfigEntry
         }
@@ -88,19 +87,20 @@ struct PreferredButtonResource {
     
     // if a custom text is supplied to the control, but the image is left to the default one
     // (or not set at all), the image property needs to be ignored so that the text is shown instead
-    private var shouldIgnoreImage:Bool {
+    private var shouldIgnoreImage: Bool {
         return (textSource == .custom && imageSource != .custom)
     }
 }
 
-// MARK Navigation items
+// MARK: - Navigation items
+
 internal extension UIViewController {
     
     // Setup the leftNavigationItem property of a UIViewController. It will create an UIBarButtonItem
     // for it and add it to the navigation bar.
     // Note that if the preferred title of the resource is the empty string, the leftNavigationItem
     // will not be set so the default back button is shown
-    func setupLeftNavigationItem(usingResources preferredResources:PreferredButtonResource, selector:Selector) {
+    func setupLeftNavigationItem(usingResources preferredResources: PreferredButtonResource, selector: Selector) {
         let buttonText = preferredResources.preferredText
         if buttonText != nil && !buttonText!.isEmpty {
             let navButton = GiniBarButtonItem(

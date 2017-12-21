@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
  Makes use of callbacks for handling incoming data and to control view controller presentation.

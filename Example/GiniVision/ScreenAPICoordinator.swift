@@ -122,8 +122,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showResultsScreen() {
-        let customResultsScreen = UIStoryboard(name: "Main", bundle: nil)
-            .instantiateViewController(withIdentifier: "resultScreen") as! ResultTableViewController
+        let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = result
         customResultsScreen.document = document
         
@@ -139,8 +139,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
             guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
             let shown = analysisDelegate.tryDisplayNoResultsScreen()
             if !shown {
-                let customNoResultsScreen = UIStoryboard(name: "Main", bundle: nil)
-                    .instantiateViewController(withIdentifier: "noResultScreen") as! NoResultViewController
+                let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
+                    .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController)!
                 customNoResultsScreen.delegate = self
                 self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
                 self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)

@@ -10,10 +10,10 @@ import Foundation
 import MobileCoreServices
 import Photos
 
-internal final class FilePickerManager:NSObject {
+internal final class FilePickerManager: NSObject {
     
-    var didPickFile:((GiniVisionDocument) -> Void) = { _ in }
-    fileprivate var acceptedDocumentTypes:[String] {
+    var didPickFile: ((GiniVisionDocument) -> Void) = { _ in }
+    fileprivate var acceptedDocumentTypes: [String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
             return GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
@@ -26,16 +26,16 @@ internal final class FilePickerManager:NSObject {
     
     // MARK: Picker presentation
     
-    func showGalleryPicker(from:UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
+    func showGalleryPicker(from: UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
-            let imagePicker:UIImagePickerController = UIImagePickerController()
+            let imagePicker: UIImagePickerController = UIImagePickerController()
             imagePicker.sourceType = .photoLibrary
             imagePicker.delegate = self
             from.present(imagePicker, animated: true, completion: nil)
         }
     }
     
-    func showDocumentPicker(from:UIViewController) {
+    func showDocumentPicker(from: UIViewController) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         from.present(documentPicker, animated: true, completion: nil)
@@ -54,7 +54,8 @@ internal final class FilePickerManager:NSObject {
     
     // MARK: Photo library permission
     
-    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void, authorizedHandler: @escaping (() -> Void)) {
+    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void,
+                                                       authorizedHandler: @escaping (() -> Void)) {
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             authorizedHandler()
@@ -77,7 +78,8 @@ internal final class FilePickerManager:NSObject {
 
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage, let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
+            let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
             filePicked(withData: imageData)
         }
         
@@ -100,7 +102,6 @@ extension FilePickerManager: UIDocumentPickerDelegate {
             
             filePicked(withData: data)
         } catch {
-            // TODO Handle error
             url.stopAccessingSecurityScopedResource()
         }
         
@@ -119,7 +120,9 @@ extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
-            return (session.canLoadObjects(ofClass: GiniImageDocument.self) || session.canLoadObjects(ofClass: GiniPDFDocument.self)) && session.items.count == 1
+            return (session.canLoadObjects(ofClass: GiniImageDocument.self) ||
+                session.canLoadObjects(ofClass: GiniPDFDocument.self)) &&
+                session.items.count == 1
         case .pdf:
             return session.canLoadObjects(ofClass: GiniPDFDocument.self) && session.items.count == 1
         case .none:
