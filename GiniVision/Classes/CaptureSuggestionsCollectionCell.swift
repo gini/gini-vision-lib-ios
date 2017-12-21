@@ -46,8 +46,8 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
                           attr: .leading, constant: -20)
         Contraints.active(item: suggestionImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 85)
-        Contraints.active(item: suggestionImage, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
-                          constant: 85)
+        Contraints.active(item: suggestionImage, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
+                          attr: .notAnAttribute, constant: 85)
         Contraints.active(item: suggestionImage, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY)
         
         Contraints.active(item: suggestionText, attr: .top, relatedBy: .equal, to: self, attr: .top)

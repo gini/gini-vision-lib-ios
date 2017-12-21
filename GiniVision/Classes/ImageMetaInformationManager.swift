@@ -291,7 +291,8 @@ internal class ImageMetaInformationManager {
     fileprivate func deviceName() -> String? {
         var systemInfo = utsname()
         uname(&systemInfo)
-        let code = withUnsafeMutablePointer(to: &systemInfo.machine) { ptr in String(cString: UnsafeRawPointer(ptr).assumingMemoryBound(to: CChar.self))
+        let code = withUnsafeMutablePointer(to: &systemInfo.machine) { ptr in String(cString: UnsafeRawPointer(ptr)
+            .assumingMemoryBound(to: CChar.self))
         }
         return code
     }

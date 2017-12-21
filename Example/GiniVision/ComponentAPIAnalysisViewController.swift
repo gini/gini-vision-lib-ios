@@ -10,12 +10,13 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIAnalysisViewControllerDelegate:class {
+protocol ComponentAPIAnalysisViewControllerDelegate: class {
     func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ())
 }
 
 /**
- View controller showing how to implement the analysis screen using the Component API of the Gini Vision Library for iOS and
+ View controller showing how to implement the analysis screen using the
+ Component API of the Gini Vision Library for iOS and
  how to process the previously reviewed image using the Gini SDK for iOS
  */
 final class ComponentAPIAnalysisViewController: UIViewController {

@@ -10,7 +10,7 @@ import UIKit
 import GiniVision
 
 protocol ComponentAPICameraViewControllerDelegate: class {
-    func componentAPICamera(viewController: UIViewController, didPickDocument document:GiniVisionDocument)
+    func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument)
     func componentAPICamera(viewController: UIViewController, didTapClose: ())
 }
 

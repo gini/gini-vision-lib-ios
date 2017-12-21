@@ -23,7 +23,7 @@ internal class GiniNavigationViewController: UINavigationController {
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = GiniConfiguration.sharedConfiguration.navigationBarTintColor
         navigationBar.tintColor = GiniConfiguration.sharedConfiguration.navigationBarItemTintColor
-        var attributes = navigationBar.titleTextAttributes ?? [String : AnyObject]()
+        var attributes = navigationBar.titleTextAttributes ?? [String: AnyObject]()
         attributes[NSForegroundColorAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarTitleColor
         attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
             GiniConfiguration.sharedConfiguration.customFont.light.withSize(16) :
@@ -38,11 +38,11 @@ internal class GiniNavigationViewController: UINavigationController {
 
 internal extension GiniNavigationViewController {
     
-    override var shouldAutorotate : Bool {
+    override var shouldAutorotate: Bool {
         return true
     }
     
-    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return UIDevice.current.isIpad ? .all : .portrait
     }
     

@@ -12,15 +12,15 @@ import XCTest
 @testable import GiniVision
 
 internal extension XCTestCase {
-    func loadImage(withName name:String) -> UIImage? {
+    func loadImage(withName name: String) -> UIImage? {
         let testBundle = Bundle(for: type(of: self))
         return UIImage(named: name, in: testBundle, compatibleWith: nil)
     }
     
-    func loadPDFDocument(withName name:String) -> GiniPDFDocument {
+    func loadPDFDocument(withName name: String) -> GiniPDFDocument {
         let path = Bundle.main.url(forResource: name, withExtension: "pdf")
-        let data = try! Data(contentsOf: path!)
+        let data = try? Data(contentsOf: path!)
         let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
-        return builder.build() as! GiniPDFDocument
+        return (builder.build() as? GiniPDFDocument)!
     }
 }

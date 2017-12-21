@@ -14,12 +14,21 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     var helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
     var items: [(text: String, id: Int)] {
         var items = [
-            (NSLocalizedString("ginivision.helpmenu.firstItem", bundle: Bundle(for: GiniVision.self), comment: "help menu first item text"), 1),
-            (NSLocalizedString("ginivision.helpmenu.thirdItem", bundle: Bundle(for: GiniVision.self), comment: "help menu third item text"), 3)
+            (NSLocalizedString("ginivision.helpmenu.firstItem",
+                               bundle: Bundle(for: GiniVision.self),
+                               comment: "help menu first item text"),
+             1),
+            (NSLocalizedString("ginivision.helpmenu.thirdItem",
+                               bundle: Bundle(for: GiniVision.self),
+                               comment: "help menu third item text"),
+             3)
         ]
         
         if GiniConfiguration.sharedConfiguration.openWithEnabled {
-            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem", bundle: Bundle(for: GiniVision.self), comment: "help menu second item text"), 2), at: 1)
+            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
+                                            bundle: Bundle(for: GiniVision.self),
+                                            comment: "help menu second item text"), 2), 
+                         at: 1)
         }
         
         return items
@@ -69,7 +78,8 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
         
         let cell = helpMenuViewController.tableView(helpMenuViewController.tableView, cellForRowAt: indexPath)
         
-        XCTAssertEqual(itemText, cell.textLabel?.text, "cell text in the first row should be the same as the first item text")
+        XCTAssertEqual(itemText, cell.textLabel?.text,
+                       "cell text in the first row should be the same as the first item text")
         XCTAssertEqual(cellBackgroundColor, cell.backgroundColor, "cell background color should always be white")
         XCTAssertEqual(cellAccesoryType, cell.accessoryType, "cell accesory type should be and a disclosure indicator")
     }

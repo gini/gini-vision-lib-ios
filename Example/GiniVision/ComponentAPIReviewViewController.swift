@@ -10,7 +10,7 @@ import UIKit
 import GiniVision
 import Gini_iOS_SDK
 
-protocol ComponentAPIReviewViewControllerDelegate:class {
+protocol ComponentAPIReviewViewControllerDelegate: class {
     func componentAPIReview(viewController: ComponentAPIReviewViewController,
                             didReviewDocument document: GiniVisionDocument)
     func componentAPIReview(viewController: ComponentAPIReviewViewController,

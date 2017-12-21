@@ -77,7 +77,7 @@ internal final class FilePickerManager: NSObject {
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
             let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
             filePicked(withData: imageData)

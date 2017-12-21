@@ -11,7 +11,7 @@ import UIKit
 
 protocol Coordinator: class {
     
-    var rootViewController: UIViewController  { get }
+    var rootViewController: UIViewController { get }
     var childCoordinators: [Coordinator] { get set }
 }
 
