@@ -19,11 +19,7 @@ DerivedData
 *.hmap
 *.ipa
 .env
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/
-!*.xcworkspace/contents.xcworkspacedata
-/*.gcno
 
 # Bundler
 .bundle
