@@ -169,7 +169,8 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier,
+        let identifier = CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                       for: indexPath) as? CaptureSuggestionsCollectionCell)!
         cell.suggestionText.text = self.captureSuggestions[indexPath.row].text
         cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
@@ -199,9 +200,11 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
     public func collectionView(_ collectionView: UICollectionView,
                                viewForSupplementaryElementOfKind kind: String,
                                at indexPath: IndexPath) -> UICollectionReusableView {
-        let header = (collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
-                                                                     withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier,
-                                                                     for: indexPath) as? CaptureSuggestionsCollectionHeader)!
+        let identifier = CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier
+        let header = (collectionView
+            .dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+                                              withReuseIdentifier: identifier,
+                                              for: indexPath) as? CaptureSuggestionsCollectionHeader)!
         header.subHeaderTitle.text = self.subHeaderTitle
         header.topViewIcon.image = self.topViewIcon
         header.topViewText.text = self.topViewText
