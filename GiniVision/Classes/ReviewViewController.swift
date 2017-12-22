@@ -299,9 +299,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     // MARK: Constraints
     fileprivate func addConstraints() {
         // Scroll view
-        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: view, attr: .top)
+        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: topLayoutGuide, attr: .bottom)
         Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: view, attr: .bottom)
+        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide, attr: .top)
         Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // Image view
@@ -322,7 +322,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Contraints.active(constraint: imageViewLeadingConstraint)
         
         // Top view
-        Contraints.active(item: topView, attr: .top, relatedBy: .equal, to: view, attr: .top)
+        Contraints.active(item: topView, attr: .top, relatedBy: .equal, to: topLayoutGuide, attr: .bottom)
         Contraints.active(item: topView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: topView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: topView, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
@@ -332,8 +332,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Contraints.active(item: bottomView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: bottomView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top)
         Contraints.active(item: bottomView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Contraints.active(item: bottomView, attr: .height, relatedBy: .greaterThanOrEqual, to: rotateButton,
-                          attr: .height)
         
         // Rotate button
         Contraints.active(item: rotateButton, attr: .leading, relatedBy: .equal, to: bottomView, attr: .leading,
@@ -341,7 +339,10 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Contraints.active(item: rotateButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 33)
         Contraints.active(item: rotateButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 33)
         Contraints.active(item: rotateButton, attr: .centerY, relatedBy: .equal, to: bottomView, attr: .centerY)
-        
+        Contraints.active(item: rotateButton, attr: .top, relatedBy: .equal, to: bottomView, attr: .top, constant: 10)
+        Contraints.active(item: rotateButton, attr: .bottom, relatedBy: .equal, to: bottomView, attr: .bottom,
+                          constant: -10)
+
         // Bottom label
         Contraints.active(item: bottomLabel, attr: .trailing, relatedBy: .equal, to: bottomView, attr: .trailing,
                           constant: -20)
