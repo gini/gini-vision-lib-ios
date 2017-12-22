@@ -62,7 +62,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
                                 comment: "Button title in the navigation bar for " +
             "the continue button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
-
+    
     init(withDelegate delegate: GiniVisionDelegate,
          giniConfiguration: GiniConfiguration) {
         self.visionDelegate = delegate
@@ -273,7 +273,8 @@ internal extension GiniScreenAPICoordinator {
             self.cameraViewController?.showFileImportTip()
         }
         
-        let navigationController = GiniNavigationViewController(rootViewController: vc)
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.applyStyle(withConfiguration: giniConfiguration)
         navigationController.modalPresentationStyle = .overCurrentContext
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
     }
@@ -395,3 +396,4 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
         }
     }
 }
+
