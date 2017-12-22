@@ -32,12 +32,26 @@ final class SelectAPIViewController: UIViewController {
     @IBOutlet weak var metaInformationButton: UIButton!
     
     weak var delegate: SelectAPIViewControllerDelegate?
+
+    private lazy var clientID: String? = {
+        var keys: NSDictionary?
+        let clientID = "client_id"
+        
+        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist"),
+            let keys = NSDictionary(contentsOfFile: path),
+            let client_id = keys[clientID] as? String,
+            !client_id.isEmpty {
+            
+            return client_id
+        }
+        return ProcessInfo.processInfo.environment[clientID]
+    }()
     
     // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let clientId = ProcessInfo.processInfo.environment["client_id"] ?? ""
+        let clientId = self.clientID ?? ""
         
         let metaTitle = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(clientId)"
         metaInformationButton.setTitle(metaTitle, for: .normal)

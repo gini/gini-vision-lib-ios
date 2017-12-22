@@ -44,7 +44,7 @@ Pods/
 docs/
 
 # Keys
-*-Keys.xcconfig
+Example/Credentials.plist
 
 # Fastlane
 /fastlane/report.xml
