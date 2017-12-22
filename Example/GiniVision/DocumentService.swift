@@ -63,9 +63,26 @@ final class DocumentService {
         isAnalyzing = false
     }
     
+    let clientID = "client_id"
+    let clientPassword = "client_password"
+    
+    private lazy var credentials: (id: String?, password: String?) = {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
+            let keys = NSDictionary(contentsOfFile: path),
+            let client_id = keys[self.clientID] as? String,
+            let client_password = keys[self.clientPassword] as? String,
+            !client_id.isEmpty, !client_password.isEmpty {
+            
+            return (client_id, client_password)
+        }
+        return (ProcessInfo.processInfo.environment[self.clientID],
+                ProcessInfo.processInfo.environment[self.clientPassword])
+    }()
+    
     init() {
-        let clientId = ProcessInfo.processInfo.environment["client_id"] ?? ""
-        let clientSecret = ProcessInfo.processInfo.environment["client_password"] ?? ""
+        let clientId = credentials.id ?? ""
+        let clientSecret = credentials.password ?? ""
         
         // Set up GiniSDK with your credentials.
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,

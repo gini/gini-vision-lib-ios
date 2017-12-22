@@ -53,6 +53,11 @@ pipeline {
         sh 'rm -rf build'
         sh 'rm Example/Release-keys.xcconfig'
       }
+      post {
+        always {
+          sh 'rm -rf Example/Keys.plist || true'
+        }
+      }
     }
     stage('Pod lint') {
       when {
