@@ -9,7 +9,7 @@ printf '<?xml version="1.0" encoding="UTF-8"?>
 <dict>
 	<key>client_password</key>
 	<string>'$client_password'</string>
-	<key>'client_id'</key>
+	<key>client_id</key>
 	<string>'$client_id'</string>
 </dict>
-</plist>' > Example/Keys.plist
+</plist>' > Example/Credentials.plist

@@ -68,7 +68,7 @@ final class DocumentService {
     
     private lazy var credentials: (id: String?, password: String?) = {
         var keys: NSDictionary?
-        if let path = Bundle.main.path(forResource: "Keys", ofType: "plist"),
+        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist"),
             let keys = NSDictionary(contentsOfFile: path),
             let client_id = keys[self.clientID] as? String,
             let client_password = keys[self.clientPassword] as? String,

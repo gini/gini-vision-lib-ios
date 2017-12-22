@@ -65,7 +65,7 @@ pipeline {
       }
       post {
         always {
-          sh 'rm -rf Example/Keys.plist || true'
+          sh 'rm Example/Credentials.plist || true'
         }
       }
     }
