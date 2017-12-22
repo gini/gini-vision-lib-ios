@@ -63,15 +63,26 @@ final class DocumentService {
         isAnalyzing = false
     }
     
+    let clientID = "client_id"
+    let clientPassword = "client_password"
+    
+    private lazy var credentials: (id: String?, password: String?) = {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist"),
+            let keys = NSDictionary(contentsOfFile: path),
+            let client_id = keys[self.clientID] as? String,
+            let client_password = keys[self.clientPassword] as? String,
+            !client_id.isEmpty, !client_password.isEmpty {
+            
+            return (client_id, client_password)
+        }
+        return (ProcessInfo.processInfo.environment[self.clientID],
+                ProcessInfo.processInfo.environment[self.clientPassword])
+    }()
+    
     init() {
-        // Populate setting with according values
-        populateSettingsPage()
-        
-        // Prefer client credentials from settings before config file
-        let customClientId = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientIdKey) ?? ""
-        let customClientSecret = UserDefaults.standard.string(forKey: kSettingsGiniSDKClientSecretKey) ?? ""
-        let clientId = customClientId != "" ? customClientId : kGiniClientId
-        let clientSecret = customClientSecret != "" ? customClientSecret : kGiniClientSecret
+        let clientId = credentials.id ?? ""
+        let clientSecret = credentials.password ?? ""
         
         // Set up GiniSDK with your credentials.
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
@@ -80,14 +91,6 @@ final class DocumentService {
         self.giniSDK = builder?.build()
         
         print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
-    }
-    
-    func populateSettingsPage() {
-        let bundleShortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
-        UserDefaults.standard.setValue(GiniVision.versionString, forKey: kSettingsGiniVisionVersionKey)
-        UserDefaults.standard.setValue(bundleShortVersion,
-                                       forKey: kSettingsExampleAppVersionKey)
-        UserDefaults.standard.synchronize()
     }
     
     /**
