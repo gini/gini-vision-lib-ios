@@ -7,20 +7,23 @@ pipeline {
     stage('Prerequisites') {
       environment {
         GEONOSIS_USER_PASSWORD = credentials('GeonosisUserPassword')
+        CLIENT_ID = credentials('VisionClientID')
+        CLIENT_PASSWORD = credentials('VisionClientPassword')
       }
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh '/usr/local/bin/pod install --project-directory=Example/'
+        sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Example" -destination \'platform=iOS Simulator,name=iPhone 6\' | /usr/local/bin/xcpretty -c'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\' | /usr/local/bin/xcpretty -c'
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Example" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests | /usr/local/bin/xcpretty -c'
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests | /usr/local/bin/xcpretty -c'
       }
     }
     stage('Documentation') {
@@ -38,20 +41,16 @@ pipeline {
       environment {
         HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
         HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
-        CLIENT_ID = credentials('VisionClientID')
-        CLIENT_PASSWORD = credentials('VisionClientPassword')
       }
       steps {
         sh 'rm -rf build'
         sh 'mkdir build'
-        sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
         sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision-Example -configuration Release archive -archivePath build/GiniVision.xcarchive | /usr/local/bin/xcpretty -c'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision_Example -configuration Release archive -archivePath build/GiniVision.xcarchive | /usr/local/bin/xcpretty -c'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates | /usr/local/bin/xcpretty -c'
-        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/GiniVision-Example.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
+        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/GiniVision_Example.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
 
         sh 'rm -rf build'
-        sh 'rm Example/Release-keys.xcconfig'
       }
       post {
         always {
