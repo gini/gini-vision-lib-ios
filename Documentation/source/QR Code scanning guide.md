@@ -47,7 +47,7 @@ It is possible to customize the text label, button and background colors with th
 - `GiniConfiguration.qrCodePopupButtonColor`
 - `GiniConfiguration.qrCodePopupTextColor`
 
-Also the text from both label and button can be also modified through the following parameters in your `Localizable.strings` file:
+Also the text from both label and button can be customized through the following parameters in your `Localizable.strings` file:
 - _ginivision.camera.qrCodeDetectedPopup.buttonTitle_
 - _ginivision.camera.qrCodeDetectedPopup.message_
 
