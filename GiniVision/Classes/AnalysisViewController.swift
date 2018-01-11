@@ -181,9 +181,9 @@ import UIKit
         self.view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.view, attr: .top,
+        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.topLayoutGuide, attr: .bottom,
                           priority: 999)
-        Contraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom,
+        Contraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top,
                           priority: 999)
         Contraints.active(item: imageView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         Contraints.active(item: imageView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
