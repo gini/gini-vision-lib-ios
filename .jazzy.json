@@ -21,10 +21,11 @@
       {
          "name":"Documentation",
          "children":[
-	    "Installation",
-	    "Updating to 3.2.0",
+	          "Installation",
+	          "Updating to 3.2.0",
             "Open with guide",
-	    "Import PDFs and images guide", 
+	          "Import PDFs and images guide",
+            "QR Code scanning guide",
             "Changelog",
             "License"
          ]
@@ -37,6 +38,7 @@
             "GiniConfiguration",
             "GiniImageDocument",
             "GiniPDFDocument",
+            "GiniQRCodeDocument",
             "GiniVision",
             "GiniVisionDocumentBuilder",
             "HelpMenuViewController",
@@ -68,10 +70,10 @@
          ]
       },
       {
-	"name":"Structs",
-	"children":[
-	    "GiniVisionFont"
-	]
+	       "name":"Structs",
+	       "children":[
+	         "GiniVisionFont"
+	       ]
       },
       {
          "name":"Typealiases",
