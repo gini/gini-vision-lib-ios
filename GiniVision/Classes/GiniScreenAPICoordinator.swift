@@ -354,16 +354,21 @@ extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: AnalysisDelegate {
     func displayError(withMessage message: String?, andAction action: NoticeAction?) {
-        let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
         DispatchQueue.main.async {
+            let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
             self.show(notice: notice)
         }
     }
     
     func tryDisplayNoResultsScreen() -> Bool {
         if let visionDocument = visionDocument, visionDocument.type == .image {
-            imageAnalysisNoResultsViewController = createImageAnalysisNoResultsScreen()
-            screenAPINavigationController.pushViewController(imageAnalysisNoResultsViewController!, animated: true)
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
+                self.imageAnalysisNoResultsViewController = self.createImageAnalysisNoResultsScreen()
+                self.screenAPINavigationController.pushViewController(self.imageAnalysisNoResultsViewController!,
+                                                                      animated: true)
+            }
+            
             return true
         }
         return false

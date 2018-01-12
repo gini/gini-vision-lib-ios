@@ -50,14 +50,16 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     // MARK: Handle analysis of document
-    func analyzeDocument(visionDocument document: GiniVisionDocument) {
+    func analyzeDocument(visionDocument document: GiniVisionDocument,
+                         delegate: AnalysisDelegate? = nil) {
         cancelAnalysis()
         visionDocument = document
+        analysisDelegate = delegate
         
-        documentService.analyzeDocument(withData: document.data,
-                                        cancelationToken: CancelationToken()) { [weak self] result, document, error in
-            if let analysisDelegate = self?.analysisDelegate {
-                DispatchQueue.main.async {
+        documentService
+            .analyzeDocument(withData: document.data,
+                             cancelationToken: CancelationToken()) { [weak self] result, document, error in
+                if let analysisDelegate = self?.analysisDelegate {
                     guard let document = document, let result = result else {
                         if let error = error, let analysisDelegate = self?.analysisDelegate {
                             self?.show(error: error, analysisDelegate: analysisDelegate)
@@ -67,7 +69,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                     }
                     self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
                 }
-            }
+                
         }
     }
     
@@ -86,7 +88,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         
         // Display an error with a custom message and custom action on the analysis screen
         analysisDelegate?.displayError(withMessage: errorMessage, andAction: { [weak self] in
-            self?.analyzeDocument(visionDocument: document)
+            self?.analyzeDocument(visionDocument: document, delegate: analysisDelegate)
         })
     }
     
