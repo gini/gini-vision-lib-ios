@@ -401,6 +401,8 @@ extension CameraViewController {
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
                 newQRCodePopup.didTapDone = {
                     self.successBlock?(qrDocument)
+                    _ = self.addValidationLoadingView()
+                    newQRCodePopup.hide()
                 }
 
                 if let qrCodeDetectedPopup = currentQRCodePopup {
@@ -523,15 +525,14 @@ extension CameraViewController {
     
     fileprivate func addValidationLoadingView() -> UIView {
         let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        loadingIndicator.center = self.view.center
-        loadingIndicator.startAnimating()
-        
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        blurredView.frame = self.view.bounds
-        blurredView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        blurredView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]
+        loadingIndicator.startAnimating()
         blurredView.contentView.addSubview(loadingIndicator)
-        
         self.view.addSubview(blurredView)
+        blurredView.frame = self.view.bounds
+        loadingIndicator.center = blurredView.center
+
         return blurredView
     }
     

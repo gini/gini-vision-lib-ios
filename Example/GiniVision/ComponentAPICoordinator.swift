@@ -261,10 +261,21 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 
 extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
     func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument) {
-        if document.isReviewable {
-            showReviewScreen(withDocument: document)
-        } else {
-            showAnalysisScreen(withDocument: document)
+        guard let qrDocument = document as? GiniQRCodeDocument else {
+            if document.isReviewable {
+                showReviewScreen(withDocument: document)
+            } else {
+                showAnalysisScreen(withDocument: document)
+            }
+            return
+        }
+        documentService.analyzeDocument(withData: qrDocument.data,
+                                        cancelationToken: CancelationToken()) { [weak self] result, document, error in
+            guard let `self` = self, let analyzedDocument = document, let result = result else {
+                    return
+            }
+
+            self.showResultsTableScreen(forDocument: analyzedDocument, withResult: result)
         }
     }
     

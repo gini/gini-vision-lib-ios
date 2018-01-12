@@ -9,17 +9,23 @@ import Foundation
 
 @objc final public class GiniQRCodeDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .qrcode
-    public var data: Data
+    public lazy var data: Data = {
+        return self.paymentInformation ?? Data(count: 0)
+    }()
     public lazy var previewImage: UIImage? = {
         return UIImage(qrData: self.data)
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
-    public lazy var extractedParameters: [String: String] = QRCodesExtractor
-        .extractParameters(from: self.scannedString, withFormat: self.qrCodeFormat)
-    public lazy var paymentInformation: Data? = self.formatPaymentInformation()
     
+    lazy var paymentInformation: Data? = {
+        let jsonDict: [String: Any] = ["qrcode": self.scannedString, "paymentdata": self.extractedParameters]
+        
+        return try? JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
+    }()
     fileprivate let scannedString: String
+    fileprivate lazy var extractedParameters: [String: String] = QRCodesExtractor
+        .extractParameters(from: self.scannedString, withFormat: self.qrCodeFormat)
     fileprivate let epc06912LinesCount = 12
     fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
@@ -36,7 +42,6 @@ import Foundation
     }()
     
     public init(scannedString: String) {
-        self.data = scannedString.data(using: String.Encoding.isoLatin1) ?? Data(count: 0)
         self.scannedString = scannedString
         super.init()
     }
@@ -47,11 +52,7 @@ import Foundation
         }
     }
     
-    fileprivate func formatPaymentInformation() -> Data? {
-        let jsonDict: [String: Any] = ["qrcode": scannedString, "paymentdata": extractedParameters]
 
-        return try? JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
-    }
 }
 
 // MARK: Equatable
