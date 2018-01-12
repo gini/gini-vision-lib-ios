@@ -52,7 +52,6 @@ import Foundation
         }
     }
     
-
 }
 
 // MARK: Equatable

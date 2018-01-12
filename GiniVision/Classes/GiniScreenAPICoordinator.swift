@@ -195,8 +195,8 @@ internal extension GiniScreenAPICoordinator {
             self.visionDocument = document
             
             if let qrDocument = document as? GiniQRCodeDocument {
-                if let didDetect = delegate.didDetect(qrDocument: ) {
-                    didDetect(qrDocument)
+                if let didDetect = delegate.didDetect(qrDocument: analysisDelegate: ) {
+                    didDetect(qrDocument, self)
                 } else {
                     fatalError("QR Code scanning is enabled but `GiniVisionDelegate.didCapture`" +
                         "method wasn't implement")

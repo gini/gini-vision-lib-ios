@@ -28,21 +28,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
-    var errorMessage: String?
-    
-    lazy var didDocumentAnalysisFinished: DocumentAnalysisCompletion = { [weak self] result, document, error in
-        guard let document = document, let result = result else {
-            if let error = error, self?.analysisDelegate != nil {
-                self?.errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
-                self?.show(errorMessage: (self?.errorMessage)!)
-                return
-            }
-            return
-        }
-        if ((self?.visionDocument as? GiniQRCodeDocument) != nil) || self?.analysisDelegate != nil {
-            self?.show(result: result, fromDocument: document)
-        }
-    }
     
     init(configuration: GiniConfiguration,
          importedDocument document: GiniVisionDocument?,
@@ -65,45 +50,69 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     
     // MARK: Handle analysis of document
-    func analyzeDocument(visionDocument document: GiniVisionDocument, completion: @escaping DocumentAnalysisCompletion) {
-        cancelAnalsyis()
+    func analyzeDocument(visionDocument document: GiniVisionDocument) {
+        cancelAnalysis()
         visionDocument = document
         
         documentService.analyzeDocument(withData: document.data,
-                                        cancelationToken: CancelationToken(),
-                                        completion: completion)
+                                        cancelationToken: CancelationToken()) { [weak self] result, document, error in
+            if let analysisDelegate = self?.analysisDelegate {
+                guard let document = document, let result = result else {
+                    if let error = error, let analysisDelegate = self?.analysisDelegate {
+                        self?.show(error: error, analysisDelegate: analysisDelegate)
+                        return
+                    }
+                    return
+                }
+                self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
+            }
+        }
     }
     
-    func cancelAnalsyis() {
+    func analyzeQRCode(qrDocument: GiniQRCodeDocument, analysisDelegate: AnalysisDelegate?) {
+        documentService.analyzeDocument(withData: qrDocument.data,
+                                        cancelationToken: CancelationToken()) { [weak self] result, document, error in
+                guard let document = document, let result = result else {
+                    if let error = error {
+                        return
+                    }
+                    return
+                }
+                self?.present(result: result, fromDocument: document, analysisDelegate: nil)
+        }
+    }
+    
+    func cancelAnalysis() {
         documentService.cancelAnalysis()
-        errorMessage = nil
         visionDocument = nil
+        analysisDelegate = nil
     }
     
     // MARK: Handle results from analysis process
-    func show(errorMessage message: String) {
+    func show(error: Error, analysisDelegate: AnalysisDelegate?) {
         guard let document = self.visionDocument else {
             return
         }
+        let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
         
         // Display an error with a custom message and custom action on the analysis screen
         analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
-            self.analyzeDocument(visionDocument: document, completion: self.didDocumentAnalysisFinished)
+            self.analyzeDocument(visionDocument: document)
         })
     }
     
-    func show(result: GINIResult, fromDocument document: GINIDocument) {
+    func present(result: GINIResult, fromDocument document: GINIDocument, analysisDelegate: AnalysisDelegate?) {
         let resultParameters = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
         if hasExtactions {
-            showResultsScreen()
+            showResultsScreen(analysisDelegate: analysisDelegate)
         } else {
-            showNoResultsScreen()
+            showNoResultsScreen(analysisDelegate: analysisDelegate)
         }
     }
     
-    fileprivate func showResultsScreen() {
+    fileprivate func showResultsScreen(analysisDelegate: AnalysisDelegate?) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = documentService.result
@@ -112,13 +121,12 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         DispatchQueue.main.async { [weak self] in
             self?.screenAPIViewController.setNavigationBarHidden(false, animated: false)
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
-            self?.analysisDelegate = nil
         }
     }
     
-    fileprivate func showNoResultsScreen() {
+    fileprivate func showNoResultsScreen(analysisDelegate: AnalysisDelegate?) {
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self, let analysisDelegate = self.analysisDelegate else { return }
+            guard let `self` = self, let analysisDelegate = analysisDelegate else { return }
             let shown = analysisDelegate.tryDisplayNoResultsScreen()
             if !shown {
                 let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
@@ -127,7 +135,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                 self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
                 self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
             }
-            self.analysisDelegate = nil
         }
     }
     
@@ -172,19 +179,19 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        self.analyzeDocument(visionDocument: document, completion: self.didDocumentAnalysisFinished)
+        self.analyzeDocument(visionDocument: document)
     }
     
-    func didDetect(qrDocument: GiniQRCodeDocument) {
-        self.analyzeDocument(visionDocument: qrDocument, completion: self.didDocumentAnalysisFinished)
+    func didDetect(qrDocument: GiniQRCodeDocument, analysisDelegate: AnalysisDelegate) {
+        self.analyzeQRCode(qrDocument: qrDocument, analysisDelegate: analysisDelegate)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
         // Analyze reviewed document when changes were made by the user during review or
         // there is no result and is not analysing.
         if changes || (!documentService.isAnalyzing && documentService.result == nil) {
-            self.analyzeDocument(visionDocument: document, completion: self.didDocumentAnalysisFinished)
-
+            self.analyzeDocument(visionDocument: document)
+            
             return
         }
     }
@@ -196,7 +203,7 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     // Optional delegate methods
     func didCancelReview() {
         // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalsyis()
+        cancelAnalysis()
     }
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
@@ -205,23 +212,21 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
         // if there is already results, present them
         if let result = documentService.result,
             let document = documentService.document {
-            show(result: result, fromDocument: document)
+            present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
         }
         
         // The analysis screen is where the user should be confronted with
         // any errors occuring during the analysis process.
         // Show any errors that occured while the user was still reviewing the image here.
         // Make sure to only show errors relevant to the user.
-        if let errorMessage = errorMessage {
-            show(errorMessage: errorMessage)
+        if let error = documentService.error {
+            show(error: error, analysisDelegate: analysisDelegate)
         }
     }
     
     func didCancelAnalysis() {
-        analysisDelegate = nil
-        
         // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalsyis()
+        cancelAnalysis()
     }
     
 }
