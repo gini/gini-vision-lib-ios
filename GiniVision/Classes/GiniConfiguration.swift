@@ -337,6 +337,16 @@ import UIKit
      */
     public var qrCodePopupButtonColor = Colors.Gini.blue
     
+    /**
+     Sets the text color of the QR Code popup label
+     */
+    public var qrCodePopupTextColor = UIColor.black
+    
+    /**
+     Sets the text color of the QR Code popup background
+     */
+    public var qrCodePopupBackgroundColor = UIColor.white
+    
     // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.
