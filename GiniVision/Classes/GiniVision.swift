@@ -31,12 +31,6 @@ import UIKit
     @objc optional func didCapture(_ imageData: Data)
     
     /**
-     Called when a QR Code has been detected in the camera screen and the user wants to proceed with it.
-     */
-    
-    @objc optional func didDetect(qrDocument: GiniQRCodeDocument, analysisDelegate: AnalysisDelegate)
-    
-    /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
      - parameter document:  `GiniVisionDocument`

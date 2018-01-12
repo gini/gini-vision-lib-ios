@@ -399,10 +399,9 @@ extension CameraViewController {
                                                              refView: self.previewView,
                                                              document: qrDocument,
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
-                newQRCodePopup.didTapDone = {
+                newQRCodePopup.didTapDone = { [weak newQRCodePopup] in
                     self.successBlock?(qrDocument)
-                    _ = self.addValidationLoadingView()
-                    newQRCodePopup.hide()
+                    newQRCodePopup?.hide()
                 }
 
                 if let qrCodeDetectedPopup = currentQRCodePopup {

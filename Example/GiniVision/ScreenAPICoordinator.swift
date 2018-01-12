@@ -57,28 +57,17 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         documentService.analyzeDocument(withData: document.data,
                                         cancelationToken: CancelationToken()) { [weak self] result, document, error in
             if let analysisDelegate = self?.analysisDelegate {
-                guard let document = document, let result = result else {
-                    if let error = error, let analysisDelegate = self?.analysisDelegate {
-                        self?.show(error: error, analysisDelegate: analysisDelegate)
+                DispatchQueue.main.async {
+                    guard let document = document, let result = result else {
+                        if let error = error, let analysisDelegate = self?.analysisDelegate {
+                            self?.show(error: error, analysisDelegate: analysisDelegate)
+                            return
+                        }
                         return
                     }
-                    return
+                    self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
                 }
-                self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
             }
-        }
-    }
-    
-    func analyzeQRCode(qrDocument: GiniQRCodeDocument, analysisDelegate: AnalysisDelegate?) {
-        documentService.analyzeDocument(withData: qrDocument.data,
-                                        cancelationToken: CancelationToken()) { [weak self] result, document, error in
-                guard let document = document, let result = result else {
-                    if let error = error {
-                        return
-                    }
-                    return
-                }
-                self?.present(result: result, fromDocument: document, analysisDelegate: nil)
         }
     }
     
@@ -96,13 +85,13 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
         
         // Display an error with a custom message and custom action on the analysis screen
-        analysisDelegate?.displayError(withMessage: errorMessage, andAction: {
-            self.analyzeDocument(visionDocument: document)
+        analysisDelegate?.displayError(withMessage: errorMessage, andAction: { [weak self] in
+            self?.analyzeDocument(visionDocument: document)
         })
     }
     
     func present(result: GINIResult, fromDocument document: GINIDocument, analysisDelegate: AnalysisDelegate?) {
-        let resultParameters = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
+        let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
         if hasExtactions {
@@ -180,10 +169,6 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         self.analyzeDocument(visionDocument: document)
-    }
-    
-    func didDetect(qrDocument: GiniQRCodeDocument, analysisDelegate: AnalysisDelegate) {
-        self.analyzeQRCode(qrDocument: qrDocument, analysisDelegate: analysisDelegate)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {

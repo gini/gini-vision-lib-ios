@@ -149,7 +149,9 @@ import UIKit
             addLoadingText(below: loadingIndicatorView)
             addOverlay()
             
-            showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
+            if document.type == .image {
+                showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
+            }
         }
     }
     
