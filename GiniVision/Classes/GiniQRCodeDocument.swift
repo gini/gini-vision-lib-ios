@@ -17,6 +17,7 @@ import Foundation
     public var isImported: Bool = false
     public lazy var extractedParameters: [String: String] = QRCodesExtractor
         .extractParameters(from: self.scannedString, withFormat: self.qrCodeFormat)
+    public lazy var paymentInformation: Data? = self.formatPaymentInformation()
     
     fileprivate let scannedString: String
     fileprivate let epc06912LinesCount = 12
@@ -44,6 +45,12 @@ import Foundation
         if self.qrCodeFormat == nil || self.extractedParameters.isEmpty {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
+    }
+    
+    fileprivate func formatPaymentInformation() -> Data? {
+        let jsonDict: [String: Any] = ["qrcode": scannedString, "paymentdata": extractedParameters]
+
+        return try? JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
     }
 }
 

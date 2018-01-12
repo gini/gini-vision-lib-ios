@@ -201,6 +201,11 @@ extension ScreenAPICoordinator: GiniVisionDelegate {
                                                    box: [:])
         }
         showResultsScreen()
+        if let paymentInformation = qrDocument.paymentInformation {
+            documentService.analyzeDocument(withData: paymentInformation,
+                                            cancelationToken: CancelationToken(),
+                                            completion: nil)
+        }
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
