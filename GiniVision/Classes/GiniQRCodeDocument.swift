@@ -18,7 +18,7 @@ import Foundation
     public var isReviewable: Bool = false
     public var isImported: Bool = false
     
-    lazy var paymentInformation: Data? = {
+    fileprivate lazy var paymentInformation: Data? = {
         let jsonDict: [String: Any] = ["qrcode": self.scannedString, "paymentdata": self.extractedParameters]
         
         return try? JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
