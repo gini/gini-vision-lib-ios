@@ -24,7 +24,7 @@ import Foundation
         return try? JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
     }()
     fileprivate let scannedString: String
-    fileprivate lazy var extractedParameters: [String: String] = QRCodesExtractor
+    lazy var extractedParameters: [String: String] = QRCodesExtractor
         .extractParameters(from: self.scannedString, withFormat: self.qrCodeFormat)
     fileprivate let epc06912LinesCount = 12
     fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
