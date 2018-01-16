@@ -37,7 +37,7 @@ final class AppCoordinator: Coordinator {
             // As an example of custom document validation, we add a more strict check for file size
             let maxFileSize = 5 * 1024 * 1024
             if document.data.count > maxFileSize {
-                throw DocumentValidationError.custom(message: "Diese Datei ist leider größer als 5MB")
+                throw CustomDocumentValidationError.custom(message: "Diese Datei ist leider größer als 5MB")
             }
         }
         return giniConfiguration

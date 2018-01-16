@@ -13,7 +13,7 @@ public protocol GiniVisionError:Error {}
 /**
  Errors thrown on the camera screen or during camera initialization.
  */
-public enum CameraError: GiniVisionError {
+@objc public enum CameraError: Int, GiniVisionError {
     /// Unknown error during camera use.
     case unknown
     
@@ -31,7 +31,7 @@ public enum CameraError: GiniVisionError {
 /**
  Errors thrown on the review screen.
  */
-public enum ReviewError: GiniVisionError {
+@objc public enum ReviewError: Int, GiniVisionError {
     
     /// Unknown error during review.
     case unknown
@@ -42,7 +42,7 @@ public enum ReviewError: GiniVisionError {
  Errors thrown on the file picker
  */
 
-public enum FilePickerError: GiniVisionError {
+@objc public enum FilePickerError: Int, GiniVisionError {
     
     /// Camera roll can not be loaded because the user has denied authorization in the past.
     case photoLibraryAccessDenied
@@ -52,7 +52,7 @@ public enum FilePickerError: GiniVisionError {
 /**
  Errors thrown validating a document (image or pdf).
  */
-public enum DocumentValidationError: GiniVisionError, Equatable {
+@objc public enum DocumentValidationError: Int, GiniVisionError, Equatable {
     
     /// Unknown error during review.
     case unknown
@@ -69,9 +69,6 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     /// PDF length exceeded
     case pdfPageLengthExceeded
     
-    /// Custom validation error
-    case custom(message: String)
-    
     var message:String {
         switch self {
         case .exceededMaxFileSize:
@@ -82,8 +79,6 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
             return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         case .pdfPageLengthExceeded:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
-        case .custom(let message):
-            return message
         case .unknown:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
         }
@@ -92,8 +87,20 @@ public enum DocumentValidationError: GiniVisionError, Equatable {
     public static func ==(lhs: DocumentValidationError, rhs: DocumentValidationError) -> Bool {
         return lhs.message == rhs.message
     }
-    
 }
 
-
+/**
+ Errors thrown when running a custom validation (Only available in Swift).
+ */
+public enum CustomDocumentValidationError: GiniVisionError {
+    /// Custom validation error
+    case custom(message: String)
+    
+    var message:String {
+        switch self {
+        case .custom(let message):
+            return message
+        }
+    }
+}
 

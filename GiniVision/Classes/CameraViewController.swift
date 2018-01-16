@@ -402,15 +402,21 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                     loadingView.removeFromSuperview()
                     self?.successBlock?(document)
                 }
-            } catch let error as DocumentValidationError {
-                DispatchQueue.main.async {
-                    loadingView.removeFromSuperview()
-                    self?.showNotValidDocumentError(error: error)
+            } catch let error {
+                let message: String
+                switch error {
+                case let validationError as DocumentValidationError:
+                    message = validationError.message
+                    break
+                case let customValidationError as CustomDocumentValidationError:
+                    message = customValidationError.message
+                    break
+                default:
+                    message = DocumentValidationError.unknown.message
                 }
-            } catch _ {
                 DispatchQueue.main.async {
                     loadingView.removeFromSuperview()
-                    self?.showNotValidDocumentError(error: DocumentValidationError.unknown)
+                    self?.showNotValidDocumentError(message: message)
                 }
             }
         }
@@ -484,9 +490,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.present(alertViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
+    fileprivate func showNotValidDocumentError(message: String) {
         
-        let alertViewController = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         }))
