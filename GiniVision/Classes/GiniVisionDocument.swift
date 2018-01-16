@@ -56,7 +56,7 @@ public class GiniVisionDocumentBuilder: NSObject {
      
      */
     
-    public init(data:Data?, documentSource:DocumentSource = .external) {
+    public init(data:Data?, documentSource:DocumentSource) {
         self.data = data
         self.documentSource = documentSource
     }
