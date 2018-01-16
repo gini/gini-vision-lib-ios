@@ -26,6 +26,10 @@ pipeline {
     stage('Documentation') {
       when {
         branch 'master'
+        expression {
+            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+            return !tag.isEmpty()
+        }
       }
       steps {
         sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
@@ -57,6 +61,10 @@ pipeline {
     stage('Pod lint') {
       when {
         branch 'master'
+        expression {
+            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+            return !tag.isEmpty()
+        }
       }
       steps {
         sh '/usr/local/bin/pod lib lint --allow-warnings'
