@@ -47,7 +47,7 @@ final class ComponentAPIAnalysisViewController: UIViewController {
         // 2. Create the analysis view controller
         guard let document = document else { return }
         
-        contentController = AnalysisViewController(document)
+        contentController = AnalysisViewController(document: document)
 
         // 3. Display the analysis view controller
         displayContent(contentController)

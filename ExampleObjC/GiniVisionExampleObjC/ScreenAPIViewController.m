@@ -50,8 +50,9 @@
     giniConfiguration.debugModeOn = YES;
     giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];
     
+    
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc = [GiniVision viewControllerWithDelegate:self withConfiguration:giniConfiguration];
+    UIViewController *vc = [GiniVision viewControllerWithDelegate:self withConfiguration:giniConfiguration importedDocument: NULL];
     
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];

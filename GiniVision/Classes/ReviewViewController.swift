@@ -149,7 +149,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
      - returns: A view controller instance allowing the user to review a picture of a document.
      */
     
-    @nonobjc
     @available(*, deprecated)
     public convenience init(_ imageData:Data, success: @escaping ReviewSuccessBlock, failure: @escaping ReviewErrorBlock) {
         self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { document in

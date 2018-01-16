@@ -26,7 +26,7 @@ internal class AnalysisContainerViewController: UIViewController, ContainerViewC
         super.init(nibName: nil, bundle: nil)
         
         // Configure content controller
-        contentController = AnalysisViewController(document)
+        contentController = AnalysisViewController(document: document)
         
         // Configure colors
         view.backgroundColor = GiniConfiguration.sharedConfiguration.backgroundColor

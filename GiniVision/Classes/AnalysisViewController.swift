@@ -98,7 +98,7 @@ import UIKit
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(_ document: GiniVisionDocument) {
+    public init(document: GiniVisionDocument) {
         self.document = document
         super.init(nibName: nil, bundle: nil)
     }
@@ -111,10 +111,9 @@ import UIKit
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
     
-    @nonobjc
     @available(*, deprecated)
     public convenience init(_ imageData:Data) {
-        self.init(GiniImageDocument(data: imageData, imageSource: .external))
+        self.init(document: GiniImageDocument(data: imageData, imageSource: .external))
     }
     
     /**

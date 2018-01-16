@@ -172,7 +172,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      - returns: A view controller instance allowing the user to take a picture.
      */
     
-    @nonobjc
     @available(*, deprecated)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
