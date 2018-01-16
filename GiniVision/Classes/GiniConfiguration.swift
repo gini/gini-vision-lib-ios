@@ -33,7 +33,7 @@ import UIKit
      Supported document types by Gini Vision library.
     */
     
-    public enum GiniVisionImportFileTypes {
+    @objc public enum GiniVisionImportFileTypes: Int {
         case none
         case pdf
         case pdf_and_images
