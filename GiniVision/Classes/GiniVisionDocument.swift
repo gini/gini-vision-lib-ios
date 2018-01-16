@@ -40,23 +40,34 @@ import Foundation
  let document = documentBuilder.build()
  ```
  */
-public class GiniVisionDocumentBuilder {
+public class GiniVisionDocumentBuilder: NSObject {
     
     let data:Data?
     var documentSource:DocumentSource
     public var deviceOrientation:UIInterfaceOrientation?
-    public var importMethod:DocumentImportMethod?
+    public var importMethod:DocumentImportMethod = .picker
     
     /**
-     Initializes a `GiniVisionDocumentBuilder` with a Data object
+     Initializes a `GiniVisionDocumentBuilder` with the document data and the document source.
+     This method is only accesible in Swift projects.
      
-     - Parameter withData: data object with an unknown type
+     - Parameter data: data object with an unknown type
+     - Parameter documentSource: document source (external, camera or appName)
      
      */
     
-    public init(data:Data?, documentSource:DocumentSource) {
+    public init(data:Data?, documentSource:DocumentSource = .external) {
         self.data = data
         self.documentSource = documentSource
+    }
+    
+    /**
+     Initializes a `GiniVisionDocumentBuilder` with the document data.
+     `DocumentSource` will be initialized as `DocumentSource.external`.
+     This method should only be used in Objective C projects.
+    */
+    public convenience init(data:Data?) {
+        self.init(data: data, documentSource: .external)
     }
     
     /**
