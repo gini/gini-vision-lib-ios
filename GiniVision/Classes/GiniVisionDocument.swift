@@ -66,7 +66,7 @@ public class GiniVisionDocumentBuilder: NSObject {
      `DocumentSource` will be initialized as `DocumentSource.external`.
      This method should only be used in Objective C projects.
     */
-    public convenience init(data:Data?) {
+    public convenience init(data: Data?) {
         self.init(data: data, documentSource: .external)
     }
     
