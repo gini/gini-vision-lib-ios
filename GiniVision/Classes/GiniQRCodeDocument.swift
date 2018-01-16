@@ -41,7 +41,7 @@ import Foundation
         }
     }()
     
-    public init(scannedString: String) {
+    init(scannedString: String) {
         self.scannedString = scannedString
         super.init()
     }
