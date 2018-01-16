@@ -339,8 +339,8 @@ extension CameraViewController {
 
 extension CameraViewController {
     
-    fileprivate func setupCamera() {
-        self.camera = Camera(giniConfiguration: GiniConfiguration.sharedConfiguration) {[weak self] error in
+    fileprivate func setupCamera(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+        self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
