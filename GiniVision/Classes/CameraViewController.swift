@@ -160,22 +160,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.successBlock = successBlock
         self.failureBlock = failureBlock
         
-        // Configure camera
-        self.camera = Camera(giniConfiguration: GiniConfiguration.sharedConfiguration) { error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
-                }
-                failureBlock(error)
-            }
-        }
-        self.camera?.didDetectQR = {[weak self] qrDocument in
-            guard let `self` = self else { return }
-            self.showPopup(forQRDetected: qrDocument)
-        }
+        self.setupCamera()
     }
     
     /**
@@ -353,6 +338,32 @@ extension CameraViewController {
 // MARK: - Image capture
 
 extension CameraViewController {
+    
+    fileprivate func setupCamera() {
+        self.camera = Camera(giniConfiguration: GiniConfiguration.sharedConfiguration) {[weak self] error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                }
+                self?.failureBlock?(error)
+            }
+        }
+        self.camera?.didDetectQR = {[weak self] qrDocument in
+            guard let `self` = self else { return }
+            do {
+                try qrDocument.validate()
+                self.showPopup(forQRDetected: qrDocument)
+            } catch let error as DocumentValidationError {
+                print(error.message)
+            } catch {
+                print(DocumentValidationError.unknown)
+            }
+        }
+    }
+    
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
             if GiniConfiguration.DEBUG {
