@@ -48,8 +48,7 @@
     // 1. Create a custom configuration object
     GiniConfiguration *giniConfiguration = [GiniConfiguration new];
     giniConfiguration.debugModeOn = YES;
-    giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];
-    
+    giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];    
     
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithDelegate:self withConfiguration:giniConfiguration importedDocument: NULL];
