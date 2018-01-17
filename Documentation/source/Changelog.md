@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.2.3 (2018-01-17)
+------------------
+
+-   Fixed enum visibility, custom document validations closure and
+    custom font property on GiniConfiguration (for Objective C projects).
+
 3.2.2 (2017-11-27)
 ------------------
 
