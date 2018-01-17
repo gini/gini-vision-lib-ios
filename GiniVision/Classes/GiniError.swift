@@ -90,17 +90,16 @@ public protocol GiniVisionError:Error {}
 }
 
 /**
- Errors thrown when running a custom validation (Only available in Swift).
+ Errors thrown when running a custom validation.
  */
-public enum CustomDocumentValidationError: GiniVisionError {
-    /// Custom validation error
-    case custom(message: String)
-    
-    var message:String {
-        switch self {
-        case .custom(let message):
-            return message
-        }
+@objc public class CustomDocumentValidationError: NSError {
+
+    public convenience init(message: String) {
+        self.init(domain: "net.gini", code: 1, userInfo: ["message": message])
+    }
+
+    public var message: String {
+        return userInfo["message"] as! String
     }
 }
 
