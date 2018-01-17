@@ -7,7 +7,7 @@ PODS:
   - Bolts/Tasks (1.1.5)
   - Gini-iOS-SDK (0.3.2):
     - Bolts (~> 1.1.0)
-  - GiniVision (3.2.0)
+  - GiniVision (3.2.2)
 
 DEPENDENCIES:
   - Gini-iOS-SDK
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   Gini-iOS-SDK: eb35141d81af9f4fcb1a8937ba42c626e5b378c9
-  GiniVision: 4811fb7a805245aa8686b1a6af8ad3492b18fafc
+  GiniVision: 305591fb93590055bc54a8c800b36b65003cee88
 
 PODFILE CHECKSUM: a87c082243c89b1f7c8c2bdf8399a28021b79b71
 

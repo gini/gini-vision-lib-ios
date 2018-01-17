@@ -11,6 +11,12 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh '/usr/local/bin/pod install --project-directory=Example/'
+        sh '/usr/local/bin/pod install --project-directory=ExampleObjC/'
+      }
+    }
+    stage('Build ObjC') {
+      steps {
+        sh 'xcodebuild -workspace ExampleObjC/GiniVisionExampleObjC.xcworkspace -scheme "GiniVisionExampleObjC" -destination \'platform=iOS Simulator,name=iPhone 6\' | /usr/local/bin/xcpretty -c'
       }
     }
     stage('Build') {
@@ -26,6 +32,10 @@ pipeline {
     stage('Documentation') {
       when {
         branch 'master'
+        expression {
+            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+            return !tag.isEmpty()
+        }
       }
       steps {
         sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
@@ -57,6 +67,10 @@ pipeline {
     stage('Pod lint') {
       when {
         branch 'master'
+        expression {
+            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+            return !tag.isEmpty()
+        }
       }
       steps {
         sh '/usr/local/bin/pod lib lint --allow-warnings'

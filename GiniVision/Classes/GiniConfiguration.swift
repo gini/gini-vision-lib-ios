@@ -33,7 +33,7 @@ import UIKit
      Supported document types by Gini Vision library.
     */
     
-    public enum GiniVisionImportFileTypes {
+    @objc public enum GiniVisionImportFileTypes: Int {
         case none
         case pdf
         case pdf_and_images
@@ -57,30 +57,21 @@ import UIKit
     public var backgroundColor = UIColor.black
     
     /**
-     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `DocumentValidationError.custom(message)` error.
+     Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `CustomDocumentValidationError` error.
      */
-    public var customDocumentValidations: ((GiniVisionDocument) throws -> ())? = { _ in}
+    public var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) = { _ in
+        return CustomDocumentValidationResult.success()
+    }
     
     /**
      Sets the font used in the GiniVision library by default.
      */
     
-    public var customFont: GiniVisionFont?
-    
-    /*
-     In order to provide backward compatibility for previously defined fonts, it is needed to have different properties.
-     */
-    var font: GiniVisionFont {
-        if let font = customFont {
-            return font
-        }
-        return defaultFont
-    }
-    
-    let defaultFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
-                                                     bold: UIFontPreferred(.bold, andSize: 14),
-                                                     light: UIFontPreferred(.light, andSize: 14),
-                                                     thin: UIFontPreferred(.thin, andSize: 14))
+    public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
+                                                                bold: UIFontPreferred(.bold, andSize: 14),
+                                                                light: UIFontPreferred(.light, andSize: 14),
+                                                                thin: UIFontPreferred(.thin, andSize: 14),
+                                                                isEnabled: false)
     
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.

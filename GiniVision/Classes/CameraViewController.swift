@@ -172,7 +172,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
      - returns: A view controller instance allowing the user to take a picture.
      */
     
-    @nonobjc
     @available(*, deprecated)
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
@@ -328,7 +327,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip", bundle: Bundle(for: GiniVision.self), comment: "tooltip text indicating new file import feature"),
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                                  font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
+                                  font: GiniConfiguration.sharedConfiguration.customFont.regular.withSize(14),
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)
@@ -402,15 +401,21 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
                     loadingView.removeFromSuperview()
                     self?.successBlock?(document)
                 }
-            } catch let error as DocumentValidationError {
-                DispatchQueue.main.async {
-                    loadingView.removeFromSuperview()
-                    self?.showNotValidDocumentError(error: error)
+            } catch let error {
+                let message: String
+                switch error {
+                case let validationError as DocumentValidationError:
+                    message = validationError.message
+                    break
+                case let customValidationError as CustomDocumentValidationError:
+                    message = customValidationError.message
+                    break
+                default:
+                    message = DocumentValidationError.unknown.message
                 }
-            } catch _ {
                 DispatchQueue.main.async {
                     loadingView.removeFromSuperview()
-                    self?.showNotValidDocumentError(error: DocumentValidationError.unknown)
+                    self?.showNotValidDocumentError(message: message)
                 }
             }
         }
@@ -484,9 +489,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         self.present(alertViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showNotValidDocumentError(error: DocumentValidationError) {
+    fileprivate func showNotValidDocumentError(message: String) {
         
-        let alertViewController = UIAlertController(title: nil, message: error.message, preferredStyle: .alert)
+        let alertViewController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         }))

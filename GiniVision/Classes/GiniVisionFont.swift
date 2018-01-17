@@ -20,16 +20,18 @@ import UIKit
  
  */
 
-public struct GiniVisionFont {
+public class GiniVisionFont: NSObject {
     public var regular: UIFont
     public var bold: UIFont
     public var light: UIFont
     public var thin: UIFont
+    public private(set) var isEnabled: Bool
     
-    public init(regular: UIFont, bold: UIFont, light: UIFont, thin: UIFont) {
+    public init(regular: UIFont, bold: UIFont, light: UIFont, thin: UIFont, isEnabled: Bool = true) {
         self.regular = regular
         self.bold = bold
         self.light = light
         self.thin = thin
+        self.isEnabled = isEnabled
     }
 }

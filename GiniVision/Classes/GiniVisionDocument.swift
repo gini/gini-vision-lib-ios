@@ -38,25 +38,42 @@ import Foundation
  let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
  documentBuilder.importMethod = .openWith
  let document = documentBuilder.build()
+ do {
+ try document?.validate()
+ ...
+ } catch {
+ ...
+ }
  ```
  */
-public class GiniVisionDocumentBuilder {
+public class GiniVisionDocumentBuilder: NSObject {
     
     let data:Data?
     var documentSource:DocumentSource
     public var deviceOrientation:UIInterfaceOrientation?
-    public var importMethod:DocumentImportMethod?
+    public var importMethod:DocumentImportMethod = .picker
     
     /**
-     Initializes a `GiniVisionDocumentBuilder` with a Data object
+     Initializes a `GiniVisionDocumentBuilder` with the document data and the document source.
+     This method is only accesible in Swift projects.
      
-     - Parameter withData: data object with an unknown type
+     - Parameter data: data object with an unknown type
+     - Parameter documentSource: document source (external, camera or appName)
      
      */
     
     public init(data:Data?, documentSource:DocumentSource) {
         self.data = data
         self.documentSource = documentSource
+    }
+    
+    /**
+     Initializes a `GiniVisionDocumentBuilder` with the document data.
+     `DocumentSource` will be initialized as `DocumentSource.external`.
+     This method should only be used in Objective C projects.
+    */
+    public convenience init(data: Data?) {
+        self.init(data: data, documentSource: .external)
     }
     
     /**
@@ -85,13 +102,15 @@ extension GiniVisionDocument {
         return 10 * 1024 * 1024
     }
 
-    fileprivate var customDocumentValidations: ((GiniVisionDocument) throws -> ())? {
+    fileprivate var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) {
         return GiniConfiguration.sharedConfiguration.customDocumentValidations
     }
     
     // MARK: File validation
     /**
      Validates a document. The validation process is done in the _global_ `DispatchQueue`.
+     Also it is possible to add custom validations in the `GiniConfiguration.customDocumentValidations`
+     closure.
      
      - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
      
@@ -100,7 +119,10 @@ extension GiniVisionDocument {
         let document = self
         if !maxFileSizeExceeded(forData: document.data) {
             try checkType()
-            try customDocumentValidations?(self)
+            let customValidationResult = customDocumentValidations(self)
+            if let error = customValidationResult.error, !customValidationResult.isSuccess {
+                throw error
+            }
         } else {
             throw DocumentValidationError.exceededMaxFileSize
         }

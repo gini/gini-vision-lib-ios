@@ -18,9 +18,28 @@ typealias MetaInformation = NSDictionary
 /// is specified in imageData(withCompression:)
 let JPEGDefaultCompression:CGFloat = 0.4
 
-public enum DocumentImportMethod:String {
-    case openWith = "openwith"
-    case picker = "picker"
+@objc public enum DocumentImportMethod: Int, RawRepresentable {
+    case openWith
+    case picker
+    
+    public typealias RawValue = String
+    
+    public init?(rawValue: RawValue) {
+        if rawValue == "openWith" {
+            self = .openWith
+        } else {
+            self = .picker
+        }
+    }
+    
+    public var rawValue: String {
+        switch self {
+        case .openWith:
+            return "openwith"
+        case .picker:
+            return "picker"
+        }
+    }
 }
 
 public enum DocumentSource: Equatable {
