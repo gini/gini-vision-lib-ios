@@ -103,3 +103,21 @@ public protocol GiniVisionError:Error {}
     }
 }
 
+public class CustomDocumentValidationResult: NSObject {
+    private(set) var isSuccess: Bool
+    private(set) var error: CustomDocumentValidationError?
+    
+    private init(withSuccess success: Bool, error: CustomDocumentValidationError? = nil) {
+        self.isSuccess = success
+        self.error = error
+    }
+    
+    public class func success() -> CustomDocumentValidationResult {
+        return CustomDocumentValidationResult(withSuccess: true)
+    }
+    
+    public class func failure(withError error: CustomDocumentValidationError) -> CustomDocumentValidationResult {
+        return CustomDocumentValidationResult(withSuccess: false, error: error)
+    }
+}
+

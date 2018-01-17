@@ -59,7 +59,9 @@ import UIKit
     /**
      Sets custom validations that can be done apart from the default ones (file size, file type...). It should throw a `CustomDocumentValidationError` error.
      */
-    public var customDocumentValidations: ((GiniVisionDocument) throws -> ()) = { _ in}
+    public var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) = { _ in
+        return CustomDocumentValidationResult.success()
+    }
     
     /**
      Sets the font used in the GiniVision library by default.

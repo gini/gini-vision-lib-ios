@@ -96,7 +96,7 @@ extension GiniVisionDocument {
         return 10 * 1024 * 1024
     }
 
-    fileprivate var customDocumentValidations: ((GiniVisionDocument) throws -> ()) {
+    fileprivate var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) {
         return GiniConfiguration.sharedConfiguration.customDocumentValidations
     }
     
@@ -111,7 +111,10 @@ extension GiniVisionDocument {
         let document = self
         if !maxFileSizeExceeded(forData: document.data) {
             try checkType()
-            try customDocumentValidations(self)
+            let customValidationResult = customDocumentValidations(self)
+            if let error = customValidationResult.error, !customValidationResult.isSuccess {
+                throw error
+            }
         } else {
             throw DocumentValidationError.exceededMaxFileSize
         }
