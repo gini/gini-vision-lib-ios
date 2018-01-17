@@ -11,6 +11,12 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh '/usr/local/bin/pod install --project-directory=Example/'
+        sh '/usr/local/bin/pod install --project-directory=ExampleObjC/'
+      }
+    }
+    stage('Build ObjC') {
+      steps {
+        sh 'xcodebuild -workspace ExampleObjC/GiniVisionExampleObjC.xcworkspace -scheme "GiniVisionExampleObjC" -destination \'platform=iOS Simulator,name=iPhone 6\' | /usr/local/bin/xcpretty -c'
       }
     }
     stage('Build') {
