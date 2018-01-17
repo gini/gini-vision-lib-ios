@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>GiniQRCodeDocument Class Reference</title>
+    <title>GiniVisionFont Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/GiniQRCodeDocument" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/GiniVisionFont" class="dashAnchor"></a>
 
-    <a title="GiniQRCodeDocument Class Reference"></a>
+    <a title="GiniVisionFont Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -45,7 +45,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
       <img class="carat" src="../img/carat.png" />
-      GiniQRCodeDocument Class Reference
+      GiniVisionFont Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -58,7 +58,7 @@
                 <a class="nav-group-task-link" href="../installation.html">Installation</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../updating-to-320.html">Updating to 3.2.0</a>
+                <a class="nav-group-task-link" href="../updating-to-32.html">Updating to 3.2</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../open-with-guide.html">Open with guide</a>
@@ -165,7 +165,7 @@
             <a class="nav-group-name-link" href="../Structs.html">Structs</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/GiniVisionFont.html">GiniVisionFont</a>
+                <a class="nav-group-task-link" href="../Classes/GiniVisionFont.html">GiniVisionFont</a>
               </li>
             </ul>
           </li>
@@ -205,7 +205,10 @@
             <a class="nav-group-name-link" href="../Other Classes.html">Other Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
+                <a class="nav-group-task-link" href="../Classes/CustomDocumentValidationError.html">CustomDocumentValidationError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CustomDocumentValidationResult.html">CustomDocumentValidationResult</a>
               </li>
             </ul>
           </li>
@@ -215,14 +218,23 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>GiniQRCodeDocument</h1>
+            <h1>GiniVisionFont</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GiniQRCodeDocument</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">GiniVisionFont</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                 </div>
               </div>
-            <p>Undocumented</p>
+            <p>Provides a way to set all possible font weights used in the GiniVision library.</p>
+
+<p><strong>Possible weights:</strong></p>
+
+<ul>
+<li>regular</li>
+<li>bold</li>
+<li>light</li>
+<li>thin</li>
+</ul>
 
           </div>
         </section>
@@ -234,9 +246,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)type"></a>
-                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)type">type</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(py)regular"></a>
+                    <a name="//apple_ref/swift/Property/regular" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(py)regular">regular</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -251,7 +263,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="kt"><a href="../Enums/GiniVisionDocumentType.html">GiniVisionDocumentType</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">qrcode</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">regular</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
 
                         </div>
                       </div>
@@ -261,9 +273,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)data"></a>
-                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)data">data</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(py)bold"></a>
+                    <a name="//apple_ref/swift/Property/bold" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(py)bold">bold</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -278,7 +290,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">bold</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
 
                         </div>
                       </div>
@@ -288,9 +300,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)previewImage"></a>
-                    <a name="//apple_ref/swift/Property/previewImage" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)previewImage">previewImage</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(py)light"></a>
+                    <a name="//apple_ref/swift/Property/light" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(py)light">light</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -305,7 +317,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">previewImage</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">light</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
 
                         </div>
                       </div>
@@ -315,9 +327,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)isReviewable"></a>
-                    <a name="//apple_ref/swift/Property/isReviewable" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)isReviewable">isReviewable</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(py)thin"></a>
+                    <a name="//apple_ref/swift/Property/thin" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(py)thin">thin</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -332,7 +344,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isReviewable</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">thin</span><span class="p">:</span> <span class="kt">UIFont</span></code></pre>
 
                         </div>
                       </div>
@@ -342,9 +354,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)isImported"></a>
-                    <a name="//apple_ref/swift/Property/isImported" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)isImported">isImported</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(py)isEnabled"></a>
+                    <a name="//apple_ref/swift/Property/isEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(py)isEnabled">isEnabled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -359,7 +371,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isImported</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">isEnabled</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -369,9 +381,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)extractedParameters"></a>
-                    <a name="//apple_ref/swift/Property/extractedParameters" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(py)extractedParameters">extractedParameters</a>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont(im)initWithRegular:bold:light:thin:isEnabled:"></a>
+                    <a name="//apple_ref/swift/Method/init(regular:bold:light:thin:isEnabled:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont(im)initWithRegular:bold:light:thin:isEnabled:">init(regular:bold:light:thin:isEnabled:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -386,92 +398,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">lazy</span> <span class="k">var</span> <span class="nv">extractedParameters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]</span> <span class="o">=</span> <span class="kt">QRCodesExtractor</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(im)initWithScannedString:"></a>
-                    <a name="//apple_ref/swift/Method/init(scannedString:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(im)initWithScannedString:">init(scannedString:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">scannedString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(im)checkTypeAndReturnError:"></a>
-                    <a name="//apple_ref/swift/Method/checkType()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument(im)checkTypeAndReturnError:">checkType()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">checkType</span><span class="p">()</span> <span class="k">throws</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@CM@GiniVision@objc(cs)GiniQRCodeDocument(im)isEqual:"></a>
-                    <a name="//apple_ref/swift/Method/isEqual(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)GiniQRCodeDocument(im)isEqual:">isEqual(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">isEqual</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">Any</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">regular</span><span class="p">:</span> <span class="kt">UIFont</span><span class="p">,</span> <span class="nv">bold</span><span class="p">:</span> <span class="kt">UIFont</span><span class="p">,</span> <span class="nv">light</span><span class="p">:</span> <span class="kt">UIFont</span><span class="p">,</span> <span class="nv">thin</span><span class="p">:</span> <span class="kt">UIFont</span><span class="p">,</span> <span class="nv">isEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -486,7 +413,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2017 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2017-12-08)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-17)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
