@@ -65,22 +65,11 @@ import UIKit
      Sets the font used in the GiniVision library by default.
      */
     
-    public var customFont: GiniVisionFont?
-    
-    /*
-     In order to provide backward compatibility for previously defined fonts, it is needed to have different properties.
-     */
-    var font: GiniVisionFont {
-        if let font = customFont {
-            return font
-        }
-        return defaultFont
-    }
-    
-    let defaultFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
-                                                     bold: UIFontPreferred(.bold, andSize: 14),
-                                                     light: UIFontPreferred(.light, andSize: 14),
-                                                     thin: UIFontPreferred(.thin, andSize: 14))
+    public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
+                                                                bold: UIFontPreferred(.bold, andSize: 14),
+                                                                light: UIFontPreferred(.light, andSize: 14),
+                                                                thin: UIFontPreferred(.thin, andSize: 14),
+                                                                isEnabled: false)
     
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.

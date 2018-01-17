@@ -99,9 +99,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> ()
         label.textAlignment = .right
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
-        label.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.reviewTextBottomFont :
-            GiniConfiguration.sharedConfiguration.font.thin.withSize(12)
+        label.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
+            GiniConfiguration.sharedConfiguration.customFont.thin.withSize(12) :
+            GiniConfiguration.sharedConfiguration.reviewTextBottomFont
         return label
     }()
     

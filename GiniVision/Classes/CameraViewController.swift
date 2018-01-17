@@ -327,7 +327,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> ()
         
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip", bundle: Bundle(for: GiniVision.self), comment: "tooltip text indicating new file import feature"),
                                   textColor: GiniConfiguration.sharedConfiguration.fileImportToolTipTextColor,
-                                  font: GiniConfiguration.sharedConfiguration.font.regular.withSize(14),
+                                  font: GiniConfiguration.sharedConfiguration.customFont.regular.withSize(14),
                                   backgroundColor: GiniConfiguration.sharedConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: GiniConfiguration.sharedConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton, superView: self.view, position: UIDevice.current.isIpad ? .left : .above)

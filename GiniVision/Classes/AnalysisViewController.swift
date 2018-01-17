@@ -67,7 +67,7 @@ import UIKit
     fileprivate var loadingIndicatorText:UILabel = {
         var loadingText = UILabel()
         loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
-        loadingText.font = GiniConfiguration.sharedConfiguration.font.regular.withSize(18)
+        loadingText.font = GiniConfiguration.sharedConfiguration.customFont.regular.withSize(18)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
         return loadingText
@@ -218,7 +218,7 @@ import UIKit
         let pdfInformationView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
                                                     subtitle: GiniConfiguration.sharedConfiguration.analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                                     textColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationTextColor,
-                                                    textFont: GiniConfiguration.sharedConfiguration.font.regular.withSize(16),
+                                                    textFont: GiniConfiguration.sharedConfiguration.customFont.regular.withSize(16),
                                                     backgroundColor: GiniConfiguration.sharedConfiguration.analysisPDFInformationBackgroundColor,
                                                     superView: self.view,
                                                     viewBelow: self.imageView)
@@ -229,7 +229,7 @@ import UIKit
     fileprivate func showCaptureSuggestions() {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
                                                         bottomLayout: bottomLayoutGuide,        
-                                                        font:GiniConfiguration.sharedConfiguration.font.regular.withSize(14))
+                                                        font:GiniConfiguration.sharedConfiguration.customFont.regular.withSize(14))
         captureSuggestions.start()
     }
 }

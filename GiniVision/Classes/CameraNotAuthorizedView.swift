@@ -33,17 +33,17 @@ internal class CameraNotAuthorizedView: UIView {
         label.numberOfLines = 0
         label.textColor = GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .center
-        label.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont :
-            GiniConfiguration.sharedConfiguration.font.thin.withSize(20)
+        label.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
+            GiniConfiguration.sharedConfiguration.customFont.thin.withSize(20) :
+            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedTextFont
         
         // Configure button
         button.setTitle(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
         button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
         button.setTitleColor(GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8), for: .highlighted)
-        button.titleLabel?.font = GiniConfiguration.sharedConfiguration.customFont == nil ?
-            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont :
-            GiniConfiguration.sharedConfiguration.font.regular.withSize(20)
+        button.titleLabel?.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
+            GiniConfiguration.sharedConfiguration.customFont.regular.withSize(20) :
+            GiniConfiguration.sharedConfiguration.cameraNotAuthorizedButtonFont
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         
         // Configure view hierachy
