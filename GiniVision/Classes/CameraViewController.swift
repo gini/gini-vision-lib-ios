@@ -591,7 +591,7 @@ extension CameraViewController {
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "tooltip text indicating new file import feature"),
                                   textColor: giniConfiguration.fileImportToolTipTextColor,
-                                  font: giniConfiguration.font.regular.withSize(14),
+                                  font: giniConfiguration.customFont.regular.withSize(14),
                                   backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: giniConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton,

@@ -68,6 +68,9 @@ public protocol GiniVisionError: Error {}
     
     /// PDF length exceeded
     case pdfPageLengthExceeded
+    
+    /// QR Code formar not valid
+    case qrCodeFormatNotValid
 
     var message:String {
         switch self {
@@ -79,6 +82,8 @@ public protocol GiniVisionError: Error {}
             return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         case .pdfPageLengthExceeded:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
+        case .qrCodeFormatNotValid:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         case .unknown:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
         }

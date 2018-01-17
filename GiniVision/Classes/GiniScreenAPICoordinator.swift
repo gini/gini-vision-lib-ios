@@ -301,7 +301,7 @@ internal extension GiniScreenAPICoordinator {
 
 internal extension GiniScreenAPICoordinator {
     fileprivate func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
-        let viewController = AnalysisViewController(document)
+        let viewController = AnalysisViewController(document: document)
         viewController.view.backgroundColor = giniConfiguration.backgroundColor
         viewController.didShowAnalysis = { [weak self] in
             guard let `self` = self else { return }
