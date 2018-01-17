@@ -22,9 +22,9 @@
          "name":"Documentation",
          "children":[
 	    "Installation",
-	    "Updating to 3.2.0",
+	    "Updating to 3.2",
             "Open with guide",
-	    "Import PDFs and images guide", 
+	    "Import PDFs and images guide",
             "Changelog",
             "License"
          ]

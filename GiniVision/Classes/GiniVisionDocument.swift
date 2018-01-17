@@ -38,6 +38,12 @@ import Foundation
  let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
  documentBuilder.importMethod = .openWith
  let document = documentBuilder.build()
+ do {
+ try document?.validate()
+ ...
+ } catch {
+ ...
+ }
  ```
  */
 public class GiniVisionDocumentBuilder: NSObject {
@@ -103,6 +109,8 @@ extension GiniVisionDocument {
     // MARK: File validation
     /**
      Validates a document. The validation process is done in the _global_ `DispatchQueue`.
+     Also it is possible to add custom validations in the `GiniConfiguration.customDocumentValidations`
+     closure.
      
      - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
      
