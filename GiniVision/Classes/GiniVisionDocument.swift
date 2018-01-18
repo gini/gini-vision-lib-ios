@@ -55,7 +55,7 @@ public class GiniVisionDocumentBuilder: NSObject {
     let data: Data?
     var documentSource: DocumentSource
     public var deviceOrientation: UIInterfaceOrientation?
-    public var importMethod:DocumentImportMethod = .picker
+    public var importMethod: DocumentImportMethod = .picker
     
     /**
      Initializes a `GiniVisionDocumentBuilder` with the document data and the document source.

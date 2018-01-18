@@ -519,10 +519,8 @@ extension CameraViewController {
                 switch error {
                 case let validationError as DocumentValidationError:
                     message = validationError.message
-                    break
                 case let customValidationError as CustomDocumentValidationError:
                     message = customValidationError.message
-                    break
                 default:
                     message = DocumentValidationError.unknown.message
                 }

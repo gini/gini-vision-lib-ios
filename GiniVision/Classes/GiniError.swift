@@ -72,7 +72,7 @@ public protocol GiniVisionError: Error {}
     /// QR Code formar not valid
     case qrCodeFormatNotValid
 
-    var message:String {
+    var message: String {
         switch self {
         case .exceededMaxFileSize:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
@@ -104,7 +104,7 @@ public protocol GiniVisionError: Error {}
     }
 
     public var message: String {
-        return userInfo["message"] as! String
+        return userInfo["message"] as? String ?? ""
     }
 }
 

@@ -37,7 +37,6 @@ internal class CameraNotAuthorizedView: UIView {
             giniConfiguration.customFont.thin.withSize(20) :
             giniConfiguration.cameraNotAuthorizedTextFont
             
-        
         // Configure button
         button.setTitle(giniConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
         button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
