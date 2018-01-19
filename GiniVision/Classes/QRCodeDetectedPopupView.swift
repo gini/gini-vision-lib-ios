@@ -27,7 +27,7 @@ final class QRCodeDetectedPopupView: UIView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = message
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         label.minimumScaleFactor = 10/14
         label.adjustsFontSizeToFitWidth = true
         return label
@@ -75,7 +75,7 @@ final class QRCodeDetectedPopupView: UIView {
     }
     
     fileprivate func addConstraints(onSuperView superView: UIView, refView: UIView) {
-        Contraints.active(item: self, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Contraints.active(item: self, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
                           constant: maxWidth)
         Contraints.active(item: self, attr: .leading, relatedBy: .greaterThanOrEqual, to: superView, attr: .leading,
                           constant: margin.left)
