@@ -26,7 +26,6 @@ internal final class GiniScreenAPICoordinator: NSObject {
     // Properties
     fileprivate var changesOnReview: Bool = false
     fileprivate var giniConfiguration: GiniConfiguration
-    fileprivate var noticeView: NoticeView?
     fileprivate weak var visionDelegate: GiniVisionDelegate?
     fileprivate var visionDocument: GiniVisionDocument?
     
@@ -169,7 +168,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if visionDocument != nil {
-            if fromVC == analysisViewController && toVC == reviewViewController {
+            if fromVC == analysisViewController && operation == .pop {
                 analysisViewController = nil
                 visionDelegate?.didCancelAnalysis?()
             }
@@ -188,29 +187,16 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 internal extension GiniScreenAPICoordinator {
     func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(successBlock: { [weak self ] document in
-            guard let `self` = self,
-                let delegate = self.visionDelegate else {
-                    return
-            }
+            guard let `self` = self else { return }
             self.visionDocument = document
-            
-            if let qrDocument = document as? GiniQRCodeDocument {
-                if let didDetect = delegate.didDetect(qrDocument: ) {
-                    didDetect(qrDocument)
-                } else {
-                    fatalError("QR Code scanning is enabled but `GiniVisionDelegate.didCapture`" +
-                        "method wasn't implement")
-                }
+            if document.isReviewable {
+                self.reviewViewController = self.createReviewScreen(withDocument: document)
+                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
             } else {
-                if document.isReviewable {
-                    self.reviewViewController = self.createReviewScreen(withDocument: document)
-                    self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
-                } else {
-                    self.analysisViewController = self.createAnalysisScreen(withDocument: document)
-                    self.screenAPINavigationController.pushViewController(self.analysisViewController!, animated: true)
-                }
-                self.didCapture(withDocument: document)
+                self.analysisViewController = self.createAnalysisScreen(withDocument: document)
+                self.screenAPINavigationController.pushViewController(self.analysisViewController!, animated: true)
             }
+            self.didCapture(withDocument: document)
             
             }, failureBlock: { error in
                 switch error {
@@ -315,7 +301,7 @@ internal extension GiniScreenAPICoordinator {
 
 internal extension GiniScreenAPICoordinator {
     fileprivate func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
-        let viewController = AnalysisViewController(document)
+        let viewController = AnalysisViewController(document: document)
         viewController.view.backgroundColor = giniConfiguration.backgroundColor
         viewController.didShowAnalysis = { [weak self] in
             guard let `self` = self else { return }
@@ -368,31 +354,35 @@ extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: AnalysisDelegate {
     func displayError(withMessage message: String?, andAction action: NoticeAction?) {
-        let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
         DispatchQueue.main.async {
+            let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
             self.show(notice: notice)
         }
     }
     
     func tryDisplayNoResultsScreen() -> Bool {
         if let visionDocument = visionDocument, visionDocument.type == .image {
-            imageAnalysisNoResultsViewController = createImageAnalysisNoResultsScreen()
-            screenAPINavigationController.pushViewController(imageAnalysisNoResultsViewController!, animated: true)
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
+                self.imageAnalysisNoResultsViewController = self.createImageAnalysisNoResultsScreen()
+                self.screenAPINavigationController.pushViewController(self.imageAnalysisNoResultsViewController!,
+                                                                      animated: true)
+            }
+            
             return true
         }
         return false
     }
     
     private func show(notice: NoticeView) {
-        if noticeView != nil {
-            noticeView?.hide(completion: {
-                self.noticeView = nil
-                self.show(notice: notice)
+        let noticeView = analysisViewController?.view.subviews.flatMap { $0 as? NoticeView }.first
+        if let noticeView = noticeView {
+            noticeView.hide(completion: { [weak self] in
+                self?.show(notice: notice)
             })
         } else {
-            noticeView = notice
-            analysisViewController?.view.addSubview(noticeView!)
-            noticeView?.show()
+            analysisViewController?.view.addSubview(notice)
+            notice.show()
         }
     }
 }

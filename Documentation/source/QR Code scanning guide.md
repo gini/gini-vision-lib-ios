@@ -16,29 +16,15 @@ let giniConfiguration = GiniConfiguration()
 giniConfiguration.qrCodeScanningEnabled = true
 ```
 
-Handle the Payment Data
+Handle and process the Payment Data
 ----------------------
 
-Once the QR code has been detected and the user has tapped the button to use it, the payment data is returned. In order to handle the Payment Data from the QR code, on one hand if you are using the _Screen API_ you have to implement the delegate method `GiniVisionDelegate.didDetect(qrDocument:)` to get the `GiniQRCodeDocument`.
-```swift
-func didDetect(qrDocument: GiniQRCodeDocument) {
-	let paymentParameters = qrDocument.extractedParameters
-	...
-}
-```
+Once the QR code has been detected and the user has tapped the button to use it, the payment data is returned and ready to be analyzed in the API. In order to handle the Payment Data from the QR code, on one hand if you are using the _Screen API_ the `GiniQRCodeDocument` is received in the delegate method `GiniVisionDelegate.didCapture(document:)`, where it must be sent to the API as though it was an image or a pdf.
+On the other hand if you are using the _Component API_, you will get the `GiniQRCodeDocument` in the `CameraScreenSuccessBlock`, where it also must be sent to the API as if it was an image or a pdf.
 
-On the other hand if your are using the _Component API_, you will get the `GiniQRCodeDocument` in the `CameraScreenSuccessBlock` as follows:
-```swift
-let cameraViewController = CameraViewController(successBlock: { document in
-		if let qrDocument = document as? GiniQRCodeDocument {
-			let paymentParameters = qrDocument.extractedParameters
-			...
-		}
-		...      
-	}, failureBlock: { error in
-    ...
-})
-```
+#### Note:
+---
+If you are using the [Gini API SDK](https://github.com/gini/gini-sdk-ios) to send the documents to the Gini API, you have to update to `0.5.2` in order to analyze the QR Codes.
 
 Customization
 ----------------------

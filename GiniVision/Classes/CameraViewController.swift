@@ -160,22 +160,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.successBlock = successBlock
         self.failureBlock = failureBlock
         
-        // Configure camera
-        self.camera = Camera(giniConfiguration: GiniConfiguration.sharedConfiguration) { error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
-                }
-                failureBlock(error)
-            }
-        }
-        self.camera?.didDetectQR = {[weak self] qrDocument in
-            guard let `self` = self else { return }
-            self.showPopup(forQRDetected: qrDocument)
-        }
+        self.setupCamera()
     }
     
     /**
@@ -353,6 +338,32 @@ extension CameraViewController {
 // MARK: - Image capture
 
 extension CameraViewController {
+    
+    fileprivate func setupCamera(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+        self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                }
+                self?.failureBlock?(error)
+            }
+        }
+        self.camera?.didDetectQR = {[weak self] qrDocument in
+            guard let `self` = self else { return }
+            do {
+                try qrDocument.validate()
+                self.showPopup(forQRDetected: qrDocument)
+            } catch let error as DocumentValidationError {
+                print(error.message)
+            } catch {
+                print(DocumentValidationError.unknown)
+            }
+        }
+    }
+    
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
             if GiniConfiguration.DEBUG {
@@ -399,8 +410,10 @@ extension CameraViewController {
                                                              refView: self.previewView,
                                                              document: qrDocument,
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
-                newQRCodePopup.didTapDone = {
+                newQRCodePopup.didTapDone = { [weak newQRCodePopup] in
                     self.successBlock?(qrDocument)
+                    self.detectedQRCodeDocument = nil
+                    newQRCodePopup?.hide()
                 }
 
                 if let qrCodeDetectedPopup = currentQRCodePopup {
@@ -506,10 +519,8 @@ extension CameraViewController {
                 switch error {
                 case let validationError as DocumentValidationError:
                     message = validationError.message
-                    break
                 case let customValidationError as CustomDocumentValidationError:
                     message = customValidationError.message
-                    break
                 default:
                     message = DocumentValidationError.unknown.message
                 }
@@ -523,15 +534,14 @@ extension CameraViewController {
     
     fileprivate func addValidationLoadingView() -> UIView {
         let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        loadingIndicator.center = self.view.center
-        loadingIndicator.startAnimating()
-        
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        blurredView.frame = self.view.bounds
-        blurredView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        blurredView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]
+        loadingIndicator.startAnimating()
         blurredView.contentView.addSubview(loadingIndicator)
-        
         self.view.addSubview(blurredView)
+        blurredView.frame = self.view.bounds
+        loadingIndicator.center = blurredView.center
+
         return blurredView
     }
     
@@ -579,7 +589,7 @@ extension CameraViewController {
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "tooltip text indicating new file import feature"),
                                   textColor: giniConfiguration.fileImportToolTipTextColor,
-                                  font: giniConfiguration.font.regular.withSize(14),
+                                  font: giniConfiguration.customFont.regular.withSize(14),
                                   backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor,
                                   closeButtonColor: giniConfiguration.fileImportToolTipCloseButtonColor,
                                   referenceView: importFileButton,

@@ -15,9 +15,9 @@ internal extension UINavigationController {
         self.navigationBar.tintColor = configuration.navigationBarItemTintColor
         var attributes = self.navigationBar.titleTextAttributes ?? [String: AnyObject]()
         attributes[NSForegroundColorAttributeName] = configuration.navigationBarTitleColor
-        attributes[NSFontAttributeName] = configuration.customFont == nil ?
-            configuration.navigationBarTitleFont :
-            configuration.font.light.withSize(16)
+        attributes[NSFontAttributeName] = configuration.customFont.isEnabled ?
+            configuration.customFont.light.withSize(16) :
+            configuration.navigationBarTitleFont
         self.navigationBar.titleTextAttributes = attributes
     }
 }

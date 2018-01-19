@@ -118,7 +118,7 @@ import UIKit
      */
     
     @available(*, deprecated)
-    public convenience init(_ imageData:Data) {
+    public convenience init(_ imageData: Data) {
         self.init(document: GiniImageDocument(data: imageData, imageSource: .external))
     }
     
@@ -149,7 +149,9 @@ import UIKit
             addLoadingText(below: loadingIndicatorView)
             addOverlay()
             
-            showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
+            if document.type == .image {
+                showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
+            }
         }
     }
     

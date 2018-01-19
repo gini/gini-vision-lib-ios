@@ -51,6 +51,10 @@ final class DocumentService {
     var isAnalyzing = false
     
     fileprivate var cancelationToken: CancelationToken?
+    enum AnalysisError: Error {
+        case documentCreation
+        case unknown
+    }
     
     /**
      Cancels all running analysis processes manually.
@@ -162,35 +166,36 @@ final class DocumentService {
                 documentId = document.documentId
                 self.document = document
                 print("📄 Created document with id: \(documentId!)")
+                return self.document?.extractions
+
             } else {
                 print("Error creating document")
+                return BFTask(error: AnalysisError.documentCreation)
             }
-            
-            return self.document?.extractions
             
             // 4. Handle results
         }).continue({ (task: BFTask?) -> AnyObject! in
             if token.cancelled || (task?.isCancelled == true) {
                 print("❌ Canceled analysis process")
+                completion?(nil, nil, AnalysisError.documentCreation)
+
                 return BFTask.cancelled()
             }
             
-            print("✅ Finished analysis process")
-            
             if let error = task?.error {
                 self.error = error
+                print("✅ Finished analysis process with this error: \(error)")
                 completion?(nil, nil, error)
             } else if let document = self.document,
                 let result = task?.result as? GINIResult {
                 self.result = result
                 self.document = document
+                print("✅ Finished analysis process with no errors")
                 completion?(result, document, nil)
             } else {
-                enum AnalysisError: Error {
-                    case unknown
-                }
                 let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
                 self.error = error
+                print("✅ Finished analysis process with this error: \(error)")
                 completion?(nil, nil, AnalysisError.unknown)
                 return nil
             }
