@@ -415,13 +415,17 @@ extension CameraViewController {
                     self.detectedQRCodeDocument = nil
                     newQRCodePopup?.hide()
                 }
+                
+                let didDismiss: () -> Void = { [weak self] in
+                    self?.detectedQRCodeDocument = nil
+                }
 
                 if let qrCodeDetectedPopup = currentQRCodePopup {
                     qrCodeDetectedPopup.hide {
-                        newQRCodePopup.show()
+                        newQRCodePopup.show(didDismiss: didDismiss)
                     }
                 } else {
-                    newQRCodePopup.show()
+                    newQRCodePopup.show(didDismiss: didDismiss)
                 }
             }
         }
