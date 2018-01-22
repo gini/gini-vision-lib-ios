@@ -121,9 +121,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return FilePickerManager()
     }()
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
-    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView? {
-        return self.view.subviews.flatMap { $0 as? QRCodeDetectedPopupView }.first
-    }
+    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
 
     var didShowCamera: (() -> Void)?
 
@@ -261,8 +259,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.viewWillDisappear(animated)
         
         camera?.stop()
-        currentQRCodePopup?.hide()
-        detectedQRCodeDocument = nil
     }
     
     public override func viewDidLayoutSubviews() {
@@ -410,28 +406,30 @@ extension CameraViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 self.detectedQRCodeDocument = qrDocument
-                let currentQRCodePopup = self.currentQRCodePopup
                 
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              refView: self.previewView,
                                                              document: qrDocument,
                                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
-                newQRCodePopup.didTapDone = { [weak newQRCodePopup] in
-                    self.successBlock?(qrDocument)
-                    self.detectedQRCodeDocument = nil
-                    newQRCodePopup?.hide()
+                newQRCodePopup.didTapDone = { [weak self] in
+                    self?.successBlock?(qrDocument)
+                    self?.detectedQRCodeDocument = nil
+                    self?.currentQRCodePopup?.hide()
                 }
                 
                 let didDismiss: () -> Void = { [weak self] in
                     self?.detectedQRCodeDocument = nil
+                    self?.currentQRCodePopup = nil
                 }
 
-                if let qrCodeDetectedPopup = currentQRCodePopup {
-                    qrCodeDetectedPopup.hide {
-                        newQRCodePopup.show(didDismiss: didDismiss)
+                if self.currentQRCodePopup != nil {
+                    self.currentQRCodePopup?.hide { [weak self] in
+                        self?.currentQRCodePopup = newQRCodePopup
+                        self?.currentQRCodePopup?.show(didDismiss: didDismiss)
                     }
                 } else {
-                    newQRCodePopup.show(didDismiss: didDismiss)
+                    self.currentQRCodePopup = newQRCodePopup
+                    self.currentQRCodePopup?.show(didDismiss: didDismiss)
                 }
             }
         }
