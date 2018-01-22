@@ -121,6 +121,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return FilePickerManager()
     }()
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
+    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView? {
+        return self.view.subviews.flatMap { $0 as? QRCodeDetectedPopupView }.first
+    }
+
     var didShowCamera: (() -> Void)?
 
     // Images
@@ -257,6 +261,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.viewWillDisappear(animated)
         
         camera?.stop()
+        currentQRCodePopup?.hide()
+        detectedQRCodeDocument = nil
     }
     
     public override func viewDidLayoutSubviews() {
@@ -404,7 +410,7 @@ extension CameraViewController {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 self.detectedQRCodeDocument = qrDocument
-                let currentQRCodePopup = self.view.subviews.flatMap { $0 as? QRCodeDetectedPopupView }.first
+                let currentQRCodePopup = self.currentQRCodePopup
                 
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              refView: self.previewView,
