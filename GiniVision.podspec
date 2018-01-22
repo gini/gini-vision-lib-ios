@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '3.2.3'
+  s.version          = '3.3.0'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
   s.description      = <<-DESC
@@ -8,8 +8,6 @@ Gini provides an information extraction system for analyzing documents (e. g. in
 contracts), specifically information such as the document sender or the amount to pay in an invoice.
 
 The Gini Vision Library for iOS provides functionality to capture documents with mobile phones.
-The captured images can be reviewed and rotated to the correct orientation by the user and are optimized on the device
-to provide the best results when used with the Gini API.
                        DESC
 
   s.homepage         = 'https://www.gini.net/en/developer/'

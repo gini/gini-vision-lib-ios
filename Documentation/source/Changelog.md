@@ -1,6 +1,10 @@
 Changelog
 =========
 
+3.3.0 (2018-01-22)
+------------------
+
+-   Added QR code scanning in camera screen (final).
 
 3.2.3 (2018-01-17)
 ------------------

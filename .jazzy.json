@@ -22,12 +22,17 @@
          "name":"Documentation",
          "children":[
            "Installation",
-           "Updating to 3.2",
            "Open with guide",
            "Import PDFs and images guide",
            "QR Code scanning guide",
            "Changelog",
            "License"
+         ]
+      },
+      {
+         "name":"Migration guides",
+         "children":[
+           "Updating to 3.2"
          ]
       },
       {

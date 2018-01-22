@@ -3,7 +3,7 @@ Updating to 3.2
 
 GiniVision 3.2 introduces several new features and changes, empowering your app and improving the user experience.  
 
-This guide is provided in order to ease the transition of existing applications using _GiniVision_.
+This guide is provided in order to ease the transition of existing applications using _GiniVision_ with a version lower than 3.2.
 
 ## Breaking Changes
 
