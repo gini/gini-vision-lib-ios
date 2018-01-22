@@ -134,7 +134,7 @@ final class QRCodeDetectedPopupView: UIView {
 // MARK: - Animations
 
 extension QRCodeDetectedPopupView {
-    func show(after seconds: TimeInterval = 0) {
+    func show(after seconds: TimeInterval = 0, didDismiss: (() -> Void)? = nil) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
             guard let `self` = self, let superview = self.superview else { return }
             self.bottomConstraint?.constant = -self.margin.bottom
@@ -145,7 +145,7 @@ extension QRCodeDetectedPopupView {
                             superview.layoutIfNeeded()
             }, completion: { [weak self] _ in
                 guard let `self` = self else { return }
-                self.hide(after: self.hiddingDelay)
+                self.hide(after: self.hiddingDelay, completion: didDismiss)
             })
         })
     }

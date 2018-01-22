@@ -47,7 +47,9 @@ import Foundation
     }
     
     public func checkType() throws {
-        if self.qrCodeFormat == nil || self.extractedParameters.isEmpty {
+        if self.qrCodeFormat == nil ||
+            self.extractedParameters.isEmpty ||
+            self.extractedParameters["iban"] == nil {
             throw DocumentValidationError.qrCodeFormatNotValid
         }
     }
