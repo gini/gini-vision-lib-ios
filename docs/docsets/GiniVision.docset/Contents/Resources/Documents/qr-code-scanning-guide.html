@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Structs  Reference</title>
+    <title>QR Code scanning guide  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="Structs  Reference"></a>
+    <a title="QR Code scanning guide  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      Structs  Reference
+      QR Code scanning guide  Reference
     </p>
 
     <div class="content-wrapper">
@@ -223,56 +223,59 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Structs</h1>
             
-          </div>
-        </section>
+            <h1 id='qr-code-scanning' class='heading'>QR Code Scanning</h1>
 
-        <section class="section">
-          <div class="section-content">
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/c:@M@GiniVision@objc(cs)GiniVisionFont"></a>
-                    <a name="//apple_ref/swift/Class/GiniVisionFont" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVisionFont">GiniVisionFont</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Provides a way to set all possible font weights used in the GiniVision library.</p>
+<p>Some invoices have a QR code that allows the user to get the payment data just by scanning it from the camera screen. If the QR code has a valid format (see <a href="#supported-qr-codes">supported QR codes</a>), a popup appears pointing out that a QR code has been detected and allowing the user to use it.
+<center><img src="img/qr_code_popup.jpg" border="1"/></center></p>
+<h2 id='enable-qr-code-scanning' class='heading'>Enable QR code scanning</h2>
 
-<p><strong>Possible weights:</strong></p>
+<p>The QR code scanning feature is disabled by default, so in case that you what to use it you just need to enable it in the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code>, like so:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="o">...</span>
+<span class="o">...</span>     
+<span class="n">giniConfiguration</span><span class="o">.</span><span class="n">qrCodeScanningEnabled</span> <span class="o">=</span> <span class="kc">true</span>
+</code></pre>
+<h2 id='handle-and-process-the-payment-data' class='heading'>Handle and process the Payment Data</h2>
+
+<p>Once the QR code has been detected and the user has tapped the button to use it, the payment data is returned and ready to be analyzed in the API. In order to handle the Payment Data from the QR code, on one hand if you are using the <em>Screen API</em> the <code><a href="Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a></code> is received in the delegate method <code><a href="Protocols/GiniVisionDelegate.html#/c:@M@GiniVision@objc(pl)GiniVisionDelegate(im)didCaptureWithDocument:">GiniVisionDelegate.didCapture(document:)</a></code>, where it must be sent to the API as though it was an image or a pdf.
+On the other hand if you are using the <em>Component API</em>, you will get the <code><a href="Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a></code> in the <code><a href="Typealiases.html#/s:10GiniVision24CameraScreenSuccessBlocka">CameraScreenSuccessBlock</a></code>, where it also must be sent to the API as if it was an image or a pdf.</p>
+<h4 id='note' class='heading'>Note:</h4>
+
+<hr>
+
+<p>If you are using the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a> to send the documents to the Gini API, you have to update to <code>0.5.2</code> in order to analyze the QR Codes.</p>
+<h2 id='customization' class='heading'>Customization</h2>
+
+<p>It is possible to customize the text label, button and background colors with these parameters:</p>
 
 <ul>
-<li>regular</li>
-<li>bold</li>
-<li>light</li>
-<li>thin</li>
+<li><code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupBackgroundColor">GiniConfiguration.qrCodePopupBackgroundColor</a></code></li>
+<li><code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupButtonColor">GiniConfiguration.qrCodePopupButtonColor</a></code></li>
+<li><code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupTextColor">GiniConfiguration.qrCodePopupTextColor</a></code></li>
 </ul>
 
-                        <a href="Classes/GiniVisionFont.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">GiniVisionFont</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+<p>Additionally the text from both label and button can be customized through the following parameters in your <code>Localizable.strings</code> file:</p>
 
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
+<ul>
+<li><em>ginivision.camera.qrCodeDetectedPopup.buttonTitle</em></li>
+<li><em>ginivision.camera.qrCodeDetectedPopup.message</em></li>
+</ul>
+<h2 id='supported-qr-codes' class='heading'>Supported QR codes</h2>
+
+<p>The supported QR codes are:</p>
+
+<ul>
+<li><a href="http://www.bezahlcode.de">BezahlCode</a></li>
+<li><a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12</a></li>
+<li><a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">Stuzza (AT)</a></li>
+<li><a href="https://www.girocode.de/rechnungsempfaenger/">GiroCode (DE)</a></li>
+</ul>
+
           </div>
         </section>
+
 
       </article>
     </div>

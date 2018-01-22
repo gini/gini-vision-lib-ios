@@ -67,6 +67,9 @@
                 <a class="nav-group-task-link" href="../import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../changelog.html">Changelog</a>
               </li>
               <li class="nav-group-task">
@@ -94,6 +97,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
@@ -229,12 +235,19 @@
 
 <p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
 
-<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
+<p>By integrating this library in your application you can allow your users to easily take a picture of
+a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
 
-<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
+<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or
+the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for
+easy integration, while the Component API provides single view controllers for advanced
+integration with more freedom for customization.</p>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
-    When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="../Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="../Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="../Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present the <code><a href="../Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
+    When using the Component API we advise you to use a similar flow as suggested in the
+Screen API. Use the <code><a href="../Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="../Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on
+top of it. After capturing let the user review the document with the <code><a href="../Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present
+the <code><a href="../Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
 
 </div>
 
@@ -305,7 +318,9 @@ for example to change texts and colors displayed to the user.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a navigation view controller with the camera screen loaded and ready to go. It&rsquo;s the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles all screens and transitions out of the box.</p>
+                        <p>Returns a navigation view controller with the camera screen loaded and ready to go. It&rsquo;s the
+easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
+all screens and transitions out of the box.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>Screen API only.</p>
@@ -317,7 +332,8 @@ for example to change texts and colors displayed to the user.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span> <span class="nv">importedDocument</span><span class="p">:</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">importedDocument</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -345,7 +361,8 @@ for example to change texts and colors displayed to the user.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A document which comes from a source different than CameraViewController. It should be validated before calling this method.</p>
+                                  <p>A document which comes from a source different than CameraViewController.
+It should be validated before calling this method.</p>
                                 </div>
                               </td>
                             </tr>
@@ -372,7 +389,8 @@ for example to change texts and colors displayed to the user.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a navigation view controller with the camera screen loaded and ready to go. Allows to set a custom configuration to change the look and feel of the Gini Vision Library.</p>
+                        <p>Returns a navigation view controller with the camera screen loaded and ready to go.
+Allows to set a custom configuration to change the look and feel of the Gini Vision Library.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>Screen API only.</p>
@@ -384,7 +402,9 @@ for example to change texts and colors displayed to the user.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span> <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span> <span class="nv">importedDocument</span><span class="p">:</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span>
+                                 <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
+                                 <span class="nv">importedDocument</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -424,7 +444,8 @@ for example to change texts and colors displayed to the user.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A document which comes from a source different than CameraViewController. It should be validated before calling this method.</p>
+                                  <p>A document which comes from a source different than CameraViewController.
+It should be validated before calling this method.</p>
                                 </div>
                               </td>
                             </tr>
@@ -474,7 +495,7 @@ If there is an error retrieving the version the returned value will be an empty 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-18)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

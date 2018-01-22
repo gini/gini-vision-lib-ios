@@ -67,6 +67,9 @@
                 <a class="nav-group-task-link" href="../import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../changelog.html">Changelog</a>
               </li>
               <li class="nav-group-task">
@@ -94,6 +97,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
@@ -225,11 +231,18 @@
 
                 </div>
               </div>
-            <p>The <code>OnboardingViewController</code> provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.</p>
+            <p>The <code>OnboardingViewController</code> provides a custom onboarding screen which presents some
+introductory screens to the user on how to get the camera in a perfect position etc.
+By default, three screens are pre-configured.</p>
 
-<p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code> of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code> and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks it is also possible to add a custom page control and update the current page accordingly.</p>
+<p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code>
+of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible
+to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code>
+and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks
+it is also possible to add a custom page control and update the current page accordingly.</p>
 
-<p>Use the <code><a href="../Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
+<p>Use the <code><a href="../Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design.
+See below how easy it is to present an custom onboarding view controller.</p>
 <pre class="highlight plaintext"><code>let pages = [
     OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
     OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
@@ -342,7 +355,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Designated intitializer for the <code>OnboardingViewController</code> which allows to pass a custom set of views which will be displayed in horizontal scroll view.</p>
+                        <p>Designated intitializer for the <code>OnboardingViewController</code> which allows to pass a custom set of
+views which will be displayed in horizontal scroll view.</p>
 
                       </div>
                       <div class="declaration">
@@ -386,7 +400,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.</p>
+                        <p>A view controller instance intended to allow the user to get a brief overview over
+the functionality provided by the Gini Vision Library.</p>
                       </div>
                     </section>
                   </div>
@@ -404,7 +419,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience initializer for the <code>OnboardingViewController</code> which will set a predefined set of views as the onboarding pages.</p>
+                        <p>Convenience initializer for the <code>OnboardingViewController</code> which will set a predefined set
+of views as the onboarding pages.</p>
 
                       </div>
                       <div class="declaration">
@@ -436,7 +452,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A view controller instance intended to allow the user to get a brief overview over the functionality provided by the Gini Vision Library.</p>
+                        <p>A view controller instance intended to allow the user to get a brief overview over
+the functionality provided by the Gini Vision Library.</p>
                       </div>
                     </section>
                   </div>
@@ -539,7 +556,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">centerTo</span><span class="p">(</span><span class="nv">page</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">centerTo</span><span class="p">(</span><span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -554,7 +571,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-18)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

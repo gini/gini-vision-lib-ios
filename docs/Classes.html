@@ -66,6 +66,9 @@
                 <a class="nav-group-task-link" href="import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="changelog.html">Changelog</a>
               </li>
               <li class="nav-group-task">
@@ -93,6 +96,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Classes/GiniVision.html">GiniVision</a>
@@ -239,13 +245,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>AnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity. The user should have the option of canceling the process by navigating back to the review screen.</p>
+                        <p>The <code>AnalysisViewController</code> provides a custom analysis screen which shows the upload and analysis activity.
+The user should have the option of canceling the process by navigating back to the review screen.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 <li><p><code>ginivision.navigationbar.analysis.back</code> (Screen API only.)</p></li>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your localized strings will make <code>AnalysisViewController</code> revert to the default iOS back button.</p>
+    <p>Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your
+localized strings will make <code>AnalysisViewController</code> revert to the default iOS back button.</p>
 
 </div>
 
@@ -292,38 +300,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>CameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
-
-<p><strong>Text resources for this screen</strong></p>
-
-<ul>
-<li><code>ginivision.navigationbar.camera.title</code> (Screen API only.)</li>
-<li><code>ginivision.navigationbar.camera.close</code> (Screen API only.)</li>
-<li><code>ginivision.navigationbar.camera.help</code> (Screen API only.)</li>
-<li><code>ginivision.camera.captureButton</code></li>
-<li><code>ginivision.camera.notAuthorized</code></li>
-<li><code>ginivision.camera.notAuthorizedButton</code></li>
-<li><code>ginivision.camera.filepicker.photoLibraryAccessDenied</code></li>
-</ul>
-
-<p><strong>Image resources for this screen</strong></p>
-
-<ul>
-<li><code>cameraCaptureButton</code></li>
-<li><code>cameraFocusLarge</code></li>
-<li><code>cameraFocusSmall</code></li>
-<li><code>cameraNotAuthorizedIcon</code></li>
-<li><code>documentImportButton</code></li>
-<li><code>navigationCameraClose</code> (Screen API only.)</li>
-<li><code>navigationCameraHelp</code> (Screen API only.)</li>
-</ul>
-
-<p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
+                        <p>Undocumented</p>
 
                         <a href="Classes/CameraViewController.html" class="slightly-smaller">See more</a>
                       </div>
@@ -355,22 +332,7 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>GiniConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
-
-</div>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code><a href="Classes/GiniVision.html">GiniVision</a></code> bundle.
-
-</div>
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    If there are conflicting pairs of image and text for an interface element (e.g. <code>navigationBarCameraTitleCloseButton</code>) the image will always be preferred, while making sure the accessibility label is set.
-
-</div>
+                        <p>Undocumented</p>
 
                         <a href="Classes/GiniConfiguration.html" class="slightly-smaller">See more</a>
                       </div>
@@ -456,6 +418,38 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniQRCodeDocument"></a>
+                    <a name="//apple_ref/swift/Class/GiniQRCodeDocument" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniQRCodeDocument">GiniQRCodeDocument</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Classes/GiniQRCodeDocument.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">GiniQRCodeDocument</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@GiniVision@objc(cs)GiniVision"></a>
                     <a name="//apple_ref/swift/Class/GiniVision" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision">GiniVision</a>
@@ -470,12 +464,19 @@
 
 <p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
 
-<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
+<p>By integrating this library in your application you can allow your users to easily take a picture of
+a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
 
-<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for easy integration, while the Component API provides single view controllers for advanced integration with more freedom for customization.</p>
+<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or
+the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for
+easy integration, while the Component API provides single view controllers for advanced
+integration with more freedom for customization.</p>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
-    When using the Component API we advise you to use a similar flow as suggested in the Screen API. Use the <code><a href="Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on top of it. After capturing let the user review the document with the <code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present the <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
+    When using the Component API we advise you to use a similar flow as suggested in the
+Screen API. Use the <code><a href="Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on
+top of it. After capturing let the user review the document with the <code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present
+the <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
 
 </div>
 
@@ -516,10 +517,10 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
-<ul>
-<li>The <code>GiniVisionDocumentBuilder</code> provides a way to build a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> from a <code>Data</code> object. The <code><a href="Enums/DocumentSource.html">DocumentSource</a></code> must be provided in the initialization, being optional but highly recommended setting the <code><a href="Enums/DocumentImportMethod.html">DocumentImportMethod</a></code> afterwards. This could be an example of how a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> should be built when it has been imported with the <em>Open with</em> feature.</li>
-</ul>
+                        <p>The <code>GiniVisionDocumentBuilder</code> provides a way to build a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> from a <code>Data</code> object and
+a <code><a href="Enums/DocumentSource.html">DocumentSource</a></code>. Additionally the <code><a href="Enums/DocumentImportMethod.html">DocumentImportMethod</a></code> can bet set after builder iniatilization.
+This is an example of how a <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> should be built when it has been imported
+with the <em>Open with</em> feature.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">documentBuilder</span> <span class="o">=</span> <span class="kt">GiniVisionDocumentBuilder</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="nv">documentSource</span><span class="p">:</span> <span class="o">.</span><span class="nf">appName</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="n">sourceApplication</span><span class="p">))</span>
 <span class="n">documentBuilder</span><span class="o">.</span><span class="n">importMethod</span> <span class="o">=</span> <span class="o">.</span><span class="n">openWith</span>
 <span class="k">let</span> <span class="nv">document</span> <span class="o">=</span> <span class="n">documentBuilder</span><span class="o">.</span><span class="nf">build</span><span class="p">()</span>
@@ -561,7 +562,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>HelpMenuViewController</code> provides explanations on how to take better pictures, how to use the open with feature and which formats are supported by Gini Vision Library.</p>
+                        <p>The <code>HelpMenuViewController</code> provides explanations on how to take better pictures, how to
+use the open with feature and which formats are supported by Gini Vision Library.</p>
 
                         <a href="Classes/HelpMenuViewController.html" class="slightly-smaller">See more</a>
                       </div>
@@ -593,13 +595,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>ImageAnalysisNoResultsViewController</code> provides a custom no results screen which shows some capture suggestions when there is no results when analysing an image.</p>
+                        <p>The <code>ImageAnalysisNoResultsViewController</code> provides a custom no results screen which shows some capture
+suggestions when there is no results when analysing an image.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 <li><p><code>ginivision.noresults.warning</code></p></li>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your localized strings will make <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> revert to the default iOS back button.</p>
+    <p>Setting <code>ginivision.navigationbar.analysis.back</code> explicitly to the empty string in your localized
+    strings will make <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code> revert to the default iOS back button.</p>
 
 </div>
 
@@ -642,10 +646,12 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code>. Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
+                        <p>Custom view to easily create onboarding pages which can then be used in <code><a href="Classes/OnboardingViewController.html">OnboardingViewController</a></code>.
+Simply pass an image and a name. Both will be beautifully aligned and displayed to the user.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    The text length should not exceed 50 characters, depending on the font used, and should preferably stretch out over three lines.
+    The text length should not exceed 50 characters, depending on the font used,
+    and should preferably stretch out over three lines.
 
 </div>
 
@@ -679,11 +685,18 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>OnboardingViewController</code> provides a custom onboarding screen which presents some introductory screens to the user on how to get the camera in a perfect position etc. By default, three screens are pre-configured.</p>
+                        <p>The <code>OnboardingViewController</code> provides a custom onboarding screen which presents some
+introductory screens to the user on how to get the camera in a perfect position etc.
+By default, three screens are pre-configured.</p>
 
-<p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code> of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code> and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks it is also possible to add a custom page control and update the current page accordingly.</p>
+<p>To allow displaying the onboarding as a transparent modal view, set the <code>modalPresentationStyle</code>
+of the container class to <code>.OverCurrentContext</code>. Add a blank page at the end to make it possible
+to <q>swipe away</q> the onboarding. To achieve this, the container class needs to implement <code>UIScrollViewDelegate</code>
+and dismiss the view when the last (empty) page is reached. With the <code>UIScrollViewDelegate</code> callbacks
+it is also possible to add a custom page control and update the current page accordingly.</p>
 
-<p>Use the <code><a href="Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design. See below how easy it is to present an custom onboarding view controller.</p>
+<p>Use the <code><a href="Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design.
+See below how easy it is to present an custom onboarding view controller.</p>
 <pre class="highlight plaintext"><code>let pages = [
     OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
     OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
@@ -752,7 +765,11 @@ presentViewController(onboardingController, animated: true, completion: nil)
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The <code>ReviewViewController</code> provides a custom review screen. The user has the option to check for blurriness and document orientation. If the result is not satisfying, the user can either return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be uploaded to Gini’s backend immediately after having been taken as it is safe to assume that in most cases the photo is good enough to be processed further.</p>
+                        <p>The <code>ReviewViewController</code> provides a custom review screen. The user has the option to check
+for blurriness and document orientation. If the result is not satisfying, the user can either
+return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be
+uploaded to Gini’s backend immediately after having been taken as it is safe to assume that
+in most cases the photo is good enough to be processed further.</p>
 
 <p><strong>Text resources for this screen</strong></p>
 <li><code>ginivision.navigationbar.review.title</code> (Screen API only.)</li>
@@ -764,7 +781,8 @@ presentViewController(onboardingController, animated: true, completion: nil)
 <li><p><code>ginivision.review.bottom</code></p></li>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Setting <code>ginivision.navigationbar.review.back</code> explicitly to the empty string in your localized strings will make <code>ReviewViewController</code> revert to the default iOS back button.</p>
+    <p>Setting <code>ginivision.navigationbar.review.back</code> explicitly to the empty string in your
+localized strings will make <code>ReviewViewController</code> revert to the default iOS back button.</p>
 
 </div>
 
@@ -804,7 +822,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-18)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

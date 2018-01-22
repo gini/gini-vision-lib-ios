@@ -67,6 +67,9 @@
                 <a class="nav-group-task-link" href="../import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../changelog.html">Changelog</a>
               </li>
               <li class="nav-group-task">
@@ -94,6 +97,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
@@ -225,38 +231,7 @@
 
                 </div>
               </div>
-            <p>The <code>CameraViewController</code> provides a custom camera screen which enables the user to take a photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.</p>
-
-<p><strong>Text resources for this screen</strong></p>
-
-<ul>
-<li><code>ginivision.navigationbar.camera.title</code> (Screen API only.)</li>
-<li><code>ginivision.navigationbar.camera.close</code> (Screen API only.)</li>
-<li><code>ginivision.navigationbar.camera.help</code> (Screen API only.)</li>
-<li><code>ginivision.camera.captureButton</code></li>
-<li><code>ginivision.camera.notAuthorized</code></li>
-<li><code>ginivision.camera.notAuthorizedButton</code></li>
-<li><code>ginivision.camera.filepicker.photoLibraryAccessDenied</code></li>
-</ul>
-
-<p><strong>Image resources for this screen</strong></p>
-
-<ul>
-<li><code>cameraCaptureButton</code></li>
-<li><code>cameraFocusLarge</code></li>
-<li><code>cameraFocusSmall</code></li>
-<li><code>cameraNotAuthorizedIcon</code></li>
-<li><code>documentImportButton</code></li>
-<li><code>navigationCameraClose</code> (Screen API only.)</li>
-<li><code>navigationCameraHelp</code> (Screen API only.)</li>
-</ul>
-
-<p>Resources listed also contain resources for the container view controller. These are marked with <em>Screen API only</em>.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
+            <p>Undocumented</p>
 
           </div>
         </section>
@@ -278,7 +253,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Designated initializer for the <code>CameraViewController</code> which allows to set a success block and an error block which will be executed accordingly.</p>
+                        <p>Designated initializer for the <code>CameraViewController</code> which allows
+to set a success block and an error block which will be executed accordingly.</p>
 
                       </div>
                       <div class="declaration">
@@ -340,7 +316,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Convenience initializer for the <code>CameraViewController</code> which allows to set a success block and an error block which will be executed accordingly.</p>
+                        <p>Convenience initializer for the <code>CameraViewController</code> which allows
+to set a success block and an error block which will be executed accordingly.</p>
 
                       </div>
                       <div class="declaration">
@@ -469,6 +446,33 @@
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)viewDidAppear:"></a>
+                    <a name="//apple_ref/swift/Method/viewDidAppear(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)viewDidAppear:">viewDidAppear(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidAppear</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -624,20 +628,13 @@
               </ul>
             </div>
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Toggle%20UI%20elements"></a>
-                <a name="//apple_ref/swift/Section/Toggle UI elements" class="dashAnchor"></a>
-                <a href="#/Toggle%20UI%20elements">
-                  <h3 class="section-name">Toggle UI elements</h3>
-                </a>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)showCaptureButton"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)showCaptureButton"></a>
                     <a name="//apple_ref/swift/Method/showCaptureButton()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)showCaptureButton">showCaptureButton()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)showCaptureButton">showCaptureButton()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -662,9 +659,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)hideCaptureButton"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideCaptureButton"></a>
                     <a name="//apple_ref/swift/Method/hideCaptureButton()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)hideCaptureButton">hideCaptureButton()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideCaptureButton">hideCaptureButton()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -689,9 +686,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)showCameraOverlay"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)showCameraOverlay"></a>
                     <a name="//apple_ref/swift/Method/showCameraOverlay()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)showCameraOverlay">showCameraOverlay()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)showCameraOverlay">showCameraOverlay()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -716,9 +713,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)hideCameraOverlay"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideCameraOverlay"></a>
                     <a name="//apple_ref/swift/Method/hideCameraOverlay()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)hideCameraOverlay">hideCameraOverlay()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideCameraOverlay">hideCameraOverlay()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -743,9 +740,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)showFileImportTip"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)showFileImportTip"></a>
                     <a name="//apple_ref/swift/Method/showFileImportTip()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)showFileImportTip">showFileImportTip()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)showFileImportTip">showFileImportTip()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -770,9 +767,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@GiniVision@objc(cs)CameraViewController(im)hideFileImportTip"></a>
+                    <a name="/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideFileImportTip"></a>
                     <a name="//apple_ref/swift/Method/hideFileImportTip()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@GiniVision@objc(cs)CameraViewController(im)hideFileImportTip">hideFileImportTip()</a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)CameraViewController(im)hideFileImportTip">hideFileImportTip()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -802,7 +799,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-18)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

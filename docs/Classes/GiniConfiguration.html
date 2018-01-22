@@ -67,6 +67,9 @@
                 <a class="nav-group-task-link" href="../import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../changelog.html">Changelog</a>
               </li>
               <li class="nav-group-task">
@@ -94,6 +97,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
@@ -225,22 +231,7 @@
 
                 </div>
               </div>
-            <p>The <code>GiniConfiguration</code> class allows customizations to the look and feel of the Gini Vision Library. If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Text can also be set by using the appropriate keys in a <code>Localizable.strings</code> file in the projects bundle. The library will prefer whatever value is set in the following order: attribute in configuration, key in strings file in project bundle, key in strings file in <code><a href="../Classes/GiniVision.html">GiniVision</a></code> bundle.
-
-</div>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Images can only be set by providing images with the same filename in an assets file or as individual files in the projects bundle. The library will prefer whatever value is set in the following order: asset file in project bundle, asset file in <code><a href="../Classes/GiniVision.html">GiniVision</a></code> bundle.
-
-</div>
-<div class="aside aside-attention">
-    <p class="aside-title">Attention</p>
-    If there are conflicting pairs of image and text for an interface element (e.g. <code>navigationBarCameraTitleCloseButton</code>) the image will always be preferred, while making sure the accessibility label is set.
-
-</div>
+            <p>Undocumented</p>
 
           </div>
         </section>
@@ -290,7 +281,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Returns a <code>GiniConfiguration</code> instance which allows to set individual configurations to change the look and feel of the Gini Vision Library.</p>
+                        <p>Returns a <code>GiniConfiguration</code> instance which allows to set individual configurations
+to change the look and feel of the Gini Vision Library.</p>
 
                       </div>
                       <div class="declaration">
@@ -364,7 +356,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets custom validations that can be done apart from the default ones (file size, file type&hellip;). It should throw a <code><a href="../Classes/CustomDocumentValidationError.html">CustomDocumentValidationError</a></code> error.</p>
+                        <p>Sets custom validations that can be done apart from the default ones (file size, file type&hellip;).
+It should throw a <code><a href="../Classes/CustomDocumentValidationError.html">CustomDocumentValidationError</a></code> error.</p>
 
                       </div>
                       <div class="declaration">
@@ -450,7 +443,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the tint color of the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
+                        <p>Sets the tint color of the navigation bar in all screens of the Gini Vision Library to
+the globally specified color or to a default color.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -482,7 +476,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the tint color of all navigation items in all screens of the Gini Vision Library to the globally specified color.</p>
+                        <p>Sets the tint color of all navigation items in all screens of the Gini Vision Library to
+the globally specified color.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -514,7 +509,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the font of all navigation items in all screens of the Gini Vision Library to the globally specified font or a default font.
+                        <p>Sets the font of all navigation items in all screens of the Gini Vision Library to
+the globally specified font or a default font.
 (Deprecated, use <code><a href="../Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)customFont">GiniConfiguration.customFont</a></code> instead)</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -527,7 +523,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarItemFont</span> <span class="o">=</span> <span class="kt">UIBarButtonItem</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="nf">titleTextAttributes</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="o">.</span><span class="n">normal</span><span class="p">)?[</span><span class="kt">NSFontAttributeName</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIFont</span> <span class="p">??</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="n">regular</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">16</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarItemFont</span> <span class="o">=</span> <span class="kt">UIBarButtonItem</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -547,7 +543,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the title color in the navigation bar in all screens of the Gini Vision Library to the globally specified color or to a default color.</p>
+                        <p>Sets the title color in the navigation bar in all screens of the Gini Vision Library to
+the globally specified color or to a default color.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Screen API only.
@@ -559,7 +556,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarTitleColor</span> <span class="o">=</span> <span class="kt">UINavigationBar</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">titleTextAttributes</span><span class="p">?[</span><span class="kt">NSForegroundColorAttributeName</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIColor</span> <span class="p">??</span> <span class="o">.</span><span class="n">white</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarTitleColor</span> <span class="o">=</span> <span class="kt">UINavigationBar</span></code></pre>
 
                         </div>
                       </div>
@@ -579,7 +576,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the title font in the navigation bar in all screens of the Gini Vision Library to the globally specified font or to a default font.
+                        <p>Sets the title font in the navigation bar in all screens of the Gini Vision Library to
+the globally specified font or to a default font.
 (Deprecated, use <code><a href="../Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)customFont">GiniConfiguration.customFont</a></code> instead)</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -592,7 +590,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarTitleFont</span> <span class="o">=</span> <span class="kt">UINavigationBar</span><span class="o">.</span><span class="nf">appearance</span><span class="p">()</span><span class="o">.</span><span class="n">titleTextAttributes</span><span class="p">?[</span><span class="kt">NSFontAttributeName</span><span class="p">]</span> <span class="k">as?</span> <span class="kt">UIFont</span> <span class="p">??</span> <span class="kt">UIFontPreferred</span><span class="p">(</span><span class="o">.</span><span class="n">regular</span><span class="p">,</span> <span class="nv">andSize</span><span class="p">:</span> <span class="mi">16</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarTitleFont</span> <span class="o">=</span> <span class="kt">UINavigationBar</span></code></pre>
 
                         </div>
                       </div>
@@ -612,7 +610,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the background color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+                        <p>Sets the background color of an informal notice. Notices are small pieces of
+information appearing underneath the navigation bar.</p>
 
                       </div>
                       <div class="declaration">
@@ -639,7 +638,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text color of an informal notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+                        <p>Sets the text color of an informal notice. Notices are small pieces of
+information appearing underneath the navigation bar.</p>
 
                       </div>
                       <div class="declaration">
@@ -666,7 +666,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the background color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+                        <p>Sets the background color of an error notice. Notices are small pieces of
+information appearing underneath the navigation bar.</p>
 
                       </div>
                       <div class="declaration">
@@ -693,7 +694,8 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text color of an error notice. Notices are small pieces of information appearing underneath the navigation bar.</p>
+                        <p>Sets the text color of an error notice. Notices are small pieces of
+information appearing underneath the navigation bar.</p>
 
                       </div>
                       <div class="declaration">
@@ -776,14 +778,42 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the descriptional text when photo library access was denied, advising the user to authorize the photo library access in the settings application.</p>
+                        <p>Sets the descriptional text when photo library access was denied, advising the
+user to authorize the photo library access in the settings application.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">photoLibraryAccessDeniedMessageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.filepicker.photoLibraryAccessDenied"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"This message is shown when Photo library permission is denied"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">photoLibraryAccessDeniedMessageText</span> <span class="o">=</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodeScanningEnabled"></a>
+                    <a name="//apple_ref/swift/Property/qrCodeScanningEnabled" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodeScanningEnabled">qrCodeScanningEnabled</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Indicates whether the QR Code scanning feature is enabled or not.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qrCodeScanningEnabled</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
 
                         </div>
                       </div>
@@ -814,7 +844,8 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text for the accessibility label of the capture button which allows the user to capture an image of a document.</p>
+                        <p>Sets the text for the accessibility label of the capture button which allows
+the user to capture an image of a document.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Used exclusively for accessibility label.
@@ -826,7 +857,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraCaptureButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.captureButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for capture button in camera screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraCaptureButtonTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -846,14 +877,15 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the descriptional text when camera access was denied, advising the user to authorize the camera in the settings application.</p>
+                        <p>Sets the descriptional text when camera access was denied, advising the user to
+authorize the camera in the settings application.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.notAuthorized"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Description text when the camera is not authorized and the user is advised to change that in the settings app"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -935,7 +967,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.notAuthorizedButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Button title to open the settings app"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cameraNotAuthorizedButtonTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1044,7 +1076,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorGeneral</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.documentValidationError.general"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Message text of a general document validation error shown in camera screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorGeneral</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1071,7 +1103,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorExcedeedFileSize</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.documentValidationError.excedeedFileSize"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Message text error shown in camera screen when a file size is higher than 10MB"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorExcedeedFileSize</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1098,7 +1130,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorTooManyPages</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.documentValidationError.tooManyPages"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Message text error shown in camera screen when a pdf length is higher than 10 pages"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorTooManyPages</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1118,14 +1150,15 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the message text of a document validation error dialog when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)</p>
+                        <p>Sets the message text of a document validation error dialog when a file has a
+wrong format (neither PDF, JPEG, GIF, TIFF or PNG)</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorWrongFormat</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.camera.documentValidationError.wrongFormat"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Message text error shown in camera screen when a file has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">documentValidationErrorWrongFormat</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1265,7 +1298,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarCameraTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.camera.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the camera screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarCameraTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1336,6 +1369,87 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupButtonColor"></a>
+                    <a name="//apple_ref/swift/Property/qrCodePopupButtonColor" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupButtonColor">qrCodePopupButtonColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of the QR Code popup button</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qrCodePopupButtonColor</span> <span class="o">=</span> <span class="kt">Colors</span><span class="o">.</span><span class="kt">Gini</span><span class="o">.</span><span class="n">blue</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupTextColor"></a>
+                    <a name="//apple_ref/swift/Property/qrCodePopupTextColor" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupTextColor">qrCodePopupTextColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of the QR Code popup label</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qrCodePopupTextColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">black</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupBackgroundColor"></a>
+                    <a name="//apple_ref/swift/Property/qrCodePopupBackgroundColor" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupBackgroundColor">qrCodePopupBackgroundColor</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets the text color of the QR Code popup background</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">qrCodePopupBackgroundColor</span> <span class="o">=</span> <span class="kt">UIColor</span><span class="o">.</span><span class="n">white</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1372,7 +1486,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarOnboardingTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.onboarding.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the onboarding screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarOnboardingTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1510,7 +1624,8 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Indicates whether the onboarding screen should be presented at the first start of the Gini Vision Library. It is advised to do so.</p>
+                        <p>Indicates whether the onboarding screen should be presented at the first
+start of the Gini Vision Library. It is advised to do so.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Overwrites <code><a href="../Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)onboardingShowAtLaunch">onboardingShowAtLaunch</a></code> for the first launch.
@@ -1554,7 +1669,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingFirstPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.firstPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the first page of the onboarding screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingFirstPageText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1581,7 +1696,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingSecondPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.secondPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the second page of the onboarding screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingSecondPageText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1608,7 +1723,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingThirdPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.thirdPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the third page of the onboarding screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingThirdPageText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1635,7 +1750,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingFourthPageText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.onboarding.fourthPage"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text on the fourth page of the onboarding screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">onboardingFourthPageText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1710,7 +1825,9 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>All onboarding pages which will be presented in a horizontal scroll view to the user. By default the Gini Vision Library comes with three pages advising the user to keep the document flat, hold the device parallel and capture the whole document.</p>
+                        <p>All onboarding pages which will be presented in a horizontal scroll view to the user.
+By default the Gini Vision Library comes with three pages advising the user to keep the
+document flat, hold the device parallel and capture the whole document.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Any array of views can be passed, but for your convenience we provide the <code>GINIOnboardingPage</code> class.
@@ -1765,7 +1882,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarReviewTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.review.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the review screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarReviewTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1881,14 +1998,15 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text appearing at the top of the review screen which should ask the user if the whole document is in focus and has correct orientation.</p>
+                        <p>Sets the text appearing at the top of the review screen which should ask the user if the
+whole document is in focus and has correct orientation.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextTop</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.top"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text at the top of the review screen asking the user if the full document is sharp and in the correct orientation"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextTop</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1941,7 +2059,8 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text for the accessibility label of the rotate button which allows the user to rotate the docuent into reading direction.</p>
+                        <p>Sets the text for the accessibility label of the rotate button which allows
+the user to rotate the docuent into reading direction.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Used exclusively for accessibility label.
@@ -1953,7 +2072,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewRotateButtonTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.rotateButton"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for rotate button in review screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewRotateButtonTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -1985,7 +2104,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewDocumentImageTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.documentImageTitle"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title for document image in review screen will be used exclusively for accessibility label"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewDocumentImageTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -2037,7 +2156,8 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Sets the text appearing at the bottom of the review screen which should encourage the user to check sharpness by double-tapping the image.
+                        <p>Sets the text appearing at the bottom of the review screen which should encourage
+the user to check sharpness by double-tapping the image.
 (Deprecated, use <code><a href="../Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)customFont">GiniConfiguration.customFont</a></code> instead)</p>
 
                       </div>
@@ -2045,7 +2165,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextBottom</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.review.bottom"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text at the bottom of the review screen encouraging the user to check sharpness by double-tapping the image"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">reviewTextBottom</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -2164,7 +2284,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingText</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.analysis.loadingText"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Text appearing at the center of the analysis screen indicating that the document is being analysed"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">analysisLoadingText</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -2245,7 +2365,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">analysisPDFNumberOfPages</span><span class="p">(</span><span class="n">pagesCount</span> <span class="nv">count</span><span class="p">:</span><span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">analysisPDFNumberOfPages</span><span class="p">(</span><span class="n">pagesCount</span> <span class="nv">count</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -2277,7 +2397,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarAnalysisTitle</span> <span class="o">=</span> <span class="kt">NSLocalizedStringPreferred</span><span class="p">(</span><span class="s">"ginivision.navigationbar.analysis.title"</span><span class="p">,</span> <span class="nv">comment</span><span class="p">:</span> <span class="s">"Title in the navigation bar on the analysis screen"</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">navigationBarAnalysisTitle</span> <span class="o">=</span></code></pre>
 
                         </div>
                       </div>
@@ -2514,7 +2634,7 @@ a new option with the open with tutorial wil be shown in the Help menu</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-18)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-01-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
