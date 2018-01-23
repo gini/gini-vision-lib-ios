@@ -93,7 +93,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravityResizeAspectFill
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.connection?.videoOrientation = self.getVideoOrientation()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
         return previewView
@@ -223,6 +222,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        updatePreviewViewOrientation() // Video orientation should be updated once the view has been loaded
+        
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
             if ToolTipView.shouldShowFileImportToolTip {
@@ -274,8 +275,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             guard let `self` = self else {
                 return 
             }
-            let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-            previewLayer?.connection?.videoOrientation = self.getVideoOrientation()
+            
+            self.updatePreviewViewOrientation()
             self.toolTipView?.arrangeViews()
             
         })
@@ -394,11 +395,16 @@ extension CameraViewController {
         
     }
     
-    fileprivate func getVideoOrientation() -> AVCaptureVideoOrientation {
+    fileprivate func updatePreviewViewOrientation() {
+        let orientation: AVCaptureVideoOrientation
         if UIDevice.current.isIpad {
-            return interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        } else {
+            orientation = .portrait
         }
-        return .portrait
+        
+        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+        previewLayer?.connection?.videoOrientation = orientation
     }
     
     fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument) {

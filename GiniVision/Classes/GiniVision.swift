@@ -109,7 +109,7 @@ import UIKit
     }
     
     /**
-     Returns a navigation view controller with the camera screen loaded and ready to go. It's the
+     Returns a view controller with the camera screen loaded and ready to go. It's the
      easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
      all screens and transitions out of the box.
      
@@ -119,7 +119,7 @@ import UIKit
      - parameter importedDocument:  A document which comes from a source different than CameraViewController.
      It should be validated before calling this method.
      
-     - returns: A presentable navigation view controller.
+     - returns: A presentable view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate,
                                      importedDocument: GiniVisionDocument? = nil) -> UIViewController {
@@ -129,7 +129,7 @@ import UIKit
     }
     
     /**
-     Returns a navigation view controller with the camera screen loaded and ready to go.
+     Returns a view controller with the camera screen loaded and ready to go.
      Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
      
      - note: Screen API only.
@@ -139,7 +139,7 @@ import UIKit
      - parameter importedDocument:  A document which comes from a source different than CameraViewController.
      It should be validated before calling this method.
      
-     - returns: A presentable navigation view controller.
+     - returns: A presentable view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate,
                                      withConfiguration configuration: GiniConfiguration,
