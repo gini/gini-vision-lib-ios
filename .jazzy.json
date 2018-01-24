@@ -40,6 +40,8 @@
          "children":[
             "AnalysisViewController",
             "CameraViewController",
+            "CustomDocumentValidationError",
+            "CustomDocumentValidationResult",
             "GiniConfiguration",
             "GiniImageDocument",
             "GiniPDFDocument",

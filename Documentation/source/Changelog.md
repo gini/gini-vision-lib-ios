@@ -1,6 +1,13 @@
 Changelog
 =========
 
+3.3.1 (2018-01-24)
+------------------
+
+-   Fixed issue with camera orientation when it appears for the first time
+    and the device was in landscape orientation (only iPad).
+-   Fixed issue with Gallery permissions on iOS 9.
+
 3.3.0 (2018-01-22)
 ------------------
 
