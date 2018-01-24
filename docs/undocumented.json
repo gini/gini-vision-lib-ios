@@ -30,35 +30,35 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/CameraViewController.swift",
-      "line": 200,
+      "line": 199,
       "symbol": "CameraViewController.loadView()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/CameraViewController.swift",
-      "line": 223,
+      "line": 222,
       "symbol": "CameraViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/CameraViewController.swift",
-      "line": 237,
+      "line": 238,
       "symbol": "CameraViewController.viewDidAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/CameraViewController.swift",
-      "line": 264,
+      "line": 265,
       "symbol": "CameraViewController.viewDidLayoutSubviews()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/CameraViewController.swift",
-      "line": 270,
+      "line": 271,
       "symbol": "CameraViewController.viewWillTransition(to:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
