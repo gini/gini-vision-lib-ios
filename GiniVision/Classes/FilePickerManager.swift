@@ -56,6 +56,7 @@ internal final class FilePickerManager: NSObject {
     
     fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void,
                                                        authorizedHandler: @escaping (() -> Void)) {
+        
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             authorizedHandler()
@@ -63,10 +64,12 @@ internal final class FilePickerManager: NSObject {
             deniedHandler(FilePickerError.photoLibraryAccessDenied)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { status in
-                if status == PHAuthorizationStatus.authorized {
-                    authorizedHandler()
-                } else {
-                    deniedHandler(FilePickerError.photoLibraryAccessDenied)
+                DispatchQueue.main.async {
+                    if status == PHAuthorizationStatus.authorized {
+                        authorizedHandler()
+                    } else {
+                        deniedHandler(FilePickerError.photoLibraryAccessDenied)
+                    }
                 }
             }
         }
