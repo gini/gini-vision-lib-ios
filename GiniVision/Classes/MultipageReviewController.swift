@@ -40,6 +40,15 @@ final class MultipageReviewController: UIViewController {
         Contraints.clip(view: mainCollection, toSuperView: self.view)
 
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        changeTitle(withPage: 1)
+    }
+    
+    fileprivate func changeTitle(withPage page: Int) {
+        title = "\(page) of \(imageDocuments.count)"
+    }
 }
 
 extension MultipageReviewController: UICollectionViewDataSource {
@@ -62,6 +71,13 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView.frame.size
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let indexPath = mainCollection.indexPathsForVisibleItems.first {
+            changeTitle(withPage: indexPath.row + 1)
+        }
+        
     }
 }
 

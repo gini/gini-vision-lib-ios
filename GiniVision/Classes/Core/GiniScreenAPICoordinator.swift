@@ -219,9 +219,7 @@ internal extension GiniScreenAPICoordinator {
         cameraViewController.didTapMultipageReviewButton = {[weak self] in
             guard let `self` = self else { return }
             let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
-            let nav = UINavigationController(rootViewController: vc)
-            nav.applyStyle(withConfiguration: self.giniConfiguration)
-            self.screenAPINavigationController.present(nav, animated: true, completion: nil)
+            self.screenAPINavigationController.pushViewController(vc, animated: true)
         }
         
         setupNavigationItem(usingResources: closeButtonResource,
