@@ -78,6 +78,10 @@ extension CameraViewController {
                               attr: .centerY, priority: 750)
             Contraints.active(item: reviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
+            Contraints.active(item: reviewContentView, attr: .top, relatedBy: .equal, to: controlsView,
+                              attr: .top)
+            Contraints.active(item: reviewContentView, attr: .bottom, relatedBy: .equal, to: controlsView,
+                              attr: .bottom)
             Contraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
                               attr: .trailing, priority: 750)
             
