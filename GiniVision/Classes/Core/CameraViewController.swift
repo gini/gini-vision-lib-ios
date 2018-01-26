@@ -97,7 +97,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 1
-        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOpacity = 0.5
         button.layer.shadowOffset = CGSize(width: -2, height: 2)
         return button
     }()
@@ -111,7 +111,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
-        view.alpha = 0
+        view.isHidden = true
         return view
     }()
     lazy var previewView: CameraPreviewView = {
@@ -401,31 +401,23 @@ extension CameraViewController {
         guard let camera = camera else {
             return print("GiniVision: No camera initialized.")
         }
-        
-        if GiniConfiguration.DEBUG {
-            // Retrieve image from default image view to make sure image
-            // was set and therefor the correct states were checked before.
-            if let image = self.defaultImageView?.image,
-                let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                self.successBlock?(imageDocument)
-            }
+
+        camera.captureStillImage(completion: self.cameraDidCapture)
+    }
+    
+    func cameraDidCapture(imageData: Data?, error: CameraError?) {
+        guard let imageData = imageData,
+            error == nil else {
+                self.failureBlock?(error ?? .captureFailed)
+                return
         }
         
-        camera.captureStillImage {[weak self] imageData, error in
-            guard let imageData = imageData,
-                error == nil else {
-                    self?.failureBlock?(error ?? .captureFailed)
-                    return
-            }
-            
-            let imageDocument = GiniImageDocument(data: imageData,
-                                                  imageSource: .camera,
-                                                  deviceOrientation: UIApplication.shared.statusBarOrientation)
-            
-            self?.moveImageDocumentToControlsView(document: imageDocument)
-            //self?.successBlock?(imageDocument)
-        }
+        let imageDocument = GiniImageDocument(data: imageData,
+                                              imageSource: .camera,
+                                              deviceOrientation: UIApplication.shared.statusBarOrientation)
+        
+        self.moveImageDocumentToControlsView(document: imageDocument)
+        //self?.successBlock?(imageDocument)
     }
     
     func moveImageDocumentToControlsView(document: GiniImageDocument) {
@@ -447,7 +439,7 @@ extension CameraViewController {
                 imageView.center = self.reviewContentView.convert(self.reviewImagesButton.center, to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
-                self.reviewBackgroundView.alpha = self.reviewImagesButton.imageView?.image != nil ? 1 : 0
+                self.reviewBackgroundView.isHidden = self.reviewImagesButton.imageView?.image == nil
                 self.reviewImagesButton.setImage(document.previewImage, for: .normal)
                 
             })
