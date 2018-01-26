@@ -90,6 +90,28 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
     }()
+    fileprivate lazy var reviewImagesButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 1
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: -2, height: 2)
+        return button
+    }()
+    fileprivate lazy var reviewContentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .lightGray
+        return view
+    }()
+    fileprivate lazy var reviewBackgroundView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        view.alpha = 0
+        return view
+    }()
     fileprivate lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -214,6 +236,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
+        controlsView.addSubview(reviewContentView)
+        reviewContentView.addSubview(reviewImagesButton)
+        reviewContentView.insertSubview(reviewBackgroundView,
+                                        belowSubview: reviewImagesButton)
         
         // Add constraints
         addConstraints()
@@ -392,9 +418,36 @@ extension CameraViewController {
             let imageDocument = GiniImageDocument(data: imageData,
                                                   imageSource: .camera,
                                                   deviceOrientation: UIApplication.shared.statusBarOrientation)
-            self?.successBlock?(imageDocument)
+            
+            self?.moveImageDocumentToControlsView(document: imageDocument)
+            //self?.successBlock?(imageDocument)
         }
+    }
+    
+    func moveImageDocumentToControlsView(document: GiniImageDocument) {
+        let imageFrame = previewView.frame
+        let imageView = UIImageView(frame: imageFrame)
+        imageView.center = previewView.center
+        imageView.image = document.previewImage
         
+        view.addSubview(imageView)
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+        }, completion: { _ in
+            UIView.animate(withDuration: 1, delay: 1, animations: {
+                let scaleRatioY = self.reviewImagesButton.frame.height / imageFrame.height
+                let scaleRatioX = self.reviewImagesButton.frame.width / imageFrame.width
+
+                imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
+                imageView.center = self.reviewContentView.convert(self.reviewImagesButton.center, to: self.view)
+            }, completion: { _ in
+                imageView.removeFromSuperview()
+                self.reviewBackgroundView.alpha = self.reviewImagesButton.imageView?.image != nil ? 1 : 0
+                self.reviewImagesButton.setImage(document.previewImage, for: .normal)
+                
+            })
+        })
     }
     
     fileprivate func updatePreviewViewOrientation() {
@@ -657,6 +710,7 @@ extension CameraViewController {
         addPreviewViewConstraints()
         addControlsViewConstraints()
         addControlsViewButtonsConstraints()
+        addReviewImagesButtonConstraints()
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -731,6 +785,42 @@ extension CameraViewController {
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
                               attr: .leading, priority: 750)
+        }
+    }
+    
+    fileprivate func addReviewImagesButtonConstraints() {
+        if UIDevice.current.isIpad {
+            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+                              attr: .trailing)
+            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
+                              attr: .leading)
+            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
+                              attr: .bottom, constant: 60)
+        } else {
+            Contraints.active(item: reviewContentView, attr: .centerY, relatedBy: .equal, to: controlsView,
+                              attr: .centerY, priority: 750)
+            Contraints.active(item: reviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
+                              attr: .trailing)
+            Contraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
+                              attr: .trailing, priority: 750)
+            
+            Contraints.active(item: reviewImagesButton, attr: .centerY, relatedBy: .equal, to: reviewContentView,
+                              attr: .centerY)
+            Contraints.active(item: reviewImagesButton, attr: .centerX, relatedBy: .equal, to: reviewContentView,
+                              attr: .centerX)
+            Contraints.active(item: reviewImagesButton, attr: .height, relatedBy: .equal, to: nil,
+                              attr: .notAnAttribute, constant: 60)
+            Contraints.active(item: reviewImagesButton, attr: .width, relatedBy: .equal, to: nil,
+                              attr: .notAnAttribute, constant: 40)
+            
+            Contraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: reviewImagesButton,
+                              attr: .centerY, constant: 5)
+            Contraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: reviewImagesButton,
+                              attr: .centerX, constant: -5)
+            Contraints.active(item: reviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
+                              attr: .notAnAttribute, constant: 60)
+            Contraints.active(item: reviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
+                              attr: .notAnAttribute, constant: 40)
         }
     }
 }
