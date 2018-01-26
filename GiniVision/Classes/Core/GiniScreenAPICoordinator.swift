@@ -25,9 +25,10 @@ internal final class GiniScreenAPICoordinator: NSObject {
     
     // Properties
     fileprivate var changesOnReview: Bool = false
-    var giniConfiguration: GiniConfiguration
-    weak var visionDelegate: GiniVisionDelegate?
-    var visionDocument: GiniVisionDocument?
+    fileprivate var giniConfiguration: GiniConfiguration
+    fileprivate weak var visionDelegate: GiniVisionDelegate?
+    fileprivate var visionDocument: GiniVisionDocument?
+    fileprivate var imageDocuments: [GiniImageDocument] = []
     
     // Resources
     fileprivate lazy var backButtonResource =
@@ -163,9 +164,10 @@ internal extension GiniScreenAPICoordinator {
         let cameraViewController = CameraViewController(successBlock: { [weak self ] document in
             guard let `self` = self else { return }
             self.visionDocument = document
-            if document.isReviewable {
-                self.reviewViewController = self.createReviewScreen(withDocument: document)
-                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
+            if let document = document as? GiniImageDocument, document.isReviewable {
+//                self.reviewViewController = self.createReviewScreen(withDocument: document)
+//                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
+                self.imageDocuments.append(document)
             } else {
                 self.analysisViewController = self.createAnalysisScreen(withDocument: document)
                 self.screenAPINavigationController.pushViewController(self.analysisViewController!, animated: true)
@@ -186,6 +188,14 @@ internal extension GiniScreenAPICoordinator {
         cameraViewController.didShowCamera = {[weak self] in
             guard let `self` = self else { return }
             self.showOnboardingIfNeeded()
+        }
+
+        cameraViewController.didTapMultipageReviewButton = {[weak self] in
+            guard let `self` = self else { return }
+            let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
+            let nav = UINavigationController(rootViewController: vc)
+            nav.applyStyle(withConfiguration: self.giniConfiguration)
+            self.screenAPINavigationController.present(nav, animated: true, completion: nil)
         }
         
         cameraViewController.setupNavigationItem(usingResources: closeButtonResource,
