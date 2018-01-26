@@ -79,18 +79,20 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     // User interface
     lazy var captureButton: UIButton = {
         let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(self.cameraCaptureButtonImage, for: .normal)
         button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         button.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
         return button
     }()
-    fileprivate lazy var importFileButton: UIButton = {
+    lazy var importFileButton: UIButton = {
         let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(self.documentImportButtonImage, for: .normal)
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
     }()
-    fileprivate lazy var reviewImagesButton: UIButton = {
+    lazy var reviewImagesButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.shadowColor = UIColor.black.cgColor
@@ -99,28 +101,30 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.layer.shadowOffset = CGSize(width: -2, height: 2)
         return button
     }()
-    fileprivate lazy var reviewContentView: UIView = {
+    lazy var reviewContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
         return view
     }()
-    fileprivate lazy var reviewBackgroundView: UIView = {
+    lazy var reviewBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         view.alpha = 0
         return view
     }()
-    fileprivate lazy var previewView: CameraPreviewView = {
+    lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
+        previewView.translatesAutoresizingMaskIntoConstraints = false
         (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravityResizeAspectFill
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
         return previewView
     }()
-    fileprivate lazy var controlsView: UIView = {
+    lazy var controlsView: UIView = {
         let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .black
         return view
     }()
@@ -701,127 +705,6 @@ extension CameraViewController {
     }
 }
 
-// MARK: - Constraints
-
-extension CameraViewController {
-    fileprivate func addConstraints() {
-        addPreviewViewConstraints()
-        addControlsViewConstraints()
-        addControlsViewButtonsConstraints()
-        addReviewImagesButtonConstraints()
-    }
-    
-    fileprivate func addPreviewViewConstraints() {
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        
-        if UIDevice.current.isIpad {
-            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Constraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading,
-                              priority: 750)
-        } else {
-            // lower priority constraints - will make the preview "want" to get bigger
-            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        }
-    }
-    
-    fileprivate func addControlsViewConstraints() {
-        controlsView.translatesAutoresizingMaskIntoConstraints = false
-        
-        if UIDevice.current.isIpad {
-            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-            Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing,
-                              priority: 750)
-        } else {
-            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
-            Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
-                              attr: .top)
-            Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-        }
-    }
-    
-    fileprivate func addControlsViewButtonsConstraints() {
-        captureButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 70)
-        Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 70)
-        
-        if UIDevice.current.isIpad {
-            Constraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
-            Constraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView,
-                              attr: .trailing, constant: -16)
-            Constraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading,
-                              constant: 16, priority: 750)
-        } else {
-            Constraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
-            Constraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top,
-                              constant: 16)
-            Constraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom,
-                              constant: -16, priority: 750)
-        }
-    }
-    
-    fileprivate func addImportButtonConstraints() {
-        importFileButton.translatesAutoresizingMaskIntoConstraints = false
-        if UIDevice.current.isIpad {
-            Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
-                              attr: .trailing)
-            Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
-                              attr: .leading)
-            Constraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
-                              attr: .bottom, constant: 60)
-        } else {
-            Constraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
-                              attr: .centerY, priority: 750)
-            Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
-                              attr: .leading)
-            Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
-                              attr: .leading, priority: 750)
-        }
-    }
-    
-    fileprivate func addReviewImagesButtonConstraints() {
-        if UIDevice.current.isIpad {
-            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
-                              attr: .trailing)
-            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
-                              attr: .leading)
-            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
-                              attr: .bottom, constant: 60)
-        } else {
-            Contraints.active(item: reviewContentView, attr: .centerY, relatedBy: .equal, to: controlsView,
-                              attr: .centerY, priority: 750)
-            Contraints.active(item: reviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
-                              attr: .trailing)
-            Contraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
-                              attr: .trailing, priority: 750)
-            
-            Contraints.active(item: reviewImagesButton, attr: .centerY, relatedBy: .equal, to: reviewContentView,
-                              attr: .centerY)
-            Contraints.active(item: reviewImagesButton, attr: .centerX, relatedBy: .equal, to: reviewContentView,
-                              attr: .centerX)
-            Contraints.active(item: reviewImagesButton, attr: .height, relatedBy: .equal, to: nil,
-                              attr: .notAnAttribute, constant: 60)
-            Contraints.active(item: reviewImagesButton, attr: .width, relatedBy: .equal, to: nil,
-                              attr: .notAnAttribute, constant: 40)
-            
-            Contraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: reviewImagesButton,
-                              attr: .centerY, constant: 5)
-            Contraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: reviewImagesButton,
-                              attr: .centerX, constant: -5)
-            Contraints.active(item: reviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
-                              attr: .notAnAttribute, constant: 60)
-            Contraints.active(item: reviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
-                              attr: .notAnAttribute, constant: 40)
-        }
-    }
-}
 
 // MARK: - Default and not authorized views
 
@@ -833,10 +716,10 @@ extension CameraViewController {
         super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
-        Constraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
-        Constraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
-        Constraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
+        Contraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
+        Contraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
+        Contraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
+        Contraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
         
         // Hide camera UI
         hideCameraOverlay()
@@ -852,9 +735,9 @@ extension CameraViewController {
         previewView.addSubview(defaultImageView)
         
         defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
-        Constraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
-        Constraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
-        Constraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
+        Contraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
+        Contraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
+        Contraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
+        Contraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
 }
