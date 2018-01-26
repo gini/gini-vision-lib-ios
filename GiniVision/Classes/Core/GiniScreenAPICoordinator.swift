@@ -29,6 +29,13 @@ internal final class GiniScreenAPICoordinator: NSObject {
     fileprivate weak var visionDelegate: GiniVisionDelegate?
     fileprivate var visionDocument: GiniVisionDocument?
     fileprivate var imageDocuments: [GiniImageDocument] = []
+    fileprivate let multipageTransition = MultipageReviewTransitionAnimator()
+    
+    lazy var vc: UIViewController = {
+        let nav = UINavigationController(rootViewController: MultipageReviewController(imageDocuments: self.imageDocuments))
+        nav.transitioningDelegate = self
+        return nav
+    }()
     
     fileprivate enum NavBarItemPosition {
         case left, right
@@ -183,6 +190,21 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     }
 }
 
+extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
+    func animationController(forPresented presented: UIViewController,
+                             presenting: UIViewController,
+                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton.center,
+            let origin = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter,
+                                                                         to: cameraViewController?.view),
+            let size = cameraViewController?.reviewImagesButton.frame.size {
+            multipageTransition.originFrame = CGRect(origin: origin, size: size)
+            return multipageTransition
+        }
+        return nil
+    }
+}
+
 // MARK: - Camera Screen
 
 internal extension GiniScreenAPICoordinator {
@@ -218,8 +240,10 @@ internal extension GiniScreenAPICoordinator {
 
         cameraViewController.didTapMultipageReviewButton = {[weak self] in
             guard let `self` = self else { return }
-            let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
-            self.screenAPINavigationController.pushViewController(vc, animated: true)
+
+            self.screenAPINavigationController.present(self.vc,
+                                                       animated: true,
+                                                       completion: nil)
         }
         
         setupNavigationItem(usingResources: closeButtonResource,
