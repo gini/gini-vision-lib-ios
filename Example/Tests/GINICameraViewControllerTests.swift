@@ -50,5 +50,22 @@ class CameraViewControllerTests: XCTestCase {
         
         XCTAssertEqual(vc.opaqueView?.backgroundColor, UIColor.black.withAlphaComponent(0.8))
     }
+
+    func testReviewButtonBackground() {
+        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
+        _ = vc.view
+        
+        let image = loadImage(withName: "invoice.jpg")
+        let imageData = UIImageJPEGRepresentation(image!, 0.9)
+        
+        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
+                      "ReviewBackgroundView should be hidden before capture the first picture")
+        vc.cameraDidCapture(imageData: imageData, error: nil)
+        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
+                      "ReviewBackgroundView should be hidden after capture the first picture")
+        vc.cameraDidCapture(imageData: imageData, error: nil)
+        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
+                      "ReviewBackgroundView should not be hidden after capture the second picture")
+    }
 }
 

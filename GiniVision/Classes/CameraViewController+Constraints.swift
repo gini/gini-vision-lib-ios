@@ -91,9 +91,9 @@ extension CameraViewController {
                               attr: .notAnAttribute, constant: 40)
             
             Contraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: reviewImagesButton,
-                              attr: .centerY, constant: 5)
+                              attr: .centerY, constant: 3)
             Contraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: reviewImagesButton,
-                              attr: .centerX, constant: -5)
+                              attr: .centerX, constant: -3)
             Contraints.active(item: reviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
                               attr: .notAnAttribute, constant: 60)
             Contraints.active(item: reviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
