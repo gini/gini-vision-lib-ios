@@ -9,10 +9,9 @@ import UIKit
 
 final class MultipageReviewTransitionAnimator: NSObject {
     
-    let animationDuration = 10.0
+    let animationDuration = AnimationDuration.medium
     var operation: UINavigationControllerOperation = .push
     var originFrame: CGRect = .zero
-    weak var storedContext: UIViewControllerContextTransitioning?
     
 }
 
@@ -30,16 +29,15 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
         let toView = transitionContext.view(forKey: .to)!
         let finalFrame = toView.frame
         
-        self.storedContext = transitionContext
-        let scaleFactorY = originFrame.size.height / toVC.view.frame.height
-        let scaleFactorX = originFrame.size.height / toVC.view.frame.width
-        let scaleTransform = CGAffineTransform(scaleX: scaleFactorX,
-                          y: scaleFactorY)
+        let yScaleFactor = originFrame.size.height / toVC.view.frame.height
+        let xScaleFactor = originFrame.size.width / toVC.view.frame.width
+        let scaleTransform = CGAffineTransform(scaleX: xScaleFactor,
+                          y: yScaleFactor)
         transitionContext.containerView.addSubview(toView)
 
         toView.transform = scaleTransform
         toView.center = originFrame.center
-        toView.clipsToBounds = true
+
         UIView.animate(withDuration: animationDuration, animations: {
             toView.transform = CGAffineTransform.identity
             toView.center = finalFrame.center

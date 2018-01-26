@@ -95,6 +95,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var reviewImagesButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.isUserInteractionEnabled = false
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 1
         button.layer.shadowOpacity = 0.5
@@ -391,10 +392,7 @@ extension CameraViewController {
             do {
                 try qrDocument.validate()
                 self.showPopup(forQRDetected: qrDocument)
-            } catch let error as DocumentValidationError {
-                print(error.message)
             } catch {
-                print(DocumentValidationError.unknown)
             }
         }
     }
@@ -442,10 +440,10 @@ extension CameraViewController {
         
         view.addSubview(imageView)
         
-        UIView.animate(withDuration: 0.3, animations: {
+        UIView.animate(withDuration: AnimationDuration.medium, animations: {
             imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
-            UIView.animate(withDuration: 1, delay: 1, animations: {
+            UIView.animate(withDuration: AnimationDuration.slow, delay: 1, animations: {
                 let scaleRatioY = self.reviewImagesButton.frame.height / imageFrame.height
                 let scaleRatioX = self.reviewImagesButton.frame.width / imageFrame.width
 
@@ -455,7 +453,7 @@ extension CameraViewController {
                 imageView.removeFromSuperview()
                 self.reviewBackgroundView.isHidden = self.reviewImagesButton.imageView?.image == nil
                 self.reviewImagesButton.setImage(document.previewImage, for: .normal)
-                
+                self.reviewImagesButton.isUserInteractionEnabled = true
             })
         })
     }
