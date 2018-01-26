@@ -30,12 +30,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
     fileprivate var visionDocument: GiniVisionDocument?
     fileprivate var imageDocuments: [GiniImageDocument] = []
     fileprivate let multipageTransition = MultipageReviewTransitionAnimator()
-    
-    lazy var vc: UIViewController = {
-        let nav = UINavigationController(rootViewController: MultipageReviewController(imageDocuments: self.imageDocuments))
-        nav.transitioningDelegate = self
-        return nav
-    }()
+    fileprivate var multiPageReviewContainer: UINavigationController?
     
     fileprivate enum NavBarItemPosition {
         case left, right
@@ -194,11 +189,10 @@ extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
                              source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton.center,
-            let origin = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter,
-                                                                         to: cameraViewController?.view),
-            let size = cameraViewController?.reviewImagesButton.frame.size {
-            multipageTransition.originFrame = CGRect(origin: origin, size: size)
+        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
+            let buttonFrame = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter.frame,
+                                                                         to: self.screenAPINavigationController.view) {
+            multipageTransition.originFrame = buttonFrame
             return multipageTransition
         }
         return nil
@@ -213,8 +207,8 @@ internal extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             self.visionDocument = document
             if let document = document as? GiniImageDocument, document.isReviewable {
-//                self.reviewViewController = self.createReviewScreen(withDocument: document)
-//                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
+                //                self.reviewViewController = self.createReviewScreen(withDocument: document)
+                //                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
                 self.imageDocuments.append(document)
             } else {
                 self.analysisViewController = self.createAnalysisScreen(withDocument: document)
@@ -237,11 +231,11 @@ internal extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             self.showOnboardingIfNeeded()
         }
-
+        
         cameraViewController.didTapMultipageReviewButton = {[weak self] in
             guard let `self` = self else { return }
-
-            self.screenAPINavigationController.present(self.vc,
+            self.multiPageReviewContainer = self.createMultipageReviewScreenContainer()
+            self.screenAPINavigationController.present(self.multiPageReviewContainer!,
                                                        animated: true,
                                                        completion: nil)
         }
@@ -326,6 +320,19 @@ internal extension GiniScreenAPICoordinator {
                             onViewController: reviewViewController)
         
         return reviewViewController
+    }
+}
+
+// MARK: - Multipage Review screen
+
+internal extension GiniScreenAPICoordinator {
+    fileprivate func createMultipageReviewScreenContainer() -> UINavigationController {
+        let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.applyStyle(withConfiguration: giniConfiguration)
+        nav.transitioningDelegate = self
+        nav.setNavigationBarHidden(true, animated: false)
+        return nav
     }
 }
 
@@ -418,4 +425,3 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
         }
     }
 }
-

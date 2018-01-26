@@ -44,6 +44,12 @@ final class MultipageReviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         changeTitle(withPage: 1)
+        view.backgroundColor = .white
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     fileprivate func changeTitle(withPage page: Int) {
