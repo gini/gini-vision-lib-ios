@@ -134,6 +134,13 @@ internal class Constraints {
         constraint.isActive = true
     }
     
+    class func clip(view: UIView, toSuperView superview: UIView) {
+        Contraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Contraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Contraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Contraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+    }
+    
 }
 
 internal struct Colors {
