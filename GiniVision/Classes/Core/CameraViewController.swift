@@ -75,7 +75,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate enum CameraState {
         case valid, notValid
     }
-    
+        
     // User interface
     lazy var captureButton: UIButton = {
         let button = UIButton()
@@ -99,18 +99,19 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.layer.shadowRadius = 1
         button.layer.shadowOpacity = 0.5
         button.layer.shadowOffset = CGSize(width: -2, height: 2)
+        button.addTarget(self, action: #selector(didPressReviewButton), for: .touchUpInside)
+
         return button
     }()
     lazy var reviewContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .lightGray
         return view
     }()
     lazy var reviewBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         view.isHidden = true
         return view
     }()
@@ -148,7 +149,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
 
-    var didShowCamera: (() -> Void)?
+    public var didShowCamera: (() -> Void)?
+    public var didTapMultipageReviewButton: (() -> Void)?
 
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -405,6 +407,10 @@ extension CameraViewController {
         camera.captureStillImage(completion: self.cameraDidCapture)
     }
     
+    @objc fileprivate func didPressReviewButton(_ sender: AnyObject) {
+        self.didTapMultipageReviewButton?()
+    }
+    
     func cameraDidCapture(imageData: Data?, error: CameraError?) {
         guard let imageData = imageData,
             error == nil else {
@@ -417,7 +423,7 @@ extension CameraViewController {
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
         
         self.moveImageDocumentToControlsView(document: imageDocument)
-        //self?.successBlock?(imageDocument)
+        self.successBlock?(imageDocument)
     }
     
     func moveImageDocumentToControlsView(document: GiniImageDocument) {
