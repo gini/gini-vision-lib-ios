@@ -1,4 +1,5 @@
 import XCTest
+import AVFoundation
 @testable import GiniVision
 
 class CameraViewControllerTests: XCTestCase {
