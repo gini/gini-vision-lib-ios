@@ -10,7 +10,7 @@ import Foundation
 final class MultipageReviewController: UIViewController {
     
     var imageDocuments: [GiniImageDocument]
-    var currentItemIndex: IndexPath = IndexPath(row: 0, section: 0)
+    fileprivate var currentItemIndex: IndexPath = IndexPath(row: 0, section: 0)
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -44,7 +44,7 @@ final class MultipageReviewController: UIViewController {
         return collection
     }()
     
-    lazy var button: UIButton = {
+    lazy var orderingButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Change order", for: .normal)
@@ -87,21 +87,21 @@ final class MultipageReviewController: UIViewController {
         
         view.addSubview(mainCollection)
         view.addSubview(bottomCollection)
-        view.addSubview(button)
+        view.addSubview(orderingButton)
         bottomCollection.alpha = 0
         
         Contraints.clip(view: mainCollection, toSuperView: self.view)
         
-        Contraints.active(item: button, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+        Contraints.active(item: orderingButton, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
                           attr: .top)
-        Contraints.active(item: button, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
-        Contraints.active(item: button, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing,
+        Contraints.active(item: orderingButton, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
+        Contraints.active(item: orderingButton, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing,
                           constant: -20)
-        Contraints.active(item: button, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading, constant: 20)
-        Contraints.active(item: button, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Contraints.active(item: orderingButton, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading, constant: 20)
+        Contraints.active(item: orderingButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 60)
         
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: self.button,
+        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: self.orderingButton,
                           attr: .top, constant: -20)
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
@@ -201,6 +201,8 @@ extension MultipageReviewController: UICollectionViewDataSource {
     
 }
 
+// MARK: UICollectionViewDelegateFlowLayout
+
 extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView,
@@ -253,37 +255,4 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         collectionView.layoutIfNeeded() // It is needed due to a bug in UIKit.
         return collectionView.indexPathsForVisibleItems.first
     }
-}
-
-final class MultipageReviewCollectionCell: UICollectionViewCell {
-    
-    static let identifier = "MultipageReviewCollectionCellIdentifier"
-    var shouldShowBorder: Bool = false
-    
-    lazy var documentImage: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    override var isSelected: Bool {
-        didSet {
-            if shouldShowBorder {
-                self.layer.borderColor = isSelected ? Colors.Gini.blue.cgColor : UIColor.black.cgColor
-            }
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.addSubview(documentImage)
-        self.layer.borderWidth = 2.0
-        Contraints.clip(view: documentImage, toSuperView: self)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(frame:) has not been implemented")
-    }
-    
 }
