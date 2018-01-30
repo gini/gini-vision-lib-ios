@@ -183,7 +183,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(successBlock: @escaping CameraScreenSuccessBlock, failureBlock: @escaping CameraScreenFailureBlock) {
+    public init(successBlock: @escaping CameraScreenSuccessBlock,
+                failureBlock: @escaping CameraScreenFailureBlock) {
+
         super.init(nibName: nil, bundle: nil)
         
         // Set callback
@@ -450,7 +452,7 @@ extension CameraViewController {
         })
     }
     
-    fileprivate func updatePreviewViewOrientation() {
+    func updatePreviewViewOrientation() {
         let orientation: AVCaptureVideoOrientation
         if UIDevice.current.isIpad {
             orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
@@ -681,7 +683,7 @@ extension CameraViewController {
             alertViewController.dismiss(animated: true, completion: nil)
         }))
         
-        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: {_ in
+        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
             UIApplication.shared.openAppSettings()
         }))
@@ -702,7 +704,6 @@ extension CameraViewController {
         present(alertViewController, animated: true, completion: nil)
     }
 }
-
 
 // MARK: - Default and not authorized views
 
