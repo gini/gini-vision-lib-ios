@@ -44,28 +44,33 @@ final class MultipageReviewController: UIViewController {
         return collection
     }()
     
-    lazy var orderingButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Change order", for: .normal)
-        button.backgroundColor = Colors.Gini.blue
-        button.setImage(UIImageNamedPreferred(named: "reviewRotateButton"), for: .normal)
-        button.addTarget(self, action: #selector(enableChangeOrder), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
-        button.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
+    lazy var toolBar: UIToolbar = {
+        let toolBar = UIToolbar(frame: .zero)
+        toolBar.translatesAutoresizingMaskIntoConstraints = false
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        toolBar.setItems([self.rotateButton,
+                          flexibleSpace,
+                          self.orderButton,
+                          flexibleSpace,
+                          self.deleteButton], animated: false)
 
-        return button
+        return toolBar
     }()
     
-    lazy var moveLeftButton = UIBarButtonItem.init(title: "Move left",
-                                              style: .done,
+    lazy var rotateButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
+                                              style: .plain,
                                               target: self,
-                                              action: #selector(moveLeft))
+                                              action: #selector(rotateImage))
     
-    lazy var moveRightButton = UIBarButtonItem.init(title: "Move right",
-                                                    style: .done,
-                                                    target: self,
-                                                    action: #selector(moveRight))
+    lazy var orderButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(orderAction))
+    
+    lazy var deleteButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(deleteSelectedImage))
     
     lazy var doneButton = UIBarButtonItem.init(title: "Done",
                                                style: .done,
@@ -87,21 +92,21 @@ final class MultipageReviewController: UIViewController {
         
         view.addSubview(mainCollection)
         view.addSubview(bottomCollection)
-        view.addSubview(orderingButton)
-        bottomCollection.alpha = 0
+        view.addSubview(toolBar)
         
-        Contraints.clip(view: mainCollection, toSuperView: self.view)
-        
-        Contraints.active(item: orderingButton, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
                           attr: .top)
-        Contraints.active(item: orderingButton, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
-        Contraints.active(item: orderingButton, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing,
-                          constant: -20)
-        Contraints.active(item: orderingButton, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading, constant: 20)
-        Contraints.active(item: orderingButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: 60)
+        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: self.topLayoutGuide,
+                          attr: .bottom)
+        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
         
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: self.orderingButton,
+        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+                          attr: .top)
+        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        
+        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
                           attr: .top, constant: -20)
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
@@ -112,37 +117,34 @@ final class MultipageReviewController: UIViewController {
                                              animated: true)
     }
     
-    func done() {
-        self.dismiss(animated: true, completion: nil)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        changeTitle(withPage: 1)
     }
     
-    func enableChangeOrder() {
-        if bottomCollection.alpha == 0 {
-            bottomCollection.alpha = 1
-            self.checkOrderingButtonsStateFor(indexPath: currentItemIndex)
-            self.navigationItem.setLeftBarButton(moveLeftButton,
-                                                 animated: true)
-            self.navigationItem.setRightBarButton(moveRightButton,
-                                                       animated: true)
-        } else {
-            bottomCollection.alpha = 0
-            self.navigationItem.setLeftBarButton(doneButton,
-                                                 animated: true)
-            self.navigationItem.setRightBarButton(nil,
-                                                  animated: true)
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    func done() {
+        self.dismiss(animated: true, completion: nil)
     }
     
     enum Position {
         case left, right
     }
     
-    func moveRight() {
-        moveItemTo(position: .right)
+    func rotateImage() {
+        print("Rotate")
     }
     
-    func moveLeft() {
-        moveItemTo(position: .left)
+    func deleteSelectedImage() {
+        
+    }
+    
+    func orderAction() {
+        
     }
     
     func moveItemTo(position: Position) {
@@ -155,27 +157,7 @@ final class MultipageReviewController: UIViewController {
             bottomCollection.moveItem(at: indexPath, to: newIndexPath)
             bottomCollection.scrollToItem(at: newIndexPath, at: .centeredHorizontally, animated: true)
             changeTitle(withPage: newIndexPath.row + 1)
-            checkOrderingButtonsStateFor(indexPath: newIndexPath)
         }
-    }
-    
-    func checkOrderingButtonsStateFor(indexPath: IndexPath) {
-        moveLeftButton.isEnabled = indexPath.row > 0
-        moveRightButton.isEnabled = indexPath.row + 1 < imageDocuments.count
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        changeTitle(withPage: 1)
-
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        bottomCollection.selectItem(at: currentItemIndex,
-                                    animated: true,
-                                    scrollPosition: .centeredHorizontally)
     }
     
     fileprivate func changeTitle(withPage page: Int) {
@@ -183,6 +165,8 @@ final class MultipageReviewController: UIViewController {
     }
 
 }
+
+// MARK: UICollectionViewDataSource
 
 extension MultipageReviewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -220,7 +204,6 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
             mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             currentItemIndex = indexPath
-            checkOrderingButtonsStateFor(indexPath: indexPath)
             changeTitle(withPage: indexPath.row + 1)
         }
     }
@@ -246,7 +229,6 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
             if let indexPath = visibleCell(in: mainCollection) {
                 bottomCollection.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
                 changeTitle(withPage: indexPath.row + 1)
-                checkOrderingButtonsStateFor(indexPath: indexPath)
             }
         }
     }
