@@ -28,54 +28,54 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "bottom collection items count should be 3")
     }
     
-    func testNavBarItemsOnOrderButtonInteraction() {
+    func testMainCollectionCellContent() {
         let vc = MultipageReviewController(imageDocuments: imageDocuments)
         _ = vc.view
         
-        XCTAssertEqual(vc.navigationItem.leftBarButtonItem, vc.doneButton,
-                       "Done button should be the only one on the left")
-        XCTAssertNil(vc.navigationItem.rightBarButtonItems,
-                     "Right bar buttons should be nil on initialization")
+        let firstCellIndexPath = IndexPath(row: 0, section: 0)
+        let cell = vc.collectionView(vc.mainCollection,
+                                     cellForItemAt: firstCellIndexPath) as? MultipageReviewCollectionCell
         
-        vc.orderingButton.sendActions(for: .touchUpInside)
+        XCTAssertEqual(cell?.documentImage.image, imageDocuments[0].previewImage,
+                       "First cell image should match the one passed in the initializer")
+        XCTAssertEqual(cell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
+                       "First cell image should match the one passed in the initializer")
+    }
+    
+    func testMainCollectionCellSize() {
+        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        _ = vc.view
+        vc.view.setNeedsLayout()
+        vc.view.layoutIfNeeded()
         
-        XCTAssertEqual(vc.navigationItem.leftBarButtonItem, vc.moveLeftButton,
-                       "Move left button should be the only one on the left")
-        XCTAssertEqual(vc.navigationItem.rightBarButtonItem, vc.moveRightButton,
-                     "Move left button should be the only one on the left")
+        let firstCellIndexPath = IndexPath(row: 0, section: 0)
+        let cellSize = vc.collectionView(vc.mainCollection,
+                                     layout: vc.mainCollection.collectionViewLayout,
+                                     sizeForItemAt: firstCellIndexPath)
         
-        vc.orderingButton.sendActions(for: .touchUpInside)
-
+        XCTAssertEqual(cellSize, vc.mainCollection.frame.size,
+                       "First cell image should match the one passed in the initializer")
+    }
+    
+    func testNavBarItemsOnInitialization() {
+        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        _ = vc.view
+        
         XCTAssertEqual(vc.navigationItem.leftBarButtonItem, vc.doneButton,
                        "Done button should be the only one on the left")
         XCTAssertNil(vc.navigationItem.rightBarButtonItems,
                      "Right bar buttons should be nil on initialization")
     }
-
-    func testDataSourceChangeWhenMovingLeft() {
+    
+    func testToolBarItemsOnInitialization() {
         let vc = MultipageReviewController(imageDocuments: imageDocuments)
         _ = vc.view
         
-        vc.orderingButton.sendActions(for: .touchUpInside)
-        XCTAssertFalse(vc.moveLeftButton.isEnabled,
-                       "Move left button should be disabled after initialization")
-        
-        let indexPath = IndexPath(row: 1, section: 0)
-        vc.mainCollection.selectItem(at: indexPath,
-                                     animated: true,
-                                     scrollPosition: .centeredHorizontally)
-        
-        let currentItemCellInMainCollection = vc.mainCollection.cellForItem(at: indexPath) as? MultipageReviewCollectionCell
-        let currentItemCellInBottomCollection = vc.bottomCollection.cellForItem(at: indexPath) as? MultipageReviewCollectionCell
-
-        vc.moveLeft()
-        
-        let nextIndexPath = IndexPath(row: 0, section: 0)
-        let movedItemCellInMainCollection = vc.mainCollection.cellForItem(at: nextIndexPath) as? MultipageReviewCollectionCell
-        let movedtItemCellInBottomCollection = vc.bottomCollection.cellForItem(at: nextIndexPath) as? MultipageReviewCollectionCell
-
-        XCTAssertEqual(currentItemCellInMainCollection?.documentImage.image,
-                       movedItemCellInMainCollection?.documentImage.image,
-                       "image item should match the same item in previous position")
+        XCTAssertEqual(vc.toolBar.items![0], vc.rotateButton,
+                       "First toolbar item should be the rotateButton")
+        XCTAssertEqual(vc.toolBar.items![2], vc.orderButton,
+                       "Third toolbar item should be the rotateButton")
+        XCTAssertEqual(vc.toolBar.items![4], vc.deleteButton,
+                       "Fifth toolbar item should be the rotateButton")
     }
 }
