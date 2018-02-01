@@ -94,27 +94,9 @@ final class MultipageReviewController: UIViewController {
         view.addSubview(bottomCollection)
         view.addSubview(toolBar)
         
-        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
-                          attr: .top)
-        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: self.topLayoutGuide,
-                          attr: .bottom)
-        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-        
-        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
-                          attr: .top)
-        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-        
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
-                          attr: .top, constant: -20)
-        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-        Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: 120)
-        
-        self.navigationItem.setLeftBarButton(doneButton,
-                                             animated: true)
+        addConstraints()
+        navigationItem.setLeftBarButton(doneButton,
+                                        animated: true)
     }
     
     override func viewDidLoad() {
@@ -162,6 +144,27 @@ final class MultipageReviewController: UIViewController {
     
     fileprivate func changeTitle(withPage page: Int) {
         title = "\(page) of \(imageDocuments.count)"
+    }
+    
+    fileprivate func addConstraints() {
+        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
+                          attr: .top)
+        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: self.topLayoutGuide,
+                          attr: .bottom)
+        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        
+        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+                          attr: .top)
+        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        
+        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
+                          attr: .top, constant: -20)
+        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 120)
     }
 
 }
