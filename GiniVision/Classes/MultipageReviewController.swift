@@ -21,10 +21,18 @@ final class MultipageReviewController: UIViewController {
         collection.dataSource = self
         collection.delegate = self
         collection.isPagingEnabled = true
-        
-        collection.register(MultipageReviewCollectionCell.self,
-                            forCellWithReuseIdentifier: MultipageReviewCollectionCell.identifier)
+        collection.backgroundColor = Colors.Gini.veryLightGray
+        collection.register(MultipageReviewMainCollectionCell.self,
+                            forCellWithReuseIdentifier: MultipageReviewMainCollectionCell.identifier)
         return collection
+    }()
+    
+    lazy var bottomCollectionContainer: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = Colors.Gini.pearl
+        
+        return view
     }()
     
     lazy var bottomCollection: UICollectionView = {
@@ -39,38 +47,61 @@ final class MultipageReviewController: UIViewController {
         collection.backgroundColor = UIColor.clear
         collection.showsHorizontalScrollIndicator = false
         
-        collection.register(MultipageReviewCollectionCell.self,
-                            forCellWithReuseIdentifier: MultipageReviewCollectionCell.identifier)
+        collection.register(MultipageReviewBottomCollectionCell.self,
+                            forCellWithReuseIdentifier: MultipageReviewBottomCollectionCell.identifier)
         return collection
     }()
     
     lazy var toolBar: UIToolbar = {
         let toolBar = UIToolbar(frame: .zero)
         toolBar.translatesAutoresizingMaskIntoConstraints = false
+        toolBar.barTintColor = Colors.Gini.pearl
+        toolBar.isTranslucent = false
+
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         toolBar.setItems([self.rotateButton,
                           flexibleSpace,
                           self.orderButton,
                           flexibleSpace,
                           self.deleteButton], animated: false)
-
+        
         return toolBar
     }()
     
-    lazy var rotateButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(rotateImage))
+    lazy var bottomCollectionContainerConstraint: NSLayoutConstraint = {
+        return NSLayoutConstraint(item: self.bottomCollectionContainer,
+                                  attribute: .bottom,
+                                  relatedBy: .equal,
+                                  toItem: self.toolBar,
+                                  attribute: .top,
+                                  multiplier: 1.0,
+                                  constant: 0)
+    }()
     
-    lazy var orderButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
+    lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
+        return NSLayoutConstraint(item: self.bottomCollectionContainer,
+                                  attribute: .top,
+                                  relatedBy: .equal,
+                                  toItem: self.toolBar,
+                                  attribute: .top,
+                                  multiplier: 1.0,
+                                  constant: 0)
+    }()
+    
+    lazy var rotateButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
                                             style: .plain,
                                             target: self,
-                                            action: #selector(orderAction))
+                                            action: #selector(rotateImage))
+    
+    lazy var orderButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(orderAction))
     
     lazy var deleteButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
-                                             style: .plain,
-                                             target: self,
-                                             action: #selector(deleteSelectedImage))
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(deleteSelectedImage))
     
     lazy var doneButton = UIBarButtonItem.init(title: "Done",
                                                style: .done,
@@ -79,7 +110,7 @@ final class MultipageReviewController: UIViewController {
     
     init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
-
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -91,8 +122,9 @@ final class MultipageReviewController: UIViewController {
         super.loadView()
         
         view.addSubview(mainCollection)
-        view.addSubview(bottomCollection)
+        view.addSubview(bottomCollectionContainer)
         view.addSubview(toolBar)
+        bottomCollectionContainer.addSubview(bottomCollection)
         
         addConstraints()
         navigationItem.setLeftBarButton(doneButton,
@@ -126,10 +158,20 @@ final class MultipageReviewController: UIViewController {
     }
     
     func orderAction() {
+        self.topCollectionContainerConstraint.isActive = self.bottomCollectionContainerConstraint.isActive
+        self.bottomCollectionContainerConstraint.isActive = !self.bottomCollectionContainerConstraint.isActive
+        self.mainCollection.collectionViewLayout.invalidateLayout()
+
+        UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
+            guard let `self` = self else { return }
+            self.view.layoutIfNeeded()
+            }, completion: { _ in
+               self.toolBar.clipsToBounds = !self.topCollectionContainerConstraint.isActive
+        })
         
     }
     
-    func moveItemTo(position: Position) {
+    fileprivate func moveItemTo(position: Position) {
         if let indexPath = visibleCell(in: mainCollection) {
             let row = position == .left ? indexPath.row - 1 : indexPath.row + 1
             let newIndexPath = IndexPath(row: row, section: 0)
@@ -147,26 +189,32 @@ final class MultipageReviewController: UIViewController {
     }
     
     fileprivate func addConstraints() {
-        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
+        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
-        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: self.topLayoutGuide,
+        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
                           attr: .bottom)
-        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
-        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
                           attr: .top)
-        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: toolBar,
-                          attr: .top, constant: -20)
-        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        Contraints.active(constraint: topCollectionContainerConstraint)
+        Contraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
+                          attr: .trailing)
+        Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .bottom, constant: -16)
+        Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .top, constant: 16)
+        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: 120)
+                          constant: MultipageReviewBottomCollectionCell.size.height)
     }
-
+    
 }
 
 // MARK: UICollectionViewDataSource
@@ -178,12 +226,21 @@ extension MultipageReviewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MultipageReviewCollectionCell.identifier,
-                                                      for: indexPath) as? MultipageReviewCollectionCell
-        cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
-        cell?.shouldShowBorder = collectionView == bottomCollection
-        cell?.documentImage.contentMode = collectionView == bottomCollection ? .scaleToFill : .scaleAspectFit
-        return cell!
+        if collectionView == mainCollection {
+            let cell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
+                                     for: indexPath) as? MultipageReviewMainCollectionCell
+            cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
+            return cell!
+        } else {
+            let cell = collectionView
+                .dequeueReusableCell(withReuseIdentifier: MultipageReviewBottomCollectionCell.identifier,
+                                     for: indexPath) as? MultipageReviewBottomCollectionCell
+            cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
+            cell?.pageIndicator.text = "1"
+            return cell!
+        }
+
     }
     
 }
@@ -198,7 +255,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainCollection {
             return collectionView.frame.size
         } else {
-            return CGSize(width: 80, height: 120)
+            return MultipageReviewBottomCollectionCell.size
         }
     }
     
