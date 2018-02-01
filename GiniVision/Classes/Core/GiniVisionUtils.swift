@@ -148,14 +148,15 @@ internal struct Colors {
     struct Gini {
         
         static var blue = Colors.UIColorHex(0x009edc)
-        static var lightBlue = Colors.UIColorHex(0x74d1f5)
-        static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var bluishGreen = Colors.UIColorHex(0x007c99)
+        static var crimson = Colors.UIColorHex(0xFF4F65)
+        static var lightBlue = Colors.UIColorHex(0x74d1f5)
         static var grey = Colors.UIColorHex(0xAFB2B3)
+        static var raspberry = Colors.UIColorHex(0xe30b5d)
+        static var rose = Colors.UIColorHex(0xFC6B7E)
         static var pearl = Colors.UIColorHex(0xF2F2F2)
         static var paleGreen = Colors.UIColorHex(0xB8E986)
-        static var crimson = Colors.UIColorHex(0xFF4F65)
-        static var rose = Colors.UIColorHex(0xFC6B7E)
+        static var veryLightGray = Colors.UIColorHex(0xD8D8D8)
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

@@ -1,5 +1,5 @@
 //
-//  MultipageReviewCollectionCell.swift
+//  MultipageReviewMainCollectionCell.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 1/30/18.
@@ -7,30 +7,22 @@
 
 import Foundation
 
-final class MultipageReviewCollectionCell: UICollectionViewCell {
+final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     
-    static let identifier = "MultipageReviewCollectionCellIdentifier"
-    var shouldShowBorder: Bool = false
+    static let identifier = "MultipageReviewMainCollectionCellIdentifier"
     
     lazy var documentImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
-    
-    override var isSelected: Bool {
-        didSet {
-            if shouldShowBorder {
-                self.layer.borderColor = isSelected ? Colors.Gini.blue.cgColor : UIColor.black.cgColor
-            }
-        }
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(documentImage)
-        self.layer.borderWidth = 2.0
+
         Contraints.clip(view: documentImage, toSuperView: self)
     }
     

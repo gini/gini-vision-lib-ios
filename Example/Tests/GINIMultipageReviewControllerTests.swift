@@ -32,14 +32,20 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let vc = MultipageReviewController(imageDocuments: imageDocuments)
         _ = vc.view
         
-        let firstCellIndexPath = IndexPath(row: 0, section: 0)
-        let cell = vc.collectionView(vc.mainCollection,
-                                     cellForItemAt: firstCellIndexPath) as? MultipageReviewCollectionCell
-        
-        XCTAssertEqual(cell?.documentImage.image, imageDocuments[0].previewImage,
+        let firstCell = vc.collectionView(vc.mainCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
+        let secondCell = vc.collectionView(vc.mainCollection,
+                                          cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewMainCollectionCell
+        let thirdCell = vc.collectionView(vc.mainCollection,
+                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewMainCollectionCell
+        XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
                        "First cell image should match the one passed in the initializer")
-        XCTAssertEqual(cell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
-                       "First cell image should match the one passed in the initializer")
+        XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
+                       "Second cell image should match the one passed in the initializer")
+        XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
+                       "Third cell image should match the one passed in the initializer")
+        XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
+                       "First cell content mode should match the one passed in the initializer")
     }
     
     func testMainCollectionCellSize() {
@@ -55,6 +61,26 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         
         XCTAssertEqual(cellSize, vc.mainCollection.frame.size,
                        "First cell image should match the one passed in the initializer")
+    }
+    
+    func testBottomCollectionCellContent() {
+        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        _ = vc.view
+        
+        let firstCell = vc.collectionView(vc.bottomCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewBottomCollectionCell
+        let secondCell = vc.collectionView(vc.bottomCollection,
+                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewBottomCollectionCell
+        let thirdCell = vc.collectionView(vc.bottomCollection,
+                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewBottomCollectionCell
+        XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
+                       "First cell image should match the one passed in the initializer")
+        XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
+                       "Second cell image should match the one passed in the initializer")
+        XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
+                       "Third cell image should match the one passed in the initializer")
+        XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFill,
+                       "First cell content mode should match the one passed in the initializer")
     }
     
     func testNavBarItemsOnInitialization() {
@@ -77,5 +103,13 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Third toolbar item should be the rotateButton")
         XCTAssertEqual(vc.toolBar.items![4], vc.deleteButton,
                        "Fifth toolbar item should be the rotateButton")
+    }
+    
+    func testToolBarAndBottomCollectionContainerColors() {
+        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        _ = vc.view
+        
+        XCTAssertEqual(vc.toolBar.barTintColor, vc.bottomCollectionContainer.backgroundColor,
+                       "toolbar and bottom collection container background colors should match")
     }
 }
