@@ -166,7 +166,7 @@ final class MultipageReviewController: UIViewController {
             guard let `self` = self else { return }
             self.view.layoutIfNeeded()
             }, completion: { _ in
-               self.toolBar.clipsToBounds = !self.topCollectionContainerConstraint.isActive
+
         })
         
     }
