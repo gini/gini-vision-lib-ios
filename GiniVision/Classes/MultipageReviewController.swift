@@ -11,6 +11,8 @@ final class MultipageReviewController: UIViewController {
     
     var imageDocuments: [GiniImageDocument]
     fileprivate var currentItemIndex: IndexPath = IndexPath(row: 0, section: 0)
+    fileprivate var longPressGesture: UILongPressGestureRecognizer!
+    
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -57,7 +59,7 @@ final class MultipageReviewController: UIViewController {
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         toolBar.barTintColor = Colors.Gini.pearl
         toolBar.isTranslucent = false
-
+        
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         toolBar.setItems([self.rotateButton,
                           flexibleSpace,
@@ -91,12 +93,12 @@ final class MultipageReviewController: UIViewController {
     lazy var rotateButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
                                             style: .plain,
                                             target: self,
-                                            action: #selector(rotateImage))
+                                            action: #selector(rotateSelectedImage))
     
     lazy var orderButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
                                            style: .plain,
                                            target: self,
-                                           action: #selector(orderAction))
+                                           action: #selector(reorderAction))
     
     lazy var deleteButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
                                             style: .plain,
@@ -135,11 +137,11 @@ final class MultipageReviewController: UIViewController {
         super.viewDidLoad()
         changeTitle(withPage: 1)
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
-        self.bottomCollection.addGestureRecognizer(longPressGesture)
+        bottomCollection.addGestureRecognizer(longPressGesture)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
@@ -151,24 +153,23 @@ final class MultipageReviewController: UIViewController {
         case left, right
     }
     
-    func rotateImage() {
-        print("Rotate")
+    func rotateSelectedImage() {
     }
     
     func deleteSelectedImage() {
         
     }
     
-    func orderAction() {
+    func reorderAction() {
         self.topCollectionContainerConstraint.isActive = self.bottomCollectionContainerConstraint.isActive
         self.bottomCollectionContainerConstraint.isActive = !self.bottomCollectionContainerConstraint.isActive
         self.mainCollection.collectionViewLayout.invalidateLayout()
-
+        
         UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
             guard let `self` = self else { return }
             self.view.layoutIfNeeded()
             }, completion: { _ in
-
+                
         })
         
     }
@@ -208,23 +209,22 @@ final class MultipageReviewController: UIViewController {
                           attr: .trailing)
         Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .bottom, constant: -16)
+                          attr: .bottom)
         Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .top, constant: 16)
+                          attr: .top)
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.size.height)
+                          constant: MultipageReviewBottomCollectionCell.size.height + 32)
     }
-    
-    private var longPressGesture: UILongPressGestureRecognizer!
     
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
             
         case .began:
-            guard let selectedIndexPath = self.bottomCollection.indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
-                break
+            guard let selectedIndexPath = self.bottomCollection
+                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
+                    break
             }
             if #available(iOS 9.0, *) {
                 bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
@@ -269,7 +269,14 @@ extension MultipageReviewController: UICollectionViewDataSource {
             cell?.pageIndicator.text = "\(indexPath.row + 1)"
             return cell!
         }
-
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                        moveItemAt sourceIndexPath: IndexPath,
+                        to destinationIndexPath: IndexPath) {
+        if collectionView == bottomCollection {
+            bottomCollection.selectItem(at: destinationIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+        }
     }
     
 }
@@ -303,13 +310,10 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainCollection {
             return .zero
         } else {
-            let totalCellWidth = 40 * imageDocuments.count
-            let totalSpacingWidth = 10 * (imageDocuments.count - 1)
-            
-            let leftInset = (collectionView.frame.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
+            let leftInset = (collectionView.frame.width - MultipageReviewBottomCollectionCell.size.width) / 2
             let rightInset = leftInset
             
-            return UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: rightInset)
+            return UIEdgeInsets(top: 16, left: leftInset, bottom: 16, right: rightInset)
         }
     }
     
@@ -320,10 +324,6 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
                 changeTitle(withPage: indexPath.row + 1)
             }
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print()
     }
     
     fileprivate func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
