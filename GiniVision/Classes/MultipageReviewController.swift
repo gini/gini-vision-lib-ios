@@ -134,6 +134,8 @@ final class MultipageReviewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         changeTitle(withPage: 1)
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
+        self.bottomCollection.addGestureRecognizer(longPressGesture)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -215,6 +217,33 @@ final class MultipageReviewController: UIViewController {
                           constant: MultipageReviewBottomCollectionCell.size.height)
     }
     
+    private var longPressGesture: UILongPressGestureRecognizer!
+    
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+            
+        case .began:
+            guard let selectedIndexPath = self.bottomCollection.indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
+                break
+            }
+            if #available(iOS 9.0, *) {
+                bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
+            }
+        case .changed:
+            if #available(iOS 9.0, *) {
+                bottomCollection.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            }
+        case .ended:
+            if #available(iOS 9.0, *) {
+                bottomCollection.endInteractiveMovement()
+            }
+        default:
+            if #available(iOS 9.0, *) {
+                bottomCollection.cancelInteractiveMovement()
+            }
+        }
+    }
+    
 }
 
 // MARK: UICollectionViewDataSource
@@ -237,7 +266,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewBottomCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewBottomCollectionCell
             cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
-            cell?.pageIndicator.text = "1"
+            cell?.pageIndicator.text = "\(indexPath.row + 1)"
             return cell!
         }
 
@@ -291,6 +320,10 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
                 changeTitle(withPage: indexPath.row + 1)
             }
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        print()
     }
     
     fileprivate func visibleCell(in collectionView: UICollectionView) -> IndexPath? {

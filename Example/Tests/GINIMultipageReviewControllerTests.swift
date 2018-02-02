@@ -75,10 +75,16 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                           cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewBottomCollectionCell
         XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
                        "First cell image should match the one passed in the initializer")
+        XCTAssertEqual(firstCell?.pageIndicator.text, "1",
+                       "First cell indicator should match its position")
         XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
                        "Second cell image should match the one passed in the initializer")
+        XCTAssertEqual(secondCell?.pageIndicator.text, "2",
+                       "Second cell indicator should match its position")
         XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
                        "Third cell image should match the one passed in the initializer")
+        XCTAssertEqual(thirdCell?.pageIndicator.text, "3",
+                       "Third cell indicator should match its position")
         XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFill,
                        "First cell content mode should match the one passed in the initializer")
     }
