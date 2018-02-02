@@ -119,7 +119,7 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     fileprivate func addShadow() {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = MultipageReviewBottomCollectionCell.shadowRadius
-        layer.shadowOpacity = 0.5
+        layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0,
                                     height: MultipageReviewBottomCollectionCell.shadowHeight)
     }
