@@ -20,10 +20,11 @@ final class MultipageReviewController: UIViewController {
         
         var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.backgroundColor = Colors.Gini.veryLightGray
         collection.dataSource = self
         collection.delegate = self
         collection.isPagingEnabled = true
-        collection.backgroundColor = Colors.Gini.veryLightGray
+        collection.showsHorizontalScrollIndicator = false
         collection.register(MultipageReviewMainCollectionCell.self,
                             forCellWithReuseIdentifier: MultipageReviewMainCollectionCell.identifier)
         return collection
@@ -178,19 +179,6 @@ final class MultipageReviewController: UIViewController {
         
     }
     
-    fileprivate func moveItemTo(position: Position) {
-        if let indexPath = visibleCell(in: mainCollection) {
-            let row = position == .left ? indexPath.row - 1 : indexPath.row + 1
-            let newIndexPath = IndexPath(row: row, section: 0)
-            imageDocuments.swapAt(indexPath.row, newIndexPath.row)
-            mainCollection.reloadData()
-            mainCollection.scrollToItem(at: newIndexPath, at: .centeredHorizontally, animated: false)
-            bottomCollection.moveItem(at: indexPath, to: newIndexPath)
-            bottomCollection.scrollToItem(at: newIndexPath, at: .centeredHorizontally, animated: true)
-            changeTitle(withPage: newIndexPath.row + 1)
-        }
-    }
-    
     fileprivate func changeTitle(withPage page: Int) {
         title = "\(page) of \(imageDocuments.count)"
     }
@@ -287,12 +275,17 @@ extension MultipageReviewController: UICollectionViewDataSource {
                         moveItemAt sourceIndexPath: IndexPath,
                         to destinationIndexPath: IndexPath) {
         if collectionView == bottomCollection {
-            bottomCollection.selectItem(at: destinationIndexPath,
-                                        animated: true,
-                                        scrollPosition: .centeredHorizontally)
-            let indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
+            var indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
+            indexes.append(sourceIndexPath)
             let elementMoved = imageDocuments.remove(at: sourceIndexPath.row)
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
+            self.mainCollection.reloadData()
+
+            // 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                collectionView.reloadItems(at: indexes)
+                self.collectionView(collectionView, didSelectItemAt: destinationIndexPath)
+            })
         }
     }
     
@@ -314,9 +307,9 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == bottomCollection {
+            currentItemIndex = indexPath
             mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            currentItemIndex = indexPath
             changeTitle(withPage: indexPath.row + 1)
         }
     }
