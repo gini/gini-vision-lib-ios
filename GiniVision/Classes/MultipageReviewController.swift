@@ -281,10 +281,11 @@ extension MultipageReviewController: UICollectionViewDataSource {
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
 
-            // 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-                collectionView.reloadItems(at: indexes)
-                self.collectionView(collectionView, didSelectItemAt: destinationIndexPath)
+            // This is needed since this method is call before the moving animation finishes.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
+                guard let `self` = self else { return }
+                self.bottomCollection.reloadItems(at: indexes)
+                self.collectionView(self.bottomCollection, didSelectItemAt: destinationIndexPath)
             })
         }
     }
