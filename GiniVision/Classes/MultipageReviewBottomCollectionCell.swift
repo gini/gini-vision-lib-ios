@@ -32,6 +32,14 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
+    lazy var draggableIcon: UIImageView = {
+        let image = UIImage(named: "draggablePageIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     lazy var bottomContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +77,7 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         roundMask.addSubview(documentImage)
         bottomContainer.addSubview(pageIndicator)
         bottomContainer.addSubview(pageIndicatorCircle)
+        bottomContainer.addSubview(draggableIcon)
         
         roundMask.layer.cornerRadius = 5.0
         roundMask.layer.masksToBounds = true
@@ -101,6 +110,17 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
                           attr: .centerX)
         Contraints.active(item: pageIndicatorCircle, attr: .centerY, relatedBy: .equal, to: bottomContainer,
                           attr: .centerY)
+        
+        // draggableIcon
+        
+        Contraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
+                          constant: 16)
+        Contraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
+                          constant: -16)
+        Contraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle, attr: .trailing,
+                          constant: 22)
+        Contraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer, attr: .trailing,
+                          constant: -11)
         
         // documentImage
         Contraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)
