@@ -29,6 +29,11 @@ final class MultipageReviewController: UIViewController {
         return collection
     }()
     
+    var bottomCollectionInsets: UIEdgeInsets {
+        let sideInset: CGFloat = (bottomCollection.frame.width - MultipageReviewBottomCollectionCell.size.width) / 2
+        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
+    }
+    
     lazy var bottomCollectionContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +46,6 @@ final class MultipageReviewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
-        let sideInset: CGFloat = 375 / 2 - 40
         var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
@@ -215,7 +219,9 @@ final class MultipageReviewController: UIViewController {
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.size.height + 32)
+                          constant: MultipageReviewBottomCollectionCell.size.height +
+                            bottomCollectionInsets.top +
+                            bottomCollectionInsets.bottom)
     }
     
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
@@ -231,7 +237,13 @@ final class MultipageReviewController: UIViewController {
             }
         case .changed:
             if #available(iOS 9.0, *) {
-                bottomCollection.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+                if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
+                    let gesturePosition = gesture.location(in: collectionView)
+                    let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
+                    let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
+                    let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
+                    bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
+                }
             }
         case .ended:
             if #available(iOS 9.0, *) {
@@ -275,7 +287,12 @@ extension MultipageReviewController: UICollectionViewDataSource {
                         moveItemAt sourceIndexPath: IndexPath,
                         to destinationIndexPath: IndexPath) {
         if collectionView == bottomCollection {
-            bottomCollection.selectItem(at: destinationIndexPath, animated: true, scrollPosition: .centeredHorizontally)
+            bottomCollection.selectItem(at: destinationIndexPath,
+                                        animated: true,
+                                        scrollPosition: .centeredHorizontally)
+            let indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
+            let elementMoved = imageDocuments.remove(at: sourceIndexPath.row)
+            imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
         }
     }
     
@@ -310,10 +327,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainCollection {
             return .zero
         } else {
-            let leftInset = (collectionView.frame.width - MultipageReviewBottomCollectionCell.size.width) / 2
-            let rightInset = leftInset
-            
-            return UIEdgeInsets(top: 16, left: leftInset, bottom: 16, right: rightInset)
+            return bottomCollectionInsets
         }
     }
     
