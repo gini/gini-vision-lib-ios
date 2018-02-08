@@ -159,6 +159,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     }
 }
 
+// MARK: - UIViewControllerTransitioningDelegate
+
 extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
     func animationController(forPresented presented: UIViewController,
                              presenting: UIViewController,
