@@ -68,12 +68,14 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Colors.Gini.blue
+        view.alpha = 0
         return view
     }()
     
     override var isSelected: Bool {
         didSet {
             self.pageSelectedLine.alpha = isSelected ? 1 : 0
+            print("isSelected: ", isSelected)
         }
     }
     
@@ -120,7 +122,8 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
                           attr: .centerY)
         
         // pageSelectedLine
-        Contraints.active(item: pageSelectedLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 4)
+        Contraints.active(item: pageSelectedLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: 4)
         Contraints.active(item: pageSelectedLine, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
         Contraints.active(item: pageSelectedLine, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
         Contraints.active(item: pageSelectedLine, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)

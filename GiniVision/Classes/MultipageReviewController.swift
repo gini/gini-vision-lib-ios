@@ -10,7 +10,6 @@ import Foundation
 final class MultipageReviewController: UIViewController {
     
     var imageDocuments: [GiniImageDocument]
-    fileprivate var currentItemIndex: IndexPath = IndexPath(row: 0, section: 0)
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
     lazy var mainCollection: UICollectionView = {
@@ -39,6 +38,14 @@ final class MultipageReviewController: UIViewController {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Colors.Gini.pearl
+        
+        return view
+    }()
+    
+    lazy var bottomCollectionTopBorder: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.lightGray
         
         return view
     }()
@@ -132,6 +139,7 @@ final class MultipageReviewController: UIViewController {
         view.addSubview(bottomCollectionContainer)
         view.addSubview(toolBar)
         bottomCollectionContainer.addSubview(bottomCollection)
+        bottomCollectionContainer.addSubview(bottomCollectionTopBorder)
         
         addConstraints()
         navigationItem.setLeftBarButton(doneButton,
@@ -180,6 +188,7 @@ final class MultipageReviewController: UIViewController {
     }
     
     fileprivate func addConstraints() {
+        // mainCollection
         Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
         Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
@@ -187,15 +196,29 @@ final class MultipageReviewController: UIViewController {
         Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
+        // toolBar
         Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
                           attr: .top)
         Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
+        // bottomCollectionContainer
         Contraints.active(constraint: topCollectionContainerConstraint)
         Contraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
                           attr: .trailing)
         Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        
+        // bottomCollectionTopBorder
+        Contraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .top)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .leading)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .trailing)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
+                          attr: .notAnAttribute, constant: 0.5)
+        
+        // bottomCollection
         Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .bottom)
         Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
@@ -281,6 +304,9 @@ extension MultipageReviewController: UICollectionViewDataSource {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
                 self.bottomCollection.reloadItems(at: indexes)
+                self.bottomCollection.selectItem(at: destinationIndexPath,
+                                                 animated: true, 
+                                                 scrollPosition: .centeredHorizontally)
                 self.collectionView(self.bottomCollection, didSelectItemAt: destinationIndexPath)
             })
         }
@@ -304,7 +330,6 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == bottomCollection {
-            currentItemIndex = indexPath
             mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             changeTitle(withPage: indexPath.row + 1)
@@ -324,8 +349,10 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == mainCollection {
             if let indexPath = visibleCell(in: mainCollection) {
-                bottomCollection.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
-                changeTitle(withPage: indexPath.row + 1)
+                bottomCollection.selectItem(at: indexPath,
+                                            animated: true,
+                                            scrollPosition: .centeredHorizontally)
+                collectionView(bottomCollection, didSelectItemAt: indexPath)
             }
         }
     }
