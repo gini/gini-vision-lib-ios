@@ -154,10 +154,6 @@ final class MultipageReviewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    enum Position {
-        case left, right
-    }
-    
     func rotateSelectedImage() {
     }
     
@@ -173,8 +169,8 @@ final class MultipageReviewController: UIViewController {
         UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
             guard let `self` = self else { return }
             self.view.layoutIfNeeded()
+            
             }, completion: { _ in
-                
         })
         
     }
@@ -280,7 +276,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
             let elementMoved = imageDocuments.remove(at: sourceIndexPath.row)
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
-
+            
             // This is needed since this method is call before the moving animation finishes.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
