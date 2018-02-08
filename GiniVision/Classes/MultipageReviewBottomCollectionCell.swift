@@ -64,9 +64,16 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         return view
     }()
     
+    lazy var pageSelectedLine: UIView = {
+        var view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = Colors.Gini.blue
+        return view
+    }()
+    
     override var isSelected: Bool {
         didSet {
-            self.layer.borderColor = isSelected ? Colors.Gini.blue.cgColor : UIColor.black.cgColor
+            self.pageSelectedLine.alpha = isSelected ? 1 : 0
         }
     }
     
@@ -74,6 +81,7 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(roundMask)
         roundMask.addSubview(bottomContainer)
+        roundMask.addSubview(pageSelectedLine)
         roundMask.addSubview(documentImage)
         bottomContainer.addSubview(pageIndicator)
         bottomContainer.addSubview(pageIndicatorCircle)
@@ -110,6 +118,12 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
                           attr: .centerX)
         Contraints.active(item: pageIndicatorCircle, attr: .centerY, relatedBy: .equal, to: bottomContainer,
                           attr: .centerY)
+        
+        // pageSelectedLine
+        Contraints.active(item: pageSelectedLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 4)
+        Contraints.active(item: pageSelectedLine, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
+        Contraints.active(item: pageSelectedLine, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
+        Contraints.active(item: pageSelectedLine, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
         
         // draggableIcon
         
