@@ -11,6 +11,12 @@ import XCTest
 
 final class GINIMultipageReviewControllerTests: XCTestCase {
    
+    lazy var vc: MultipageReviewController = {
+        let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
+        _ = vc.view
+        return vc
+    }()
+    
     lazy var imageDocuments: [GiniImageDocument] = [
         self.loadImageDocument(withName: "invoice"),
         self.loadImageDocument(withName: "invoice2"),
@@ -18,9 +24,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     ]
     
     func testCollectionsItemsCount() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
-        
         XCTAssertEqual(vc.mainCollection.numberOfItems(inSection: 0), 3,
                        "main collection items count should be 3")
         
@@ -29,9 +32,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testMainCollectionCellContent() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
-        
         let firstCell = vc.collectionView(vc.mainCollection,
                                           cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
         let secondCell = vc.collectionView(vc.mainCollection,
@@ -63,10 +63,16 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "First cell image should match the one passed in the initializer")
     }
     
-    func testBottomCollectionCellContent() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
+    func testMainCollectionInsets() {
+        let collectionInsets = vc.collectionView(vc.mainCollection,
+                                         layout: vc.mainCollection.collectionViewLayout,
+                                         insetForSectionAt: 0)
         
+        XCTAssertEqual(collectionInsets, .zero,
+                       "Main collection insets should be zero")
+    }
+    
+    func testBottomCollectionCellContent() {
         let firstCell = vc.collectionView(vc.bottomCollection,
                                           cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewBottomCollectionCell
         let secondCell = vc.collectionView(vc.bottomCollection,
@@ -89,10 +95,33 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "First cell content mode should match the one passed in the initializer")
     }
     
-    func testNavBarItemsOnInitialization() {
+    func testBottomCollectionCellSize() {
         let vc = MultipageReviewController(imageDocuments: imageDocuments)
         _ = vc.view
+        vc.view.setNeedsLayout()
+        vc.view.layoutIfNeeded()
         
+        let firstCellIndexPath = IndexPath(row: 0, section: 0)
+        let cellSize = vc.collectionView(vc.bottomCollection,
+                                         layout: vc.bottomCollection.collectionViewLayout,
+                                         sizeForItemAt: firstCellIndexPath)
+        
+        let size = MultipageReviewBottomCollectionCell.size
+        
+        XCTAssertEqual(cellSize, size,
+                       "Bottom collection cells should have the value declared in the class")
+    }
+    
+    func testBottomCollectionInsets() {
+        let collectionInsets = vc.collectionView(vc.bottomCollection,
+                                                 layout: vc.bottomCollection.collectionViewLayout,
+                                                 insetForSectionAt: 0)
+        
+        XCTAssertEqual(collectionInsets, vc.bottomCollectionInsets,
+                       "Main collection insets should be zero")
+    }
+    
+    func testNavBarItemsOnInitialization() {
         XCTAssertEqual(vc.navigationItem.leftBarButtonItem, vc.doneButton,
                        "Done button should be the only one on the left")
         XCTAssertNil(vc.navigationItem.rightBarButtonItems,
@@ -100,9 +129,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testToolBarItemsOnInitialization() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
-        
         XCTAssertEqual(vc.toolBar.items![0], vc.rotateButton,
                        "First toolbar item should be the rotateButton")
         XCTAssertEqual(vc.toolBar.items![2], vc.orderButton,
@@ -112,9 +138,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testToolBarAndBottomCollectionContainerColors() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
-        
         XCTAssertEqual(vc.toolBar.barTintColor, vc.bottomCollectionContainer.backgroundColor,
                        "toolbar and bottom collection container background colors should match")
     }
