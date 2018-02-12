@@ -104,10 +104,17 @@ final class MultipageReviewController: UIViewController {
                                   constant: 0)
     }()
     
-    lazy var rotateButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(rotateSelectedImage))
+    lazy var rotateButton: UIBarButtonItem = {
+        var button = UIButton(type: .custom)
+        button.setImage(UIImageNamedPreferred(named: "rotateImageIcon"), for: .normal)
+        button.addTarget(self, action: #selector(rotateSelectedImage), for: .touchUpInside)
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.layer.cornerRadius = 5
+        button.tintColor = Colors.Gini.blue
+        
+        var barButton = UIBarButtonItem(customView: button)
+        return barButton
+    }()
     
     lazy var orderButton: UIBarButtonItem = {
         var button = UIButton(type: UIButtonType.custom)
@@ -121,10 +128,17 @@ final class MultipageReviewController: UIViewController {
         return barButton
     }()
     
-    lazy var deleteButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
-                                            style: .plain,
-                                            target: self,
-                                            action: #selector(deleteSelectedImage))
+    lazy var deleteButton: UIBarButtonItem = {
+        var button = UIButton(type: .custom)
+        button.setImage(UIImageNamedPreferred(named: "trashIcon"), for: .normal)
+        button.addTarget(self, action: #selector(deleteSelectedImage), for: .touchUpInside)
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.layer.cornerRadius = 5
+        button.tintColor = Colors.Gini.blue
+        
+        var barButton = UIBarButtonItem(customView: button)
+        return barButton
+    }()
     
     init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
