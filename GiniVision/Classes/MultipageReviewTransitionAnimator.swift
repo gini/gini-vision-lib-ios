@@ -10,7 +10,7 @@ import UIKit
 final class MultipageReviewTransitionAnimator: NSObject {
     
     let animationDuration = AnimationDuration.medium
-    var operation: TransitionOperation  = .present
+    var operation: UINavigationControllerOperation = .push
     var originFrame: CGRect = .zero
     
 }
@@ -34,10 +34,9 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
         let yScaleFactor: CGFloat
         let xScaleFactor: CGFloat
         let scaleTransform: CGAffineTransform
-        let animations: () -> Void
+        var animations: () -> Void = {}
         
-        switch operation {
-        case .present:
+        if operation == .push {
             finalFrame = toView.frame
             yScaleFactor = originFrame.size.height / toView.frame.height
             xScaleFactor = originFrame.size.width / toView.frame.width
@@ -50,8 +49,7 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
                 toView.transform = CGAffineTransform.identity
                 toView.center = finalFrame.center
             }
-
-        case .dismiss:
+        } else if operation == .pop {
             finalFrame = originFrame
             yScaleFactor = originFrame.size.height / fromView.frame.height
             xScaleFactor = originFrame.size.width / fromView.frame.width

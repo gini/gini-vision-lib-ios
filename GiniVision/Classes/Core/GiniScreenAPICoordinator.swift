@@ -22,7 +22,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
     fileprivate var cameraViewController: CameraViewController?
     fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     fileprivate var reviewViewController: ReviewViewController?
-    fileprivate var multiPageReviewContainer: UINavigationController?
+    fileprivate var multiPageReviewController: MultipageReviewController?
     
     // Properties
     fileprivate var changesOnReview: Bool = false
@@ -155,31 +155,43 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        return nil
-    }
-}
-
-// MARK: - UIViewControllerTransitioningDelegate
-
-extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
-    func animationController(forPresented presented: UIViewController,
-                             presenting: UIViewController,
-                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
-            let buttonFrame = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter.frame,
-                                                                         to: self.screenAPINavigationController.view) {
-            multiPageTransition.originFrame = buttonFrame
-            multiPageTransition.operation = .present
-            return multiPageTransition
+        if toVC == multiPageReviewController || fromVC == multiPageReviewController {
+            if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
+                let buttonFrame = cameraViewController?
+                    .reviewContentView
+                    .convert(reviewImagesButtonCenter.frame,
+                             to: self.screenAPINavigationController.view) {
+                multiPageTransition.originFrame = buttonFrame
+                multiPageTransition.operation = operation
+                return multiPageTransition
+            }
         }
+        
         return nil
     }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        multiPageTransition.operation = .dismiss
-        return multiPageTransition
-    }
 }
+//
+//// MARK: - UIViewControllerTransitioningDelegate
+//
+//extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
+//    func animationController(forPresented presented: UIViewController,
+//                             presenting: UIViewController,
+//                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+//        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
+//            let buttonFrame = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter.frame,
+//                                                                         to: self.screenAPINavigationController.view) {
+//            multiPageTransition.originFrame = buttonFrame
+//            multiPageTransition.operation = .present
+//            return multiPageTransition
+//        }
+//        return nil
+//    }
+//    
+//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+////        multiPageTransition.operation = .dismiss
+//        return multiPageTransition
+//    }
+//}
 
 // MARK: - Camera Screen
 
@@ -216,10 +228,12 @@ internal extension GiniScreenAPICoordinator {
         
         cameraViewController.didTapMultipageReviewButton = {[weak self] in
             guard let `self` = self else { return }
-            self.multiPageReviewContainer = self.createMultipageReviewScreenContainer()
-            self.screenAPINavigationController.present(self.multiPageReviewContainer!,
-                                                       animated: true,
-                                                       completion: nil)
+            self.multiPageReviewController = self.createMultipageReviewScreenContainer()
+            self.screenAPINavigationController.pushViewController(self.multiPageReviewController!,
+                                                                  animated: true)
+//            self.screenAPINavigationController.present(self.multiPageReviewContainer!,
+//                                                       animated: true,
+//                                                       completion: nil)
         }
         
         cameraViewController.setupNavigationItem(usingResources: closeButtonResource,
@@ -307,16 +321,24 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Multipage Review screen
 
 internal extension GiniScreenAPICoordinator {
-    fileprivate func createMultipageReviewScreenContainer() -> UINavigationController {
+    fileprivate func createMultipageReviewScreenContainer() -> MultipageReviewController {
         let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
-        vc.didTapBack = { [weak self] in
-            self?.multiPageReviewContainer?.dismiss(animated: true, completion: nil)
-        }
-        let nav = UINavigationController(rootViewController: vc)
-        nav.applyStyle(withConfiguration: giniConfiguration)
-        nav.transitioningDelegate = self
-        nav.setNavigationBarHidden(true, animated: false)
-        return nav
+        
+        setupNavigationItem(usingResources: backButtonResource,
+                            selector: #selector(closeMultipageScreen),
+                            position: .left,
+                            onViewController: vc)
+        
+        setupNavigationItem(usingResources: nextButtonResource,
+                            selector: #selector(showAnalysisScreen),
+                            position: .right,
+                            onViewController: vc)
+        return vc
+    }
+    
+    @objc fileprivate func closeMultipageScreen() {
+        self.screenAPINavigationController.popViewController(animated: true)
+        self.multiPageReviewController = nil
     }
 }
 
