@@ -9,6 +9,8 @@ import Foundation
 
 final class MultipageReviewController: UIViewController {
     
+    var didTapBack: (() -> ())?
+    var didTapAnalyze: (() -> ())?
     var imageDocuments: [GiniImageDocument]
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
@@ -117,10 +119,10 @@ final class MultipageReviewController: UIViewController {
                                             target: self,
                                             action: #selector(deleteSelectedImage))
     
-    lazy var doneButton = UIBarButtonItem.init(title: "Done",
-                                               style: .done,
-                                               target: self,
-                                               action: #selector(done))
+    lazy var backButton = UIBarButtonItem(title: "back",
+                                          style: .done,
+                                          target: self,
+                                          action: #selector(back))
     
     init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
@@ -142,7 +144,7 @@ final class MultipageReviewController: UIViewController {
         bottomCollectionContainer.addSubview(bottomCollectionTopBorder)
         
         addConstraints()
-        navigationItem.setLeftBarButton(doneButton,
+        navigationItem.setLeftBarButton(backButton,
                                         animated: true)
     }
     
@@ -159,8 +161,8 @@ final class MultipageReviewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
-    func done() {
-        self.dismiss(animated: true, completion: nil)
+    func back() {
+        self.didTapBack?()
     }
     
     func rotateSelectedImage() {
@@ -212,10 +214,10 @@ final class MultipageReviewController: UIViewController {
         // bottomCollectionTopBorder
         Contraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .leading)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .trailing)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
+                          to: bottomCollectionContainer, attr: .leading)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
+                          to: bottomCollectionContainer, attr: .trailing)
         Contraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: 0.5)
         
