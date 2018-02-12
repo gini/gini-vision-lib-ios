@@ -75,7 +75,6 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             self.pageSelectedLine.alpha = isSelected ? 1 : 0
-            print("isSelected: ", isSelected)
         }
     }
     
