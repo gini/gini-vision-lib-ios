@@ -109,10 +109,17 @@ final class MultipageReviewController: UIViewController {
                                             target: self,
                                             action: #selector(rotateSelectedImage))
     
-    lazy var orderButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(reorderAction))
+    lazy var orderButton: UIBarButtonItem = {
+        var button = UIButton(type: UIButtonType.custom)
+        button.setImage(UIImageNamedPreferred(named: "reorderPagesIcon"), for: .normal)
+        button.addTarget(self, action: #selector(reorderAction), for: .touchUpInside)
+        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.layer.cornerRadius = 5
+        button.tintColor = Colors.Gini.blue
+
+        var barButton = UIBarButtonItem(customView: button)
+        return barButton
+    }()
     
     lazy var deleteButton = UIBarButtonItem(image: UIImageNamedPreferred(named: "reviewRotateButton"),
                                             style: .plain,
@@ -180,11 +187,11 @@ final class MultipageReviewController: UIViewController {
         self.topCollectionContainerConstraint.isActive = self.bottomCollectionContainerConstraint.isActive
         self.bottomCollectionContainerConstraint.isActive = !self.bottomCollectionContainerConstraint.isActive
         self.mainCollection.collectionViewLayout.invalidateLayout()
+        self.changeReorderButtonState(toActive: self.bottomCollectionContainerConstraint.isActive)
         
         UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
             guard let `self` = self else { return }
             self.view.layoutIfNeeded()
-            
             }, completion: { _ in
         })
         
@@ -192,6 +199,17 @@ final class MultipageReviewController: UIViewController {
     
     fileprivate func changeTitle(withPage page: Int) {
         title = "\(page) of \(imageDocuments.count)"
+    }
+    
+    fileprivate func changeReorderButtonState(toActive activate: Bool) {
+        if activate {
+            orderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
+            orderButton.customView?.tintColor = .white
+        } else {
+            orderButton.customView?.layer.backgroundColor = nil
+            orderButton.customView?.tintColor = Colors.Gini.blue
+        }
+        
     }
     
     fileprivate func selectItem(at position: Int) {
@@ -216,6 +234,7 @@ final class MultipageReviewController: UIViewController {
                           attr: .top)
         Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Contraints.active(item: toolBar, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 60)
         
         // bottomCollectionContainer
         Contraints.active(constraint: topCollectionContainerConstraint)
