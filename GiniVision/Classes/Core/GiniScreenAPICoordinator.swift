@@ -22,6 +22,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
     fileprivate var cameraViewController: CameraViewController?
     fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     fileprivate var reviewViewController: ReviewViewController?
+    fileprivate var multiPageReviewContainer: UINavigationController?
     
     // Properties
     fileprivate var changesOnReview: Bool = false
@@ -29,8 +30,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
     fileprivate weak var visionDelegate: GiniVisionDelegate?
     fileprivate var visionDocument: GiniVisionDocument?
     fileprivate var imageDocuments: [GiniImageDocument] = []
-    fileprivate let multipageTransition = MultipageReviewTransitionAnimator()
-    fileprivate var multiPageReviewContainer: UINavigationController?
+    fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     
     fileprivate enum NavBarItemPosition {
         case left, right
@@ -194,10 +194,16 @@ extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
         if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
             let buttonFrame = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter.frame,
                                                                          to: self.screenAPINavigationController.view) {
-            multipageTransition.originFrame = buttonFrame
-            return multipageTransition
+            multiPageTransition.originFrame = buttonFrame
+            multiPageTransition.operation = .present
+            return multiPageTransition
         }
         return nil
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        multiPageTransition.operation = .dismiss
+        return multiPageTransition
     }
 }
 
@@ -330,6 +336,9 @@ internal extension GiniScreenAPICoordinator {
 internal extension GiniScreenAPICoordinator {
     fileprivate func createMultipageReviewScreenContainer() -> UINavigationController {
         let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
+        vc.didTapBack = { [weak self] in
+            self?.multiPageReviewContainer?.dismiss(animated: true, completion: nil)
+        }
         let nav = UINavigationController(rootViewController: vc)
         nav.applyStyle(withConfiguration: giniConfiguration)
         nav.transitioningDelegate = self
