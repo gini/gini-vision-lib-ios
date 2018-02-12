@@ -9,8 +9,6 @@ import Foundation
 
 final class MultipageReviewController: UIViewController {
     
-    var didTapBack: (() -> ())?
-    var didTapAnalyze: (() -> ())?
     var imageDocuments: [GiniImageDocument]
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
@@ -40,6 +38,7 @@ final class MultipageReviewController: UIViewController {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Colors.Gini.pearl
+        view.alpha = 0
         
         return view
     }()
@@ -73,6 +72,7 @@ final class MultipageReviewController: UIViewController {
         toolBar.translatesAutoresizingMaskIntoConstraints = false
         toolBar.barTintColor = Colors.Gini.pearl
         toolBar.isTranslucent = false
+        toolBar.alpha = 0
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         toolBar.setItems([self.rotateButton,
@@ -119,11 +119,6 @@ final class MultipageReviewController: UIViewController {
                                             target: self,
                                             action: #selector(deleteSelectedImage))
     
-    lazy var backButton = UIBarButtonItem(title: "back",
-                                          style: .done,
-                                          target: self,
-                                          action: #selector(back))
-    
     init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
         
@@ -144,25 +139,34 @@ final class MultipageReviewController: UIViewController {
         bottomCollectionContainer.addSubview(bottomCollectionTopBorder)
         
         addConstraints()
-        navigationItem.setLeftBarButton(backButton,
-                                        animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeTitle(withPage: 1)
-        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
-        longPressGesture.delaysTouchesBegan = true
-        bottomCollection.addGestureRecognizer(longPressGesture)
+        selectItem(at: 0)
+        view.backgroundColor = mainCollection.backgroundColor
+        if #available(iOS 9.0, *) {
+            longPressGesture = UILongPressGestureRecognizer(target: self,
+                                                            action: #selector(handleLongGesture))
+            longPressGesture.delaysTouchesBegan = true
+            bottomCollection.addGestureRecognizer(longPressGesture)
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.mainCollection.backgroundColor = .clear
+        self.view.backgroundColor = .clear
+        self.bottomCollectionContainer.alpha = 0
+        self.toolBar.alpha = 0
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    func back() {
-        self.didTapBack?()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: AnimationDuration.fast, animations: {
+            self.toolBar.alpha = 1
+        }, completion: { _ in
+            self.bottomCollectionContainer.alpha = 1
+        })
     }
     
     func rotateSelectedImage() {
@@ -188,6 +192,14 @@ final class MultipageReviewController: UIViewController {
     
     fileprivate func changeTitle(withPage page: Int) {
         title = "\(page) of \(imageDocuments.count)"
+    }
+    
+    fileprivate func selectItem(at position: Int) {
+        let indexPath = IndexPath(row: position, section: 0)
+        self.bottomCollection.selectItem(at: indexPath,
+                                         animated: true,
+                                         scrollPosition: .centeredHorizontally)
+        self.collectionView(self.bottomCollection, didSelectItemAt: indexPath)
     }
     
     fileprivate func addConstraints() {
@@ -234,6 +246,7 @@ final class MultipageReviewController: UIViewController {
                             bottomCollectionInsets.bottom)
     }
     
+    @available(iOS 9.0, *)
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
             
@@ -242,27 +255,20 @@ final class MultipageReviewController: UIViewController {
                 .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
                     break
             }
-            if #available(iOS 9.0, *) {
-                bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
-            }
+            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
-            if #available(iOS 9.0, *) {
-                if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
-                    let gesturePosition = gesture.location(in: collectionView)
-                    let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
-                    let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
-                    let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
-                    bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
-                }
+            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
+                let gesturePosition = gesture.location(in: collectionView)
+                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
+                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
+                let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
+                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
             }
         case .ended:
-            if #available(iOS 9.0, *) {
-                bottomCollection.endInteractiveMovement()
-            }
+            bottomCollection.endInteractiveMovement()
         default:
-            if #available(iOS 9.0, *) {
-                bottomCollection.cancelInteractiveMovement()
-            }
+            bottomCollection.cancelInteractiveMovement()
+            
         }
     }
     
@@ -307,10 +313,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
                 self.bottomCollection.reloadItems(at: indexes)
-                self.bottomCollection.selectItem(at: destinationIndexPath,
-                                                 animated: true, 
-                                                 scrollPosition: .centeredHorizontally)
-                self.collectionView(self.bottomCollection, didSelectItemAt: destinationIndexPath)
+                self.selectItem(at: destinationIndexPath.row)
             })
         }
     }
@@ -352,10 +355,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == mainCollection {
             if let indexPath = visibleCell(in: mainCollection) {
-                bottomCollection.selectItem(at: indexPath,
-                                            animated: true,
-                                            scrollPosition: .centeredHorizontally)
-                collectionView(bottomCollection, didSelectItemAt: indexPath)
+                selectItem(at: indexPath.row)
             }
         }
     }
