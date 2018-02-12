@@ -150,6 +150,7 @@ final class MultipageReviewController: UIViewController {
         super.viewDidLoad()
         changeTitle(withPage: 1)
         longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture))
+        longPressGesture.delaysTouchesBegan = true
         bottomCollection.addGestureRecognizer(longPressGesture)
     }
     
