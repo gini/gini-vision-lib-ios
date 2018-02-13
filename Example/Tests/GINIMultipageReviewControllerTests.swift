@@ -106,7 +106,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                          layout: vc.bottomCollection.collectionViewLayout,
                                          sizeForItemAt: firstCellIndexPath)
         
-        let size = MultipageReviewBottomCollectionCell.size
+        let size = MultipageReviewBottomCollectionCell.portraitSize
         
         XCTAssertEqual(cellSize, size,
                        "Bottom collection cells should have the value declared in the class")
@@ -119,13 +119,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         
         XCTAssertEqual(collectionInsets, vc.bottomCollectionInsets,
                        "Main collection insets should be zero")
-    }
-    
-    func testNavBarItemsOnInitialization() {
-        XCTAssertEqual(vc.navigationItem.leftBarButtonItem, vc.doneButton,
-                       "Done button should be the only one on the left")
-        XCTAssertNil(vc.navigationItem.rightBarButtonItems,
-                     "Right bar buttons should be nil on initialization")
     }
     
     func testToolBarItemsOnInitialization() {

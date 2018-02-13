@@ -30,7 +30,7 @@ final class MultipageReviewController: UIViewController {
     }()
     
     var bottomCollectionInsets: UIEdgeInsets {
-        let sideInset: CGFloat = (bottomCollection.frame.width - MultipageReviewBottomCollectionCell.size.width) / 2
+        let sideInset: CGFloat = (bottomCollection.frame.width - MultipageReviewBottomCollectionCell.portraitSize.width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
     }
     
@@ -74,7 +74,9 @@ final class MultipageReviewController: UIViewController {
         toolBar.isTranslucent = false
         toolBar.alpha = 0
         
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
         var items = [self.rotateButton,
                      flexibleSpace,
                      self.deleteButton]
@@ -88,13 +90,15 @@ final class MultipageReviewController: UIViewController {
     }()
     
     lazy var bottomCollectionContainerConstraint: NSLayoutConstraint = {
-        return NSLayoutConstraint(item: self.bottomCollectionContainer,
-                                  attribute: .bottom,
-                                  relatedBy: .equal,
-                                  toItem: self.toolBar,
-                                  attribute: .top,
-                                  multiplier: 1.0,
-                                  constant: 0)
+        let constraint = NSLayoutConstraint(item: self.bottomCollectionContainer,
+                                            attribute: .bottom,
+                                            relatedBy: .equal,
+                                            toItem: self.toolBar,
+                                            attribute: .top,
+                                            multiplier: 1.0,
+                                            constant: 0)
+        constraint.priority = 999
+        return constraint
     }()
     
     lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
@@ -108,37 +112,21 @@ final class MultipageReviewController: UIViewController {
     }()
     
     lazy var rotateButton: UIBarButtonItem = {
-        var button = UIButton(type: .custom)
-        button.setImage(UIImageNamedPreferred(named: "rotateImageIcon"), for: .normal)
-        button.addTarget(self, action: #selector(rotateSelectedImage), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        button.tintColor = Colors.Gini.blue
-        
-        var barButton = UIBarButtonItem(customView: button)
-        return barButton
+        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
+                                  insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
+                                  action: #selector(rotateSelectedImage))
     }()
     
     lazy var reorderButton: UIBarButtonItem = {
-        var button = UIButton(type: UIButtonType.custom)
-        button.setImage(UIImageNamedPreferred(named: "reorderPagesIcon"), for: .normal)
-        button.addTarget(self, action: #selector(reorderAction), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
-        button.layer.cornerRadius = 5
-        button.tintColor = Colors.Gini.blue
-
-        var barButton = UIBarButtonItem(customView: button)
-        return barButton
+        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
+                                  insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
+                                  action: #selector(reorderAction))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
-        var button = UIButton(type: .custom)
-        button.setImage(UIImageNamedPreferred(named: "trashIcon"), for: .normal)
-        button.addTarget(self, action: #selector(deleteSelectedImage), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        button.tintColor = Colors.Gini.blue
-        
-        var barButton = UIBarButtonItem(customView: button)
-        return barButton
+        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
+                                  insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
+                                  action: #selector(deleteSelectedImage))
     }()
     
     init(imageDocuments: [GiniImageDocument]) {
@@ -153,7 +141,6 @@ final class MultipageReviewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        
         view.addSubview(mainCollection)
         view.addSubview(bottomCollectionContainer)
         view.addSubview(toolBar)
@@ -176,10 +163,10 @@ final class MultipageReviewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.mainCollection.backgroundColor = .clear
-        self.view.backgroundColor = .clear
-        self.bottomCollectionContainer.alpha = 0
-        self.toolBar.alpha = 0
+        mainCollection.backgroundColor = .clear
+        view.backgroundColor = .clear
+        bottomCollectionContainer.alpha = 0
+        toolBar.alpha = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -192,15 +179,45 @@ final class MultipageReviewController: UIViewController {
     }
     
     func rotateSelectedImage() {
+        if let currentIndexPath = visibleCell(in: self.mainCollection) {
+            let mainCollectionCellImageView = (mainCollection
+                .cellForItem(at: currentIndexPath) as? MultipageReviewMainCollectionCell)?
+                .documentImage
+            
+            let bottomCollectionCell = (bottomCollection
+                .cellForItem(at: currentIndexPath) as? MultipageReviewBottomCollectionCell)
+            
+            imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
+            
+            let imageRotated = imageDocuments[currentIndexPath.row].previewImage
+            mainCollectionCellImageView?.image = imageRotated
+            bottomCollectionCell?.documentImage.image = imageRotated
+            bottomCollection.collectionViewLayout.invalidateLayout()
+        }
     }
     
     func deleteSelectedImage() {
-        
+        if let currentIndexPath = visibleCell(in: self.mainCollection) {
+            imageDocuments.remove(at: currentIndexPath.row)
+            mainCollection.deleteItems(at: [currentIndexPath])
+            bottomCollection.performBatchUpdates({
+                self.bottomCollection.deleteItems(at: [currentIndexPath])
+            }, completion: { _ in
+                if self.imageDocuments.count > 0, currentIndexPath.row != self.imageDocuments.count {
+                    var indexes = IndexPath.indexesBetween(currentIndexPath,
+                                                           and: IndexPath(row: self.imageDocuments.count,
+                                                                          section: 0))
+                    indexes.append(currentIndexPath)
+                    self.bottomCollection.reloadItems(at: indexes)
+                }
+            })
+        }
     }
     
     func reorderAction() {
-        self.topCollectionContainerConstraint.isActive = self.bottomCollectionContainerConstraint.isActive
-        self.bottomCollectionContainerConstraint.isActive = !self.bottomCollectionContainerConstraint.isActive
+        let hide = self.bottomCollectionContainerConstraint.isActive
+        self.topCollectionContainerConstraint.isActive = hide
+        self.bottomCollectionContainerConstraint.isActive = !hide
         self.mainCollection.collectionViewLayout.invalidateLayout()
         self.changeReorderButtonState(toActive: self.bottomCollectionContainerConstraint.isActive)
         
@@ -225,6 +242,25 @@ final class MultipageReviewController: UIViewController {
             reorderButton.customView?.tintColor = Colors.Gini.blue
         }
         
+    }
+    
+    fileprivate func barButtonItem(withImage image: UIImage?,
+                                   insets: UIEdgeInsets,
+                                   action: Selector) -> UIBarButtonItem {
+        let button = UIButton(type: .custom)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        button.imageEdgeInsets = insets
+        button.layer.cornerRadius = 5
+        button.tintColor = Colors.Gini.blue
+        
+        // This is needed since on iOS 9 and below,
+        // the buttons are not resized automatically when using autolayout
+        if let image = image {
+            button.frame = CGRect(origin: .zero, size: image.size)
+        }
+        
+        return UIBarButtonItem(customView: button)
     }
     
     fileprivate func selectItem(at position: Int) {
@@ -274,7 +310,7 @@ final class MultipageReviewController: UIViewController {
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.size.height +
+                          constant: MultipageReviewBottomCollectionCell.portraitSize.height +
                             bottomCollectionInsets.top +
                             bottomCollectionInsets.bottom)
     }
@@ -362,7 +398,13 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainCollection {
             return collectionView.frame.size
         } else {
-            return MultipageReviewBottomCollectionCell.size
+            let imageOrientation = imageDocuments[indexPath.row].previewImage?.imageOrientation
+            
+            if imageOrientation == .up || imageOrientation == .down {
+                return MultipageReviewBottomCollectionCell.portraitSize
+            } else {
+                return MultipageReviewBottomCollectionCell.landscapeSize
+            }
         }
     }
     

@@ -69,9 +69,10 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         }
     }
     
-    func rotateImage(degrees: Int,
-                     imageOrientation: UIImageOrientation) {
-        metaInformationManager.rotate(degrees: 90, imageOrientation: imageOrientation)
+    func rotatePreviewImage(degrees: Int) {
+        guard let rotatedImage = self.previewImage?.rotated90Degrees() else { return }
+        metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
+        
         guard let data = metaInformationManager.imageByAddingMetadata() else { return }
         self.data = data
         self.previewImage = UIImage(data: data)
