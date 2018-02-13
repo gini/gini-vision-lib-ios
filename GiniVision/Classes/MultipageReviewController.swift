@@ -9,7 +9,7 @@ import Foundation
 
 final class MultipageReviewController: UIViewController {
     
-    var imageDocuments: [GiniImageDocument]
+    fileprivate var imageDocuments: [GiniImageDocument]
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
     
     lazy var mainCollection: UICollectionView = {
@@ -206,17 +206,15 @@ final class MultipageReviewController: UIViewController {
             }, completion: { [weak self] _ in
                 guard let `self` = self else { return }
                 if self.imageDocuments.count > 0 {
-                    var nextSelectedItem = currentIndexPath.row - 1
                     if currentIndexPath.row != self.imageDocuments.count {
                         var indexes = IndexPath.indexesBetween(currentIndexPath,
                                                                and: IndexPath(row: self.imageDocuments.count,
                                                                               section: 0))
                         indexes.append(currentIndexPath)
                         self.bottomCollection.reloadItems(at: indexes)
-                        nextSelectedItem = currentIndexPath.row
                     }
                     
-                    self.selectItem(at: nextSelectedItem)
+                    self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
                 }
             })
         }
@@ -271,7 +269,7 @@ final class MultipageReviewController: UIViewController {
         return UIBarButtonItem(customView: button)
     }
     
-    fileprivate func selectItem(at position: Int) {
+    func selectItem(at position: Int) {
         let indexPath = IndexPath(row: position, section: 0)
         self.bottomCollection.selectItem(at: indexPath,
                                          animated: true,

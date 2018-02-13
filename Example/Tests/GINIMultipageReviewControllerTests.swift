@@ -134,4 +134,18 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         XCTAssertEqual(vc.toolBar.barTintColor, vc.bottomCollectionContainer.backgroundColor,
                        "toolbar and bottom collection container background colors should match")
     }
+    
+    func testDatasourceOnDelete() {
+        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        _ = vc.view
+        vc.view.setNeedsLayout()
+        vc.view.layoutIfNeeded()
+        
+        (vc.deleteButton.customView as? UIButton)?.sendActions(for: .touchUpInside)
+        
+        XCTAssertEqual(vc.mainCollection.numberOfItems(inSection: 0), 2,
+                       "main collection items count should be 2")
+        XCTAssertEqual(vc.bottomCollection.numberOfItems(inSection: 0), 2,
+                       "bottom collection items count should be 2")
+    }
 }
