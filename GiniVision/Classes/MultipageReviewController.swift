@@ -200,15 +200,23 @@ final class MultipageReviewController: UIViewController {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
+            
             bottomCollection.performBatchUpdates({
                 self.bottomCollection.deleteItems(at: [currentIndexPath])
-            }, completion: { _ in
-                if self.imageDocuments.count > 0, currentIndexPath.row != self.imageDocuments.count {
-                    var indexes = IndexPath.indexesBetween(currentIndexPath,
-                                                           and: IndexPath(row: self.imageDocuments.count,
-                                                                          section: 0))
-                    indexes.append(currentIndexPath)
-                    self.bottomCollection.reloadItems(at: indexes)
+            }, completion: { [weak self] _ in
+                guard let `self` = self else { return }
+                if self.imageDocuments.count > 0 {
+                    var nextSelectedItem = currentIndexPath.row - 1
+                    if currentIndexPath.row != self.imageDocuments.count {
+                        var indexes = IndexPath.indexesBetween(currentIndexPath,
+                                                               and: IndexPath(row: self.imageDocuments.count,
+                                                                              section: 0))
+                        indexes.append(currentIndexPath)
+                        self.bottomCollection.reloadItems(at: indexes)
+                        nextSelectedItem = currentIndexPath.row
+                    }
+                    
+                    self.selectItem(at: nextSelectedItem)
                 }
             })
         }
