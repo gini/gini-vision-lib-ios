@@ -237,33 +237,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     // MARK: Rotation handling
     @objc fileprivate func rotate(_ sender: AnyObject) {
-        guard let rotatedImage = rotateImage(imageView.image) else { return }
+        guard let rotatedImage = imageView.image?.rotated90Degrees() else { return }
         guard let imageDocument = currentDocument as? GiniImageDocument else { return }
         
         imageView.image = rotatedImage
-        imageDocument.rotateImage(degrees: 90, imageOrientation: rotatedImage.imageOrientation)
+        imageDocument.rotatePreviewImage(degrees: 90)
         successBlock?(imageDocument)
-    }
-    
-    fileprivate func rotateImage(_ image: UIImage?) -> UIImage? {
-        guard let cgImage = image?.cgImage else { return nil }
-        let rotatedOrientation = nextImageOrientationClockwise(image!.imageOrientation)
-        return UIImage(cgImage: cgImage, scale: 1.0, orientation: rotatedOrientation)
-    }
-    
-    fileprivate func nextImageOrientationClockwise(_ orientation: UIImageOrientation) -> UIImageOrientation {
-        var nextOrientation: UIImageOrientation!
-        switch orientation {
-        case .up, .upMirrored:
-            nextOrientation = .right
-        case .down, .downMirrored:
-            nextOrientation = .left
-        case .left, .leftMirrored:
-            nextOrientation = .up
-        case .right, .rightMirrored:
-            nextOrientation = .down
-        }
-        return nextOrientation
     }
     
     // MARK: Zoom handling
