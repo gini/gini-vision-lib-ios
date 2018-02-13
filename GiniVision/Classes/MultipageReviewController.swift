@@ -77,10 +77,10 @@ final class MultipageReviewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         var items = [self.rotateButton,
                      flexibleSpace,
-                     flexibleSpace,
                      self.deleteButton]
         if #available(iOS 9.0, *) {
             items.insert(self.reorderButton, at: 2)
+            items.insert(flexibleSpace, at: 3)
         }
         toolBar.setItems(items, animated: false)
         

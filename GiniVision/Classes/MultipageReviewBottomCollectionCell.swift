@@ -112,9 +112,9 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         Contraints.active(item: pageIndicatorCircle, attr: .width, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: pageIndicatorCircleSize.width)
         Contraints.active(item: pageIndicatorCircle, attr: .top, relatedBy: .equal, to: bottomContainer,
-                          attr: .top, constant: 10)
+                          attr: .top, constant: 10, priority: 999)
         Contraints.active(item: pageIndicatorCircle, attr: .bottom, relatedBy: .equal, to: bottomContainer,
-                          attr: .bottom, constant: -10)
+                          attr: .bottom, constant: -10, priority: 999)
         Contraints.active(item: pageIndicatorCircle, attr: .centerX, relatedBy: .equal, to: bottomContainer,
                           attr: .centerX)
         Contraints.active(item: pageIndicatorCircle, attr: .centerY, relatedBy: .equal, to: bottomContainer,
