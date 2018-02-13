@@ -75,11 +75,14 @@ final class MultipageReviewController: UIViewController {
         toolBar.alpha = 0
         
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        toolBar.setItems([self.rotateButton,
-                          flexibleSpace,
-                          self.reorderButton,
-                          flexibleSpace,
-                          self.deleteButton], animated: false)
+        var items = [self.rotateButton,
+                     flexibleSpace,
+                     flexibleSpace,
+                     self.deleteButton]
+        if #available(iOS 9.0, *) {
+            items.insert(self.reorderButton, at: 2)
+        }
+        toolBar.setItems(items, animated: false)
         
         return toolBar
     }()
@@ -298,7 +301,6 @@ final class MultipageReviewController: UIViewController {
             bottomCollection.endInteractiveMovement()
         default:
             bottomCollection.cancelInteractiveMovement()
-            
         }
     }
     
