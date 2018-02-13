@@ -155,7 +155,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        if toVC == multiPageReviewController || fromVC == multiPageReviewController {
+        if (toVC == multiPageReviewController && fromVC == cameraViewController) ||
+            (fromVC == multiPageReviewController && toVC == cameraViewController ) {
             if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
                 let buttonFrame = cameraViewController?
                     .reviewContentView
@@ -170,28 +171,6 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         return nil
     }
 }
-//
-//// MARK: - UIViewControllerTransitioningDelegate
-//
-//extension GiniScreenAPICoordinator: UIViewControllerTransitioningDelegate {
-//    func animationController(forPresented presented: UIViewController,
-//                             presenting: UIViewController,
-//                             source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-//        if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
-//            let buttonFrame = cameraViewController?.reviewContentView.convert(reviewImagesButtonCenter.frame,
-//                                                                         to: self.screenAPINavigationController.view) {
-//            multiPageTransition.originFrame = buttonFrame
-//            multiPageTransition.operation = .present
-//            return multiPageTransition
-//        }
-//        return nil
-//    }
-//    
-//    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-////        multiPageTransition.operation = .dismiss
-//        return multiPageTransition
-//    }
-//}
 
 // MARK: - Camera Screen
 
