@@ -77,7 +77,7 @@ final class MultipageReviewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         toolBar.setItems([self.rotateButton,
                           flexibleSpace,
-                          self.orderButton,
+                          self.reorderButton,
                           flexibleSpace,
                           self.deleteButton], animated: false)
         
@@ -108,19 +108,18 @@ final class MultipageReviewController: UIViewController {
         var button = UIButton(type: .custom)
         button.setImage(UIImageNamedPreferred(named: "rotateImageIcon"), for: .normal)
         button.addTarget(self, action: #selector(rotateSelectedImage), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        button.layer.cornerRadius = 5
+        button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         button.tintColor = Colors.Gini.blue
         
         var barButton = UIBarButtonItem(customView: button)
         return barButton
     }()
     
-    lazy var orderButton: UIBarButtonItem = {
+    lazy var reorderButton: UIBarButtonItem = {
         var button = UIButton(type: UIButtonType.custom)
         button.setImage(UIImageNamedPreferred(named: "reorderPagesIcon"), for: .normal)
         button.addTarget(self, action: #selector(reorderAction), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        button.imageEdgeInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         button.layer.cornerRadius = 5
         button.tintColor = Colors.Gini.blue
 
@@ -132,8 +131,7 @@ final class MultipageReviewController: UIViewController {
         var button = UIButton(type: .custom)
         button.setImage(UIImageNamedPreferred(named: "trashIcon"), for: .normal)
         button.addTarget(self, action: #selector(deleteSelectedImage), for: .touchUpInside)
-        button.imageEdgeInsets = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-        button.layer.cornerRadius = 5
+        button.imageEdgeInsets = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
         button.tintColor = Colors.Gini.blue
         
         var barButton = UIBarButtonItem(customView: button)
@@ -217,11 +215,11 @@ final class MultipageReviewController: UIViewController {
     
     fileprivate func changeReorderButtonState(toActive activate: Bool) {
         if activate {
-            orderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
-            orderButton.customView?.tintColor = .white
+            reorderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
+            reorderButton.customView?.tintColor = .white
         } else {
-            orderButton.customView?.layer.backgroundColor = nil
-            orderButton.customView?.tintColor = Colors.Gini.blue
+            reorderButton.customView?.layer.backgroundColor = nil
+            reorderButton.customView?.tintColor = Colors.Gini.blue
         }
         
     }
@@ -248,7 +246,6 @@ final class MultipageReviewController: UIViewController {
                           attr: .top)
         Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Contraints.active(item: toolBar, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 60)
         
         // bottomCollectionContainer
         Contraints.active(constraint: topCollectionContainerConstraint)
