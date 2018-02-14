@@ -145,8 +145,8 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
                           constant: 16)
         Contraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -16)
-        Contraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle, attr: .trailing,
-                          constant: 22)
+        Contraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
+                          attr: .trailing, constant: 22)
         Contraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer, attr: .trailing,
                           constant: -11)
         

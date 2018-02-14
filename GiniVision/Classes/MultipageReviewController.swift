@@ -311,19 +311,22 @@ extension MultipageReviewController {
 extension MultipageReviewController {
     func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            let mainCollectionCellImageView = (mainCollection
-                .cellForItem(at: currentIndexPath) as? MultipageReviewMainCollectionCell)?
-                .documentImage
-            
-            let bottomCollectionCell = (bottomCollection
-                .cellForItem(at: currentIndexPath) as? MultipageReviewBottomCollectionCell)
-            
+//            let mainCollectionCellImageView = (mainCollection
+//                .cellForItem(at: currentIndexPath) as? MultipageReviewMainCollectionCell)?
+//                .documentImage
+//
+//            let bottomCollectionCell = (bottomCollection
+//                .cellForItem(at: currentIndexPath) as? MultipageReviewBottomCollectionCell)
+//
+//            imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
+//
+//            let imageRotated = imageDocuments[currentIndexPath.row].previewImage
+//            mainCollectionCellImageView?.image = imageRotated
+//            bottomCollectionCell?.documentImage.image = imageRotated
+//            bottomCollection.collectionViewLayout.invalidateLayout()
             imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
-            
-            let imageRotated = imageDocuments[currentIndexPath.row].previewImage
-            mainCollectionCellImageView?.image = imageRotated
-            bottomCollectionCell?.documentImage.image = imageRotated
-            bottomCollection.collectionViewLayout.invalidateLayout()
+            mainCollection.reloadItems(at: [currentIndexPath])
+            bottomCollection.reloadItems(at: [currentIndexPath])
         }
     }
     
@@ -386,7 +389,12 @@ extension MultipageReviewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewBottomCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewBottomCollectionCell
-            cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
+            if let image = imageDocuments[indexPath.row].previewImage {
+                cell?.documentImage.contentMode = image.size.width > image.size.height ?
+                    .scaleAspectFit :
+                    .scaleAspectFill
+                cell?.documentImage.image = image
+            }
             cell?.pageIndicator.text = "\(indexPath.row + 1)"
             return cell!
         }
