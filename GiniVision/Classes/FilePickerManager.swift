@@ -26,18 +26,25 @@ internal final class FilePickerManager: NSObject {
     
     // MARK: Picker presentation
     
-    func showGalleryPicker(from: UIViewController, errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
+    func showGalleryPicker(from: UIViewController,
+                           giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+                           errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
             let imagePicker: UIImagePickerController = UIImagePickerController()
             imagePicker.sourceType = .photoLibrary
             imagePicker.delegate = self
+            setStatusBarStyleIfNeeded(to: .default)
+            
             from.present(imagePicker, animated: true, completion: nil)
         }
     }
     
-    func showDocumentPicker(from: UIViewController) {
+    func showDocumentPicker(from: UIViewController,
+                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
+        setStatusBarStyleIfNeeded(to: .default)
+
         from.present(documentPicker, animated: true, completion: nil)
     }
     

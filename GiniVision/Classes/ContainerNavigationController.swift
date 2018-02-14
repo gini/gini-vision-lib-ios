@@ -12,6 +12,7 @@ final class ContainerNavigationController: UIViewController {
     
     var rootViewController: UINavigationController
     var coordinator: GiniScreenAPICoordinator?
+    var giniConfiguration: GiniConfiguration
     
     override var shouldAutorotate: Bool {
         return true
@@ -21,9 +22,16 @@ final class ContainerNavigationController: UIViewController {
         return UIDevice.current.isIpad ? .all : .portrait
     }
     
-    init(rootViewController: UINavigationController, parent: GiniScreenAPICoordinator) {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return giniConfiguration.statusBarStyle
+    }
+    
+    init(rootViewController: UINavigationController,
+         parent: GiniScreenAPICoordinator,
+         giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.rootViewController = rootViewController
         self.coordinator = parent
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
     
