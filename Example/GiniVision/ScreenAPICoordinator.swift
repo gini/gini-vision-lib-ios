@@ -24,23 +24,26 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
-    let documentService: DocumentService
+    let documentService: DocumentService!
+    let credentials: (id: String?, password: String?)
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
     
     init(configuration: GiniConfiguration,
          importedDocument document: GiniVisionDocument?,
-         documentService: DocumentService) {
+         credentials: (id: String?, password: String?)) {
         self.visionConfiguration = configuration
         self.visionDocument = document
-        self.documentService = documentService
+        self.credentials = credentials
+        self.documentService = DocumentService()
+        super.init()
     }
     
     func start() {
-        let viewController = GiniVision.viewController(withDelegate: self,
-                                                       withConfiguration: visionConfiguration,
-                                                       importedDocument: visionDocument)
+        let viewController = GiniVision.viewController(withCredentials: credentials,
+                                                       importedDocument: self.visionDocument,
+                                                       giniConfiguration: visionConfiguration)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
         screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor
