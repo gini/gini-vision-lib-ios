@@ -11,10 +11,9 @@ import Foundation
 final class MultipageReviewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
-    fileprivate var longPressGesture: UILongPressGestureRecognizer!
     var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
 
-    // MARK: - Views initialization
+    // MARK: - UI initialization
 
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -125,7 +124,7 @@ final class MultipageReviewController: UIViewController {
     lazy var reorderButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
                                   insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                  action: #selector(reorderAction))
+                                  action: #selector(toggleReorder))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
@@ -133,6 +132,10 @@ final class MultipageReviewController: UIViewController {
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                                   action: #selector(deleteSelectedImage))
     }()
+    
+    @available(iOS 9.0, *)
+    fileprivate lazy var longPressGesture = UILongPressGestureRecognizer(target: self,
+                                                                         action: #selector(self.handleLongGesture))
     
     // MARK: - Init
     
@@ -152,8 +155,8 @@ extension MultipageReviewController {
     override func loadView() {
         super.loadView()
         view.addSubview(mainCollection)
-        view.addSubview(bottomCollectionContainer)
         view.addSubview(toolBar)
+        view.insertSubview(bottomCollectionContainer, belowSubview: toolBar)
         bottomCollectionContainer.addSubview(bottomCollection)
         bottomCollectionContainer.addSubview(bottomCollectionTopBorder)
         
@@ -165,16 +168,15 @@ extension MultipageReviewController {
         selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
         if #available(iOS 9.0, *) {
-            longPressGesture = UILongPressGestureRecognizer(target: self,
-                                                            action: #selector(handleLongGesture))
             longPressGesture.delaysTouchesBegan = true
             bottomCollection.addGestureRecognizer(longPressGesture)
         }
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        mainCollection.backgroundColor = .clear
         view.backgroundColor = .clear
+        mainCollection.backgroundColor = .clear
         bottomCollectionContainer.alpha = 0
         toolBar.alpha = 0
     }
@@ -307,7 +309,6 @@ extension MultipageReviewController {
 // MARK: - Toolbar actions
 
 extension MultipageReviewController {
-    
     func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             let mainCollectionCellImageView = (mainCollection
@@ -346,11 +347,12 @@ extension MultipageReviewController {
                     
                     self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
                 }
+                self.didUpdateDocuments?(self.imageDocuments)
             })
         }
     }
     
-    func reorderAction() {
+    func toggleReorder() {
         let hide = self.bottomCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
         self.bottomCollectionContainerConstraint.isActive = !hide
@@ -362,9 +364,7 @@ extension MultipageReviewController {
             self.view.layoutIfNeeded()
             }, completion: { _ in
         })
-        
     }
-    
 }
 
 // MARK: UICollectionViewDataSource
@@ -430,13 +430,16 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         if collectionView == mainCollection {
             return collectionView.frame.size
         } else {
-            let imageOrientation = imageDocuments[indexPath.row].previewImage?.imageOrientation
-            
-            if imageOrientation == .up || imageOrientation == .down {
-                return MultipageReviewBottomCollectionCell.portraitSize
-            } else {
-                return MultipageReviewBottomCollectionCell.landscapeSize
-            }
+//            guard let imageSize = imageDocuments[indexPath.row].previewImage?.size else {
+//                return MultipageReviewBottomCollectionCell.portraitSize
+//            }
+//
+//            if imageSize.width < imageSize.height {
+//                return MultipageReviewBottomCollectionCell.portraitSize
+//            } else {
+//                return MultipageReviewBottomCollectionCell.landscapeSize
+//            }
+            return MultipageReviewBottomCollectionCell.portraitSize
         }
     }
     
