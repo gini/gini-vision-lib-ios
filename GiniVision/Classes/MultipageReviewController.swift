@@ -7,12 +7,15 @@
 
 import Foundation
 
+//swiftlint:disable file_length
 final class MultipageReviewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
-    var didChangeDocuments: (([GiniImageDocument]) -> Void)?
-    
+    var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
+
+    // MARK: - Views initialization
+
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -31,7 +34,8 @@ final class MultipageReviewController: UIViewController {
     }()
     
     var bottomCollectionInsets: UIEdgeInsets {
-        let sideInset: CGFloat = (bottomCollection.frame.width - MultipageReviewBottomCollectionCell.portraitSize.width) / 2
+        let sideInset: CGFloat = (bottomCollection.frame.width -
+            MultipageReviewBottomCollectionCell.portraitSize.width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
     }
     
@@ -130,6 +134,8 @@ final class MultipageReviewController: UIViewController {
                                   action: #selector(deleteSelectedImage))
     }()
     
+    // MARK: - Init
+    
     init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
         
@@ -139,7 +145,10 @@ final class MultipageReviewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(imageDocuments:) has not been implemented")
     }
-    
+}
+
+// MARK: - UIViewController
+extension MultipageReviewController {
     override func loadView() {
         super.loadView()
         view.addSubview(mainCollection)
@@ -178,6 +187,126 @@ final class MultipageReviewController: UIViewController {
             self.bottomCollectionContainer.alpha = 1
         })
     }
+    
+    func selectItem(at position: Int) {
+        let indexPath = IndexPath(row: position, section: 0)
+        self.bottomCollection.selectItem(at: indexPath,
+                                         animated: true,
+                                         scrollPosition: .centeredHorizontally)
+        self.collectionView(self.bottomCollection, didSelectItemAt: indexPath)
+    }
+    
+    @available(iOS 9.0, *)
+    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+            
+        case .began:
+            guard let selectedIndexPath = self.bottomCollection
+                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
+                    break
+            }
+            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
+                let gesturePosition = gesture.location(in: collectionView)
+                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
+                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
+                let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
+                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
+            }
+        case .ended:
+            bottomCollection.endInteractiveMovement()
+        default:
+            bottomCollection.cancelInteractiveMovement()
+        }
+    }
+
+}
+
+// MARK: - Private methods
+
+extension MultipageReviewController {
+    fileprivate func barButtonItem(withImage image: UIImage?,
+                                   insets: UIEdgeInsets,
+                                   action: Selector) -> UIBarButtonItem {
+        let button = UIButton(type: .custom)
+        button.setImage(image, for: .normal)
+        button.addTarget(self, action: action, for: .touchUpInside)
+        button.imageEdgeInsets = insets
+        button.layer.cornerRadius = 5
+        button.tintColor = Colors.Gini.blue
+        
+        // This is needed since on iOS 9 and below,
+        // the buttons are not resized automatically when using autolayout
+        if let image = image {
+            button.frame = CGRect(origin: .zero, size: image.size)
+        }
+        
+        return UIBarButtonItem(customView: button)
+    }
+    
+    fileprivate func changeTitle(withPage page: Int) {
+        title = "\(page) of \(imageDocuments.count)"
+    }
+    
+    fileprivate func changeReorderButtonState(toActive activate: Bool) {
+        if activate {
+            reorderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
+            reorderButton.customView?.tintColor = .white
+        } else {
+            reorderButton.customView?.layer.backgroundColor = nil
+            reorderButton.customView?.tintColor = Colors.Gini.blue
+        }
+    }
+    
+    fileprivate func addConstraints() {
+        // mainCollection
+        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .top)
+        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
+                          attr: .bottom)
+        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        
+        // toolBar
+        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
+                          attr: .top)
+        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        
+        // bottomCollectionContainer
+        Contraints.active(constraint: topCollectionContainerConstraint)
+        Contraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
+                          attr: .trailing)
+        Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        
+        // bottomCollectionTopBorder
+        Contraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .top)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
+                          to: bottomCollectionContainer, attr: .leading)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
+                          to: bottomCollectionContainer, attr: .trailing)
+        Contraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
+                          attr: .notAnAttribute, constant: 0.5)
+        
+        // bottomCollection
+        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .bottom)
+        Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+                          attr: .top)
+        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: MultipageReviewBottomCollectionCell.portraitSize.height +
+                            bottomCollectionInsets.top +
+                            bottomCollectionInsets.bottom)
+    }
+}
+
+// MARK: - Toolbar actions
+
+extension MultipageReviewController {
     
     func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
@@ -236,117 +365,6 @@ final class MultipageReviewController: UIViewController {
         
     }
     
-    fileprivate func changeTitle(withPage page: Int) {
-        title = "\(page) of \(imageDocuments.count)"
-    }
-    
-    fileprivate func changeReorderButtonState(toActive activate: Bool) {
-        if activate {
-            reorderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
-            reorderButton.customView?.tintColor = .white
-        } else {
-            reorderButton.customView?.layer.backgroundColor = nil
-            reorderButton.customView?.tintColor = Colors.Gini.blue
-        }
-        
-    }
-    
-    fileprivate func barButtonItem(withImage image: UIImage?,
-                                   insets: UIEdgeInsets,
-                                   action: Selector) -> UIBarButtonItem {
-        let button = UIButton(type: .custom)
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: action, for: .touchUpInside)
-        button.imageEdgeInsets = insets
-        button.layer.cornerRadius = 5
-        button.tintColor = Colors.Gini.blue
-        
-        // This is needed since on iOS 9 and below,
-        // the buttons are not resized automatically when using autolayout
-        if let image = image {
-            button.frame = CGRect(origin: .zero, size: image.size)
-        }
-        
-        return UIBarButtonItem(customView: button)
-    }
-    
-    func selectItem(at position: Int) {
-        let indexPath = IndexPath(row: position, section: 0)
-        self.bottomCollection.selectItem(at: indexPath,
-                                         animated: true,
-                                         scrollPosition: .centeredHorizontally)
-        self.collectionView(self.bottomCollection, didSelectItemAt: indexPath)
-    }
-    
-    fileprivate func addConstraints() {
-        // mainCollection
-        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .top)
-        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
-                          attr: .bottom)
-        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        
-        // toolBar
-        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
-                          attr: .top)
-        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        
-        // bottomCollectionContainer
-        Contraints.active(constraint: topCollectionContainerConstraint)
-        Contraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
-                          attr: .trailing)
-        Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        
-        // bottomCollectionTopBorder
-        Contraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .top)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
-                          to: bottomCollectionContainer, attr: .leading)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
-                          to: bottomCollectionContainer, attr: .trailing)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
-                          attr: .notAnAttribute, constant: 0.5)
-        
-        // bottomCollection
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .bottom)
-        Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .top)
-        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.portraitSize.height +
-                            bottomCollectionInsets.top +
-                            bottomCollectionInsets.bottom)
-    }
-    
-    @available(iOS 9.0, *)
-    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-        switch gesture.state {
-            
-        case .began:
-            guard let selectedIndexPath = self.bottomCollection
-                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
-                    break
-            }
-            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case .changed:
-            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
-                let gesturePosition = gesture.location(in: collectionView)
-                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
-                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
-                let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
-                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
-            }
-        case .ended:
-            bottomCollection.endInteractiveMovement()
-        default:
-            bottomCollection.cancelInteractiveMovement()
-        }
-    }
-    
 }
 
 // MARK: UICollectionViewDataSource
@@ -390,12 +408,12 @@ extension MultipageReviewController: UICollectionViewDataSource {
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
             
-            // This is needed since this method is call before the moving animation finishes.
+            // This is needed because this method is called before the moving animation finishes.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
                 self.bottomCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.didChangeDocuments?(self.imageDocuments)
+                self.didUpdateDocuments?(self.imageDocuments)
             })
         }
     }
