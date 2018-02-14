@@ -25,13 +25,16 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 5.0
+        view.layer.masksToBounds = true
         return view
     }()
     
     lazy var documentImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = Colors.Gini.veryLightGray
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -92,10 +95,15 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         bottomContainer.addSubview(pageIndicatorCircle)
         bottomContainer.addSubview(draggableIcon)
         
-        roundMask.layer.cornerRadius = 5.0
-        roundMask.layer.masksToBounds = true
         addShadow()
-        
+        addConstraints()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(frame:) has not been implemented")
+    }
+    
+    fileprivate func addConstraints() {
         // roundMask
         Contraints.active(item: roundMask, attr: .top, relatedBy: .equal, to: self, attr: .top)
         Contraints.active(item: roundMask, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
@@ -163,9 +171,4 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0,
                                     height: MultipageReviewBottomCollectionCell.shadowHeight)
     }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(frame:) has not been implemented")
-    }
-    
 }
