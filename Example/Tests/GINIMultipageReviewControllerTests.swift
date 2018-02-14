@@ -155,7 +155,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let destinationIndexPath = IndexPath(row: 2, section: 0)
         var updatedImageDocument: [GiniImageDocument] = []
 
-        vc.didChangeDocuments = { updatedDocuments in
+        vc.didUpdateDocuments = { updatedDocuments in
             updatedImageDocument = updatedDocuments
             expect.fulfill()
         }
