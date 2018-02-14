@@ -148,4 +148,40 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         XCTAssertEqual(vc.bottomCollection.numberOfItems(inSection: 0), 2,
                        "bottom collection items count should be 2")
     }
+    
+    func testCellReloadedOnReordering() {
+        let expect = expectation(description: "Delayed reloading on reordering has finished")
+        let currentIndexPath = IndexPath(row: 0, section: 0)
+        let destinationIndexPath = IndexPath(row: 2, section: 0)
+        var updatedImageDocument: [GiniImageDocument] = []
+
+        vc.didChangeDocuments = { updatedDocuments in
+            updatedImageDocument = updatedDocuments
+            expect.fulfill()
+        }
+        
+        vc.collectionView(vc.bottomCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
+
+        wait(for: [expect], timeout: 1)
+        let firstCell = vc.collectionView(vc.bottomCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewBottomCollectionCell
+        let secondCell = vc.collectionView(vc.bottomCollection,
+                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewBottomCollectionCell
+        let thirdCell = vc.collectionView(vc.bottomCollection,
+                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewBottomCollectionCell
+
+        XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].previewImage,
+                       "Second cell image should match the one passed in the initializer")
+        XCTAssertEqual(firstCell?.pageIndicator.text, "1",
+                       "First cell indicator should match its position")
+        XCTAssertEqual(secondCell?.documentImage.image, updatedImageDocument[1].previewImage,
+                       "Second cell image should match the one passed in the initializer")
+        XCTAssertEqual(secondCell?.pageIndicator.text, "2",
+                       "Second cell indicator should match its position")
+        XCTAssertEqual(thirdCell?.documentImage.image, updatedImageDocument[2].previewImage,
+                       "Third cell image should match the one passed in the initializer")
+        XCTAssertEqual(thirdCell?.pageIndicator.text, "3",
+                       "Third cell indicator should match its position")
+        
+    }
 }
