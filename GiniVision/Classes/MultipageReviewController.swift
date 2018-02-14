@@ -11,6 +11,7 @@ final class MultipageReviewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
     fileprivate var longPressGesture: UILongPressGestureRecognizer!
+    var didChangeDocuments: (([GiniImageDocument]) -> Void)?
     
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -379,6 +380,12 @@ extension MultipageReviewController: UICollectionViewDataSource {
         if collectionView == bottomCollection {
             var indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
             indexes.append(sourceIndexPath)
+            
+            // On iOS < 11 the destinationIndexPath is not reloaded automatically.
+            if ProcessInfo().operatingSystemVersion.majorVersion < 11 {
+                indexes.append(destinationIndexPath)
+            }
+            
             let elementMoved = imageDocuments.remove(at: sourceIndexPath.row)
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
@@ -388,6 +395,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.bottomCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
+                self.didChangeDocuments?(self.imageDocuments)
             })
         }
     }
@@ -416,8 +424,10 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == bottomCollection {
-            mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            if imageDocuments.count > 1 {
+                mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            }
             changeTitle(withPage: indexPath.row + 1)
         }
     }
