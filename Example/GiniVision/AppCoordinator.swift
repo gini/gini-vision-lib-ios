@@ -46,6 +46,23 @@ final class AppCoordinator: Coordinator {
         return giniConfiguration
     }()
     
+    let clientID = "client_id"
+    let clientPassword = "client_password"
+    
+    private lazy var credentials: (id: String?, password: String?) = {
+        var keys: NSDictionary?
+        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist"),
+            let keys = NSDictionary(contentsOfFile: path),
+            let client_id = keys[self.clientID] as? String,
+            let client_password = keys[self.clientPassword] as? String,
+            !client_id.isEmpty, !client_password.isEmpty {
+            
+            return (client_id, client_password)
+        }
+        return (ProcessInfo.processInfo.environment[self.clientID],
+                ProcessInfo.processInfo.environment[self.clientPassword])
+    }()
+    
     init(window: UIWindow) {
         self.documentService = DocumentService()
         self.window = window
@@ -85,7 +102,7 @@ final class AppCoordinator: Coordinator {
     fileprivate func showScreenAPI(withImportedDocument document: GiniVisionDocument? = nil) {
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
                                                         importedDocument: document,
-                                                        documentService: documentService)
+                                                        credentials: credentials)
         screenAPICoordinator.delegate = self
         screenAPICoordinator.start()
         add(childCoordinator: screenAPICoordinator)
