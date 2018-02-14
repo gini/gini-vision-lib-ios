@@ -17,9 +17,17 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.social_media_url = 'https://twitter.com/gini'
   s.swift_version    = '3.2'
   s.ios.deployment_target = '8.0'
+  s.default_subspec = 'Core'
 
-  s.source_files = 'GiniVision/Classes/**/*'
-  s.resources = 'GiniVision/Assets/*'
+  s.subspec 'Core' do |core|
+    core.source_files = 'GiniVision/Classes/Core/**/*'
+    core.resources = 'GiniVision/Assets/*'
+  end
+
+  s.subspec 'Networking' do |networking|
+    networking.source_files = 'GiniVision/Classes/Networking/*'
+    networking.dependency "Gini-iOS-SDK", "~> 0.6.0"
+  end
 
   s.frameworks = 'AVFoundation', 'CoreMotion', 'Photos'
 end
