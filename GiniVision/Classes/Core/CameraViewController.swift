@@ -191,16 +191,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         // Set callback
         self.successBlock = successBlock
         self.failureBlock = failureBlock
-        let images = [UIImage(named: "invoice.jpg", in: Bundle.main, compatibleWith: nil),
-                      UIImage(named: "invoice2.jpg", in: Bundle.main, compatibleWith: nil),
-                      UIImage(named: "invoice3.jpg", in: Bundle.main, compatibleWith: nil)]
-        images.forEach {
-            let imageDocument = GiniImageDocument(data: UIImageJPEGRepresentation($0!, 0.9)!,
-                                                  imageSource: DocumentSource.camera)
-            self.successBlock?(imageDocument)
-            self.moveImageDocumentToControlsView(document: imageDocument)
-        }
-
         
         self.setupCamera()
     }
