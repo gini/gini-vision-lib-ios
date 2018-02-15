@@ -24,7 +24,7 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   end
 
   s.subspec 'Networking' do |networking|
-    networking.source_files = 'GiniVision/Classes/Networking/*'
+    networking.source_files = 'GiniVision/Classes/Networking/**/*'
     networking.dependency "Gini-iOS-SDK", "~> 0.6.0"
   end
 
