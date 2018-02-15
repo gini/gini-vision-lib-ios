@@ -11,8 +11,8 @@ import Gini_iOS_SDK
 @objc public protocol GiniVisionResultsDelegate: class {
     func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool)
     func giniVision(_ documents: [GiniVisionDocument],
-                    analysisDidFinishWithResults results: [String: GINIExtraction],
-                    sendFeedback: @escaping ([String: GINIExtraction]) -> Void)
+                    analysisDidFinishWithResults results: [String: Extraction],
+                    sendFeedback: @escaping ([String: Extraction]) -> Void)
     func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool)
 }
 
@@ -79,7 +79,7 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func present(result: GINIResult) {
+    func present(result: [String: Extraction]) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         

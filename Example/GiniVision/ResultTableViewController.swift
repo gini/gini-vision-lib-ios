@@ -18,7 +18,7 @@ final class ResultTableViewController: UITableViewController {
     /**
      The result dictionary from the analysis process.
      */
-    var result: GINIResult!
+    var result: [String: GINIExtraction]!
     
     /**
      The document the results have been extracted from.
