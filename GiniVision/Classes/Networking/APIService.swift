@@ -65,17 +65,12 @@ final class APIService {
         isAnalyzing = false
     }
     
-    init(id: String?, password: String?) {
-        let clientId = id
-        let clientSecret = password
-        
+    init(client: Client) {
         // Set up GiniSDK with your credentials.
-        let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
-                                                   clientSecret: clientSecret,
-                                                   userEmailDomain: "example.com")
-        self.giniSDK = builder?.build()
-        
-        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        self.giniSDK = builder?.build()        
     }
     
     /**

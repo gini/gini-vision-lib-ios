@@ -49,17 +49,16 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    convenience init(credentials: (id: String?, password: String?),
+    convenience init(client: Client,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
-        self.apiService = APIService(id: credentials.id, password: credentials.password)
+        self.apiService = APIService(client: client)
     }
     
-    // MARK: Handle analysis of document
     func analyzeDocument(visionDocument document: GiniVisionDocument) {
         cancelAnalysis()
         
@@ -173,24 +172,3 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         cancelAnalysis()
     }
 }
-
-/**
- Simple cancelation token implementation.
- Used in asychronous tasks.
- */
-class CancelationToken {
-    
-    /**
-     Cancel propoerty to check the current cancelled state of the object.
-     */
-    var cancelled = false
-    
-    /**
-     Sets the state of the token to cancelled.
-     */
-    func cancel() {
-        cancelled = true
-    }
-    
-}
-
