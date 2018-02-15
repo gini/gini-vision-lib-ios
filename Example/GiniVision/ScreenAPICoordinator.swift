@@ -42,8 +42,9 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
     func start() {
         let viewController = GiniVision.viewController(withCredentials: credentials,
-                                                       importedDocument: self.visionDocument,
-                                                       giniConfiguration: visionConfiguration)
+                                                       importedDocument: visionDocument,
+                                                       giniConfiguration: visionConfiguration,
+                                                       resultsDelegate: self)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
         screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor
@@ -52,83 +53,14 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    // MARK: Handle analysis of document
-    func analyzeDocument(visionDocument document: GiniVisionDocument,
-                         delegate: AnalysisDelegate? = nil) {
-        cancelAnalysis()
-        visionDocument = document
-        analysisDelegate = delegate
-        
-        documentService
-            .analyzeDocument(withData: document.data,
-                             cancelationToken: CancelationToken()) { [weak self] result, document, error in
-                if let analysisDelegate = self?.analysisDelegate {
-                    guard let document = document, let result = result else {
-                        if let error = error, let analysisDelegate = self?.analysisDelegate {
-                            self?.show(error: error, analysisDelegate: analysisDelegate)
-                            return
-                        }
-                        return
-                    }
-                    self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
-                }
-                
-        }
-    }
-    
-    func cancelAnalysis() {
-        documentService.cancelAnalysis()
-        visionDocument = nil
-        analysisDelegate = nil
-    }
-    
-    // MARK: Handle results from analysis process
-    func show(error: Error, analysisDelegate: AnalysisDelegate?) {
-        guard let document = self.visionDocument else {
-            return
-        }
-        let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
-        
-        // Display an error with a custom message and custom action on the analysis screen
-        analysisDelegate?.displayError(withMessage: errorMessage, andAction: { [weak self] in
-            self?.analyzeDocument(visionDocument: document, delegate: analysisDelegate)
-        })
-    }
-    
-    func present(result: GINIResult, fromDocument document: GINIDocument, analysisDelegate: AnalysisDelegate?) {
-        let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
-        
-        if hasExtactions {
-            showResultsScreen(analysisDelegate: analysisDelegate)
-        } else {
-            showNoResultsScreen(analysisDelegate: analysisDelegate)
-        }
-    }
-    
-    fileprivate func showResultsScreen(analysisDelegate: AnalysisDelegate?) {
+    fileprivate func showResultsScreen(results: [String: Any]) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
-        customResultsScreen.result = documentService.result
-        customResultsScreen.document = documentService.document
+        customResultsScreen.result = results
         
         DispatchQueue.main.async { [weak self] in
             self?.screenAPIViewController.setNavigationBarHidden(false, animated: false)
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
-        }
-    }
-    
-    fileprivate func showNoResultsScreen(analysisDelegate: AnalysisDelegate?) {
-        DispatchQueue.main.async { [weak self] in
-            guard let `self` = self, let analysisDelegate = analysisDelegate else { return }
-            let shown = analysisDelegate.tryDisplayNoResultsScreen()
-            if !shown {
-                let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
-                    .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController)!
-                customNoResultsScreen.delegate = self
-                self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
-                self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
-            }
         }
     }
     
@@ -167,56 +99,24 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
     }
 }
 
-// MARK: GiniVisionDelegate
-
-extension ScreenAPICoordinator: GiniVisionDelegate {
+extension ScreenAPICoordinator: GiniVisionResultsDelegate {
     
-    func didCapture(document: GiniVisionDocument) {
-        // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        self.analyzeDocument(visionDocument: document)
-    }
     
-    func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        // Analyze reviewed document when changes were made by the user during review or
-        // there is no result and is not analysing.
-        if changes || (!documentService.isAnalyzing && documentService.result == nil) {
-            self.analyzeDocument(visionDocument: document)
-            
-            return
-        }
-    }
-    
-    func didCancelCapturing() {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Void) {
         delegate?.screenAPI(coordinator: self, didFinish: ())
     }
     
-    // Optional delegate methods
-    func didCancelReview() {
-        // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalysis()
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String : Any]) {
+        showResultsScreen(results: results)
     }
     
-    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
-        self.analysisDelegate = analysisDelegate
-        
-        // if there is already results, present them
-        if let result = documentService.result,
-            let document = documentService.document {
-            present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
-        }
-        
-        // The analysis screen is where the user should be confronted with
-        // any errors occuring during the analysis process.
-        // Show any errors that occured while the user was still reviewing the image here.
-        // Make sure to only show errors relevant to the user.
-        if let error = documentService.error {
-            show(error: error, analysisDelegate: analysisDelegate)
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool) {
+        if !showingNoResultsScreen {
+            let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
+                .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController)!
+            customNoResultsScreen.delegate = self
+            self.screenAPIViewController.setNavigationBarHidden(false, animated: false)
+            self.screenAPIViewController.pushViewController(customNoResultsScreen, animated: true)
         }
     }
-    
-    func didCancelAnalysis() {
-        // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalysis()
-    }
-    
 }
