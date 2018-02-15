@@ -7,8 +7,8 @@
 
 import Foundation
 
-public protocol GiniVisionResultsDelegate: class {
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Void)
+@objc public protocol GiniVisionResultsDelegate: class {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool)
     func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String: Any])
     func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool)
 }
@@ -64,7 +64,7 @@ extension GiniScreenAPICoordinator {
         
         apiService?
             .analyzeDocument(withData: document.data,
-                             cancelationToken: CancelationToken()) { [weak self] result, document, error in
+                             cancelationToken: CancelationToken()) { [weak self] result, _, error in
                                 guard let result = result else {
                                     if let error = error {
                                         self?.show(error: error)
@@ -124,7 +124,7 @@ extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCancelCapturing() {
-        resultsDelegate?.giniVision([], analysisDidCancel: ())
+        resultsDelegate?.giniVision([], analysisDidCancel: true)
     }
     
     func didCapture(document: GiniVisionDocument) {
