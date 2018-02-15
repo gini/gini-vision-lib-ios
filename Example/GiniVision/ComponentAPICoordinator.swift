@@ -135,7 +135,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showResultsTableScreen(forDocument document: GINIDocument,
-                                            withResult result: [String: Any]) {
+                                            withResult result: GINIResult) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
         resultsScreen?.result = result
@@ -329,15 +329,9 @@ extension ComponentAPICoordinator {
     fileprivate func handleAnalysis(_ result: GINIResult, fromDocument document: GINIDocument) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
-        let result = (result.reduce([:]) { dict, kv in
-            var dict = dict
-            dict[kv.key] = kv.value.value
-            return dict
-        })
+        
         if hasPayFive {
-            if let result = result as? [String: Any] {
-                showResultsTableScreen(forDocument: document, withResult: result)
-            }
+            showResultsTableScreen(forDocument: document, withResult: result)
         } else {
             showNoResultsScreen()
         }

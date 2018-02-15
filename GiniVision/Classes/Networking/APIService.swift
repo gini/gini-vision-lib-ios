@@ -14,7 +14,7 @@ let GINIAnalysisManagerResultDictionaryUserInfoKey  = "GINIAnalysisManagerResult
 let GINIAnalysisManagerErrorUserInfoKey             = "GINIAnalysisManagerErrorUserInfoKey"
 let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocumentUserInfoKey"
 
-typealias GINIResult = [String: GINIExtraction]
+public typealias GINIResult = [String: GINIExtraction]
 typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> Void)
 
 /**
@@ -194,67 +194,42 @@ final class APIService {
      - parameter document: Gini document.
      
      */
-    func sendFeedback(forDocument document: GINIDocument) {
-        
-        // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = giniSDK
-        
-        // 1. Get session
-        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
+    func sendFeedback(withResults results: GINIResult) {
+        _ = giniSDK?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
             if task?.error != nil {
-                return sdk?.sessionManager.logIn()
+                return self.giniSDK?.sessionManager.logIn()
             }
             return task?.result
             
-            // 2. Get extractions from the document
-        }).continue(successBlock: { _ -> AnyObject! in
-            return document.extractions
+        }).continue(successBlock: { (_: BFTask?) -> AnyObject! in
             
-            // 3. Create and send feedback on the document
+            return self.document?.extractions
+            
         }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
-            
-            // Use `NSMutableDictionary` to work with a mutable class type which is passed by reference.
-            guard let extractions = task?.result as? NSMutableDictionary else {
-                enum FeedbackError: Error {
-                    case unknown
+            if let extractions = task?.result as? NSMutableDictionary {
+                results.forEach { result in
+                    extractions[result.key] = result.value
                 }
-                let error = NSError(domain: "net.gini.error.", code: FeedbackError.unknown._code, userInfo: nil)
-                return BFTask(error: error)
+                
+                let documentTaskManager = self.giniSDK?.documentTaskManager
+                
+                return documentTaskManager?.update(self.document)
             }
             
-            // As an example will set the BIC value statically.
-            // In a real world application the user input should be used as the new value.
-            // Feedback should only be send for labels which the user has seen. Unseen labels should be filtered out.
+            return nil
             
-            let bicValue = "BYLADEM1001"
-            let bic = extractions["bic"] as? GINIExtraction ?? GINIExtraction(name: "bic",
-                                                                              value: "",
-                                                                              entity: "bic",
-                                                                              box: nil)!
-            bic.value = bicValue
-            extractions["bic"] = bic
-            // Repeat this step for all altered fields.
-            
-            // Get the document task manager and send feedback by updating the document.
-            let documentTaskManager = sdk?.documentTaskManager
-            return documentTaskManager?.update(document)
-            
-            // 4. Check if feedback was send successfully (only for testing purposes)
-        }).continue(successBlock: { _ -> AnyObject! in
-            return document.extractions
+        }).continue(successBlock: { (_: BFTask?) -> AnyObject! in
+            return self.document?.extractions
             
             // 5. Handle results
         }).continue({ (task: BFTask?) -> AnyObject! in
-            if task?.error != nil {
-                print("Error sending feedback for document with id: \(document.documentId)")
+            guard let extractions = task?.result as? NSMutableDictionary else {
+                print("Error sending feedback for document with id: ",
+                      String(describing: self.document?.documentId))
                 return nil
             }
             
-            let resultString = (task?.result as? GINIResult)?.description ?? "n/a"
-            print("🚀 Feedback sent")
-            
-            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n" +
-                "\(resultString)\n--------------------------\n")
+            print("🚀 Feedback sent with \(extractions.count) extractions")
             return nil
         })
     }

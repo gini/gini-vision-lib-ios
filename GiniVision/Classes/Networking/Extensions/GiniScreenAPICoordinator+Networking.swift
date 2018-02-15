@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import Gini_iOS_SDK
 
 @objc public protocol GiniVisionResultsDelegate: class {
     func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool)
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String: Any])
+    func giniVision(_ documents: [GiniVisionDocument],
+                    analysisDidFinishWithResults results: [String: GINIExtraction],
+                    sendFeedback: @escaping ([String: GINIExtraction]) -> Void)
     func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool)
 }
 
@@ -79,18 +82,14 @@ extension GiniScreenAPICoordinator {
     func present(result: GINIResult) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
-        let results = (result.reduce([:]) { dict, kv in
-            var dict = dict
-            dict[kv.key] = kv.value.value
-            return dict
-        })
         
         if hasExtactions {
-            if let results = results as? [String: Any] {
-                if let visionDocument = visionDocument {
-                    self.resultsDelegate?.giniVision([visionDocument], analysisDidFinishWithResults: results)
+            if let visionDocument = visionDocument {
+                self.resultsDelegate?.giniVision([visionDocument],
+                                                 analysisDidFinishWithResults: result) { [weak self] feedback in
+                    guard let `self` = self else { return }                    
+                    self.apiService?.sendFeedback(withResults: feedback)
                 }
-                
             }
         } else {
             if let visionDocument = visionDocument {
