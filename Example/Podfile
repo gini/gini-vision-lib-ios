@@ -6,7 +6,6 @@ use_frameworks!
 target 'GiniVision_Example' do
     pod 'GiniVision', :path => '../'
     pod 'GiniVision/Networking', :path => '../'
-    pod 'Gini-iOS-SDK'
 
     target 'GiniVision_Tests' do
         inherit! :search_paths
