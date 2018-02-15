@@ -99,7 +99,7 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
     
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Void) {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool) {
         delegate?.screenAPI(coordinator: self, didFinish: ())
     }
     
