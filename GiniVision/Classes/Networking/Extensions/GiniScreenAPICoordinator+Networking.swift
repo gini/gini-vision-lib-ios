@@ -15,7 +15,7 @@ public protocol GiniVisionResultsDelegate: class {
 
 extension GiniScreenAPICoordinator {
     fileprivate struct AssociatedKey {
-        static var APIService = "APIService"
+        static var apiService = "apiService"
         static var resultsDelegate = "resultsDelegate"
     }
     
@@ -36,13 +36,13 @@ extension GiniScreenAPICoordinator {
     
     fileprivate var apiService: APIService? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKey.APIService) as? APIService
+            return objc_getAssociatedObject(self, &AssociatedKey.apiService) as? APIService
         }
         
         set {
             if let value = newValue {
                 objc_setAssociatedObject(self,
-                                         &AssociatedKey.APIService,
+                                         &AssociatedKey.apiService,
                                          value,
                                          objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
@@ -66,7 +66,7 @@ extension GiniScreenAPICoordinator {
         apiService?
             .analyzeDocument(withData: document.data,
                              cancelationToken: CancelationToken()) { [weak self] result, document, error in
-                                guard let document = document, let result = result else {
+                                guard let result = result else {
                                     if let error = error {
                                         self?.show(error: error)
                                         return
@@ -108,7 +108,6 @@ extension GiniScreenAPICoordinator {
         apiService?.cancelAnalysis()
     }
     
-    // MARK: Handle results from analysis process
     func show(error: Error) {
         guard let document = self.visionDocument else {
             return
@@ -124,6 +123,10 @@ extension GiniScreenAPICoordinator {
 }
 
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
+    
+    func didCancelCapturing() {
+        resultsDelegate?.giniVision([], analysisDidCancel: ())
+    }
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
@@ -141,10 +144,6 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             
             return
         }
-    }
-    
-    func didCancelCapturing() {
-        resultsDelegate?.giniVision([], analysisDidCancel: ())
     }
     
     // Optional delegate methods
