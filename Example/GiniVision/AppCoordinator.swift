@@ -69,6 +69,7 @@ final class AppCoordinator: Coordinator {
     
     init(window: UIWindow) {
         self.window = window
+        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(client.clientId)")
     }
     
     func start() {

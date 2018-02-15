@@ -52,7 +52,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    fileprivate func showResultsScreen(results: GINIResult) {
+    fileprivate func showResultsScreen(results: [String: GINIExtraction]) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = results
