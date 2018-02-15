@@ -15,7 +15,7 @@ final class AppCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     fileprivate let window: UIWindow
     fileprivate var screenAPIViewController: UIViewController?
-
+    
     var rootViewController: UIViewController {
         return selectAPIViewController
     }
@@ -25,7 +25,7 @@ final class AppCoordinator: Coordinator {
         selectAPIViewController.delegate = self
         return selectAPIViewController
     }()
-
+    
     lazy var giniConfiguration: GiniConfiguration = {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.debugModeOn = true
@@ -69,7 +69,11 @@ final class AppCoordinator: Coordinator {
     
     init(window: UIWindow) {
         self.window = window
-        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(client.clientId)")
+        print("------------------------------------\n\n",
+              "📸 Gini Vision Library for iOS (\(GiniVision.versionString))\n\n",
+            "      - Client id:  \(client.clientId)\n",
+            "      - Client email domain:  \(client.clientEmailDomain)",
+            "\n\n------------------------------------\n")
     }
     
     func start() {
@@ -110,7 +114,7 @@ final class AppCoordinator: Coordinator {
         screenAPICoordinator.delegate = self
         screenAPICoordinator.start()
         add(childCoordinator: screenAPICoordinator)
-
+        
         rootViewController.present(screenAPICoordinator.rootViewController, animated: true, completion: nil)
     }
     
@@ -139,7 +143,7 @@ final class AppCoordinator: Coordinator {
     fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
         let alertViewController = UIAlertController(title: "Importierte Datei",
                                                     message: "Möchten Sie die importierte Datei mit dem " +
-                                                             "ScreenAPI oder ComponentAPI verwenden?",
+            "ScreenAPI oder ComponentAPI verwenden?",
                                                     preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
             self?.showScreenAPI(withImportedDocument: document)
@@ -147,7 +151,7 @@ final class AppCoordinator: Coordinator {
         alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { [weak self] _ in
             self?.showComponentAPI(withImportedDocument: document)
         })
-            
+        
         rootViewController.present(alertViewController, animated: true, completion: nil)
     }
     
