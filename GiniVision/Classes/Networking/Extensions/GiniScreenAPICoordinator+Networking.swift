@@ -29,7 +29,7 @@ extension GiniScreenAPICoordinator {
                 objc_setAssociatedObject(self,
                                          &AssociatedKey.resultsDelegate,
                                          value,
-                                         objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                                         objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
             }
         }
     }
