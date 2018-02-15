@@ -135,7 +135,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showResultsTableScreen(forDocument document: GINIDocument,
-                                            withResult result: GINIResult) {
+                                            withResult result: [String: GINIExtraction]) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
         resultsScreen?.result = result
@@ -326,7 +326,7 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 // MARK: Handle analysis results
 
 extension ComponentAPICoordinator {
-    fileprivate func handleAnalysis(_ result: GINIResult, fromDocument document: GINIDocument) {
+    fileprivate func handleAnalysis(_ result: [String: GINIExtraction], fromDocument document: GINIDocument) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
         

@@ -14,8 +14,8 @@ let GINIAnalysisManagerResultDictionaryUserInfoKey  = "GINIAnalysisManagerResult
 let GINIAnalysisManagerErrorUserInfoKey             = "GINIAnalysisManagerErrorUserInfoKey"
 let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocumentUserInfoKey"
 
-public typealias GINIResult = [String: GINIExtraction]
-typealias DocumentAnalysisCompletion = ((GINIResult?, GINIDocument?, Error?) -> Void)
+public typealias Extraction = GINIExtraction
+typealias DocumentAnalysisCompletion = (([String: Extraction]?, GINIDocument?, Error?) -> Void)
 
 /**
  Provides a manager class to show how to get extractions from a document image using the Gini SDK for iOS.
@@ -31,7 +31,7 @@ final class APIService {
     /**
      Most current result dictionary from analysis.
      */
-    var result: GINIResult?
+    var result: [String: Extraction]?
     
     /**
      Most current analyzed document.
@@ -163,7 +163,7 @@ final class APIService {
                 print("✅ Finished analysis process with this error: \(error)")
                 completion?(nil, nil, error)
             } else if let document = self.document,
-                let result = task?.result as? GINIResult {
+                let result = task?.result as? [String: Extraction] {
                 self.result = result
                 self.document = document
                 print("✅ Finished analysis process with no errors")
@@ -194,7 +194,7 @@ final class APIService {
      - parameter document: Gini document.
      
      */
-    func sendFeedback(withResults results: GINIResult) {
+    func sendFeedback(withResults results: [String: Extraction]) {
         _ = giniSDK?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
             if task?.error != nil {
                 return self.giniSDK?.sessionManager.logIn()
