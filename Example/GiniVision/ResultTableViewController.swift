@@ -18,7 +18,7 @@ final class ResultTableViewController: UITableViewController {
     /**
      The result dictionary from the analysis process.
      */
-    var result: GINIResult!
+    var result: [String: Any]!
     
     /**
      The document the results have been extracted from.
@@ -43,7 +43,7 @@ extension ResultTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath)
         let key = sortedKeys[indexPath.row]
-        cell.textLabel?.text = result[key]?.value
+        cell.textLabel?.text = result[key] as? String
         cell.detailTextLabel?.text = key
         return cell
     }
