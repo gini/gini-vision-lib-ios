@@ -14,7 +14,6 @@ final class AppCoordinator: Coordinator {
     
     var childCoordinators: [Coordinator] = []
     fileprivate let window: UIWindow
-    fileprivate let documentService: DocumentService
     fileprivate var screenAPIViewController: UIViewController?
 
     var rootViewController: UIViewController {
@@ -64,7 +63,6 @@ final class AppCoordinator: Coordinator {
     }()
     
     init(window: UIWindow) {
-        self.documentService = DocumentService()
         self.window = window
     }
     
@@ -113,7 +111,7 @@ final class AppCoordinator: Coordinator {
     fileprivate func showComponentAPI(withImportedDocument document: GiniVisionDocument? = nil) {
         let componentAPICoordinator = ComponentAPICoordinator(document: document,
                                                               configuration: giniConfiguration,
-                                                              documentService: documentService)
+                                                              documentService: DocumentService())
         componentAPICoordinator.delegate = self
         componentAPICoordinator.start()
         add(childCoordinator: componentAPICoordinator)
