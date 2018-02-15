@@ -28,6 +28,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
+    var sendFeedbackBlock: (([String : GINIExtraction]) -> ())?
     
     init(configuration: GiniConfiguration,
          importedDocument document: GiniVisionDocument?,
@@ -51,7 +52,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    fileprivate func showResultsScreen(results: [String: Any]) {
+    fileprivate func showResultsScreen(results: GINIResult) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = results
@@ -78,11 +79,9 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
         
-        if fromVC is ResultTableViewController {
+        if let fromVC = fromVC as? ResultTableViewController {
+            self.sendFeedbackBlock?(fromVC.result)
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
-//            if let document = documentService.document {
-//                self.documentService.sendFeedback(forDocument: document)
-//            }
         }
         
         return nil
@@ -97,14 +96,16 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
     }
 }
 
+// MARK: GiniVisionResultsDelegate
+
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String : GINIExtraction], sendFeedback: @escaping ([String : GINIExtraction]) -> Void) {
+        showResultsScreen(results: results)
+        sendFeedbackBlock = sendFeedback
+    }
     
     func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool) {
         delegate?.screenAPI(coordinator: self, didFinish: ())
-    }
-    
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String : Any]) {
-        showResultsScreen(results: results)
     }
     
     func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool) {
