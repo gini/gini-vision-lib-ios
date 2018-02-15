@@ -7,9 +7,31 @@
 
 import Foundation
 
+public protocol GiniVisionResultsDelegate: class {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Void)
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String: Any])
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool)
+}
+
 extension GiniScreenAPICoordinator {
     fileprivate struct AssociatedKey {
         static var APIService = "APIService"
+        static var resultsDelegate = "resultsDelegate"
+    }
+    
+    fileprivate var resultsDelegate: GiniVisionResultsDelegate? {
+        get {
+            return objc_getAssociatedObject(self, &AssociatedKey.resultsDelegate) as? GiniVisionResultsDelegate
+        }
+        
+        set {
+            if let value = newValue {
+                objc_setAssociatedObject(self,
+                                         &AssociatedKey.resultsDelegate,
+                                         value,
+                                         objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
     }
     
     fileprivate var apiService: APIService? {
@@ -26,12 +48,14 @@ extension GiniScreenAPICoordinator {
             }
         }
     }
-        
+    
     convenience init(credentials: (id: String?, password: String?),
+                     resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
+        self.resultsDelegate = resultsDelegate
         self.apiService = APIService(id: credentials.id, password: credentials.password)
     }
     
@@ -42,17 +66,40 @@ extension GiniScreenAPICoordinator {
         apiService?
             .analyzeDocument(withData: document.data,
                              cancelationToken: CancelationToken()) { [weak self] result, document, error in
-//                                if let analysisDelegate = self?.analysisDelegate {
-//                                    guard let document = document, let result = result else {
-//                                        if let error = error, let analysisDelegate = self?.analysisDelegate {
-////                                            self?.show(error: error, analysisDelegate: analysisDelegate)
-//                                            return
-//                                        }
-//                                        return
-//                                    }
-//                                    //                                    self?.present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
-//                                }
-                                
+                                guard let document = document, let result = result else {
+                                    if let error = error {
+                                        self?.show(error: error)
+                                        return
+                                    }
+                                    return
+                                }
+                                self?.present(result: result)
+        }
+    }
+    
+    func present(result: GINIResult) {
+        let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
+        let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
+        
+        if hasExtactions {
+            if let results = (result.reduce([:]) { dict, kv in
+                var dict = dict
+                dict[kv.key] = kv.value.value
+                return dict
+            })  as? [String: Any] {
+                if let visionDocument = visionDocument {
+                    self.resultsDelegate?.giniVision([visionDocument], analysisDidFinishWithResults: results)
+                }
+                
+            }
+        } else {
+            if let visionDocument = visionDocument {
+                DispatchQueue.main.async { [weak self] in
+                    guard let `self` = self else { return }
+                    self.resultsDelegate?.giniVision([visionDocument],
+                                                     analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
+                }
+            }
         }
     }
     
@@ -60,12 +107,23 @@ extension GiniScreenAPICoordinator {
         apiService?.cancelAnalysis()
     }
     
+    // MARK: Handle results from analysis process
+    func show(error: Error) {
+        guard let document = self.visionDocument else {
+            return
+        }
+        let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
+        
+        // Display an error with a custom message and custom action on the analysis screen
+        displayError(withMessage: errorMessage, andAction: { [weak self] in
+            self?.analyzeDocument(visionDocument: document)
+        })
+    }
+    
 }
 
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
-    func didCapture(_ imageData: Data) {
-        print()
-    }
+    
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
         self.analyzeDocument(visionDocument: document)
@@ -85,7 +143,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCancelCapturing() {
-        //delegate?.screenAPI(coordinator: self, didFinish: ())
+        resultsDelegate?.giniVision([], analysisDidCancel: ())
     }
     
     // Optional delegate methods
@@ -97,9 +155,8 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
         
         // if there is already results, present them
-        if let result = apiService?.result,
-            let document = apiService?.document {
-            //            present(result: result, fromDocument: document, analysisDelegate: analysisDelegate)
+        if let result = apiService?.result {
+            present(result: result)
         }
         
         // The analysis screen is where the user should be confronted with
@@ -107,7 +164,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         // Show any errors that occured while the user was still reviewing the image here.
         // Make sure to only show errors relevant to the user.
         if let error = apiService?.error {
-            //            show(error: error, analysisDelegate: analysisDelegate)
+            show(error: error)
         }
     }
     
