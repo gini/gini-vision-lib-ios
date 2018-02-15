@@ -25,9 +25,9 @@ internal final class GiniScreenAPICoordinator: NSObject {
     
     // Properties
     fileprivate var changesOnReview: Bool = false
-    fileprivate var giniConfiguration: GiniConfiguration
-    fileprivate weak var visionDelegate: GiniVisionDelegate?
-    fileprivate var visionDocument: GiniVisionDocument?
+    var giniConfiguration: GiniConfiguration
+    weak var visionDelegate: GiniVisionDelegate?
+    var visionDocument: GiniVisionDocument?
     
     // Resources
     fileprivate lazy var backButtonResource =
@@ -58,7 +58,7 @@ internal final class GiniScreenAPICoordinator: NSObject {
             "the continue button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
     
-    init(withDelegate delegate: GiniVisionDelegate,
+    init(withDelegate delegate: GiniVisionDelegate?,
          giniConfiguration: GiniConfiguration) {
         self.visionDelegate = delegate
         self.giniConfiguration = giniConfiguration
