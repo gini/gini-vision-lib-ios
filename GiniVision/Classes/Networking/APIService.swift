@@ -75,7 +75,6 @@ final class APIService {
                                                    userEmailDomain: "example.com")
         self.giniSDK = builder?.build()
         
-        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")
     }
     
     /**

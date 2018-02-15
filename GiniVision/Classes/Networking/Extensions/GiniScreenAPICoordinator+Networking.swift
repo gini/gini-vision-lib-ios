@@ -80,13 +80,14 @@ extension GiniScreenAPICoordinator {
     func present(result: GINIResult) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
+        let results = (result.reduce([:]) { dict, kv in
+            var dict = dict
+            dict[kv.key] = kv.value.value
+            return dict
+        })
         
         if hasExtactions {
-            if let results = (result.reduce([:]) { dict, kv in
-                var dict = dict
-                dict[kv.key] = kv.value.value
-                return dict
-            })  as? [String: Any] {
+            if let results = results as? [String: Any] {
                 if let visionDocument = visionDocument {
                     self.resultsDelegate?.giniVision([visionDocument], analysisDidFinishWithResults: results)
                 }

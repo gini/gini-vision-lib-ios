@@ -24,7 +24,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
-    let documentService: DocumentService!
     let credentials: (id: String?, password: String?)
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
@@ -36,7 +35,6 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         self.visionConfiguration = configuration
         self.visionDocument = document
         self.credentials = credentials
-        self.documentService = DocumentService()
         super.init()
     }
     
@@ -82,9 +80,9 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
         
         if fromVC is ResultTableViewController {
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
-            if let document = documentService.document {
-                self.documentService.sendFeedback(forDocument: document)
-            }
+//            if let document = documentService.document {
+//                self.documentService.sendFeedback(forDocument: document)
+//            }
         }
         
         return nil
@@ -100,7 +98,6 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 }
 
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
-    
     
     func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Void) {
         delegate?.screenAPI(coordinator: self, didFinish: ())
