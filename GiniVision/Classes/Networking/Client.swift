@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Client {
+public final class Client: NSObject {
     public let clientId: String
     public let clientSecret: String
     public let clientEmailDomain: String
