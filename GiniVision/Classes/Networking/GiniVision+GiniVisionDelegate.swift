@@ -8,12 +8,14 @@
 import Foundation
 
 extension GiniVision {
-    public class func viewController(withCredentials credentials: (id: String?, password: String?),
+    public class func viewController(withClient client: Client,
                                      importedDocument: GiniVisionDocument? = nil,
                                      giniConfiguration: GiniConfiguration,
                                      resultsDelegate: GiniVisionResultsDelegate) -> UIViewController {
-        GiniConfiguration.sharedConfiguration = giniConfiguration
-        let screenCoordinator = GiniScreenAPICoordinator(credentials: credentials,
+        print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(client.clientId)")
+
+        GiniVision.setConfiguration(giniConfiguration)
+        let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
                                                          giniConfiguration: giniConfiguration)
         return screenCoordinator.start(withDocument: importedDocument)
