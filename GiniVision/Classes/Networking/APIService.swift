@@ -19,13 +19,13 @@ typealias DocumentAnalysisCompletion = (([String: Extraction]?, GINIDocument?, E
 
 final class APIService {
     
-    fileprivate var giniSDK: GiniSDK?
     fileprivate var cancelationToken: CancelationToken?
-    var result: [String: Extraction]?
     var document: GINIDocument?
     var error: Error?
+    var giniSDK: GiniSDK?
     var isAnalyzing = false
-    
+    var result: [String: Extraction]?
+
     enum AnalysisError: Error {
         case documentCreation
         case unknown
@@ -39,11 +39,8 @@ final class APIService {
         isAnalyzing = false
     }
     
-    init(client: GiniClient) {
-        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
-                                                   clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain)
-        self.giniSDK = builder?.build()        
+    init(sdk: GiniSDK?) {
+        self.giniSDK = sdk
     }
     
     func analyzeDocument(withData data: Data,

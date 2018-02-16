@@ -22,7 +22,7 @@ extension GiniScreenAPICoordinator {
         static var resultsDelegate = "resultsDelegate"
     }
     
-    fileprivate var resultsDelegate: GiniVisionResultsDelegate? {
+    var resultsDelegate: GiniVisionResultsDelegate? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKey.resultsDelegate) as? GiniVisionResultsDelegate
         }
@@ -37,7 +37,7 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    fileprivate var apiService: APIService? {
+    var apiService: APIService? {
         get {
             return objc_getAssociatedObject(self, &AssociatedKey.apiService) as? APIService
         }
@@ -59,7 +59,11 @@ extension GiniScreenAPICoordinator {
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
-        self.apiService = APIService(client: client)
+        
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        self.apiService = APIService(sdk: builder?.build())
     }
     
     func analyzeDocument(visionDocument document: GiniVisionDocument) {
