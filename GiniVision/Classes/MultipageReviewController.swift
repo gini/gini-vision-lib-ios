@@ -327,6 +327,7 @@ extension MultipageReviewController {
             imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
             mainCollection.reloadItems(at: [currentIndexPath])
             bottomCollection.reloadItems(at: [currentIndexPath])
+            didUpdateDocuments?(self.imageDocuments)
         }
     }
     
