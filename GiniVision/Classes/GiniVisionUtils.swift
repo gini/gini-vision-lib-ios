@@ -160,3 +160,13 @@ internal struct Colors {
         )
     }
 }
+
+/**
+    Set the status bar style when ViewControllerBasedStatusBarAppearance is disabled.
+    If it is enabled it will not have effect.
+ */
+
+internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
+                                application: UIApplication = UIApplication.shared) {
+    application.setStatusBarStyle(statusBarStyle, animated: true)
+}
