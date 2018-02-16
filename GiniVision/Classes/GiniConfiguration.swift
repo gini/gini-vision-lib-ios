@@ -189,10 +189,10 @@ import UIKit
     public var qrCodeScanningEnabled = false
     
     /**
-     Indicates the status bar style on the Gini Vision Library.
+     Indicates the status bar style in the Gini Vision Library.
      
      - note: If `UIViewControllerBasedStatusBarAppearance` is set to `false` in the `Info.plist`,
-     it may not work in further versions of iOS since `UIApplication.setStatusBarStyle` method was
+     it may not work in future versions of iOS since the `UIApplication.setStatusBarStyle` method was
      deprecated on iOS 9.0
      */
     public var statusBarStyle = UIStatusBarStyle.lightContent

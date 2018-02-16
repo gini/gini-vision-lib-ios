@@ -163,21 +163,10 @@ internal struct Colors {
 
 /**
     Set the status bar style when ViewControllerBasedStatusBarAppearance is disabled.
+    If it is enabled it will not have effect.
  */
 
-internal func setStatusBarStyleIfNeeded(to statusBarStyle: UIStatusBarStyle,
-                                        application: UIApplication = UIApplication.shared) {
-    if !isViewControllerBasedStatusBarStyleEnabled {
-        application.setStatusBarStyle(statusBarStyle, animated: true)
-    }
+internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
+                                application: UIApplication = UIApplication.shared) {
+    application.setStatusBarStyle(statusBarStyle, animated: true)
 }
-
-private let isViewControllerBasedStatusBarStyleEnabled: Bool = {
-    if let path = Bundle.main.path(forResource: "Info", ofType: "plist"),
-        let dict = NSDictionary(contentsOfFile: path) as? [String: Any],
-        let viewControllerBasedStatusBarStyleEnabled = dict["UIViewControllerBasedStatusBarAppearance"] as? Bool {
-        return viewControllerBasedStatusBarStyleEnabled
-    }
-    
-    return true
-}()

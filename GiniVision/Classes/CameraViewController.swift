@@ -247,7 +247,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      */
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setStatusBarStyleIfNeeded(to: GiniConfiguration.sharedConfiguration.statusBarStyle)
+        setStatusBarStyle(to: GiniConfiguration.sharedConfiguration.statusBarStyle)
         camera?.start()
     }
     

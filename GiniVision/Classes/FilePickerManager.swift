@@ -33,7 +33,7 @@ internal final class FilePickerManager: NSObject {
             let imagePicker: UIImagePickerController = UIImagePickerController()
             imagePicker.sourceType = .photoLibrary
             imagePicker.delegate = self
-            setStatusBarStyleIfNeeded(to: .default)
+            setStatusBarStyle(to: .default)
             
             from.present(imagePicker, animated: true, completion: nil)
         }
@@ -43,7 +43,7 @@ internal final class FilePickerManager: NSObject {
                             giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
-        setStatusBarStyleIfNeeded(to: .default)
+        setStatusBarStyle(to: .default)
 
         from.present(documentPicker, animated: true, completion: nil)
     }
