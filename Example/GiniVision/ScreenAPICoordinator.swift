@@ -24,7 +24,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
-    let client: Client
+    let client: GiniClient
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocument: GiniVisionDocument?
     var visionConfiguration: GiniConfiguration
@@ -32,7 +32,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
     init(configuration: GiniConfiguration,
          importedDocument document: GiniVisionDocument?,
-         client: Client) {
+         client: GiniClient) {
         self.visionConfiguration = configuration
         self.visionDocument = document
         self.client = client
@@ -65,7 +65,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
 }
 
-// MARK: UINavigationControllerDelegate
+// MARK: - UINavigationControllerDelegate
 
 extension ScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
@@ -88,7 +88,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
     }
 }
 
-// MARK: NoResultsScreenDelegate
+// MARK: - NoResultsScreenDelegate
 
 extension ScreenAPICoordinator: NoResultsScreenDelegate {
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
@@ -96,10 +96,12 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
     }
 }
 
-// MARK: GiniVisionResultsDelegate
+// MARK: - GiniVisionResultsDelegate
 
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithResults results: [String : GINIExtraction], sendFeedback: @escaping ([String : GINIExtraction]) -> Void) {
+    func giniVision(_ documents: [GiniVisionDocument],
+                    analysisDidFinishWithResults results: [String : GINIExtraction],
+                    sendFeedback: @escaping ([String : GINIExtraction]) -> Void) {
         showResultsScreen(results: results)
         sendFeedbackBlock = sendFeedback
     }
@@ -108,8 +110,8 @@ extension ScreenAPICoordinator: GiniVisionResultsDelegate {
         delegate?.screenAPI(coordinator: self, didFinish: ())
     }
     
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool) {
-        if !showingNoResultsScreen {
+    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showedNoResultsScreen: Bool) {
+        if !showedNoResultsScreen {
             let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
                 .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController)!
             customNoResultsScreen.delegate = self

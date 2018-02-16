@@ -8,7 +8,7 @@
 import Foundation
 
 extension GiniVision {
-    public class func viewController(withClient client: Client,
+    public class func viewController(withClient client: GiniClient,
                                      importedDocument: GiniVisionDocument? = nil,
                                      giniConfiguration: GiniConfiguration,
                                      resultsDelegate: GiniVisionResultsDelegate) -> UIViewController {
