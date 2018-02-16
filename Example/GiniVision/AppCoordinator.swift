@@ -23,6 +23,7 @@ final class AppCoordinator: Coordinator {
         let selectAPIViewController = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "selectAPIViewController") as? SelectAPIViewController)!
         selectAPIViewController.delegate = self
+        selectAPIViewController.clientId = self.client.clientId
         return selectAPIViewController
     }()
     
@@ -48,10 +49,11 @@ final class AppCoordinator: Coordinator {
     let clientID = "client_id"
     let clientPassword = "client_password"
     let clientEmailDomain = "client_email_domain"
+    let credentialsPlistPath = Bundle.main.path(forResource: "Credentials", ofType: "plist")
     
-    private lazy var client: GiniClient = {
+    private lazy var client: GiniClient = {[unowned self] in
         var keys: NSDictionary?
-        if let path = Bundle.main.path(forResource: "Credentials", ofType: "plist"),
+        if let path = self.credentialsPlistPath,
             let keys = NSDictionary(contentsOfFile: path),
             let client_id = keys[self.clientID] as? String,
             let client_password = keys[self.clientPassword] as? String,
