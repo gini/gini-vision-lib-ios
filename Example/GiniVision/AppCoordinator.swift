@@ -46,28 +46,7 @@ final class AppCoordinator: Coordinator {
         return giniConfiguration
     }()
     
-    let clientID = "client_id"
-    let clientPassword = "client_password"
-    let clientEmailDomain = "client_email_domain"
-    let credentialsPlistPath = Bundle.main.path(forResource: "Credentials", ofType: "plist")
-    
-    private lazy var client: GiniClient = {[unowned self] in
-        var keys: NSDictionary?
-        if let path = self.credentialsPlistPath,
-            let keys = NSDictionary(contentsOfFile: path),
-            let client_id = keys[self.clientID] as? String,
-            let client_password = keys[self.clientPassword] as? String,
-            let client_email_domain = keys[self.clientEmailDomain] as? String,
-            !client_id.isEmpty, !client_password.isEmpty, !client_email_domain.isEmpty {
-            
-            return GiniClient(clientId: client_id,
-                          clientSecret: client_password,
-                          clientEmailDomain: client_email_domain)
-        }
-        return GiniClient(clientId: "",
-                      clientSecret: "",
-                      clientEmailDomain: "")
-    }()
+    private lazy var client: GiniClient = CredentialsManager.fetchClientFromBundle()
     
     init(window: UIWindow) {
         self.window = window
