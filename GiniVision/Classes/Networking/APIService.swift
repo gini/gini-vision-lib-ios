@@ -126,7 +126,9 @@ final class APIService {
     }
     
     fileprivate func getSessionBlock(cancelationToken token: CancelationToken? = nil) -> BFContinuationBlock? {
-        return { (task: BFTask?) -> Any! in
+        return { [weak self] (task: BFTask?) -> Any! in
+            guard let `self` = self else { return nil }
+
             if let token = token, token.cancelled {
                 return BFTask.cancelled()
             }
@@ -139,7 +141,8 @@ final class APIService {
     
     fileprivate func handleAnalysisResultsBlock(cancelationToken token: CancelationToken,
                                                 completion: DocumentAnalysisCompletion?) -> BFContinuationBlock? {
-        return { (task: BFTask?) in
+        return { [weak self] (task: BFTask?) in
+            guard let `self` = self else { return nil }
             if token.cancelled || (task?.isCancelled == true) {
                 print("❌ Canceled analysis process")
                 completion?(nil, nil, AnalysisError.documentCreation)
