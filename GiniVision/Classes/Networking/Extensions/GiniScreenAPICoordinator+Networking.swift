@@ -52,7 +52,7 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    convenience init(client: Client,
+    convenience init(client: GiniClient,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration) {
         self.init(withDelegate: nil,
