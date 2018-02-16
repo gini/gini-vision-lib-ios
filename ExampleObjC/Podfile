@@ -6,7 +6,6 @@ use_frameworks!
 
 target 'GiniVisionExampleObjC' do
   pod 'GiniVision', :path => '../'
-  pod 'GiniVision/Networking', :path => '../'
 end
 
 post_install do |installer|

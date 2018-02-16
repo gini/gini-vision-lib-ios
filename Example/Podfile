@@ -5,7 +5,7 @@ use_frameworks!
 
 target 'GiniVision_Example' do
     pod 'GiniVision', :path => '../'
-    pod 'GiniVision/Networking', :path => '../'
+    pod 'GiniVision/Networking+Pinning', :path => '../'
 
     target 'GiniVision_Tests' do
         inherit! :search_paths
