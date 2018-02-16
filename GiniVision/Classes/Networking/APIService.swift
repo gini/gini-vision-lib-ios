@@ -59,11 +59,6 @@ final class APIService {
         let fileName = "fileName"
         var documentId: String?
         
-        if token.cancelled {
-            return
-        }
-        
-        // 1. Get session
         _ = giniSDK?.sessionManager.getSession()
             .continue(getSessionBlock(cancelationToken: token))
             .continue(successBlock: { _ in
@@ -105,9 +100,9 @@ final class APIService {
                         extractions[result.key] = result.value
                     }
                     
-                    let documentTaskManager = self.giniSDK?.documentTaskManager
-                    
-                    return documentTaskManager?.update(self.document)
+                    return self.giniSDK?
+                        .documentTaskManager?
+                        .update(self.document)
                 }
                 
                 return nil
