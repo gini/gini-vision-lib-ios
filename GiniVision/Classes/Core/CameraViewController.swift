@@ -454,11 +454,16 @@ extension CameraViewController {
                 imageView.center = self.reviewContentView.convert(self.reviewImagesButton.center, to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
-                self.reviewBackgroundView.isHidden = self.reviewImagesButton.imageView?.image == nil
-                self.reviewImagesButton.setImage(document.previewImage, for: .normal)
-                self.reviewImagesButton.isUserInteractionEnabled = true
+                self.updateMultipageReviewButton(withImage: document.previewImage,
+                                                 showingStack: self.reviewImagesButton.imageView?.image != nil)
             })
         })
+    }
+    
+    func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
+        self.reviewBackgroundView.isHidden = !showingStack
+        self.reviewImagesButton.setImage(image, for: .normal)
+        self.reviewImagesButton.isUserInteractionEnabled = true
     }
     
     func updatePreviewViewOrientation() {
