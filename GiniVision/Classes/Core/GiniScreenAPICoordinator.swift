@@ -156,7 +156,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         }
         
         if (toVC == multiPageReviewController && fromVC == cameraViewController) ||
-            (fromVC == multiPageReviewController && toVC == cameraViewController ) {
+            (fromVC == multiPageReviewController && toVC == cameraViewController) {
             if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
                 let buttonFrame = cameraViewController?
                     .reviewContentView
@@ -164,6 +164,12 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                              to: self.screenAPINavigationController.view) {
                 multiPageTransition.originFrame = buttonFrame
                 multiPageTransition.operation = operation
+                
+                if let camera = toVC as? CameraViewController {
+                    camera.updateMultipageReviewButton(withImage: self.imageDocuments[0].previewImage,
+                                                       showingStack: self.imageDocuments.count > 1)
+                }
+                
                 return multiPageTransition
             }
         }
@@ -312,6 +318,11 @@ internal extension GiniScreenAPICoordinator {
                             selector: #selector(showAnalysisScreen),
                             position: .right,
                             onViewController: vc)
+        
+        vc.didUpdateDocuments = { [weak self] newDocuments in
+            guard let `self` = self else { return }
+            self.imageDocuments = newDocuments
+        }
         return vc
     }
     
