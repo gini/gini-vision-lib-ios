@@ -190,8 +190,8 @@ extension MultipageReviewController {
         })
     }
     
-    func selectItem(at position: Int) {
-        let indexPath = IndexPath(row: position, section: 0)
+    func selectItem(at position: Int, in section: Int = 0) {
+        let indexPath = IndexPath(row: position, section: section)
         self.bottomCollection.selectItem(at: indexPath,
                                          animated: true,
                                          scrollPosition: .centeredHorizontally)
@@ -311,22 +311,10 @@ extension MultipageReviewController {
 extension MultipageReviewController {
     func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-//            let mainCollectionCellImageView = (mainCollection
-//                .cellForItem(at: currentIndexPath) as? MultipageReviewMainCollectionCell)?
-//                .documentImage
-//
-//            let bottomCollectionCell = (bottomCollection
-//                .cellForItem(at: currentIndexPath) as? MultipageReviewBottomCollectionCell)
-//
-//            imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
-//
-//            let imageRotated = imageDocuments[currentIndexPath.row].previewImage
-//            mainCollectionCellImageView?.image = imageRotated
-//            bottomCollectionCell?.documentImage.image = imageRotated
-//            bottomCollection.collectionViewLayout.invalidateLayout()
             imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
             mainCollection.reloadItems(at: [currentIndexPath])
             bottomCollection.reloadItems(at: [currentIndexPath])
+            selectItem(at: currentIndexPath.row)
             didUpdateDocuments?(self.imageDocuments)
         }
     }
@@ -417,7 +405,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
             imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
             
-            // This is needed because this method is called before the moving animation finishes.
+            // This is needed because this method is called before the dragging animation finishes.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
                 self.bottomCollection.reloadItems(at: indexes)
