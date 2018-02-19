@@ -423,20 +423,9 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == mainCollection {
-            return collectionView.frame.size
-        } else {
-//            guard let imageSize = imageDocuments[indexPath.row].previewImage?.size else {
-//                return MultipageReviewBottomCollectionCell.portraitSize
-//            }
-//
-//            if imageSize.width < imageSize.height {
-//                return MultipageReviewBottomCollectionCell.portraitSize
-//            } else {
-//                return MultipageReviewBottomCollectionCell.landscapeSize
-//            }
-            return MultipageReviewBottomCollectionCell.portraitSize
-        }
+        return collectionView == mainCollection ?
+            collectionView.frame.size :
+            MultipageReviewBottomCollectionCell.portraitSize
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -452,11 +441,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        if collectionView == mainCollection {
-            return .zero
-        } else {
-            return bottomCollectionInsets
-        }
+        return collectionView == mainCollection ? .zero : bottomCollectionInsets
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
