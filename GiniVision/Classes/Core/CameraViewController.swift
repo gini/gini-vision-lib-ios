@@ -92,7 +92,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
     }()
-    lazy var reviewImagesButton: UIButton = {
+    lazy var multipageReviewButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.isUserInteractionEnabled = false
@@ -247,9 +247,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
         controlsView.addSubview(reviewContentView)
-        reviewContentView.addSubview(reviewImagesButton)
+        reviewContentView.addSubview(multipageReviewButton)
         reviewContentView.insertSubview(reviewBackgroundView,
-                                        belowSubview: reviewImagesButton)
+                                        belowSubview: multipageReviewButton)
         
         // Add constraints
         addConstraints()
@@ -443,15 +443,15 @@ extension CameraViewController {
             imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
             UIView.animate(withDuration: AnimationDuration.slow, delay: 1, animations: {
-                let scaleRatioY = self.reviewImagesButton.frame.height / imageFrame.height
-                let scaleRatioX = self.reviewImagesButton.frame.width / imageFrame.width
+                let scaleRatioY = self.multipageReviewButton.frame.height / imageFrame.height
+                let scaleRatioX = self.multipageReviewButton.frame.width / imageFrame.width
 
                 imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                imageView.center = self.reviewContentView.convert(self.reviewImagesButton.center, to: self.view)
+                imageView.center = self.reviewContentView.convert(self.multipageReviewButton.center, to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
                 self.updateMultipageReviewButton(withImage: imageDocument.previewImage,
-                                                 showingStack: self.reviewImagesButton.imageView?.image != nil)
+                                                 showingStack: self.multipageReviewButton.isUserInteractionEnabled)
             })
         })
     }
@@ -462,8 +462,8 @@ extension CameraViewController {
     
     func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
         self.reviewBackgroundView.isHidden = !showingStack
-        self.reviewImagesButton.setImage(image, for: .normal)
-        self.reviewImagesButton.isUserInteractionEnabled = true
+        self.multipageReviewButton.setImage(image, for: .normal)
+        self.multipageReviewButton.isUserInteractionEnabled = image != nil
     }
     
     func updatePreviewViewOrientation() {

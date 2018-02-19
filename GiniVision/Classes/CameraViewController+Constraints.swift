@@ -85,18 +85,18 @@ extension CameraViewController {
             Contraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
                               attr: .trailing, priority: 750)
             
-            Contraints.active(item: reviewImagesButton, attr: .centerY, relatedBy: .equal, to: reviewContentView,
+            Contraints.active(item: multipageReviewButton, attr: .centerY, relatedBy: .equal, to: reviewContentView,
                               attr: .centerY)
-            Contraints.active(item: reviewImagesButton, attr: .centerX, relatedBy: .equal, to: reviewContentView,
+            Contraints.active(item: multipageReviewButton, attr: .centerX, relatedBy: .equal, to: reviewContentView,
                               attr: .centerX)
-            Contraints.active(item: reviewImagesButton, attr: .height, relatedBy: .equal, to: nil,
+            Contraints.active(item: multipageReviewButton, attr: .height, relatedBy: .equal, to: nil,
                               attr: .notAnAttribute, constant: 60)
-            Contraints.active(item: reviewImagesButton, attr: .width, relatedBy: .equal, to: nil,
+            Contraints.active(item: multipageReviewButton, attr: .width, relatedBy: .equal, to: nil,
                               attr: .notAnAttribute, constant: 40)
             
-            Contraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: reviewImagesButton,
+            Contraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: multipageReviewButton,
                               attr: .centerY, constant: 3)
-            Contraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: reviewImagesButton,
+            Contraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: multipageReviewButton,
                               attr: .centerX, constant: -3)
             Contraints.active(item: reviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
                               attr: .notAnAttribute, constant: 60)

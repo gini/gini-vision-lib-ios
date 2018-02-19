@@ -60,7 +60,7 @@ class CameraViewControllerTests: XCTestCase {
         
         let image = loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)
-        XCTAssertFalse(vc.reviewImagesButton.isUserInteractionEnabled,
+        XCTAssertFalse(vc.multipageReviewButton.isUserInteractionEnabled,
                        "reviewImagesButton should be disabled on start")
         
         XCTAssertTrue(vc.reviewBackgroundView.isHidden,
@@ -70,7 +70,7 @@ class CameraViewControllerTests: XCTestCase {
         let predicate = NSPredicate(format: "isUserInteractionEnabled == YES")
 
         _ = self.expectation(for: predicate,
-                             evaluatedWith: vc.reviewImagesButton,
+                             evaluatedWith: vc.multipageReviewButton,
                              handler: .none)
         waitForExpectations(timeout: 1.5, handler: { result in
             XCTAssertNil(result, "reviewImagesButton should be enabled after capturing a picture")
