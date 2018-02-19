@@ -155,6 +155,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
+        // MultipageReviewController
+        
         if (toVC == multiPageReviewController && fromVC == cameraViewController) ||
             (fromVC == multiPageReviewController && toVC == cameraViewController) {
             var animatedTransition: MultipageReviewTransitionAnimator? = nil
@@ -169,15 +171,14 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                 animatedTransition = multiPageTransition
             }
             
-            if let multipage = fromVC as? MultipageReviewController {
-                let visibleImageAndSize = multipage.visibleImage(in: multipage.mainCollection)
+            if let multipageVC = fromVC as? MultipageReviewController, let cameraVC = toVC as? CameraViewController {
+                let visibleImageAndSize = multipageVC.visibleImage(in: multipageVC.mainCollection)
                 animatedTransition?.popImage = visibleImageAndSize.image
                 animatedTransition?.popImageFrame = visibleImageAndSize.size
-            }
-        
-            if let camera = toVC as? CameraViewController {
-                camera.updateMultipageReviewButton(withImage: self.imageDocuments[0].previewImage,
-                                                   showingStack: self.imageDocuments.count > 1)
+                
+                let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row ?? 0
+                cameraVC.updateMultipageReviewButton(withImage: self.imageDocuments[visibleIndex].previewImage,
+                                                     showingStack: self.imageDocuments.count > 1)
             }
             
             return animatedTransition
