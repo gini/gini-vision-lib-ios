@@ -197,30 +197,6 @@ extension MultipageReviewController {
                                          scrollPosition: .centeredHorizontally)
         self.collectionView(self.bottomCollection, didSelectItemAt: indexPath)
     }
-    
-    @available(iOS 9.0, *)
-    func handleLongGesture(gesture: UILongPressGestureRecognizer) {
-        switch gesture.state {
-        case .began:
-            guard let selectedIndexPath = self.bottomCollection
-                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
-                    break
-            }
-            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case .changed:
-            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
-                let gesturePosition = gesture.location(in: collectionView)
-                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
-                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
-                let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
-                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
-            }
-        case .ended:
-            bottomCollection.endInteractiveMovement()
-        default:
-            bottomCollection.cancelInteractiveMovement()
-        }
-    }
 
 }
 
@@ -257,6 +233,30 @@ extension MultipageReviewController {
         } else {
             reorderButton.customView?.layer.backgroundColor = nil
             reorderButton.customView?.tintColor = Colors.Gini.blue
+        }
+    }
+    
+    @objc @available(iOS 9.0, *)
+    fileprivate func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+        switch gesture.state {
+        case .began:
+            guard let selectedIndexPath = self.bottomCollection
+                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
+                    break
+            }
+            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
+                let gesturePosition = gesture.location(in: collectionView)
+                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
+                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
+                let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
+                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
+            }
+        case .ended:
+            bottomCollection.endInteractiveMovement()
+        default:
+            bottomCollection.cancelInteractiveMovement()
         }
     }
     
@@ -308,7 +308,7 @@ extension MultipageReviewController {
 // MARK: - Toolbar actions
 
 extension MultipageReviewController {
-    func rotateSelectedImage() {
+    @objc fileprivate func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
             mainCollection.reloadItems(at: [currentIndexPath])
@@ -318,7 +318,7 @@ extension MultipageReviewController {
         }
     }
     
-    func deleteSelectedImage() {
+    @objc fileprivate func deleteSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
@@ -343,7 +343,7 @@ extension MultipageReviewController {
         }
     }
     
-    func toggleReorder() {
+    @objc fileprivate func toggleReorder() {
         let hide = self.bottomCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
         self.bottomCollectionContainerConstraint.isActive = !hide
