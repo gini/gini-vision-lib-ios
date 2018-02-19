@@ -100,7 +100,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.layer.shadowRadius = 1
         button.layer.shadowOpacity = 0.5
         button.layer.shadowOffset = CGSize(width: -2, height: 2)
-        button.addTarget(self, action: #selector(didPressReviewButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(multipageReviewButtonAction), for: .touchUpInside)
 
         return button
     }()
@@ -407,10 +407,6 @@ extension CameraViewController {
         camera.captureStillImage(completion: self.cameraDidCapture)
     }
     
-    @objc fileprivate func didPressReviewButton(_ sender: AnyObject) {
-        self.didTapMultipageReviewButton?()
-    }
-    
     func cameraDidCapture(imageData: Data?, error: CameraError?) {
         guard let imageData = imageData,
             error == nil else {
@@ -422,15 +418,15 @@ extension CameraViewController {
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
         
-        self.moveImageDocumentToControlsView(document: imageDocument)
+        self.animateToControlsView(imageDocument: imageDocument)
         self.successBlock?(imageDocument)
     }
     
-    func moveImageDocumentToControlsView(document: GiniImageDocument) {
+    func animateToControlsView(imageDocument: GiniImageDocument) {
         let imageFrame = previewView.frame
         let imageView = UIImageView(frame: imageFrame)
         imageView.center = previewView.center
-        imageView.image = document.previewImage
+        imageView.image = imageDocument.previewImage
         
         view.addSubview(imageView)
         
@@ -445,10 +441,14 @@ extension CameraViewController {
                 imageView.center = self.reviewContentView.convert(self.reviewImagesButton.center, to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
-                self.updateMultipageReviewButton(withImage: document.previewImage,
+                self.updateMultipageReviewButton(withImage: imageDocument.previewImage,
                                                  showingStack: self.reviewImagesButton.imageView?.image != nil)
             })
         })
+    }
+    
+    @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
+        self.didTapMultipageReviewButton?()
     }
     
     func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
