@@ -201,7 +201,6 @@ extension MultipageReviewController {
     @available(iOS 9.0, *)
     func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
-            
         case .began:
             guard let selectedIndexPath = self.bottomCollection
                 .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
@@ -243,7 +242,7 @@ extension MultipageReviewController {
         if let image = image {
             button.frame = CGRect(origin: .zero, size: image.size)
         }
-        
+
         return UIBarButtonItem(customView: button)
     }
     
