@@ -155,41 +155,48 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        return multipageTransition(operation: operation, from: fromVC, to: toVC)
+        let isFromCameraToMultipage = (toVC == multiPageReviewController && fromVC == cameraViewController)
+        let isFromMultipageToCamera = (fromVC == multiPageReviewController && toVC == cameraViewController)
+        
+        if isFromCameraToMultipage || isFromMultipageToCamera {
+            return multipageTransition(operation: operation, from: fromVC, to: toVC)
+        }
+        
+        return nil
     }
     
     private func multipageTransition(operation: UINavigationControllerOperation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if ((toVC == multiPageReviewController && fromVC == cameraViewController) ||
-            (fromVC == multiPageReviewController && toVC == cameraViewController))
-            && !imageDocuments.isEmpty {
-            var animatedTransition: MultipageReviewTransitionAnimator? = nil
-            if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
-                let buttonFrame = cameraViewController?
-                    .reviewContentView
-                    .convert(reviewImagesButtonCenter.frame,
-                             to: self.screenAPINavigationController.view) {
-                multiPageTransition.originFrame = buttonFrame
-                multiPageTransition.operation = operation
-                
-                animatedTransition = multiPageTransition
-            }
-            
-            if let multipageVC = fromVC as? MultipageReviewController, let cameraVC = toVC as? CameraViewController {
-                let visibleImageAndSize = multipageVC.visibleImage(in: multipageVC.mainCollection)
-                animatedTransition?.popImage = visibleImageAndSize.image
-                animatedTransition?.popImageFrame = visibleImageAndSize.size
-                
-                let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row ?? 0
-                cameraVC.updateMultipageReviewButton(withImage: self.imageDocuments[visibleIndex].previewImage,
-                                                     showingStack: self.imageDocuments.count > 1)
-            }
-            
-            return animatedTransition
+        guard let reviewImagesButtonCenter = cameraViewController?.multipageReviewButton,
+            let buttonFrame = cameraViewController?
+                .reviewContentView
+                .convert(reviewImagesButtonCenter.frame,
+                         to: self.screenAPINavigationController.view) else {
+                            return nil
         }
         
-        return nil
+        multiPageTransition.originFrame = buttonFrame
+        multiPageTransition.operation = operation
+        
+        if let multipageVC = fromVC as? MultipageReviewController, let cameraVC = toVC as? CameraViewController {
+            let visibleImageAndSize = multipageVC.visibleImage(in: multipageVC.mainCollection)
+            multiPageTransition.popImage = visibleImageAndSize.image
+            multiPageTransition.popImageFrame = visibleImageAndSize.size
+            
+            var image: UIImage? = nil
+            if let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row {
+                image = self.imageDocuments[visibleIndex].previewImage
+            }
+            cameraVC.updateMultipageReviewButton(withImage: image,
+                                                 showingStack: self.imageDocuments.count > 1)
+            
+            if imageDocuments.isEmpty {
+                return nil
+            }
+        }
+                
+        return multiPageTransition
     }
 }
 
