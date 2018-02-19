@@ -12,11 +12,9 @@ final class MultipageReviewTransitionAnimator: NSObject {
     let animationDuration = AnimationDuration.medium
     var operation: UINavigationControllerOperation = .push
     var originFrame: CGRect = .zero
+    var popImage: UIImage?
+    var popImageFrame: CGRect = .zero
     
-}
-
-enum TransitionOperation {
-    case present, dismiss
 }
 
 // MARK: UIViewControllerAnimatedTransitioning
@@ -28,7 +26,6 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let fromView = transitionContext.view(forKey: .from)!
         let toView = transitionContext.view(forKey: .to)!
         let finalFrame: CGRect
         let yScaleFactor: CGFloat
@@ -45,27 +42,37 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
             transitionContext.containerView.addSubview(toView)
             toView.transform = scaleTransform
             toView.center = originFrame.center
+            
             animations = {
                 toView.transform = CGAffineTransform.identity
                 toView.center = finalFrame.center
             }
         } else if operation == .pop {
-            finalFrame = originFrame
-            yScaleFactor = originFrame.size.height / fromView.frame.height
-            xScaleFactor = originFrame.size.width / fromView.frame.width
-            scaleTransform = CGAffineTransform(scaleX: xScaleFactor,
-                                               y: yScaleFactor)
-            transitionContext.containerView.addSubview(toView)
-            transitionContext.containerView.bringSubview(toFront: fromView)
-            animations = {
-                fromView.transform = scaleTransform
-                fromView.center = finalFrame.center
+            if let popImage = popImage {
+                let popImageView = UIImageView(image: popImage)
+                popImageView.frame = popImageFrame
+
+                finalFrame = originFrame
+                yScaleFactor = originFrame.size.height / popImageView.frame.height
+                xScaleFactor = originFrame.size.width / popImageView.frame.width
+                scaleTransform = CGAffineTransform(scaleX: xScaleFactor,
+                                                   y: yScaleFactor)
+                transitionContext.containerView.addSubview(toView)
+                transitionContext.containerView.addSubview(popImageView)
+                popImageView.center = toView.center
+                
+                animations = {
+                    popImageView.transform = scaleTransform
+                    popImageView.center = finalFrame.center
+                }
             }
+
         }
         
         UIView.animate(withDuration: animationDuration,
                        animations: animations,
                        completion: {_ in
+            self.popImage = nil
             transitionContext.completeTransition(true)
         })
     }

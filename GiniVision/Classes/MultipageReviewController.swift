@@ -480,7 +480,18 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
+    func visibleImage(in collection: UICollectionView) -> (image: UIImage?, size: CGRect) {
+        let visibleIndex = self.visibleCell(in: collection)
+        guard let visibleCellIndex = visibleIndex,
+            let cell = collectionView(collection,
+                                      cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell else {
+                return (nil, .zero)
+        }
+
+        return (cell.documentImage.image, cell.frame)
+    }
+    
+    fileprivate func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
         collectionView.layoutIfNeeded() // It is needed due to a bug in UIKit.
         return collectionView.indexPathsForVisibleItems.first
     }
