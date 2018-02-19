@@ -2,20 +2,22 @@ import XCTest
 import AVFoundation
 @testable import GiniVision
 
-class CameraViewControllerTests: XCTestCase {
+final class CameraViewControllerTests: XCTestCase {
     
     var vc: CameraViewController!
     
-    func testInitialization() {
+    override func setUp() {
+        super.setUp()
         vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
+    }
+    
+    func testInitialization() {
         XCTAssertNotNil(vc, "view controller should not be nil")
     }
     
     func testTooltipWhenFileImportDisabled() {
         ToolTipView.shouldShowFileImportToolTip = true
         GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .none
-        
-        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
         _ = vc.view
         
         XCTAssertNil(vc.toolTipView, "ToolTipView should not be created when file import is disabled.")
@@ -30,7 +32,6 @@ class CameraViewControllerTests: XCTestCase {
         GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch = false
         GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch = false
         
-        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
         _ = vc.view
         
         XCTAssertFalse(vc.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
@@ -38,7 +39,6 @@ class CameraViewControllerTests: XCTestCase {
     }
     
     func testReviewButtonBackground() {
-        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
         _ = vc.view
         
         let image = loadImage(withName: "invoice.jpg")
@@ -51,11 +51,10 @@ class CameraViewControllerTests: XCTestCase {
         vc.cameraDidCapture(imageData: imageData, error: nil)
         XCTAssertTrue(vc.reviewBackgroundView.isHidden,
                       "ReviewBackgroundView should not be hidden after capture the second picture")
-
+        
     }
     
     func testReviewImagesButtonTouchInteraction() {
-        vc = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
         _ = vc.view
         
         let image = loadImage(withName: "invoice.jpg")
@@ -63,19 +62,30 @@ class CameraViewControllerTests: XCTestCase {
         XCTAssertFalse(vc.multipageReviewButton.isUserInteractionEnabled,
                        "reviewImagesButton should be disabled on start")
         
-        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
-                      "ReviewBackgroundView should be hidden before capture the first picture")
         vc.cameraDidCapture(imageData: imageData, error: nil)
         
         let predicate = NSPredicate(format: "isUserInteractionEnabled == YES")
-
+        
         _ = self.expectation(for: predicate,
                              evaluatedWith: vc.multipageReviewButton,
                              handler: .none)
         waitForExpectations(timeout: 1.5, handler: { result in
             XCTAssertNil(result, "reviewImagesButton should be enabled after capturing a picture")
+            XCTAssertTrue(self.vc.reviewBackgroundView.isHidden,
+                          "ReviewBackgroundView should be hidden before capture the first picture")
+            self.vc.cameraDidCapture(imageData: imageData, error: nil)
+            
+            let predicate = NSPredicate(format: "isHidden == NO")
+            
+            _ = self.expectation(for: predicate,
+                                 evaluatedWith: self.vc.reviewBackgroundView,
+                                 handler: .none)
+            self.waitForExpectations(timeout: 1.5, handler: { result in
+                XCTAssertFalse(self.vc.reviewBackgroundView.isHidden,
+                              "ReviewBackgroundView should not be hidden after capture the second picture")
+            })
         })
-
+        
     }
 }
 
