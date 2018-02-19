@@ -181,10 +181,15 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        // MultipageReviewController
-        
-        if (toVC == multiPageReviewController && fromVC == cameraViewController) ||
-            (fromVC == multiPageReviewController && toVC == cameraViewController) {
+        return multipageTransition(operation: operation, from: fromVC, to: toVC)
+    }
+    
+    private func multipageTransition(operation: UINavigationControllerOperation,
+                                     from fromVC: UIViewController,
+                                     to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if ((toVC == multiPageReviewController && fromVC == cameraViewController) ||
+            (fromVC == multiPageReviewController && toVC == cameraViewController))
+            && !imageDocuments.isEmpty {
             var animatedTransition: MultipageReviewTransitionAnimator? = nil
             if let reviewImagesButtonCenter = cameraViewController?.reviewImagesButton,
                 let buttonFrame = cameraViewController?
@@ -222,8 +227,6 @@ internal extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             self.visionDocument = document
             if let document = document as? GiniImageDocument, document.isReviewable {
-                //                self.reviewViewController = self.createReviewScreen(withDocument: document)
-                //                self.screenAPINavigationController.pushViewController(self.reviewViewController!, animated: true)
                 self.imageDocuments.append(document)
             } else {
                 self.analysisViewController = self.createAnalysisScreen(withDocument: document)
@@ -252,9 +255,6 @@ internal extension GiniScreenAPICoordinator {
             self.multiPageReviewController = self.createMultipageReviewScreenContainer()
             self.screenAPINavigationController.pushViewController(self.multiPageReviewController!,
                                                                   animated: true)
-//            self.screenAPINavigationController.present(self.multiPageReviewContainer!,
-//                                                       animated: true,
-//                                                       completion: nil)
         }
         
         setupNavigationItem(usingResources: closeButtonResource,
@@ -359,6 +359,9 @@ internal extension GiniScreenAPICoordinator {
         vc.didUpdateDocuments = { [weak self] newDocuments in
             guard let `self` = self else { return }
             self.imageDocuments = newDocuments
+            if self.imageDocuments.isEmpty {
+                self.closeMultipageScreen()
+            }
         }
         return vc
     }
