@@ -14,6 +14,7 @@ final class MultipageReviewTransitionAnimator: NSObject {
     var originFrame: CGRect = .zero
     var popImage: UIImage?
     var popImageFrame: CGRect = .zero
+    fileprivate var popImageView: UIImageView?
     
 }
 
@@ -48,8 +49,8 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
                 toView.center = finalFrame.center
             }
         } else if operation == .pop {
-            if let popImage = popImage {
-                let popImageView = UIImageView(image: popImage)
+            popImageView = UIImageView(image: popImage)
+            if let popImageView = popImageView {
                 popImageView.frame = popImageFrame
 
                 finalFrame = originFrame
@@ -73,6 +74,7 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
                        animations: animations,
                        completion: {_ in
             self.popImage = nil
+            self.popImageView?.removeFromSuperview()
             transitionContext.completeTransition(true)
         })
     }
