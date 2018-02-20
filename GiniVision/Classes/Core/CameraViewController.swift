@@ -720,10 +720,10 @@ extension CameraViewController {
         super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
-        Contraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
-        Contraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
-        Contraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
+        Constraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
+        Constraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
+        Constraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
+        Constraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
         
         // Hide camera UI
         hideCameraOverlay()
@@ -739,9 +739,9 @@ extension CameraViewController {
         previewView.addSubview(defaultImageView)
         
         defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
-        Contraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
-        Contraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
-        Contraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
+        Constraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
+        Constraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
+        Constraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
+        Constraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
 }

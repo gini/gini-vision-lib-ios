@@ -102,62 +102,62 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     //swiftlint:disable function_body_length
     fileprivate func addConstraints() {
         // roundMask
-        Contraints.active(item: roundMask, attr: .top, relatedBy: .equal, to: self, attr: .top)
-        Contraints.active(item: roundMask, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
-        Contraints.active(item: roundMask, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
-        Contraints.active(item: roundMask, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+        Constraints.active(item: roundMask, attr: .top, relatedBy: .equal, to: self, attr: .top)
+        Constraints.active(item: roundMask, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
+        Constraints.active(item: roundMask, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
+        Constraints.active(item: roundMask, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -(MultipageReviewBottomCollectionCell.shadowHeight +
                             MultipageReviewBottomCollectionCell.shadowRadius))
         
         // pageIndicator
-        Contraints.active(item: pageIndicator, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
+        Constraints.active(item: pageIndicator, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerX)
-        Contraints.active(item: pageIndicator, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
+        Constraints.active(item: pageIndicator, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerY)
         
         // pageIndicatorCircle
-        Contraints.active(item: pageIndicatorCircle, attr: .height, relatedBy: .equal, to: nil,
+        Constraints.active(item: pageIndicatorCircle, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: pageIndicatorCircleSize.height)
-        Contraints.active(item: pageIndicatorCircle, attr: .width, relatedBy: .equal, to: nil,
+        Constraints.active(item: pageIndicatorCircle, attr: .width, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: pageIndicatorCircleSize.width)
-        Contraints.active(item: pageIndicatorCircle, attr: .top, relatedBy: .equal, to: bottomContainer,
+        Constraints.active(item: pageIndicatorCircle, attr: .top, relatedBy: .equal, to: bottomContainer,
                           attr: .top, constant: 10, priority: 999)
-        Contraints.active(item: pageIndicatorCircle, attr: .bottom, relatedBy: .equal, to: bottomContainer,
+        Constraints.active(item: pageIndicatorCircle, attr: .bottom, relatedBy: .equal, to: bottomContainer,
                           attr: .bottom, constant: -10, priority: 999)
-        Contraints.active(item: pageIndicatorCircle, attr: .centerX, relatedBy: .equal, to: bottomContainer,
+        Constraints.active(item: pageIndicatorCircle, attr: .centerX, relatedBy: .equal, to: bottomContainer,
                           attr: .centerX)
-        Contraints.active(item: pageIndicatorCircle, attr: .centerY, relatedBy: .equal, to: bottomContainer,
+        Constraints.active(item: pageIndicatorCircle, attr: .centerY, relatedBy: .equal, to: bottomContainer,
                           attr: .centerY)
         
         // pageSelectedLine
-        Contraints.active(item: pageSelectedLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: pageSelectedLine, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 4)
-        Contraints.active(item: pageSelectedLine, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
-        Contraints.active(item: pageSelectedLine, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
-        Contraints.active(item: pageSelectedLine, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
+        Constraints.active(item: pageSelectedLine, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
+        Constraints.active(item: pageSelectedLine, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
+        Constraints.active(item: pageSelectedLine, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
         
         // draggableIcon
         
-        Contraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
+        Constraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
                           constant: 16)
-        Contraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
+        Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -16)
-        Contraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
+        Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .trailing, constant: 22)
-        Contraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer, attr: .trailing,
+        Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer, attr: .trailing,
                           constant: -11)
         
         // documentImage
-        Contraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)
-        Contraints.active(item: documentImage, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
-        Contraints.active(item: documentImage, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
-        Contraints.active(item: documentImage, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .top)
+        Constraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)
+        Constraints.active(item: documentImage, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
+        Constraints.active(item: documentImage, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
+        Constraints.active(item: documentImage, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .top)
         
         // bottomContainer
-        Contraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
-        Contraints.active(item: bottomContainer, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
-        Contraints.active(item: bottomContainer, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
-        Contraints.active(item: bottomContainer, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
+        Constraints.active(item: bottomContainer, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
+        Constraints.active(item: bottomContainer, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
+        Constraints.active(item: bottomContainer, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 46)
     }
     

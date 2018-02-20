@@ -135,10 +135,10 @@ internal class Constraints {
     }
     
     class func clip(view: UIView, toSuperView superview: UIView) {
-        Contraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Contraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-        Contraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Constraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Constraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Constraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Constraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
     }
     
 }
