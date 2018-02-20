@@ -75,13 +75,13 @@ final class QRCodeDetectedPopupView: UIView {
     }
     
     fileprivate func addConstraints(onSuperView superView: UIView, refView: UIView) {
-        Contraints.active(item: self, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: self, attr: .width, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
                           constant: maxWidth)
-        Contraints.active(item: self, attr: .leading, relatedBy: .greaterThanOrEqual, to: superView, attr: .leading,
+        Constraints.active(item: self, attr: .leading, relatedBy: .greaterThanOrEqual, to: superView, attr: .leading,
                           constant: margin.left)
-        Contraints.active(item: self, attr: .trailing, relatedBy: .lessThanOrEqual, to: superView, attr: .trailing,
+        Constraints.active(item: self, attr: .trailing, relatedBy: .lessThanOrEqual, to: superView, attr: .trailing,
                           constant: -margin.right)
-        Contraints.active(item: self, attr: .centerX, relatedBy: .equal, to: refView, attr: .centerX)
+        Constraints.active(item: self, attr: .centerX, relatedBy: .equal, to: refView, attr: .centerX)
         bottomConstraint = NSLayoutConstraint(item: self,
                                               attribute: .bottom,
                                               relatedBy: .equal,
@@ -92,28 +92,28 @@ final class QRCodeDetectedPopupView: UIView {
                                                 padding.top +
                                                 padding.bottom +
                                                 margin.bottom)
-        Contraints.active(constraint: bottomConstraint!)
+        Constraints.active(constraint: bottomConstraint!)
         
-        Contraints.active(item: qrImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: qrImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: imageSize.width)
-        Contraints.active(item: qrImage, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: qrImage, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: imageSize.height)
-        Contraints.active(item: qrImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
+        Constraints.active(item: qrImage, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
                           constant: padding.left)
-        Contraints.active(item: qrImage, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
-        Contraints.active(item: qrImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+        Constraints.active(item: qrImage, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
+        Constraints.active(item: qrImage, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -padding.bottom)
-        Contraints.active(item: qrImage, attr: .trailing, relatedBy: .equal, to: qrText, attr: .leading,
+        Constraints.active(item: qrImage, attr: .trailing, relatedBy: .equal, to: qrText, attr: .leading,
                           constant: -padding.right / 2, priority: 999)
         
-        Contraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
-        Contraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton, attr: .leading,
+        Constraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
+        Constraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton, attr: .leading,
                           constant: -padding.right)
-        Contraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
-        Contraints.active(item: proceedButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+        Constraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
+        Constraints.active(item: proceedButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                           constant: -padding.right)
         if let minButtonWidth = proceedButton.titleLabel?.intrinsicContentSize.width {
-            Contraints.active(item: proceedButton, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+            Constraints.active(item: proceedButton, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                               constant: minButtonWidth)
         }
 

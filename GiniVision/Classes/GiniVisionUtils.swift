@@ -105,7 +105,7 @@ internal enum FontWeight {
     }
 }
 
-internal class Contraints {
+internal class Constraints {
     
     class func active(item view1: Any,
                       attr attr1: NSLayoutAttribute,

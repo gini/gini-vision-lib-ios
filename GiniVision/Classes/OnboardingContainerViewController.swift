@@ -123,34 +123,34 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         
         // Container view
         containerView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview,
+        Constraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Constraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview,
                           attr: .bottom, priority: 750)
-        Contraints.active(item: containerView, attr: .width, relatedBy: .equal, to: superview, attr: .width,
+        Constraints.active(item: containerView, attr: .width, relatedBy: .equal, to: superview, attr: .width,
                           priority: 750)
-        Contraints.active(item: containerView, attr: .width, relatedBy: .lessThanOrEqual, to: superview,
+        Constraints.active(item: containerView, attr: .width, relatedBy: .lessThanOrEqual, to: superview,
                           attr: .width, priority: 999)
-        Contraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
+        Constraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
         
         // Page control container view
         pageControlContainerView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView,
+        Constraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView,
                           attr: .bottom, priority: 750)
-        Contraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview,
+        Constraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview,
                           attr: .trailing)
-        Contraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview,
+        Constraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview,
                           attr: .bottom)
-        Contraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview,
+        Constraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview,
                           attr: .leading)
-        Contraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual,
+        Constraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual,
                           to: pageControl, attr: .height, multiplier: 1.1)
         
         // Page control
         pageControl.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: pageControl, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 55)
-        Contraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView,
+        Constraints.active(item: pageControl, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 55)
+        Constraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView,
                           attr: .centerX)
-        Contraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView,
+        Constraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView,
                           attr: .centerY)
     }
 }

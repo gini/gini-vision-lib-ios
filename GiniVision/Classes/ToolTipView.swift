@@ -171,32 +171,32 @@ final class ToolTipView: UIView {
         tipContainer.translatesAutoresizingMaskIntoConstraints = false
         
         // tipContainer
-        Contraints.active(item: self, attr: .top, relatedBy: .equal, to: tipContainer, attr: .top,
+        Constraints.active(item: self, attr: .top, relatedBy: .equal, to: tipContainer, attr: .top,
                           constant: -margin.top)
-        Contraints.active(item: self, attr: .bottom, relatedBy: .equal, to: tipContainer, attr: .bottom,
+        Constraints.active(item: self, attr: .bottom, relatedBy: .equal, to: tipContainer, attr: .bottom,
                           constant: margin.bottom)
-        Contraints.active(item: self, attr: .leading, relatedBy: .equal, to: tipContainer, attr: .leading,
+        Constraints.active(item: self, attr: .leading, relatedBy: .equal, to: tipContainer, attr: .leading,
                           constant: -margin.left)
-        Contraints.active(item: self, attr: .trailing, relatedBy: .equal, to: tipContainer, attr: .trailing,
+        Constraints.active(item: self, attr: .trailing, relatedBy: .equal, to: tipContainer, attr: .trailing,
                           constant: margin.right)
         
         // textLabel
-        Contraints.active(item: tipContainer, attr: .top, relatedBy: .equal, to: textLabel, attr: .top,
+        Constraints.active(item: tipContainer, attr: .top, relatedBy: .equal, to: textLabel, attr: .top,
                           constant: -padding.top)
-        Contraints.active(item: tipContainer, attr: .bottom, relatedBy: .equal, to: textLabel, attr: .bottom,
+        Constraints.active(item: tipContainer, attr: .bottom, relatedBy: .equal, to: textLabel, attr: .bottom,
                           constant: padding.bottom)
-        Contraints.active(item: tipContainer, attr: .leading, relatedBy: .equal, to: textLabel, attr: .leading,
+        Constraints.active(item: tipContainer, attr: .leading, relatedBy: .equal, to: textLabel, attr: .leading,
                           constant: -padding.left)
         
         // closeButton
-        Contraints.active(item: closeButton, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: closeButton, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: closeButtonWidth)
-        Contraints.active(item: closeButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: closeButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: closeButtonHeight)
-        Contraints.active(item: closeButton, attr: .centerY, relatedBy: .equal, to: tipContainer, attr: .centerY)
-        Contraints.active(item: closeButton, attr: .leading, relatedBy: .equal, to: textLabel, attr: .trailing,
+        Constraints.active(item: closeButton, attr: .centerY, relatedBy: .equal, to: tipContainer, attr: .centerY)
+        Constraints.active(item: closeButton, attr: .leading, relatedBy: .equal, to: textLabel, attr: .trailing,
                           constant: itemSeparation)
-        Contraints.active(item: tipContainer, attr: .trailing, relatedBy: .equal, to: closeButton, attr: .trailing,
+        Constraints.active(item: tipContainer, attr: .trailing, relatedBy: .equal, to: closeButton, attr: .trailing,
                           constant: padding.right)
         
         self.setNeedsLayout()
