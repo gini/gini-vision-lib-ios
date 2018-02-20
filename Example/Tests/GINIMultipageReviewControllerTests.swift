@@ -106,7 +106,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                          layout: vc.bottomCollection.collectionViewLayout,
                                          sizeForItemAt: firstCellIndexPath)
         
-        let size = MultipageReviewBottomCollectionCell.portraitSize
+        let size = MultipageReviewBottomCollectionCell.size
         
         XCTAssertEqual(cellSize, size,
                        "Bottom collection cells should have the value declared in the class")

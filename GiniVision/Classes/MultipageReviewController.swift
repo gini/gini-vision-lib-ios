@@ -34,7 +34,7 @@ final class MultipageReviewController: UIViewController {
     
     var bottomCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (bottomCollection.frame.width -
-            MultipageReviewBottomCollectionCell.portraitSize.width) / 2
+            MultipageReviewBottomCollectionCell.size.width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
     }
     
@@ -93,28 +93,6 @@ final class MultipageReviewController: UIViewController {
         return toolBar
     }()
     
-    lazy var bottomCollectionContainerConstraint: NSLayoutConstraint = {
-        let constraint = NSLayoutConstraint(item: self.bottomCollectionContainer,
-                                            attribute: .bottom,
-                                            relatedBy: .equal,
-                                            toItem: self.toolBar,
-                                            attribute: .top,
-                                            multiplier: 1.0,
-                                            constant: 0)
-        constraint.priority = 999
-        return constraint
-    }()
-    
-    lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
-        return NSLayoutConstraint(item: self.bottomCollectionContainer,
-                                  attribute: .top,
-                                  relatedBy: .equal,
-                                  toItem: self.toolBar,
-                                  attribute: .top,
-                                  multiplier: 1.0,
-                                  constant: 0)
-    }()
-    
     lazy var rotateButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
@@ -131,6 +109,28 @@ final class MultipageReviewController: UIViewController {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                                   action: #selector(deleteSelectedImage))
+    }()
+    
+    fileprivate lazy var bottomCollectionContainerConstraint: NSLayoutConstraint = {
+        let constraint = NSLayoutConstraint(item: self.bottomCollectionContainer,
+                                            attribute: .bottom,
+                                            relatedBy: .equal,
+                                            toItem: self.toolBar,
+                                            attribute: .top,
+                                            multiplier: 1.0,
+                                            constant: 0)
+        constraint.priority = 999
+        return constraint
+    }()
+    
+    fileprivate lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
+        return NSLayoutConstraint(item: self.bottomCollectionContainer,
+                                  attribute: .top,
+                                  relatedBy: .equal,
+                                  toItem: self.toolBar,
+                                  attribute: .top,
+                                  multiplier: 1.0,
+                                  constant: 0)
     }()
     
     @available(iOS 9.0, *)
@@ -171,14 +171,6 @@ extension MultipageReviewController {
             longPressGesture.delaysTouchesBegan = true
             bottomCollection.addGestureRecognizer(longPressGesture)
         }
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        view.backgroundColor = .clear
-        mainCollection.backgroundColor = .clear
-        bottomCollectionContainer.alpha = 0
-        toolBar.alpha = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -299,7 +291,7 @@ extension MultipageReviewController {
         Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.portraitSize.height +
+                          constant: MultipageReviewBottomCollectionCell.size.height +
                             bottomCollectionInsets.top +
                             bottomCollectionInsets.bottom)
     }
@@ -425,7 +417,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView == mainCollection ?
             collectionView.frame.size :
-            MultipageReviewBottomCollectionCell.portraitSize
+            MultipageReviewBottomCollectionCell.size
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
