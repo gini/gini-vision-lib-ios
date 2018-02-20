@@ -8,7 +8,7 @@
 import Foundation
 
 //swiftlint:disable file_length
-final class MultipageReviewController: UIViewController {
+public final class MultipageReviewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
     var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
@@ -139,20 +139,20 @@ final class MultipageReviewController: UIViewController {
     
     // MARK: - Init
     
-    init(imageDocuments: [GiniImageDocument]) {
+    public init(imageDocuments: [GiniImageDocument]) {
         self.imageDocuments = imageDocuments
         
         super.init(nibName: nil, bundle: nil)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(imageDocuments:) has not been implemented")
     }
 }
 
 // MARK: - UIViewController
 extension MultipageReviewController {
-    override func loadView() {
+    override public func loadView() {
         super.loadView()
         view.addSubview(mainCollection)
         view.addSubview(toolBar)
@@ -163,7 +163,7 @@ extension MultipageReviewController {
         addConstraints()
     }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
@@ -173,7 +173,7 @@ extension MultipageReviewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         UIView.animate(withDuration: AnimationDuration.fast, animations: {
             self.toolBar.alpha = 1
@@ -353,12 +353,12 @@ extension MultipageReviewController {
 // MARK: UICollectionViewDataSource
 
 extension MultipageReviewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageDocuments.count
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView,
+                               cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == mainCollection {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
@@ -380,9 +380,9 @@ extension MultipageReviewController: UICollectionViewDataSource {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        moveItemAt sourceIndexPath: IndexPath,
-                        to destinationIndexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView,
+                               moveItemAt sourceIndexPath: IndexPath,
+                               to destinationIndexPath: IndexPath) {
         if collectionView == bottomCollection {
             var indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
             indexes.append(sourceIndexPath)
@@ -412,15 +412,15 @@ extension MultipageReviewController: UICollectionViewDataSource {
 
 extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView == mainCollection ?
             collectionView.frame.size :
             MultipageReviewBottomCollectionCell.size
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == bottomCollection {
             if imageDocuments.count > 1 {
                 mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
@@ -430,13 +430,13 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               insetForSectionAt section: Int) -> UIEdgeInsets {
         return collectionView == mainCollection ? .zero : bottomCollectionInsets
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if scrollView == mainCollection {
             if let indexPath = visibleCell(in: mainCollection) {
                 selectItem(at: indexPath.row)
