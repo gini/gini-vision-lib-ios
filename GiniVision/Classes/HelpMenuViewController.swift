@@ -16,6 +16,7 @@ import UIKit
 
 final public class HelpMenuViewController: UITableViewController {
     
+    let giniConfiguration: GiniConfiguration
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     lazy var items: [(text: String, id: Int)] = {
@@ -28,7 +29,7 @@ final public class HelpMenuViewController: UITableViewController {
                                comment: "help menu third item text"), 3)
         ]
         
-        if GiniConfiguration.sharedConfiguration.openWithEnabled {
+        if self.giniConfiguration.openWithEnabled {
             items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
                                             bundle: Bundle(for: GiniVision.self),
                                             comment: "help menu second item text"), 2), at: 1)
@@ -37,7 +38,21 @@ final public class HelpMenuViewController: UITableViewController {
         return items
     }()
     
-    public init() {
+    // Button resources
+    fileprivate lazy var backToCameraButtonResource =
+        PreferredButtonResource(image: "navigationReviewBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the back button on the review screen",
+                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+    
+    fileprivate lazy var backButtonResource =
+        PreferredButtonResource(image: "arrowBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the back button on the review screen",
+                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+    
+    public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+        self.giniConfiguration = giniConfiguration
         super.init(style: .plain)
     }
     
@@ -93,11 +108,11 @@ final public class HelpMenuViewController: UITableViewController {
             let title = NSLocalizedString("ginivision.noresults.title",
                                           bundle: Bundle(for: GiniVision.self),
                                           comment: "navigation title shown on no results tips, " +
-                                                   "when the screen is shown through the help menu")
+                "when the screen is shown through the help menu")
             let topViewText = NSLocalizedString("ginivision.noresults.warningHelpMenu",
                                                 bundle: Bundle(for: GiniVision.self),
                                                 comment: "warning text shown on no results tips, " +
-                                                         "when the screen is shown through the help menu")
+                "when the screen is shown through the help menu")
             let vc = ImageAnalysisNoResultsViewController(title: title,
                                                           subHeaderText: nil,
                                                           topViewText: topViewText,
@@ -121,3 +136,4 @@ final public class HelpMenuViewController: UITableViewController {
     }
     
 }
+
