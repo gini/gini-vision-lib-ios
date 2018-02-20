@@ -27,8 +27,8 @@ internal final class GiniScreenAPICoordinator: NSObject {
     // Properties
     fileprivate var changesOnReview: Bool = false
     fileprivate var giniConfiguration: GiniConfiguration
-    fileprivate weak var visionDelegate: GiniVisionDelegate?
-    fileprivate var visionDocument: GiniVisionDocument?
+    weak var visionDelegate: GiniVisionDelegate?
+    var visionDocument: GiniVisionDocument?
     fileprivate var imageDocuments: [GiniImageDocument] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     
