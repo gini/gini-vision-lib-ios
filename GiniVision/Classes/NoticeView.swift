@@ -129,19 +129,19 @@ internal class NoticeView: UIView {
             
             // Superview
             self.translatesAutoresizingMaskIntoConstraints = false
-            Contraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-            Contraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-            Contraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-            Contraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
+            Constraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+            Constraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+            Constraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+            Constraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
         }
         
         // Text label
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top)
-        Contraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+        Constraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top)
+        Constraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                           constant: -20, priority: 999)
-        Contraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
-        Contraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
+        Constraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
+        Constraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
     }
     
 }

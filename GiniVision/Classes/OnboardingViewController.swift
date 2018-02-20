@@ -156,32 +156,32 @@ import UIKit
         
         // Scroll view
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Contraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Contraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Contraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Constraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        Constraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        Constraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        Constraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: contentView, attr: .top, relatedBy: .equal, to: scrollView, attr: .top)
-        Contraints.active(item: contentView, attr: .trailing, relatedBy: .equal, to: scrollView, attr: .trailing)
-        Contraints.active(item: contentView, attr: .bottom, relatedBy: .equal, to: scrollView, attr: .bottom)
-        Contraints.active(item: contentView, attr: .leading, relatedBy: .equal, to: scrollView, attr: .leading)
-        Contraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width,
+        Constraints.active(item: contentView, attr: .top, relatedBy: .equal, to: scrollView, attr: .top)
+        Constraints.active(item: contentView, attr: .trailing, relatedBy: .equal, to: scrollView, attr: .trailing)
+        Constraints.active(item: contentView, attr: .bottom, relatedBy: .equal, to: scrollView, attr: .bottom)
+        Constraints.active(item: contentView, attr: .leading, relatedBy: .equal, to: scrollView, attr: .leading)
+        Constraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width,
                           multiplier: pagesCount)
-        Contraints.active(item: contentView, attr: .height, relatedBy: .equal, to: scrollView, attr: .height)
+        Constraints.active(item: contentView, attr: .height, relatedBy: .equal, to: scrollView, attr: .height)
         
         for page in pages {
             page.translatesAutoresizingMaskIntoConstraints = false
-            Contraints.active(item: page, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
-            Contraints.active(item: page, attr: .bottom, relatedBy: .equal, to: contentView, attr: .bottom)
-            Contraints.active(item: page, attr: .width, relatedBy: .equal, to: contentView, attr: .width,
+            Constraints.active(item: page, attr: .top, relatedBy: .equal, to: contentView, attr: .top)
+            Constraints.active(item: page, attr: .bottom, relatedBy: .equal, to: contentView, attr: .bottom)
+            Constraints.active(item: page, attr: .width, relatedBy: .equal, to: contentView, attr: .width,
                               multiplier: 1/pagesCount)
             if page == pages.first {
-                Contraints.active(item: page, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
+                Constraints.active(item: page, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
             } else {
                 let previousPage = pages[pages.index(of: page)! - 1]
-                Contraints.active(item: page, attr: .leading, relatedBy: .equal, to: previousPage, attr: .trailing)
+                Constraints.active(item: page, attr: .leading, relatedBy: .equal, to: previousPage, attr: .trailing)
             }
         }
     }
