@@ -74,6 +74,14 @@ final public class HelpMenuViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
+        setupNavigationItem(usingResources: backToCameraButtonResource,
+                            selector: #selector(back),
+                            position: .left,
+                            target: self)
+    }
+    
+    func back() {
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Table view data source
@@ -103,6 +111,7 @@ final public class HelpMenuViewController: UITableViewController {
     }
     
     func viewController(forRowWithId id: Int) -> UIViewController? {
+        let viewController: UIViewController
         switch id {
         case 1:
             let title = NSLocalizedString("ginivision.noresults.title",
@@ -125,14 +134,21 @@ final public class HelpMenuViewController: UITableViewController {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
                 }
             }
-            return vc
+            viewController = vc
         case 2:
-            return OpenWithTutorialViewController()
+            viewController = OpenWithTutorialViewController()
         case 3:
-            return SupportedFormatsViewController(style: .plain)
+            viewController = SupportedFormatsViewController(style: .plain)
         default:
             return nil
         }
+        
+        viewController.setupNavigationItem(usingResources: backButtonResource,
+                                           selector: #selector(back),
+                                           position: .left,
+                                           target: self)
+        
+        return viewController
     }
     
 }
