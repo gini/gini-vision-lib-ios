@@ -15,9 +15,12 @@ PODS:
   - GiniVision (3.3.1):
     - GiniVision/Core (= 3.3.1)
   - GiniVision/Core (3.3.1)
-  - GiniVision/Networking+Pinning (3.3.1):
+  - GiniVision/Networking (3.3.1):
     - Gini-iOS-SDK (~> 0.6.0)
+    - GiniVision/Core
+  - GiniVision/Networking+Pinning (3.3.1):
     - Gini-iOS-SDK/Pinning (~> 0.6.0)
+    - GiniVision/Networking
   - TrustKit (1.5.2)
 
 DEPENDENCIES:
@@ -31,7 +34,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
   Gini-iOS-SDK: 75c35076dbbdeff5b7ac8c90b8cbd63274dbc209
-  GiniVision: b435bc5c58c6519c3170f7722023c0c81c86aace
+  GiniVision: 121c06178324d8d66e94cd4795a0d99bccf25311
   TrustKit: fd852155aa95a02da40e2c2e0aa9060937a88abe
 
 PODFILE CHECKSUM: abfae917fe3b7616d847dafded70bf8f57cb7d22
