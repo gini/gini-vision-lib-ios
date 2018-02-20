@@ -254,43 +254,43 @@ extension MultipageReviewController {
     
     fileprivate func addConstraints() {
         // mainCollection
-        Contraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
-        Contraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
+        Constraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
                           attr: .bottom)
-        Contraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Constraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // toolBar
-        Contraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
+        Constraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
                           attr: .top)
-        Contraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // bottomCollectionContainer
-        Contraints.active(constraint: topCollectionContainerConstraint)
-        Contraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
+        Constraints.active(constraint: topCollectionContainerConstraint)
+        Constraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
                           attr: .trailing)
-        Contraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // bottomCollectionTopBorder
-        Contraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
+        Constraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
                           to: bottomCollectionContainer, attr: .leading)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
+        Constraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
                           to: bottomCollectionContainer, attr: .trailing)
-        Contraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
+        Constraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: 0.5)
         
         // bottomCollection
-        Contraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .bottom)
-        Contraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
                           attr: .top)
-        Contraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Contraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Contraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Constraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: MultipageReviewBottomCollectionCell.size.height +
                             bottomCollectionInsets.top +
                             bottomCollectionInsets.bottom)

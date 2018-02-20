@@ -23,7 +23,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         super.init(frame: frame)
         self.addSubview(documentImage)
 
-        Contraints.clip(view: documentImage, toSuperView: self)
+        Constraints.clip(view: documentImage, toSuperView: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
