@@ -13,12 +13,15 @@ import XCTest
 class GINIScreenAPICoordinatorTests: XCTestCase {
     
     let documentService = DocumentService()
+    let client = GiniClient(clientId: "",
+                            clientSecret: "",
+                            clientEmailDomain: "")
     var screenAPICoordinator: ScreenAPICoordinator?
     
     func testInitialization() {
         screenAPICoordinator = ScreenAPICoordinator(configuration: GiniConfiguration(),
                                                     importedDocument: nil,
-                                                    documentService: documentService)
+                                                    client: client)
         screenAPICoordinator?.start()
         
         XCTAssertNotNil(screenAPICoordinator?.rootViewController,
