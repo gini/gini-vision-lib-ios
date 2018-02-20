@@ -10,14 +10,10 @@ import Foundation
 final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     
     static let identifier = "MultipageReviewBottomCollectionCellIdentifier"
-    static let portraitSize = CGSize(width: 107,
-                                      height: 192 +
-                                        MultipageReviewBottomCollectionCell.shadowHeight +
-                                        MultipageReviewBottomCollectionCell.shadowRadius)
-    static let landscapeSize = CGSize(width: 107,
-                                     height: 145 +
-                                        MultipageReviewBottomCollectionCell.shadowHeight +
-                                        MultipageReviewBottomCollectionCell.shadowRadius)
+    static let size = CGSize(width: 107,
+                             height: 192 +
+                                MultipageReviewBottomCollectionCell.shadowHeight +
+                                MultipageReviewBottomCollectionCell.shadowRadius)
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
@@ -103,6 +99,7 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         fatalError("init(frame:) has not been implemented")
     }
     
+    //swiftlint:disable function_body_length
     fileprivate func addConstraints() {
         // roundMask
         Contraints.active(item: roundMask, attr: .top, relatedBy: .equal, to: self, attr: .top)
