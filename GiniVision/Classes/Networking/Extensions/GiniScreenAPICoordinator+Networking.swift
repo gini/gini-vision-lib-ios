@@ -132,7 +132,9 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCapture(document: GiniVisionDocument) {
         // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        self.analyzeDocument(visionDocument: document)
+        if document.type != .image { // TODO: add analysis for images but supporting multipage.
+            self.analyzeDocument(visionDocument: document)
+        }
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
