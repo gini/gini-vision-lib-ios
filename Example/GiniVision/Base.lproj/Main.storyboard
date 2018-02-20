@@ -383,8 +383,8 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="R6a-XM-gNJ" secondAttribute="trailing" id="62T-o5-2AI"/>
                             <constraint firstItem="R6a-XM-gNJ" firstAttribute="leading" secondItem="MEj-9J-Hjf" secondAttribute="leading" id="dKI-JQ-twI"/>
-                            <constraint firstItem="LAk-oa-XC9" firstAttribute="top" secondItem="R6a-XM-gNJ" secondAttribute="bottom" id="gP5-cq-D3G"/>
                             <constraint firstItem="R6a-XM-gNJ" firstAttribute="top" secondItem="MEj-9J-Hjf" secondAttribute="top" id="kdC-i3-zM3"/>
+                            <constraint firstAttribute="bottom" secondItem="R6a-XM-gNJ" secondAttribute="bottom" id="wKn-BT-Gi9"/>
                         </constraints>
                     </view>
                     <connections>
