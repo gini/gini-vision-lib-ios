@@ -212,6 +212,29 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1F577530203C4EB40074FD63 /* Component API */ = {
+			isa = PBXGroup;
+			children = (
+				0AEACE091D6385F700052120 /* DocumentService.swift */,
+				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
+				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
+				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
+				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
+				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
+				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
+			);
+			name = "Component API";
+			sourceTree = "<group>";
+		};
+		1F577531203C4EEE0074FD63 /* Screen API */ = {
+			isa = PBXGroup;
+			children = (
+				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
+				1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */,
+			);
+			name = "Screen API";
+			sourceTree = "<group>";
+		};
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
@@ -241,25 +264,17 @@
 			children = (
 				1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
-				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
-				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
-				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
-				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
-				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
 				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
-				0AEACE091D6385F700052120 /* DocumentService.swift */,
+				1F9466C4203702E600F52B40 /* CredentialsManager.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
-				1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */,
-				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
 				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
 				1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */,
-				607FACDC1AFB9204008FA782 /* Images.xcassets */,
+				1F577530203C4EB40074FD63 /* Component API */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
+				1F577531203C4EEE0074FD63 /* Screen API */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				1F9466C4203702E600F52B40 /* CredentialsManager.swift */,
 			);
 			name = "Example for GiniVision";
 			path = GiniVision;
@@ -268,6 +283,7 @@
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				1F9F321B1FED3BC200C7CFFE /* Credentials.plist */,
 				0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */,
 				0A1D31121D12BB3600AC084C /* Localizable.strings */,
