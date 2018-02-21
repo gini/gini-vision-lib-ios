@@ -40,10 +40,14 @@ internal final class FilePickerManager: NSObject {
     }
     
     func showDocumentPicker(from: UIViewController,
-                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+                            device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
-        setStatusBarStyle(to: .default)
+        
+        if !device.isIpad {
+            setStatusBarStyle(to: .default)
+        }
 
         from.present(documentPicker, animated: true, completion: nil)
     }
