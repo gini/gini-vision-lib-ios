@@ -137,15 +137,14 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         Constraints.active(item: pageSelectedLine, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
         
         // draggableIcon
-        
         Constraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
                           constant: 16)
         Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -16)
         Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .trailing, constant: 22)
-        Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer, attr: .trailing,
-                          constant: -11)
+        Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer,
+                           attr: .trailing, constant: -11)
         
         // documentImage
         Constraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)

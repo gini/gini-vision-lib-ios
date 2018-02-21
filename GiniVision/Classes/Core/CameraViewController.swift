@@ -104,12 +104,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
         return button
     }()
-    lazy var reviewContentView: UIView = {
+    lazy var multipageReviewContentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    lazy var reviewBackgroundView: UIView = {
+    lazy var multipageReviewBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
@@ -246,9 +246,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
-        controlsView.addSubview(reviewContentView)
-        reviewContentView.addSubview(multipageReviewButton)
-        reviewContentView.insertSubview(reviewBackgroundView,
+        controlsView.addSubview(multipageReviewContentView)
+        multipageReviewContentView.addSubview(multipageReviewButton)
+        multipageReviewContentView.insertSubview(multipageReviewBackgroundView,
                                         belowSubview: multipageReviewButton)
         
         // Add constraints
@@ -439,7 +439,7 @@ extension CameraViewController {
                 let scaleRatioX = self.multipageReviewButton.frame.width / imageFrame.width
 
                 imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                imageView.center = self.reviewContentView.convert(self.multipageReviewButton.center, to: self.view)
+                imageView.center = self.multipageReviewContentView.convert(self.multipageReviewButton.center, to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
                 self.updateMultipageReviewButton(withImage: imageDocument.previewImage,
@@ -449,13 +449,13 @@ extension CameraViewController {
     }
     
     @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
-        self.didTapMultipageReviewButton?()
+        didTapMultipageReviewButton?()
     }
     
     func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
-        self.reviewBackgroundView.isHidden = !showingStack
-        self.multipageReviewButton.setImage(image, for: .normal)
-        self.multipageReviewButton.isUserInteractionEnabled = image != nil
+        multipageReviewBackgroundView.isHidden = !showingStack
+        multipageReviewButton.setImage(image, for: .normal)
+        multipageReviewButton.isUserInteractionEnabled = image != nil
     }
     
     func updatePreviewViewOrientation() {

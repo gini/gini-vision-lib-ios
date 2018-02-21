@@ -37,7 +37,6 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     }()
     lazy var bottomButton: UIButton = {
         let bottomButton = UIButton()
-        let toolBar = UIToolbar()
         bottomButton.translatesAutoresizingMaskIntoConstraints = false
         bottomButton.setTitle(self.bottomButtonText, for: .normal)
         bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
