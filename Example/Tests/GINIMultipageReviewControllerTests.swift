@@ -27,8 +27,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         XCTAssertEqual(vc.mainCollection.numberOfItems(inSection: 0), 3,
                        "main collection items count should be 3")
         
-        XCTAssertEqual(vc.bottomCollection.numberOfItems(inSection: 0), 3,
-                       "bottom collection items count should be 3")
+        XCTAssertEqual(vc.pagesCollection.numberOfItems(inSection: 0), 3,
+                       "pages collection items count should be 3")
     }
     
     func testMainCollectionCellContent() {
@@ -72,13 +72,13 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Main collection insets should be zero")
     }
     
-    func testBottomCollectionCellContent() {
-        let firstCell = vc.collectionView(vc.bottomCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewBottomCollectionCell
-        let secondCell = vc.collectionView(vc.bottomCollection,
-                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewBottomCollectionCell
-        let thirdCell = vc.collectionView(vc.bottomCollection,
-                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewBottomCollectionCell
+    func testPagesCollectionCellContent() {
+        let firstCell = vc.collectionView(vc.pagesCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
+        let secondCell = vc.collectionView(vc.pagesCollection,
+                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
+        let thirdCell = vc.collectionView(vc.pagesCollection,
+                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
                        "First cell image should match the one passed in the initializer")
         XCTAssertEqual(firstCell?.pageIndicator.text, "1",
@@ -95,29 +95,29 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "First cell content mode should match the one passed in the initializer")
     }
     
-    func testBottomCollectionCellSize() {
+    func testPagesCollectionCellSize() {
         let vc = MultipageReviewController(imageDocuments: imageDocuments)
         _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
         
         let firstCellIndexPath = IndexPath(row: 0, section: 0)
-        let cellSize = vc.collectionView(vc.bottomCollection,
-                                         layout: vc.bottomCollection.collectionViewLayout,
+        let cellSize = vc.collectionView(vc.pagesCollection,
+                                         layout: vc.pagesCollection.collectionViewLayout,
                                          sizeForItemAt: firstCellIndexPath)
         
-        let size = MultipageReviewBottomCollectionCell.size
+        let size = MultipageReviewPagesCollectionCell.size
         
         XCTAssertEqual(cellSize, size,
-                       "Bottom collection cells should have the value declared in the class")
+                       "Pages collection cells should have the value declared in the class")
     }
     
-    func testBottomCollectionInsets() {
-        let collectionInsets = vc.collectionView(vc.bottomCollection,
-                                                 layout: vc.bottomCollection.collectionViewLayout,
+    func testPagesCollectionInsets() {
+        let collectionInsets = vc.collectionView(vc.pagesCollection,
+                                                 layout: vc.pagesCollection.collectionViewLayout,
                                                  insetForSectionAt: 0)
         
-        XCTAssertEqual(collectionInsets, vc.bottomCollectionInsets,
+        XCTAssertEqual(collectionInsets, vc.pagesCollectionInsets,
                        "Main collection insets should be zero")
     }
     
@@ -130,9 +130,9 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Fifth toolbar item should be the rotateButton")
     }
     
-    func testToolBarAndBottomCollectionContainerColors() {
-        XCTAssertEqual(vc.toolBar.barTintColor, vc.bottomCollectionContainer.backgroundColor,
-                       "toolbar and bottom collection container background colors should match")
+    func testToolBarAndPagesCollectionContainerColors() {
+        XCTAssertEqual(vc.toolBar.barTintColor, vc.pagesCollectionContainer.backgroundColor,
+                       "toolbar and pages collection container background colors should match")
     }
     
     func testDatasourceOnDelete() {
@@ -145,8 +145,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         
         XCTAssertEqual(vc.mainCollection.numberOfItems(inSection: 0), 2,
                        "main collection items count should be 2")
-        XCTAssertEqual(vc.bottomCollection.numberOfItems(inSection: 0), 2,
-                       "bottom collection items count should be 2")
+        XCTAssertEqual(vc.pagesCollection.numberOfItems(inSection: 0), 2,
+                       "pages collection items count should be 2")
     }
     
     func testCellReloadedOnReordering() {
@@ -160,15 +160,15 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
             expect.fulfill()
         }
         
-        vc.collectionView(vc.bottomCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
+        vc.collectionView(vc.pagesCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
         
         wait(for: [expect], timeout: 1)
-        let firstCell = vc.collectionView(vc.bottomCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewBottomCollectionCell
-        let secondCell = vc.collectionView(vc.bottomCollection,
-                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewBottomCollectionCell
-        let thirdCell = vc.collectionView(vc.bottomCollection,
-                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewBottomCollectionCell
+        let firstCell = vc.collectionView(vc.pagesCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
+        let secondCell = vc.collectionView(vc.pagesCollection,
+                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
+        let thirdCell = vc.collectionView(vc.pagesCollection,
+                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         
         XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].previewImage,
                        "Second cell image should match the one passed in the initializer")

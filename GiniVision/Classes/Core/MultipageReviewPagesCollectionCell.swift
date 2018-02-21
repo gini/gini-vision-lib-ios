@@ -1,5 +1,5 @@
 //
-//  MultipageReviewBottomCollectionCell.swift
+//  MultipageReviewPagesCollectionCell.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/1/18.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
+final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
-    static let identifier = "MultipageReviewBottomCollectionCellIdentifier"
+    static let identifier = "MultipageReviewPagesCollectionCellIdentifier"
     static let size = CGSize(width: 107,
                              height: 192 +
-                                MultipageReviewBottomCollectionCell.shadowHeight +
-                                MultipageReviewBottomCollectionCell.shadowRadius)
+                                MultipageReviewPagesCollectionCell.shadowHeight +
+                                MultipageReviewPagesCollectionCell.shadowRadius)
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
@@ -106,8 +106,8 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
         Constraints.active(item: roundMask, attr: .leading, relatedBy: .equal, to: self, attr: .leading)
         Constraints.active(item: roundMask, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
         Constraints.active(item: roundMask, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
-                          constant: -(MultipageReviewBottomCollectionCell.shadowHeight +
-                            MultipageReviewBottomCollectionCell.shadowRadius))
+                          constant: -(MultipageReviewPagesCollectionCell.shadowHeight +
+                            MultipageReviewPagesCollectionCell.shadowRadius))
         
         // pageIndicator
         Constraints.active(item: pageIndicator, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
@@ -162,9 +162,9 @@ final class MultipageReviewBottomCollectionCell: UICollectionViewCell {
     
     fileprivate func addShadow() {
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowRadius = MultipageReviewBottomCollectionCell.shadowRadius
+        layer.shadowRadius = MultipageReviewPagesCollectionCell.shadowRadius
         layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0,
-                                    height: MultipageReviewBottomCollectionCell.shadowHeight)
+                                    height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
 }
