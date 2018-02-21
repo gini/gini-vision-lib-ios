@@ -1,19 +1,7 @@
 PODS:
-<<<<<<< HEAD
   - GiniVision (3.3.1):
     - GiniVision/Core (= 3.3.1)
   - GiniVision/Core (3.3.1)
-=======
-  - Bolts (1.1.5):
-    - Bolts/AppLinks (= 1.1.5)
-    - Bolts/Tasks (= 1.1.5)
-  - Bolts/AppLinks (1.1.5):
-    - Bolts/Tasks
-  - Bolts/Tasks (1.1.5)
-  - Gini-iOS-SDK (0.3.0):
-    - Bolts (~> 1.1.0)
-  - GiniVision (3.3.1)
->>>>>>> Added animation in camera screen.
 
 DEPENDENCIES:
   - GiniVision (from `../`)
@@ -23,13 +11,7 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
-<<<<<<< HEAD
-  GiniVision: b435bc5c58c6519c3170f7722023c0c81c86aace
-=======
-  Bolts: aac24961496d504aa56fc267cde95162a71bac39
-  Gini-iOS-SDK: a10593870472fb94fc82f6173cd35171d07ca0e3
-  GiniVision: b91a085e9628bb6fb9d7fdf6894e8d423b3de591
->>>>>>> Added animation in camera screen.
+  GiniVision: 121c06178324d8d66e94cd4795a0d99bccf25311
 
 PODFILE CHECKSUM: ad1cafb74720d0ada921e7e9fb4cf5ef18c8ce55
 

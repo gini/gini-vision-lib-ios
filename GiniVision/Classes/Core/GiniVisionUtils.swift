@@ -134,7 +134,7 @@ internal class Constraints {
         constraint.isActive = true
     }
     
-    class func clip(view: UIView, toSuperView superview: UIView) {
+    class func pin(view: UIView, toSuperView superview: UIView) {
         Constraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
         Constraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
         Constraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
