@@ -248,7 +248,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         controlsView.addSubview(multipageReviewContentView)
         multipageReviewContentView.addSubview(multipageReviewButton)
         multipageReviewContentView.insertSubview(multipageReviewBackgroundView,
-                                        belowSubview: multipageReviewButton)
+                                                 belowSubview: multipageReviewButton)
         
         // Add constraints
         addConstraints()
@@ -438,7 +438,8 @@ extension CameraViewController {
                 let scaleRatioX = self.multipageReviewButton.frame.width / imageFrame.width
 
                 imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                imageView.center = self.multipageReviewContentView.convert(self.multipageReviewButton.center, to: self.view)
+                imageView.center = self.multipageReviewContentView.convert(self.multipageReviewButton.center,
+                                                                           to: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
                 self.updateMultipageReviewButton(withImage: imageDocument.previewImage,

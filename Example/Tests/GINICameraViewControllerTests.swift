@@ -58,14 +58,14 @@ final class CameraViewControllerTests: XCTestCase {
         
         let image = loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)
-        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
-                      "ReviewBackgroundView should be hidden before capture the first picture")
+        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+                      "multipageReviewBackgroundView should be hidden before capture the first picture")
         vc.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
-                      "ReviewBackgroundView should be hidden after capture the first picture")
+        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+                      "multipageReviewBackgroundView should be hidden after capture the first picture")
         vc.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(vc.reviewBackgroundView.isHidden,
-                      "ReviewBackgroundView should not be hidden after capture the second picture")
+        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+                      "multipageReviewBackgroundView should not be hidden after capture the second picture")
         
     }
     
@@ -75,7 +75,7 @@ final class CameraViewControllerTests: XCTestCase {
         let image = loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)
         XCTAssertFalse(vc.multipageReviewButton.isUserInteractionEnabled,
-                       "reviewImagesButton should be disabled on start")
+                       "multipageReviewButton should be disabled on start")
         
         vc.cameraDidCapture(imageData: imageData, error: nil)
         
@@ -85,19 +85,19 @@ final class CameraViewControllerTests: XCTestCase {
                              evaluatedWith: vc.multipageReviewButton,
                              handler: .none)
         waitForExpectations(timeout: 1.5, handler: { result in
-            XCTAssertNil(result, "reviewImagesButton should be enabled after capturing a picture")
-            XCTAssertTrue(self.vc.reviewBackgroundView.isHidden,
-                          "ReviewBackgroundView should be hidden before capture the first picture")
+            XCTAssertNil(result, "multipageReviewButton should be enabled after capturing a picture")
+            XCTAssertTrue(self.vc.multipageReviewBackgroundView.isHidden,
+                          "multipageReviewBackgroundView should be hidden before capture the first picture")
             self.vc.cameraDidCapture(imageData: imageData, error: nil)
             
             let predicate = NSPredicate(format: "isHidden == NO")
             
             _ = self.expectation(for: predicate,
-                                 evaluatedWith: self.vc.reviewBackgroundView,
+                                 evaluatedWith: self.vc.multipageReviewBackgroundView,
                                  handler: .none)
             self.waitForExpectations(timeout: 1.5, handler: { result in
-                XCTAssertFalse(self.vc.reviewBackgroundView.isHidden,
-                              "ReviewBackgroundView should not be hidden after capture the second picture")
+                XCTAssertFalse(self.vc.multipageReviewBackgroundView.isHidden,
+                              "multipageReviewBackgroundView should not be hidden after capture the second picture")
             })
         })
         
