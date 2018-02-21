@@ -241,7 +241,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         guard let imageDocument = currentDocument as? GiniImageDocument else { return }
         
         imageView.image = rotatedImage
-        imageDocument.rotatePreviewImage(degrees: 90)
+        imageDocument.rotatePreviewImage90Degrees()
         successBlock?(imageDocument)
     }
     
