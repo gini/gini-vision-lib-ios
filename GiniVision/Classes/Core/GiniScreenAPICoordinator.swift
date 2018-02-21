@@ -8,6 +8,7 @@
 
 import Foundation
 
+//swiftlint:disable file_length
 internal final class GiniScreenAPICoordinator: NSObject {
     
     fileprivate lazy var screenAPINavigationController: UINavigationController = {

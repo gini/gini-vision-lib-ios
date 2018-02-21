@@ -107,8 +107,8 @@ final class QRCodeDetectedPopupView: UIView {
                           constant: -padding.right / 2, priority: 999)
         
         Constraints.active(item: qrText, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
-        Constraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton, attr: .leading,
-                          constant: -padding.right)
+        Constraints.active(item: qrText, attr: .trailing, relatedBy: .lessThanOrEqual, to: proceedButton,
+                           attr: .leading, constant: -padding.right)
         Constraints.active(item: proceedButton, attr: .centerY, relatedBy: .equal, to: qrImage, attr: .centerY)
         Constraints.active(item: proceedButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
                           constant: -padding.right)
