@@ -375,7 +375,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
                     .scaleAspectFill
                 cell?.documentImage.image = image
             }
-            cell?.pageIndicator.text = "\(indexPath.row + 1)"
+            cell?.pageIndicatorLabel.text = "\(indexPath.row + 1)"
             return cell!
         }
     }
