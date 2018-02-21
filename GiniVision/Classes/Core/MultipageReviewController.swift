@@ -274,8 +274,8 @@ extension MultipageReviewController {
         Constraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // bottomCollectionTopBorder
-        Constraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
-                          attr: .top)
+        Constraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal,
+                           to: bottomCollectionContainer, attr: .top)
         Constraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
                           to: bottomCollectionContainer, attr: .leading)
         Constraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
