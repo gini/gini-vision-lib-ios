@@ -302,7 +302,7 @@ extension MultipageReviewController {
 extension MultipageReviewController {
     @objc fileprivate func rotateSelectedImage() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            imageDocuments[currentIndexPath.row].rotatePreviewImage(degrees: 90)
+            imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
             bottomCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
