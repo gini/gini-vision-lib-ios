@@ -67,43 +67,43 @@ extension CameraViewController {
     
     fileprivate func addReviewImagesButtonConstraints() {
         if UIDevice.current.isIpad {
-            Constraints.active(item: reviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
-            Constraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
-            Constraints.active(item: reviewContentView, attr: .bottom, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: multipageReviewContentView, attr: .bottom, relatedBy: .equal, to: captureButton,
                               attr: .top, constant: -60)
-            Constraints.active(item: reviewContentView, attr: .height, relatedBy: .greaterThanOrEqual,
+            Constraints.active(item: multipageReviewContentView, attr: .height, relatedBy: .greaterThanOrEqual,
                                to: multipageReviewButton, attr: .height)
         } else {
-            Constraints.active(item: reviewContentView, attr: .centerY, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
-            Constraints.active(item: reviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
-            Constraints.active(item: reviewContentView, attr: .top, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .top, relatedBy: .equal, to: controlsView,
                               attr: .top)
-            Constraints.active(item: reviewContentView, attr: .bottom, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: multipageReviewContentView, attr: .bottom, relatedBy: .equal, to: controlsView,
                               attr: .bottom)
-            Constraints.active(item: reviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: multipageReviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
                               attr: .trailing, priority: 750)
         }
         
-        Constraints.active(item: multipageReviewButton, attr: .centerY, relatedBy: .equal, to: reviewContentView,
-                           attr: .centerY)
-        Constraints.active(item: multipageReviewButton, attr: .centerX, relatedBy: .equal, to: reviewContentView,
-                           attr: .centerX)
+        Constraints.active(item: multipageReviewButton, attr: .centerY, relatedBy: .equal,
+                           to: multipageReviewContentView, attr: .centerY)
+        Constraints.active(item: multipageReviewButton, attr: .centerX, relatedBy: .equal,
+                           to: multipageReviewContentView, attr: .centerX)
         Constraints.active(item: multipageReviewButton, attr: .height, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: 60)
         Constraints.active(item: multipageReviewButton, attr: .width, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: 40)
         
-        Constraints.active(item: reviewBackgroundView, attr: .centerY, relatedBy: .equal, to: multipageReviewButton,
-                           attr: .centerY, constant: 3)
-        Constraints.active(item: reviewBackgroundView, attr: .centerX, relatedBy: .equal, to: multipageReviewButton,
-                           attr: .centerX, constant: -3)
-        Constraints.active(item: reviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
+        Constraints.active(item: multipageReviewBackgroundView, attr: .centerY, relatedBy: .equal,
+                           to: multipageReviewButton, attr: .centerY, constant: 3)
+        Constraints.active(item: multipageReviewBackgroundView, attr: .centerX, relatedBy: .equal,
+                           to: multipageReviewButton, attr: .centerX, constant: -3)
+        Constraints.active(item: multipageReviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: 60)
-        Constraints.active(item: reviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
+        Constraints.active(item: multipageReviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: 40)
     }
     
