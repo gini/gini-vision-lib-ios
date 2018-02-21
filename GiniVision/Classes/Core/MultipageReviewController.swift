@@ -32,13 +32,13 @@ public final class MultipageReviewController: UIViewController {
         return collection
     }()
     
-    var bottomCollectionInsets: UIEdgeInsets {
-        let sideInset: CGFloat = (bottomCollection.frame.width -
-            MultipageReviewBottomCollectionCell.size.width) / 2
+    var pagesCollectionInsets: UIEdgeInsets {
+        let sideInset: CGFloat = (pagesCollection.frame.width -
+            MultipageReviewPagesCollectionCell.size.width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
     }
     
-    lazy var bottomCollectionContainer: UIView = {
+    lazy var pagesCollectionContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Colors.Gini.pearl
@@ -47,7 +47,7 @@ public final class MultipageReviewController: UIViewController {
         return view
     }()
     
-    lazy var bottomCollectionTopBorder: UIView = {
+    lazy var pagesCollectionTopBorder: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.lightGray
@@ -55,7 +55,7 @@ public final class MultipageReviewController: UIViewController {
         return view
     }()
     
-    lazy var bottomCollection: UICollectionView = {
+    lazy var pagesCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
@@ -66,8 +66,8 @@ public final class MultipageReviewController: UIViewController {
         collection.backgroundColor = UIColor.clear
         collection.showsHorizontalScrollIndicator = false
         
-        collection.register(MultipageReviewBottomCollectionCell.self,
-                            forCellWithReuseIdentifier: MultipageReviewBottomCollectionCell.identifier)
+        collection.register(MultipageReviewPagesCollectionCell.self,
+                            forCellWithReuseIdentifier: MultipageReviewPagesCollectionCell.identifier)
         return collection
     }()
     
@@ -111,8 +111,8 @@ public final class MultipageReviewController: UIViewController {
                                   action: #selector(deleteSelectedImage))
     }()
     
-    fileprivate lazy var bottomCollectionContainerConstraint: NSLayoutConstraint = {
-        let constraint = NSLayoutConstraint(item: self.bottomCollectionContainer,
+    fileprivate lazy var pagesCollectionContainerConstraint: NSLayoutConstraint = {
+        let constraint = NSLayoutConstraint(item: self.pagesCollectionContainer,
                                             attribute: .bottom,
                                             relatedBy: .equal,
                                             toItem: self.toolBar,
@@ -124,7 +124,7 @@ public final class MultipageReviewController: UIViewController {
     }()
     
     fileprivate lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
-        return NSLayoutConstraint(item: self.bottomCollectionContainer,
+        return NSLayoutConstraint(item: self.pagesCollectionContainer,
                                   attribute: .top,
                                   relatedBy: .equal,
                                   toItem: self.toolBar,
@@ -156,9 +156,9 @@ extension MultipageReviewController {
         super.loadView()
         view.addSubview(mainCollection)
         view.addSubview(toolBar)
-        view.insertSubview(bottomCollectionContainer, belowSubview: toolBar)
-        bottomCollectionContainer.addSubview(bottomCollection)
-        bottomCollectionContainer.addSubview(bottomCollectionTopBorder)
+        view.insertSubview(pagesCollectionContainer, belowSubview: toolBar)
+        pagesCollectionContainer.addSubview(pagesCollection)
+        pagesCollectionContainer.addSubview(pagesCollectionTopBorder)
         
         addConstraints()
     }
@@ -169,7 +169,7 @@ extension MultipageReviewController {
         view.backgroundColor = mainCollection.backgroundColor
         if #available(iOS 9.0, *) {
             longPressGesture.delaysTouchesBegan = true
-            bottomCollection.addGestureRecognizer(longPressGesture)
+            pagesCollection.addGestureRecognizer(longPressGesture)
         }
     }
     
@@ -178,16 +178,16 @@ extension MultipageReviewController {
         UIView.animate(withDuration: AnimationDuration.fast, animations: {
             self.toolBar.alpha = 1
         }, completion: { _ in
-            self.bottomCollectionContainer.alpha = 1
+            self.pagesCollectionContainer.alpha = 1
         })
     }
     
     func selectItem(at position: Int, in section: Int = 0) {
         let indexPath = IndexPath(row: position, section: section)
-        self.bottomCollection.selectItem(at: indexPath,
+        self.pagesCollection.selectItem(at: indexPath,
                                          animated: true,
                                          scrollPosition: .centeredHorizontally)
-        self.collectionView(self.bottomCollection, didSelectItemAt: indexPath)
+        self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
     }
 
 }
@@ -232,29 +232,29 @@ extension MultipageReviewController {
     fileprivate func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
         case .began:
-            guard let selectedIndexPath = self.bottomCollection
-                .indexPathForItem(at: gesture.location(in: self.bottomCollection)) else {
+            guard let selectedIndexPath = self.pagesCollection
+                .indexPathForItem(at: gesture.location(in: self.pagesCollection)) else {
                     break
             }
-            bottomCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
+            pagesCollection.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
-            if let collectionView = gesture.view as? UICollectionView, collectionView == bottomCollection {
+            if let collectionView = gesture.view as? UICollectionView, collectionView == pagesCollection {
                 let gesturePosition = gesture.location(in: collectionView)
-                let maxY = (collectionView.frame.height / 2) + bottomCollectionInsets.top
-                let minY = (collectionView.frame.height / 2) - bottomCollectionInsets.top
+                let maxY = (collectionView.frame.height / 2) + pagesCollectionInsets.top
+                let minY = (collectionView.frame.height / 2) - pagesCollectionInsets.top
                 let y = gesturePosition.y > minY ? min(maxY, gesturePosition.y) : minY
-                bottomCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
+                pagesCollection.updateInteractiveMovementTargetPosition(CGPoint(x: gesturePosition.x, y: y))
             }
         case .ended:
-            bottomCollection.endInteractiveMovement()
+            pagesCollection.endInteractiveMovement()
         default:
-            bottomCollection.cancelInteractiveMovement()
+            pagesCollection.cancelInteractiveMovement()
         }
     }
     
     fileprivate func addConstraints() {
         // mainCollection
-        Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
                           attr: .top)
         Constraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
                           attr: .bottom)
@@ -267,33 +267,33 @@ extension MultipageReviewController {
         Constraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
-        // bottomCollectionContainer
+        // pagesCollectionContainer
         Constraints.active(constraint: topCollectionContainerConstraint)
-        Constraints.active(item: bottomCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
+        Constraints.active(item: pagesCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
                           attr: .trailing)
-        Constraints.active(item: bottomCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: pagesCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
-        // bottomCollectionTopBorder
-        Constraints.active(item: bottomCollectionTopBorder, attr: .top, relatedBy: .equal,
-                           to: bottomCollectionContainer, attr: .top)
-        Constraints.active(item: bottomCollectionTopBorder, attr: .leading, relatedBy: .equal,
-                          to: bottomCollectionContainer, attr: .leading)
-        Constraints.active(item: bottomCollectionTopBorder, attr: .trailing, relatedBy: .equal,
-                          to: bottomCollectionContainer, attr: .trailing)
-        Constraints.active(item: bottomCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
+        // pagesCollectionTopBorder
+        Constraints.active(item: pagesCollectionTopBorder, attr: .top, relatedBy: .equal,
+                           to: pagesCollectionContainer, attr: .top)
+        Constraints.active(item: pagesCollectionTopBorder, attr: .leading, relatedBy: .equal,
+                          to: pagesCollectionContainer, attr: .leading)
+        Constraints.active(item: pagesCollectionTopBorder, attr: .trailing, relatedBy: .equal,
+                          to: pagesCollectionContainer, attr: .trailing)
+        Constraints.active(item: pagesCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: 0.5)
         
-        // bottomCollection
-        Constraints.active(item: bottomCollection, attr: .bottom, relatedBy: .equal, to: bottomCollectionContainer,
+        // pagesCollection
+        Constraints.active(item: pagesCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
                           attr: .bottom)
-        Constraints.active(item: bottomCollection, attr: .top, relatedBy: .equal, to: bottomCollectionContainer,
+        Constraints.active(item: pagesCollection, attr: .top, relatedBy: .equal, to: pagesCollectionContainer,
                           attr: .top)
-        Constraints.active(item: bottomCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Constraints.active(item: bottomCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Constraints.active(item: bottomCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewBottomCollectionCell.size.height +
-                            bottomCollectionInsets.top +
-                            bottomCollectionInsets.bottom)
+        Constraints.active(item: pagesCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+        Constraints.active(item: pagesCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
+        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                          constant: MultipageReviewPagesCollectionCell.size.height +
+                            pagesCollectionInsets.top +
+                            pagesCollectionInsets.bottom)
     }
 }
 
@@ -304,7 +304,7 @@ extension MultipageReviewController {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
-            bottomCollection.reloadItems(at: [currentIndexPath])
+            pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
             didUpdateDocuments?(self.imageDocuments)
         }
@@ -315,8 +315,8 @@ extension MultipageReviewController {
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
             
-            bottomCollection.performBatchUpdates({
-                self.bottomCollection.deleteItems(at: [currentIndexPath])
+            pagesCollection.performBatchUpdates({
+                self.pagesCollection.deleteItems(at: [currentIndexPath])
             }, completion: { [weak self] _ in
                 guard let `self` = self else { return }
                 if self.imageDocuments.count > 0 {
@@ -325,7 +325,7 @@ extension MultipageReviewController {
                                                                and: IndexPath(row: self.imageDocuments.count,
                                                                               section: 0))
                         indexes.append(currentIndexPath)
-                        self.bottomCollection.reloadItems(at: indexes)
+                        self.pagesCollection.reloadItems(at: indexes)
                     }
                     
                     self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
@@ -336,11 +336,11 @@ extension MultipageReviewController {
     }
     
     @objc fileprivate func toggleReorder() {
-        let hide = self.bottomCollectionContainerConstraint.isActive
+        let hide = self.pagesCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
-        self.bottomCollectionContainerConstraint.isActive = !hide
+        self.pagesCollectionContainerConstraint.isActive = !hide
         self.mainCollection.collectionViewLayout.invalidateLayout()
-        self.changeReorderButtonState(toActive: self.bottomCollectionContainerConstraint.isActive)
+        self.changeReorderButtonState(toActive: self.pagesCollectionContainerConstraint.isActive)
         
         UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
             guard let `self` = self else { return }
@@ -367,8 +367,8 @@ extension MultipageReviewController: UICollectionViewDataSource {
             return cell!
         } else {
             let cell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: MultipageReviewBottomCollectionCell.identifier,
-                                     for: indexPath) as? MultipageReviewBottomCollectionCell
+                .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
+                                     for: indexPath) as? MultipageReviewPagesCollectionCell
             if let image = imageDocuments[indexPath.row].previewImage {
                 cell?.documentImage.contentMode = image.size.width > image.size.height ?
                     .scaleAspectFit :
@@ -383,7 +383,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView,
                                moveItemAt sourceIndexPath: IndexPath,
                                to destinationIndexPath: IndexPath) {
-        if collectionView == bottomCollection {
+        if collectionView == pagesCollection {
             var indexes = IndexPath.indexesBetween(sourceIndexPath, and: destinationIndexPath)
             indexes.append(sourceIndexPath)
             
@@ -399,7 +399,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
             // This is needed because this method is called before the dragging animation finishes.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
                 guard let `self` = self else { return }
-                self.bottomCollection.reloadItems(at: indexes)
+                self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
                 self.didUpdateDocuments?(self.imageDocuments)
             })
@@ -417,14 +417,14 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView == mainCollection ?
             collectionView.frame.size :
-            MultipageReviewBottomCollectionCell.size
+            MultipageReviewPagesCollectionCell.size
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == bottomCollection {
+        if collectionView == pagesCollection {
             if imageDocuments.count > 1 {
                 mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                bottomCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
             changeTitle(withPage: indexPath.row + 1)
         }
@@ -433,7 +433,7 @@ extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,
                                insetForSectionAt section: Int) -> UIEdgeInsets {
-        return collectionView == mainCollection ? .zero : bottomCollectionInsets
+        return collectionView == mainCollection ? .zero : pagesCollectionInsets
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
