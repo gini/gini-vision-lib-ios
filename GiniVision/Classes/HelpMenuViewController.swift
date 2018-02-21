@@ -12,6 +12,20 @@ import UIKit
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
  use the open with feature and which formats are supported by the Gini Vision Library.
  
+ **Text resources for this screen**
+ 
+ * `ginivision.navigationbar.help.backToCamera`
+ * `ginivision.navigationbar.help.backToMenu`
+
+ - note: Setting `ginivision.navigationbar.help.backToCamera` and `ginivision.navigationbar.help.backToMenu`
+ explicitly to the empty string in your localized strings will make `HelpMenuViewController`
+ revert to the default iOS back button.
+ 
+ **Image resources for this screen**
+ 
+ * `navigationReviewBack`
+ * `arrowBack`
+ 
  */
 
 final public class HelpMenuViewController: UITableViewController {
@@ -42,14 +56,15 @@ final public class HelpMenuViewController: UITableViewController {
     fileprivate lazy var backToCameraButtonResource =
         PreferredButtonResource(image: "navigationReviewBack",
                                 title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+                                comment: "Button title in the navigation bar for the " +
+                                         "back button on the help menu screen",
+                                configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
     
-    fileprivate lazy var backButtonResource =
+    fileprivate lazy var backToMenuButtonResource =
         PreferredButtonResource(image: "arrowBack",
                                 title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+                                comment: "Button title in the navigation bar for the back button on the help screen",
+                                configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
     public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.giniConfiguration = giniConfiguration
@@ -117,7 +132,7 @@ final public class HelpMenuViewController: UITableViewController {
             return nil
         }
         
-        viewController.setupNavigationItem(usingResources: backButtonResource,
+        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
                                            selector: #selector(back),
                                            position: .left,
                                            target: self)
