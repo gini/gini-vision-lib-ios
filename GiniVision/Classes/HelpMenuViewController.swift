@@ -10,7 +10,7 @@ import UIKit
 
 /**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
- use the open with feature and which formats are supported by Gini Vision Library.
+ use the open with feature and which formats are supported by the Gini Vision Library.
  
  */
 
@@ -53,7 +53,7 @@ final public class HelpMenuViewController: UITableViewController {
     
     public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.giniConfiguration = giniConfiguration
-        super.init(style: .plain)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -70,7 +70,7 @@ final public class HelpMenuViewController: UITableViewController {
         tableView.rowHeight = tableRowHeight
         tableView.backgroundColor = Colors.Gini.pearl
         
-        // On iOS is .automatic by default and it the transition to this view controller looks weird.
+        // On iOS is .automatic by default, having an initial animation when the view is loaded.
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
@@ -82,32 +82,6 @@ final public class HelpMenuViewController: UITableViewController {
     
     func back() {
         navigationController?.popViewController(animated: true)
-    }
-    
-    // MARK: - Table view data source
-    
-    override public func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return items.count
-    }
-    
-    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
-        cell.textLabel?.text = items[indexPath.row].0
-        cell.textLabel?.font = cell.textLabel?.font.withSize(14)
-        cell.accessoryType = .disclosureIndicator
-        cell.backgroundColor = .white
-        
-        return cell
-    }
-    
-    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let viewController = viewController(forRowWithId: items[indexPath.row].id) {
-            navigationController?.pushViewController(viewController, animated: true)
-        }
     }
     
     func viewController(forRowWithId id: Int) -> UIViewController? {
@@ -153,3 +127,31 @@ final public class HelpMenuViewController: UITableViewController {
     
 }
 
+// MARK: - UITableViewDataSource
+
+extension HelpMenuViewController {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
+        cell.textLabel?.text = items[indexPath.row].0
+        cell.textLabel?.font = cell.textLabel?.font.withSize(14)
+        cell.accessoryType = .disclosureIndicator
+        cell.backgroundColor = .white
+        
+        return cell
+    }
+    
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let viewController = viewController(forRowWithId: items[indexPath.row].id) {
+            navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    
+}
