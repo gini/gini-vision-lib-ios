@@ -10,7 +10,7 @@ import UIKit
 
 /**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
- use the open with feature and which formats are supported by the Gini Vision Library.
+ use the _Open with_ feature and which formats are supported by the Gini Vision Library.
  
  **Text resources for this screen**
  
@@ -72,7 +72,7 @@ final public class HelpMenuViewController: UITableViewController {
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(showOpenWithTutorial:) has not been implemented")
+        fatalError("init(giniConfiguration:) has not been implemented")
     }
     
     override public func viewDidLoad() {
@@ -85,7 +85,7 @@ final public class HelpMenuViewController: UITableViewController {
         tableView.rowHeight = tableRowHeight
         tableView.backgroundColor = Colors.Gini.pearl
         
-        // On iOS is .automatic by default, having an initial animation when the view is loaded.
+        // In iOS it is .automatic by default, having an initial animation when the view is loaded.
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }

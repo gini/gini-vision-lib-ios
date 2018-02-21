@@ -100,7 +100,7 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     func testLeftNavBarItem() {
         XCTAssertNotNil(helpMenuViewController.navigationItem.leftBarButtonItem,
-                        "left navigation item should no tbe nil")
+                        "left navigation item should not be nil")
     }
     
 }
