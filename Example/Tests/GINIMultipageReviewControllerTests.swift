@@ -129,11 +129,15 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testToolBarItemsOnInitialization() {
-        XCTAssertEqual(self.vc.toolBar.items![0], self.vc.rotateButton,
+        guard let items = self.vc.toolBar.items else {
+            assertionFailure("MultipageReviewController toolbar items are nil")
+            return
+        }
+        XCTAssertEqual(items[0], self.vc.rotateButton,
                        "First toolbar item should be the rotateButton")
-        XCTAssertEqual(self.vc.toolBar.items![2], self.vc.reorderButton,
+        XCTAssertEqual(items[2], self.vc.reorderButton,
                        "Third toolbar item should be the reorderButton")
-        XCTAssertEqual(self.vc.toolBar.items![4], self.vc.deleteButton,
+        XCTAssertEqual(items[4], self.vc.deleteButton,
                        "Fifth toolbar item should be the deleteButton")
     }
     
