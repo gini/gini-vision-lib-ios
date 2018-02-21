@@ -246,9 +246,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
         controlsView.addSubview(multipageReviewContentView)
+        multipageReviewContentView.addSubview(multipageReviewBackgroundView)
         multipageReviewContentView.addSubview(multipageReviewButton)
-        multipageReviewContentView.insertSubview(multipageReviewBackgroundView,
-                                                 belowSubview: multipageReviewButton)
         
         // Add constraints
         addConstraints()
