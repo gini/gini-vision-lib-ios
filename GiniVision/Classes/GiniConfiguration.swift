@@ -613,6 +613,18 @@ import UIKit
      */
     public var navigationBarAnalysisTitleBackButton = ""
     
+    // MARK: Help screens
+    
+    /**
+     Sets the back button text in the navigation bar on the help menu screen.
+     */
+    public var navigationBarHelpMenuTitleBackToCameraButton = ""
+    
+    /**
+     Sets the back button text in the navigation bar on the help screen.
+     */
+    public var navigationBarHelpScreenTitleBackToMenuButton = ""
+    
     // MARK: Supported formats
     
     /**

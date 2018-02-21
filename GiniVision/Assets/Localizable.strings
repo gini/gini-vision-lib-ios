@@ -17,6 +17,9 @@
 "ginivision.navigationbar.review.close"        = "Schließen";
 "ginivision.navigationbar.review.continue"     = "Weiter";
 "ginivision.navigationbar.analysis.back"       = "Abbrechen";
+"ginivision.navigationbar.help.backToCamera"   = "Zurück";
+"ginivision.navigationbar.help.backToMenu"     = "Zurück";
+
 
 "ginivision.camera.captureButton" = "Auslösen";
 "ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
