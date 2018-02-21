@@ -50,7 +50,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var pageIndicator: UILabel = {
+    lazy var pageIndicatorLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Colors.Gini.blue
@@ -87,7 +87,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         roundMask.addSubview(bottomContainer)
         roundMask.addSubview(pageSelectedLine)
         roundMask.addSubview(documentImage)
-        bottomContainer.addSubview(pageIndicator)
+        bottomContainer.addSubview(pageIndicatorLabel)
         bottomContainer.addSubview(pageIndicatorCircle)
         bottomContainer.addSubview(draggableIcon)
         
@@ -110,9 +110,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                             MultipageReviewPagesCollectionCell.shadowRadius))
         
         // pageIndicator
-        Constraints.active(item: pageIndicator, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
+        Constraints.active(item: pageIndicatorLabel, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerX)
-        Constraints.active(item: pageIndicator, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
+        Constraints.active(item: pageIndicatorLabel, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerY)
         
         // pageIndicatorCircle

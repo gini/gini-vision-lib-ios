@@ -44,13 +44,17 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Second cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
                        "Third cell image should match the one passed in the initializer")
+
+    }
+    
+    func testMainCollectionCellContentMode() {
+        let firstCell = vc.collectionView(vc.mainCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
         XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
-                       "First cell content mode should match the one passed in the initializer")
+                       "Main collection cells image content mode should match the one passed in the initializer")
     }
     
     func testMainCollectionCellSize() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
         
@@ -81,23 +85,26 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                           cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
                        "First cell image should match the one passed in the initializer")
-        XCTAssertEqual(firstCell?.pageIndicator.text, "1",
+        XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
                        "First cell indicator should match its position")
         XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
                        "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(secondCell?.pageIndicator.text, "2",
+        XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
                        "Second cell indicator should match its position")
         XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
                        "Third cell image should match the one passed in the initializer")
-        XCTAssertEqual(thirdCell?.pageIndicator.text, "3",
+        XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
+    }
+    
+    func testPagesCollectionCellContentMode() {
+        let firstCell = vc.collectionView(vc.pagesCollection,
+                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
         XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFill,
-                       "First cell content mode should match the one passed in the initializer")
+                       "Pages collection cells image content mode should match the one passed in the initializer")
     }
     
     func testPagesCollectionCellSize() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
-        _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
         
@@ -125,9 +132,9 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         XCTAssertEqual(self.vc.toolBar.items![0], self.vc.rotateButton,
                        "First toolbar item should be the rotateButton")
         XCTAssertEqual(self.vc.toolBar.items![2], self.vc.reorderButton,
-                       "Third toolbar item should be the rotateButton")
+                       "Third toolbar item should be the reorderButton")
         XCTAssertEqual(self.vc.toolBar.items![4], self.vc.deleteButton,
-                       "Fifth toolbar item should be the rotateButton")
+                       "Fifth toolbar item should be the deleteButton")
     }
     
     func testToolBarAndPagesCollectionContainerColors() {
@@ -172,15 +179,15 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         
         XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].previewImage,
                        "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(firstCell?.pageIndicator.text, "1",
+        XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
                        "First cell indicator should match its position")
         XCTAssertEqual(secondCell?.documentImage.image, updatedImageDocument[1].previewImage,
                        "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(secondCell?.pageIndicator.text, "2",
+        XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
                        "Second cell indicator should match its position")
         XCTAssertEqual(thirdCell?.documentImage.image, updatedImageDocument[2].previewImage,
                        "Third cell image should match the one passed in the initializer")
-        XCTAssertEqual(thirdCell?.pageIndicator.text, "3",
+        XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
         
     }
