@@ -45,6 +45,9 @@ internal final class FilePickerManager: NSObject {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         
+        // This is needed since the UIDocumentPickerViewController on iPad is presented over the current view controller
+        // without covering the previous screen. This causes that the `viewWillAppear` method is not being called
+        // in the current view controller.
         if !device.isIpad {
             setStatusBarStyle(to: .default)
         }
