@@ -12,10 +12,10 @@ The Gini Vision Library for iOS provides functionality to capture documents with
 
   s.homepage         = 'https://www.gini.net/en/developer/'
   s.license          = { :type => 'Private', :file => 'LICENSE' }
-  s.author           = { 'Peter Pult' => 'p.pult@gini.net' }
+  s.author           = { 'Gini GmbH' => 'hello@gini.net' }
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/gini'
-
+  s.swift_version    = '3.2'
   s.ios.deployment_target = '8.0'
 
   s.source_files = 'GiniVision/Classes/**/*'
