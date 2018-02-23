@@ -12,7 +12,7 @@ import Photos
 
 internal final class FilePickerManager: NSObject {
     
-    var didPickFile: ((GiniVisionDocument) -> Void) = { _ in }
+    var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
     fileprivate var acceptedDocumentTypes: [String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
@@ -45,6 +45,10 @@ internal final class FilePickerManager: NSObject {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         
+        if #available(iOS 11.0, *) {
+            documentPicker.allowsMultipleSelection = true
+        }
+        
         // This is needed since the UIDocumentPickerViewController on iPad is presented over the current view controller
         // without covering the previous screen. This causes that the `viewWillAppear` method is not being called
         // in the current view controller.
@@ -57,13 +61,39 @@ internal final class FilePickerManager: NSObject {
     
     // MARK: File data picked from gallery or document pickers
     
-    fileprivate func filePicked(withData data: Data) {
+    fileprivate func processFilesPicked(fromUrls urls: [URL]) {
+        var documents: [GiniVisionDocument] = []
+        
+        urls.forEach { url in
+            if let data = data(fromUrl: url) {
+                if let document = document(fromData: data) {
+                    documents.append(document)
+                }
+            }
+        }
+        
+        didPickDocuments(documents)
+    }
+    
+    fileprivate func document(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
         
-        if let document = documentBuilder.build() {
-            didPickFile(document)
+        return documentBuilder.build()
+    }
+    
+    fileprivate func data(fromUrl url: URL) -> Data? {
+        do {
+            _ = url.startAccessingSecurityScopedResource()
+            let data = try Data(contentsOf: url)
+            url.stopAccessingSecurityScopedResource()
+            
+            return data
+        } catch {
+            url.stopAccessingSecurityScopedResource()
         }
+        
+        return nil
     }
     
     // MARK: Photo library permission
@@ -96,8 +126,9 @@ internal final class FilePickerManager: NSObject {
 extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
-            let imageData = UIImageJPEGRepresentation(pickedImage, 1.0) {
-            filePicked(withData: imageData)
+            let imageData = UIImageJPEGRepresentation(pickedImage, 1.0),
+            let document = document(fromData: imageData) {
+            didPickDocuments([document])
         }
         
         picker.dismiss(animated: true, completion: nil)
@@ -111,16 +142,8 @@ extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationContro
 // MARK: UIDocumentPickerDelegate
 
 extension FilePickerManager: UIDocumentPickerDelegate {
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
-        do {
-            _ = url.startAccessingSecurityScopedResource()
-            let data = try Data(contentsOf: url)
-            url.stopAccessingSecurityScopedResource()
-            
-            filePicked(withData: data)
-        } catch {
-            url.stopAccessingSecurityScopedResource()
-        }
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        processFilesPicked(fromUrls: urls)
         
         controller.dismiss(animated: false, completion: nil)
     }
@@ -154,13 +177,13 @@ extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
             if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first {
-                self.didPickFile(pdf)
+                self.didPickDocuments([pdf])
             }
         }
         
         session.loadObjects(ofClass: GiniImageDocument.self) { [unowned self] imageItems in
             if let images = imageItems as? [GiniImageDocument], let image = images.first {
-                self.didPickFile(image)
+                self.didPickDocuments([image])
             }
         }
     }

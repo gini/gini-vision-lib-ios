@@ -567,8 +567,8 @@ extension CameraViewController {
 extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure file picker
-        filePickerManager.didPickFile = { [unowned self] document in
-            self.validateImported(document: document)
+        filePickerManager.didPickDocuments = { [unowned self] documents in
+            self.validateImported(document: documents[0])
         }
         
         // Configure import file button
