@@ -5,6 +5,11 @@ import AVFoundation
 final class CameraViewControllerTests: XCTestCase {
     
     var vc: CameraViewController!
+    lazy var imageData: Data = {
+        let image = self.loadImage(withName: "invoice.jpg")
+        let imageData = UIImageJPEGRepresentation(image!, 0.9)!
+        return imageData
+    }()
     
     override func setUp() {
         super.setUp()
@@ -52,17 +57,28 @@ final class CameraViewControllerTests: XCTestCase {
         
         XCTAssertEqual(vc.opaqueView?.backgroundColor, UIColor.black.withAlphaComponent(0.8))
     }
-
-    func testReviewButtonBackground() {
+    
+    func testReviewButtonBackgroundBeforeCapturing() {
         _ = vc.view
-        
-        let image = loadImage(withName: "invoice.jpg")
-        let imageData = UIImageJPEGRepresentation(image!, 0.9)
+
         XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should be hidden before capture the first picture")
+        
+    }
+    
+    func testReviewButtonBackgroundAfter1ImageWasCaptured() {
+        _ = vc.view
+
         vc.cameraDidCapture(imageData: imageData, error: nil)
         XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should be hidden after capture the first picture")
+        
+    }
+    
+    func testReviewButtonBackgroundAfter2ImagesWereCaptured() {
+        _ = vc.view
+
+        vc.cameraDidCapture(imageData: imageData, error: nil)
         vc.cameraDidCapture(imageData: imageData, error: nil)
         XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should not be hidden after capture the second picture")
