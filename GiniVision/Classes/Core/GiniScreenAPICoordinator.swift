@@ -327,15 +327,15 @@ internal extension GiniScreenAPICoordinator {
     fileprivate func createMultipageReviewScreenContainer() -> MultipageReviewController {
         let vc = MultipageReviewController(imageDocuments: self.imageDocuments)
         
-        setupNavigationItem(usingResources: backButtonResource,
-                            selector: #selector(closeMultipageScreen),
-                            position: .left,
-                            onViewController: vc)
+        vc.setupNavigationItem(usingResources: backButtonResource,
+                               selector: #selector(closeMultipageScreen),
+                               position: .left,
+                               target: self)
         
-        setupNavigationItem(usingResources: nextButtonResource,
-                            selector: #selector(showAnalysisScreen),
-                            position: .right,
-                            onViewController: vc)
+        vc.setupNavigationItem(usingResources: nextButtonResource,
+                               selector: #selector(showAnalysisScreen),
+                               position: .right,
+                               target: self)
         
         vc.didUpdateDocuments = { [weak self] newDocuments in
             guard let `self` = self else { return }
