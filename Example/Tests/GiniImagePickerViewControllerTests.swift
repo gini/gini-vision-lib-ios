@@ -24,7 +24,7 @@ final class GiniImagePickerViewControllerTests: XCTestCase {
     }
     
     func testNumberOfItems() {
-        XCTAssertEqual(vc.collectionView.numberOfItems(inSection: 0), 3, "There should be only one section")
+        XCTAssertEqual(vc.collectionView.numberOfItems(inSection: 0), 3, "There should be 3 images")
     }
     
     func testCollectionCellType() {
