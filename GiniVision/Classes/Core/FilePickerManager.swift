@@ -12,6 +12,7 @@ import Photos
 
 internal final class FilePickerManager: NSObject {
     
+    let galleryManager = GiniGalleryImageManager()
     var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
     fileprivate var acceptedDocumentTypes: [String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
@@ -30,12 +31,15 @@ internal final class FilePickerManager: NSObject {
                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
-            let imagePicker: UIImagePickerController = UIImagePickerController()
-            imagePicker.sourceType = .photoLibrary
-            imagePicker.delegate = self
+//            let imagePicker: UIImagePickerController = UIImagePickerController()
+//            imagePicker.sourceType = .photoLibrary
+//            imagePicker.delegate = self
+            let imagePicker = GiniImagePickerViewController(galleryManager: self.galleryManager,
+                                                            giniConfiguration: giniConfiguration)
+            let galleryNavigator = UINavigationController(rootViewController: imagePicker)
             setStatusBarStyle(to: .default)
             
-            from.present(imagePicker, animated: true, completion: nil)
+            from.present(galleryNavigator, animated: true, completion: nil)
         }
     }
     
