@@ -10,12 +10,10 @@ import UIKit
 import AVFoundation
 
 protocol CameraViewControllerDelegate: class {
-    func camera(_ viewController: CameraViewController, didCaptureDocument document: GiniVisionDocument)
-    func camera(_ viewController: CameraViewController, didImportedDocuments documents: [GiniVisionDocument])
+    func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument])
     func camera(_ viewController: CameraViewController, didFailCaptureWithError error: GiniVisionError)
     func camera(_ viewController: CameraViewController, didShowCamera animated: Bool)
     func camera(_ viewController: CameraViewController, didTapMultipageReviewButton: Bool)
-    
 }
 
 /**
@@ -249,11 +247,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     fileprivate func didPick(validatedDocuments documents: [GiniVisionDocument]) {
         if let delegate = delegate {
-            if let firstDocument = documents.first, !firstDocument.isImported {
-                delegate.camera(self, didCaptureDocument: firstDocument)
-            } else {
-                delegate.camera(self, didImportedDocuments: documents)
-            }
+            delegate.camera(self, didCaptureDocuments: documents)
         } else if let firstDocument = documents.first {
             successBlock?(firstDocument)
         }

@@ -204,20 +204,26 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 // MARK: - Camera Screen
 
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
-    func camera(_ viewController: CameraViewController, didCaptureDocument document: GiniVisionDocument) {
-        visionDocuments.append(document)
-
-        switch document.type {
-        case .image:
-            break
-        case .qrcode, .pdf:
-            analysisViewController = createAnalysisScreen(withDocument: document)
-            screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+    func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument]) {
+        visionDocuments.append(contentsOf: documents)
+        
+        if let firstDocument = documents.first {
+            switch firstDocument.type {
+            case .image:
+                if let imageDocuments = documents as? [GiniImageDocument], firstDocument.isImported {
+                    showMultipageReview(withImageDocuments: imageDocuments)
+                }
+                break
+            case .qrcode, .pdf:
+                analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+                screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+                didCapture(withDocument: firstDocument)
+            }
         }
-        didCapture(withDocument: document)
     }
     
     func camera(_ viewController: CameraViewController, didImportedDocuments documents: [GiniVisionDocument]) {
+        visionDocuments = documents
         if let imageDocuments = documents as? [GiniImageDocument] {
             showMultipageReview(withImageDocuments: imageDocuments)
         }
