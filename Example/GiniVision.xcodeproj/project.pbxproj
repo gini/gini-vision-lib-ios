@@ -30,6 +30,8 @@
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
 		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
+		1F3F5A0720443AEA0037755F /* GiniImagePickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */; };
+		1F3F5A0B2044400F0037755F /* GiniGalleryImageManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */; };
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* GINISettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */; };
@@ -110,6 +112,8 @@
 		1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA01FB58EC900E1022A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
+		1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
+		1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniGalleryImageManagerMock.swift; sourceTree = "<group>"; };
 		1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINISettingsViewControllerTests.swift; sourceTree = "<group>"; };
@@ -318,6 +322,8 @@
 				1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */,
 				1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */,
+				1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -752,7 +758,9 @@
 				1F62FA3A1FA2207800CEA828 /* GINIImageNoResultsViewControllerTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
 				1F578E131FBD81A300C17F62 /* GINISettingsViewControllerTests.swift in Sources */,
+				1F3F5A0720443AEA0037755F /* GiniImagePickerViewControllerTests.swift in Sources */,
 				1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */,
+				1F3F5A0B2044400F0037755F /* GiniGalleryImageManagerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
