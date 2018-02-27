@@ -56,6 +56,7 @@ extension AlbumsPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GiniAlbumsPickerTableViewCellIdentifier")
         cell?.textLabel?.text = galleryManager.albums[indexPath.row].title
+        cell?.accessoryType = .disclosureIndicator
         return cell!
     }
     
@@ -69,5 +70,6 @@ extension AlbumsPickerViewController: UITableViewDataSource {
 extension AlbumsPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.albumsPicker(self, didSelectAlbum: galleryManager.albums[indexPath.row])
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

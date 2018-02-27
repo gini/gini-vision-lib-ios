@@ -1,5 +1,5 @@
 //
-//  GiniGalleryCoordinator.swift
+//  GalleryCoordinator.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/27/18.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class GiniGalleryCoordinator {
+final class GalleryCoordinator {
     
     let giniConfiguration: GiniConfiguration
     let galleryManager: GalleryManager = GalleryManager()
@@ -32,7 +32,7 @@ final class GiniGalleryCoordinator {
     
 }
 
-extension GiniGalleryCoordinator: AlbumsPickerViewControllerDelegate {
+extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
     func albumsPicker(_ viewController: AlbumsPickerViewController, didSelectAlbum album: Album) {
         let imagePicker = ImagePickerViewController(album: album,
                                                         galleryManager: galleryManager,
