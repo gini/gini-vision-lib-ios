@@ -31,8 +31,13 @@ final class GalleryCoordinator {
     lazy var albumsController: AlbumsPickerViewController = {
         let albumsPickerVC = AlbumsPickerViewController(galleryManager: self.galleryManager)
         albumsPickerVC.delegate = self
+        albumsPickerVC.navigationItem.rightBarButtonItem = self.cancelButton
         return albumsPickerVC
     }()
+    
+    lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
+                                                             target: self,
+                                                             action: #selector(closeGallery))
     
     init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
@@ -40,12 +45,23 @@ final class GalleryCoordinator {
     
     func start() {
         if let firstAlbum = galleryManager.albums.first {
-            let imagePicker = ImagePickerViewController(album: firstAlbum,
-                                                        galleryManager: galleryManager,
-                                                        giniConfiguration: giniConfiguration)
+            let imagePicker = createImagePicker(with: firstAlbum)
             galleryManager.startCachingImages(for: firstAlbum)
             galleryNavigator.pushViewController(imagePicker, animated: false)
         }
+    }
+    
+    fileprivate func createImagePicker(with album: Album) -> ImagePickerViewController {
+        let imagePicker = ImagePickerViewController(album: album,
+                                                    galleryManager: galleryManager,
+                                                    giniConfiguration: giniConfiguration)
+        imagePicker.delegate = self
+        imagePicker.navigationItem.rightBarButtonItem = cancelButton
+        return imagePicker
+    }
+    
+    @objc func closeGallery() {
+        rootViewController.dismiss(animated: true, completion: nil)
     }
     
 }
@@ -54,9 +70,7 @@ final class GalleryCoordinator {
 
 extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
     func albumsPicker(_ viewController: AlbumsPickerViewController, didSelectAlbum album: Album) {
-        let imagePicker = ImagePickerViewController(album: album,
-                                                    galleryManager: galleryManager,
-                                                    giniConfiguration: giniConfiguration)
+        let imagePicker = createImagePicker(with: album)
         galleryNavigator.pushViewController(imagePicker, animated: true)
     }
 }
