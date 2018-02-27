@@ -8,7 +8,16 @@
 import Foundation
 import Photos
 
+protocol ImagePickerViewControllerDelegate: class {
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath)
+}
+
 final class ImagePickerViewController: UIViewController {
+    
+    let currentAlbum: Album
+    weak var delegate: ImagePickerViewControllerDelegate?
+    let galleryManager: GalleryManagerProtocol
+    private var isInitialized: Bool = false
     
     lazy var collectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
@@ -19,13 +28,11 @@ final class ImagePickerViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.backgroundColor = .clear
         collectionView.register(ImagePickerCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
         return collectionView
     }()
-    
-    let galleryManager: GalleryManagerProtocol
-    let currentAlbum: Album
     
     init(album: Album,
          galleryManager: GalleryManagerProtocol,
@@ -41,6 +48,8 @@ final class ImagePickerViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        view.backgroundColor = .white
+        title = currentAlbum.title
         view.addSubview(collectionView)
         
         Constraints.pin(view: collectionView, toSuperView: view)
@@ -48,10 +57,21 @@ final class ImagePickerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.scrollToItem(at: IndexPath(row: currentAlbum.count - 1,
-                                                  section: 0),
-                                    at: .bottom,
-                                    animated: false)
+        scrollToBottomOnStartup()
+    }
+    
+    fileprivate func scrollToBottomOnStartup() {
+        // This tweak is needed to fix an issue with the UICollectionView. UICollectionView doesn't
+        // scroll to the bottom on `viewWillAppear`, which is right after `viewDidLayoutSubviews`
+        // Since this method can be called several times during the lifecycle, there should be
+        // a one-time scrolling before the view appears for the first time.
+        if !isInitialized {
+            isInitialized = true
+            collectionView.scrollToItem(at: IndexPath(row: currentAlbum.count - 1,
+                                                      section: 0),
+                                        at: .bottom,
+                                        animated: false)
+        }
     }
 }
 
@@ -85,44 +105,10 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         return ImagePickerCollectionViewCell.size(itemsInARow: 4,
-                                                      collectionViewLayout: collectionViewLayout)
-    }
-}
-
-final class ImagePickerCollectionViewCell: UICollectionViewCell {
-    static let identifier = "ImagePickerCollectionViewCell"
-    
-    lazy var galleryImage: UIImageView = {
-        let galleryImage: UIImageView = UIImageView(frame: .zero)
-        galleryImage.translatesAutoresizingMaskIntoConstraints = false
-        galleryImage.contentMode = .scaleAspectFill
-        galleryImage.clipsToBounds = true
-        return galleryImage
-    }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        addSubview(galleryImage)
-        
-        Constraints.pin(view: galleryImage, toSuperView: self)
+                                                  collectionViewLayout: collectionViewLayout)
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    class func size(for screen: UIScreen = UIScreen.main,
-                    itemsInARow: Int,
-                    collectionViewLayout: UICollectionViewLayout) -> CGSize {
-        let width = screen.bounds.width / CGFloat(itemsInARow)
-        
-        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
-            return CGSize(width: width, height: width)
-        }
-        
-        let spacing = flowLayout.minimumInteritemSpacing * CGFloat(itemsInARow - 1)
-        let widthWithoutSpacing = (screen.bounds.width - spacing) / CGFloat(itemsInARow)
-        
-        return CGSize(width: widthWithoutSpacing, height: widthWithoutSpacing)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.imagePicker(self, didSelectAssetAt: indexPath)
     }
 }
