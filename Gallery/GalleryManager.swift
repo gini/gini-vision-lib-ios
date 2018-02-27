@@ -13,17 +13,19 @@ protocol GalleryManagerProtocol: class {
     func fetchImage(from album: Album,
                     at indexPath: IndexPath,
                     completion: @escaping ((UIImage) -> Void))
+    func startCachingImages(for album: Album)
+    func stopCachingImages(for album: Album)
 }
 
 final class GalleryManager: GalleryManagerProtocol {
     
-    let cachingImageManager = PHCachingImageManager()
+    fileprivate let cachingImageManager = PHCachingImageManager()
     lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
         return $0.count > $1.count
     })
     
     init() {
-        preFetchImages()
+        
     }
     
     func fetchImage(from album: Album, at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {
@@ -36,19 +38,27 @@ final class GalleryManager: GalleryManagerProtocol {
                                             }
         }
     }
-}
-
-// MARK: Private Methods
-
-extension GalleryManager {
-    fileprivate func preFetchImages() {
+    
+    func startCachingImages(for album: Album) {
         DispatchQueue.global().async {
-            self.cachingImageManager.startCachingImages(for: self.albums.first!.assets,
+            self.cachingImageManager.startCachingImages(for: album.assets,
                                                         targetSize: PHImageManagerMaximumSize,
                                                         contentMode: .default,
                                                         options: nil)
         }
     }
+    
+    func stopCachingImages(for album: Album) {
+        self.cachingImageManager.stopCachingImages(for: album.assets,
+                                                   targetSize: PHImageManagerMaximumSize,
+                                                   contentMode: .default,
+                                                   options: nil)
+    }
+}
+
+// MARK: Private Methods
+
+extension GalleryManager {
     
     fileprivate func fetchAssets(in collection: PHAssetCollection) -> [PHAsset] {
         var assets: [PHAsset] = []

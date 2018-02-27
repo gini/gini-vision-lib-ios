@@ -16,19 +16,24 @@ final class AlbumsPickerViewController: UIViewController {
     
     weak var delegate: AlbumsPickerViewControllerDelegate?
     let galleryManager: GalleryManagerProtocol
+    let giniConfiguration: GiniConfiguration
     
     lazy var albumsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UITableViewCell.self,
-                           forCellReuseIdentifier: "GiniAlbumsPickerTableViewCellIdentifier")
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = Colors.Gini.pearl
+        tableView.register(AlbumsPickerTableViewCell.self,
+                           forCellReuseIdentifier: AlbumsPickerTableViewCell.identifier)
         return tableView
     }()
     
-    init(galleryManager: GalleryManagerProtocol) {
+    init(galleryManager: GalleryManagerProtocol,
+         giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.galleryManager = galleryManager
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,9 +59,11 @@ extension AlbumsPickerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "GiniAlbumsPickerTableViewCellIdentifier")
-        cell?.textLabel?.text = galleryManager.albums[indexPath.row].title
-        cell?.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumsPickerTableViewCell.identifier) as? AlbumsPickerTableViewCell
+        let album = galleryManager.albums[indexPath.row]
+        cell?.setUp(with: album,
+                    giniConfiguration: giniConfiguration,
+                    galleryManager: galleryManager)
         return cell!
     }
     
@@ -71,5 +78,9 @@ extension AlbumsPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.albumsPicker(self, didSelectAlbum: galleryManager.albums[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 90
     }
 }
