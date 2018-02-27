@@ -12,7 +12,8 @@ import Photos
 
 internal final class FilePickerManager: NSObject {
     
-    let galleryManager = GiniGalleryImageManager()
+    let galleryCoordinator = GiniGalleryCoordinator(giniConfiguration: GiniConfiguration.sharedConfiguration)
+
     var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
     fileprivate var acceptedDocumentTypes: [String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
@@ -36,10 +37,10 @@ internal final class FilePickerManager: NSObject {
 //            imagePicker.delegate = self
 //            let imagePicker = GiniImagePickerViewController(galleryManager: self.galleryManager,
 //                                                            giniConfiguration: giniConfiguration)
-//            let galleryNavigator = UINavigationController(rootViewController: imagePicker)
-//            setStatusBarStyle(to: .default)
-//            
-//            from.present(galleryNavigator, animated: true, completion: nil)
+            
+            setStatusBarStyle(to: .default)
+
+            from.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         }
     }
     
