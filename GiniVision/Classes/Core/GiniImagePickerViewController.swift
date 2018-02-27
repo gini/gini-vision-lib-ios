@@ -25,10 +25,13 @@ final class GiniImagePickerViewController: UIViewController {
     }()
     
     let galleryManager: GiniGalleryImageManagerProtocol
+    let currentAlbum: Album
     
-    init(galleryManager: GiniGalleryImageManagerProtocol,
+    init(album: Album,
+         galleryManager: GiniGalleryImageManagerProtocol,
          giniConfiguration: GiniConfiguration) {
         self.galleryManager = galleryManager
+        self.currentAlbum = album
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -45,7 +48,7 @@ final class GiniImagePickerViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        collectionView.scrollToItem(at: IndexPath(row: galleryManager.numberOfItems - 1,
+        collectionView.scrollToItem(at: IndexPath(row: currentAlbum.count - 1,
                                                   section: 0),
                                     at: .bottom,
                                     animated: false)
@@ -59,7 +62,7 @@ extension GiniImagePickerViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GiniImagePickerCollectionViewCell.identifier,
                                                       for: indexPath) as? GiniImagePickerCollectionViewCell
-        galleryManager.fetchImage(at: indexPath) { image in
+        galleryManager.fetchImage(from: currentAlbum, at: indexPath) { image in
             cell?.galleryImage.image = image
         }
         
@@ -67,7 +70,7 @@ extension GiniImagePickerViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return galleryManager.numberOfItems
+        return currentAlbum.count
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
