@@ -33,6 +33,7 @@ internal final class FilePickerManager: NSObject {
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
             setStatusBarStyle(to: .default)
+            self.galleryCoordinator.start()
             from.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         }
     }
