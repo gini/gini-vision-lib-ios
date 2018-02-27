@@ -9,6 +9,7 @@ import Foundation
 import Photos
 
 protocol GiniGalleryImageManagerProtocol: class {
+    var albums: [Album] { get }
     func fetchImage(from album: Album,
                     at indexPath: IndexPath,
                     completion: @escaping ((UIImage) -> Void))

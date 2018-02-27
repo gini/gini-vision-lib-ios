@@ -7,12 +7,20 @@
 
 import Foundation
 
+protocol GiniAlbumsPickerViewControllerDelegate: class {
+    func giniAlbumsPicker(_ viewController: GiniAlbumsPickerViewController,
+                          didSelectAlbum album: Album)
+}
+
 final class GiniAlbumsPickerViewController: UIViewController {
     
+    weak var delegate: GiniAlbumsPickerViewControllerDelegate?
     let galleryManager: GiniGalleryImageManagerProtocol
     lazy var albumsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(UITableViewCell.self,
                            forCellReuseIdentifier: "GiniAlbumsPickerTableViewCellIdentifier")
         return tableView
@@ -30,6 +38,7 @@ final class GiniAlbumsPickerViewController: UIViewController {
     override func loadView() {
         super.loadView()
         
+        title = "Albums"
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
@@ -40,11 +49,12 @@ final class GiniAlbumsPickerViewController: UIViewController {
 
 extension GiniAlbumsPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return galleryManager.albums.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "GiniAlbumsPickerTableViewCellIdentifier")
+        cell?.textLabel?.text = galleryManager.albums[indexPath.row].title
         return cell!
     }
     
@@ -56,5 +66,7 @@ extension GiniAlbumsPickerViewController: UITableViewDataSource {
 // MARK: UITableViewDelegate
 
 extension GiniAlbumsPickerViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.giniAlbumsPicker(self, didSelectAlbum: galleryManager.albums[indexPath.row])
+    }
 }
