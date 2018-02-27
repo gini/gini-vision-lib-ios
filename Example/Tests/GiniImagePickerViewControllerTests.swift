@@ -11,7 +11,7 @@ import XCTest
 
 final class GiniImagePickerViewControllerTests: XCTestCase {
     
-    let vc = GiniImagePickerViewController(galleryManager: GiniGalleryImageManagerMock(),
+    let vc = ImagePickerViewController(galleryManager: GiniGalleryImageManagerMock(),
                                            giniConfiguration: GiniConfiguration.sharedConfiguration)
     
     override func setUp() {
@@ -29,7 +29,7 @@ final class GiniImagePickerViewControllerTests: XCTestCase {
     
     func testCollectionCellType() {
         XCTAssertNotNil(vc.collectionView(vc.collectionView,
-                                          cellForItemAt: IndexPath(row:0, section:0)) as? GiniImagePickerCollectionViewCell,
+                                          cellForItemAt: IndexPath(row:0, section:0)) as? ImagePickerCollectionViewCell,
                         "cell type should match GiniImagePickerCollectionViewCell")
     }
 }

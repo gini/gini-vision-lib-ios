@@ -1,5 +1,5 @@
 //
-//  GiniGalleryImageManager.swift
+//  GalleryManager.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/26/18.
@@ -8,14 +8,14 @@
 import Foundation
 import Photos
 
-protocol GiniGalleryImageManagerProtocol: class {
+protocol GalleryManagerProtocol: class {
     var albums: [Album] { get }
     func fetchImage(from album: Album,
                     at indexPath: IndexPath,
                     completion: @escaping ((UIImage) -> Void))
 }
 
-final class GiniGalleryImageManager: GiniGalleryImageManagerProtocol {
+final class GalleryManager: GalleryManagerProtocol {
     
     let cachingImageManager = PHCachingImageManager()
     lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
@@ -40,7 +40,7 @@ final class GiniGalleryImageManager: GiniGalleryImageManagerProtocol {
 
 // MARK: Private Methods
 
-extension GiniGalleryImageManager {
+extension GalleryManager {
     fileprivate func preFetchImages() {
         DispatchQueue.global().async {
             self.cachingImageManager.startCachingImages(for: self.albums.first!.assets,
