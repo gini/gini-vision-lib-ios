@@ -39,6 +39,10 @@ final class GalleryCoordinator {
                                                              target: self,
                                                              action: #selector(closeGallery))
     
+    lazy var openImagesButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done,
+                                                                 target: self,
+                                                                 action: #selector(openImages))
+    
     init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
     }
@@ -61,8 +65,14 @@ final class GalleryCoordinator {
     }
     
     @objc func closeGallery() {
+        selectedAssetsIndexes = []
         rootViewController.dismiss(animated: true, completion: nil)
         galleryNavigator.popToRootViewController(animated: false)
+    }
+    
+    @objc func openImages() {
+        delegate?.gallery(self, didSelectImages: [])
+        closeGallery()
     }
     
 }
@@ -79,7 +89,13 @@ extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
 // MARK: - ImagePickerViewControllerDelegate
 
 extension GalleryCoordinator: ImagePickerViewControllerDelegate {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath) {
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album) {
+        if selectedAssetsIndexes.isEmpty {
+            viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
+        }
+        galleryManager.fetchImage(from: album, at: index, imageQuality: .original) { image, assetId in
+            
+        }
         selectedAssetsIndexes.append(index)
     }
 }
