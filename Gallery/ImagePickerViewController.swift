@@ -9,7 +9,7 @@ import Foundation
 import Photos
 
 protocol ImagePickerViewControllerDelegate: class {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath)
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album)
 }
 
 final class ImagePickerViewController: UIViewController {
@@ -82,7 +82,7 @@ extension ImagePickerViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier,
                                                       for: indexPath) as? ImagePickerCollectionViewCell
-        galleryManager.fetchImage(from: currentAlbum, at: indexPath) { image in
+        galleryManager.fetchImage(from: currentAlbum, at: indexPath, imageQuality: .thumbnail) { image, _ in
             cell?.galleryImage.image = image
         }
         
@@ -109,6 +109,6 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.imagePicker(self, didSelectAssetAt: indexPath)
+        delegate?.imagePicker(self, didSelectAssetAt: indexPath, in: currentAlbum)
     }
 }
