@@ -9,7 +9,7 @@
 import Foundation
 @testable import GiniVision
 
-final class GiniGalleryImageManagerMock: GiniGalleryImageManagerProtocol {
+final class GiniGalleryImageManagerMock: GalleryImageManagerProtocol {
     var numberOfItems: Int = 3
     
     func fetchImage(at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {

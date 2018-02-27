@@ -1,5 +1,5 @@
 //
-//  GiniAlbumsPickerViewController.swift
+//  AlbumsPickerViewController.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/26/18.
@@ -7,15 +7,16 @@
 
 import Foundation
 
-protocol GiniAlbumsPickerViewControllerDelegate: class {
-    func giniAlbumsPicker(_ viewController: GiniAlbumsPickerViewController,
-                          didSelectAlbum album: Album)
+protocol AlbumsPickerViewControllerDelegate: class {
+    func albumsPicker(_ viewController: AlbumsPickerViewController,
+                      didSelectAlbum album: Album)
 }
 
-final class GiniAlbumsPickerViewController: UIViewController {
+final class AlbumsPickerViewController: UIViewController {
     
-    weak var delegate: GiniAlbumsPickerViewControllerDelegate?
-    let galleryManager: GiniGalleryImageManagerProtocol
+    weak var delegate: AlbumsPickerViewControllerDelegate?
+    let galleryManager: GalleryManagerProtocol
+    
     lazy var albumsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +27,7 @@ final class GiniAlbumsPickerViewController: UIViewController {
         return tableView
     }()
     
-    init(galleryManager: GiniGalleryImageManagerProtocol) {
+    init(galleryManager: GalleryManagerProtocol) {
         self.galleryManager = galleryManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -47,7 +48,7 @@ final class GiniAlbumsPickerViewController: UIViewController {
 
 // MARK: UITableViewDataSource
 
-extension GiniAlbumsPickerViewController: UITableViewDataSource {
+extension AlbumsPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return galleryManager.albums.count
     }
@@ -65,8 +66,8 @@ extension GiniAlbumsPickerViewController: UITableViewDataSource {
 
 // MARK: UITableViewDelegate
 
-extension GiniAlbumsPickerViewController: UITableViewDelegate {
+extension AlbumsPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.giniAlbumsPicker(self, didSelectAlbum: galleryManager.albums[indexPath.row])
+        delegate?.albumsPicker(self, didSelectAlbum: galleryManager.albums[indexPath.row])
     }
 }
