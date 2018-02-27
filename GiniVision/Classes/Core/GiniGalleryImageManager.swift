@@ -9,25 +9,24 @@ import Foundation
 import Photos
 
 protocol GiniGalleryImageManagerProtocol: class {
-    var numberOfItems: Int { get }
-    func fetchImage(at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void))
+    func fetchImage(from album: Album,
+                    at indexPath: IndexPath,
+                    completion: @escaping ((UIImage) -> Void))
 }
 
 final class GiniGalleryImageManager: GiniGalleryImageManagerProtocol {
     
     let cachingImageManager = PHCachingImageManager()
-    lazy var assets: [PHAsset] = self.fetchAssets()
-    
-    var numberOfItems: Int {
-        return assets.count
-    }
+    lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
+        return $0.count > $1.count
+    })
     
     init() {
         preFetchImages()
     }
     
-    func fetchImage(at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {
-        cachingImageManager.requestImage(for: assets[indexPath.row],
+    func fetchImage(from album: Album, at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {
+        cachingImageManager.requestImage(for: album.assets[indexPath.row],
                                          targetSize: CGSize(width: 250, height: 250),
                                          contentMode: .default,
                                          options: nil) { image, _ in
@@ -43,29 +42,43 @@ final class GiniGalleryImageManager: GiniGalleryImageManagerProtocol {
 extension GiniGalleryImageManager {
     fileprivate func preFetchImages() {
         DispatchQueue.global().async {
-            self.cachingImageManager.startCachingImages(for: self.assets,
+            self.cachingImageManager.startCachingImages(for: self.albums.first!.assets,
                                                         targetSize: PHImageManagerMaximumSize,
                                                         contentMode: .default,
                                                         options: nil)
         }
     }
     
-    fileprivate func fetchAssets() -> [PHAsset] {
+    fileprivate func fetchAssets(in collection: PHAssetCollection) -> [PHAsset] {
         var assets: [PHAsset] = []
         
-        let options: PHFetchOptions = {
-            let options = PHFetchOptions()
-            options.sortDescriptors = [
-                NSSortDescriptor(key: "creationDate", ascending: true)
-            ]
-            return options
-        }()
+        let options = PHFetchOptions()
+        options.sortDescriptors = [
+            NSSortDescriptor(key: "creationDate", ascending: true)
+        ]
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         
-        let results = PHAsset.fetchAssets(with: .image, options: options)
+        let results = PHAsset.fetchAssets(in: collection, options: options)
         results.enumerateObjects({ asset, _, _ in
             assets.append(asset)
         })
         
         return assets
+    }
+    
+    fileprivate func fetchAlbums() -> [Album] {
+        var albums: [Album] = []
+        let userAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum,
+                                                                 subtype: PHAssetCollectionSubtype.any,
+                                                                 options: nil)
+        userAlbums.enumerateObjects({ (object, _, _) in
+            let assets: [PHAsset] = self.fetchAssets(in: object)
+            if !assets.isEmpty {
+                let album = Album(title: object.localizedTitle!, assets: assets)
+                albums.append(album)
+            }
+        })
+        
+        return albums
     }
 }
