@@ -62,6 +62,7 @@ final class GalleryCoordinator {
     
     @objc func closeGallery() {
         rootViewController.dismiss(animated: true, completion: nil)
+        galleryNavigator.popToRootViewController(animated: false)
     }
     
 }
