@@ -10,7 +10,7 @@ import Foundation
 final class GiniGalleryCoordinator {
     
     let giniConfiguration: GiniConfiguration
-    let galleryManager: GiniGalleryImageManager = GiniGalleryImageManager()
+    let galleryManager: GalleryManager = GalleryManager()
     var rootViewController: UIViewController {
         return galleryNavigator
     }
@@ -20,8 +20,8 @@ final class GiniGalleryCoordinator {
         return navController
     }()
     
-    lazy var albumsController: GiniAlbumsPickerViewController = {
-        let albumsPickerVC = GiniAlbumsPickerViewController(galleryManager: self.galleryManager)
+    lazy var albumsController: AlbumsPickerViewController = {
+        let albumsPickerVC = AlbumsPickerViewController(galleryManager: self.galleryManager)
         albumsPickerVC.delegate = self
         return albumsPickerVC
     }()
@@ -32,9 +32,9 @@ final class GiniGalleryCoordinator {
     
 }
 
-extension GiniGalleryCoordinator: GiniAlbumsPickerViewControllerDelegate {
-    func giniAlbumsPicker(_ viewController: GiniAlbumsPickerViewController, didSelectAlbum album: Album) {
-        let imagePicker = GiniImagePickerViewController(album: album,
+extension GiniGalleryCoordinator: AlbumsPickerViewControllerDelegate {
+    func albumsPicker(_ viewController: AlbumsPickerViewController, didSelectAlbum album: Album) {
+        let imagePicker = ImagePickerViewController(album: album,
                                                         galleryManager: galleryManager,
                                                         giniConfiguration: giniConfiguration)
         galleryNavigator.pushViewController(imagePicker, animated: true)

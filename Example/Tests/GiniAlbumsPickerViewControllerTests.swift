@@ -11,7 +11,7 @@ import XCTest
 
 class GiniAlbumsPickerViewControllerTests: XCTestCase {
     
-    let vc = GiniAlbumsPickerViewController(galleryManager: GiniGalleryImageManagerMock())
+    let vc = AlbumsPickerViewController(galleryManager: GiniGalleryImageManagerMock())
     
     override func setUp() {
         super.setUp()

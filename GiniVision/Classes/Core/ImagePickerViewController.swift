@@ -1,5 +1,5 @@
 //
-//  GiniImagePickerViewController.swift
+//  ImagePickerViewController.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/26/18.
@@ -8,7 +8,7 @@
 import Foundation
 import Photos
 
-final class GiniImagePickerViewController: UIViewController {
+final class ImagePickerViewController: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
@@ -19,16 +19,16 @@ final class GiniImagePickerViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(GiniImagePickerCollectionViewCell.self,
-                                forCellWithReuseIdentifier: GiniImagePickerCollectionViewCell.identifier)
+        collectionView.register(ImagePickerCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
         return collectionView
     }()
     
-    let galleryManager: GiniGalleryImageManagerProtocol
+    let galleryManager: GalleryManagerProtocol
     let currentAlbum: Album
     
     init(album: Album,
-         galleryManager: GiniGalleryImageManagerProtocol,
+         galleryManager: GalleryManagerProtocol,
          giniConfiguration: GiniConfiguration) {
         self.galleryManager = galleryManager
         self.currentAlbum = album
@@ -57,11 +57,11 @@ final class GiniImagePickerViewController: UIViewController {
 
 // MARK: UICollectionViewDataSource
 
-extension GiniImagePickerViewController: UICollectionViewDataSource {
+extension ImagePickerViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GiniImagePickerCollectionViewCell.identifier,
-                                                      for: indexPath) as? GiniImagePickerCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier,
+                                                      for: indexPath) as? ImagePickerCollectionViewCell
         galleryManager.fetchImage(from: currentAlbum, at: indexPath) { image in
             cell?.galleryImage.image = image
         }
@@ -80,17 +80,17 @@ extension GiniImagePickerViewController: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegate
 
-extension GiniImagePickerViewController: UICollectionViewDelegateFlowLayout {
+extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return GiniImagePickerCollectionViewCell.size(itemsInARow: 4,
+        return ImagePickerCollectionViewCell.size(itemsInARow: 4,
                                                       collectionViewLayout: collectionViewLayout)
     }
 }
 
-final class GiniImagePickerCollectionViewCell: UICollectionViewCell {
-    static let identifier = "GiniImagePickerCollectionViewCell"
+final class ImagePickerCollectionViewCell: UICollectionViewCell {
+    static let identifier = "ImagePickerCollectionViewCell"
     
     lazy var galleryImage: UIImageView = {
         let galleryImage: UIImageView = UIImageView(frame: .zero)
