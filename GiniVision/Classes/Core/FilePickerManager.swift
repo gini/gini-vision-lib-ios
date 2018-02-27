@@ -33,6 +33,7 @@ internal final class FilePickerManager: NSObject {
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
             self.galleryCoordinator.start()
+            self.galleryCoordinator.delegate = self
             from.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         }
     }
@@ -117,6 +118,12 @@ internal final class FilePickerManager: NSObject {
         }
     }
     
+}
+
+extension FilePickerManager: GalleryCoordinatorDelegate {
+    func gallery(_ coordinator: GalleryCoordinator, didSelectImages images: [UIImage]) {
+        print(images)
+    }
 }
 
 // MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate

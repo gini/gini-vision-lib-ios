@@ -12,9 +12,14 @@ protocol GalleryManagerProtocol: class {
     var albums: [Album] { get }
     func fetchImage(from album: Album,
                     at indexPath: IndexPath,
-                    completion: @escaping ((UIImage) -> Void))
+                    imageQuality: ImageQuality,
+                    completion: @escaping ((UIImage, String) -> Void))
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
+}
+
+enum ImageQuality {
+    case original, thumbnail
 }
 
 final class GalleryManager: GalleryManagerProtocol {
@@ -28,13 +33,18 @@ final class GalleryManager: GalleryManagerProtocol {
         
     }
     
-    func fetchImage(from album: Album, at indexPath: IndexPath, completion: @escaping ((UIImage) -> Void)) {
-        cachingImageManager.requestImage(for: album.assets[indexPath.row],
-                                         targetSize: CGSize(width: 250, height: 250),
+    func fetchImage(from album: Album,
+                    at indexPath: IndexPath,
+                    imageQuality: ImageQuality,
+                    completion: @escaping ((UIImage, String) -> Void)) {
+        let asset = album.assets[indexPath.row]
+        let size = imageQuality == .original ? PHImageManagerMaximumSize: CGSize(width: 250, height: 250)
+        cachingImageManager.requestImage(for: asset,
+                                         targetSize: size,
                                          contentMode: .default,
                                          options: nil) { image, _ in
                                             if let image = image {
-                                                completion(image)
+                                                completion(image, asset.localIdentifier)
                                             }
         }
     }
