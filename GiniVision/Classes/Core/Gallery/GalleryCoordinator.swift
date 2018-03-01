@@ -12,12 +12,13 @@ protocol GalleryCoordinatorDelegate: class {
     func gallery(_ coordinator: GalleryCoordinator, didSelectImages images: [UIImage])
 }
 
-final class GalleryCoordinator {
+final class GalleryCoordinator: NSObject {
     
     weak var delegate: GalleryCoordinatorDelegate?
     let giniConfiguration: GiniConfiguration
     let galleryManager: GalleryManager = GalleryManager()
-    var selectedAssetsIndexes: [IndexPath] = []
+    var selectedImages: [String: UIImage] = [:]
+    
     var rootViewController: UIViewController {
         return galleryNavigator
     }
@@ -25,6 +26,7 @@ final class GalleryCoordinator {
     lazy var galleryNavigator: UINavigationController = {
         let navController = UINavigationController(rootViewController: self.albumsController)
         navController.applyStyle(withConfiguration: self.giniConfiguration)
+        navController.delegate = self
         return navController
     }()
     
@@ -38,10 +40,13 @@ final class GalleryCoordinator {
     lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
                                                              target: self,
                                                              action: #selector(closeGallery))
-    
-    lazy var openImagesButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done,
-                                                                 target: self,
-                                                                 action: #selector(openImages))
+    lazy var openImagesButton: UIBarButtonItem = {
+        let button = UIButton(type: UIButtonType.system)
+        button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
+        button.frame.size = CGSize(width: 70, height: 20)
+        let barButton = UIBarButtonItem(customView: button)
+        return barButton
+    }()
     
     init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
@@ -65,16 +70,31 @@ final class GalleryCoordinator {
     }
     
     @objc func closeGallery() {
-        selectedAssetsIndexes = []
+        selectedImages = [:]
         rootViewController.dismiss(animated: true, completion: nil)
         galleryNavigator.popToRootViewController(animated: false)
     }
     
     @objc func openImages() {
-        delegate?.gallery(self, didSelectImages: [])
+        let images: [UIImage] = selectedImages.map{ $0.value }
+        delegate?.gallery(self, didSelectImages: images)
         closeGallery()
     }
     
+}
+
+// MARK: UINavigationControllerDelegate
+
+extension GalleryCoordinator: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        if fromVC is ImagePickerViewController {
+            selectedImages.removeAll()
+        }
+        return nil
+    }
 }
 
 // MARK: - AlbumsPickerViewControllerDelegate
@@ -90,12 +110,13 @@ extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
 
 extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album) {
-        if selectedAssetsIndexes.isEmpty {
+        if selectedImages.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
         galleryManager.fetchImage(from: album, at: index, imageQuality: .original) { image, assetId in
-            
+            self.selectedImages[assetId] = image
+            (self.openImagesButton.customView as? UIButton)?.setTitle("Done (\(self.selectedImages.count))", for: .normal)
         }
-        selectedAssetsIndexes.append(index)
+
     }
 }
