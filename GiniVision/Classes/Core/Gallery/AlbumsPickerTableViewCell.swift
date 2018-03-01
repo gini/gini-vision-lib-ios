@@ -59,26 +59,40 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
     
     private func addConstraints() {
         // albumThumbnailView
-        Constraints.active(item: albumThumbnailView, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: padding.left)
-        Constraints.active(item: albumThumbnailView, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
-        Constraints.active(item: albumThumbnailView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -padding.bottom)
-        Constraints.active(item: albumThumbnailView, attr: .trailing, relatedBy: .equal, to: albumTitleLabel, attr: .leading, constant: -20)
-        Constraints.active(item: albumThumbnailView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 70)
-        Constraints.active(item: albumThumbnailView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute, constant: 70)
+        Constraints.active(item: albumThumbnailView, attr: .leading, relatedBy: .equal, to: self, attr: .leading,
+                           constant: padding.left)
+        Constraints.active(item: albumThumbnailView, attr: .top, relatedBy: .equal, to: self, attr: .top, constant:
+            padding.top)
+        Constraints.active(item: albumThumbnailView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+                           constant: -padding.bottom)
+        Constraints.active(item: albumThumbnailView, attr: .trailing, relatedBy: .equal, to: albumTitleLabel,
+                           attr: .leading, constant: -20)
+        Constraints.active(item: albumThumbnailView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: 70)
+        Constraints.active(item: albumThumbnailView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: 70)
         
         // albumAccesoryView
-        Constraints.active(item: albumAccesoryView, attr: .leading, relatedBy: .equal, to: albumTitleLabel, attr: .trailing, constant: padding.left, priority: 999)
-        Constraints.active(item: albumAccesoryView, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: padding.top)
-        Constraints.active(item: albumAccesoryView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -padding.bottom)
-        Constraints.active(item: albumAccesoryView, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -padding.left)
+        Constraints.active(item: albumAccesoryView, attr: .leading, relatedBy: .equal, to: albumTitleLabel,
+                           attr: .trailing, constant: padding.left, priority: 999)
+        Constraints.active(item: albumAccesoryView, attr: .top, relatedBy: .equal, to: self, attr: .top,
+                           constant: padding.top)
+        Constraints.active(item: albumAccesoryView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
+                           constant: -padding.bottom)
+        Constraints.active(item: albumAccesoryView, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+                           constant: -padding.left)
         
         // albumTitleLabel
-        Constraints.active(item: albumTitleLabel, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY, constant: -padding.top)
-        Constraints.active(item: albumTitleLabel, attr: .bottom, relatedBy: .equal, to: albumSubTitleLabel, attr: .top, constant: -5)
+        Constraints.active(item: albumTitleLabel, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY,
+                           constant: -padding.top)
+        Constraints.active(item: albumTitleLabel, attr: .bottom, relatedBy: .equal, to: albumSubTitleLabel,
+                           attr: .top, constant: -5)
         
         // albumSubTitleLabel
-        Constraints.active(item: albumSubTitleLabel, attr: .bottom, relatedBy: .lessThanOrEqual, to: self, attr: .bottom, constant: 0)
-        Constraints.active(item: albumSubTitleLabel, attr: .leading, relatedBy: .equal, to: albumTitleLabel, attr: .leading)
+        Constraints.active(item: albumSubTitleLabel, attr: .bottom, relatedBy: .lessThanOrEqual, to: self,
+                           attr: .bottom, constant: 0)
+        Constraints.active(item: albumSubTitleLabel, attr: .leading, relatedBy: .equal, to: albumTitleLabel,
+                           attr: .leading)
     }
     
     required init?(coder aDecoder: NSCoder) {

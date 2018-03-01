@@ -141,6 +141,11 @@ internal class Constraints {
         Constraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
     }
     
+    class func center(view: UIView, with otherView: UIView) {
+        Constraints.active(item: view, attr: .centerX, relatedBy: .equal, to: otherView, attr: .centerX)
+        Constraints.active(item: view, attr: .centerY, relatedBy: .equal, to: otherView, attr: .centerY)
+    }
+    
 }
 
 internal struct Colors {

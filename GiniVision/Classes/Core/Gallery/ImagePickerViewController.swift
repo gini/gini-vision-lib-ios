@@ -29,6 +29,7 @@ final class ImagePickerViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
+        collectionView.allowsMultipleSelection = true
         collectionView.register(ImagePickerCollectionViewCell.self,
                                 forCellWithReuseIdentifier: ImagePickerCollectionViewCell.identifier)
         return collectionView
