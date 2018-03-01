@@ -89,16 +89,22 @@ extension GalleryManager {
     
     fileprivate func fetchAlbums() -> [Album] {
         var albums: [Album] = []
-        let userAlbums = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum,
+        let userAlbumsCollection  = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum,
                                                                  subtype: PHAssetCollectionSubtype.any,
                                                                  options: nil)
-        userAlbums.enumerateObjects({ (object, _, _) in
-            let assets: [PHAsset] = self.fetchAssets(in: object)
-            if !assets.isEmpty {
-                let album = Album(title: object.localizedTitle!, assets: assets)
-                albums.append(album)
-            }
-        })
+        let topUserAlbumsCollection  = PHAssetCollection.fetchTopLevelUserCollections(with: nil)
+        
+        let collections: [PHFetchResult<AnyObject>] = [userAlbumsCollection as! PHFetchResult<AnyObject>, topUserAlbumsCollection as! PHFetchResult<AnyObject>]
+        collections.forEach { albumsCollection in
+            albumsCollection.enumerateObjects({ (object, _, _) in
+                let assets: [PHAsset] = self.fetchAssets(in: object as! PHAssetCollection)
+                if !assets.isEmpty {
+                    let album = Album(title: object.localizedTitle!, assets: assets)
+                    albums.append(album)
+                }
+            })
+        }
+
         
         return albums
     }
