@@ -12,16 +12,23 @@ protocol GalleryCoordinatorDelegate: class {
     func gallery(_ coordinator: GalleryCoordinator, didSelectImages images: [UIImage])
 }
 
-final class GalleryCoordinator: NSObject {
+final class GalleryCoordinator: NSObject, Coordinator {
     
     weak var delegate: GalleryCoordinatorDelegate?
     let giniConfiguration: GiniConfiguration
     let galleryManager: GalleryManager = GalleryManager()
     var selectedImages: [String: UIImage] = [:]
     
+    // View controllers
     var rootViewController: UIViewController {
-        return galleryNavigator
+        return containerNavigationController
     }
+    
+    lazy var containerNavigationController: ContainerNavigationController = {
+        let container = ContainerNavigationController(rootViewController: self.galleryNavigator,
+                                                      giniConfiguration: self.giniConfiguration)
+        return container
+    }()
     
     lazy var galleryNavigator: UINavigationController = {
         let navController = UINavigationController(rootViewController: self.albumsController)
@@ -37,13 +44,17 @@ final class GalleryCoordinator: NSObject {
         return albumsPickerVC
     }()
     
+    // Navigation bar buttons
     lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
                                                              target: self,
                                                              action: #selector(closeGallery))
+    
     lazy var openImagesButton: UIBarButtonItem = {
-        let button = UIButton(type: UIButtonType.system)
+        let button = UIButton(type: UIButtonType.custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
         button.frame.size = CGSize(width: 70, height: 20)
+        button.titleLabel?.textColor = .white
         let barButton = UIBarButtonItem(customView: button)
         return barButton
     }()
@@ -60,6 +71,18 @@ final class GalleryCoordinator: NSObject {
         }
     }
     
+    @objc func closeGallery() {
+        selectedImages = [:]
+        rootViewController.dismiss(animated: true, completion: nil)
+        galleryNavigator.popToRootViewController(animated: false)
+    }
+    
+    @objc func openImages() {
+        let images: [UIImage] = selectedImages.map { $0.value }
+        delegate?.gallery(self, didSelectImages: images)
+        closeGallery()
+    }
+    
     fileprivate func createImagePicker(with album: Album) -> ImagePickerViewController {
         let imagePicker = ImagePickerViewController(album: album,
                                                     galleryManager: galleryManager,
@@ -69,16 +92,17 @@ final class GalleryCoordinator: NSObject {
         return imagePicker
     }
     
-    @objc func closeGallery() {
-        selectedImages = [:]
-        rootViewController.dismiss(animated: true, completion: nil)
-        galleryNavigator.popToRootViewController(animated: false)
-    }
-    
-    @objc func openImages() {
-        let images: [UIImage] = selectedImages.map{ $0.value }
-        delegate?.gallery(self, didSelectImages: images)
-        closeGallery()
+    fileprivate func setUpDoneButton(with imagesCount: Int) {
+        let innerButton = (self.openImagesButton.customView as? UIButton)
+        let currentFont = innerButton?.titleLabel?.font
+        
+        UIView.performWithoutAnimation {
+            let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: (currentFont?.pointSize)!)]
+            let attributedString = NSMutableAttributedString(string: "Done ",
+                                                             attributes: attributes)
+            attributedString.append(NSAttributedString(string: "(\(imagesCount))"))
+            innerButton?.setAttributedTitle(attributedString, for: .normal)
+        }
     }
     
 }
@@ -90,7 +114,8 @@ extension GalleryCoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if fromVC is ImagePickerViewController {
+        if let imagePicker = fromVC as? ImagePickerViewController {
+            galleryManager.stopCachingImages(for: imagePicker.currentAlbum)
             selectedImages.removeAll()
         }
         return nil
@@ -109,14 +134,29 @@ extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
 // MARK: - ImagePickerViewControllerDelegate
 
 extension GalleryCoordinator: ImagePickerViewControllerDelegate {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album) {
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didSelectAssetAt index: IndexPath,
+                     in album: Album) {
         if selectedImages.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
-        galleryManager.fetchImage(from: album, at: index, imageQuality: .original) { image, assetId in
-            self.selectedImages[assetId] = image
-            (self.openImagesButton.customView as? UIButton)?.setTitle("Done (\(self.selectedImages.count))", for: .normal)
+        galleryManager.fetchImage(from: album, at: index, imageQuality: .original) { image, localIdentifier in
+            self.selectedImages[localIdentifier] = image
+            self.setUpDoneButton(with: self.selectedImages.count)
         }
 
+    }
+    
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didDeselectAssetAt index: IndexPath,
+                     in album: Album) {
+        let deselectedAsset = album.assets[index.row]
+        selectedImages.removeValue(forKey: deselectedAsset.localIdentifier)
+        
+        if selectedImages.isEmpty {
+            viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
+        } else {
+            setUpDoneButton(with: self.selectedImages.count)
+        }
     }
 }

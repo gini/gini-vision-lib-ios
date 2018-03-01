@@ -8,8 +8,16 @@
 
 import Foundation
 
+protocol Coordinator: class {
+    var rootViewController: UIViewController { get }
+}
+
 //swiftlint:disable file_length
-internal final class GiniScreenAPICoordinator: NSObject {
+internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
+    
+    var rootViewController: UIViewController {
+        return screenAPINavigationController
+    }
     
     fileprivate lazy var screenAPINavigationController: UINavigationController = {
         let navigationController = UINavigationController()
