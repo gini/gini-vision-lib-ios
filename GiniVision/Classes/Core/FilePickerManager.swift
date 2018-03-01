@@ -28,7 +28,9 @@ internal final class FilePickerManager: NSObject {
     
     override init() {
         super.init()
-        galleryCoordinator.start()
+        DispatchQueue.global().async {
+            self.galleryCoordinator.start()
+        }
     }
     
     // MARK: Picker presentation
