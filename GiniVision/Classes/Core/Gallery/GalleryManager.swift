@@ -14,7 +14,7 @@ protocol GalleryManagerProtocol: class {
                     at indexPath: IndexPath,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage, String) -> Void))
-    func startCachingImages(for album: Album, priority: DispatchQoS.QoSClass)
+    func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
 }
 
@@ -28,11 +28,7 @@ final class GalleryManager: GalleryManagerProtocol {
     lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
         return $0.count > $1.count
     })
-    
-    init() {
         
-    }
-    
     func fetchImage(from album: Album,
                     at indexPath: IndexPath,
                     imageQuality: ImageQuality,
@@ -49,13 +45,11 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
-    func startCachingImages(for album: Album, priority: DispatchQoS.QoSClass = .userInitiated) {
-        DispatchQueue.global(qos: priority).async {
-            self.cachingImageManager.startCachingImages(for: album.assets,
-                                                        targetSize: PHImageManagerMaximumSize,
-                                                        contentMode: .default,
-                                                        options: nil)
-        }
+    func startCachingImages(for album: Album) {
+        self.cachingImageManager.startCachingImages(for: album.assets,
+                                                    targetSize: PHImageManagerMaximumSize,
+                                                    contentMode: .default,
+                                                    options: nil)
     }
     
     func stopCachingImages(for album: Album) {
@@ -105,7 +99,6 @@ extension GalleryManager {
             })
         }
 
-        
         return albums
     }
 }

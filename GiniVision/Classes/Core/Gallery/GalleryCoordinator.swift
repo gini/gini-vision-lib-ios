@@ -66,7 +66,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     func start() {
         if let firstAlbum = galleryManager.albums.first {
             let imagePicker = createImagePicker(with: firstAlbum)
-            galleryManager.startCachingImages(for: firstAlbum, priority: .utility)
+            galleryManager.startCachingImages(for: firstAlbum)
             galleryNavigator.pushViewController(imagePicker, animated: false)
         }
     }
