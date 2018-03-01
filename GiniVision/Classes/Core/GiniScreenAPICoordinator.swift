@@ -126,8 +126,9 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc fileprivate func showAnalysisScreen() {
+        let documentToShow = visionDocuments[0]
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(visionDocument!, changesOnReview)
+            didReview(documentToShow, changesOnReview)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
             didReview(visionDocument!.data, changesOnReview)
         } else {
@@ -135,7 +136,7 @@ extension GiniScreenAPICoordinator {
                 "withChanges changes: Bool) should be implemented")
         }
         
-        self.analysisViewController = createAnalysisScreen(withDocument: visionDocument!)
+        self.analysisViewController = createAnalysisScreen(withDocument: documentToShow)
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     

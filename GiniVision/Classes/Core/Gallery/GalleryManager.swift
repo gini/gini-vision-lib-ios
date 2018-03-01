@@ -14,6 +14,9 @@ protocol GalleryManagerProtocol: class {
                     at indexPath: IndexPath,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage, String) -> Void))
+    func fetchImageData(from album: Album,
+                        at indexPath: IndexPath,
+                        completion: @escaping ((Data, String) -> Void))
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
 }
@@ -42,6 +45,15 @@ final class GalleryManager: GalleryManagerProtocol {
                                             if let image = image {
                                                 completion(image, asset.localIdentifier)
                                             }
+        }
+    }
+    
+    func fetchImageData(from album: Album, at indexPath: IndexPath, completion: @escaping ((Data, String) -> Void)) {
+        let asset = album.assets[indexPath.row]
+        cachingImageManager.requestImageData(for: asset, options: nil) { data, _, _, _ in
+            if let data = data {
+                completion(data, asset.localIdentifier)
+            }
         }
     }
     
