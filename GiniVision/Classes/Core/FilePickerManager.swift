@@ -26,13 +26,17 @@ internal final class FilePickerManager: NSObject {
         }
     }
     
+    override init() {
+        super.init()
+        galleryCoordinator.start()
+    }
+    
     // MARK: Picker presentation
     
     func showGalleryPicker(from: UIViewController,
                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
-            self.galleryCoordinator.start()
             self.galleryCoordinator.delegate = self
             from.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         }
