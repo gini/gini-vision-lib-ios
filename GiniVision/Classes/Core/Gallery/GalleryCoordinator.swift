@@ -9,7 +9,8 @@ import Foundation
 import Photos
 
 protocol GalleryCoordinatorDelegate: class {
-    func gallery(_ coordinator: GalleryCoordinator, didSelectImages images: [UIImage])
+    func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument])
+    func gallery(_ coordinator: GalleryCoordinator, didCancel: Void)
 }
 
 final class GalleryCoordinator: NSObject, Coordinator {
@@ -17,7 +18,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     weak var delegate: GalleryCoordinatorDelegate?
     let giniConfiguration: GiniConfiguration
     let galleryManager: GalleryManager = GalleryManager()
-    var selectedImages: [String: UIImage] = [:]
+    var selectedImageDocuments: [String: GiniImageDocument] = [:]
     
     // View controllers
     var rootViewController: UIViewController {
@@ -44,6 +45,8 @@ final class GalleryCoordinator: NSObject, Coordinator {
         return albumsPickerVC
     }()
     
+    var imagePickerViewController: ImagePickerViewController?
+    
     // Navigation bar buttons
     lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
                                                              target: self,
@@ -55,8 +58,14 @@ final class GalleryCoordinator: NSObject, Coordinator {
         button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
         button.frame.size = CGSize(width: 70, height: 20)
         button.titleLabel?.textColor = .white
-        let barButton = UIBarButtonItem(customView: button)
-        return barButton
+        
+        let currentFont = button.titleLabel?.font
+        let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: currentFont?.pointSize ?? 18)]
+        let attributedString = NSMutableAttributedString(string: "Done",
+                                                         attributes: attributes)
+        button.setAttributedTitle(attributedString, for: .normal)
+
+        return UIBarButtonItem(customView: button)
     }()
     
     init(giniConfiguration: GiniConfiguration) {
@@ -72,35 +81,36 @@ final class GalleryCoordinator: NSObject, Coordinator {
     }
     
     @objc func closeGallery() {
-        selectedImages = [:]
-        rootViewController.dismiss(animated: true, completion: nil)
-        galleryNavigator.popToRootViewController(animated: false)
+        selectedImageDocuments = [:]
+        delegate?.gallery(self, didCancel: ())
     }
     
     @objc func openImages() {
-        let images: [UIImage] = selectedImages.map { $0.value }
-        delegate?.gallery(self, didSelectImages: images)
-        closeGallery()
+        let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
+        }
     }
     
     fileprivate func createImagePicker(with album: Album) -> ImagePickerViewController {
-        let imagePicker = ImagePickerViewController(album: album,
-                                                    galleryManager: galleryManager,
-                                                    giniConfiguration: giniConfiguration)
-        imagePicker.delegate = self
-        imagePicker.navigationItem.rightBarButtonItem = cancelButton
-        return imagePicker
+        imagePickerViewController = ImagePickerViewController(album: album,
+                                                              galleryManager: galleryManager,
+                                                              giniConfiguration: giniConfiguration)
+        imagePickerViewController?.delegate = self
+        imagePickerViewController?.navigationItem.rightBarButtonItem = cancelButton
+        return imagePickerViewController!
     }
     
-    fileprivate func setUpDoneButton(with imagesCount: Int) {
+    fileprivate func setUpDoneButton() {
         let innerButton = (self.openImagesButton.customView as? UIButton)
         let currentFont = innerButton?.titleLabel?.font
         
         UIView.performWithoutAnimation {
             let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: (currentFont?.pointSize)!)]
-            let attributedString = NSMutableAttributedString(string: "Done ",
+            let attributedString = NSMutableAttributedString(string: "Done",
                                                              attributes: attributes)
-            attributedString.append(NSAttributedString(string: "(\(imagesCount))"))
             innerButton?.setAttributedTitle(attributedString, for: .normal)
         }
     }
@@ -108,7 +118,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     // MARK: Photo library permission
     
     func checkGalleryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void,
-                                                  authorizedHandler: @escaping (() -> Void)) {
+                                      authorizedHandler: @escaping (() -> Void)) {
         
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
@@ -138,8 +148,9 @@ extension GalleryCoordinator: UINavigationControllerDelegate {
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let imagePicker = fromVC as? ImagePickerViewController {
+            imagePickerViewController = nil
             galleryManager.stopCachingImages(for: imagePicker.currentAlbum)
-            selectedImages.removeAll()
+            selectedImageDocuments.removeAll()
         }
         return nil
     }
@@ -160,12 +171,25 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didSelectAssetAt index: IndexPath,
                      in album: Album) {
-        if selectedImages.isEmpty {
+        if selectedImageDocuments.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
-        galleryManager.fetchImage(from: album, at: index, imageQuality: .original) { image, localIdentifier in
-            self.selectedImages[localIdentifier] = image
-            self.setUpDoneButton(with: self.selectedImages.count)
+        galleryManager.fetchImageData(from: album, at: index) { data, localIdentifier in
+            DispatchQueue.global().async {
+                let time = Date()
+                var data = data
+                if !data.isImage {
+                    if let image = UIImage(data: data), let imageData = UIImageJPEGRepresentation(image, 1.0) {
+                        data = imageData
+                    }
+                }
+                let imageDocument = GiniImageDocument(data: data,
+                                                      imageSource: .external,
+                                                      imageImportMethod: .picker,
+                                                      deviceOrientation: nil)
+                self.selectedImageDocuments[localIdentifier] = imageDocument
+                print("Time: ", Date().timeIntervalSince(time))
+            }
         }
 
     }
@@ -174,12 +198,10 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                      didDeselectAssetAt index: IndexPath,
                      in album: Album) {
         let deselectedAsset = album.assets[index.row]
-        selectedImages.removeValue(forKey: deselectedAsset.localIdentifier)
+        selectedImageDocuments.removeValue(forKey: deselectedAsset.localIdentifier)
         
-        if selectedImages.isEmpty {
+        if let selectedItems = viewController.collectionView.indexPathsForSelectedItems, selectedItems.isEmpty {
             viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
-        } else {
-            setUpDoneButton(with: self.selectedImages.count)
         }
     }
 }

@@ -71,7 +71,7 @@ internal final class FilePickerManager: NSObject {
         
         urls.forEach { url in
             if let data = data(fromUrl: url) {
-                if let document = document(fromData: data) {
+                if let document = createDocument(fromData: data) {
                     documents.append(document)
                 }
             }
@@ -80,7 +80,7 @@ internal final class FilePickerManager: NSObject {
         didPickDocuments(documents)
     }
     
-    fileprivate func document(fromData data: Data) -> GiniVisionDocument? {
+    fileprivate func createDocument(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
         
@@ -92,7 +92,6 @@ internal final class FilePickerManager: NSObject {
             _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
             url.stopAccessingSecurityScopedResource()
-            
             return data
         } catch {
             url.stopAccessingSecurityScopedResource()
@@ -104,8 +103,14 @@ internal final class FilePickerManager: NSObject {
 }
 
 extension FilePickerManager: GalleryCoordinatorDelegate {
-    func gallery(_ coordinator: GalleryCoordinator, didSelectImages images: [UIImage]) {
-        print(images)
+    func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
+        self.didPickDocuments(imageDocuments)
+        
+        coordinator.rootViewController.dismiss(animated: true, completion: nil)
+    }
+    
+    func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {
+        coordinator.rootViewController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -115,7 +120,7 @@ extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationContro
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
         if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
             let imageData = UIImageJPEGRepresentation(pickedImage, 1.0),
-            let document = document(fromData: imageData) {
+            let document = createDocument(fromData: imageData) {
             didPickDocuments([document])
         }
         
@@ -132,6 +137,12 @@ extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationContro
 extension FilePickerManager: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         processFilesPicked(fromUrls: urls)
+        
+        let documents: [GiniVisionDocument] = urls
+            .flatMap(self.data)
+            .flatMap(self.createDocument)
+        
+        didPickDocuments(documents)
         
         controller.dismiss(animated: false, completion: nil)
     }
