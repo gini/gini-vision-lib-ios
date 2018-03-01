@@ -105,6 +105,29 @@ final class GalleryCoordinator: NSObject, Coordinator {
         }
     }
     
+    // MARK: Photo library permission
+    
+    func checkGalleryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void,
+                                                  authorizedHandler: @escaping (() -> Void)) {
+        
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized:
+            authorizedHandler()
+        case .denied, .restricted:
+            deniedHandler(FilePickerError.photoLibraryAccessDenied)
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { status in
+                DispatchQueue.main.async {
+                    if status == PHAuthorizationStatus.authorized {
+                        authorizedHandler()
+                    } else {
+                        deniedHandler(FilePickerError.photoLibraryAccessDenied)
+                    }
+                }
+            }
+        }
+    }
+    
 }
 
 // MARK: UINavigationControllerDelegate

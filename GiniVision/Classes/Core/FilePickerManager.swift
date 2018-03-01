@@ -38,7 +38,7 @@ internal final class FilePickerManager: NSObject {
     func showGalleryPicker(from: UIViewController,
                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
-        checkPhotoLibraryAccessPermission(deniedHandler: errorHandler) {
+        galleryCoordinator.checkGalleryAccessPermission(deniedHandler: errorHandler) {
             self.galleryCoordinator.delegate = self
             from.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         }
@@ -99,29 +99,6 @@ internal final class FilePickerManager: NSObject {
         }
         
         return nil
-    }
-    
-    // MARK: Photo library permission
-    
-    fileprivate func checkPhotoLibraryAccessPermission(deniedHandler: @escaping (_ error: GiniVisionError) -> Void,
-                                                       authorizedHandler: @escaping (() -> Void)) {
-        
-        switch PHPhotoLibrary.authorizationStatus() {
-        case .authorized:
-            authorizedHandler()
-        case .denied, .restricted:
-            deniedHandler(FilePickerError.photoLibraryAccessDenied)
-        case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { status in
-                DispatchQueue.main.async {
-                    if status == PHAuthorizationStatus.authorized {
-                        authorizedHandler()
-                    } else {
-                        deniedHandler(FilePickerError.photoLibraryAccessDenied)
-                    }
-                }
-            }
-        }
     }
     
 }
