@@ -59,7 +59,8 @@ extension AlbumsPickerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AlbumsPickerTableViewCell.identifier) as? AlbumsPickerTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier:
+            AlbumsPickerTableViewCell.identifier) as? AlbumsPickerTableViewCell
         let album = galleryManager.albums[indexPath.row]
         cell?.setUp(with: album,
                     giniConfiguration: giniConfiguration,
