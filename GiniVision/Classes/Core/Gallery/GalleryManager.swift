@@ -14,7 +14,7 @@ protocol GalleryManagerProtocol: class {
                     at indexPath: IndexPath,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage, String) -> Void))
-    func startCachingImages(for album: Album)
+    func startCachingImages(for album: Album, priority: DispatchQoS.QoSClass)
     func stopCachingImages(for album: Album)
 }
 
@@ -49,8 +49,8 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
-    func startCachingImages(for album: Album) {
-        DispatchQueue.global().async {
+    func startCachingImages(for album: Album, priority: DispatchQoS.QoSClass = .userInitiated) {
+        DispatchQueue.global(qos: priority).async {
             self.cachingImageManager.startCachingImages(for: album.assets,
                                                         targetSize: PHImageManagerMaximumSize,
                                                         contentMode: .default,
