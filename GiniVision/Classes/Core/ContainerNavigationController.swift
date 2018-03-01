@@ -11,7 +11,7 @@ import UIKit
 final class ContainerNavigationController: UIViewController {
     
     var rootViewController: UINavigationController
-    var coordinator: GiniScreenAPICoordinator?
+    var coordinator: Coordinator?
     var giniConfiguration: GiniConfiguration
     
     override var shouldAutorotate: Bool {
@@ -26,8 +26,13 @@ final class ContainerNavigationController: UIViewController {
         return giniConfiguration.statusBarStyle
     }
     
+    /**
+     Container that wraps a UINavigationController in order to handle rotation.
+     Parent coordinator should be always `nil` excepts when there is no possibility
+     to keep a strong reference inside of the Gini Vision Library.
+     */
     init(rootViewController: UINavigationController,
-         parent: GiniScreenAPICoordinator,
+         parent: Coordinator? = nil,
          giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.rootViewController = rootViewController
         self.coordinator = parent

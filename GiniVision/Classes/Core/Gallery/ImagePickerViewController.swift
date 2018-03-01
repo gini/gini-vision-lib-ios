@@ -10,6 +10,7 @@ import Photos
 
 protocol ImagePickerViewControllerDelegate: class {
     func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album)
+    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAssetAt index: IndexPath, in album: Album)
 }
 
 final class ImagePickerViewController: UIViewController {
@@ -111,5 +112,9 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.imagePicker(self, didSelectAssetAt: indexPath, in: currentAlbum)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        delegate?.imagePicker(self, didDeselectAssetAt: indexPath, in: currentAlbum)
     }
 }
