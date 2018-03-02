@@ -22,6 +22,7 @@ import AVFoundation
  
  - note: Component API only.
  */
+@available(*, deprecated)
 public typealias CameraSuccessBlock = (_ imageData: Data) -> Void
 
 /**
@@ -38,6 +39,7 @@ public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> 
  
  - note: Component API only.
  */
+@available(*, deprecated)
 public typealias CameraErrorBlock = (_ error: CameraError) -> Void
 
 /**
