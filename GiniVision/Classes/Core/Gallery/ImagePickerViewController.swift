@@ -19,6 +19,7 @@ final class ImagePickerViewController: UIViewController {
     weak var delegate: ImagePickerViewControllerDelegate?
     fileprivate let galleryManager: GalleryManagerProtocol
     private var isInitialized: Bool = false
+    private let multipleSelectionLimit: Int = 10
     
     // MARK: - Views
     
@@ -120,7 +121,11 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.imagePicker(self, didSelectAssetAt: indexPath, in: currentAlbum)
+        if let selectedIndexes = collectionView.indexPathsForSelectedItems, selectedIndexes.count > 10 {
+            collectionView.deselectItem(at: indexPath, animated: false)
+        } else {
+            delegate?.imagePicker(self, didSelectAssetAt: indexPath, in: currentAlbum)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
