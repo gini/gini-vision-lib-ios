@@ -231,27 +231,20 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         }
     }
     
-    func camera(_ viewController: CameraViewController, didImportedDocuments documents: [GiniVisionDocument]) {
-        visionDocuments = documents
-        if let imageDocuments = documents as? [GiniImageDocument] {
-            showMultipageReview(withImageDocuments: imageDocuments)
-        }
-    }
-    
-    func camera(_ viewController: CameraViewController, didFailCaptureWithError error: GiniVisionError) {
+    func camera(_ viewController: CameraViewController, didFailCaptureWithError error: CameraError) {
         switch error {
-        case CameraError.notAuthorizedToUseDevice:
+        case .notAuthorizedToUseDevice:
             print("GiniVision: Camera authorization denied.")
         default:
             print("GiniVision: Unknown error when using camera.")
         }
     }
     
-    func camera(_ viewController: CameraViewController, didShowCamera animated: Bool) {
+    func cameraDidAppear(_ viewController: CameraViewController) {
         showOnboardingIfNeeded()
     }
     
-    func camera(_ viewController: CameraViewController, didTapMultipageReviewButton: Bool) {
+    func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
         if let imageDocuments = visionDocuments as? [GiniImageDocument] {
             showMultipageReview(withImageDocuments: imageDocuments)
         }
