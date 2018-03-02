@@ -1,5 +1,5 @@
 //
-//  GiniAlbumsPickerViewControllerTests.swift
+//  AlbumsPickerViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 2/26/18.
@@ -9,9 +9,9 @@
 import XCTest
 @testable import GiniVision
 
-final class GiniAlbumsPickerViewControllerTests: XCTestCase {
+final class AlbumsPickerViewControllerTests: XCTestCase {
     
-    let galleryManager = GiniGalleryImageManagerMock()
+    let galleryManager = GalleryManagerMock()
     lazy var vc = AlbumsPickerViewController(galleryManager: self.galleryManager)
     
     override func setUp() {

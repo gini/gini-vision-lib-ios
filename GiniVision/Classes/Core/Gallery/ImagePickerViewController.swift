@@ -17,7 +17,7 @@ final class ImagePickerViewController: UIViewController {
     
     let currentAlbum: Album
     weak var delegate: ImagePickerViewControllerDelegate?
-    let galleryManager: GalleryManagerProtocol
+    fileprivate let galleryManager: GalleryManagerProtocol
     private var isInitialized: Bool = false
     
     lazy var collectionView: UICollectionView = {
@@ -50,8 +50,9 @@ final class ImagePickerViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
+        
         title = currentAlbum.title
+        view.backgroundColor = .white
         view.addSubview(collectionView)
         
         Constraints.pin(view: collectionView, toSuperView: view)
