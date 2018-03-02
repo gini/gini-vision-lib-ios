@@ -20,6 +20,8 @@ final class ImagePickerViewController: UIViewController {
     fileprivate let galleryManager: GalleryManagerProtocol
     private var isInitialized: Bool = false
     
+    // MARK: - Views
+    
     lazy var collectionView: UICollectionView = {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.minimumLineSpacing = 1
@@ -36,6 +38,8 @@ final class ImagePickerViewController: UIViewController {
         return collectionView
     }()
     
+    // MARK: - Initializers
+    
     init(album: Album,
          galleryManager: GalleryManagerProtocol,
          giniConfiguration: GiniConfiguration) {
@@ -47,6 +51,8 @@ final class ImagePickerViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(giniConfiguration:) has not been implemented")
     }
+    
+    // MARK: - UIViewController
     
     override func loadView() {
         super.loadView()
@@ -63,6 +69,8 @@ final class ImagePickerViewController: UIViewController {
         scrollToBottomOnStartup()
     }
     
+    // MARK: - Others
+ 
     fileprivate func scrollToBottomOnStartup() {
         // This tweak is needed to fix an issue with the UICollectionView. UICollectionView doesn't
         // scroll to the bottom on `viewWillAppear`, which is right after `viewDidLayoutSubviews`

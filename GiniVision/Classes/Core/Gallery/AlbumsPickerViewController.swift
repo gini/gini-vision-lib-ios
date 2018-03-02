@@ -18,6 +18,8 @@ final class AlbumsPickerViewController: UIViewController {
     fileprivate let galleryManager: GalleryManagerProtocol
     fileprivate let giniConfiguration: GiniConfiguration
     
+    // MARK: - Views
+
     lazy var albumsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,7 +31,9 @@ final class AlbumsPickerViewController: UIViewController {
                            forCellReuseIdentifier: AlbumsPickerTableViewCell.identifier)
         return tableView
     }()
-    
+
+    // MARK: - Initializers
+
     init(galleryManager: GalleryManagerProtocol,
          giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
         self.galleryManager = galleryManager
@@ -40,6 +44,8 @@ final class AlbumsPickerViewController: UIViewController {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - UIViewController
     
     override func loadView() {
         super.loadView()
