@@ -94,6 +94,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     @objc fileprivate func openImages() {
         let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
         delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
+        galleryNavigator.popViewController(animated: true)
     }
     
     // MARK: - Image picker generation.
