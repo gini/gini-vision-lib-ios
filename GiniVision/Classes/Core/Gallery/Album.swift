@@ -9,9 +9,16 @@ import Foundation
 import Photos
 
 struct Album {
+    var assets: [PHAsset]
     var title: String
+    var identifier: String
     var count: Int {
         return assets.count
     }
-    var assets: [PHAsset]
+}
+
+extension Album: Equatable {
+    static func ==(lhs: Album, rhs: Album) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
 }

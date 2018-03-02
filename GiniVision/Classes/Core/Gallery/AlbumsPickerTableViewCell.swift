@@ -10,6 +10,7 @@ import Foundation
 final class AlbumsPickerTableViewCell: UITableViewCell {
     
     static let identifier = "AlbumsPickerTableViewCellIdentifier"
+    static let height: CGFloat = 90.0
     let padding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
     lazy var albumAccesoryView: UIButton = {

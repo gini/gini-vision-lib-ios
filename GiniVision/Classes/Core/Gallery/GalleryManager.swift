@@ -106,7 +106,9 @@ extension GalleryManager {
                 if let collection = collection as? PHAssetCollection {
                     let assets: [PHAsset] = self.fetchAssets(in: collection)
                     if !assets.isEmpty {
-                        let album = Album(title: collection.localizedTitle ?? "", assets: assets)
+                        let album = Album(assets: assets,
+                                          title: collection.localizedTitle ?? "",
+                                          identifier: collection.localIdentifier)
                         albums.append(album)
                     }
                 }
