@@ -1,5 +1,5 @@
 //
-//  GiniGalleryImageManagerMock.swift
+//  GalleryManagerMock.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 2/26/18.
@@ -10,7 +10,7 @@ import Foundation
 import Photos
 @testable import GiniVision
 
-final class GiniGalleryImageManagerMock: GalleryManagerProtocol {
+final class GalleryManagerMock: GalleryManagerProtocol {
     var albums: [Album] = [Album(assets: [PHAsset()], title: "Album 1", identifier: "Album 1"),
                            Album(assets: [PHAsset(), PHAsset()], title: "Album 2", identifier: "Album 2"),
                            Album(assets: [], title: "Album 3", identifier: "Album 3")]
