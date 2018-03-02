@@ -11,11 +11,11 @@ import Photos
 protocol GalleryManagerProtocol: class {
     var albums: [Album] { get }
     func fetchImage(from album: Album,
-                    at indexPath: IndexPath,
+                    at index: Int,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage, String) -> Void))
     func fetchImageData(from album: Album,
-                        at indexPath: IndexPath,
+                        at index: Int,
                         completion: @escaping ((Data, String) -> Void))
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
@@ -33,10 +33,10 @@ final class GalleryManager: GalleryManagerProtocol {
     })
         
     func fetchImage(from album: Album,
-                    at indexPath: IndexPath,
+                    at index: Int,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage, String) -> Void)) {
-        let asset = album.assets[indexPath.row]
+        let asset = album.assets[index]
         let size = imageQuality == .original ? PHImageManagerMaximumSize: CGSize(width: 250, height: 250)
         cachingImageManager.requestImage(for: asset,
                                          targetSize: size,
@@ -48,8 +48,8 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
-    func fetchImageData(from album: Album, at indexPath: IndexPath, completion: @escaping ((Data, String) -> Void)) {
-        let asset = album.assets[indexPath.row]
+    func fetchImageData(from album: Album, at index: Int, completion: @escaping ((Data, String) -> Void)) {
+        let asset = album.assets[index]
         cachingImageManager.requestImageData(for: asset, options: nil) { data, _, _, _ in
             if let data = data {
                 completion(data, asset.localIdentifier)
