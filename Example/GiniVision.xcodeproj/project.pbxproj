@@ -315,7 +315,12 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */,
+				1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */,
 				1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */,
+				1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */,
+				1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */,
+				1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */,
 				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
 				0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */,
 				1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */,
@@ -331,14 +336,9 @@
 				1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */,
 				1F62FA361FA2207200CEA828 /* GINISupportedFormatsViewControllerTests.swift */,
 				1F8547631F56E44700B1CAC6 /* GINIVisionDocumentTests.swift */,
-				607FACE91AFB9204008FA782 /* Supporting Files */,
-				1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */,
-				1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */,
-				1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */,
 				1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */,
-				1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */,
-				1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */,
-				1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */,
+				1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */,
+				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
