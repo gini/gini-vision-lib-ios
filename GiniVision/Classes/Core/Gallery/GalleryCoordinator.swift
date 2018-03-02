@@ -54,9 +54,8 @@ final class GalleryCoordinator: NSObject, Coordinator {
     
     lazy var openImagesButton: UIBarButtonItem = {
         let button = UIButton(type: UIButtonType.custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
-        button.frame.size = CGSize(width: 70, height: 20)
+        button.frame.size = CGSize(width: 50, height: 20)
         button.titleLabel?.textColor = .white
         
         let currentFont = button.titleLabel?.font
@@ -174,12 +173,15 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         if selectedImageDocuments.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
-        galleryManager.fetchImageData(from: album, at: index) { data, localIdentifier in
+        
+        galleryManager.fetchImageData(from: album, at: index.row) { data, localIdentifier in
             DispatchQueue.global().async {
-                let time = Date()
                 var data = data
+                
+                // Some pictures have a wrong bytes structure and are not processed as images.
                 if !data.isImage {
-                    if let image = UIImage(data: data), let imageData = UIImageJPEGRepresentation(image, 1.0) {
+                    if let image = UIImage(data: data),
+                        let imageData = UIImageJPEGRepresentation(image, 1.0) {
                         data = imageData
                     }
                 }
@@ -188,7 +190,6 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                                                       imageImportMethod: .picker,
                                                       deviceOrientation: nil)
                 self.selectedImageDocuments[localIdentifier] = imageDocument
-                print("Time: ", Date().timeIntervalSince(time))
             }
         }
 

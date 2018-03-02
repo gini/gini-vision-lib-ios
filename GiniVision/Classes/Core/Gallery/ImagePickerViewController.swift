@@ -84,7 +84,7 @@ extension ImagePickerViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier,
                                                       for: indexPath) as? ImagePickerCollectionViewCell
-        galleryManager.fetchImage(from: currentAlbum, at: indexPath, imageQuality: .thumbnail) { image, _ in
+        galleryManager.fetchImage(from: currentAlbum, at: indexPath.row, imageQuality: .thumbnail) { image, _ in
             cell?.galleryImage.image = image
         }
         
