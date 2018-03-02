@@ -30,6 +30,7 @@
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
 		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
+		1F3B5EA520494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */; };
 		1F3F5A0720443AEA0037755F /* GiniImagePickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */; };
 		1F3F5A0B2044400F0037755F /* GiniGalleryImageManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */; };
 		1F3F5A11204461720037755F /* GiniAlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A10204461720037755F /* GiniAlbumsPickerViewControllerTests.swift */; };
@@ -114,6 +115,7 @@
 		1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA01FB58EC900E1022A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
+		1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
 		1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
 		1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniGalleryImageManagerMock.swift; sourceTree = "<group>"; };
 		1F3F5A10204461720037755F /* GiniAlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniAlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
@@ -330,6 +332,7 @@
 				1F3F5A0620443AEA0037755F /* GiniImagePickerViewControllerTests.swift */,
 				1F3F5A0A2044400F0037755F /* GiniGalleryImageManagerMock.swift */,
 				1F3F5A10204461720037755F /* GiniAlbumsPickerViewControllerTests.swift */,
+				1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -678,6 +681,7 @@
 				1F62FA3B1FA2207800CEA828 /* GINIOpenWithTutorialViewControllerTests.swift in Sources */,
 				1FA85EFA1FD6B569005C0C24 /* GINIQRCodeDocumentTests.swift in Sources */,
 				1F8547641F56E44700B1CAC6 /* GINIVisionDocumentTests.swift in Sources */,
+				1F3B5EA520494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift in Sources */,
 				0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */,
 				1FD4DBDC20D1002300A87443 /* OpaqueViewTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,

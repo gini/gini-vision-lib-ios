@@ -11,8 +11,11 @@ import XCTest
 
 final class GiniImagePickerViewControllerTests: XCTestCase {
     
-    let vc = ImagePickerViewController(galleryManager: GiniGalleryImageManagerMock(),
-                                           giniConfiguration: GiniConfiguration.sharedConfiguration)
+    let galleryManager = GiniGalleryImageManagerMock()
+    
+    lazy var vc = ImagePickerViewController(album: self.galleryManager.albums[0],
+                                            galleryManager: GiniGalleryImageManagerMock(),
+                                            giniConfiguration: GiniConfiguration.sharedConfiguration)
     
     override func setUp() {
         super.setUp()
