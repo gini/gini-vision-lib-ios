@@ -32,6 +32,8 @@
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
 		1F3B5EA520494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */; };
 		1F3B5EA8204952500052204A /* ImagePickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */; };
+		1F3B5EAA2049542F0052204A /* GalleryCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */; };
+		1F3B5EAC2049554A0052204A /* GalleryCoordinatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */; };
 		1F3F5A0720443AEA0037755F /* ImagePickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */; };
 		1F3F5A0B2044400F0037755F /* GalleryManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */; };
 		1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */; };
@@ -118,6 +120,8 @@
 		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
 		1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
 		1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
+		1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorTests.swift; sourceTree = "<group>"; };
+		1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorDelegateMock.swift; sourceTree = "<group>"; };
 		1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
 		1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryManagerMock.swift; sourceTree = "<group>"; };
 		1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
@@ -333,7 +337,9 @@
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */,
 				1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */,
+				1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */,
 				1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */,
+				1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */,
 				1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */,
 				1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */,
 			);
@@ -678,6 +684,7 @@
 				1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */,
 				1F94118B1FBAEB7D0019DECD /* GINIScreenAPICoordinatorTests.swift in Sources */,
 				1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */,
+				1F3B5EAC2049554A0052204A /* GalleryCoordinatorDelegateMock.swift in Sources */,
 				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
 				1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */,
 				1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */,
@@ -689,6 +696,7 @@
 				1FD4DBDC20D1002300A87443 /* OpaqueViewTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */,
 				1F62FA3C1FA2207800CEA828 /* GINISupportedFormatsViewControllerTests.swift in Sources */,
+				1F3B5EAA2049542F0052204A /* GalleryCoordinatorTests.swift in Sources */,
 				1F66D9892020A3180093771C /* GINIMultipageReviewControllerTests.swift in Sources */,
 				1F62FA3A1FA2207800CEA828 /* GINIImageNoResultsViewControllerTests.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* GINIMetaInformationManagerTests.swift in Sources */,
