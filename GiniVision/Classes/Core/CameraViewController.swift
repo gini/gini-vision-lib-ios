@@ -9,11 +9,11 @@
 import UIKit
 import AVFoundation
 
-protocol CameraViewControllerDelegate: class {
-    func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument])
-    func camera(_ viewController: CameraViewController, didFailCaptureWithError error: GiniVisionError)
-    func camera(_ viewController: CameraViewController, didShowCamera animated: Bool)
-    func camera(_ viewController: CameraViewController, didTapMultipageReviewButton: Bool)
+@objc public protocol CameraViewControllerDelegate: class {
+    @objc func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument])
+    @objc func camera(_ viewController: CameraViewController, didFailCaptureWithError error: CameraError)
+    @objc func cameraDidAppear(_ viewController: CameraViewController)
+    @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
 }
 
 /**
@@ -295,11 +295,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        delegate?.camera(self, didShowCamera: animated)
-    }
-    
     /**
      Notifies the view controller that its view is about to be added to a view hierarchy.
      
@@ -309,6 +304,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.viewWillAppear(animated)
         setStatusBarStyle(to: GiniConfiguration.sharedConfiguration.statusBarStyle)
         camera?.start()
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        delegate?.cameraDidAppear(self)
     }
     
     /**
@@ -486,7 +486,7 @@ extension CameraViewController {
     }
     
     @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
-        delegate?.camera(self, didTapMultipageReviewButton: true)
+        delegate?.cameraDidTapMultipageReviewButton(self)
     }
     
     func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
