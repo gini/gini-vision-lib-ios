@@ -15,8 +15,8 @@ protocol AlbumsPickerViewControllerDelegate: class {
 final class AlbumsPickerViewController: UIViewController {
     
     weak var delegate: AlbumsPickerViewControllerDelegate?
-    let galleryManager: GalleryManagerProtocol
-    let giniConfiguration: GiniConfiguration
+    fileprivate let galleryManager: GalleryManagerProtocol
+    fileprivate let giniConfiguration: GiniConfiguration
     
     lazy var albumsTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -43,8 +43,8 @@ final class AlbumsPickerViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        
-        title = "Albums"
+        title = NSLocalizedStringPreferred("ginivision.albums.title",
+                                           comment: "title for the albums picker view controller")
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
@@ -82,6 +82,6 @@ extension AlbumsPickerViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 90
+        return AlbumsPickerTableViewCell.height
     }
 }
