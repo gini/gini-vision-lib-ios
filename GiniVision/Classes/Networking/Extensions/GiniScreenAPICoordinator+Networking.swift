@@ -88,7 +88,8 @@ extension GiniScreenAPICoordinator {
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
         if hasExtactions {
-            if let visionDocument = visionDocument {
+            // TODO: Handle more documents
+            if let visionDocument = visionDocuments.first {
                 self.resultsDelegate?.giniVision([visionDocument],
                                                  analysisDidFinishWithResults: result) { [weak self] feedback in
                     guard let `self` = self else { return }                    
@@ -96,7 +97,8 @@ extension GiniScreenAPICoordinator {
                 }
             }
         } else {
-            if let visionDocument = visionDocument {
+            // TODO: Handle more documents
+            if let visionDocument = visionDocuments.first {
                 DispatchQueue.main.async { [weak self] in
                     guard let `self` = self else { return }
                     self.resultsDelegate?.giniVision([visionDocument],
@@ -111,7 +113,8 @@ extension GiniScreenAPICoordinator {
     }
     
     func show(error: Error) {
-        guard let document = self.visionDocument else {
+        // TODO: Handle more documents
+        guard let document = self.visionDocuments.first else {
             return
         }
         let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"

@@ -654,27 +654,16 @@ extension CameraViewController {
     }
     
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument]) {
-        let sameTypeDocuments = documents.reduce([GiniVisionDocument]()) { result, document in
-            var result = result
-            if result.isEmpty {
-                result.append(document)
-            } else if let last = result.last, last.type == document.type {
-                result.append(document)
-            }
-            
-            return result
-        }
-        
-        if sameTypeDocuments.count == documents.count {
-            if let firstImage = sameTypeDocuments.first as? GiniImageDocument {
+        if !documents.isAssorted {
+            if let firstImage = documents.first as? GiniImageDocument {
                 self.updateMultipageReviewButton(withImage: firstImage.previewImage,
-                                                 showingStack: sameTypeDocuments.count > 1)
+                                                 showingStack: documents.count > 1)
                 self.didPick(validatedDocuments: documents)
             } else {
                 didPick(validatedDocuments: documents)
             }
         } else {
-            // Decide on what to do with mixed arrays (PDF + images)
+            //TODO: Decide on what to do with mixed arrays (PDF + images)
         }
     }
     

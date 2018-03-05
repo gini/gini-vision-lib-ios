@@ -77,7 +77,7 @@ final class AppCoordinator: Coordinator {
         // 3. Validate document
         do {
             try document?.validate()
-            showOpenWithSwitchDialog(forDocument: document!)
+            showOpenWithSwitchDialog(forDocuments: [document!])
         } catch {
             showExternalDocumentNotValidDialog()
         }
@@ -88,9 +88,9 @@ final class AppCoordinator: Coordinator {
         self.window.makeKeyAndVisible()
     }
     
-    fileprivate func showScreenAPI(withImportedDocument document: GiniVisionDocument? = nil) {
+    fileprivate func showScreenAPI(withImportedDocuments documents: [GiniVisionDocument]? = nil) {
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
-                                                        importedDocument: document,
+                                                        importedDocuments: documents,
                                                         client: client)
         screenAPICoordinator.delegate = self
         screenAPICoordinator.start()
@@ -121,16 +121,16 @@ final class AppCoordinator: Coordinator {
         rootViewController.present(settingsViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showOpenWithSwitchDialog(forDocument document: GiniVisionDocument) {
+    fileprivate func showOpenWithSwitchDialog(forDocuments documents: [GiniVisionDocument]) {
         let alertViewController = UIAlertController(title: "Importierte Datei",
                                                     message: "Möchten Sie die importierte Datei mit dem " +
             "ScreenAPI oder ComponentAPI verwenden?",
                                                     preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
-            self?.showScreenAPI(withImportedDocument: document)
+            self?.showScreenAPI(withImportedDocuments: documents)
         })        
         alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { [weak self] _ in
-            self?.showComponentAPI(withImportedDocument: document)
+            self?.showComponentAPI(withImportedDocument: documents[0])
         })
         
         rootViewController.present(alertViewController, animated: true, completion: nil)

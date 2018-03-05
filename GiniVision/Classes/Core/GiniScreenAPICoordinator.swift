@@ -38,7 +38,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate var giniConfiguration: GiniConfiguration
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
-    var visionDocument: GiniVisionDocument?
     var visionDocuments: [GiniVisionDocument] = []
     
     // Resources
@@ -77,23 +76,29 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
         super.init()
     }
     
-    func start(withDocument document: GiniVisionDocument?) -> UIViewController {
-        self.visionDocument = document
+    func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
         let viewController: UIViewController
-        if let document = document {
+        if let documents = documents, !documents.isEmpty {
+            self.visionDocuments = documents
             if !giniConfiguration.openWithEnabled {
                 fatalError("You are trying to import a file from other app when the Open With feature is not enabled." +
                     "To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
             }
             
-            if document.isReviewable {
-                self.reviewViewController = self.createReviewScreen(withDocument: document, isFirstScreen: true)
-                viewController = self.reviewViewController!
+            if !documents.isAssorted {
+                if documents[0].isReviewable {
+                    self.reviewViewController = self.createReviewScreen(withDocument: documents[0], isFirstScreen: true)
+                    viewController = self.reviewViewController!
+                } else {
+                    self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
+                    viewController = self.analysisViewController!
+                }
             } else {
-                self.analysisViewController = self.createAnalysisScreen(withDocument: document)
-                viewController = self.analysisViewController!
+                //TODO: Decide on what to do with mixed arrays (PDF + images)
+                self.cameraViewController = self.createCameraViewController()
+                viewController = self.cameraViewController!
             }
-            self.didCapture(withDocument: document)
+            
         } else {
             self.cameraViewController = self.createCameraViewController()
             viewController = self.cameraViewController!
@@ -130,7 +135,7 @@ extension GiniScreenAPICoordinator {
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
             didReview(documentToShow, changesOnReview)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
-            didReview(visionDocument!.data, changesOnReview)
+            didReview(documentToShow.data, changesOnReview)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
@@ -154,7 +159,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if visionDocument != nil {
+        if visionDocuments != nil {
             if fromVC == analysisViewController && operation == .pop {
                 analysisViewController = nil
                 visionDelegate?.didCancelAnalysis?()
@@ -316,7 +321,7 @@ internal extension GiniScreenAPICoordinator {
                                         isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.visionDocument = document
+            self.visionDocuments[0] = document
             self.changesOnReview = true
             }, failureBlock: { _ in
         })
@@ -440,7 +445,7 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     }
     
     func tryDisplayNoResultsScreen() -> Bool {
-        if let visionDocument = visionDocument, visionDocument.type == .image {
+        if let visionDocument = visionDocuments.first, visionDocument.type == .image {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 self.imageAnalysisNoResultsViewController = self.createImageAnalysisNoResultsScreen()
