@@ -221,10 +221,10 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument]) {
         visionDocuments.append(contentsOf: documents)
         
-        if let firstDocument = documents.first {
+        if let firstDocument = visionDocuments.first {
             switch firstDocument.type {
             case .image:
-                if let imageDocuments = documents as? [GiniImageDocument], firstDocument.isImported {
+                if let imageDocuments = visionDocuments as? [GiniImageDocument], firstDocument.isImported {
                     showMultipageReview(withImageDocuments: imageDocuments)
                 }
             case .qrcode, .pdf:

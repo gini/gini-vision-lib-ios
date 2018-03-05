@@ -30,6 +30,6 @@ extension Collection where Iterator.Element == GiniVisionDocument {
             }
         }
         
-        return result.count == count
+        return result.count != count
     }
 }
