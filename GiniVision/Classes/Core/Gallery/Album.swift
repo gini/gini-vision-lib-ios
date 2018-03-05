@@ -9,7 +9,7 @@ import Foundation
 import Photos
 
 struct Album {
-    var assets: [PHAsset]
+    var assets: [Asset]
     var title: String
     var identifier: String
     var count: Int {

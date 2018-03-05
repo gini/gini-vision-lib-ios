@@ -106,9 +106,9 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
         albumTitleLabel.font = giniConfiguration.customFont.regular.withSize(16)
         albumSubTitleLabel.font = giniConfiguration.customFont.regular.withSize(12)
         
-        galleryManager.fetchImage(from: album,
-                                  at: album.assets.count - 1,
-                                  imageQuality: .thumbnail) {[weak self] image, _ in
+        let asset = album.assets[album.assets.count - 1]
+        galleryManager.fetchImage(from: asset,
+                                  imageQuality: .thumbnail) {[weak self] image in
             guard let `self` = self else { return }
             self.albumThumbnailView.image = image
         }

@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GalleryCoordinatorTests: XCTestCase {
+final class GalleryCoordinatorTests: XCTestCase {
     
     let galleryManager = GalleryManagerMock()
     let selectedImageDocuments: [GiniImageDocument] = [
@@ -68,7 +68,9 @@ class GalleryCoordinatorTests: XCTestCase {
                 
                 XCTAssertTrue(delegate.didOpenImages,
                               "gallery images picked should be processed after tapping open images button")
-                XCTAssertTrue(delegate.openedImageDocuments.count == 2,
+                XCTAssertEqual(delegate.openedImageDocuments.count, 2,
+                              "delegate opened image documents should be 2")
+                XCTAssertTrue(self.coordinator.selectedImageDocuments.isEmpty,
                               "selected image documents collection should be empty after opening them")
             }
         }
@@ -89,17 +91,6 @@ class GalleryCoordinatorTests: XCTestCase {
         }
     }
     
-    func testAlbumPickerDelegateDidSelect() {
-        coordinator.albumsPicker(dummyAlbumPicker, didSelectAlbum: galleryManager.albums[0])
-        _ = expectation(for: NSPredicate(format: "count = 2"),
-                        evaluatedWith: coordinator.galleryNavigator.viewControllers, handler: nil)
-        waitForExpectations(timeout: 10) { _ in
-            XCTAssertEqual(self.coordinator.galleryNavigator.viewControllers.count, 2,
-                           "when selecting an album an image picker should be loaded")
-        }
-        
-    }
-    
     func testImagePickerDelegateDidSelect() {
         selectImage(at: 0, in: galleryManager.albums[2]) { imagePicker in
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
@@ -115,8 +106,9 @@ class GalleryCoordinatorTests: XCTestCase {
         let deselectionIndex = 0
         selectImage(at: deselectionIndex, in: album) { imagePicker in
             self.coordinator.imagePicker(imagePicker,
-                                         didDeselectAssetAt: IndexPath(row: deselectionIndex, section:0),
-                                         in: album)
+                                         didDeselectAsset: album.assets[deselectionIndex])
+            XCTAssertTrue(self.coordinator.selectedImageDocuments.isEmpty,
+                          "selected documents array should be 0 after removing all selected items.")
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
                            self.coordinator.cancelButton,
                            "Once that an image has been selected, the right bar button should be Cancel and not Open")
@@ -127,8 +119,9 @@ class GalleryCoordinatorTests: XCTestCase {
         let imagePicker = ImagePickerViewController(album: album,
                                                     galleryManager: galleryManager,
                                                     giniConfiguration: GiniConfiguration.sharedConfiguration)
-        coordinator.imagePicker(imagePicker, didSelectAssetAt: IndexPath(row: index, section: 0), in: album)
-        
+        coordinator.imagePicker(imagePicker,
+                                didSelectAsset: album.assets[index])
+
         _ = expectation(for: NSPredicate(format: "count != 0"),
                         evaluatedWith: coordinator.selectedImageDocuments, handler: nil)
         waitForExpectations(timeout: 1) { _ in
