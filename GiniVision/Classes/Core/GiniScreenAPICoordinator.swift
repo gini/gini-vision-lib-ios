@@ -227,7 +227,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 if let imageDocuments = documents as? [GiniImageDocument], firstDocument.isImported {
                     showMultipageReview(withImageDocuments: imageDocuments)
                 }
-                break
             case .qrcode, .pdf:
                 analysisViewController = createAnalysisScreen(withDocument: firstDocument)
                 screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
