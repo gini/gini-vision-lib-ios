@@ -160,10 +160,9 @@ extension FilePickerManager: UIDropInteractionDelegate {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
             return (session.canLoadObjects(ofClass: GiniImageDocument.self) ||
-                session.canLoadObjects(ofClass: GiniPDFDocument.self)) &&
-                session.items.count == 1
+                session.canLoadObjects(ofClass: GiniPDFDocument.self))
         case .pdf:
-            return session.canLoadObjects(ofClass: GiniPDFDocument.self) && session.items.count == 1
+            return session.canLoadObjects(ofClass: GiniPDFDocument.self)
         case .none:
             return false
         }
@@ -175,14 +174,14 @@ extension FilePickerManager: UIDropInteractionDelegate {
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
-            if let pdfs = pdfItems as? [GiniPDFDocument], let pdf = pdfs.first {
-                self.didPickDocuments([pdf])
+            if let pdfs = pdfItems as? [GiniPDFDocument], pdfs.isNotEmpty {
+                self.didPickDocuments(pdfs)
             }
         }
         
         session.loadObjects(ofClass: GiniImageDocument.self) { [unowned self] imageItems in
-            if let images = imageItems as? [GiniImageDocument], let image = images.first {
-                self.didPickDocuments([image])
+            if let images = imageItems as? [GiniImageDocument], images.isNotEmpty {
+                self.didPickDocuments(images)
             }
         }
     }
