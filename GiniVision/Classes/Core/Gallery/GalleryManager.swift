@@ -10,13 +10,11 @@ import Photos
 
 protocol GalleryManagerProtocol: class {
     var albums: [Album] { get }
-    func fetchImage(from album: Album,
-                    at index: Int,
+    func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
-                    completion: @escaping ((UIImage, String) -> Void))
-    func fetchImageData(from album: Album,
-                        at index: Int,
-                        completion: @escaping ((Data, String) -> Void))
+                    completion: @escaping ((UIImage) -> Void))
+    func fetchImageData(from asset: Asset,
+                        completion: @escaping ((Data) -> Void))
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
 }
@@ -32,40 +30,37 @@ final class GalleryManager: GalleryManagerProtocol {
         return $0.count > $1.count
     })
         
-    func fetchImage(from album: Album,
-                    at index: Int,
+    func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
-                    completion: @escaping ((UIImage, String) -> Void)) {
-        let asset = album.assets[index]
+                    completion: @escaping ((UIImage) -> Void)) {
         let size = imageQuality == .original ? PHImageManagerMaximumSize: CGSize(width: 250, height: 250)
-        cachingImageManager.requestImage(for: asset,
+        cachingImageManager.requestImage(for: asset.value,
                                          targetSize: size,
                                          contentMode: .default,
                                          options: nil) { image, _ in
                                             if let image = image {
-                                                completion(image, asset.localIdentifier)
+                                                completion(image)
                                             }
         }
     }
     
-    func fetchImageData(from album: Album, at index: Int, completion: @escaping ((Data, String) -> Void)) {
-        let asset = album.assets[index]
-        cachingImageManager.requestImageData(for: asset, options: nil) { data, _, _, _ in
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data) -> Void)) {
+        cachingImageManager.requestImageData(for: asset.value, options: nil) { data, _, _, _ in
             if let data = data {
-                completion(data, asset.localIdentifier)
+                completion(data)
             }
         }
     }
     
     func startCachingImages(for album: Album) {
-        self.cachingImageManager.startCachingImages(for: album.assets,
+        self.cachingImageManager.startCachingImages(for: album.assets.map { $0.value },
                                                     targetSize: PHImageManagerMaximumSize,
                                                     contentMode: .default,
                                                     options: nil)
     }
     
     func stopCachingImages(for album: Album) {
-        self.cachingImageManager.stopCachingImages(for: album.assets,
+        self.cachingImageManager.stopCachingImages(for: album.assets.map { $0.value },
                                                    targetSize: PHImageManagerMaximumSize,
                                                    contentMode: .default,
                                                    options: nil)
@@ -76,8 +71,8 @@ final class GalleryManager: GalleryManagerProtocol {
 
 extension GalleryManager {
     
-    fileprivate func fetchAssets(in collection: PHAssetCollection) -> [PHAsset] {
-        var assets: [PHAsset] = []
+    fileprivate func fetchAssets(in collection: PHAssetCollection) -> [Asset] {
+        var assets: [Asset] = []
         
         let options = PHFetchOptions()
         options.sortDescriptors = [
@@ -86,7 +81,8 @@ extension GalleryManager {
         options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         
         let results = PHAsset.fetchAssets(in: collection, options: options)
-        results.enumerateObjects({ asset, _, _ in
+        results.enumerateObjects({ obj, _, _ in
+            let asset = Asset(value: obj)
             assets.append(asset)
         })
         
@@ -104,7 +100,7 @@ extension GalleryManager {
         collections.forEach { albumsCollection in
             albumsCollection.enumerateObjects({ (collection, _, _) in
                 if let collection = collection as? PHAssetCollection {
-                    let assets: [PHAsset] = self.fetchAssets(in: collection)
+                    let assets: [Asset] = self.fetchAssets(in: collection)
                     if !assets.isEmpty {
                         let album = Album(assets: assets,
                                           title: collection.localizedTitle ?? "",

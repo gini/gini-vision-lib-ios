@@ -10,18 +10,16 @@ import Foundation
 @testable import GiniVision
 
 final class ImagePickerViewControllerDelegateMock: ImagePickerViewControllerDelegate {
-    
-    var selectedIndexes: [IndexPath] = []
-    
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album) {
-        selectedIndexes.append(index)
+    var selectedAssets: [Asset] = []
+
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset) {
+        selectedAssets.append(asset)
     }
     
-    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAssetAt index: IndexPath, in album: Album) {
-        if let index = selectedIndexes.index(of: index) {
-            selectedIndexes.remove(at: index)
+    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset asset: Asset) {
+        if let index = selectedAssets.index(where: { $0.identifier == asset.identifier}) {
+            selectedAssets.remove(at: index)
         }
     }
-    
     
 }

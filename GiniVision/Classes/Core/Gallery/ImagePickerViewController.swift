@@ -9,8 +9,8 @@ import Foundation
 import Photos
 
 protocol ImagePickerViewControllerDelegate: class {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAssetAt index: IndexPath, in album: Album)
-    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAssetAt index: IndexPath, in album: Album)
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset)
+    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset  asset: Asset)
 }
 
 final class ImagePickerViewController: UIViewController {
@@ -94,7 +94,8 @@ extension ImagePickerViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier,
                                                       for: indexPath) as? ImagePickerCollectionViewCell
-        galleryManager.fetchImage(from: currentAlbum, at: indexPath.row, imageQuality: .thumbnail) { image, _ in
+        let asset = currentAlbum.assets[indexPath.row]
+        galleryManager.fetchImage(from: asset, imageQuality: .thumbnail) { image in
             cell?.galleryImage.image = image
         }
         
@@ -124,11 +125,13 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
         if let selectedIndexes = collectionView.indexPathsForSelectedItems, selectedIndexes.count > 10 {
             collectionView.deselectItem(at: indexPath, animated: false)
         } else {
-            delegate?.imagePicker(self, didSelectAssetAt: indexPath, in: currentAlbum)
+            let asset = currentAlbum.assets[indexPath.row]
+            delegate?.imagePicker(self, didSelectAsset: asset)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        delegate?.imagePicker(self, didDeselectAssetAt: indexPath, in: currentAlbum)
+        let asset = currentAlbum.assets[indexPath.row]
+        delegate?.imagePicker(self, didDeselectAsset: asset)
     }
 }

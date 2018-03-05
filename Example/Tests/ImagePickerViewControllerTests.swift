@@ -12,7 +12,7 @@ import XCTest
 final class ImagePickerViewControllerTests: XCTestCase {
     
     let galleryManager = GalleryManagerMock()
-    lazy var currentAlbum = self.galleryManager.albums[0]
+    lazy var currentAlbum = self.galleryManager.albums[1]
     
     lazy var vc = ImagePickerViewController(album: self.currentAlbum,
                                             galleryManager: GalleryManagerMock(),
@@ -33,7 +33,7 @@ final class ImagePickerViewControllerTests: XCTestCase {
     }
     
     func testNumberOfItems() {
-        XCTAssertEqual(vc.collectionView.numberOfItems(inSection: 0), 1,
+        XCTAssertEqual(vc.collectionView.numberOfItems(inSection: 0), 2,
                        "There should be only 1 image in the first album")
     }
     
@@ -52,7 +52,7 @@ final class ImagePickerViewControllerTests: XCTestCase {
         vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex)
         vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex2)
         
-        XCTAssertEqual(delegate.selectedIndexes.count, 2,
+        XCTAssertEqual(delegate.selectedAssets.count, 2,
                        "the selected indexes count should match thet ones delivered to the delegate")
     }
     
@@ -66,7 +66,7 @@ final class ImagePickerViewControllerTests: XCTestCase {
         vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex2)
         vc.collectionView(vc.collectionView, didDeselectItemAt: selectedCellIndex2)
         
-        XCTAssertEqual(delegate.selectedIndexes.count, 1,
+        XCTAssertEqual(delegate.selectedAssets.count, 1,
                        "the selected indexes count should match thet ones delivered to the delegate")
     }
 }
