@@ -102,33 +102,17 @@ internal final class FilePickerManager: NSObject {
     
 }
 
+// MARK: GalleryCoordinatorDelegate
+
 extension FilePickerManager: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
-        self.didPickDocuments(imageDocuments)
+        didPickDocuments(imageDocuments)
         
         coordinator.rootViewController.dismiss(animated: true, completion: nil)
     }
     
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {
         coordinator.rootViewController.dismiss(animated: true, completion: nil)
-    }
-}
-
-// MARK: UIImagePickerControllerDelegate, UINavigationControllerDelegate
-
-extension FilePickerManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String: Any]) {
-        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage,
-            let imageData = UIImageJPEGRepresentation(pickedImage, 1.0),
-            let document = createDocument(fromData: imageData) {
-            didPickDocuments([document])
-        }
-        
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
     }
 }
 

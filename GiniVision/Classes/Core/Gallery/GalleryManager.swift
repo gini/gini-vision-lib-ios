@@ -26,6 +26,7 @@ enum ImageQuality {
 final class GalleryManager: GalleryManagerProtocol {
     
     fileprivate let cachingImageManager = PHCachingImageManager()
+    fileprivate let thumbnailSize = CGSize(width: 250, height: 250)
     lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
         return $0.count > $1.count
     })
@@ -33,7 +34,7 @@ final class GalleryManager: GalleryManagerProtocol {
     func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage) -> Void)) {
-        let size = imageQuality == .original ? PHImageManagerMaximumSize: CGSize(width: 250, height: 250)
+        let size = imageQuality == .original ? PHImageManagerMaximumSize: thumbnailSize
         cachingImageManager.requestImage(for: asset.value,
                                          targetSize: size,
                                          contentMode: .default,
