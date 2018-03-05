@@ -8,6 +8,12 @@
 
 import Foundation
 
+extension Collection {
+    var isNotEmpty: Bool {
+        return !isEmpty
+    }
+}
+
 internal extension Collection where Iterator.Element == CFString {
     
     var strings: [ String ] {

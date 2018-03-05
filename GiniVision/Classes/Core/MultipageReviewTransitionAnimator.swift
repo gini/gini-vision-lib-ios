@@ -50,6 +50,7 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
             }
         } else if operation == .pop {
             popImageView = UIImageView(image: popImage)
+            
             if let popImageView = popImageView {
                 popImageView.frame = popImageFrame
 
