@@ -186,7 +186,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      TODO: Add documentation
      */
     public init(giniConfiguration: GiniConfiguration) {
-        super.init(nibName: nil, bundle: nil)        
+        super.init(nibName: nil, bundle: nil)
         self.setupCamera()
     }
     
@@ -603,7 +603,7 @@ extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure file picker
         filePickerManager.didPickDocuments = { [unowned self] documents in
-            self.validateImported(documents: documents)
+            self.validate(importedDocuments: documents)
         }
         
         // Configure import file button
@@ -615,7 +615,7 @@ extension CameraViewController {
         }
     }
     
-    fileprivate func validateImported(documents: [GiniVisionDocument]) {
+    fileprivate func validate(importedDocuments documents: [GiniVisionDocument]) {
         let loadingView = addValidationLoadingView()
         
         DispatchQueue.global().async { [weak self] in
@@ -652,9 +652,9 @@ extension CameraViewController {
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument]) {
         if !documents.isAssorted {
             if let firstImage = documents.first as? GiniImageDocument {
-                self.updateMultipageReviewButton(withImage: firstImage.previewImage,
-                                                 showingStack: documents.count > 1)
-                self.didPick(validatedDocuments: documents)
+                updateMultipageReviewButton(withImage: firstImage.previewImage,
+                                            showingStack: documents.count > 1)
+                didPick(validatedDocuments: documents)
             } else {
                 didPick(validatedDocuments: documents)
             }
