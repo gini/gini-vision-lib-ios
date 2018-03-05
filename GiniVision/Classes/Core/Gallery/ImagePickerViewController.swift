@@ -74,7 +74,7 @@ final class ImagePickerViewController: UIViewController {
  
     fileprivate func scrollToBottomOnStartup() {
         // This tweak is needed to fix an issue with the UICollectionView. UICollectionView doesn't
-        // scroll to the bottom on `viewWillAppear`, which is right after `viewDidLayoutSubviews`
+        // scroll to the bottom on `viewWillAppear`, which is right after `viewDidLayoutSubviews`.
         // Since this method can be called several times during the lifecycle, there should be
         // a one-time scrolling before the view appears for the first time.
         if !isInitialized {
