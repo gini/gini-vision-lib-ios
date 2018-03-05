@@ -11,9 +11,15 @@ import Photos
 @testable import GiniVision
 
 final class GalleryManagerMock: GalleryManagerProtocol {
-    var albums: [Album] = [Album(assets: [PHAsset()], title: "Album 1", identifier: "Album 1"),
-                           Album(assets: [PHAsset(), PHAsset()], title: "Album 2", identifier: "Album 2"),
-                           Album(assets: [PHAsset()], title: "Album 3", identifier: "Album 3")]
+    var albums: [Album] = [Album(assets: [Asset(identifier: "Asset 1")],
+                                 title: "Album 1",
+                                 identifier: "Album 1"),
+                           Album(assets: [Asset(identifier: "Asset 1"), Asset(identifier: "Asset 2")],
+                                 title: "Album 2",
+                                 identifier: "Album 2"),
+                           Album(assets: [Asset(identifier: "Asset 1"), Asset(identifier: "Asset 2")],
+                                 title: "Album 3",
+                                 identifier: "Album 3")]
     
     var isCaching = false
     
@@ -25,13 +31,20 @@ final class GalleryManagerMock: GalleryManagerProtocol {
         isCaching = false
     }
     
-    func fetchImageData(from album: Album, at index: Int, completion: @escaping ((Data, String) -> Void)) {
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data) -> Void)) {
         let image = UIImage(named: "invoice.jpg", in: Bundle(for: type(of: self)), compatibleWith: nil)!
         let imageData = UIImageJPEGRepresentation(image, 1.0)!
-        completion(imageData, "Asset \(index)")
+        completion(imageData)
     }
     
-    func fetchImage(from album: Album, at index: Int, imageQuality: ImageQuality, completion: @escaping ((UIImage, String) -> Void)) {
+    func fetchImage(from asset: Asset, imageQuality: ImageQuality, completion: @escaping ((UIImage) -> Void)) {
         
+    }
+}
+
+extension Asset {
+    init(identifier: String) {
+        self.value = PHAsset()
+        self.identifier = identifier
     }
 }

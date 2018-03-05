@@ -94,6 +94,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     @objc fileprivate func openImages() {
         let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
         delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
+        selectedImageDocuments.removeAll()
         galleryNavigator.popViewController(animated: true)
     }
     
@@ -161,13 +162,12 @@ extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
 
 extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
-                     didSelectAssetAt index: IndexPath,
-                     in album: Album) {
+                     didSelectAsset asset: Asset) {
         if selectedImageDocuments.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
         
-        galleryManager.fetchImageData(from: album, at: index.row) { data, localIdentifier in
+        galleryManager.fetchImageData(from: asset) { data in
             DispatchQueue.global().async {
                 var data = data
                 
@@ -182,17 +182,17 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                                                       imageSource: .external,
                                                       imageImportMethod: .picker,
                                                       deviceOrientation: nil)
-                self.selectedImageDocuments[localIdentifier] = imageDocument
+                self.selectedImageDocuments[asset.identifier] = imageDocument
             }
         }
 
     }
     
     func imagePicker(_ viewController: ImagePickerViewController,
-                     didDeselectAssetAt index: IndexPath,
-                     in album: Album) {
-        let deselectedAsset = album.assets[index.row]
-        selectedImageDocuments.removeValue(forKey: deselectedAsset.localIdentifier)
+                     didDeselectAsset asset: Asset) {
+        if let index = selectedImageDocuments.index(forKey: asset.identifier) {
+            selectedImageDocuments.remove(at: index)
+        }
         
         if let selectedItems = viewController.collectionView.indexPathsForSelectedItems, selectedItems.isEmpty {
             viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
