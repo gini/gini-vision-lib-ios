@@ -8,6 +8,11 @@
 
 import UIKit
 
+/**
+ Container that wraps a UINavigationController in order to handle rotation.
+ Parent coordinator should be always `nil` excepts when there is no possibility
+ to keep a strong reference outside of the Gini Vision Library.
+ */
 final class ContainerNavigationController: UIViewController {
     
     var rootViewController: UINavigationController
@@ -26,11 +31,6 @@ final class ContainerNavigationController: UIViewController {
         return giniConfiguration.statusBarStyle
     }
     
-    /**
-     Container that wraps a UINavigationController in order to handle rotation.
-     Parent coordinator should be always `nil` excepts when there is no possibility
-     to keep a strong reference inside of the Gini Vision Library.
-     */
     init(rootViewController: UINavigationController,
          parent: Coordinator? = nil,
          giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
