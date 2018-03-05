@@ -185,12 +185,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      TODO: Add documentation
      */
     public init(giniConfiguration: GiniConfiguration) {
-        super.init(nibName: nil, bundle: nil)
-        
-        // Set callback
-        self.successBlock = {_ in}
-        self.failureBlock = {_ in}
-        
+        super.init(nibName: nil, bundle: nil)        
         self.setupCamera()
     }
     
