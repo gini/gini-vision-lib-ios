@@ -116,6 +116,27 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedDocuments: Documents which come from a source different than `CameraViewController`.
+     It should be validated before calling this method.
+     
+     - returns: A presentable view controller.
+     */
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                     importedDocuments: [GiniVisionDocument]? = nil) -> UIViewController {
+        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
+                                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
+        
+        return screenCoordinator.start(withDocuments: importedDocuments)
+    }
+    
+    /**
+     Returns a view controller with the camera screen loaded and ready to go. It's the
+     easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
+     all screens and transitions out of the box.
+     
+     - note: Screen API only.
+     
+     - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter importedDocument:  A document which comes from a source different than CameraViewController.
      It should be validated before calling this method.
      
@@ -123,9 +144,12 @@ import UIKit
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate,
                                      importedDocument: GiniVisionDocument? = nil) -> UIViewController {
-        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
-                                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
-        return screenCoordinator.start(withDocument: importedDocument)
+        var documents: [GiniVisionDocument]?
+        if let importedDocument = importedDocument {
+            documents = [importedDocument]
+        }
+        
+        return viewController(withDelegate: delegate, importedDocuments: documents)
     }
     
     /**

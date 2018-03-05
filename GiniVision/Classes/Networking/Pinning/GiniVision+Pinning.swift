@@ -9,7 +9,7 @@ import Foundation
 
 extension GiniVision {
     public class func viewController(withClient client: GiniClient,
-                                     importedDocument: GiniVisionDocument? = nil,
+                                     importedDocuments: [GiniVisionDocument]? = nil,
                                      giniConfiguration: GiniConfiguration,
                                      resultsDelegate: GiniVisionResultsDelegate,
                                      publicKeyPinningConfig: [String: Any]) -> UIViewController {
@@ -18,7 +18,7 @@ extension GiniVision {
                                                          resultsDelegate: resultsDelegate,
                                                          giniConfiguration: giniConfiguration,
                                                          publicKeyPinningConfig: publicKeyPinningConfig)
-        return screenCoordinator.start(withDocument: importedDocument)
+        return screenCoordinator.start(withDocuments: importedDocuments)
     }
     
 }
