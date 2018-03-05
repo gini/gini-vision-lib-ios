@@ -26,22 +26,22 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
     let client: GiniClient
     weak var analysisDelegate: AnalysisDelegate?
-    var visionDocument: GiniVisionDocument?
+    var visionDocuments: [GiniVisionDocument]?
     var visionConfiguration: GiniConfiguration
     var sendFeedbackBlock: (([String : GINIExtraction]) -> ())?
     
     init(configuration: GiniConfiguration,
-         importedDocument document: GiniVisionDocument?,
+         importedDocuments documents: [GiniVisionDocument]?,
          client: GiniClient) {
         self.visionConfiguration = configuration
-        self.visionDocument = document
+        self.visionDocuments = documents
         self.client = client
         super.init()
     }
     
     func start() {
         let viewController = GiniVision.viewController(withClient: client,
-                                                       importedDocument: visionDocument,
+                                                       importedDocuments: visionDocuments,
                                                        giniConfiguration: visionConfiguration,
                                                        resultsDelegate: self)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
