@@ -20,7 +20,7 @@ class GINIScreenAPICoordinatorTests: XCTestCase {
     
     func testInitialization() {
         screenAPICoordinator = ScreenAPICoordinator(configuration: GiniConfiguration(),
-                                                    importedDocument: nil,
+                                                    importedDocuments: nil,
                                                     client: client)
         screenAPICoordinator?.start()
         

@@ -32,9 +32,7 @@ final class GalleryManagerMock: GalleryManagerProtocol {
     }
     
     func fetchImageData(from asset: Asset, completion: @escaping ((Data) -> Void)) {
-        let image = UIImage(named: "invoice.jpg", in: Bundle(for: type(of: self)), compatibleWith: nil)!
-        let imageData = UIImageJPEGRepresentation(image, 1.0)!
-        completion(imageData)
+        completion(Data(count: 10))
     }
     
     func fetchImage(from asset: Asset, imageQuality: ImageQuality, completion: @escaping ((UIImage) -> Void)) {
