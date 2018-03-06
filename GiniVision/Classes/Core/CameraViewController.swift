@@ -185,6 +185,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     /**
      Designated initializer for the `CameraViewController` which allows
      to set the `GiniConfiguration for the camera screen`.
+     All the interactions with this screen are handle by `CameraViewControllerDelegate`.
      
      - parameter giniConfiguration: `GiniConfiguration` instance.
      
@@ -252,6 +253,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             delegate.camera(self, didCaptureDocuments: documents)
         } else if let firstDocument = documents.first {
             successBlock?(firstDocument)
+        } else {
+            print("It has not been specified a CameraViewControllerDelegate")
         }
     }
     
@@ -659,10 +662,9 @@ extension CameraViewController {
             if let firstImage = documents.first as? GiniImageDocument {
                 updateMultipageReviewButton(withImage: firstImage.previewImage,
                                             showingStack: documents.count > 1)
-                didPick(validatedDocuments: documents)
-            } else {
-                didPick(validatedDocuments: documents)
             }
+            didPick(validatedDocuments: documents)
+
         } else {
             //TODO: Decide on what to do with mixed arrays (PDF + images)
         }
