@@ -157,16 +157,38 @@ extension FilePickerManager: UIDropInteractionDelegate {
     }
     
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
-        session.loadObjects(ofClass: GiniPDFDocument.self) { [unowned self] pdfItems in
-            if let pdfs = pdfItems as? [GiniPDFDocument], pdfs.isNotEmpty {
-                self.didPickDocuments(pdfs)
+        let dispatchGroup = DispatchGroup()
+        var documents: [GiniVisionDocument] = []
+
+        loadDocuments(ofClass: GiniPDFDocument.self, from: session, in: dispatchGroup) { pdfItems in
+            if let pdfs = pdfItems {
+                documents.append(contentsOf: pdfs as [GiniVisionDocument])
             }
         }
         
-        session.loadObjects(ofClass: GiniImageDocument.self) { [unowned self] imageItems in
-            if let images = imageItems as? [GiniImageDocument], images.isNotEmpty {
-                self.didPickDocuments(images)
+        loadDocuments(ofClass: GiniImageDocument.self, from: session, in: dispatchGroup) { imageItems in
+            if let images = imageItems {
+                documents.append(contentsOf: images as [GiniVisionDocument])
             }
+        }
+
+        dispatchGroup.notify(queue: DispatchQueue.main) {
+            self.didPickDocuments(documents)
+        }
+    }
+    
+    fileprivate func loadDocuments<T: NSItemProviderReading>(ofClass classs: T.Type,
+                                                             from session: UIDropSession,
+                                                             in group: DispatchGroup,
+                                                             completion: @escaping (([T]?) -> Void)) {
+        group.enter()
+        session.loadObjects(ofClass: classs.self) { items in
+            if let items = items as? [T], items.isNotEmpty {
+                completion(items)
+            } else {
+                completion(nil)
+            }
+            group.leave()
         }
     }
 }
