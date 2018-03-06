@@ -59,13 +59,16 @@ final class GalleryCoordinator: NSObject, Coordinator {
         button.titleLabel?.textColor = .white
         
         let currentFont = button.titleLabel?.font
-        let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: currentFont?.pointSize ?? 18)]
+        let fontSize = currentFont?.pointSize ?? 18
+        let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: fontSize)]
         let openLocalizedString = NSLocalizedString("ginivision.imagepicker.openbutton",
-                                                    bundle: Bundle(for: GiniVision.self),
+                                                    bundle: Bundle(for: GiniVision.self), 
                                                     comment: "Open button title")
         let attributedString = NSMutableAttributedString(string: openLocalizedString,
                                                          attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 14/fontSize
 
         return UIBarButtonItem(customView: button)
     }()
