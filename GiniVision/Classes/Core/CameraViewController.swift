@@ -182,7 +182,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var failureBlock: CameraScreenFailureBlock?
     
     /**
-     TODO: Add documentation
+     Designated initializer for the `CameraViewController` which allows
+     to set the `GiniConfiguration for the camera screen`.
+     
+     - parameter giniConfiguration: `GiniConfiguration` instance.
+     
+     - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
     public init(giniConfiguration: GiniConfiguration) {
         super.init(nibName: nil, bundle: nil)
@@ -190,7 +195,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     }
     
     /**
-     Designated initializer for the `CameraViewController` which allows
+     Convenience initializer for the `CameraViewController` which allows
      to set a success block and an error block which will be executed accordingly.
      
      - parameter success: Success block to be executed when document was picked or image was taken.
