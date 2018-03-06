@@ -66,20 +66,6 @@ internal final class FilePickerManager: NSObject {
     
     // MARK: File data picked from gallery or document pickers
     
-    fileprivate func processFilesPicked(fromUrls urls: [URL]) {
-        var documents: [GiniVisionDocument] = []
-        
-        urls.forEach { url in
-            if let data = data(fromUrl: url) {
-                if let document = createDocument(fromData: data) {
-                    documents.append(document)
-                }
-            }
-        }
-        
-        didPickDocuments(documents)
-    }
-    
     fileprivate func createDocument(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
@@ -120,8 +106,6 @@ extension FilePickerManager: GalleryCoordinatorDelegate {
 
 extension FilePickerManager: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        processFilesPicked(fromUrls: urls)
-        
         let documents: [GiniVisionDocument] = urls
             .flatMap(self.data)
             .flatMap(self.createDocument)

@@ -48,7 +48,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     
     // MARK: - Navigation bar buttons
 
-    lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.cancel,
+    lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                              target: self,
                                                              action: #selector(cancelAction))
     
@@ -60,14 +60,17 @@ final class GalleryCoordinator: NSObject, Coordinator {
         
         let currentFont = button.titleLabel?.font
         let attributes = [NSFontAttributeName: UIFont.boldSystemFont(ofSize: currentFont?.pointSize ?? 18)]
-        let attributedString = NSMutableAttributedString(string: "Done",
+        let openLocalizedString = NSLocalizedString("ginivision.imagepicker.openbutton",
+                                                    bundle: Bundle(for: GiniVision.self),
+                                                    comment: "Open button title")
+        let attributedString = NSMutableAttributedString(string: openLocalizedString,
                                                          attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)
 
         return UIBarButtonItem(customView: button)
     }()
     
-    // MARK: - Initializers
+    // MARK: - Initializer
 
     init(galleryManager: GalleryManagerProtocol = GalleryManager(), giniConfiguration: GiniConfiguration) {
         self.galleryManager = galleryManager

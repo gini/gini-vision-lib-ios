@@ -81,7 +81,7 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
         Constraints.active(item: albumAccesoryView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                            constant: -padding.bottom)
         Constraints.active(item: albumAccesoryView, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
-                           constant: -padding.left)
+                           constant: -padding.left * 2)
         
         // albumTitleLabel
         Constraints.active(item: albumTitleLabel, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY,
