@@ -184,7 +184,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     /**
      Designated initializer for the `CameraViewController` which allows
      to set the `GiniConfiguration for the camera screen`.
-     All the interactions with this screen are handle by `CameraViewControllerDelegate`.
+     All the interactions with this screen are handled by `CameraViewControllerDelegate`.
      
      - parameter giniConfiguration: `GiniConfiguration` instance.
      
