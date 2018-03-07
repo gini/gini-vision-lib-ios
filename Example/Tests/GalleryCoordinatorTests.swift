@@ -41,7 +41,7 @@ final class GalleryCoordinatorTests: XCTestCase {
         
         XCTAssertTrue(galleryManager.isCaching, "gallery manager should have started caching")
         XCTAssertEqual(coordinator.galleryNavigator.viewControllers.count, 2,
-                       "there should be 2 view controller in the navigator when the gallery coordinator starts")
+                       "there should be 2 view controllers in the navigator when the gallery coordinator starts")
     }
     
     func testCloseGallery() {
@@ -95,7 +95,7 @@ final class GalleryCoordinatorTests: XCTestCase {
         selectImage(at: 0, in: galleryManager.albums[2]) { imagePicker in
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
                            self.coordinator.openImagesButton,
-                           "Once that an image has been selected, the right bar button should be Open and not Cancel")
+                           "once that an image has been selected, the right bar button should be Open and not Cancel")
             XCTAssertFalse(self.coordinator.selectedImageDocuments.isEmpty,
                            "selected image documents should not be empty after selecting an image")
         }
@@ -111,7 +111,7 @@ final class GalleryCoordinatorTests: XCTestCase {
                           "selected documents array should be 0 after removing all selected items.")
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
                            self.coordinator.cancelButton,
-                           "Once that an image has been selected, the right bar button should be Cancel and not Open")
+                           "once that an image has been selected, the right bar button should be Cancel and not Open")
         }
     }
     

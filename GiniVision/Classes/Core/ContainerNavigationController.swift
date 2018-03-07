@@ -10,7 +10,7 @@ import UIKit
 
 /**
  Container that wraps a UINavigationController in order to handle rotation.
- Parent coordinator should be always `nil` excepts when there is no possibility
+ The parent coordinator should be always `nil` excepts when there is no possibility
  to keep a strong reference outside of the Gini Vision Library.
  */
 final class ContainerNavigationController: UIViewController {

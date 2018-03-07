@@ -26,11 +26,11 @@ final class AlbumsPickerViewControllerTests: XCTestCase {
     }
     
     func testNumberOfSections() {
-        XCTAssertEqual(vc.albumsTableView.numberOfSections, 1, "There should be only one section")
+        XCTAssertEqual(vc.albumsTableView.numberOfSections, 1, "there should be only one section")
     }
     
     func testNumberOfItems() {
-        XCTAssertEqual(vc.albumsTableView.numberOfRows(inSection: 0), 3, "There should be 4 albums")
+        XCTAssertEqual(vc.albumsTableView.numberOfRows(inSection: 0), 3, "there should be 3 albums")
     }
     
     func testCollectionCellType() {
@@ -56,21 +56,26 @@ final class AlbumsPickerViewControllerTests: XCTestCase {
                        "selected album should match the one delivered to the delegate")
     }
     
-    func testTableCellContent() {
+    func testFirstCellContent() {
         let firstIndex = IndexPath(row: 0, section: 0)
-        let secondIndex = IndexPath(row: 1, section: 0)
-        
         let firstCell = vc.tableView(vc.albumsTableView, cellForRowAt: firstIndex) as? AlbumsPickerTableViewCell
-        let secondCell = vc.tableView(vc.albumsTableView, cellForRowAt: secondIndex) as? AlbumsPickerTableViewCell
         
         XCTAssertEqual(firstCell?.albumTitleLabel.text, galleryManager.albums[firstIndex.row].title,
                        "album title label text should match the album title for the first cell")
+        XCTAssertEqual(firstCell?.albumSubTitleLabel.text, "\(galleryManager.albums[firstIndex.row].count)",
+            "album subtitle label text should match the album assets count for the first cell")
+    }
+    
+    func testSecondCellContent() {
+        let secondIndex = IndexPath(row: 1, section: 0)
+        let secondCell = vc.tableView(vc.albumsTableView, cellForRowAt: secondIndex) as? AlbumsPickerTableViewCell
+        
         XCTAssertEqual(secondCell?.albumTitleLabel.text, galleryManager.albums[secondIndex.row].title,
                        "album title label text should match the album title for the second cell")
-        XCTAssertEqual(firstCell?.albumSubTitleLabel.text, "\(galleryManager.albums[firstIndex.row].count)",
-                       "album subtitle label text should match the album assets count for the first cell")
         XCTAssertEqual(secondCell?.albumSubTitleLabel.text, "\(galleryManager.albums[secondIndex.row].count)",
                        "album subtitle label text should match the album assets count for the second cell")
 
     }
+    
+
 }
