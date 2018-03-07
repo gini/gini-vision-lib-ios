@@ -667,8 +667,27 @@ extension CameraViewController {
             didPick(validatedDocuments: documents)
 
         } else {
-            //TODO: Decide on what to do with mixed arrays (PDF + images)
+            showMultipleTypesImportedAlert(forDocuments: documents) { filteredDocuments in
+                self.didPick(validatedDocuments: filteredDocuments)
+            }
         }
+    }
+    
+    func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
+                                                    completion: @escaping (([GiniVisionDocument]) -> Void) ) {
+        let imageDocuments = documents.filter { $0.type == .image }
+
+        let message = "You have selected \(imageDocuments.count) images and \(documents.count - imageDocuments.count) PDFs"
+        let alertViewController = UIAlertController(title: "Selected both types",
+                                                    message: message,
+                                                    preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            
+        }))
+        alertViewController.addAction(UIAlertAction(title: "Use images", style: .default, handler: { _ in
+            completion(imageDocuments)
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     fileprivate func addValidationLoadingView() -> UIView {
