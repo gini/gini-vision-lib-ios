@@ -31,4 +31,9 @@ extension Collection where Iterator.Element == GiniVisionDocument {
         
         return true
     }
+
+    var type: GiniVisionDocumentType? {
+        return isAssorted ? nil : first?.type
+    }
+    
 }

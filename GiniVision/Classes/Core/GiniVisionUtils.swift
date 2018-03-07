@@ -183,3 +183,15 @@ internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
                                 application: UIApplication = UIApplication.shared) {
     application.setStatusBarStyle(statusBarStyle, animated: true)
 }
+
+
+/**
+    Measure the time spent executing a block
+ */
+
+internal func measure(block: () -> Void) {
+    let start = Date()
+    block()
+    let elaspsedTime = Date().timeIntervalSince(start)
+    print("Elapsed time: ", elaspsedTime, " seconds")
+}

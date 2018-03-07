@@ -77,7 +77,6 @@ final class ImagePickerViewController: UIViewController {
         // scroll to the bottom on `viewWillAppear`, which is right after `viewDidLayoutSubviews`.
         // Since this method can be called several times during the lifecycle, there should be
         // a one-time scrolling before the view appears for the first time.
-        DispatchQueue
         if !isInitialized {
             isInitialized = true
             collectionView.scrollToItem(at: IndexPath(row: currentAlbum.count - 1,
