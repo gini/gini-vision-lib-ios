@@ -23,19 +23,12 @@ internal extension Collection where Iterator.Element == CFString {
 }
 
 extension Collection where Iterator.Element == GiniVisionDocument {
-    var isAssorted: Bool {
-        var result: [GiniVisionDocument] = []
-        
-        for document in self {
-            if result.isEmpty {
-                result.append(document)
-            } else if let last = result.last, last.type == document.type {
-                result.append(document)
-            } else {
-                return true
-            }
+    var isAssorted: Bool {        
+        if let firstElement = first {
+            let otherTypes = filter { $0.type != firstElement.type }
+            return otherTypes.isNotEmpty
         }
         
-        return result.count != count
+        return true
     }
 }

@@ -29,12 +29,12 @@ final class ImagePickerViewControllerTests: XCTestCase {
     }
     
     func testNumberOfSections() {
-        XCTAssertEqual(vc.collectionView.numberOfSections, 1, "There should be only one section")
+        XCTAssertEqual(vc.collectionView.numberOfSections, 1, "there should be only one section")
     }
     
     func testNumberOfItems() {
         XCTAssertEqual(vc.collectionView.numberOfItems(inSection: 0), 2,
-                       "There should be only 1 image in the first album")
+                       "there should be only 2 images in the first album")
     }
     
     func testCollectionCellType() {

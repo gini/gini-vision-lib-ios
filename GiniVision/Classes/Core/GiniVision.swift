@@ -116,7 +116,7 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedDocuments: Documents which come from a source different than `CameraViewController`.
+     - parameter importedDocuments: Documents that come from a source different than `CameraViewController`.
      It should be validated before calling this method.
      
      - returns: A presentable view controller.
