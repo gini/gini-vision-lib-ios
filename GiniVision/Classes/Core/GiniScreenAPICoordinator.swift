@@ -85,7 +85,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                     "To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
             }
             
-            if !documents.isAssorted {
+            if !documents.containsDifferentTypes {
                 if documents[0].isReviewable {
                     self.reviewViewController = self.createReviewScreen(withDocument: documents[0], isFirstScreen: true)
                     viewController = self.reviewViewController!
