@@ -1,3 +1,4 @@
+
 //
 //  CameraViewController.swift
 //  GiniVision
@@ -674,7 +675,7 @@ extension CameraViewController {
     }
     
     func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
-                                                    completion: @escaping (([GiniVisionDocument]) -> Void) ) {
+                                        completion: @escaping (([GiniVisionDocument]) -> Void) ) {
         let imageDocuments = documents.filter { $0.type == .image }
 
         let message = "You have selected \(imageDocuments.count) images and \(documents.count - imageDocuments.count) PDFs"
