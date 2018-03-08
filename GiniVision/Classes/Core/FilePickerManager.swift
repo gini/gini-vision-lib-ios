@@ -93,11 +93,11 @@ internal final class FilePickerManager: NSObject {
 extension FilePickerManager: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
         didPickDocuments(imageDocuments)
-        coordinator.rootViewController.dismiss(animated: true, completion: nil)
+        coordinator.dismissGallery()
     }
     
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {
-        coordinator.rootViewController.dismiss(animated: true, completion: nil)
+        coordinator.dismissGallery()
     }
 }
 
