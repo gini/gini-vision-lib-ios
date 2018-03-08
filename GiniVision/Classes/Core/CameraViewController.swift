@@ -439,8 +439,7 @@ extension CameraViewController {
             // was set and therefor the correct states were checked before.
             if let image = self.defaultImageView?.image,
                 let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                self.didPick(validatedDocuments: [imageDocument])
+                self.cameraDidCapture(imageData: imageData, error: nil)
             }
         }
 
