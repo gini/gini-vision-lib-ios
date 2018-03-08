@@ -610,6 +610,7 @@ extension CameraViewController {
 extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure file picker
+        filePickerManager.startCaching()
         filePickerManager.didPickDocuments = { [unowned self] documents in
             self.validate(importedDocuments: documents)
         }
@@ -658,7 +659,7 @@ extension CameraViewController {
     }
     
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument]) {
-        if !documents.isAssorted {
+        if !documents.containsDifferentTypes {
             if let firstImage = documents.first as? GiniImageDocument {
                 updateMultipageReviewButton(withImage: firstImage.previewImage,
                                             showingStack: documents.count > 1)

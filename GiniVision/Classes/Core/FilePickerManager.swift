@@ -12,9 +12,9 @@ import Photos
 
 internal final class FilePickerManager: NSObject {
     
-    let galleryCoordinator = GalleryCoordinator(giniConfiguration: GiniConfiguration.sharedConfiguration)
-
+    let galleryCoordinator: GalleryCoordinator
     var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
+    
     fileprivate var acceptedDocumentTypes: [String] {
         switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
@@ -26,8 +26,15 @@ internal final class FilePickerManager: NSObject {
         }
     }
     
-    override init() {
-        super.init()
+    // MARK: - Initializer
+    
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+        galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
+    }
+    
+    // MARK: - Start caching
+    
+    func startCaching() {
         DispatchQueue.global().async {
             self.galleryCoordinator.start()
         }
