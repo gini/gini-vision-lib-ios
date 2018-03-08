@@ -80,7 +80,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
         self.giniConfiguration = giniConfiguration
     }
     
-    // MARK: - Start
+    // MARK: - Coordinator lifecycle
     
     func start() {
         if let firstAlbum = galleryManager.albums.first {
@@ -88,6 +88,10 @@ final class GalleryCoordinator: NSObject, Coordinator {
             galleryManager.startCachingImages(for: firstAlbum)
             galleryNavigator.pushViewController(imagePicker, animated: false)
         }
+    }
+    
+    func dismissGallery(completion: (() -> Void)? = nil) {
+        rootViewController.dismiss(animated: true, completion: completion)
     }
     
     // MARK: - Bar button actions
