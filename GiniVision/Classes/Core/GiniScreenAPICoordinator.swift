@@ -97,7 +97,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
                 viewControllers = [self.analysisViewController!]
             }
-            
         } else {
             self.cameraViewController = self.createCameraViewController()
             viewControllers = [self.cameraViewController!]
