@@ -33,7 +33,7 @@ extension Collection where Iterator.Element == GiniVisionDocument {
     }
 
     var type: GiniVisionDocumentType? {
-        return isAssorted ? nil : first?.type
+        return containsDifferentTypes ? nil : first?.type
     }
     
 }

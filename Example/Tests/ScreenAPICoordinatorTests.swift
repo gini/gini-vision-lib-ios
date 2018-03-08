@@ -1,5 +1,5 @@
 //
-//  GINIScreenAPICoordinatorTests.swift
+//  ScreenAPICoordinatorTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 11/14/17.
@@ -10,7 +10,7 @@ import XCTest
 @testable import GiniVision_Example
 @testable import GiniVision
 
-class GINIScreenAPICoordinatorTests: XCTestCase {
+final class ScreenAPICoordinatorTests: XCTestCase {
     
     let documentService = DocumentService()
     let client = GiniClient(clientId: "",
