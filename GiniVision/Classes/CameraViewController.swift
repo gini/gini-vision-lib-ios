@@ -369,17 +369,19 @@ extension CameraViewController {
     
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
-            if GiniConfiguration.DEBUG {
-                // Retrieve image from default image view to make sure image
-                // was set and therefor the correct states were checked before.
-                if let image = self.defaultImageView?.image,
-                    let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                    self.successBlock?(imageDocument)
-                }
-            }
             return print("GiniVision: No camera initialized.")
         }
+        
+        if GiniConfiguration.DEBUG {
+            // Retrieve image from default image view to make sure image
+            // was set and therefor the correct states were checked before.
+            if let image = self.defaultImageView?.image,
+                let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
+                self.successBlock?(imageDocument)
+            }
+        }
+        
         camera.captureStillImage {[weak self] imageData, error in
             guard let imageData = imageData,
                 error == nil else {
