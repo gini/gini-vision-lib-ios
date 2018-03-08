@@ -23,7 +23,7 @@ internal extension Collection where Iterator.Element == CFString {
 }
 
 extension Collection where Iterator.Element == GiniVisionDocument {
-    var isAssorted: Bool {        
+    var containsDifferentTypes: Bool {        
         if let firstElement = first {
             let otherTypes = filter { $0.type != firstElement.type }
             return otherTypes.isNotEmpty
