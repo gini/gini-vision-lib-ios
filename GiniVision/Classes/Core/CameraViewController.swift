@@ -675,15 +675,22 @@ extension CameraViewController {
     func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
                                         completion: @escaping (([GiniVisionDocument]) -> Void) ) {
         let imageDocuments = documents.filter { $0.type == .image }
-
-        let message = "You have selected \(imageDocuments.count) images and \(documents.count - imageDocuments.count) PDFs"
-        let alertViewController = UIAlertController(title: "Selected both types",
+        
+        let message = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.message",
+                                                 comment: "message showed in the alert when " +
+                                                          "multiple types were selected.")
+        let cancel = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
+                                                comment: "cancel button for popup")
+        let usePhotos = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
+                                                comment: "use photos button text in popup")
+        
+        let alertViewController = UIAlertController(title: nil,
                                                     message: message,
                                                     preferredStyle: .alert)
-        alertViewController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+        alertViewController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { _ in
             
         }))
-        alertViewController.addAction(UIAlertAction(title: "Use images", style: .default, handler: { _ in
+        alertViewController.addAction(UIAlertAction(title: usePhotos, style: .default, handler: { _ in
             completion(imageDocuments)
         }))
         self.present(alertViewController, animated: true, completion: nil)
