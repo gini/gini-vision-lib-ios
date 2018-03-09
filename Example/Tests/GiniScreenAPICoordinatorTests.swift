@@ -26,7 +26,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         _ = rootViewController.view
         let screenNavigator = rootViewController.childViewControllers.first as? UINavigationController
         XCTAssertEqual(screenNavigator?.viewControllers.count, 1,
-                       "there should be only once view controller in the nav stack")
+                       "there should be only one view controller in the nav stack")
     }
     
     func testNavControllerTypesAfterStartWithoutDocuments() {
@@ -67,7 +67,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         _ = rootViewController.view
         let screenNavigator = rootViewController.childViewControllers.first as? UINavigationController
         XCTAssertEqual(screenNavigator?.viewControllers.count, 1,
-                       "there should be only once view controller in the nav stack")
+                       "there should be only one view controller in the nav stack")
     }
     
     func testNavControllerTypesAfterStartWithAPDF() {

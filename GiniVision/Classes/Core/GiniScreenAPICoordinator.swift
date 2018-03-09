@@ -164,7 +164,6 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             reviewViewController = nil
             visionDelegate?.didCancelReview?()
-            visionDocuments.removeAll()
         }
         
         let isFromCameraToMultipage = (toVC == multiPageReviewController && fromVC == cameraViewController)
