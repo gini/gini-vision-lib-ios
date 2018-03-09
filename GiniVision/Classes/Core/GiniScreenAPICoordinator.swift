@@ -78,24 +78,29 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
         let viewControllers: [UIViewController]
-        if let documents = documents, !documents.isEmpty, !documents.containsDifferentTypes {
-            self.visionDocuments = documents
-            if !giniConfiguration.openWithEnabled {
-                fatalError("You are trying to import a file from other app when the Open With feature is not enabled." +
-                    "To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
-            }
-            
-            if let imageDocuments = documents as? [GiniImageDocument] {
-                self.cameraViewController = self.createCameraViewController()
-                self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
-                                                                       showingStack: imageDocuments.count > 1)
-                self.multiPageReviewController =
-                    createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+        if let documents = documents, !documents.isEmpty {
+            if !documents.containsDifferentTypes {
+                self.visionDocuments = documents
+                if !giniConfiguration.openWithEnabled {
+                    fatalError("You are trying to import a file from other app when the Open With feature is not " +
+                               "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
+                }
                 
-                viewControllers = [self.cameraViewController!, self.multiPageReviewController!]
+                if let imageDocuments = documents as? [GiniImageDocument] {
+                    self.cameraViewController = self.createCameraViewController()
+                    self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
+                                                                           showingStack: imageDocuments.count > 1)
+                    self.multiPageReviewController =
+                        createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+                    
+                    viewControllers = [self.cameraViewController!, self.multiPageReviewController!]
+                } else {
+                    self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
+                    viewControllers = [self.analysisViewController!]
+                }
             } else {
-                self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
-                viewControllers = [self.analysisViewController!]
+                fatalError("You are trying to import both PDF and images at the same time. " +
+                           "For now it is only possible to import either images or one PDF")
             }
         } else {
             self.cameraViewController = self.createCameraViewController()
