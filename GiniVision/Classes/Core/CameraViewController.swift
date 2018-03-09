@@ -668,13 +668,15 @@ extension CameraViewController {
 
         } else {
             showMultipleTypesImportedAlert(forDocuments: documents) { filteredDocuments in
-                self.didPick(validatedDocuments: filteredDocuments)
+                if let filteredDocuments = filteredDocuments {
+                    self.didPick(validatedDocuments: filteredDocuments)
+                }
             }
         }
     }
     
     func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
-                                        completion: @escaping (([GiniVisionDocument]) -> Void) ) {
+                                        completion: @escaping (([GiniVisionDocument]?) -> Void) ) {
         let imageDocuments = documents.filter { $0.type == .image }
         
         let message = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.message",
@@ -689,7 +691,7 @@ extension CameraViewController {
                                                     message: message,
                                                     preferredStyle: .alert)
         alertViewController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { _ in
-            
+            completion(nil)
         }))
         alertViewController.addAction(UIAlertAction(title: usePhotos, style: .default, handler: { _ in
             completion(imageDocuments)
