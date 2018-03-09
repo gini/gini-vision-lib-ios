@@ -17,7 +17,20 @@ let GINIAnalysisManagerDocumentUserInfoKey          = "GINIAnalysisManagerDocume
 public typealias Extraction = GINIExtraction
 typealias DocumentAnalysisCompletion = (([String: Extraction]?, GINIDocument?, Error?) -> Void)
 
-final class APIService {
+protocol APIServiceProtocol: class {
+    
+    var error: Error? { get }
+    var isAnalyzing: Bool { get }
+    var result: [String: Extraction]? { get }
+    
+    func analyze(document: GiniVisionDocument,
+                 cancelationToken token: CancelationToken,
+                 completion: DocumentAnalysisCompletion?)
+    func cancelAnalysis()
+    func sendFeedback(withResults results: [String: Extraction])
+}
+
+final class APIService: APIServiceProtocol {
     
     fileprivate var cancelationToken: CancelationToken?
     var document: GINIDocument?
@@ -43,10 +56,10 @@ final class APIService {
         self.giniSDK = sdk
     }
     
-    func analyzeDocument(withData data: Data,
-                         cancelationToken token: CancelationToken = CancelationToken(),
-                         completion: DocumentAnalysisCompletion?) {
-        print("🔎 Started document analysis with size \(Double(data.count) / 1024.0)")
+    func analyze(document: GiniVisionDocument,
+                 cancelationToken token: CancelationToken,
+                 completion: DocumentAnalysisCompletion?) {
+        print("🔎 Started document analysis with size \(Double(document.data.count) / 1024.0)")
         
         cancelAnalysis()
         cancelationToken = token
@@ -55,6 +68,7 @@ final class APIService {
         let manager = giniSDK?.documentTaskManager
         let fileName = "fileName"
         var documentId: String?
+        let startDate = Date()
         
         _ = giniSDK?.sessionManager.getSession()
             .continue(getSessionBlock(cancelationToken: token))
@@ -62,7 +76,7 @@ final class APIService {
                 if token.cancelled {
                     return BFTask.cancelled()
                 }
-                return manager?.createDocument(withFilename: fileName, from: data, docType: "")
+                return manager?.createDocument(withFilename: fileName, from: document.data, docType: "")
             })
             .continue(successBlock: { (task: BFTask?) in
                 if token.cancelled {
@@ -73,14 +87,13 @@ final class APIService {
                     documentId = document.documentId
                     self.document = document
                     print("📄 Created document with id: \(documentId!)")
-                    return self.poll(document: document, cancelationToken: token)
-                    
+                    return self.poll(document: document, manager: manager, cancelationToken: token)
                 } else {
                     print("Error creating document")
                     return BFTask(error: AnalysisError.documentCreation)
                 }
             })
-            .continue(handleAnalysisResultsBlock(cancelationToken: token, completion: completion))
+            .continue(handleAnalysisResultsBlock(cancelationToken: token, startDate: startDate, completion: completion))
             .continue({ _ in
                 self.isAnalyzing = false
                 return nil
@@ -132,6 +145,7 @@ final class APIService {
     }
     
     fileprivate func handleAnalysisResultsBlock(cancelationToken token: CancelationToken,
+                                                startDate: Date,
                                                 completion: DocumentAnalysisCompletion?) -> BFContinuationBlock? {
         return { [weak self] (task: BFTask?) in
             guard let `self` = self else { return nil }
@@ -142,20 +156,25 @@ final class APIService {
                 return BFTask.cancelled()
             }
             
+            let finishedString = "✅ Finished analysis process in \(Date().timeIntervalSince(startDate)) seconds with"
+            
             if let error = task?.error {
                 self.error = error
-                print("✅ Finished analysis process with this error: \(error)")
+                print(finishedString, "this error: \(error)")
+                
                 completion?(nil, nil, error)
             } else if let document = self.document,
                 let result = task?.result as? [String: Extraction] {
                 self.result = result
                 self.document = document
-                print("✅ Finished analysis process with no errors")
+                print(finishedString, "no errors")
+                
                 completion?(result, document, nil)
             } else {
                 let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
                 self.error = error
-                print("✅ Finished analysis process with this error: \(error)")
+                print(finishedString, "this error: \(error)")
+                
                 completion?(nil, nil, AnalysisError.unknown)
                 return nil
             }
@@ -164,23 +183,31 @@ final class APIService {
         }
     }
     
-    fileprivate func poll(document: GINIDocument, cancelationToken token: CancelationToken) -> BFTask! {
-        print("Poll document with state pending: ", document.state == .pending)
+    fileprivate func poll(document: GINIDocument,
+                          manager: GINIDocumentTaskManager?,
+                          pollDelay: Int32 = 1000,
+                          cancelationToken token: CancelationToken) -> BFTask! {
+        print("🕐 Document status pending: ", document.state == .pending)
         if document.state != .pending {
+            print("🗂 Getting extractions... ")
+
             return document.extractions
         } else {
+            print("🔄 Polling document status...")
+
             return self.giniSDK?.apiManager
                 .getDocument(document.documentId)
-                .continue(successBlock: { task in
-                    print("Fetched document with state pending: ")
+                .continue(successBlock: {[weak manager] task in
                     if let responseDict = task?.result as? [AnyHashable: Any],
                         let newDocument = GINIDocument(fromAPIResponse: responseDict,
-                                                       withDocumentManager: self.giniSDK?.documentTaskManager) {
+                                                       withDocumentManager: manager) {
                         if token.cancelled {
                             return BFTask.cancelled()
                         }
-                        return BFTask(delay: 1000).continue(successBlock: { _ in
-                            return self.poll(document: newDocument, cancelationToken: token)
+                        let delay = newDocument.state == .pending ? pollDelay : 0
+                        
+                        return BFTask(delay: delay).continue(successBlock: { _ in
+                            return self.poll(document: newDocument, manager: manager, cancelationToken: token)
                         })
                     }
                     return BFTask.cancelled()
