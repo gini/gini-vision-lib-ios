@@ -85,19 +85,8 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                                "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
+                viewControllers = initialViewControllers(withDocuments: documents)
                 
-                if let imageDocuments = documents as? [GiniImageDocument] {
-                    self.cameraViewController = self.createCameraViewController()
-                    self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
-                                                                           showingStack: imageDocuments.count > 1)
-                    self.multiPageReviewController =
-                        createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
-                    
-                    viewControllers = [self.cameraViewController!, self.multiPageReviewController!]
-                } else {
-                    self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
-                    viewControllers = [self.analysisViewController!]
-                }
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
                            "For now it is only possible to import either images or one PDF")
@@ -111,9 +100,24 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
         return ContainerNavigationController(rootViewController: self.screenAPINavigationController,
                                              parent: self)
     }
+    
+    private func initialViewControllers(withDocuments documents: [GiniVisionDocument]) -> [UIViewController] {
+        if let imageDocuments = documents as? [GiniImageDocument] {
+            self.cameraViewController = self.createCameraViewController()
+            self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
+                                                                   showingStack: imageDocuments.count > 1)
+            self.multiPageReviewController =
+                createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+            
+            return [self.cameraViewController!, self.multiPageReviewController!]
+        } else {
+            self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
+            return [self.analysisViewController!]
+        }
+    }
 }
 
-// MARK: - Private methods
+// MARK: - Button actions
 
 extension GiniScreenAPICoordinator {
     
