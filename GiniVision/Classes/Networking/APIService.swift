@@ -25,7 +25,7 @@ final class APIService {
     var giniSDK: GiniSDK?
     var isAnalyzing = false
     var result: [String: Extraction]?
-
+    
     enum AnalysisError: Error {
         case documentCreation
         case unknown
@@ -44,7 +44,7 @@ final class APIService {
     }
     
     func analyzeDocument(withData data: Data,
-                         cancelationToken token: CancelationToken,
+                         cancelationToken token: CancelationToken = CancelationToken(),
                          completion: DocumentAnalysisCompletion?) {
         print("🔎 Started document analysis with size \(Double(data.count) / 1024.0)")
         
@@ -73,7 +73,7 @@ final class APIService {
                     documentId = document.documentId
                     self.document = document
                     print("📄 Created document with id: \(documentId!)")
-                    return self.document?.extractions
+                    return self.poll(document: document, cancelationToken: token)
                     
                 } else {
                     print("Error creating document")
@@ -120,7 +120,7 @@ final class APIService {
     fileprivate func getSessionBlock(cancelationToken token: CancelationToken? = nil) -> BFContinuationBlock? {
         return { [weak self] (task: BFTask?) -> Any! in
             guard let `self` = self else { return nil }
-
+            
             if let token = token, token.cancelled {
                 return BFTask.cancelled()
             }
@@ -161,6 +161,30 @@ final class APIService {
             }
             
             return nil
+        }
+    }
+    
+    fileprivate func poll(document: GINIDocument, cancelationToken token: CancelationToken) -> BFTask! {
+        print("Poll document with state pending: ", document.state == .pending)
+        if document.state != .pending {
+            return document.extractions
+        } else {
+            return self.giniSDK?.apiManager
+                .getDocument(document.documentId)
+                .continue(successBlock: { task in
+                    print("Fetched document with state pending: ")
+                    if let responseDict = task?.result as? [AnyHashable: Any],
+                        let newDocument = GINIDocument(fromAPIResponse: responseDict,
+                                                       withDocumentManager: self.giniSDK?.documentTaskManager) {
+                        if token.cancelled {
+                            return BFTask.cancelled()
+                        }
+                        return BFTask(delay: 1000).continue(successBlock: { _ in
+                            return self.poll(document: newDocument, cancelationToken: token)
+                        })
+                    }
+                    return BFTask.cancelled()
+                })
         }
     }
     

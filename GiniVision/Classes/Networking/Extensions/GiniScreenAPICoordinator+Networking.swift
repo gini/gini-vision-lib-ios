@@ -70,8 +70,7 @@ extension GiniScreenAPICoordinator {
         cancelAnalysis()
         
         apiService?
-            .analyzeDocument(withData: document.data,
-                             cancelationToken: CancelationToken()) { [weak self] result, _, error in
+            .analyzeDocument(withData: document.data) { [weak self] result, _, error in
                                 guard let result = result else {
                                     if let error = error {
                                         self?.show(error: error)
