@@ -69,15 +69,14 @@ extension GiniScreenAPICoordinator {
     func analyzeDocument(visionDocument document: GiniVisionDocument) {
         cancelAnalysis()
         
-        apiService?.analyze(document: document, cancelationToken: CancelationToken()) { [weak self] result, _, error in
-            guard let result = result else {
-                if let error = error {
-                    self?.show(error: error)
-                    return
-                }
-                return
+        apiService?.analyze(document: document, cancelationToken: CancelationToken()) { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.present(result: response)
+            case .failure(let error):
+                self?.show(error: error)
+                
             }
-            self?.present(result: result)
         }
     }
     
