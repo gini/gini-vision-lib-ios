@@ -680,7 +680,7 @@ extension CameraViewController {
                                                  comment: "message showed in the alert when " +
                                                           "multiple types were selected.")
         let cancel = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
-                                                comment: "cancel button for popup")
+                                                comment: "cancel button text for popup")
         let usePhotos = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
                                                 comment: "use photos button text in popup")
         
