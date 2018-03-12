@@ -530,7 +530,7 @@ extension CameraViewController {
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              refView: self.previewView,
                                                              document: qrDocument,
-                                                             giniConfiguration: self.self.giniConfiguration)
+                                                             giniConfiguration: self.giniConfiguration)
                 newQRCodePopup.didTapDone = { [weak self] in
                     self?.didPick(validatedDocuments: [qrDocument])
                     self?.detectedQRCodeDocument = nil
