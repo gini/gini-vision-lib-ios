@@ -38,7 +38,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate var giniConfiguration: GiniConfiguration
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
-    var visionDocuments: [GiniVisionDocument] = []
+    fileprivate(set) var visionDocuments: [GiniVisionDocument] = []
     
     // Resources
     fileprivate lazy var backButtonResource =
@@ -77,40 +77,47 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     }
     
     func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
-        let viewController: UIViewController
+        let viewControllers: [UIViewController]
         if let documents = documents, !documents.isEmpty {
-            self.visionDocuments = documents
-            if !giniConfiguration.openWithEnabled {
-                fatalError("You are trying to import a file from other app when the Open With feature is not enabled." +
-                    "To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
-            }
-            
             if !documents.containsDifferentTypes {
-                if documents[0].isReviewable {
-                    self.reviewViewController = self.createReviewScreen(withDocument: documents[0], isFirstScreen: true)
-                    viewController = self.reviewViewController!
-                } else {
-                    self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
-                    viewController = self.analysisViewController!
+                self.visionDocuments = documents
+                if !giniConfiguration.openWithEnabled {
+                    fatalError("You are trying to import a file from other app when the Open With feature is not " +
+                               "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
+                viewControllers = initialViewControllers(withDocuments: documents)
+                
             } else {
-                //TODO: Decide on what to do with mixed arrays (PDF + images)
-                self.cameraViewController = self.createCameraViewController()
-                viewController = self.cameraViewController!
+                fatalError("You are trying to import both PDF and images at the same time. " +
+                           "For now it is only possible to import either images or one PDF")
             }
-            
         } else {
             self.cameraViewController = self.createCameraViewController()
-            viewController = self.cameraViewController!
+            viewControllers = [self.cameraViewController!]
         }
         
-        self.screenAPINavigationController.setViewControllers([viewController], animated: false)
+        self.screenAPINavigationController.setViewControllers(viewControllers, animated: false)
         return ContainerNavigationController(rootViewController: self.screenAPINavigationController,
                                              parent: self)
     }
+    
+    private func initialViewControllers(withDocuments documents: [GiniVisionDocument]) -> [UIViewController] {
+        if let imageDocuments = documents as? [GiniImageDocument] {
+            self.cameraViewController = self.createCameraViewController()
+            self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
+                                                                   showingStack: imageDocuments.count > 1)
+            self.multiPageReviewController =
+                createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+            
+            return [self.cameraViewController!, self.multiPageReviewController!]
+        } else {
+            self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
+            return [self.analysisViewController!]
+        }
+    }
 }
 
-// MARK: - Private methods
+// MARK: - Button actions
 
 extension GiniScreenAPICoordinator {
     
@@ -159,15 +166,13 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if visionDocuments != nil {
-            if fromVC == analysisViewController && operation == .pop {
-                analysisViewController = nil
-                visionDelegate?.didCancelAnalysis?()
-            }
-            if fromVC == reviewViewController && toVC == cameraViewController {
-                reviewViewController = nil
-                visionDelegate?.didCancelReview?()
-            }
+        if fromVC == analysisViewController && operation == .pop {
+            analysisViewController = nil
+            visionDelegate?.didCancelAnalysis?()
+        }
+        if fromVC == reviewViewController && toVC == cameraViewController {
+            reviewViewController = nil
+            visionDelegate?.didCancelReview?()
         }
         
         let isFromCameraToMultipage = (toVC == multiPageReviewController && fromVC == cameraViewController)
@@ -219,19 +224,26 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument]) {
-        visionDocuments.append(contentsOf: documents)
-        
-        if let firstDocument = visionDocuments.first {
-            switch firstDocument.type {
-            case .image:
-                if let imageDocuments = visionDocuments as? [GiniImageDocument], firstDocument.isImported {
-                    showMultipageReview(withImageDocuments: imageDocuments)
+        if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
+            visionDocuments.append(contentsOf: documents)
+            
+            if let firstDocument = documents.first {
+                switch type {
+                case .image:
+                    if let imageDocument = firstDocument as? GiniImageDocument,
+                        let imageDocuments = visionDocuments as? [GiniImageDocument],
+                        imageDocument.isImported {
+                        showMultipageReview(withImageDocuments: imageDocuments)
+                    }
+                case .qrcode, .pdf:
+                    analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+                    screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+                    didCapture(withDocument: firstDocument)
                 }
-            case .qrcode, .pdf:
-                analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-                screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
-                didCapture(withDocument: firstDocument)
             }
+            
+        } else {
+            viewController.showMultipleTypesImportedAlert(forDocuments: visionDocuments + documents) { _ in }
         }
     }
     
@@ -345,7 +357,8 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Multipage Review screen
 
 internal extension GiniScreenAPICoordinator {
-    fileprivate func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument]) -> MultipageReviewController {
+    fileprivate func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
+        -> MultipageReviewController {
         let vc = MultipageReviewController(imageDocuments: documents)
         
         vc.setupNavigationItem(usingResources: backButtonResource,

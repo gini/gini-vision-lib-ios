@@ -1,3 +1,4 @@
+
 //
 //  CameraViewController.swift
 //  GiniVision
@@ -439,8 +440,7 @@ extension CameraViewController {
             // was set and therefor the correct states were checked before.
             if let image = self.defaultImageView?.image,
                 let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                self.didPick(validatedDocuments: [imageDocument])
+                self.cameraDidCapture(imageData: imageData, error: nil)
             }
         }
 
@@ -667,8 +667,36 @@ extension CameraViewController {
             didPick(validatedDocuments: documents)
 
         } else {
-            //TODO: Decide on what to do with mixed arrays (PDF + images)
+            showMultipleTypesImportedAlert(forDocuments: documents) { filteredDocuments in
+                if let filteredDocuments = filteredDocuments {
+                    self.didPick(validatedDocuments: filteredDocuments)
+                }
+            }
         }
+    }
+    
+    func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
+                                        completion: @escaping (([GiniVisionDocument]?) -> Void) ) {
+        let imageDocuments = documents.filter { $0.type == .image }
+        
+        let message = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.message",
+                                                 comment: "message showed in the alert when " +
+                                                          "multiple types were selected.")
+        let cancel = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
+                                                comment: "cancel button text for popup")
+        let usePhotos = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
+                                                comment: "use photos button text in popup")
+        
+        let alertViewController = UIAlertController(title: nil,
+                                                    message: message,
+                                                    preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { _ in
+            completion(nil)
+        }))
+        alertViewController.addAction(UIAlertAction(title: usePhotos, style: .default, handler: { _ in
+            completion(imageDocuments)
+        }))
+        self.present(alertViewController, animated: true, completion: nil)
     }
     
     fileprivate func addValidationLoadingView() -> UIView {

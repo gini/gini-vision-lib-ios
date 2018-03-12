@@ -32,6 +32,9 @@
 "ginivision.camera.fileImportTip" = "Es können jetzt auch ganz einfach Dateien hochgeladen werden.";
 "ginivision.camera.qrCodeDetectedPopup.message" = "QR verwenden?";
 "ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Hier geht’s weiter.";
+"ginivision.camera.mixedarrayspopup.cancel" = "Abbrechen";
+"ginivision.camera.mixedarrayspopup.usePhotos" = "Benutze Photos";
+"ginivision.camera.mixedarrayspopup.message" = "Leider ist es nur möglich einen Dateityp gleichzeitig auszuwählen, either images or a PDF";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";

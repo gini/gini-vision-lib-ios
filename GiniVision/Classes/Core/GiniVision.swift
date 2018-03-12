@@ -117,7 +117,7 @@ import UIKit
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter importedDocuments: Documents that come from a source different than `CameraViewController`.
-     It should be validated before calling this method.
+     There should be either images or one PDF, and they should be validated before calling this method.
      
      - returns: A presentable view controller.
      */
@@ -137,9 +137,9 @@ import UIKit
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
-     - parameter importedDocument:  A document which comes from a source different than CameraViewController.
-     It should be validated before calling this method.
-     
+     - parameter importedDocument: Documents that come from a source different than CameraViewController.
+     There should be either images or one PDF, and they should be validated before calling this method.
+
      - returns: A presentable view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate,
@@ -160,9 +160,9 @@ import UIKit
      
      - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
      - parameter configuration: The configuration to set.
-     - parameter importedDocument:  A document which comes from a source different than CameraViewController.
-     It should be validated before calling this method.
-     
+     - parameter importedDocument: Documents that come from a source different than CameraViewController.
+     There should be either images or one PDF, and they should be validated before calling this method.
+
      - returns: A presentable view controller.
      */
     public class func viewController(withDelegate delegate: GiniVisionDelegate,
