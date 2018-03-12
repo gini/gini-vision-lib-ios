@@ -18,6 +18,7 @@ final class ImagePickerViewController: UIViewController {
     let currentAlbum: Album
     weak var delegate: ImagePickerViewControllerDelegate?
     fileprivate let galleryManager: GalleryManagerProtocol
+    fileprivate let giniConfiguration: GiniConfiguration
     private var isInitialized: Bool = false
     private let multipleSelectionLimit: Int = 10
     
@@ -45,6 +46,7 @@ final class ImagePickerViewController: UIViewController {
          galleryManager: GalleryManagerProtocol,
          giniConfiguration: GiniConfiguration) {
         self.galleryManager = galleryManager
+        self.giniConfiguration = giniConfiguration
         self.currentAlbum = album
         super.init(nibName: nil, bundle: nil)
     }
@@ -95,9 +97,9 @@ extension ImagePickerViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePickerCollectionViewCell.identifier,
                                                       for: indexPath) as? ImagePickerCollectionViewCell
         let asset = currentAlbum.assets[indexPath.row]
-        galleryManager.fetchImage(from: asset, imageQuality: .thumbnail) { image in
-            cell?.galleryImage.image = image
-        }
+        cell?.fill(withAsset: asset,
+                   multipleSelectionEnabled: giniConfiguration.multipageEnabled,
+                   galleryManager: galleryManager)
         
         return cell!
     }

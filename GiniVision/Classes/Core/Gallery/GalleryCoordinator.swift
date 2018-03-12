@@ -177,7 +177,8 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
         
-        galleryManager.fetchImageData(from: asset) { data in
+        galleryManager.fetchImageData(from: asset) { [weak self] data in
+            guard let `self` = self else { return }
             DispatchQueue.global().async {
                 var data = data
                 
@@ -193,6 +194,12 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                                                       imageImportMethod: .picker,
                                                       deviceOrientation: nil)
                 self.selectedImageDocuments[asset.identifier] = imageDocument
+                
+                if !self.giniConfiguration.multipageEnabled {
+                    DispatchQueue.main.async {
+                        self.openImages()
+                    }
+                }
             }
         }
 

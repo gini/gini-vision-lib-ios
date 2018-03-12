@@ -52,6 +52,12 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    override var isHighlighted: Bool {
+        didSet {
+            selectedForegroundView.alpha = isHighlighted ? 1 : 0
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(galleryImage)
@@ -75,6 +81,15 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func fill(withAsset asset: Asset,
+              multipleSelectionEnabled: Bool,
+              galleryManager: GalleryManagerProtocol) {
+        checkCircleBackground.alpha = multipleSelectionEnabled ? 1 : 0
+        galleryManager.fetchImage(from: asset, imageQuality: .thumbnail) { [weak self] image in
+            self?.galleryImage.image = image
+        }
     }
     
     class func size(for screen: UIScreen = UIScreen.main,
