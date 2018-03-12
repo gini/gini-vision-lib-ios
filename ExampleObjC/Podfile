@@ -7,6 +7,7 @@ use_frameworks!
 
 target 'GiniVisionExampleObjC' do
   pod 'GiniVision', :path => '../'
+  pod 'Gini-iOS-SDK'
 end
 
 post_install do |installer|
