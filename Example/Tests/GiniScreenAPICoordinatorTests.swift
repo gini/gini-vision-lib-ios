@@ -70,7 +70,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
                        "there should be only one view controller in the nav stack")
     }
     
-    func testNavControllerTypesAfterStartWithAPDF() {
+    func testNavControllerTypesAfterStartWithPDF() {
         let capturedPDFs = [loadPDFDocument(withName: "testPDF")]
 
         let rootViewController = coordinator.start(withDocuments: capturedPDFs)
