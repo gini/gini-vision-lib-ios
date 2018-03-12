@@ -117,8 +117,9 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 
                 return [self.cameraViewController!, self.multiPageReviewController!]
             } else {
+                self.cameraViewController = self.createCameraViewController()
                 self.reviewViewController = self.createReviewScreen(withDocument: documents[0])
-                return [self.reviewViewController!]
+                return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
             self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
@@ -242,14 +243,14 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 switch type {
                 case .image:
                     if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                        let firstDocument = imageDocuments.first {
+                        let lastDocument = imageDocuments.last {
                         if giniConfiguration.multipageEnabled {
                             if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                                firstDocument.isImported {
+                                lastDocument.isImported {
                                 showMultipageReview(withImageDocuments: imageDocuments)
                             }
                         } else {
-                            reviewViewController = createReviewScreen(withDocument: firstDocument)
+                            reviewViewController = createReviewScreen(withDocument: lastDocument)
                             screenAPINavigationController.pushViewController(reviewViewController!, animated: true)
                             didCapture(withDocument: firstDocument)
                         }
