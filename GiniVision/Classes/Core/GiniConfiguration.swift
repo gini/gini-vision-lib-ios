@@ -90,6 +90,12 @@ import UIKit
     public var debugModeOn = false
     
     /**
+     Indicates whether the multipage feature is enabled or not. In case of `true`,
+     multiple pages can be processed, showing a different review screen when capturing.
+     */
+    public var multipageEnabled = false
+    
+    /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to
      the globally specified color or to a default color.
      
