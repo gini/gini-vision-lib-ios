@@ -3,10 +3,6 @@ pipeline {
   environment {
     GIT = credentials('github')
   }
-  triggers {
-    //Every 5 minutes
-    cron('*/5 * * * *')
-  }
   stages {
     stage('Prerequisites') {
       environment {
