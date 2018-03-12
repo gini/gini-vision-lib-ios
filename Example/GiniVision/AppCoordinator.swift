@@ -78,7 +78,15 @@ final class AppCoordinator: Coordinator {
         // 3. Validate document
         do {
             try document?.validate()
-            showOpenWithSwitchDialog(forDocuments: [document!])
+            let path1 = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
+            let data1 = try? Data(contentsOf: path1!)
+            let path2 = Bundle.main.url(forResource: "invoice2", withExtension: "jpg")
+            let data2 = try? Data(contentsOf: path2!)
+            let fakeDocument1 = GiniVisionDocumentBuilder(data: data1).build()!
+            let fakeDocument2 = GiniVisionDocumentBuilder(data: data2).build()!
+            showOpenWithSwitchDialog(forDocuments: [fakeDocument1])
+
+//            showOpenWithSwitchDialog(forDocuments: [document!])
         } catch {
             showExternalDocumentNotValidDialog()
         }

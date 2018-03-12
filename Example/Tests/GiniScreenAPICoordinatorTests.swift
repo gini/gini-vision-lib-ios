@@ -81,6 +81,17 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
                         "first view controller is not a AnalysisViewController")
     }
     
+    func testNavControllerTypesAfterStartWithImageAndMultipageDisabled() {
+        let capturedImages = [loadImageDocument(withName: "invoice")]
+
+        let rootViewController = coordinator.start(withDocuments: capturedImages)
+        _ = rootViewController.view
+        let screenNavigator = rootViewController.childViewControllers.first as? UINavigationController
+        
+        XCTAssertNotNil(screenNavigator?.viewControllers.first as? ReviewViewController,
+                        "first view controller is not a ReviewViewController")
+    }
+    
     func testCameraDidCaptureImagesWithEmptyArray(){
         let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
         coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedImages)

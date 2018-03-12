@@ -79,6 +79,11 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
         let viewControllers: [UIViewController]
         if let documents = documents, !documents.isEmpty {
+            if documents.count > 1, !giniConfiguration.multipageEnabled {
+                fatalError("You are trying to import several files from other app when the Multipage feature is not " +
+                    "enabled. To enable it just set `multipageEnabled` to `true` in the `GiniConfiguration`")
+            }
+            
             if !documents.containsDifferentTypes {
                 self.visionDocuments = documents
                 if !giniConfiguration.openWithEnabled {
@@ -103,13 +108,18 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     private func initialViewControllers(withDocuments documents: [GiniVisionDocument]) -> [UIViewController] {
         if let imageDocuments = documents as? [GiniImageDocument] {
-            self.cameraViewController = self.createCameraViewController()
-            self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
-                                                                   showingStack: imageDocuments.count > 1)
-            self.multiPageReviewController =
-                createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
-            
-            return [self.cameraViewController!, self.multiPageReviewController!]
+            if giniConfiguration.multipageEnabled {
+                self.cameraViewController = self.createCameraViewController()
+                self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
+                                                                       showingStack: imageDocuments.count > 1)
+                self.multiPageReviewController =
+                    createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+                
+                return [self.cameraViewController!, self.multiPageReviewController!]
+            } else {
+                self.reviewViewController = self.createReviewScreen(withDocument: documents[0])
+                return [self.reviewViewController!]
+            }
         } else {
             self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
             return [self.analysisViewController!]
