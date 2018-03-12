@@ -22,6 +22,7 @@ final class SettingsViewController: UIViewController {
     @IBOutlet weak var fileImportControl: UISegmentedControl!
     @IBOutlet weak var openWithSwitch: UISwitch!
     @IBOutlet weak var qrCodeScanningSwitch: UISwitch!
+    @IBOutlet weak var multipageSwitch: UISwitch!
     @IBAction func fileImportOptions(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -49,11 +50,19 @@ final class SettingsViewController: UIViewController {
         giniConfiguration.qrCodeScanningEnabled = sender.isOn
         delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
     }
+    
+    @IBAction func multipageSwitch(_ sender: UISwitch) {
+        giniConfiguration.multipageEnabled = sender.isOn
+        delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: true)
         qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: true)
-
+        multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: true)
+        
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:
             fileImportControl.selectedSegmentIndex = 0
@@ -64,4 +73,5 @@ final class SettingsViewController: UIViewController {
         }
         
     }
+
 }
