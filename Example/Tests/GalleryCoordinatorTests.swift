@@ -12,6 +12,7 @@ import XCTest
 final class GalleryCoordinatorTests: XCTestCase {
     
     let galleryManager = GalleryManagerMock()
+    let giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration
     let selectedImageDocuments: [GiniImageDocument] = [
         GiniImageDocument(data: Data(count: 1), imageSource: .external),
         GiniImageDocument(data: Data(count: 2), imageSource: .external),
@@ -32,8 +33,9 @@ final class GalleryCoordinatorTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        giniConfiguration.multipageEnabled = true
         coordinator = GalleryCoordinator(galleryManager: self.galleryManager,
-                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                         giniConfiguration: giniConfiguration)
     }
     
     func testGalleryCoordinatorStart() {
