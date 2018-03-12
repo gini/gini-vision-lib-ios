@@ -99,7 +99,7 @@ final class APIService: APIServiceProtocol {
                     task = BFTask(error: error)
                 }
                 
-                task.continue(self.handleAnalysisResultsBlock(cancelationToken: token,
+                task.continue(self.handleAnalysisResults(cancelationToken: token,
                                                               startDate: startDate,
                                                               completion: completion))
             }
@@ -185,9 +185,9 @@ extension APIService {
         }
     }
     
-    fileprivate func handleAnalysisResultsBlock(cancelationToken token: CancelationToken,
-                                                startDate: Date,
-                                                completion: @escaping (Result<[String: Extraction]>) -> Void)
+    fileprivate func handleAnalysisResults(cancelationToken token: CancelationToken,
+                                           startDate: Date,
+                                           completion: @escaping (Result<[String: Extraction]>) -> Void)
         -> BFContinuationBlock? {
             
         return { [weak self] (task: BFTask?) in
