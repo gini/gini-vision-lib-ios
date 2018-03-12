@@ -90,7 +90,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         _ = rootViewController.view
         let screenNavigator = rootViewController.childViewControllers.first as? UINavigationController
         
-        XCTAssertNotNil(screenNavigator?.viewControllers.first as? ReviewViewController,
+        XCTAssertNotNil(screenNavigator?.viewControllers.last as? ReviewViewController,
                         "first view controller is not a ReviewViewController")
     }
     

@@ -12,7 +12,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     let selectedCircleSize = CGSize(width: 25, height: 25)
     
-    lazy var galleryImage: UIImageView = {
+    fileprivate lazy var galleryImage: UIImageView = {
         let galleryImage: UIImageView = UIImageView(frame: .zero)
         galleryImage.translatesAutoresizingMaskIntoConstraints = false
         galleryImage.contentMode = .scaleAspectFill
@@ -20,7 +20,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return galleryImage
     }()
     
-    lazy var selectedForegroundView: UIView = {
+    fileprivate lazy var selectedForegroundView: UIView = {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.white.withAlphaComponent(0.5)
@@ -28,7 +28,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var checkImage: UIImageView = {
+    fileprivate lazy var checkImage: UIImageView = {
         let image = UIImageNamedPreferred(named: "supportedFormatsIcon")
         var imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var checkCircleBackground: UIView = {
+    fileprivate lazy var checkCircleBackground: UIView = {
         let circleView = UIView()
         circleView.translatesAutoresizingMaskIntoConstraints = false
         circleView.layer.borderWidth = 1
