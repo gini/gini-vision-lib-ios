@@ -92,7 +92,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(self.cameraCaptureButtonImage, for: .normal)
         button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
-        button.accessibilityLabel = GiniConfiguration.sharedConfiguration.cameraCaptureButtonTitle
+        button.accessibilityLabel = self.giniConfiguration.cameraCaptureButtonTitle
         return button
     }()
     lazy var importFileButton: UIButton = {
@@ -153,14 +153,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     ]
     
     // Properties
+    let giniConfiguration: GiniConfiguration
     weak var delegate: CameraViewControllerDelegate?
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
     fileprivate lazy var filePickerManager: FilePickerManager = {
         return FilePickerManager()
     }()
-    fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
+    fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
 
     // Images
     fileprivate var defaultImage: UIImage? {
@@ -193,8 +194,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
     public init(giniConfiguration: GiniConfiguration) {
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
-        self.setupCamera()
+        self.setupCamera(giniConfiguration: self.giniConfiguration)
     }
     
     /**
@@ -275,13 +277,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.insertSubview(previewView, at: 0)
         view.insertSubview(controlsView, aboveSubview: previewView)
         
-        previewView.drawGuides(withColor: GiniConfiguration.sharedConfiguration.cameraPreviewCornerGuidesColor)
+        previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
-        controlsView.addSubview(multipageReviewContentView)
-        multipageReviewContentView.addSubview(multipageReviewBackgroundView)
-        multipageReviewContentView.addSubview(multipageReviewButton)
         
-        // Add constraints
+        if giniConfiguration.multipageEnabled {
+            controlsView.addSubview(multipageReviewContentView)
+            multipageReviewContentView.addSubview(multipageReviewBackgroundView)
+            multipageReviewContentView.addSubview(multipageReviewButton)
+        }
+        
         addConstraints()
     }
     
@@ -290,10 +294,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         updatePreviewViewOrientation() // Video orientation should be updated once the view has been loaded
         
-        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
+        if giniConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
             if ToolTipView.shouldShowFileImportToolTip {
-                createFileImportTip(giniConfiguration: GiniConfiguration.sharedConfiguration)
+                createFileImportTip(giniConfiguration: giniConfiguration)
                 if !OnboardingContainerViewController.willBeShown {
                     showFileImportTip()
                 }
@@ -308,7 +312,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      */
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setStatusBarStyle(to: GiniConfiguration.sharedConfiguration.statusBarStyle)
+        setStatusBarStyle(to: giniConfiguration.statusBarStyle)
         camera?.start()
     }
     
@@ -408,7 +412,7 @@ extension CameraViewController {
 
 extension CameraViewController {
     
-    fileprivate func setupCamera(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
         self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
             if let error = error {
                 switch error {
@@ -458,9 +462,14 @@ extension CameraViewController {
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
         
-        self.animateToControlsView(imageDocument: imageDocument) {
+        if giniConfiguration.multipageEnabled {
+            self.animateToControlsView(imageDocument: imageDocument) {
+                self.didPick(validatedDocuments: [imageDocument])
+            }
+        } else {
             self.didPick(validatedDocuments: [imageDocument])
         }
+
     }
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
@@ -521,7 +530,7 @@ extension CameraViewController {
                 let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                              refView: self.previewView,
                                                              document: qrDocument,
-                                                             giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                                             giniConfiguration: self.self.giniConfiguration)
                 newQRCodePopup.didTapDone = { [weak self] in
                     self?.didPick(validatedDocuments: [qrDocument])
                     self?.detectedQRCodeDocument = nil
@@ -660,7 +669,7 @@ extension CameraViewController {
     
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument]) {
         if !documents.containsDifferentTypes {
-            if let firstImage = documents.first as? GiniImageDocument {
+            if let firstImage = documents.first as? GiniImageDocument, giniConfiguration.multipageEnabled {
                 updateMultipageReviewButton(withImage: firstImage.previewImage,
                                             showingStack: documents.count > 1)
             }
@@ -718,7 +727,7 @@ extension CameraViewController {
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         var alertViewControllerMessage = "PDF importieren"
         
-        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
+        if giniConfiguration.fileImportSupportedTypes == .pdf_and_images {
             alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
                 self.filePickerManager.showGalleryPicker(from: self, errorHandler: { [unowned self] error in
                     if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
@@ -771,7 +780,7 @@ extension CameraViewController {
     }
     
     fileprivate func showPhotoLibraryPermissionDeniedError() {
-        let alertMessage = GiniConfiguration.sharedConfiguration.photoLibraryAccessDeniedMessageText
+        let alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
         
         let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
         

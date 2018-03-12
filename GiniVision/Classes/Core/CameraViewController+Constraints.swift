@@ -12,7 +12,10 @@ extension CameraViewController {
         addPreviewViewConstraints()
         addControlsViewConstraints()
         addControlsViewButtonsConstraints()
-        addReviewImagesButtonConstraints()
+        
+        if giniConfiguration.multipageEnabled {
+            addMultipageReviewImagesButtonConstraints()
+        }
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -65,7 +68,7 @@ extension CameraViewController {
         }
     }
     
-    fileprivate func addReviewImagesButtonConstraints() {
+    fileprivate func addMultipageReviewImagesButtonConstraints() {
         if UIDevice.current.isIpad {
             Constraints.active(item: multipageReviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
