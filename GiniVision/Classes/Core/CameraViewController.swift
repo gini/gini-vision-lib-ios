@@ -544,6 +544,7 @@ extension CameraViewController {
         multipageReviewBackgroundView.isHidden = !showingStack
         multipageReviewButton.setImage(image, for: .normal)
         multipageReviewButton.isUserInteractionEnabled = image != nil
+        filePickerManager.isPDFSelectionAllowed = image == nil
     }
     
     func updatePreviewViewOrientation() {
