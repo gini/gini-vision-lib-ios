@@ -82,7 +82,6 @@ final class APIService: APIServiceProtocol {
         cancelationToken = token
         isAnalyzing = true
         
-        let manager = giniSDK?.documentTaskManager
         let fileName = "fileName"
         let startDate = Date()
         
@@ -94,7 +93,7 @@ final class APIService: APIServiceProtocol {
             } else {
                 switch response {
                 case .success(let document):
-                    task = self.poll(document: document, manager: manager, cancelationToken: token)
+                    task = document.extractions
                 case .failure(let error):
                     task = BFTask(error: error)
                 }
@@ -222,38 +221,6 @@ extension APIService {
             self.isAnalyzing = false
             
             return nil
-        }
-    }
-    
-    fileprivate func poll(document: GINIDocument,
-                          manager: GINIDocumentTaskManager?,
-                          pollDelay: Int32 = 1000,
-                          cancelationToken token: CancelationToken) -> BFTask! {
-        print("🕐 Document status pending: ", document.state == .pending)
-        if document.state != .pending {
-            print("🗂 Getting extractions... ")
-            
-            return document.extractions
-        } else {
-            print("🔄 Polling document status...")
-            
-            return self.giniSDK?.apiManager
-                .getDocument(document.documentId)
-                .continue(successBlock: {[weak manager] task in
-                    if let responseDict = task?.result as? [AnyHashable: Any],
-                        let newDocument = GINIDocument(fromAPIResponse: responseDict,
-                                                       withDocumentManager: manager) {
-                        if token.cancelled {
-                            return BFTask.cancelled()
-                        }
-                        let delay = newDocument.state == .pending ? pollDelay : 0
-                        
-                        return BFTask(delay: delay).continue(successBlock: { _ in
-                            return self.poll(document: newDocument, manager: manager, cancelationToken: token)
-                        })
-                    }
-                    return BFTask.cancelled()
-                })
         }
     }
     
