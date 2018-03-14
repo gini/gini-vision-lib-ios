@@ -37,9 +37,9 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    var apiService: APIService? {
+    var apiService: APIServiceProtocol? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKey.apiService) as? APIService
+            return objc_getAssociatedObject(self, &AssociatedKey.apiService) as? APIServiceProtocol
         }
         
         set {
@@ -69,17 +69,14 @@ extension GiniScreenAPICoordinator {
     func analyzeDocument(visionDocument document: GiniVisionDocument) {
         cancelAnalysis()
         
-        apiService?
-            .analyzeDocument(withData: document.data,
-                             cancelationToken: CancelationToken()) { [weak self] result, _, error in
-                                guard let result = result else {
-                                    if let error = error {
-                                        self?.show(error: error)
-                                        return
-                                    }
-                                    return
-                                }
-                                self?.present(result: result)
+        apiService?.analyze(document: document, cancelationToken: CancelationToken()) { [weak self] result in
+            switch result {
+            case .success(let response):
+                self?.present(result: response)
+            case .failure(let error):
+                self?.show(error: error)
+                
+            }
         }
     }
     
@@ -92,8 +89,8 @@ extension GiniScreenAPICoordinator {
             if let visionDocument = visionDocuments.first {
                 self.resultsDelegate?.giniVision([visionDocument],
                                                  analysisDidFinishWithResults: result) { [weak self] feedback in
-                    guard let `self` = self else { return }                    
-                    self.apiService?.sendFeedback(withResults: feedback)
+                                                    guard let `self` = self else { return }
+                                                    self.apiService?.sendFeedback(withResults: feedback)
                 }
             }
         } else {
