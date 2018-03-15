@@ -59,9 +59,9 @@ final class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: true)
-        qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: true)
-        multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: true)
+        openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: false)
+        qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: false)
+        multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: false)
         
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:
