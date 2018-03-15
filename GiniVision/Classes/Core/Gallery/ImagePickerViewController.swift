@@ -73,6 +73,12 @@ final class ImagePickerViewController: UIViewController {
     }
     
     // MARK: - Others
+    
+    func deselectAllCells() {
+        collectionView.indexPathsForSelectedItems?.forEach { index in
+            self.collectionView.deselectItem(at: index, animated: false)
+        }
+    }
  
     fileprivate func scrollToBottomOnStartup() {
         // This tweak is needed to fix an issue with the UICollectionView. UICollectionView doesn't
