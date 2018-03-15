@@ -622,7 +622,7 @@ extension CameraViewController {
 // MARK: - Document import
 
 extension CameraViewController {
-    fileprivate func enableFileImport() {        
+    fileprivate func enableFileImport() {
         // Configure import file button
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
