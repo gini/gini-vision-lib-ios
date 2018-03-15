@@ -30,6 +30,10 @@ final class GalleryCoordinator: NSObject, Coordinator {
         return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
     }
     
+    var isGalleryPermissionGranted: Bool {
+        return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
+    }
+    
     // MARK: - View controllers
     
     var rootViewController: UIViewController {
