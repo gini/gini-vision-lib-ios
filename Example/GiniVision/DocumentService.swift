@@ -137,75 +137,75 @@ final class DocumentService {
         if token.cancelled {
             return
         }
-        
-        // 1. Get session
-        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any! in
-            if token.cancelled {
-                return BFTask.cancelled()
-            }
-            if task?.error != nil {
-                return sdk?.sessionManager.logIn()
-            }
-            return task?.result
-            
-            // 2. Create a document from the given image data
-        }).continue(successBlock: { _ -> AnyObject! in
-            if token.cancelled {
-                return BFTask.cancelled()
-            }
-            return manager?.createDocument(withFilename: fileName, from: data, docType: "")
-            
-            // 3. Get extractions from the document
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
-            if token.cancelled {
-                return BFTask.cancelled()
-            }
-            
-            if let document = task?.result as? GINIDocument {
-                documentId = document.documentId
-                self.document = document
-                print("📄 Created document with id: \(documentId!)")
-                return self.document?.extractions
-
-            } else {
-                print("Error creating document")
-                return BFTask(error: AnalysisError.documentCreation)
-            }
-            
-            // 4. Handle results
-        }).continue({ (task: BFTask?) -> AnyObject! in
-            if token.cancelled || (task?.isCancelled == true) {
-                print("❌ Canceled analysis process")
-                completion?(nil, nil, AnalysisError.documentCreation)
-
-                return BFTask.cancelled()
-            }
-            
-            if let error = task?.error {
-                self.error = error
-                print("✅ Finished analysis process with this error: \(error)")
-                completion?(nil, nil, error)
-            } else if let document = self.document,
-                let result = task?.result as? [String: GINIExtraction] {
-                self.result = result
-                self.document = document
-                print("✅ Finished analysis process with no errors")
-                completion?(result, document, nil)
-            } else {
-                let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
-                self.error = error
-                print("✅ Finished analysis process with this error: \(error)")
-                completion?(nil, nil, AnalysisError.unknown)
-                return nil
-            }
-            
-            return nil
-            
-            // 5. Finish process
-        }).continue({ (_: BFTask?) -> AnyObject! in
-            self.isAnalyzing = false
-            return nil
-        })
+//
+//        // 1. Get session
+//        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any! in
+//            if token.cancelled {
+//                return BFTask.cancelled()
+//            }
+//            if task?.error != nil {
+//                return sdk?.sessionManager.logIn()
+//            }
+//            return task?.result
+//
+//            // 2. Create a document from the given image data
+//        }).continue(successBlock: { _ -> AnyObject! in
+//            if token.cancelled {
+//                return BFTask.cancelled()
+//            }
+//            return manager?.createDocument(withFilename: fileName, from: data, docType: "")
+//
+//            // 3. Get extractions from the document
+//        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+//            if token.cancelled {
+//                return BFTask.cancelled()
+//            }
+//
+//            if let document = task?.result as? GINIDocument {
+//                documentId = document.documentId
+//                self.document = document
+//                print("📄 Created document with id: \(documentId!)")
+//                return self.document?.extractions
+//
+//            } else {
+//                print("Error creating document")
+//                return BFTask(error: AnalysisError.documentCreation)
+//            }
+//
+//            // 4. Handle results
+//        }).continue({ (task: BFTask?) -> AnyObject! in
+//            if token.cancelled || (task?.isCancelled == true) {
+//                print("❌ Canceled analysis process")
+//                completion?(nil, nil, AnalysisError.documentCreation)
+//
+//                return BFTask.cancelled()
+//            }
+//
+//            if let error = task?.error {
+//                self.error = error
+//                print("✅ Finished analysis process with this error: \(error)")
+//                completion?(nil, nil, error)
+//            } else if let document = self.document,
+//                let result = task?.result as? [String: GINIExtraction] {
+//                self.result = result
+//                self.document = document
+//                print("✅ Finished analysis process with no errors")
+//                completion?(result, document, nil)
+//            } else {
+//                let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
+//                self.error = error
+//                print("✅ Finished analysis process with this error: \(error)")
+//                completion?(nil, nil, AnalysisError.unknown)
+//                return nil
+//            }
+//
+//            return nil
+//
+//            // 5. Finish process
+//        }).continue({ (_: BFTask?) -> AnyObject! in
+//            self.isAnalyzing = false
+//            return nil
+//        })
     }
     
     /*
@@ -218,68 +218,68 @@ final class DocumentService {
      
      */
     func sendFeedback(forDocument document: GINIDocument) {
-        
-        // Get current Gini SDK instance to upload image and process exctraction.
-        let sdk = giniSDK
-        
-        // 1. Get session
-        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
-            if task?.error != nil {
-                return sdk?.sessionManager.logIn()
-            }
-            return task?.result
-            
-            // 2. Get extractions from the document
-        }).continue(successBlock: { _ -> AnyObject! in
-            return document.extractions
-            
-            // 3. Create and send feedback on the document
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
-            
-            // Use `NSMutableDictionary` to work with a mutable class type which is passed by reference.
-            guard let extractions = task?.result as? NSMutableDictionary else {
-                enum FeedbackError: Error {
-                    case unknown
-                }
-                let error = NSError(domain: "net.gini.error.", code: FeedbackError.unknown._code, userInfo: nil)
-                return BFTask(error: error)
-            }
-            
-            // As an example will set the BIC value statically.
-            // In a real world application the user input should be used as the new value.
-            // Feedback should only be send for labels which the user has seen. Unseen labels should be filtered out.
-            
-            let bicValue = "BYLADEM1001"
-            let bic = extractions["bic"] as? GINIExtraction ?? GINIExtraction(name: "bic",
-                                                                              value: "",
-                                                                              entity: "bic",
-                                                                              box: nil)!
-            bic.value = bicValue
-            extractions["bic"] = bic
-            // Repeat this step for all altered fields.
-            
-            // Get the document task manager and send feedback by updating the document.
-            let documentTaskManager = sdk?.documentTaskManager
-            return documentTaskManager?.update(document)
-            
-            // 4. Check if feedback was send successfully (only for testing purposes)
-        }).continue(successBlock: { _ -> AnyObject! in
-            return document.extractions
-            
-            // 5. Handle results
-        }).continue({ (task: BFTask?) -> AnyObject! in
-            if task?.error != nil {
-                print("Error sending feedback for document with id: \(document.documentId)")
-                return nil
-            }
-            
-            let resultString = (task?.result as? [String: GINIExtraction])?.description ?? "n/a"
-            print("🚀 Feedback sent")
-
-            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n" +
-                "\(resultString)\n--------------------------\n")
-            return nil
-        })
+//        
+//        // Get current Gini SDK instance to upload image and process exctraction.
+//        let sdk = giniSDK
+//        
+//        // 1. Get session
+//        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
+//            if task?.error != nil {
+//                return sdk?.sessionManager.logIn()
+//            }
+//            return task?.result
+//            
+//            // 2. Get extractions from the document
+//        }).continue(successBlock: { _ -> AnyObject! in
+//            return document.extractions
+//            
+//            // 3. Create and send feedback on the document
+//        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+//            
+//            // Use `NSMutableDictionary` to work with a mutable class type which is passed by reference.
+//            guard let extractions = task?.result as? NSMutableDictionary else {
+//                enum FeedbackError: Error {
+//                    case unknown
+//                }
+//                let error = NSError(domain: "net.gini.error.", code: FeedbackError.unknown._code, userInfo: nil)
+//                return BFTask(error: error)
+//            }
+//            
+//            // As an example will set the BIC value statically.
+//            // In a real world application the user input should be used as the new value.
+//            // Feedback should only be send for labels which the user has seen. Unseen labels should be filtered out.
+//            
+//            let bicValue = "BYLADEM1001"
+//            let bic = extractions["bic"] as? GINIExtraction ?? GINIExtraction(name: "bic",
+//                                                                              value: "",
+//                                                                              entity: "bic",
+//                                                                              box: nil)!
+//            bic.value = bicValue
+//            extractions["bic"] = bic
+//            // Repeat this step for all altered fields.
+//            
+//            // Get the document task manager and send feedback by updating the document.
+//            let documentTaskManager = sdk?.documentTaskManager
+//            return documentTaskManager?.update(document)
+//            
+//            // 4. Check if feedback was send successfully (only for testing purposes)
+//        }).continue(successBlock: { _ -> AnyObject! in
+//            return document.extractions
+//            
+//            // 5. Handle results
+//        }).continue({ (task: BFTask?) -> AnyObject! in
+//            if task?.error != nil {
+//                print("Error sending feedback for document with id: \(document.documentId)")
+//                return nil
+//            }
+//            
+//            let resultString = (task?.result as? [String: GINIExtraction])?.description ?? "n/a"
+//            print("🚀 Feedback sent")
+//
+//            print("\n--------------------------\n📑 Updated extractions:\n-------------------------- \n" +
+//                "\(resultString)\n--------------------------\n")
+//            return nil
+//        })
     }
     
 }

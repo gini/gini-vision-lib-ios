@@ -69,7 +69,7 @@ extension GiniScreenAPICoordinator {
     func analyzeDocument(visionDocument document: GiniVisionDocument) {
         cancelAnalysis()
         
-        apiService?.analyze(document: document, cancelationToken: CancelationToken()) { [weak self] result in
+        apiService?.analyze(document: document) { [weak self] result in
             switch result {
             case .success(let response):
                 self?.present(result: response)
