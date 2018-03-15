@@ -8,7 +8,6 @@
 
 import Foundation
 import MobileCoreServices
-import Photos
 
 protocol DocumentPickerCoordinatorDelegate: class {
     /**
@@ -44,6 +43,10 @@ internal final class DocumentPickerCoordinator: NSObject {
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
     var isPDFSelectionAllowed: Bool = true
+    
+    var isGalleryPermissionGranted: Bool {
+        return galleryCoordinator.isGalleryPermissionGranted
+    }
     
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {

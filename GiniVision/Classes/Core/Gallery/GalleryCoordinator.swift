@@ -20,6 +20,10 @@ final class GalleryCoordinator: NSObject, Coordinator {
     fileprivate let galleryManager: GalleryManagerProtocol
     fileprivate(set) var selectedImageDocuments: [String: GiniImageDocument] = [:]
     
+    var isGalleryPermissionGranted: Bool {
+        return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
+    }
+    
     // MARK: - View controllers
 
     var rootViewController: UIViewController {
@@ -130,9 +134,12 @@ final class GalleryCoordinator: NSObject, Coordinator {
         case .denied, .restricted:
             deniedHandler(FilePickerError.photoLibraryAccessDenied)
         case .notDetermined:
-            PHPhotoLibrary.requestAuthorization { status in
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                guard let `self` = self else { return }
                 DispatchQueue.main.async {
                     if status == PHAuthorizationStatus.authorized {
+                        self.galleryManager.reloadAlbums()
+                        self.start()
                         authorizedHandler()
                     } else {
                         deniedHandler(FilePickerError.photoLibraryAccessDenied)

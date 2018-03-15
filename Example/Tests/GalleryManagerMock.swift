@@ -23,6 +23,10 @@ final class GalleryManagerMock: GalleryManagerProtocol {
     
     var isCaching = false
     
+    func reloadAlbums() {
+        
+    }
+    
     func startCachingImages(for album: Album) {
         isCaching = true
     }

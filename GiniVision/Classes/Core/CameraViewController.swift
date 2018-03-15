@@ -702,6 +702,10 @@ extension CameraViewController {
         // Configure file picker
         documentPickerCoordinator.startCaching()
         documentPickerCoordinator.delegate = self
+
+        if documentPickerCoordinator.isGalleryPermissionGranted {
+            documentPickerCoordinator.startCaching()
+        }
         
         // Configure import file button
         controlsView.addSubview(importFileButton)
