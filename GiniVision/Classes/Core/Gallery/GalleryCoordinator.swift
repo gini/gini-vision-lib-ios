@@ -19,6 +19,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let galleryManager: GalleryManagerProtocol
     fileprivate(set) var selectedImageDocuments: [String: GiniImageDocument] = [:]
+    fileprivate var currentImagePickerViewController: ImagePickerViewController?
     
     var isGalleryPermissionGranted: Bool {
         return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
@@ -88,9 +89,9 @@ final class GalleryCoordinator: NSObject, Coordinator {
     
     func start() {
         if let firstAlbum = galleryManager.albums.first {
-            let imagePicker = createImagePicker(with: firstAlbum)
+            currentImagePickerViewController = createImagePicker(with: firstAlbum)
             galleryManager.startCachingImages(for: firstAlbum)
-            galleryNavigator.pushViewController(imagePicker, animated: false)
+            galleryNavigator.pushViewController(currentImagePickerViewController!, animated: false)
         }
     }
     
@@ -109,7 +110,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
         let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
         delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
         selectedImageDocuments.removeAll()
-        galleryNavigator.popViewController(animated: true)
+        currentImagePickerViewController?.deselectAllCells()
     }
     
     // MARK: - Image picker generation.
@@ -161,6 +162,7 @@ extension GalleryCoordinator: UINavigationControllerDelegate {
         if let imagePicker = fromVC as? ImagePickerViewController {
             galleryManager.stopCachingImages(for: imagePicker.currentAlbum)
             selectedImageDocuments.removeAll()
+            currentImagePickerViewController = nil
         }
         return nil
     }
@@ -170,8 +172,8 @@ extension GalleryCoordinator: UINavigationControllerDelegate {
 
 extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
     func albumsPicker(_ viewController: AlbumsPickerViewController, didSelectAlbum album: Album) {
-        let imagePicker = createImagePicker(with: album)
-        galleryNavigator.pushViewController(imagePicker, animated: true)
+        currentImagePickerViewController = createImagePicker(with: album)
+        galleryNavigator.pushViewController(currentImagePickerViewController!, animated: true)
     }
 }
 
