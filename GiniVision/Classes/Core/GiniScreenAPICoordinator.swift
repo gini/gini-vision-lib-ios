@@ -79,17 +79,22 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
         let viewControllers: [UIViewController]
         if let documents = documents, !documents.isEmpty {
+            if documents.count > 1, !giniConfiguration.multipageEnabled {
+                fatalError("You are trying to import several files from other app when the Multipage feature is not " +
+                    "enabled. To enable it just set `multipageEnabled` to `true` in the `GiniConfiguration`")
+            }
+            
             if !documents.containsDifferentTypes {
                 self.visionDocuments = documents
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
-                               "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
+                        "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
                 viewControllers = initialViewControllers(withDocuments: documents)
                 
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
-                           "For now it is only possible to import either images or one PDF")
+                    "For now it is only possible to import either images or one PDF")
             }
         } else {
             self.cameraViewController = self.createCameraViewController()
@@ -103,13 +108,19 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     private func initialViewControllers(withDocuments documents: [GiniVisionDocument]) -> [UIViewController] {
         if let imageDocuments = documents as? [GiniImageDocument] {
-            self.cameraViewController = self.createCameraViewController()
-            self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
-                                                                   showingStack: imageDocuments.count > 1)
-            self.multiPageReviewController =
-                createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
-            
-            return [self.cameraViewController!, self.multiPageReviewController!]
+            if giniConfiguration.multipageEnabled {
+                self.cameraViewController = self.createCameraViewController()
+                self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
+                                                                       showingStack: imageDocuments.count > 1)
+                self.multiPageReviewController =
+                    createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+                
+                return [self.cameraViewController!, self.multiPageReviewController!]
+            } else {
+                self.cameraViewController = self.createCameraViewController()
+                self.reviewViewController = self.createReviewScreen(withDocument: documents[0])
+                return [self.cameraViewController!, self.reviewViewController!]
+            }
         } else {
             self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
             return [self.analysisViewController!]
@@ -173,6 +184,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             reviewViewController = nil
             visionDelegate?.didCancelReview?()
+            visionDocuments.removeAll()
         }
         
         let isFromCameraToMultipage = (toVC == multiPageReviewController && fromVC == cameraViewController)
@@ -215,7 +227,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                 return nil
             }
         }
-                
+        
         return multiPageTransition
     }
 }
@@ -230,10 +242,18 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             if let firstDocument = documents.first {
                 switch type {
                 case .image:
-                    if let imageDocument = firstDocument as? GiniImageDocument,
-                        let imageDocuments = visionDocuments as? [GiniImageDocument],
-                        imageDocument.isImported {
-                        showMultipageReview(withImageDocuments: imageDocuments)
+                    if let imageDocuments = visionDocuments as? [GiniImageDocument],
+                        let lastDocument = imageDocuments.last {
+                        if giniConfiguration.multipageEnabled {
+                            if let imageDocuments = visionDocuments as? [GiniImageDocument],
+                                lastDocument.isImported {
+                                showMultipageReview(withImageDocuments: imageDocuments)
+                            }
+                        } else {
+                            reviewViewController = createReviewScreen(withDocument: lastDocument)
+                            screenAPINavigationController.pushViewController(reviewViewController!, animated: true)
+                            didCapture(withDocument: firstDocument)
+                        }
                     }
                 case .qrcode, .pdf:
                     analysisViewController = createAnalysisScreen(withDocument: firstDocument)
@@ -276,12 +296,12 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                                  selector: #selector(back),
                                                  position: .left,
                                                  target: self)
-
+        
         cameraViewController.setupNavigationItem(usingResources: helpButtonResource,
                                                  selector: #selector(showHelpMenuScreen),
                                                  position: .right,
                                                  target: self)
-
+        
         return cameraViewController
     }
     
@@ -349,7 +369,7 @@ internal extension GiniScreenAPICoordinator {
                                                  selector: #selector(back),
                                                  position: .left,
                                                  target: self)
-
+        
         return reviewViewController
     }
 }
@@ -359,26 +379,26 @@ internal extension GiniScreenAPICoordinator {
 internal extension GiniScreenAPICoordinator {
     fileprivate func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
         -> MultipageReviewController {
-        let vc = MultipageReviewController(imageDocuments: documents)
-        
-        vc.setupNavigationItem(usingResources: backButtonResource,
-                               selector: #selector(closeMultipageScreen),
-                               position: .left,
-                               target: self)
-        
-        vc.setupNavigationItem(usingResources: nextButtonResource,
-                               selector: #selector(showAnalysisScreen),
-                               position: .right,
-                               target: self)
-        
-        vc.didUpdateDocuments = { [weak self] newDocuments in
-            guard let `self` = self else { return }
-            self.visionDocuments = newDocuments
-            if self.visionDocuments.isEmpty {
-                self.closeMultipageScreen()
+            let vc = MultipageReviewController(imageDocuments: documents)
+            
+            vc.setupNavigationItem(usingResources: backButtonResource,
+                                   selector: #selector(closeMultipageScreen),
+                                   position: .left,
+                                   target: self)
+            
+            vc.setupNavigationItem(usingResources: nextButtonResource,
+                                   selector: #selector(showAnalysisScreen),
+                                   position: .right,
+                                   target: self)
+            
+            vc.didUpdateDocuments = { [weak self] newDocuments in
+                guard let `self` = self else { return }
+                self.visionDocuments = newDocuments
+                if self.visionDocuments.isEmpty {
+                    self.closeMultipageScreen()
+                }
             }
-        }
-        return vc
+            return vc
     }
     
     @objc fileprivate func closeMultipageScreen() {

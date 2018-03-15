@@ -13,10 +13,11 @@ import Photos
 internal final class FilePickerManager: NSObject {
     
     let galleryCoordinator: GalleryCoordinator
+    let giniConfiguration: GiniConfiguration
     var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
     
     fileprivate var acceptedDocumentTypes: [String] {
-        switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
+        switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
             return GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
         case .pdf:
@@ -29,7 +30,8 @@ internal final class FilePickerManager: NSObject {
     // MARK: - Initializer
     
     init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
-        galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
+        self.giniConfiguration = giniConfiguration
+        self.galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
     }
     
     // MARK: - Start caching
@@ -43,7 +45,6 @@ internal final class FilePickerManager: NSObject {
     // MARK: Picker presentation
     
     func showGalleryPicker(from: UIViewController,
-                           giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
                            errorHandler: @escaping (_ error: GiniVisionError) -> Void) {
         galleryCoordinator.checkGalleryAccessPermission(deniedHandler: errorHandler) {
             self.galleryCoordinator.delegate = self
@@ -52,13 +53,12 @@ internal final class FilePickerManager: NSObject {
     }
     
     func showDocumentPicker(from: UIViewController,
-                            giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
                             device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         
         if #available(iOS 11.0, *) {
-            documentPicker.allowsMultipleSelection = true
+            documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled
         }
         
         // This is needed since the UIDocumentPickerViewController on iPad is presented over the current view controller
@@ -131,12 +131,13 @@ extension FilePickerManager: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension FilePickerManager: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        switch GiniConfiguration.sharedConfiguration.fileImportSupportedTypes {
+        let isItemsSelectionAllowed = session.items.count > 1 ? giniConfiguration.multipageEnabled : true
+        switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
             return (session.canLoadObjects(ofClass: GiniImageDocument.self) ||
-                session.canLoadObjects(ofClass: GiniPDFDocument.self))
+                session.canLoadObjects(ofClass: GiniPDFDocument.self)) && isItemsSelectionAllowed
         case .pdf:
-            return session.canLoadObjects(ofClass: GiniPDFDocument.self)
+            return session.canLoadObjects(ofClass: GiniPDFDocument.self) && isItemsSelectionAllowed
         case .none:
             return false
         }

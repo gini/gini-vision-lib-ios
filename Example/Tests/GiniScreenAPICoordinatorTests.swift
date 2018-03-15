@@ -18,6 +18,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     override func setUp() {
         super.setUp()
         giniConfiguration.openWithEnabled = true
+        giniConfiguration.multipageEnabled = true
         coordinator = GiniScreenAPICoordinator(withDelegate: delegate, giniConfiguration: giniConfiguration)
     }
     
@@ -79,6 +80,18 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         XCTAssertNotNil(screenNavigator?.viewControllers.first as? AnalysisViewController,
                         "first view controller is not a AnalysisViewController")
+    }
+    
+    func testNavControllerTypesAfterStartWithImageAndMultipageDisabled() {
+        giniConfiguration.multipageEnabled = false
+        let capturedImages = [loadImageDocument(withName: "invoice")]
+
+        let rootViewController = coordinator.start(withDocuments: capturedImages)
+        _ = rootViewController.view
+        let screenNavigator = rootViewController.childViewControllers.first as? UINavigationController
+        
+        XCTAssertNotNil(screenNavigator?.viewControllers.last as? ReviewViewController,
+                        "first view controller is not a ReviewViewController")
     }
     
     func testCameraDidCaptureImagesWithEmptyArray(){

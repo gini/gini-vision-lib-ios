@@ -10,7 +10,7 @@ import XCTest
 @testable import GiniVision_Example
 @testable import GiniVision
 
-class GINISettingsViewControllerTests: XCTestCase {
+final class GINISettingsViewControllerTests: XCTestCase {
     let settingsViewController = (UIStoryboard(name: "Main", bundle: nil)
         .instantiateViewController(withIdentifier: "settingsViewController") as? SettingsViewController)!
     
@@ -72,5 +72,21 @@ class GINISettingsViewControllerTests: XCTestCase {
         
         XCTAssertFalse(settingsViewController.giniConfiguration.qrCodeScanningEnabled,
                        "qr code scanning should not be enabled in the gini configuration")
+    }
+    
+    func testMultipageSwitchOn() {
+        settingsViewController.multipageSwitch.isOn = true
+        settingsViewController.multipageSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertTrue(settingsViewController.giniConfiguration.multipageEnabled,
+                      "multipage should be enabled in the gini configuration")
+    }
+    
+    func testMultipageSwitchOff() {
+        settingsViewController.multipageSwitch.isOn = false
+        settingsViewController.multipageSwitch.sendActions(for: .valueChanged)
+        
+        XCTAssertFalse(settingsViewController.giniConfiguration.multipageEnabled,
+                       "multipage should not be enabled in the gini configuration")
     }
 }
