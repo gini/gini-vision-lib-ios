@@ -139,7 +139,7 @@ final class APIService: APIServiceProtocol {
     func sendFeedback(withResults results: [String: Extraction]) {
         _ = giniSDK?.sessionManager.getSession()
             .continueWith(block: getSessionBlock())
-            .continueOnSuccessWith(block: { _ in return self.document?.extractions })
+            .continueOnSuccessWith(block: { _ in return self.document?.getExtractions() })
             .continueOnSuccessWith(block: { (task: BFTask?) in
                 if let extractions = task?.result as? NSMutableDictionary {
                     results.forEach { result in
@@ -153,7 +153,7 @@ final class APIService: APIServiceProtocol {
                 
                 return nil
             })
-            .continueOnSuccessWith(block: { _ in return self.document?.extractions })
+            .continueOnSuccessWith(block: { _ in return self.document?.getExtractions() })
             .continueWith(block: { (task: BFTask?) in
                 guard let extractions = task?.result as? NSMutableDictionary else {
                     print("Error sending feedback for document with id: ",
