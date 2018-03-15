@@ -50,6 +50,7 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
+<<<<<<< HEAD
     func fetchRemoteImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
         var options: PHImageRequestOptions
         options = PHImageRequestOptions()
@@ -60,6 +61,8 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
 
+=======
+>>>>>>> Fixed issue with gallery permission.
     func reloadAlbums() {
         self.albums = fetchSortedAlbums()
     }
