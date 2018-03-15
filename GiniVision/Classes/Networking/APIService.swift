@@ -22,11 +22,10 @@ protocol APIServiceProtocol: class {
     var result: [String: Extraction]? { get }
     
     func analyze(document: GiniVisionDocument,
-                 cancelationToken token: CancelationToken,
                  completion: @escaping (Result<[String: Extraction]>) -> Void)
     func cancelAnalysis()
     func create(document: GiniVisionDocument,
-                cancelationToken token: CancelationToken,
+                cancelationToken token: BFCancellationToken,
                 fileName: String,
                 docType: String,
                 completion: @escaping ((Result<GINIDocument>) -> Void))
@@ -35,7 +34,7 @@ protocol APIServiceProtocol: class {
 
 extension APIServiceProtocol {
     func create(document: GiniVisionDocument,
-                cancelationToken token: CancelationToken,
+                cancelationToken token: BFCancellationToken,
                 fileName: String,
                 docType: String = "",
                 completion: @escaping ((Result<GINIDocument>) -> Void)) {
@@ -49,7 +48,7 @@ extension APIServiceProtocol {
 
 final class APIService: APIServiceProtocol {
     
-    fileprivate var cancelationToken: CancelationToken?
+    fileprivate var cancellationTokenSource: BFCancellationTokenSource?
     var document: GINIDocument?
     var error: Error?
     var giniSDK: GiniSDK?
@@ -57,12 +56,14 @@ final class APIService: APIServiceProtocol {
     var result: [String: Extraction]?
     
     enum AnalysisError: Error {
+        case cancelled
         case documentCreation
         case unknown
     }
     
     func cancelAnalysis() {
-        cancelationToken?.cancel()
+        cancellationTokenSource?.cancel()
+        cancellationTokenSource = nil
         result = nil
         document = nil
         error = nil
@@ -74,58 +75,58 @@ final class APIService: APIServiceProtocol {
     }
     
     func analyze(document: GiniVisionDocument,
-                 cancelationToken token: CancelationToken,
                  completion: @escaping (Result<[String: Extraction]>) -> Void) {
         print("🔎 Started document analysis with size \(Double(document.data.count) / 1024.0)")
         
         cancelAnalysis()
-        cancelationToken = token
         isAnalyzing = true
+        cancellationTokenSource = BFCancellationTokenSource()
+        let cancelationToken = cancellationTokenSource?.token
         
         let fileName = "fileName"
         let startDate = Date()
         
-        create(document: document, cancelationToken: token, fileName: fileName) { [weak self] response in
+        create(document: document, cancelationToken: cancelationToken!, fileName: fileName) { [weak self] response in
             guard let `self` = self else { return }
-            let task: BFTask
-            if token.cancelled {
-                task = BFTask.cancelled()
-            } else {
-                switch response {
-                case .success(let document):
-                    task = document.extractions
-                case .failure(let error):
+            let task: BFTask<AnyObject>
+            
+            switch response {
+            case .success(let document):
+                task = document.getExtractionsWith(cancelationToken)
+            case .failure(let error):
+                if let error = error as? AnalysisError, error == .cancelled {
+                    task = BFTask.cancelled()
+                } else {
                     task = BFTask(error: error)
                 }
-                
-                task.continue(self.handleAnalysisResults(cancelationToken: token,
-                                                              startDate: startDate,
-                                                              completion: completion))
             }
+            
+            task.continueWith(block: self.handleAnalysisResults(startDate: startDate,
+                                                                completion: completion))
         }
         
     }
     
     func create(document: GiniVisionDocument,
-                cancelationToken token: CancelationToken,
+                cancelationToken token: BFCancellationToken,
                 fileName: String,
                 docType: String,
                 completion: @escaping ((Result<GINIDocument>) -> Void)) {
         _ = giniSDK?.sessionManager.getSession()
-            .continue(getSessionBlock(cancelationToken: token))
-            .continue(successBlock: { [weak self] _ in
-                if token.cancelled {
-                    return BFTask.cancelled()
-                }
+            .continueWith(block: getSessionBlock(cancelationToken: token))
+            .continueOnSuccessWith(block: { [weak self] _ in
                 return self?.giniSDK?.documentTaskManager.createDocument(withFilename: fileName,
                                                                          from: document.data,
-                                                                         docType: docType)
-            }).continue({ task in
-                if let document = task?.result as? GINIDocument {
+                                                                         docType: docType,
+                                                                         cancellationToken: token)
+            }).continueWith(block: { task in
+                if let document = task.result as? GINIDocument {
                     self.document = document
                     print("📄 Created document with id: \(document.documentId ?? "")")
                     
                     completion(.success(document))
+                } else if task.isCancelled {
+                    completion(.failure(AnalysisError.cancelled))
                 } else {
                     completion(.failure(AnalysisError.documentCreation))
                 }
@@ -137,9 +138,9 @@ final class APIService: APIServiceProtocol {
     
     func sendFeedback(withResults results: [String: Extraction]) {
         _ = giniSDK?.sessionManager.getSession()
-            .continue(getSessionBlock())
-            .continue(successBlock: { _ in return self.document?.extractions })
-            .continue(successBlock: { (task: BFTask?) in
+            .continueWith(block: getSessionBlock())
+            .continueOnSuccessWith(block: { _ in return self.document?.extractions })
+            .continueOnSuccessWith(block: { (task: BFTask?) in
                 if let extractions = task?.result as? NSMutableDictionary {
                     results.forEach { result in
                         extractions[result.key] = result.value
@@ -152,8 +153,8 @@ final class APIService: APIServiceProtocol {
                 
                 return nil
             })
-            .continue(successBlock: { _ in return self.document?.extractions })
-            .continue({ (task: BFTask?) in
+            .continueOnSuccessWith(block: { _ in return self.document?.extractions })
+            .continueWith(block: { (task: BFTask?) in
                 guard let extractions = task?.result as? NSMutableDictionary else {
                     print("Error sending feedback for document with id: ",
                           String(describing: self.document?.documentId))
@@ -170,58 +171,57 @@ final class APIService: APIServiceProtocol {
 
 extension APIService {
     
-    fileprivate func getSessionBlock(cancelationToken token: CancelationToken? = nil) -> BFContinuationBlock? {
-        return { [weak self] (task: BFTask?) -> Any! in
-            guard let `self` = self else { return nil }
-            
-            if let token = token, token.cancelled {
-                return BFTask.cancelled()
+    fileprivate func getSessionBlock(cancelationToken token: BFCancellationToken? = nil)
+        -> ((BFTask<AnyObject>) -> Any?) {
+            return {
+                [weak self] (task: BFTask<AnyObject>?) -> Any! in
+                guard let `self` = self else { return nil }
+                
+                if task?.error != nil {
+                    return self.giniSDK?.sessionManager.logIn()
+                }
+                return task?.result
             }
-            if task?.error != nil {
-                return self.giniSDK?.sessionManager.logIn()
-            }
-            return task?.result
-        }
     }
     
-    fileprivate func handleAnalysisResults(cancelationToken token: CancelationToken,
-                                           startDate: Date,
+    fileprivate func handleAnalysisResults(startDate: Date,
                                            completion: @escaping (Result<[String: Extraction]>) -> Void)
-        -> BFContinuationBlock? {
-            
-        return { [weak self] (task: BFTask?) in
-            guard let `self` = self else { return nil }
-            if token.cancelled || (task?.isCancelled == true) {
-                print("❌ Canceled analysis process")
-                completion(.failure(AnalysisError.documentCreation))
+        -> ((BFTask<AnyObject>) -> Any?) {
+            return { [weak self] task in
+                guard let `self` = self else { return nil }
                 
-                return BFTask.cancelled()
+                let elapsedTime = Date().timeIntervalSince(startDate)
+                if task.isCancelled {
+                    print("❌ Cancelled analysis process after", elapsedTime, "seconds")
+                    completion(.failure(AnalysisError.documentCreation))
+                    
+                    return BFTask<AnyObject>.cancelled()
+                }
+                
+                let finishedString = "Finished analysis process in \(elapsedTime) seconds with"
+                
+                if let error = task.error {
+                    self.error = error
+                    print("❌", finishedString, "this error: \(error)")
+                    
+                    completion(.failure(error))
+                } else if let result = task.result as? [String: Extraction] {
+                    self.result = result
+                    print("✅", finishedString, "no errors")
+                    
+                    completion(.success((result)))
+                } else {
+                    let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
+                    self.error = error
+                    print("❌", finishedString, "this error: \(error)")
+                    
+                    completion(.failure(AnalysisError.unknown))
+                }
+                
+                self.isAnalyzing = false
+                
+                return nil
             }
-            
-            let finishedString = "✅ Finished analysis process in \(Date().timeIntervalSince(startDate)) seconds with"
-            
-            if let error = task?.error {
-                self.error = error
-                print(finishedString, "this error: \(error)")
-                
-                completion(.failure(error))
-            } else if let result = task?.result as? [String: Extraction] {
-                self.result = result
-                print(finishedString, "no errors")
-                
-                completion(.success((result)))
-            } else {
-                let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
-                self.error = error
-                print(finishedString, "this error: \(error)")
-                
-                completion(.failure(AnalysisError.unknown))
-            }
-            
-            self.isAnalyzing = false
-            
-            return nil
-        }
     }
     
 }
