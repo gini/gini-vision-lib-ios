@@ -181,7 +181,8 @@ extension GalleryCoordinator: AlbumsPickerViewControllerDelegate {
 
 extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
-                     didSelectAsset asset: Asset) {
+                     didSelectAsset asset: Asset,
+                     at index: IndexPath) {
         if selectedImageDocuments.isEmpty {
             viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
         }
@@ -189,24 +190,24 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         galleryManager.fetchImageData(from: asset) { [weak self] data in
             guard let `self` = self else { return }
             DispatchQueue.global().async {
-                var data = data
-                
-                // Some pictures have a wrong bytes structure and are not processed as images.
-                if !data.isImage {
-                    if let image = UIImage(data: data),
-                        let imageData = UIImageJPEGRepresentation(image, 1.0) {
-                        data = imageData
-                    }
-                }
-                let imageDocument = GiniImageDocument(data: data,
-                                                      imageSource: .external,
-                                                      imageImportMethod: .picker,
-                                                      deviceOrientation: nil)
-                self.selectedImageDocuments[asset.identifier] = imageDocument
-                
-                if !self.giniConfiguration.multipageEnabled {
+                if let data = data {
                     DispatchQueue.main.async {
-                        self.openImages()
+                        viewController.selectCell(at: index)
+                    }
+                    self.addSelected(asset, withData: data)
+                } else {
+                    DispatchQueue.main.async {
+                        viewController.addToDownloadingItems(index: index)
+                    }
+                    self.galleryManager.fetchImageData(from: asset, isRemote: true) { [weak self] data in
+                        guard let `self` = self else { return }
+                        if let data = data {
+                            DispatchQueue.main.async {
+                                viewController.removeFromDownloadingItems(index: index)
+                            }
+                            viewController.selectCell(at: index)
+                            self.addSelected(asset, withData: data)
+                        }
                     }
                 }
             }
@@ -222,6 +223,29 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         
         if let selectedItems = viewController.collectionView.indexPathsForSelectedItems, selectedItems.isEmpty {
             viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
+        }
+    }
+    
+    private func addSelected(_ asset: Asset, withData data: Data) {
+        var data = data
+        
+        // Some pictures have a wrong bytes structure and are not processed as images.
+        if !data.isImage {
+            if let image = UIImage(data: data),
+                let imageData = UIImageJPEGRepresentation(image, 1.0) {
+                data = imageData
+            }
+        }
+        let imageDocument = GiniImageDocument(data: data,
+                                              imageSource: .external,
+                                              imageImportMethod: .picker,
+                                              deviceOrientation: nil)
+        self.selectedImageDocuments[asset.identifier] = imageDocument
+        
+        if !self.giniConfiguration.multipageEnabled {
+            DispatchQueue.main.async {
+                self.openImages()
+            }
         }
     }
 }
