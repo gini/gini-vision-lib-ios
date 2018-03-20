@@ -13,11 +13,17 @@ protocol GalleryManagerProtocol: class {
     func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage) -> Void))
-    func fetchImageData(from asset: Asset,
-                        completion: @escaping ((Data) -> Void))
+    func fetchImageData(from asset: Asset, isRemote: Bool, completion: @escaping ((Data?) -> Void))
     func reloadAlbums()
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
+}
+
+extension GalleryManagerProtocol {
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
+        self.fetchImageData(from: asset, isRemote: false, completion: completion)
+    }
+
 }
 
 enum ImageQuality {
@@ -44,11 +50,14 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
-    func fetchImageData(from asset: Asset, completion: @escaping ((Data) -> Void)) {
-        cachingImageManager.requestImageData(for: asset.value, options: nil) { data, _, _, _ in
-            if let data = data {
-                completion(data)
-            }
+    func fetchImageData(from asset: Asset, isRemote: Bool, completion: @escaping ((Data?) -> Void)) {
+        var options: PHImageRequestOptions?
+        if isRemote {
+            options = PHImageRequestOptions()
+            options?.isNetworkAccessAllowed = true
+        }
+        cachingImageManager.requestImageData(for: asset.value, options: options) { data, _, _, _ in
+            completion(data)
         }
     }
     

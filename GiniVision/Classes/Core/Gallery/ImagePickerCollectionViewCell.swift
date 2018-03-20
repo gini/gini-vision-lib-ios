@@ -12,6 +12,13 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     let selectedCircleSize = CGSize(width: 25, height: 25)
     
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.alpha = 0
+        return indicator
+    }()
+    
     fileprivate lazy var galleryImage: UIImageView = {
         let galleryImage: UIImageView = UIImageView(frame: .zero)
         galleryImage.translatesAutoresizingMaskIntoConstraints = false
@@ -45,10 +52,10 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return circleView
     }()
     
-    override var isSelected: Bool {
+    var isProgramaticallySelected: Bool = false {
         didSet {
-            selectedForegroundView.alpha = isSelected ? 1 : 0
-            changeCheckCircle(to: isSelected)
+            selectedForegroundView.alpha = isProgramaticallySelected ? 1 : 0
+            changeCheckCircle(to: isProgramaticallySelected)
         }
     }
     
@@ -63,8 +70,10 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         addSubview(galleryImage)
         addSubview(selectedForegroundView)
         addSubview(checkCircleBackground)
+        addSubview(activityIndicator)
         checkCircleBackground.addSubview(checkImage)
         
+        Constraints.center(view: activityIndicator, with: self)
         Constraints.pin(view: galleryImage, toSuperView: self)
         Constraints.pin(view: selectedForegroundView, toSuperView: self)
         Constraints.active(item: checkCircleBackground, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
@@ -85,8 +94,18 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     
     func fill(withAsset asset: Asset,
               multipleSelectionEnabled: Bool,
-              galleryManager: GalleryManagerProtocol) {
-        checkCircleBackground.alpha = multipleSelectionEnabled ? 1 : 0
+              galleryManager: GalleryManagerProtocol,
+              isDownloading: Bool,
+              isSelected: Bool) {
+        checkCircleBackground.alpha = multipleSelectionEnabled && !isDownloading ? 1 : 0
+        activityIndicator.alpha = isDownloading ? 1 : 0
+        isProgramaticallySelected = isSelected
+        selectedForegroundView.alpha = isSelected || isDownloading ? 1 : 0
+
+        if isDownloading {
+            activityIndicator.startAnimating()
+        }
+
         galleryManager.fetchImage(from: asset, imageQuality: .thumbnail) { [weak self] image in
             self?.galleryImage.image = image
         }
