@@ -9,8 +9,12 @@ import Foundation
 import Photos
 
 protocol ImagePickerViewControllerDelegate: class {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset, at index: IndexPath)
-    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset  asset: Asset)
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didSelectAsset asset: Asset,
+                     at index: IndexPath)
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didDeselectAsset  asset: Asset,
+                     at index: IndexPath)
 }
 
 final class ImagePickerViewController: UIViewController {
@@ -77,9 +81,11 @@ final class ImagePickerViewController: UIViewController {
     // MARK: - Others
     
     func deselectAllCells() {
-        collectionView.indexPathsForSelectedItems?.forEach { index in
-            self.collectionView.deselectItem(at: index, animated: false)
-        }
+        var indexesToDeselect: [IndexPath] = []
+        indexesToDeselect.append(contentsOf: indexesForSelectedCells)
+        
+        indexesForSelectedCells.removeAll()
+        self.collectionView.reloadItems(at: indexesToDeselect)
     }
     
     func addToDownloadingItems(index: IndexPath) {
@@ -158,17 +164,12 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let selectedIndexes = collectionView.indexPathsForSelectedItems, selectedIndexes.count > 10 {
-            collectionView.deselectItem(at: indexPath, animated: false)
+        let asset = currentAlbum.assets[indexPath.row]
+
+        if indexesForSelectedCells.contains(indexPath) {
+            delegate?.imagePicker(self, didDeselectAsset: asset, at: indexPath)
         } else {
-            let asset = currentAlbum.assets[indexPath.row]
             delegate?.imagePicker(self, didSelectAsset: asset, at: indexPath)
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let asset = currentAlbum.assets[indexPath.row]
-        deselectCell(at: indexPath)
-        delegate?.imagePicker(self, didDeselectAsset: asset)
     }
 }
