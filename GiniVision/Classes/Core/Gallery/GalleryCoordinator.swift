@@ -204,8 +204,8 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                         if let data = data {
                             DispatchQueue.main.async {
                                 viewController.removeFromDownloadingItems(index: index)
+                                viewController.selectCell(at: index)
                             }
-                            viewController.selectCell(at: index)
                             self.addSelected(asset, withData: data)
                         }
                     }
@@ -216,9 +216,11 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     }
     
     func imagePicker(_ viewController: ImagePickerViewController,
-                     didDeselectAsset asset: Asset) {
-        if let index = selectedImageDocuments.index(forKey: asset.identifier) {
-            selectedImageDocuments.remove(at: index)
+                     didDeselectAsset asset: Asset,
+                     at index: IndexPath) {
+        if let documentIndex = selectedImageDocuments.index(forKey: asset.identifier) {
+            viewController.deselectCell(at: index)
+            selectedImageDocuments.remove(at: documentIndex)
         }
         
         if let selectedItems = viewController.collectionView.indexPathsForSelectedItems, selectedItems.isEmpty {
