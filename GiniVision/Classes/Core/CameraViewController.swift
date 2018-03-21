@@ -10,12 +10,38 @@ import UIKit
 import AVFoundation
 
 @objc public protocol CameraViewControllerDelegate: class {
+    /**
+     Called when a user take a picture, import a PDF/QRCode or import one or several images.
+     Once that the method has been implemented, it is necessary to check if the number of
+     documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
+     Afterwards, it is mandatory to call the `DocumentPickerCompletion` block passing the error
+     `FilePickerError.filesPickedCountExceeded` (if the page count limit was exceeded) and
+     the inner completion block that will be executed once the gallery dismissal animation finishes.
+     
+     - parameter viewController: `CameraViewController` where the documents were taken.
+     - parameter documents: One or several documents either captured or imported in
+     the `CameraViewController`.
+     - parameter completion: `DocumentPickerCompletion` block used to check if there is an issue with
+     the captured documents. The completion block also has an inner block that is executed once the
+     picker has been dismissed when there are no errors.
+     */
     @objc func camera(_ viewController: CameraViewController,
                       didCaptureDocuments documents: [GiniVisionDocument],
-                      completion: FilePickerCompletion?)
-    @objc func camera(_ viewController: CameraViewController,
-                      didFailCaptureWithError error: CameraError)
+                      completion: DocumentPickerCompletion?)
+    
+    /**
+     Called the `CameraViewController` appears.
+     
+     - parameter viewController: Camera view controller where the documents were taken.
+     */
     @objc func cameraDidAppear(_ viewController: CameraViewController)
+    
+    /**
+     Called when a user tap the `MultipageReviewButton` (the one with the thumbnail of the images/s taken).
+     Once this method is called, the `MultipageReviewController` should be presented.
+     
+     - parameter viewController: Camera view controller where the documents were taken.
+     */
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
 }
 
@@ -253,7 +279,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         NotificationCenter.default.removeObserver(self)
     }
     
-    fileprivate func didPick(validatedDocuments documents: [GiniVisionDocument], completion: FilePickerCompletion?) {
+    fileprivate func didPick(validatedDocuments documents: [GiniVisionDocument],
+                             completion: DocumentPickerCompletion?) {
         if let delegate = delegate {
             delegate.camera(self, didCaptureDocuments: documents, completion: completion)
         } else if let firstDocument = documents.first {
@@ -622,7 +649,8 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
 
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument],
-                        completion: FilePickerCompletion?) {
+                        from: DocumentPickerType,
+                        completion: DocumentPickerCompletion?) {
         self.validate(importedDocuments: documents) { validatedDocuments in
             if let error = validatedDocuments.first?.1, !self.giniConfiguration.multipageEnabled {
                 completion?(nil) {
@@ -630,7 +658,20 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
                 }
                 return
             } else {
-                self.process(validatedImportedDocuments: validatedDocuments.map { $0.0 }, completion: completion)
+                self.process(validatedImportedDocuments: validatedDocuments.map { $0.0 }) { [weak self] error, didDismiss in
+                    guard let `self` = self else { return }
+                    // This workaround is needed since the `UIDocumentPickerViewController` is automatically dismissed.
+                    if from == .explorer {
+                        guard let error = error else {
+                            didDismiss?()
+                            return
+                        }
+                        
+                        coordinator.showErrorDialog(for: error, from: self)
+                    } else {
+                        completion?(error, didDismiss)
+                    }
+                }
             }
         }
     }
@@ -677,8 +718,8 @@ extension CameraViewController {
     }
     
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument],
-                             completion: FilePickerCompletion?) {
-        let didValidated: FilePickerCompletion
+                             completion: DocumentPickerCompletion?) {
+        let didValidated: DocumentPickerCompletion
         if !documents.containsDifferentTypes {
             didValidated = { error, coordinatorCompletion in
                 completion?(error, coordinatorCompletion)

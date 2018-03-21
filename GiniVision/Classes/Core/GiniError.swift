@@ -46,6 +46,9 @@ public protocol GiniVisionError: Error {}
     
     /// Camera roll can not be loaded because the user has denied authorization in the past.
     case photoLibraryAccessDenied
+    
+    /// Number of files picked exceeded
+    case filesPickedCountExceeded
 
 }
 

@@ -105,6 +105,10 @@ public class GiniVisionDocumentBuilder: NSObject {
 
 extension GiniVisionDocument {
     
+    public static var maxPagesCount: Int {
+        return 10
+    }
+    
     fileprivate var MAX_FILE_SIZE: Int { // Bytes
         return 10 * 1024 * 1024
     }
