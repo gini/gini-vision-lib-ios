@@ -137,30 +137,30 @@ final class DocumentService {
         if token.cancelled {
             return
         }
-        
+
         // 1. Get session
-        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any! in
+        _ = sdk?.sessionManager.getSession().continueWith(block: { (task: BFTask<AnyObject>?) -> Any! in
             if token.cancelled {
-                return BFTask.cancelled()
+                return BFTask<AnyObject>.cancelled()
             }
             if task?.error != nil {
                 return sdk?.sessionManager.logIn()
             }
             return task?.result
-            
+
             // 2. Create a document from the given image data
-        }).continue(successBlock: { _ -> AnyObject! in
+        }).continueOnSuccessWith(block: { _ -> AnyObject! in
             if token.cancelled {
-                return BFTask.cancelled()
+                return BFTask<AnyObject>.cancelled()
             }
             return manager?.createDocument(withFilename: fileName, from: data, docType: "")
-            
+
             // 3. Get extractions from the document
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+        }).continueOnSuccessWith(block: { (task: BFTask<AnyObject>?) in
             if token.cancelled {
-                return BFTask.cancelled()
+                return BFTask<AnyObject>.cancelled()
             }
-            
+
             if let document = task?.result as? GINIDocument {
                 documentId = document.documentId
                 self.document = document
@@ -169,18 +169,18 @@ final class DocumentService {
 
             } else {
                 print("Error creating document")
-                return BFTask(error: AnalysisError.documentCreation)
+                return BFTask<AnyObject>(error: AnalysisError.documentCreation)
             }
-            
+
             // 4. Handle results
-        }).continue({ (task: BFTask?) -> AnyObject! in
+        }).continueWith(block: { (task: BFTask<AnyObject>?) -> AnyObject! in
             if token.cancelled || (task?.isCancelled == true) {
                 print("❌ Canceled analysis process")
                 completion?(nil, nil, AnalysisError.documentCreation)
 
-                return BFTask.cancelled()
+                return BFTask<AnyObject>.cancelled()
             }
-            
+
             if let error = task?.error {
                 self.error = error
                 print("✅ Finished analysis process with this error: \(error)")
@@ -198,11 +198,11 @@ final class DocumentService {
                 completion?(nil, nil, AnalysisError.unknown)
                 return nil
             }
-            
+
             return nil
-            
+
             // 5. Finish process
-        }).continue({ (_: BFTask?) -> AnyObject! in
+        }).continueWith(block: { (_: BFTask<AnyObject>?) -> AnyObject! in
             self.isAnalyzing = false
             return nil
         })
@@ -223,18 +223,18 @@ final class DocumentService {
         let sdk = giniSDK
         
         // 1. Get session
-        _ = sdk?.sessionManager.getSession().continue({ (task: BFTask?) -> Any? in
+        _ = sdk?.sessionManager.getSession().continueWith(block: { (task: BFTask<AnyObject>?) in
             if task?.error != nil {
                 return sdk?.sessionManager.logIn()
             }
             return task?.result
             
             // 2. Get extractions from the document
-        }).continue(successBlock: { _ -> AnyObject! in
+        }).continueOnSuccessWith(block: { (task: BFTask<AnyObject>?) in
             return document.extractions
             
             // 3. Create and send feedback on the document
-        }).continue(successBlock: { (task: BFTask?) -> AnyObject! in
+        }).continueOnSuccessWith(block: { (task: BFTask<AnyObject>?) in
             
             // Use `NSMutableDictionary` to work with a mutable class type which is passed by reference.
             guard let extractions = task?.result as? NSMutableDictionary else {
@@ -242,7 +242,7 @@ final class DocumentService {
                     case unknown
                 }
                 let error = NSError(domain: "net.gini.error.", code: FeedbackError.unknown._code, userInfo: nil)
-                return BFTask(error: error)
+                return BFTask<AnyObject>(error: error)
             }
             
             // As an example will set the BIC value statically.
@@ -263,11 +263,11 @@ final class DocumentService {
             return documentTaskManager?.update(document)
             
             // 4. Check if feedback was send successfully (only for testing purposes)
-        }).continue(successBlock: { _ -> AnyObject! in
+        }).continueOnSuccessWith(block: { (task: BFTask<AnyObject>?) in
             return document.extractions
             
             // 5. Handle results
-        }).continue({ (task: BFTask?) -> AnyObject! in
+        }).continueWith(block: { (task: BFTask<AnyObject>?) in
             if task?.error != nil {
                 print("Error sending feedback for document with id: \(document.documentId)")
                 return nil
