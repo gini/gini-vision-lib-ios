@@ -13,10 +13,16 @@ import Photos
 protocol DocumentPickerCoordinatorDelegate: class {
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument],
-                        completion: FilePickerCompletion?)
+                        from picker: DocumentPickerType,
+                        completion: DocumentPickerCompletion?)
 }
 
-public typealias FilePickerCompletion = (_ error: Error?, _ didDismissPicker: @escaping (() -> Void)) -> Void
+public typealias DidDismissPickerCompletion = () -> Void
+public typealias DocumentPickerCompletion = (Error?, DidDismissPickerCompletion?) -> Void
+
+enum DocumentPickerType {
+    case gallery, explorer, dragndrop
+}
 
 internal final class DocumentPickerCoordinator: NSObject {
     
@@ -55,7 +61,7 @@ internal final class DocumentPickerCoordinator: NSObject {
     func showGalleryPicker(from viewController: UIViewController) {
         galleryCoordinator.checkGalleryAccessPermission(deniedHandler: {[unowned self] error in
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
-                self.showPhotoLibraryPermissionDeniedError(from: viewController)
+                self.showErrorDialog(for: error, from: viewController)
             }
         }, authorizedHandler: {
             self.galleryCoordinator.delegate = self
@@ -67,6 +73,7 @@ internal final class DocumentPickerCoordinator: NSObject {
                             device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
+        documentPicker.modalPresentationStyle = .fullScreen
         
         if #available(iOS 11.0, *) {
             documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled
@@ -82,19 +89,37 @@ internal final class DocumentPickerCoordinator: NSObject {
         viewController.present(documentPicker, animated: true, completion: nil)
     }
     
-    fileprivate func showPhotoLibraryPermissionDeniedError(from viewController: UIViewController) {
-        let alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
+    func showErrorDialog(for error: Error, from viewController: UIViewController) {
+        let alertViewController: UIAlertController = UIAlertController(title: nil,
+                                                                       message: "",
+                                                                       preferredStyle: .alert)
+        var alertMessage: String = ""
+        var cancelActionMessage: String = ""
+        var confirmAction: UIAlertAction?
+
+        if let error = error as? FilePickerError {
+            switch error {
+            case .photoLibraryAccessDenied:
+                alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
+                cancelActionMessage = "Abbrechen"
+                confirmAction = UIAlertAction(title: "Zugriff erteilen", style: .default, handler: { _ in
+                    alertViewController.dismiss(animated: true, completion: nil)
+                    UIApplication.shared.openAppSettings()
+                })
+            case .filesPickedCountExceeded:
+                alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
+                cancelActionMessage = "OK"
+            }
+        }
         
-        let alertViewController = UIAlertController(title: nil, message: alertMessage, preferredStyle: .alert)
-        
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
+        alertViewController.message = alertMessage
+        alertViewController.addAction(UIAlertAction(title: cancelActionMessage, style: .cancel, handler: { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         }))
         
-        alertViewController.addAction(UIAlertAction(title: "Zugriff erteilen", style: .default, handler: { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-            UIApplication.shared.openAppSettings()
-        }))
+        if let confirmAction = confirmAction {
+            alertViewController.addAction(confirmAction)
+        }
         
         viewController.present(alertViewController, animated: true, completion: nil)
     }
@@ -127,12 +152,13 @@ internal final class DocumentPickerCoordinator: NSObject {
 
 extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
-        delegate?.documentPicker(self, didPick: imageDocuments) { [weak self] error, didDismiss in
-            if error == nil {
+        delegate?.documentPicker(self, didPick: imageDocuments, from: .gallery) { [weak self] error, didDismiss in
+            guard let error = error else {
                 coordinator.dismissGallery(completion: didDismiss)
-            } else {
-                self?.showPhotoLibraryPermissionDeniedError(from: coordinator.rootViewController)
+                return
             }
+            
+            self?.showErrorDialog(for: error, from: coordinator.rootViewController)
         }
         
     }
@@ -150,14 +176,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .flatMap(self.data)
             .flatMap(self.createDocument)
         
-        delegate?.documentPicker(self, didPick: documents) { error, didDismiss in
-            if error == nil {
-                controller.dismiss(animated: false, completion: didDismiss)
-            } else {
-                self.showPhotoLibraryPermissionDeniedError(from: controller)
-            }
-        }
-        
+        delegate?.documentPicker(self, didPick: documents, from: .explorer, completion: nil)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -203,7 +222,7 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
 
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.delegate?.documentPicker(self, didPick: documents, completion: nil)
+            self.delegate?.documentPicker(self, didPick: documents, from: .dragndrop, completion: nil)
         }
     }
     

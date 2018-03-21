@@ -237,43 +237,51 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController,
                 didCaptureDocuments documents: [GiniVisionDocument],
-                completion: FilePickerCompletion?) {
+                completion: DocumentPickerCompletion?) {
         if (documents.count + visionDocuments.count) > 2 {
-            completion?(FilePickerError.photoLibraryAccessDenied) {
-                
-            }
+            completion?(FilePickerError.filesPickedCountExceeded, nil)
             return
         }
+        
+        let didDismissPickerCompleton: DidDismissPickerCompletion
         
         if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
             visionDocuments.append(contentsOf: documents)
             
-            if let firstDocument = documents.first {
-                switch type {
-                case .image:
-                    if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                        let lastDocument = imageDocuments.last {
-                        if giniConfiguration.multipageEnabled {
-                            if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                                lastDocument.isImported {
-                                showMultipageReview(withImageDocuments: imageDocuments)
+            didDismissPickerCompleton = { [weak self] in
+                guard let `self` = self else { return }
+                if let firstDocument = documents.first {
+                    switch type {
+                    case .image:
+                        if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
+                            let lastDocument = imageDocuments.last {
+                            if self.giniConfiguration.multipageEnabled {
+                                if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
+                                    lastDocument.isImported {
+                                    self.showMultipageReview(withImageDocuments: imageDocuments)
+                                }
+                            } else {
+                                self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
+                                self.screenAPINavigationController.pushViewController(self.reviewViewController!,
+                                                                                      animated: true)
+                                self.didCapture(withDocument: firstDocument)
                             }
-                        } else {
-                            reviewViewController = createReviewScreen(withDocument: lastDocument)
-                            screenAPINavigationController.pushViewController(reviewViewController!, animated: true)
-                            didCapture(withDocument: firstDocument)
                         }
+                    case .qrcode, .pdf:
+                        self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
+                        self.screenAPINavigationController.pushViewController(self.analysisViewController!,
+                                                                              animated: true)
+                        self.didCapture(withDocument: firstDocument)
                     }
-                case .qrcode, .pdf:
-                    analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-                    screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
-                    didCapture(withDocument: firstDocument)
                 }
             }
-            
         } else {
-            viewController.showMultipleTypesImportedAlert(forDocuments: visionDocuments + documents) { _ in }
+            didDismissPickerCompleton = {
+                viewController.showMultipleTypesImportedAlert(forDocuments: self.visionDocuments + documents) { _ in }
+            }
         }
+        
+        completion?(nil, didDismissPickerCompleton)
     }
     
     func camera(_ viewController: CameraViewController, didFailCaptureWithError error: CameraError) {
