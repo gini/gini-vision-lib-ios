@@ -11,8 +11,8 @@ import XCTest
 
 class GINIVisionDocumentTests: XCTestCase {
     
-    var filePickerManager: FilePickerManager {
-        return FilePickerManager()
+    var filePickerManager: DocumentPickerCoordinator {
+        return DocumentPickerCoordinator()
     }
     
     func testExcedeedMaxFileSize() {

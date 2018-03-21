@@ -235,7 +235,16 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 // MARK: - Camera Screen
 
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
-    func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument]) {
+    func camera(_ viewController: CameraViewController,
+                didCaptureDocuments documents: [GiniVisionDocument],
+                completion: FilePickerCompletion?) {
+        if (documents.count + visionDocuments.count) > 2 {
+            completion?(FilePickerError.photoLibraryAccessDenied) {
+                
+            }
+            return
+        }
+        
         if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
             visionDocuments.append(contentsOf: documents)
             
