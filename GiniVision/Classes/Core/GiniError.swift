@@ -25,7 +25,6 @@ public protocol GiniVisionError: Error {}
     
     /// Capturing could not be completed.
     case captureFailed
-    
 }
 
 /**
@@ -46,9 +45,6 @@ public protocol GiniVisionError: Error {}
     
     /// Camera roll can not be loaded because the user has denied authorization in the past.
     case photoLibraryAccessDenied
-    
-    /// Number of files picked exceeded
-    case filesPickedCountExceeded
 
 }
 
@@ -74,6 +70,9 @@ public protocol GiniVisionError: Error {}
     
     /// QR Code formar not valid
     case qrCodeFormatNotValid
+    
+    /// Number of files picked exceeded
+    case filesPickedCountExceeded
 
     var message: String {
         switch self {
@@ -89,6 +88,8 @@ public protocol GiniVisionError: Error {}
             return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
         case .unknown:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
+        case .filesPickedCountExceeded:
+            return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
         }
     }
     

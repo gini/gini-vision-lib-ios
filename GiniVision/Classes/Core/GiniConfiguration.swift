@@ -293,7 +293,6 @@ import UIKit
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat",
                                    comment: "Message text error shown in camera screen when a file " +
                                             "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
-    
     /**
      Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
      
