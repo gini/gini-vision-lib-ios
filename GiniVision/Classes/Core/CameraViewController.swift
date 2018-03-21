@@ -15,7 +15,7 @@ import AVFoundation
      Once that the method has been implemented, it is necessary to check if the number of
      documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
      Afterwards, it is mandatory to call the `DocumentPickerCompletion` block passing the error
-     `FilePickerError.filesPickedCountExceeded` (if the page count limit was exceeded) and
+     `CameraError.filesPickedCountExceeded` (if the page count limit was exceeded) and
      the inner completion block that will be executed once the gallery dismissal animation finishes.
      
      - parameter viewController: `CameraViewController` where the documents were taken.
@@ -493,7 +493,12 @@ extension CameraViewController {
         
         if giniConfiguration.multipageEnabled {
             self.animateToControlsView(imageDocument: imageDocument) {
-                self.didPick(validatedDocuments: [imageDocument], completion: nil)
+                self.didPick(validatedDocuments: [imageDocument]) { error, didDismiss in
+                    guard let error = error else {
+                        return
+                    }
+                    self.showErrorDialog(for: error)
+                }
             }
         } else {
             self.didPick(validatedDocuments: [imageDocument], completion: nil)
@@ -652,16 +657,22 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
                         from: DocumentPickerType,
                         completion: DocumentPickerCompletion?) {
         self.validate(importedDocuments: documents) { validatedDocuments in
-            if let error = validatedDocuments.first?.1, !self.giniConfiguration.multipageEnabled {
-                completion?(nil) {
-                    self.showNotValidDocument(error: error)
+            if let firstElement = validatedDocuments.first,
+                let error = firstElement.1,
+                (!self.giniConfiguration.multipageEnabled || firstElement.0.type != .image) {
+                if let completion = completion {
+                    completion(nil) {
+                        self.showErrorDialog(for: error)
+                    }
+                } else {
+                    self.showErrorDialog(for: error)
                 }
-                return
             } else {
                 self.process(validatedImportedDocuments: validatedDocuments.map { $0.0 }) { [weak self] error, didDismiss in
                     guard let `self` = self else { return }
-                    // This workaround is needed since the `UIDocumentPickerViewController` is automatically dismissed.
-                    if from == .explorer {
+                    // This is needed since the `UIDocumentPickerViewController` is automatically
+                    // dismissed and the drag&drop is done in this view controller.
+                    if from != .gallery {
                         guard let error = error else {
                             didDismiss?()
                             return
@@ -832,7 +843,7 @@ extension CameraViewController {
         }
     }
     
-    fileprivate func showNotValidDocument(error: Error) {
+    fileprivate func showErrorDialog(for error: Error) {
         let message: String
         switch error {
         case let validationError as DocumentValidationError:
@@ -843,16 +854,12 @@ extension CameraViewController {
             message = DocumentValidationError.unknown.message
         }
 
+        let dialog = errorDialog(withMessage: message,
+                                 cancelActionTitle: "Abbrechen",
+                                 confirmActionTitle: "Andere Datei wählen",
+                                 confirmAction: self.showImportFileSheet)
         
-        let alertViewController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-        }))
-        alertViewController.addAction(UIAlertAction(title: "Andere Datei wählen", style: .default, handler: { _ in
-            self.showImportFileSheet()
-        }))
-        
-        present(alertViewController, animated: true, completion: nil)
+        present(dialog, animated: true, completion: nil)
     }
 }
 

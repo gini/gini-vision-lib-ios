@@ -239,7 +239,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 didCaptureDocuments documents: [GiniVisionDocument],
                 completion: DocumentPickerCompletion?) {
         if (documents.count + visionDocuments.count) > 2 {
-            completion?(FilePickerError.filesPickedCountExceeded, nil)
+            completion?(DocumentValidationError.filesPickedCountExceeded, nil)
             return
         }
         

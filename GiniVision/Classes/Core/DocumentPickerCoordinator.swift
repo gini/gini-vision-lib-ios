@@ -63,9 +63,9 @@ internal final class DocumentPickerCoordinator: NSObject {
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
                 self.showErrorDialog(for: error, from: viewController)
             }
-        }, authorizedHandler: {
-            self.galleryCoordinator.delegate = self
-            viewController.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
+            }, authorizedHandler: {
+                self.galleryCoordinator.delegate = self
+                viewController.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         })
     }
     
@@ -85,43 +85,35 @@ internal final class DocumentPickerCoordinator: NSObject {
         if !device.isIpad {
             setStatusBarStyle(to: .default)
         }
-
+        
         viewController.present(documentPicker, animated: true, completion: nil)
     }
     
     func showErrorDialog(for error: Error, from viewController: UIViewController) {
-        let alertViewController: UIAlertController = UIAlertController(title: nil,
-                                                                       message: "",
-                                                                       preferredStyle: .alert)
-        var alertMessage: String = ""
-        var cancelActionMessage: String = ""
-        var confirmAction: UIAlertAction?
-
-        if let error = error as? FilePickerError {
-            switch error {
-            case .photoLibraryAccessDenied:
-                alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
-                cancelActionMessage = "Abbrechen"
-                confirmAction = UIAlertAction(title: "Zugriff erteilen", style: .default, handler: { _ in
-                    alertViewController.dismiss(animated: true, completion: nil)
-                    UIApplication.shared.openAppSettings()
-                })
-            case .filesPickedCountExceeded:
-                alertMessage = giniConfiguration.photoLibraryAccessDeniedMessageText
-                cancelActionMessage = "OK"
-            }
+        let dialog: UIAlertController
+        
+        switch error {
+        case let error as FilePickerError where error == .photoLibraryAccessDenied:
+            let message = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
+                                                     comment: "This message is shown when" +
+                "Photo library permission is denied")
+            dialog = errorDialog(withMessage: message,
+                                 cancelActionTitle: "Abbrechen",
+                                 confirmActionTitle: "Zugriff erteilen",
+                                 confirmAction: UIApplication.shared.openAppSettings)
+        case let error as DocumentValidationError where error == .filesPickedCountExceeded:
+            let message = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
+                                                     comment: "Message text error shown in" +
+                                                        "camera screen when a pdf " +
+                "length is higher than 10 pages")
+            dialog = errorDialog(withMessage: message,
+                                 cancelActionTitle: "OK")
+            
+        default:
+            return
         }
         
-        alertViewController.message = alertMessage
-        alertViewController.addAction(UIAlertAction(title: cancelActionMessage, style: .cancel, handler: { _ in
-            alertViewController.dismiss(animated: true, completion: nil)
-        }))
-        
-        if let confirmAction = confirmAction {
-            alertViewController.addAction(confirmAction)
-        }
-        
-        viewController.present(alertViewController, animated: true, completion: nil)
+        viewController.present(dialog, animated: true, completion: nil)
     }
     
     // MARK: File data picked from gallery or document pickers
@@ -208,7 +200,7 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         let dispatchGroup = DispatchGroup()
         var documents: [GiniVisionDocument] = []
-
+        
         loadDocuments(ofClass: GiniPDFDocument.self, from: session, in: dispatchGroup) { pdfItems in
             if let pdfs = pdfItems {
                 documents.append(contentsOf: pdfs as [GiniVisionDocument])
@@ -220,7 +212,7 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
                 documents.append(contentsOf: images as [GiniVisionDocument])
             }
         }
-
+        
         dispatchGroup.notify(queue: DispatchQueue.main) {
             self.delegate?.documentPicker(self, didPick: documents, from: .dragndrop, completion: nil)
         }
