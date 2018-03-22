@@ -239,16 +239,16 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 didCaptureDocuments documents: [GiniVisionDocument],
                 completion: DocumentPickerCompletion?) {
         if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
-            completion?(DocumentValidationError.filesPickedCountExceeded, nil)
+            completion?(FilePickerError.filesPickedCountExceeded, nil)
             return
         }
         
-        let didDismissPickerCompleton: DidDismissPickerCompletion
+        let didDismissPickerCompletion: DidDismissPickerCompletion
         
         if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
             visionDocuments.append(contentsOf: documents)
             
-            didDismissPickerCompleton = { [weak self] in
+            didDismissPickerCompletion = { [weak self] in
                 guard let `self` = self else { return }
                 if let firstDocument = documents.first {
                     switch type {
@@ -276,12 +276,12 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 }
             }
         } else {
-            didDismissPickerCompleton = {
-                viewController.showMultipleTypesImportedAlert(forDocuments: self.visionDocuments + documents) { _ in }
+            didDismissPickerCompletion = {
+                viewController.showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported)
             }
         }
         
-        completion?(nil, didDismissPickerCompleton)
+        completion?(nil, didDismissPickerCompletion)
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {

@@ -107,19 +107,13 @@ internal final class DocumentPickerCoordinator: NSObject {
         
         switch error {
         case let error as FilePickerError where error == .photoLibraryAccessDenied:
-            let message = NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
-                                                     comment: "This message is shown when" +
-                "Photo library permission is denied")
-            dialog = errorDialog(withMessage: message,
+            dialog = errorDialog(withMessage: error.message,
                                  cancelActionTitle: "Abbrechen",
                                  confirmActionTitle: "Zugriff erteilen",
                                  confirmAction: UIApplication.shared.openAppSettings)
-        case let error as DocumentValidationError where error == .filesPickedCountExceeded:
-            let message = NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
-                                                     comment: "Message text error shown in" +
-                                                        "camera screen when a pdf " +
-                "length is higher than 10 pages")
-            dialog = errorDialog(withMessage: message,
+        case let error as FilePickerError where error == .filesPickedCountExceeded:
+
+            dialog = errorDialog(withMessage: error.message,
                                  cancelActionTitle: "OK")
             
         default:

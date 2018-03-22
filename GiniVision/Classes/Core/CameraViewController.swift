@@ -650,7 +650,7 @@ extension CameraViewController {
     }
 }
 
-// MARK: - Document import
+// MARK: - DocumentPickerCoordinatorDelegate
 
 extension CameraViewController: DocumentPickerCoordinatorDelegate {
 
@@ -689,6 +689,8 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
         }
     }
 }
+
+// MARK: - Document import
 
 extension CameraViewController {
     fileprivate func enableFileImport() {
@@ -744,36 +746,11 @@ extension CameraViewController {
             didPick(validatedDocuments: documents, completion: didValidated)
             
         } else {
-            showMultipleTypesImportedAlert(forDocuments: documents) { filteredDocuments in
-                if let filteredDocuments = filteredDocuments {
-                    self.didPick(validatedDocuments: filteredDocuments, completion: completion)
-                }
+            showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported) {
+                let imageDocuments = documents.filter { $0.type == .image }
+                self.didPick(validatedDocuments: imageDocuments, completion: completion)
             }
         }
-    }
-    
-    func showMultipleTypesImportedAlert(forDocuments documents: [GiniVisionDocument],
-                                        completion: @escaping (([GiniVisionDocument]?) -> Void) ) {
-        let imageDocuments = documents.filter { $0.type == .image }
-        
-        let message = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.message",
-                                                 comment: "message showed in the alert when " +
-            "multiple types were selected.")
-        let cancel = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
-                                                comment: "cancel button text for popup")
-        let usePhotos = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
-                                                   comment: "use photos button text in popup")
-        
-        let alertViewController = UIAlertController(title: nil,
-                                                    message: message,
-                                                    preferredStyle: .alert)
-        alertViewController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: { _ in
-            completion(nil)
-        }))
-        alertViewController.addAction(UIAlertAction(title: usePhotos, style: .default, handler: { _ in
-            completion(imageDocuments)
-        }))
-        self.present(alertViewController, animated: true, completion: nil)
     }
     
     fileprivate func addValidationLoadingView() -> UIView {
@@ -843,31 +820,42 @@ extension CameraViewController {
         }
     }
     
-    fileprivate func showErrorDialog(for error: Error) {
+    func showErrorDialog(for error: Error, possitiveAction: (() -> Void)? = nil) {
         let message: String
+        var cancelActionTitle: String = "Abbrechen"
         var confirmActionTitle: String? = "Andere Datei wählen"
-        var confirmAction: (() -> Void)? = self.showImportFileSheet
+        var confirmAction: (() -> Void)?
         
         switch error {
         case let validationError as DocumentValidationError:
             message = validationError.message
-            if validationError == .filesPickedCountExceeded {
+            confirmAction = self.showImportFileSheet
+        case let customValidationError as CustomDocumentValidationError:
+            message = customValidationError.message
+            confirmAction = self.showImportFileSheet
+        case let pickerError as FilePickerError:
+            message = pickerError.message
+            if pickerError == .filesPickedCountExceeded {
                 confirmActionTitle = "Seitenübersicht"
                 confirmAction = { [weak self] in
                     guard let `self` = self else { return }
                     self.delegate?.cameraDidTapMultipageReviewButton(self)
                 }
+            } else if pickerError == .mixedDocumentsUnsupported {
+                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
+                                                        comment: "cancel button text for popup")
+                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
+                                                           comment: "use photos button text in popup")
             }
-        case let customValidationError as CustomDocumentValidationError:
-            message = customValidationError.message
+
         default:
             message = DocumentValidationError.unknown.message
         }
 
         let dialog = errorDialog(withMessage: message,
-                                 cancelActionTitle: "Abbrechen",
+                                 cancelActionTitle: cancelActionTitle,
                                  confirmActionTitle: confirmActionTitle,
-                                 confirmAction: confirmAction)
+                                 confirmAction: possitiveAction ?? confirmAction)
         
         present(dialog, animated: true, completion: nil)
     }
