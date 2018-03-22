@@ -18,8 +18,17 @@ import Foundation
     var previewImage: UIImage? { get }
     var isReviewable: Bool { get }
     var isImported: Bool { get }
+    var error: Error? { get set }
     
     func checkType() throws
+}
+
+extension GiniVisionDocument {
+    public var hashValue: Int { return 0 }
+}
+
+func ==<T: GiniVisionDocument>(lhs: T, rhs: T) -> Bool {
+    return lhs.data == rhs.data
 }
 
 // MARK: GiniVisionDocumentType

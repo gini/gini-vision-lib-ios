@@ -17,6 +17,7 @@ import Foundation
     }()
     public var isReviewable: Bool = false
     public var isImported: Bool = false
+    public var error: Error?
     
     fileprivate lazy var paymentInformation: Data? = {
         let jsonDict: [String: Any] = ["qrcode": self.scannedString, "paymentdata": self.extractedParameters]
