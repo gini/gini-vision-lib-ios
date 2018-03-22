@@ -81,7 +81,7 @@ final class CameraViewControllerTests: XCTestCase {
         let documents = [GiniImageDocument(data: imageData, imageSource: .external)]
         let expect = expectation(description: "Document validation finishes")
 
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
+        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "Completion block should not return an error when pciking one image")
         }
@@ -93,7 +93,7 @@ final class CameraViewControllerTests: XCTestCase {
         let documents = [loadImageDocument(withName: "invoice")]
         let expect = expectation(description: "Document validation finishes")
         vc = CameraViewController(success: {_ in}, failure: {_ in})
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
+        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "Completion block should not return an error when using the deprecated initializer")
         }
@@ -107,7 +107,7 @@ final class CameraViewControllerTests: XCTestCase {
         let documents = [failedPDF]
         let expect = expectation(description: "Document validation finishes")
         
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
+        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "Completion block should not return an error form outside when it is a PDF")
         }
@@ -126,7 +126,7 @@ final class CameraViewControllerTests: XCTestCase {
         
         let expect = expectation(description: "Document validation finishes")
 
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
+        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "When multipage is disabled there should not be an error coming from outside of the camera screen")
         }
@@ -141,7 +141,7 @@ final class CameraViewControllerTests: XCTestCase {
         }
 
         let expect = expectation(description: "Document validation finishes")
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
+        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             let error = error as? FilePickerError
             XCTAssertTrue(error == FilePickerError.filesPickedCountExceeded,
