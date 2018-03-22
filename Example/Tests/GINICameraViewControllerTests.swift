@@ -37,11 +37,11 @@ final class CameraViewControllerTests: XCTestCase {
     
     func testCaptureButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowFileImportToolTip = true
-        GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
+        giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         
         // Disable onboarding on launch
-        GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch = false
-        GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch = false
+        giniConfiguration.onboardingShowAtLaunch = false
+        giniConfiguration.onboardingShowAtFirstLaunch = false
         vc = CameraViewController(giniConfiguration: giniConfiguration)
         
         _ = vc.view
@@ -158,8 +158,8 @@ final class CameraViewControllerTests: XCTestCase {
         let expect = expectation(description: "Document validation finishes")
         vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, didDismiss in
             expect.fulfill()
-            let error = error as? DocumentValidationError
-            XCTAssertTrue(error == DocumentValidationError.filesPickedCountExceeded,
+            let error = error as? FilePickerError
+            XCTAssertTrue(error == FilePickerError.filesPickedCountExceeded,
                           "Completion block should return the filesPickedCounteExceedede error from outside of the caera screen")
         }
         
