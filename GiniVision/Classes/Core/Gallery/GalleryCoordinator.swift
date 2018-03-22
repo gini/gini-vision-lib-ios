@@ -9,7 +9,9 @@ import Foundation
 import Photos
 
 protocol GalleryCoordinatorDelegate: class {
-    func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument])
+    func gallery(_ coordinator: GalleryCoordinator,
+                 didSelectImageDocuments imageDocuments: [GiniImageDocument],
+                 completion: @escaping () -> Void)
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void)
 }
 
@@ -112,9 +114,13 @@ final class GalleryCoordinator: NSObject, Coordinator {
     
     @objc fileprivate func openImages() {
         let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
-        delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
-        selectedImageDocuments.removeAll()
-        currentImagePickerViewController?.deselectAllCells()
+        delegate?.gallery(self, didSelectImageDocuments: imageDocuments) { [weak self] in
+            self?.selectedImageDocuments.removeAll()
+            self?.currentImagePickerViewController?.deselectAllCells()
+            self?.currentImagePickerViewController?.navigationItem.setRightBarButton(self?.cancelButton,
+                                                                                     animated: true)
+        }
+
     }
     
     // MARK: - Image picker generation.
@@ -227,7 +233,7 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
             selectedImageDocuments.remove(at: documentIndex)
         }
         
-        if let selectedItems = viewController.collectionView.indexPathsForSelectedItems, selectedItems.isEmpty {
+        if selectedImageDocuments.isEmpty {
             viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
         }
     }
