@@ -11,6 +11,20 @@ import MobileCoreServices
 import Photos
 
 protocol DocumentPickerCoordinatorDelegate: class {
+    /**
+     Called when a user pick one or several files from both the gallery or files explorer.
+     The completion might provide with errors than must be handled here before dismissing the
+     pickers. It only applies for the `GalleryCoordinator` since on one side it is not possible
+     to handle the dismissal of UIDocumentPickerViewController and the Drag&Drop is not done in a separate
+     view.
+     
+     - parameter coordinator: `DocumentPickerCoordinator` where the documents were imported.
+     - parameter documents: One or several documents imported.
+     - parameter from: Picker used (either gallery, files explorer or drag&drop).
+     - parameter completion: `DocumentPickerCompletion` block used to check if there is an issue with
+     the captured documents. The completion block also has an inner block that is executed once the
+     picker has been dismissed when there are no errors.
+     */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument],
                         from picker: DocumentPickerType,
@@ -73,7 +87,6 @@ internal final class DocumentPickerCoordinator: NSObject {
                             device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
-        documentPicker.modalPresentationStyle = .fullScreen
         
         if #available(iOS 11.0, *) {
             documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled

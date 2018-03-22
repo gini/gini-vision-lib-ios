@@ -23,14 +23,6 @@ import Foundation
     func checkType() throws
 }
 
-extension GiniVisionDocument {
-    public var hashValue: Int { return 0 }
-}
-
-func ==<T: GiniVisionDocument>(lhs: T, rhs: T) -> Bool {
-    return lhs.data == rhs.data
-}
-
 // MARK: GiniVisionDocumentType
 
 @objc public enum GiniVisionDocumentType: Int {
