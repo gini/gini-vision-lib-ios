@@ -88,10 +88,14 @@ final class GalleryCoordinator: NSObject, Coordinator {
     // MARK: - Coordinator lifecycle
     
     func start() {
-        if let firstAlbum = galleryManager.albums.first {
-            currentImagePickerViewController = createImagePicker(with: firstAlbum)
-            galleryManager.startCachingImages(for: firstAlbum)
-            galleryNavigator.pushViewController(currentImagePickerViewController!, animated: false)
+        DispatchQueue.global().async {
+            if let firstAlbum = self.galleryManager.albums.first {                
+                DispatchQueue.main.async {
+                    self.galleryManager.startCachingImages(for: firstAlbum)
+                    self.currentImagePickerViewController = self.createImagePicker(with: firstAlbum)
+                    self.galleryNavigator.pushViewController(self.currentImagePickerViewController!, animated: false)
+                }
+            }
         }
     }
     
