@@ -157,11 +157,9 @@ internal final class DocumentPickerCoordinator: NSObject {
 
 extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator,
-                 didSelectImageDocuments imageDocuments: [GiniImageDocument],
-                 completion: @escaping () -> Void) {
+                 didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
         delegate?.documentPicker(self, didPick: imageDocuments, from: .gallery) { [weak self] error, didDismiss in
             guard let error = error else {
-                completion()
                 coordinator.dismissGallery(completion: didDismiss)
                 return
             }
