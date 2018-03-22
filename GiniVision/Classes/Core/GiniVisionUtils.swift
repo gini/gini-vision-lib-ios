@@ -184,7 +184,11 @@ internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
     application.setStatusBarStyle(statusBarStyle, animated: true)
 }
 
+/**
+    Create an alert view controller.
+ */
 func errorDialog(withMessage message: String,
+                 title: String? = nil,
                  cancelActionTitle: String,
                  confirmActionTitle: String? = nil,
                  confirmAction: (() -> Void)? = nil) -> UIAlertController {
@@ -206,7 +210,6 @@ func errorDialog(withMessage message: String,
 
     return alertViewController
 }
-
 
 /**
     Measure the time spent executing a block

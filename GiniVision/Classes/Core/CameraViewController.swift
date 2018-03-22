@@ -20,7 +20,7 @@ import AVFoundation
      
      - parameter viewController: `CameraViewController` where the documents were taken.
      - parameter documents: One or several documents either captured or imported in
-     the `CameraViewController`.
+     the `CameraViewController`. They can contain an error produced in the validation process.
      - parameter completion: `DocumentPickerCompletion` block used to check if there is an issue with
      the captured documents. The completion block also has an inner block that is executed once the
      picker has been dismissed when there are no errors.
@@ -30,9 +30,9 @@ import AVFoundation
                       completion: DocumentPickerCompletion?)
     
     /**
-     Called the `CameraViewController` appears.
+     Called when the `CameraViewController` appears.
      
-     - parameter viewController: Camera view controller where the documents were taken.
+     - parameter viewController: Camera view controller that appears.
      */
     @objc func cameraDidAppear(_ viewController: CameraViewController)
     
@@ -40,7 +40,7 @@ import AVFoundation
      Called when a user tap the `MultipageReviewButton` (the one with the thumbnail of the images/s taken).
      Once this method is called, the `MultipageReviewController` should be presented.
      
-     - parameter viewController: Camera view controller where the documents were taken.
+     - parameter viewController: Camera view controller where the button was tapped.
      */
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
 }
@@ -283,7 +283,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         if let delegate = delegate {
             delegate.camera(self, didCaptureDocuments: documents, completion: completion)
         } else if let firstDocument = documents.first {
+            completion?(nil, nil)
             successBlock?(firstDocument)
+            if documents.count > 1 {
+                // TODO: Show a warning in the logger
+            }
         } else {
             print("It has not been specified a CameraViewControllerDelegate")
         }
@@ -493,9 +497,7 @@ extension CameraViewController {
         if giniConfiguration.multipageEnabled {
             self.didPick(validatedDocuments: [imageDocument]) { error, _ in
                 guard let error = error else {
-                    self.animateToControlsView(imageDocument: imageDocument) {
-                        
-                    }
+                    self.animateToControlsView(imageDocument: imageDocument)
                     return
                 }
                 self.showErrorDialog(for: error)

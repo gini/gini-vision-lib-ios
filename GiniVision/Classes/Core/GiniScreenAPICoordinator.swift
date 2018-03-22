@@ -238,7 +238,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController,
                 didCaptureDocuments documents: [GiniVisionDocument],
                 completion: DocumentPickerCompletion?) {
-        if (documents.count + visionDocuments.count) > 2 {
+        if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
             completion?(DocumentValidationError.filesPickedCountExceeded, nil)
             return
         }
@@ -282,15 +282,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         }
         
         completion?(nil, didDismissPickerCompleton)
-    }
-    
-    func camera(_ viewController: CameraViewController, didFailCaptureWithError error: CameraError) {
-        switch error {
-        case .notAuthorizedToUseDevice:
-            print("GiniVision: Camera authorization denied.")
-        default:
-            print("GiniVision: Unknown error when using camera.")
-        }
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
