@@ -71,9 +71,7 @@ internal final class DocumentPickerCoordinator: NSObject {
     // MARK: - Start caching
     
     func startCaching() {
-        DispatchQueue.global().async {
-            self.galleryCoordinator.start()
-        }
+        galleryCoordinator.start()
     }
     
     // MARK: Picker presentation
