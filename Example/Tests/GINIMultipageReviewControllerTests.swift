@@ -149,7 +149,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testDatasourceOnDelete() {
-        let vc = MultipageReviewController(imageDocuments: imageDocuments)
+        let vc = MultipageReviewController(imageDocuments: imageDocuments, giniConfiguration: giniConfiguration)
         _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
@@ -204,21 +204,73 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
                                                                   giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
+        multipageReviewViewController.viewDidAppear(false)
         
         XCTAssertFalse(multipageReviewViewController.deleteButton.isEnabled,
                        "delete button should be disabled when tooltip is shown")
         
     }
     
+    func testDeleteButtonEnabledWhenToolTipIsNotShown() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
+                                                                  giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        multipageReviewViewController.viewDidAppear(false)
+        
+        XCTAssertTrue(multipageReviewViewController.deleteButton.isEnabled,
+                       "delete button should be disabled when tooltip is shown")
+        
+    }
+    
     func testRotateButtonDisabledWhenToolTipIsShown() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = true
+
+        multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
+                                                                  giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        multipageReviewViewController.viewDidAppear(false)
+
+        XCTAssertFalse(multipageReviewViewController.rotateButton.isEnabled,
+                       "rotate button should be disabled when tooltip is shown")
+        
+    }
+    
+    func testRotateButtonEnabledWhenToolTipIsNotShown() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
+                                                                  giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        multipageReviewViewController.viewDidAppear(false)
+        
+        XCTAssertTrue(multipageReviewViewController.rotateButton.isEnabled,
+                       "rotate button should be disabled when tooltip is shown")
+        
+    }
+    
+    func testToolTipShouldAppearTheFirstTime() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
         
         multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
                                                                   giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
-        XCTAssertFalse(multipageReviewViewController.rotateButton.isEnabled,
-                       "rotate button should be disabled when tooltip is shown")
+        XCTAssertNotNil(multipageReviewViewController.toolTipView,
+                     "rotate button should be disabled when tooltip is shown")
+        
+    }
+    
+    func testToolTipShouldNotAppearWhenItWasShownBefore() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewController(imageDocuments: imageDocuments,
+                                                                  giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        
+        XCTAssertNil(multipageReviewViewController.toolTipView,
+                     "rotate button should be disabled when tooltip is shown")
         
     }
 }

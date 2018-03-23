@@ -94,7 +94,7 @@ public final class MultipageReviewController: UIViewController {
         return toolBar
     }()
     
-    fileprivate var toolTipView: ToolTipView?
+    var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     
     lazy var rotateButton: UIBarButtonItem = {
