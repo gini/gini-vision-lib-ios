@@ -12,6 +12,7 @@ public final class MultipageReviewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
     var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
+    let giniConfiguration: GiniConfiguration
 
     // MARK: - UI initialization
 
@@ -93,22 +94,25 @@ public final class MultipageReviewController: UIViewController {
         return toolBar
     }()
     
+    fileprivate var toolTipView: ToolTipView?
+    fileprivate var blurEffect: UIVisualEffectView?
+    
     lazy var rotateButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(rotateSelectedImage))
+                                  action: #selector(rotateImageButtonAction))
     }()
     
     lazy var reorderButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
                                   insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                  action: #selector(toggleReorder))
+                                  action: #selector(reorderButtonAction))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(deleteSelectedImage))
+                                  action: #selector(deleteImageButtonAction))
     }()
     
     fileprivate lazy var pagesCollectionContainerConstraint: NSLayoutConstraint = {
@@ -139,9 +143,9 @@ public final class MultipageReviewController: UIViewController {
     
     // MARK: - Init
     
-    public init(imageDocuments: [GiniImageDocument]) {
+    public init(imageDocuments: [GiniImageDocument], giniConfiguration: GiniConfiguration) {
         self.imageDocuments = imageDocuments
-        
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -171,6 +175,7 @@ extension MultipageReviewController {
             longPressGesture.delaysTouchesBegan = true
             pagesCollection.addGestureRecognizer(longPressGesture)
         }
+        createReorderPagesTip()
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -180,6 +185,18 @@ extension MultipageReviewController {
         }, completion: { _ in
             self.pagesCollectionContainer.alpha = 1
         })
+        
+        toolTipView?.show {
+            self.blurEffect?.alpha = 1
+            self.deleteButton.isEnabled = false
+            self.rotateButton.isEnabled = false
+        }
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        toolTipView?.arrangeViews()
+        blurEffect?.frame = self.mainCollection.frame
     }
     
     func selectItem(at position: Int, in section: Int = 0) {
@@ -252,6 +269,26 @@ extension MultipageReviewController {
         }
     }
     
+    fileprivate func createReorderPagesTip() {
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
+        
+        toolTipView = ToolTipView(text: "Reorder pages",
+                                  giniConfiguration: giniConfiguration,
+                                  referenceView: reorderButton.customView!,
+                                  superView: view,
+                                  position: .above,
+                                  distanceToRefView: UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0))
+        
+        toolTipView?.willDismiss = { [weak self] in
+            guard let `self` = self else { return }
+            self.blurEffect?.removeFromSuperview()
+            self.deleteButton.isEnabled = true
+            self.rotateButton.isEnabled = true
+        }
+    }
+    
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
@@ -300,7 +337,7 @@ extension MultipageReviewController {
 // MARK: - Toolbar actions
 
 extension MultipageReviewController {
-    @objc fileprivate func rotateSelectedImage() {
+    @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
@@ -310,7 +347,7 @@ extension MultipageReviewController {
         }
     }
     
-    @objc fileprivate func deleteSelectedImage() {
+    @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
@@ -335,7 +372,12 @@ extension MultipageReviewController {
         }
     }
     
-    @objc fileprivate func toggleReorder() {
+    @objc fileprivate func reorderButtonAction() {
+        self.toolTipView?.dismiss()
+        self.toggleReorder()
+    }
+    
+    private func toggleReorder() {
         let hide = self.pagesCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
         self.pagesCollectionContainerConstraint.isActive = !hide
