@@ -390,7 +390,7 @@ internal extension GiniScreenAPICoordinator {
 internal extension GiniScreenAPICoordinator {
     fileprivate func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
         -> MultipageReviewController {
-            let vc = MultipageReviewController(imageDocuments: documents)
+            let vc = MultipageReviewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
             
             vc.setupNavigationItem(usingResources: backButtonResource,
                                    selector: #selector(closeMultipageScreen),

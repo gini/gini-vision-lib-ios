@@ -23,10 +23,7 @@ final class ToolTipView: UIView {
     fileprivate var closeButtonWidth: CGFloat = 20
     fileprivate var closeButtonHeight: CGFloat = 20
     fileprivate var itemSeparation: CGFloat = 16
-    fileprivate var minimunDistanceToRefView: (above: CGFloat,
-        below: CGFloat,
-        left: CGFloat,
-        right: CGFloat ) = (36, 36, 0, 0)
+    fileprivate var minimunDistanceToRefView: UIEdgeInsets
     fileprivate var margin:(top: CGFloat, left: CGFloat, right: CGFloat, bottom: CGFloat) = (20, 20, 20, 20)
     fileprivate var maxWidth: CGFloat = 414
     fileprivate var padding:(top: CGFloat, left: CGFloat, right: CGFloat, bottom: CGFloat) = (16, 16, 16, 16)
@@ -55,13 +52,11 @@ final class ToolTipView: UIView {
     var willDismiss: (() -> Void)?
     
     init(text: String,
-         textColor: UIColor,
-         font: UIFont,
-         backgroundColor: UIColor,
-         closeButtonColor: UIColor,
+         giniConfiguration: GiniConfiguration,
          referenceView: UIView,
          superView: UIView,
-         position: ToolTipPosition) {
+         position: ToolTipPosition,
+         distanceToRefView: UIEdgeInsets = .zero) {
         
         self.text = text
         self.referenceView = referenceView
@@ -69,6 +64,7 @@ final class ToolTipView: UIView {
         self.textLabel = UILabel()
         self.closeButton = UIButton()
         self.tipContainer = UIView()
+        self.minimunDistanceToRefView = distanceToRefView
         self.arrowView = ToolTipView.arrow(withHeight: arrowHeight,
                                            width: arrowWidth,
                                            color: .white,
@@ -78,10 +74,11 @@ final class ToolTipView: UIView {
         superView.addSubview(self)
         alpha = 0
         
+        let font = giniConfiguration.customFont.regular.withSize(14)
         self.textSize = size(forText: text, withFont: font)
-        self.addTipContainer(backgroundColor: backgroundColor)
-        self.addTextLabel(withText: text, textColor: textColor, font: font)
-        self.addCloseButton(withColor: closeButtonColor)
+        self.addTipContainer(backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor)
+        self.addTextLabel(withText: text, textColor: giniConfiguration.fileImportToolTipTextColor, font: font)
+        self.addCloseButton(withColor: giniConfiguration.fileImportToolTipCloseButtonColor)
         self.addArrow()
         self.addShadow()
         
@@ -289,7 +286,7 @@ extension ToolTipView {
         case .above:
             x = refViewAbsFrame.origin.x + refViewAbsFrame.size.width - size.width
             
-            refViewAbsFrame.origin.y -= minimunDistanceToRefView.above
+            refViewAbsFrame.origin.y -= minimunDistanceToRefView.top
             if refViewAbsFrame.origin.y - size.height < 0 {
                 y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height
             } else {
@@ -298,7 +295,7 @@ extension ToolTipView {
         case .below:
             x = refViewAbsFrame.origin.x + refViewAbsFrame.size.width - size.width
             
-            refViewAbsFrame.origin.y += minimunDistanceToRefView.below
+            refViewAbsFrame.origin.y += minimunDistanceToRefView.bottom
             if refViewAbsFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
                 y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height
             } else {
