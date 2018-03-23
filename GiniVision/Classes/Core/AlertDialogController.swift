@@ -157,3 +157,20 @@ final class AlertDialogController: UIViewController {
     }
     
 }
+
+// MARK: - UserDefaults flags
+
+extension AlertDialogController {
+    fileprivate static let shouldShowNewMultipageFeatureKey = "ginivision.defaults.shouldShowNewMultipageFeature"
+    static var shouldShowNewMultipageFeature: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: AlertDialogController.shouldShowNewMultipageFeatureKey)
+        }
+        get {
+            let defaultsValue = UserDefaults
+                .standard
+                .object(forKey: AlertDialogController.shouldShowNewMultipageFeatureKey) as? Bool
+            return defaultsValue ?? true
+        }
+    }
+}
