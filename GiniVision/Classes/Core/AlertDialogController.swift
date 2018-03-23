@@ -11,27 +11,27 @@ final class AlertDialogController: UIViewController {
     
     let giniConfiguration: GiniConfiguration
     
-    lazy var container: UIView = {
-        let container = UIView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-        container.backgroundColor = .white
-        return container
+    lazy var containerView: UIView = {
+        let containerView = UIView()
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.backgroundColor = .white
+        return containerView
     }()
     
-    lazy var dialogTitle: UILabel = {
+    lazy var dialogTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "This is the title"
+        label.text = self.dialogTitle
         label.textAlignment = .center
         label.font = self.giniConfiguration.customFont.bold.withSize(18)
         
         return label
     }()
     
-    lazy var dialogSubTitle: UILabel = {
+    lazy var dialogSubTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "This is the subtitle This is the subtitle This is the subtitle This is the subtitle This is the subtitle This is the subtitle"
+        label.text = self.dialogSubTitle
         label.textAlignment = .center
         label.font = self.giniConfiguration.customFont.regular.withSize(14)
         label.numberOfLines = 0
@@ -39,8 +39,8 @@ final class AlertDialogController: UIViewController {
         return label
     }()
     
-    lazy var multipageImage: UIImageView = {
-        let imageView = UIImageView(image: UIImageNamedPreferred(named: "multipageIcon"))
+    lazy var multipageImageView: UIImageView = {
+        let imageView = UIImageView(image: self.dialogImage)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -50,25 +50,41 @@ final class AlertDialogController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        button.setTitle("Let's scan!", for: .normal)
+        button.setTitle(self.buttonTitle, for: .normal)
         button.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
-        button.setImage(UIImage(named: "cameraIcon",
-                                       in: Bundle(for: GiniVision.self),
-                                       compatibleWith: nil), for: .normal)
+        if let image = self.buttonImage {
+            button.setImage(image, for: .normal)
+        }
+
         button.addTarget(self, action: #selector(continueButtonAction), for: .touchUpInside)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
         button.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
         return button
     }()
     
-    lazy var tapOutsideGesture: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                                action: #selector(self.tapOutsideAction))
+    lazy var tapOutsideGesture: UITapGestureRecognizer =
+        UITapGestureRecognizer(target: self, action: #selector(self.tapOutsideAction))
     
     var continueAction: (() -> Void) = {}
     var cancelAction: (() -> Void) = {}
+    let dialogTitle: String
+    let dialogSubTitle: String
+    let dialogImage: UIImage?
+    let buttonTitle: String
+    let buttonImage: UIImage?
     
-    init(giniConfiguration: GiniConfiguration) {
+    init(giniConfiguration: GiniConfiguration,
+         title: String,
+         subTitle: String,
+         image: UIImage?,
+         buttonTitle: String,
+         buttonImage: UIImage? = nil) {
         self.giniConfiguration = giniConfiguration
+        self.dialogTitle = title
+        self.dialogSubTitle = subTitle
+        self.dialogImage = image
+        self.buttonImage = buttonImage
+        self.buttonTitle = buttonTitle
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
@@ -80,14 +96,14 @@ final class AlertDialogController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.addSubview(container)
+        view.addSubview(containerView)
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         view.addGestureRecognizer(tapOutsideGesture)
-        container.layer.cornerRadius = 2.0
-        container.addSubview(dialogTitle)
-        container.addSubview(dialogSubTitle)
-        container.addSubview(multipageImage)
-        container.addSubview(continueButton)
+        containerView.layer.cornerRadius = 2.0
+        containerView.addSubview(dialogTitleLabel)
+        containerView.addSubview(dialogSubTitleLabel)
+        containerView.addSubview(multipageImageView)
+        containerView.addSubview(continueButton)
         
         addConstraints()
     }
@@ -101,32 +117,32 @@ final class AlertDialogController: UIViewController {
     }
     
     private func addConstraints() {
-        Constraints.active(item: container, attr: .top, relatedBy: .greaterThanOrEqual, to: view, attr: .top, constant: 10, priority: 999)
-        Constraints.active(item: container, attr: .bottom, relatedBy: .lessThanOrEqual, to: view, attr: .bottom, constant: -10, priority: 999)
-        Constraints.active(item: container, attr: .leading, relatedBy: .greaterThanOrEqual, to: view, attr: .leading, constant: 10)
-        Constraints.active(item: container, attr: .trailing, relatedBy: .lessThanOrEqual, to: view, attr: .trailing, constant: -10)
-        Constraints.active(item: container, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
-        Constraints.active(item: container, attr: .centerY, relatedBy: .equal, to: view, attr: .centerY)
-        Constraints.active(item: container, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: containerView, attr: .top, relatedBy: .greaterThanOrEqual, to: view, attr: .top, constant: 10, priority: 999)
+        Constraints.active(item: containerView, attr: .bottom, relatedBy: .lessThanOrEqual, to: view, attr: .bottom, constant: -10, priority: 999)
+        Constraints.active(item: containerView, attr: .leading, relatedBy: .greaterThanOrEqual, to: view, attr: .leading, constant: 10)
+        Constraints.active(item: containerView, attr: .trailing, relatedBy: .lessThanOrEqual, to: view, attr: .trailing, constant: -10)
+        Constraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
+        Constraints.active(item: containerView, attr: .centerY, relatedBy: .equal, to: view, attr: .centerY)
+        Constraints.active(item: containerView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                            constant: 375, priority: 999)
-        Constraints.active(item: container, attr: .height, relatedBy: .lessThanOrEqual, to: view, attr: .height, constant: 300)
+        Constraints.active(item: containerView, attr: .height, relatedBy: .lessThanOrEqual, to: view, attr: .height, constant: 300)
 
-        Constraints.active(item: dialogTitle, attr: .top, relatedBy: .equal, to: container, attr: .top, constant: 20)
-        Constraints.active(item: dialogTitle, attr: .leading, relatedBy: .equal, to: container, attr: .leading, constant: 20)
-        Constraints.active(item: dialogTitle, attr: .trailing, relatedBy: .equal, to: container, attr: .trailing, constant: -20)
+        Constraints.active(item: dialogTitleLabel, attr: .top, relatedBy: .equal, to: containerView, attr: .top, constant: 20)
+        Constraints.active(item: dialogTitleLabel, attr: .leading, relatedBy: .equal, to: containerView, attr: .leading, constant: 20)
+        Constraints.active(item: dialogTitleLabel, attr: .trailing, relatedBy: .equal, to: containerView, attr: .trailing, constant: -20)
 
-        Constraints.active(item: dialogSubTitle, attr: .top, relatedBy: .equal, to: dialogTitle, attr: .bottom, constant: 10, priority: 999)
-        Constraints.active(item: dialogSubTitle, attr: .leading, relatedBy: .equal, to: container, attr: .leading, constant: 20)
-        Constraints.active(item: dialogSubTitle, attr: .trailing, relatedBy: .equal, to: container, attr: .trailing, constant: -20)
+        Constraints.active(item: dialogSubTitleLabel, attr: .top, relatedBy: .equal, to: dialogTitleLabel, attr: .bottom, constant: 10, priority: 999)
+        Constraints.active(item: dialogSubTitleLabel, attr: .leading, relatedBy: .equal, to: containerView, attr: .leading, constant: 20)
+        Constraints.active(item: dialogSubTitleLabel, attr: .trailing, relatedBy: .equal, to: containerView, attr: .trailing, constant: -20)
 
-        Constraints.active(item: multipageImage, attr: .top, relatedBy: .equal, to: dialogSubTitle, attr: .bottom, constant: 20, priority: 999)
-        Constraints.active(item: multipageImage, attr: .leading, relatedBy: .equal, to: container, attr: .leading, constant: 20)
-        Constraints.active(item: multipageImage, attr: .trailing, relatedBy: .equal, to: container, attr: .trailing, constant: -20)
+        Constraints.active(item: multipageImageView, attr: .top, relatedBy: .equal, to: dialogSubTitleLabel, attr: .bottom, constant: 20, priority: 999)
+        Constraints.active(item: multipageImageView, attr: .leading, relatedBy: .equal, to: containerView, attr: .leading, constant: 20)
+        Constraints.active(item: multipageImageView, attr: .trailing, relatedBy: .equal, to: containerView, attr: .trailing, constant: -20)
 
-        Constraints.active(item: continueButton, attr: .top, relatedBy: .greaterThanOrEqual, to: multipageImage, attr: .bottom, constant: 20)
-        Constraints.active(item: continueButton, attr: .leading, relatedBy: .equal, to: container, attr: .leading, constant: 20)
-        Constraints.active(item: continueButton, attr: .trailing, relatedBy: .equal, to: container, attr: .trailing, constant: -20)
-        Constraints.active(item: continueButton, attr: .bottom, relatedBy: .equal, to: container, attr: .bottom, constant: -20)
+        Constraints.active(item: continueButton, attr: .top, relatedBy: .greaterThanOrEqual, to: multipageImageView, attr: .bottom, constant: 20)
+        Constraints.active(item: continueButton, attr: .leading, relatedBy: .equal, to: containerView, attr: .leading, constant: 20)
+        Constraints.active(item: continueButton, attr: .trailing, relatedBy: .equal, to: containerView, attr: .trailing, constant: -20)
+        Constraints.active(item: continueButton, attr: .bottom, relatedBy: .equal, to: containerView, attr: .bottom, constant: -20)
         Constraints.active(item: continueButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                            constant: 60)
 
