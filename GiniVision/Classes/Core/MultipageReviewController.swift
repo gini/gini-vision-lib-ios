@@ -171,25 +171,26 @@ extension MultipageReviewController {
         super.viewDidLoad()
         selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
+        
         if #available(iOS 9.0, *) {
             longPressGesture.delaysTouchesBegan = true
             pagesCollection.addGestureRecognizer(longPressGesture)
         }
-        createReorderPagesTip()
+        
+        if ToolTipView.shouldShowReorderPagesButtonToolTip {
+            createReorderPagesTip()
+        }
     }
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animate(withDuration: AnimationDuration.fast, animations: {
-            self.toolBar.alpha = 1
-        }, completion: { _ in
-            self.pagesCollectionContainer.alpha = 1
-        })
+        showToolbar()
         
         toolTipView?.show {
             self.blurEffect?.alpha = 1
             self.deleteButton.isEnabled = false
             self.rotateButton.isEnabled = false
+            ToolTipView.shouldShowReorderPagesButtonToolTip = false
         }
     }
     
@@ -300,6 +301,14 @@ extension MultipageReviewController {
             self.deleteButton.isEnabled = true
             self.rotateButton.isEnabled = true
         }
+    }
+    
+    fileprivate func showToolbar() {
+        UIView.animate(withDuration: AnimationDuration.fast, animations: {
+            self.toolBar.alpha = 1
+        }, completion: { _ in
+            self.pagesCollectionContainer.alpha = 1
+        })
     }
     
     fileprivate func addConstraints() {
