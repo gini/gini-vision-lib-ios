@@ -11,12 +11,12 @@ import AVFoundation
 
 @objc public protocol CameraViewControllerDelegate: class {
     /**
-     Called when a user take a picture, import a PDF/QRCode or import one or several images.
-     Once that the method has been implemented, it is necessary to check if the number of
+     Called when a user takes a picture, imports a PDF/QRCode or imports one or several images.
+     Once the method has been implemented, it is necessary to check if the number of
      documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
      Afterwards, it is mandatory to call the `DocumentPickerCompletion` block passing the error
-     `CameraError.filesPickedCountExceeded` (if the page count limit was exceeded) and
-     the inner completion block that will be executed once the gallery dismissal animation finishes.
+     `CameraError.maxFilesPickedCountExceeded` (if the page count limit was exceeded) and
+     the inner completion block that will be executed once the gallery dismissal animation completes.
      
      - parameter viewController: `CameraViewController` where the documents were taken.
      - parameter documents: One or several documents either captured or imported in
@@ -37,7 +37,7 @@ import AVFoundation
     @objc func cameraDidAppear(_ viewController: CameraViewController)
     
     /**
-     Called when a user tap the `MultipageReviewButton` (the one with the thumbnail of the images/s taken).
+     Called when a user taps the `MultipageReviewButton` (the one with the thumbnail of the images(s) taken).
      Once this method is called, the `MultipageReviewController` should be presented.
      
      - parameter viewController: Camera view controller where the button was tapped.
@@ -290,7 +290,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 // TODO: Show a warning in the logger
             }
         } else {
-            print("It has not been specified a CameraViewControllerDelegate")
+            print("A CameraViewControllerDelegate has not been specified")
         }
     }
     
@@ -659,8 +659,11 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
                         didPick documents: [GiniVisionDocument],
                         from: DocumentPickerType,
                         completion: DocumentPickerCompletion?) {
+        let loadingView = addValidationLoadingView()
         self.validate(importedDocuments: documents) { validatedDocuments in
-            if let firstElement = validatedDocuments.first,
+            loadingView.removeFromSuperview()
+            let elementsWithError = validatedDocuments.filter { $0.error != nil}
+            if let firstElement = elementsWithError.first,
                 let error = firstElement.error,
                 (!self.giniConfiguration.multipageEnabled || firstElement.type != .image) {
                 if let completion = completion {
@@ -710,8 +713,6 @@ extension CameraViewController {
     
     fileprivate func validate(importedDocuments documents: [GiniVisionDocument],
                               completion: @escaping ([GiniVisionDocument]) -> Void) {
-        let loadingView = addValidationLoadingView()
-        
         DispatchQueue.global().async {
             var validatedDocuments: [GiniVisionDocument] = []
             documents.forEach { document in
@@ -724,7 +725,6 @@ extension CameraViewController {
             }
             
             DispatchQueue.main.async {
-                loadingView.removeFromSuperview()
                 completion(validatedDocuments)
             }
             
@@ -733,9 +733,9 @@ extension CameraViewController {
     
     fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument],
                              completion: DocumentPickerCompletion?) {
-        let didValidated: DocumentPickerCompletion
+        let didValidate: DocumentPickerCompletion
         if !documents.containsDifferentTypes {
-            didValidated = { error, coordinatorCompletion in
+            didValidate = { error, coordinatorCompletion in
                 completion?(error, coordinatorCompletion)
                 if error == nil {
                     if let firstImage = documents.first as? GiniImageDocument, self.giniConfiguration.multipageEnabled {
@@ -744,7 +744,7 @@ extension CameraViewController {
                     }
                 }
             }
-            didPick(validatedDocuments: documents, completion: didValidated)
+            didPick(validatedDocuments: documents, completion: didValidate)
             
         } else {
             showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported) {
@@ -823,8 +823,10 @@ extension CameraViewController {
     
     func showErrorDialog(for error: Error, possitiveAction: (() -> Void)? = nil) {
         let message: String
-        var cancelActionTitle: String = "Abbrechen"
-        var confirmActionTitle: String? = "Andere Datei wählen"
+        var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
+                                                                   comment: "cancel button title")
+        var confirmActionTitle: String? = NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
+                                                                     comment: "pick another file button title")
         var confirmAction: (() -> Void)?
         
         switch error {
@@ -836,8 +838,9 @@ extension CameraViewController {
             confirmAction = self.showImportFileSheet
         case let pickerError as FilePickerError:
             message = pickerError.message
-            if pickerError == .filesPickedCountExceeded {
-                confirmActionTitle = "Seitenübersicht"
+            if pickerError == .maxFilesPickedCountExceeded {
+                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
+                                                                comment: "review pages button title")
                 confirmAction = { [weak self] in
                     guard let `self` = self else { return }
                     self.delegate?.cameraDidTapMultipageReviewButton(self)

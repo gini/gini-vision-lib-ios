@@ -22,10 +22,14 @@
 
 
 "ginivision.camera.captureButton" = "Auslösen";
-"ginivision.camera.notAuthorized" = "Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.";
+"ginivision.camera.notAuthorized" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Kamera benötigt";
 "ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
+"ginivision.camera.captureFailed" = "Bilderfassung fehlgeschlagen";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
 "ginivision.camera.filepicker.mixedDocumentsUnsupported" = "Leider ist es nur möglich einen Dateityp gleichzeitig auszuwählen";
+"ginivision.camera.filepicker.errorPopup.cancelButton" = "Abbrechen";
+"ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
+"ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Zugriff erteilen";
 "ginivision.camera.documentValidationError.general" = "Leider kann diese Datei nicht bearbeitet werden";
 "ginivision.camera.documentValidationError.excedeedFileSize" = "Diese Datei ist leider zu groß";
 "ginivision.camera.documentValidationError.tooManyPages" = "Das Dokument darf nicht mehr als 10 Seiten haben";
@@ -35,16 +39,21 @@
 "ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Hier geht’s weiter.";
 "ginivision.camera.mixedarrayspopup.cancel" = "Abbrechen";
 "ginivision.camera.mixedarrayspopup.usePhotos" = "Benutze Photos";
+"ginivision.camera.errorPopup.cancelButton" = "Abbrechen";
+"ginivision.camera.errorPopup.pickanotherfileButton" = "Andere Datei wählen";
+"ginivision.camera.errorPopup.reviewPages" = "Seitenübersicht";
+"ginivision.camera.unknownError" = "Auf dem Kamerabildschirm ist ein unbekannter Fehler aufgetreten";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";
 "ginivision.onboarding.thirdPage"  = "Gerät parallel über die Seite halten";
-"ginivision.onboarding.fourthPage"  = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
+"ginivision.onboarding.fourthPage" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
 
 "ginivision.review.top"                = "Dokument vollständig, scharf und in Leserichtung?";
 "ginivision.review.bottom"             = "Doppeltippen um Schärfe zu prüfen";
 "ginivision.review.rotateButton"       = "Dokument drehen";
 "ginivision.review.documentImageTitle" = "Dokument";
+"ginivision.review.unknownError"       = "Auf dem Überprüfungsbildschirm ist ein unbekannter Fehler aufgetreten";
 
 "ginivision.analysis.loadingText" = "Dokument wird analysiert";
 "ginivision.analysis.suggestion.1" = "Auf gute Beleuchtung achten";

@@ -4,34 +4,37 @@ import AVFoundation
 
 final class CameraViewControllerTests: XCTestCase {
     
-    var vc: CameraViewController!
+    var cameraViewController: CameraViewController!
+    var giniConfiguration: GiniConfiguration!
+    var screenAPICoordinator: GiniScreenAPICoordinator!
     lazy var imageData: Data = {
         let image = self.loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)!
         return imageData
     }()
-    var giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration
-    lazy var screenAPICoordinator = GiniScreenAPICoordinator(withDelegate: nil,
-                                                             giniConfiguration: self.giniConfiguration)
+
     
     override func setUp() {
         super.setUp()
+        giniConfiguration = GiniConfiguration.sharedConfiguration
         giniConfiguration.multipageEnabled = true
-        vc = CameraViewController(giniConfiguration: giniConfiguration)
-        vc.delegate = screenAPICoordinator
+        cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
+        screenAPICoordinator = GiniScreenAPICoordinator(withDelegate: nil,
+                                                        giniConfiguration: self.giniConfiguration)
+        cameraViewController.delegate = screenAPICoordinator
     }
     
     func testInitialization() {
-        XCTAssertNotNil(vc, "view controller should not be nil")
+        XCTAssertNotNil(cameraViewController, "view controller should not be nil")
     }
     
     func testTooltipWhenFileImportDisabled() {
         ToolTipView.shouldShowFileImportToolTip = true
         giniConfiguration.fileImportSupportedTypes = .none
-        vc = CameraViewController(giniConfiguration: giniConfiguration)
-        _ = vc.view
+        cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
+        _ = cameraViewController.view
         
-        XCTAssertNil(vc.toolTipView, "ToolTipView should not be created when file import is disabled.")
+        XCTAssertNil(cameraViewController.toolTipView, "ToolTipView should not be created when file import is disabled.")
         
     }
     
@@ -42,46 +45,46 @@ final class CameraViewControllerTests: XCTestCase {
         // Disable onboarding on launch
         giniConfiguration.onboardingShowAtLaunch = false
         giniConfiguration.onboardingShowAtFirstLaunch = false
-        vc = CameraViewController(giniConfiguration: giniConfiguration)
+        cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         
-        _ = vc.view
+        _ = cameraViewController.view
         
-        XCTAssertFalse(vc.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
+        XCTAssertFalse(cameraViewController.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
         
     }
     
     func testReviewButtonBackgroundBeforeCapturing() {
-        _ = vc.view
+        _ = cameraViewController.view
 
-        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should be hidden before capture the first picture")
         
     }
     
     func testReviewButtonBackgroundAfter1ImageWasCaptured() {
-        _ = vc.view
+        _ = cameraViewController.view
 
-        vc.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
+        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should be hidden after capture the first picture")
         
     }
     
     func testReviewButtonBackgroundAfter2ImagesWereCaptured() {
-        _ = vc.view
+        _ = cameraViewController.view
 
-        vc.cameraDidCapture(imageData: imageData, error: nil)
-        vc.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(vc.multipageReviewBackgroundView.isHidden,
+        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
+        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
+        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should not be hidden after capture the second picture")
         
     }
     
-    func testPickerCompletionBlockWhenNoErrors() {
+    func testPickerCompletionBlockWhenNoErrorsOccurred() {
         let documents = [GiniImageDocument(data: imageData, imageSource: .external)]
         let expect = expectation(description: "Document validation finishes")
 
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
+        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "Completion block should not return an error when pciking one image")
         }
@@ -89,11 +92,11 @@ final class CameraViewControllerTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
     
-    func testPickerCompletionBlockWhenNoErrorsWithDeprecatedInit() {
+    func testPickerCompletionBlockWhenNoErrorsOccurredWithDeprecatedInit() {
         let documents = [loadImageDocument(withName: "invoice")]
         let expect = expectation(description: "Document validation finishes")
-        vc = CameraViewController(success: {_ in}, failure: {_ in})
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
+        cameraViewController = CameraViewController(success: {_ in}, failure: {_ in})
+        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "Completion block should not return an error when using the deprecated initializer")
         }
@@ -107,9 +110,9 @@ final class CameraViewControllerTests: XCTestCase {
         let documents = [failedPDF]
         let expect = expectation(description: "Document validation finishes")
         
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
+        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
-            XCTAssertNil(error, "Completion block should not return an error form outside when it is a PDF")
+            XCTAssertNil(error, "Completion block should not return an error from outside when it is a PDF")
         }
         
         waitForExpectations(timeout: 2, handler: nil)
@@ -121,12 +124,12 @@ final class CameraViewControllerTests: XCTestCase {
         let documents = [failedImage]
         
         giniConfiguration.multipageEnabled = false
-        vc = CameraViewController(giniConfiguration: giniConfiguration)
-        vc.delegate = screenAPICoordinator
+        cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
+        cameraViewController.delegate = screenAPICoordinator
         
         let expect = expectation(description: "Document validation finishes")
 
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
+        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             XCTAssertNil(error, "When multipage is disabled there should not be an error coming from outside of the camera screen")
         }
@@ -141,11 +144,11 @@ final class CameraViewControllerTests: XCTestCase {
         }
 
         let expect = expectation(description: "Document validation finishes")
-        vc.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
+        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
             expect.fulfill()
             let error = error as? FilePickerError
-            XCTAssertTrue(error == FilePickerError.filesPickedCountExceeded,
-                          "Completion block should return the filesPickedCounteExceedede error from outside of the caera screen")
+            XCTAssertTrue(error == FilePickerError.maxFilesPickedCountExceeded,
+                          "Completion block should return the FilePickerError.maxFilesPickedCountExceeded error from outside of the camera screen")
         }
         
         waitForExpectations(timeout: 2, handler: nil)
