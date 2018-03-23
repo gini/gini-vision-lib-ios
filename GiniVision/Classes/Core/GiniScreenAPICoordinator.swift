@@ -290,7 +290,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func cameraDidAppear(_ viewController: CameraViewController) {
         if shouldShowOnBoarding() {
             showOnboardingScreen()
-        } else {
+        } else if AlertDialogController.shouldShowNewMultipageFeature {
             showMultipageNewFeatureDialog()
         }
     }
@@ -371,6 +371,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                                                      compatibleWith: nil))
         alertDialog.continueAction = {
             alertDialog.dismiss(animated: true, completion: nil)
+            AlertDialogController.shouldShowNewMultipageFeature = false
         }
         alertDialog.cancelAction = alertDialog.continueAction
         screenAPINavigationController.present(alertDialog,
