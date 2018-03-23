@@ -63,10 +63,6 @@ final class GalleryManager: GalleryManagerProtocol {
         self.albums = fetchSortedAlbums()
     }
     
-    func reloadAlbums() {
-        self.albums = fetchSortedAlbums()
-    }
-    
     func startCachingImages(for album: Album) {
         self.cachingImageManager.startCachingImages(for: album.assets.map { $0.value },
                                                     targetSize: PHImageManagerMaximumSize,
