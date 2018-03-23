@@ -284,7 +284,7 @@ extension ToolTipView {
         
         switch toolTipPosition {
         case .above:
-            x = refViewAbsFrame.origin.x + refViewAbsFrame.size.width - size.width
+            x = refViewAbsFrame.midX - (size.width / 2)
             
             refViewAbsFrame.origin.y -= minimunDistanceToRefView.top
             if refViewAbsFrame.origin.y - size.height < 0 {
@@ -293,8 +293,8 @@ extension ToolTipView {
                 y = refViewAbsFrame.origin.y - size.height
             }
         case .below:
-            x = refViewAbsFrame.origin.x + refViewAbsFrame.size.width - size.width
-            
+            x = refViewAbsFrame.midX - (size.width / 2)
+
             refViewAbsFrame.origin.y += minimunDistanceToRefView.bottom
             if refViewAbsFrame.origin.y + referenceView.frame.height + size.height > superview.frame.height {
                 y = refViewAbsFrame.origin.y + refViewAbsFrame.height - size.height

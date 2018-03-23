@@ -193,10 +193,23 @@ extension MultipageReviewController {
         }
     }
     
-    public override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         toolTipView?.arrangeViews()
         blurEffect?.frame = self.mainCollection.frame
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return
+            }
+            
+            self.toolTipView?.arrangeViews()
+            
+        })
     }
     
     func selectItem(at position: Int, in section: Int = 0) {
