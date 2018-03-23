@@ -44,7 +44,6 @@ internal final class DocumentPickerCoordinator: NSObject {
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
     var isPDFSelectionAllowed: Bool = true
-    var didPickDocuments: (([GiniVisionDocument]) -> Void) = { _ in }
     
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
