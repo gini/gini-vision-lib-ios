@@ -64,7 +64,7 @@ final class ImagePickerViewControllerTests: XCTestCase {
         
         vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex)
         vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex2)
-        vc.collectionView(vc.collectionView, didDeselectItemAt: selectedCellIndex2)
+        vc.collectionView(vc.collectionView, didSelectItemAt: selectedCellIndex2)
         
         XCTAssertEqual(delegate.selectedAssets.count, 1,
                        "the selected indexes count should match thet ones delivered to the delegate")
