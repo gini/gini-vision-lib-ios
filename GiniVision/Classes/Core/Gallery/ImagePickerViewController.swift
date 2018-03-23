@@ -20,13 +20,12 @@ protocol ImagePickerViewControllerDelegate: class {
 final class ImagePickerViewController: UIViewController {
     
     let currentAlbum: Album
-    var indexesForAssetsBeingDownloaded: [IndexPath] = []
-    var indexesForSelectedCells: [IndexPath] = []
     weak var delegate: ImagePickerViewControllerDelegate?
+    fileprivate var indexesForAssetsBeingDownloaded: [IndexPath] = []
+    fileprivate var indexesForSelectedCells: [IndexPath] = []
     fileprivate let galleryManager: GalleryManagerProtocol
     fileprivate let giniConfiguration: GiniConfiguration
     private var isInitialized: Bool = false
-    private let multipleSelectionLimit: Int = 10
     
     // MARK: - Views
     
