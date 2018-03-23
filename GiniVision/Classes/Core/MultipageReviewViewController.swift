@@ -1,5 +1,5 @@
 //
-//  MultipageReviewController.swift
+//  MultipageReviewViewController.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 1/26/18.
@@ -7,11 +7,16 @@
 
 import Foundation
 
+protocol MultipageReviewViewControllerDelegate: class {
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didUpdateDocuments documents: [GiniImageDocument])
+}
+
 //swiftlint:disable file_length
-public final class MultipageReviewController: UIViewController {
+public final class MultipageReviewViewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
-    var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
+    weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
 
     // MARK: - UI initialization
@@ -155,7 +160,7 @@ public final class MultipageReviewController: UIViewController {
 }
 
 // MARK: - UIViewController
-extension MultipageReviewController {
+extension MultipageReviewViewController {
     override public func loadView() {
         super.loadView()
         view.addSubview(mainCollection)
@@ -225,7 +230,7 @@ extension MultipageReviewController {
 
 // MARK: - Private methods
 
-extension MultipageReviewController {
+extension MultipageReviewViewController {
     fileprivate func barButtonItem(withImage image: UIImage?,
                                    insets: UIEdgeInsets,
                                    action: Selector) -> UIBarButtonItem {
@@ -288,7 +293,9 @@ extension MultipageReviewController {
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: "Reorder pages",
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderButtonTooltipMessage",
+                                                          bundle: Bundle(for: GiniVision.self),
+                                                          comment: "reorder button tooltip message"),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: reorderButton.customView!,
                                   superView: view,
@@ -358,14 +365,14 @@ extension MultipageReviewController {
 
 // MARK: - Toolbar actions
 
-extension MultipageReviewController {
+extension MultipageReviewViewController {
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            didUpdateDocuments?(self.imageDocuments)
+            delegate?.multipageReview(self, didUpdateDocuments: imageDocuments)
         }
     }
     
@@ -389,7 +396,7 @@ extension MultipageReviewController {
                     
                     self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
                 }
-                self.didUpdateDocuments?(self.imageDocuments)
+                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
             })
         }
     }
@@ -416,7 +423,7 @@ extension MultipageReviewController {
 
 // MARK: UICollectionViewDataSource
 
-extension MultipageReviewController: UICollectionViewDataSource {
+extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageDocuments.count
     }
@@ -465,7 +472,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.didUpdateDocuments?(self.imageDocuments)
+                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
             })
         }
     }
@@ -474,7 +481,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
+extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,

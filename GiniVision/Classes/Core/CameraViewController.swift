@@ -38,7 +38,7 @@ import AVFoundation
     
     /**
      Called when a user taps the `MultipageReviewButton` (the one with the thumbnail of the images(s) taken).
-     Once this method is called, the `MultipageReviewController` should be presented.
+     Once this method is called, the `MultipageReviewViewController` should be presented.
      
      - parameter viewController: Camera view controller where the button was tapped.
      */

@@ -31,7 +31,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate var cameraViewController: CameraViewController?
     fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     fileprivate var reviewViewController: ReviewViewController?
-    fileprivate var multiPageReviewController: MultipageReviewController?
+    fileprivate var multiPageReviewController: MultipageReviewViewController?
     
     // Properties
     fileprivate var changesOnReview: Bool = false
@@ -211,7 +211,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         multiPageTransition.originFrame = buttonFrame
         multiPageTransition.operation = operation
         
-        if let multipageVC = fromVC as? MultipageReviewController, let cameraVC = toVC as? CameraViewController {
+        if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
             let visibleImageAndSize = multipageVC.visibleImage(in: multipageVC.mainCollection)
             multiPageTransition.popImage = visibleImageAndSize.image
             multiPageTransition.popImageFrame = visibleImageAndSize.size
@@ -387,11 +387,20 @@ internal extension GiniScreenAPICoordinator {
 
 // MARK: - Multipage Review screen
 
-internal extension GiniScreenAPICoordinator {
+extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
+    
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didUpdateDocuments documents: [GiniImageDocument]) {
+        self.visionDocuments = documents
+        if self.visionDocuments.isEmpty {
+            self.closeMultipageScreen()
+        }
+    }
+    
     fileprivate func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
-        -> MultipageReviewController {
-            let vc = MultipageReviewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
-            
+        -> MultipageReviewViewController {
+            let vc = MultipageReviewViewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
+            vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
                                    selector: #selector(closeMultipageScreen),
                                    position: .left,
@@ -401,14 +410,6 @@ internal extension GiniScreenAPICoordinator {
                                    selector: #selector(showAnalysisScreen),
                                    position: .right,
                                    target: self)
-            
-            vc.didUpdateDocuments = { [weak self] newDocuments in
-                guard let `self` = self else { return }
-                self.visionDocuments = newDocuments
-                if self.visionDocuments.isEmpty {
-                    self.closeMultipageScreen()
-                }
-            }
             return vc
     }
     
