@@ -239,7 +239,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 didCaptureDocuments documents: [GiniVisionDocument],
                 completion: DocumentPickerCompletion?) {
         if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
-            completion?(FilePickerError.filesPickedCountExceeded, nil)
+            completion?(FilePickerError.maxFilesPickedCountExceeded, nil)
             return
         }
         

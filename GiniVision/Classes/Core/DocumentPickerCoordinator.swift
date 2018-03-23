@@ -12,11 +12,11 @@ import Photos
 
 protocol DocumentPickerCoordinatorDelegate: class {
     /**
-     Called when a user pick one or several files from both the gallery or files explorer.
-     The completion might provide with errors than must be handled here before dismissing the
+     Called when a user picks one or several files from either the gallery or files explorer.
+     The completion might provide errors that must be handled here before dismissing the
      pickers. It only applies for the `GalleryCoordinator` since on one side it is not possible
-     to handle the dismissal of UIDocumentPickerViewController and the Drag&Drop is not done in a separate
-     view.
+     to handle the dismissal of UIDocumentPickerViewController and on the other side
+     the Drag&Drop is not done in a separate view.
      
      - parameter coordinator: `DocumentPickerCoordinator` where the documents were imported.
      - parameter documents: One or several documents imported.
@@ -108,13 +108,15 @@ internal final class DocumentPickerCoordinator: NSObject {
         switch error {
         case let error as FilePickerError where error == .photoLibraryAccessDenied:
             dialog = errorDialog(withMessage: error.message,
-                                 cancelActionTitle: "Abbrechen",
-                                 confirmActionTitle: "Zugriff erteilen",
+                                 cancelActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
+                                                                               comment: "cancel button title"),
+                                 confirmActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
+                                                                                comment: "cancel button title"),
                                  confirmAction: UIApplication.shared.openAppSettings)
-        case let error as FilePickerError where error == .filesPickedCountExceeded:
-
+        case let error as FilePickerError where error == .maxFilesPickedCountExceeded:
             dialog = errorDialog(withMessage: error.message,
-                                 cancelActionTitle: "OK")
+                                 cancelActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.confirmButton",
+                                                                               comment: "cancel button title"))
             
         default:
             return
