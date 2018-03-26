@@ -350,7 +350,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nr0-nM-ziR">
                                                     <rect key="frame" x="105" y="225" width="132" height="30"/>
                                                     <state key="normal" title="Reset user defaults">
-                                                        <color key="titleColor" red="1" green="0.27221090850635687" blue="0.35229462323063532" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="titleColor" red="1" green="0.0" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="resetUserDefaults:" destination="jLX-Py-40o" eventType="touchUpInside" id="v0s-md-k0l"/>

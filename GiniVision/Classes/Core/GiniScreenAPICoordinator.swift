@@ -506,9 +506,14 @@ extension GiniScreenAPICoordinator {
 // MARK: - AnalysisDelegate
 
 extension GiniScreenAPICoordinator: AnalysisDelegate {
-    func displayError(withMessage message: String?, andAction action: NoticeAction?) {
+    func displayError(withMessage message: String?, andAction action: (() -> Void)?) {
         DispatchQueue.main.async {
-            let notice = NoticeView(text: message ?? "", noticeType: .error, action: action)
+            var noticeAction: NoticeAction?
+            if let action = action {
+                noticeAction = NoticeAction(title: "Retry", action: action)
+            }
+            let notice = NoticeView(text: message ?? "", type: .error, noticeAction: noticeAction
+            )
             self.show(notice: notice)
         }
     }

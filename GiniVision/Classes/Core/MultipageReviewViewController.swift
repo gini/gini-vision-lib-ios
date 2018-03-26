@@ -198,6 +198,14 @@ extension MultipageReviewViewController {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             ToolTipView.shouldShowReorderPagesButtonToolTip = false
         }
+        let action = NoticeAction(title: "Wiederholen") {
+            print("Action triggered")
+        }
+        let errorView = NoticeView(text: "Ancient alien earth mound sun disc mahabharata stonehenge anti-gravity",
+                                   type: .error,
+                                   noticeAction: action)
+        self.view.addSubview(errorView)
+        errorView.show(true)
     }
     
     public override func viewDidLayoutSubviews() {

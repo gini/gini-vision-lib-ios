@@ -14,60 +14,86 @@ import UIKit
  
  - note: Screen API only.
  */
-public typealias NoticeAction = () -> Void
+
+struct NoticeAction {
+    let title: String
+    let action: () -> Void
+}
 
 internal enum NoticeType {
     case information, error
 }
 
-internal class NoticeView: UIView {
+final class NoticeView: UIView {
     
     // User interface
-    fileprivate var textLabel = UILabel()
+    lazy var textLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .left
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 12 / 14
+        label.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        label.font = self.giniConfiguration.customFont.isEnabled ?
+            self.giniConfiguration.customFont.regular.withSize(14) :
+            self.giniConfiguration.noticeFont
+        return label
+    }()
+    
+    lazy var actionButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+
+        button.titleLabel?.textColor = self.giniConfiguration.noticeErrorTextColor
+        button.titleLabel?.font =  self.giniConfiguration.customFont.bold.withSize(16)
+        button.addTarget(self, action: #selector(self.didTapActionButton), for: .touchUpInside)
+        return button
+    }()
     
     // Properties
+    fileprivate let giniConfiguration: GiniConfiguration
     fileprivate var userAction: NoticeAction?
-    fileprivate var type = NoticeType.information
     
-    init(text: String, noticeType: NoticeType = .information, action: NoticeAction? = nil) {
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+         text: String,
+         type: NoticeType = .information,
+         noticeAction: NoticeAction? = nil) {
+        self.giniConfiguration = giniConfiguration
         super.init(frame: CGRect.zero)
         
-        // Hide when initialized
-        alpha = 0.0
-        
-        // Set attributes
-        textLabel.text = text
-        userAction = action
-        type = noticeType
-        
-        // Configure tap action
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        addGestureRecognizer(tapGesture)
-        
-        // Configure label
-        textLabel.numberOfLines = 0
-        textLabel.textAlignment = .center
-        textLabel.adjustsFontSizeToFitWidth = true
-        textLabel.minimumScaleFactor = 0.7
-        textLabel.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
-            GiniConfiguration.sharedConfiguration.customFont.regular.withSize(12) :
-            GiniConfiguration.sharedConfiguration.noticeFont
-        
-        // Configure UI depending on type
+        let textColor: UIColor
         switch type {
         case .information:
-            textLabel.textColor = GiniConfiguration.sharedConfiguration.noticeInformationTextColor
-            backgroundColor = GiniConfiguration.sharedConfiguration.noticeInformationBackgroundColor
+            textColor = giniConfiguration.noticeInformationTextColor
+            backgroundColor = giniConfiguration
+                .noticeInformationBackgroundColor
+                .withAlphaComponent(0.8)
         case .error:
-            textLabel.textColor = GiniConfiguration.sharedConfiguration.noticeErrorTextColor
-            backgroundColor = GiniConfiguration.sharedConfiguration.noticeErrorBackgroundColor
+            textColor = giniConfiguration.noticeErrorTextColor
+            backgroundColor = giniConfiguration
+                .noticeErrorBackgroundColor
+                .withAlphaComponent(0.9)
+        }
+
+        if let noticeAction = noticeAction {
+            userAction = noticeAction
+            actionButton.setTitle(noticeAction.title, for: .normal)
+            actionButton.titleLabel?.textColor = textColor
+            addSubview(actionButton)
         }
         
-        // Configure view hierachy
+        textLabel.text = text
+        textLabel.textColor = textColor
         addSubview(textLabel)
         
-        // Configure colors
-        backgroundColor = backgroundColor?.withAlphaComponent(0.8)
+        translatesAutoresizingMaskIntoConstraints = false
+        alpha = 0.0
+    }
+    
+    @objc func didTapActionButton() {
+        self.userAction?.action()
     }
     
     /**
@@ -79,18 +105,43 @@ internal class NoticeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc fileprivate func handleTap(_ sender: UIGestureRecognizer) {
-        switch type {
-        case .information:
-            return
-        case .error:
-            hide {
-                self.userAction?()
-            }
+    override func didMoveToSuperview() {
+        addConstraints()
+    }
+    
+    fileprivate func addConstraints() {
+        if let superview = superview {
+            // Superview
+            Constraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+            Constraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+            Constraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+            Constraints.active(item: self, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
+                               constant: 70)
+        }
+        
+        // Text label
+        Constraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: 16)
+        Constraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -16)
+        Constraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
+        
+        if userAction != nil {
+            Constraints.active(item: actionButton, attr: .leading, relatedBy: .equal, to: textLabel, attr: .trailing,
+                               constant: 16)
+            Constraints.active(item: actionButton, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+                               constant: -16)
+            Constraints.active(item: actionButton, attr: .top, relatedBy: .equal, to: self, attr: .top)
+            Constraints.active(item: actionButton, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
+        } else {
+            Constraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
+                               constant: -16)
         }
     }
     
-    // MARK: Toggle options
+}
+
+// MARK: - Toggle options
+
+extension NoticeView {
     func show(_ animated: Bool = true) {
         if animated {
             UIView.animate(withDuration: 0.5) {
@@ -108,7 +159,7 @@ internal class NoticeView: UIView {
             }, completion: { _ in
                 completion?()
                 self.removeFromSuperview()
-            }) 
+            })
         } else {
             self.alpha = 0.0
             completion?()
@@ -116,32 +167,4 @@ internal class NoticeView: UIView {
         }
         
     }
-        
-    // MARK: Constraints
-    override func didMoveToSuperview() {
-        
-        // Add constraints
-        addConstraints()
-    }
-    
-    fileprivate func addConstraints() {
-        if let superview = superview {
-            
-            // Superview
-            self.translatesAutoresizingMaskIntoConstraints = false
-            Constraints.active(item: self, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-            Constraints.active(item: self, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-            Constraints.active(item: self, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-            Constraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
-        }
-        
-        // Text label
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top)
-        Constraints.active(item: textLabel, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
-                          constant: -20, priority: 999)
-        Constraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom)
-        Constraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
-    }
-    
 }
