@@ -163,19 +163,17 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testCellReloadedOnReordering() {
-        let expect = expectation(description: "Delayed reloading on reordering has finished")
+        let delegateMock = MultipageReviewViewControllerDelegateMock()
+        let expect = expectation(for: NSPredicate(value: true), evaluatedWith: delegateMock.updatedDocuments.isNotEmpty, handler: nil)
         let currentIndexPath = IndexPath(row: 0, section: 0)
         let destinationIndexPath = IndexPath(row: 2, section: 0)
         var updatedImageDocument: [GiniImageDocument] = []
         
-        multipageReviewViewController.didUpdateDocuments = { updatedDocuments in
-            updatedImageDocument = updatedDocuments
-            expect.fulfill()
-        }
-        
+        multipageReviewViewController.delegate = delegateMock
         multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
         
         wait(for: [expect], timeout: 1)
+        updatedImageDocument = delegateMock.updatedDocuments
         let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
                                           cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
         let secondCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
