@@ -195,6 +195,7 @@ extension MultipageReviewViewController {
             self.blurEffect?.alpha = 1
             self.deleteButton.isEnabled = false
             self.rotateButton.isEnabled = false
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
             ToolTipView.shouldShowReorderPagesButtonToolTip = false
         }
     }
@@ -307,6 +308,7 @@ extension MultipageReviewViewController {
             self.blurEffect?.removeFromSuperview()
             self.deleteButton.isEnabled = true
             self.rotateButton.isEnabled = true
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
     }
     
