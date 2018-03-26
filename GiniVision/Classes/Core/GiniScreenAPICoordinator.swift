@@ -510,10 +510,12 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
         DispatchQueue.main.async {
             var noticeAction: NoticeAction?
             if let action = action {
-                noticeAction = NoticeAction(title: "Retry", action: action)
+                noticeAction = NoticeAction(title: NSLocalizedString("ginivision.analysis.error.actionTitle",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: "Action button title"),
+                                            action: action)
             }
-            let notice = NoticeView(text: message ?? "", type: .error, noticeAction: noticeAction
-            )
+            let notice = NoticeView(text: message ?? "", type: .error, noticeAction: noticeAction)
             self.show(notice: notice)
         }
     }
