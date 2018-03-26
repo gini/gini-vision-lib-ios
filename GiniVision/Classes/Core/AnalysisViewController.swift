@@ -22,7 +22,7 @@ import UIKit
      - parameter message: The error message to be displayed.
      - parameter action:  The action to be performed after the user tapped the error view.
      */
-    func displayError(withMessage message: String?, andAction action: NoticeAction?)
+    func displayError(withMessage message: String?, andAction action: (() -> Void)?)
     
     /**
      In case that the `GiniVisionDocument` analysed is an image it will display a no results screen
