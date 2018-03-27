@@ -118,6 +118,7 @@ final class APIService: APIServiceProtocol {
                 return self?.giniSDK?.documentTaskManager.createDocument(withFilename: fileName,
                                                                          from: document.data,
                                                                          docType: docType,
+                                                                         isPartialDocument: true,
                                                                          cancellationToken: token)
             }).continueWith(block: { task in
                 if let document = task.result as? GINIDocument {
@@ -134,6 +135,34 @@ final class APIService: APIServiceProtocol {
                 return nil
             })
         
+    }
+    
+    func createMultipageDocument(withSubdocumentURLs urls: [URL],
+                                 cancelationToken token: BFCancellationToken,
+                                 fileName: String,
+                                 docType: String,
+                                 completion: @escaping ((Result<GINIDocument>) -> Void)) {
+        _ = giniSDK?.sessionManager.getSession()
+            .continueWith(block: getSessionBlock(cancelationToken: token))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                return self?.giniSDK?.documentTaskManager.createMultipageDocument(withSubDocumentsURLs: urls,
+                                                                                  fileName: fileName,
+                                                                                  docType: docType,
+                                                                                  cancellationToken: token)
+            }).continueWith(block: { task in
+                if let document = task.result as? GINIDocument {
+                    self.document = document
+                    print("📄 Created document with id: \(document.documentId ?? "")")
+                    
+                    completion(.success(document))
+                } else if task.isCancelled {
+                    completion(.failure(AnalysisError.cancelled))
+                } else {
+                    completion(.failure(AnalysisError.documentCreation))
+                }
+                
+                return nil
+            })
     }
     
     func sendFeedback(withResults results: [String: Extraction]) {

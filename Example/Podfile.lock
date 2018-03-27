@@ -24,10 +24,13 @@ PODS:
   - TrustKit (1.5.3)
 
 DEPENDENCIES:
+  - Gini-iOS-SDK (from `../../gini-sdk-ios/`)
   - GiniVision (from `../`)
   - GiniVision/Networking+Pinning (from `../`)
 
 EXTERNAL SOURCES:
+  Gini-iOS-SDK:
+    :path: ../../gini-sdk-ios/
   GiniVision:
     :path: ../
 
@@ -37,6 +40,6 @@ SPEC CHECKSUMS:
   GiniVision: c74e0928198f8ef8fce26dd19cac0ccdaf76d6a6
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
-PODFILE CHECKSUM: a97fff156f9bde6d14ac0f3ed6a158ec9bd4f008
+PODFILE CHECKSUM: e59faafaf292512c92aeb3933dfa0ba2893bed30
 
 COCOAPODS: 1.4.0
