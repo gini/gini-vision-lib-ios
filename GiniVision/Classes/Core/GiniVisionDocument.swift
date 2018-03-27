@@ -18,7 +18,6 @@ import Foundation
     var previewImage: UIImage? { get }
     var isReviewable: Bool { get }
     var isImported: Bool { get }
-    var error: Error? { get set }
     
     func checkType() throws
 }

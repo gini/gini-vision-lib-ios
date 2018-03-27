@@ -18,7 +18,6 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
-    public var error: Error?
     
     private(set) var numberPages: Int = 0
     private(set) var pdfTitle: String?
