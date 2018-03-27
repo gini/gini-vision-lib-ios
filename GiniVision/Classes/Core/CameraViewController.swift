@@ -662,10 +662,10 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
         let loadingView = addValidationLoadingView()
         self.validate(importedDocuments: documents) { validatedDocuments in
             loadingView.removeFromSuperview()
-            let elementsWithError = validatedDocuments.filter { $0.error != nil}
+            let elementsWithError = validatedDocuments.filter { $0.1 != nil}
             if let firstElement = elementsWithError.first,
-                let error = firstElement.error,
-                (!self.giniConfiguration.multipageEnabled || firstElement.type != .image) {
+                let error = firstElement.1,
+                (!self.giniConfiguration.multipageEnabled || firstElement.0.type != .image) {
                 if let completion = completion {
                     completion(nil) {
                         self.showErrorDialog(for: error)
@@ -674,7 +674,7 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
                     self.showErrorDialog(for: error)
                 }
             } else {
-                self.process(validatedImportedDocuments: validatedDocuments) { [weak self] error, didDismiss in
+                self.process(validatedImportedDocuments: validatedDocuments.map {$0.0 }) { [weak self] error, didDismiss in
                     guard let `self` = self else { return }
                     // This is needed since the `UIDocumentPickerViewController` is automatically
                     // dismissed and the drag&drop is done in this view controller.
@@ -712,16 +712,17 @@ extension CameraViewController {
     }
     
     fileprivate func validate(importedDocuments documents: [GiniVisionDocument],
-                              completion: @escaping ([GiniVisionDocument]) -> Void) {
+                              completion: @escaping ([(GiniVisionDocument, Error?)]) -> Void) {
         DispatchQueue.global().async {
-            var validatedDocuments: [GiniVisionDocument] = []
+            var validatedDocuments: [(GiniVisionDocument, Error?)] = []
             documents.forEach { document in
+                var visionError: Error?
                 do {
                     try document.validate()
                 } catch let error {
-                    document.error = error
+                    visionError = error
                 }
-                validatedDocuments.append(document)
+                validatedDocuments.append((document, visionError))
             }
             
             DispatchQueue.main.async {

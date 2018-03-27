@@ -21,7 +21,6 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
-    public var error: Error?
     
     fileprivate let metaInformationManager: ImageMetaInformationManager
     

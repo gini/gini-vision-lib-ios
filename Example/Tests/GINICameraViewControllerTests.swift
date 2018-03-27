@@ -104,39 +104,6 @@ final class CameraViewControllerTests: XCTestCase {
         waitForExpectations(timeout: 2, handler: nil)
     }
     
-    func testPickerCompletionBlockWhenFailedPDF() {
-        let failedPDF = loadPDFDocument(withName: "testPDF")
-        failedPDF.error = DocumentValidationError.pdfPageLengthExceeded
-        let documents = [failedPDF]
-        let expect = expectation(description: "Document validation finishes")
-        
-        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
-            expect.fulfill()
-            XCTAssertNil(error, "Completion block should not return an error from outside when it is a PDF")
-        }
-        
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
-    func testPickerCompletionBlockWhenFailedImageAndMultipageDisabled() {
-        let failedImage = loadImageDocument(withName: "invoice")
-        failedImage.error = DocumentValidationError.imageFormatNotValid
-        let documents = [failedImage]
-        
-        giniConfiguration.multipageEnabled = false
-        cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
-        cameraViewController.delegate = screenAPICoordinator
-        
-        let expect = expectation(description: "Document validation finishes")
-
-        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
-            expect.fulfill()
-            XCTAssertNil(error, "When multipage is disabled there should not be an error coming from outside of the camera screen")
-        }
-        
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
     func testPickerCompletionBlockWhenTooManyPages() {
         var documents: [GiniVisionDocument] = []
         for _ in 0...GiniPDFDocument.maxPagesCount {
