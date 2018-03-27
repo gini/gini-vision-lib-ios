@@ -5,6 +5,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'GiniVision_Example' do
+    pod 'Gini-iOS-SDK', :path => '../../gini-sdk-ios/'
     pod 'GiniVision', :path => '../'
     pod 'GiniVision/Networking+Pinning', :path => '../'
 
