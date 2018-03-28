@@ -14,6 +14,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     static let acceptedPDFTypes: [String] = [kUTTypePDF as String]
     
     public var type: GiniVisionDocumentType = .pdf
+    public var id: String
     public let data: Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
@@ -32,6 +33,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     init(data: Data) {
         self.data = data
         self.isReviewable = false
+        self.id = UUID().uuidString
         self.isImported = true
         super.init()
         

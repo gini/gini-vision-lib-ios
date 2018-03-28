@@ -15,6 +15,7 @@ import Foundation
 @objc public protocol GiniVisionDocument: class {
     var type: GiniVisionDocumentType { get }
     var data: Data { get }
+    var id: String { get }
     var previewImage: UIImage? { get }
     var isReviewable: Bool { get }
     var isImported: Bool { get }
