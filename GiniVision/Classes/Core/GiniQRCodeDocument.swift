@@ -12,6 +12,7 @@ import Foundation
     public lazy var data: Data = {
         return self.paymentInformation ?? Data(count: 0)
     }()
+    public var id: String
     public lazy var previewImage: UIImage? = {
         return UIImage(qrData: self.data)
     }()
@@ -43,6 +44,7 @@ import Foundation
     
     init(scannedString: String) {
         self.scannedString = scannedString
+        self.id = UUID().uuidString
         super.init()
     }    
 }
