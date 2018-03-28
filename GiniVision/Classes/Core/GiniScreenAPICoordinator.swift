@@ -237,9 +237,9 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController,
                 didCaptureDocuments documents: [GiniVisionDocument],
-                completion: DocumentPickerCompletion?) {
+                validationHandler: DocumentValidationHandler?) {
         if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
-            completion?(FilePickerError.maxFilesPickedCountExceeded, nil)
+            validationHandler?(FilePickerError.maxFilesPickedCountExceeded, nil)
             return
         }
         
@@ -250,30 +250,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             
             didDismissPickerCompletion = { [weak self] in
                 guard let `self` = self else { return }
-                if let firstDocument = documents.first {
-                    switch type {
-                    case .image:
-                        if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
-                            let lastDocument = imageDocuments.last {
-                            if self.giniConfiguration.multipageEnabled {
-                                if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
-                                    lastDocument.isImported {
-                                    self.showMultipageReview(withImageDocuments: imageDocuments)
-                                }
-                            } else {
-                                self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
-                                self.screenAPINavigationController.pushViewController(self.reviewViewController!,
-                                                                                      animated: true)
-                                self.didCapture(withDocument: firstDocument)
-                            }
-                        }
-                    case .qrcode, .pdf:
-                        self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
-                        self.screenAPINavigationController.pushViewController(self.analysisViewController!,
-                                                                              animated: true)
-                        self.didCapture(withDocument: firstDocument)
-                    }
-                }
+                self.showNextScreen(with: self.visionDocuments)
             }
         } else {
             didDismissPickerCompletion = {
@@ -281,7 +258,33 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             }
         }
         
-        completion?(nil, didDismissPickerCompletion)
+        validationHandler?(nil, didDismissPickerCompletion)
+    }
+    
+    private func showNextScreen(with visionDocuments: [GiniVisionDocument]) {
+        if let firstDocument = visionDocuments.first, let type = visionDocuments.type {
+            switch type {
+            case .image:
+                if let imageDocuments = visionDocuments as? [GiniImageDocument],
+                    let lastDocument = imageDocuments.last {
+                    if self.giniConfiguration.multipageEnabled {
+                        if lastDocument.isImported {
+                            self.showMultipageReview(withImageDocuments: imageDocuments)
+                        }
+                    } else {
+                        self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
+                        self.screenAPINavigationController.pushViewController(self.reviewViewController!,
+                                                                              animated: true)
+                        self.didCapture(withDocument: firstDocument)
+                    }
+                }
+            case .qrcode, .pdf:
+                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
+                self.screenAPINavigationController.pushViewController(self.analysisViewController!,
+                                                                      animated: true)
+                self.didCapture(withDocument: firstDocument)
+            }
+        }
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {

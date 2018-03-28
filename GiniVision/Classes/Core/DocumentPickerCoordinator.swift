@@ -12,27 +12,27 @@ import Photos
 
 protocol DocumentPickerCoordinatorDelegate: class {
     /**
-     Called when a user picks one or several files from either the gallery or files explorer.
+     Called when a user picks one or several files from either the gallery or the files explorer.
      The completion might provide errors that must be handled here before dismissing the
-     pickers. It only applies for the `GalleryCoordinator` since on one side it is not possible
+     pickers. It only applies to the `GalleryCoordinator` since on one side it is not possible
      to handle the dismissal of UIDocumentPickerViewController and on the other side
      the Drag&Drop is not done in a separate view.
      
      - parameter coordinator: `DocumentPickerCoordinator` where the documents were imported.
      - parameter documents: One or several documents imported.
      - parameter from: Picker used (either gallery, files explorer or drag&drop).
-     - parameter completion: `DocumentPickerCompletion` block used to check if there is an issue with
-     the captured documents. The completion block also has an inner block that is executed once the
+     - parameter validationHandler: `DocumentValidationHandler` block used to check if there is an issue with
+     the captured documents. The handler has an inner completion block that is executed once the
      picker has been dismissed when there are no errors.
      */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument],
                         from picker: DocumentPickerType,
-                        completion: DocumentPickerCompletion?)
+                        validationHandler: DocumentValidationHandler?)
 }
 
 public typealias DidDismissPickerCompletion = () -> Void
-public typealias DocumentPickerCompletion = (Error?, DidDismissPickerCompletion?) -> Void
+public typealias DocumentValidationHandler = (Error?, DidDismissPickerCompletion?) -> Void
 
 enum DocumentPickerType {
     case gallery, explorer, dragndrop
@@ -177,7 +177,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .flatMap(self.data)
             .flatMap(self.createDocument)
         
-        delegate?.documentPicker(self, didPick: documents, from: .explorer, completion: nil)
+        delegate?.documentPicker(self, didPick: documents, from: .explorer, validationHandler: nil)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -223,7 +223,7 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
         
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.delegate?.documentPicker(self, didPick: documents, from: .dragndrop, completion: nil)
+            self.delegate?.documentPicker(self, didPick: documents, from: .dragndrop, validationHandler: nil)
         }
     }
     
