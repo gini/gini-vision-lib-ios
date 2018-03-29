@@ -22,6 +22,8 @@ extension GiniScreenAPICoordinator {
                                                    clientSecret: client.clientSecret,
                                                    userEmailDomain: client.clientEmailDomain,
                                                    publicKeyPinningConfig: publicKeyPinningConfig)
-        self.apiService = APIService(sdk: builder?.build())
+        if let sdk = builder?.build() {
+            self.documentService = CompositeDocumentService(sdk: sdk)
+        }
     }
 }
