@@ -19,7 +19,6 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     public var isReviewable: Bool
     public var isImported: Bool
     
-    private let MAX_PDF_PAGES_COUNT = 10
     private(set) var numberPages: Int = 0
     private(set) var pdfTitle: String?
 
@@ -64,7 +63,7 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
     
     public func checkType() throws {
         if self.data.isPDF {
-            if case 1...MAX_PDF_PAGES_COUNT = self.numberPages {
+            if case 1...GiniPDFDocument.maxPagesCount = self.numberPages {
                 return
             } else {
                 throw DocumentValidationError.pdfPageLengthExceeded

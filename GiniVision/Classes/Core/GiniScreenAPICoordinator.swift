@@ -235,44 +235,55 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 // MARK: - Camera Screen
 
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
-    func camera(_ viewController: CameraViewController, didCaptureDocuments documents: [GiniVisionDocument]) {
+    func camera(_ viewController: CameraViewController,
+                didCaptureDocuments documents: [GiniVisionDocument],
+                validationHandler: DocumentValidationHandler?) {
+        if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
+            validationHandler?(FilePickerError.maxFilesPickedCountExceeded, nil)
+            return
+        }
+        
+        let didDismissPickerCompletion: DidDismissPickerCompletion
+        
         if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
             visionDocuments.append(contentsOf: documents)
             
-            if let firstDocument = documents.first {
-                switch type {
-                case .image:
-                    if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                        let lastDocument = imageDocuments.last {
-                        if giniConfiguration.multipageEnabled {
-                            if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                                lastDocument.isImported {
-                                showMultipageReview(withImageDocuments: imageDocuments)
-                            }
-                        } else {
-                            reviewViewController = createReviewScreen(withDocument: lastDocument)
-                            screenAPINavigationController.pushViewController(reviewViewController!, animated: true)
-                            didCapture(withDocument: firstDocument)
-                        }
-                    }
-                case .qrcode, .pdf:
-                    analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-                    screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
-                    didCapture(withDocument: firstDocument)
-                }
+            didDismissPickerCompletion = { [weak self] in
+                guard let `self` = self else { return }
+                self.showNextScreen(with: self.visionDocuments)
             }
-            
         } else {
-            viewController.showMultipleTypesImportedAlert(forDocuments: visionDocuments + documents) { _ in }
+            didDismissPickerCompletion = {
+                viewController.showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported)
+            }
         }
+        
+        validationHandler?(nil, didDismissPickerCompletion)
     }
     
-    func camera(_ viewController: CameraViewController, didFailCaptureWithError error: CameraError) {
-        switch error {
-        case .notAuthorizedToUseDevice:
-            print("GiniVision: Camera authorization denied.")
-        default:
-            print("GiniVision: Unknown error when using camera.")
+    private func showNextScreen(with visionDocuments: [GiniVisionDocument]) {
+        if let firstDocument = visionDocuments.first, let type = visionDocuments.type {
+            switch type {
+            case .image:
+                if let imageDocuments = visionDocuments as? [GiniImageDocument],
+                    let lastDocument = imageDocuments.last {
+                    if self.giniConfiguration.multipageEnabled {
+                        if lastDocument.isImported {
+                            self.showMultipageReview(withImageDocuments: imageDocuments)
+                        }
+                    } else {
+                        self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
+                        self.screenAPINavigationController.pushViewController(self.reviewViewController!,
+                                                                              animated: true)
+                        self.didCapture(withDocument: firstDocument)
+                    }
+                }
+            case .qrcode, .pdf:
+                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
+                self.screenAPINavigationController.pushViewController(self.analysisViewController!,
+                                                                      animated: true)
+                self.didCapture(withDocument: firstDocument)
+            }
         }
     }
     

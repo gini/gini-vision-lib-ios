@@ -8,7 +8,9 @@
 
 import UIKit
 
-public protocol GiniVisionError: Error {}
+public protocol GiniVisionError: Error {
+    var message: String { get }
+}
 
 /**
  Errors thrown on the camera screen or during camera initialization.
@@ -26,6 +28,26 @@ public protocol GiniVisionError: Error {}
     /// Capturing could not be completed.
     case captureFailed
     
+    public var message: String {
+        switch self {
+        case .captureFailed:
+            return NSLocalizedStringPreferred("ginivision.camera.captureFailed",
+                                              comment: "This message is shown when" +
+                                                       "the camera access was denied")
+        case .noInputDevice:
+            return NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
+                                              comment: "This message is shown when" +
+                                                       "the camera access was denied")
+        case .notAuthorizedToUseDevice:
+            return NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
+                                              comment: "This message is shown when" +
+                                                       "the camera access was denied")
+        case .unknown:
+            return NSLocalizedStringPreferred("ginivision.camera.unknownError",
+                                              comment: "This message is shown when" +
+                                                       "there is an unknown error in the camera")
+        }
+    }
 }
 
 /**
@@ -36,6 +58,14 @@ public protocol GiniVisionError: Error {}
     /// Unknown error during review.
     case unknown
     
+    public var message: String {
+        switch self {
+        case .unknown:
+            return NSLocalizedStringPreferred("ginivision.review.unknownError",
+                                              comment: "This message is shown when" +
+                                                       "Photo library permission is denied")
+        }
+    }
 }
 
 /**
@@ -46,7 +76,30 @@ public protocol GiniVisionError: Error {}
     
     /// Camera roll can not be loaded because the user has denied authorization in the past.
     case photoLibraryAccessDenied
-
+    
+    /// Max number of files picked exceeded
+    case maxFilesPickedCountExceeded
+    
+    /// Mixed documents unsupported
+    case mixedDocumentsUnsupported
+    
+    public var message: String {
+        switch self {
+        case .photoLibraryAccessDenied:
+            return NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
+                                              comment: "This message is shown when" +
+                "Photo library permission is denied")
+        case .maxFilesPickedCountExceeded:
+            return NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
+                                              comment: "Message text error shown in" +
+                                                "camera screen when a pdf " +
+                "length is higher than 10 pages")
+        case .mixedDocumentsUnsupported:
+            return NSLocalizedStringPreferred("ginivision.camera.filepicker.mixedDocumentsUnsupported",
+                                              comment: "Message text error when a more than one file " +
+                "type is selected")
+        }
+    }
 }
 
 /**
@@ -71,8 +124,8 @@ public protocol GiniVisionError: Error {}
     
     /// QR Code formar not valid
     case qrCodeFormatNotValid
-
-    var message: String {
+    
+    public var message: String {
         switch self {
         case .exceededMaxFileSize:
             return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
@@ -98,11 +151,11 @@ public protocol GiniVisionError: Error {}
  Errors thrown when running a custom validation.
  */
 @objc public class CustomDocumentValidationError: NSError {
-
+    
     public convenience init(message: String) {
         self.init(domain: "net.gini", code: 1, userInfo: ["message": message])
     }
-
+    
     public var message: String {
         return userInfo["message"] as? String ?? ""
     }
