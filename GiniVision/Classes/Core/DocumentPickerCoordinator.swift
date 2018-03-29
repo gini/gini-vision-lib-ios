@@ -193,7 +193,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension DocumentPickerCoordinator: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        if !isPDFDropSelectionAllowed(forSession: session) {
+        guard isPDFDropSelectionAllowed(forSession: session) else {
             return false
         }
         

@@ -784,7 +784,7 @@ extension CameraViewController {
         }
         
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
-            self.documentPickerCoordinator.isPDFSelectionAllowed = self.multipageReviewButton.image(for: .normal) == nil
+            self.documentPickerCoordinator.isPDFSelectionAllowed = !self.imagesAlreadyPicked()
             self.documentPickerCoordinator.showDocumentPicker(from: self)
         })
         
@@ -794,6 +794,10 @@ extension CameraViewController {
         alertViewController.popoverPresentationController?.sourceView = importFileButton
         
         self.present(alertViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func imagesAlreadyPicked() -> Bool {
+        return self.multipageReviewButton.image(for: .normal) != nil
     }
     
     @available(iOS 11.0, *)
