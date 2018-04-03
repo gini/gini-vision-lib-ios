@@ -32,6 +32,9 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     fileprivate var reviewViewController: ReviewViewController?
     fileprivate var multiPageReviewController: MultipageReviewViewController?
+    fileprivate lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
+        return DocumentPickerCoordinator()
+    }()
     
     // Properties
     fileprivate var changesOnReview: Bool = false
@@ -235,55 +238,30 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 // MARK: - Camera Screen
 
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
-    func camera(_ viewController: CameraViewController,
-                didCaptureDocuments documents: [GiniVisionDocument],
-                validationHandler: DocumentValidationHandler?) {
-        if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
-            validationHandler?(FilePickerError.maxFilesPickedCountExceeded, nil)
-            return
-        }
-        
-        let didDismissPickerCompletion: DidDismissPickerCompletion
-        
-        if let type = documents.type, (type == visionDocuments.type || visionDocuments.isEmpty) {
-            visionDocuments.append(contentsOf: documents)
-            
-            didDismissPickerCompletion = { [weak self] in
-                guard let `self` = self else { return }
-                self.showNextScreen(with: self.visionDocuments)
-            }
-        } else {
-            didDismissPickerCompletion = {
-                viewController.showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported)
+
+    func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
+        let loadingView = viewController.addValidationLoadingView()
+
+        validateCollectionOf(documents: [document]) { result in
+            loadingView.removeFromSuperview()
+            switch result {
+            case .success:
+                self.visionDocuments.append(document)
+                self.showNextScreenAfterPicking(documents: self.visionDocuments)
+            case .failure:
+                break
             }
         }
-        
-        validationHandler?(nil, didDismissPickerCompletion)
     }
     
-    private func showNextScreen(with visionDocuments: [GiniVisionDocument]) {
-        if let firstDocument = visionDocuments.first, let type = visionDocuments.type {
-            switch type {
-            case .image:
-                if let imageDocuments = visionDocuments as? [GiniImageDocument],
-                    let lastDocument = imageDocuments.last {
-                    if self.giniConfiguration.multipageEnabled {
-                        if lastDocument.isImported {
-                            self.showMultipageReview(withImageDocuments: imageDocuments)
-                        }
-                    } else {
-                        self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
-                        self.screenAPINavigationController.pushViewController(self.reviewViewController!,
-                                                                              animated: true)
-                        self.didCapture(withDocument: firstDocument)
-                    }
-                }
-            case .qrcode, .pdf:
-                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
-                self.screenAPINavigationController.pushViewController(self.analysisViewController!,
-                                                                      animated: true)
-                self.didCapture(withDocument: firstDocument)
-            }
+    func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType) {
+        switch documentPicker {
+        case .gallery:
+            documentPickerCoordinator.showGalleryPicker(from: viewController)
+        case .explorer:
+            documentPickerCoordinator.isPDFSelectionAllowed = visionDocuments.isEmpty
+            documentPickerCoordinator.showDocumentPicker(from: viewController)
+        case .dragndrop: break
         }
     }
     
@@ -316,6 +294,19 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                                  selector: #selector(showHelpMenuScreen),
                                                  position: .right,
                                                  target: self)
+        
+        if giniConfiguration.fileImportSupportedTypes != .none {
+            if #available(iOS 11.0, *) {
+                addDropInteraction(forView: cameraViewController.view, with: documentPickerCoordinator)
+            }
+            
+            // Configure file picker
+            documentPickerCoordinator.delegate = self
+            
+            if documentPickerCoordinator.isGalleryPermissionGranted {
+                documentPickerCoordinator.startCaching()
+            }
+        }
         
         return cameraViewController
     }
@@ -379,6 +370,127 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                               completion: nil)
     }
     
+}
+
+extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
+    
+    func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument], from picker: UIViewController?) {
+        
+        self.validateCollectionOf(documents: documents) { result in
+            switch result {
+            case .success(let validatedDocuments):
+                picker?.dismiss(animated: true, completion: nil)
+                self.visionDocuments.append(contentsOf: validatedDocuments)
+                self.showNextScreenAfterPicking(documents: validatedDocuments)
+                break
+            case .failure(let error):
+                var positiveAction: () -> Void = {}
+                
+                if let error = error as? FilePickerError {
+                    switch error {
+                    case .maxFilesPickedCountExceeded:
+                        positiveAction = {
+                            
+                        }
+                        break
+                    case .mixedDocumentsUnsupported:
+                        positiveAction = {
+                            self.showMultipageReview(withImageDocuments: self.visionDocuments as! [GiniImageDocument])
+                        }
+                        break
+                    case .photoLibraryAccessDenied:
+                        break
+                    }
+                }
+                
+                if let destViewController = picker {
+                    destViewController.showErrorDialog(for: error,
+                                                       positiveAction: positiveAction)
+                } else {
+                    self.cameraViewController?.showErrorDialog(for: error,
+                                                               possitiveAction: positiveAction)
+                }
+            }
+            
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    fileprivate func addDropInteraction(forView view: UIView, with delegate: UIDropInteractionDelegate) {
+        let dropInteraction = UIDropInteraction(delegate: delegate)
+        view.addInteraction(dropInteraction)
+    }
+    
+    func validateCollectionOf(documents: [GiniVisionDocument], completion: @escaping (Result<[GiniVisionDocument]>) -> Void) {
+        
+        if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
+            completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
+            return
+        }
+        
+        guard (documents + visionDocuments).containsDifferentTypes else {
+            completion(.failure(FilePickerError.mixedDocumentsUnsupported))
+            return
+        }
+
+        self.validate(importedDocuments: documents) { validatedDocuments in
+            let elementsWithError = validatedDocuments.filter { $0.1 != nil }
+            if let firstElement = elementsWithError.first,
+                let error = firstElement.1,
+                (!self.giniConfiguration.multipageEnabled || firstElement.0.type != .image) {
+                completion(.failure(error))
+            } else {
+                completion(.success(validatedDocuments.flatMap { $0.0 }))
+            }
+        }
+    }
+    
+    fileprivate func validate(importedDocuments documents: [GiniVisionDocument],
+                              completion: @escaping ([(GiniVisionDocument, Error?)]) -> Void) {
+        DispatchQueue.global().async {
+            var validatedDocuments: [(GiniVisionDocument, Error?)] = []
+            documents.forEach { document in
+                var documentError: Error?
+                do {
+                    try document.validate()
+                } catch let error {
+                    documentError = error
+                }
+                validatedDocuments.append((document, documentError))
+            }
+            
+            DispatchQueue.main.async {
+                completion(validatedDocuments)
+            }
+        }
+    }
+    
+    func showNextScreenAfterPicking(documents: [GiniVisionDocument]) {
+        if let firstDocument = documents.first, let documentsType = documents.type {
+            switch documentsType {
+            case .image:
+                if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
+                    let lastDocument = imageDocuments.last {
+                    if self.giniConfiguration.multipageEnabled {
+                        if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
+                            lastDocument.isImported {
+                            self.showMultipageReview(withImageDocuments: imageDocuments)
+                        }
+                    } else {
+                        self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
+                        self.screenAPINavigationController.pushViewController(self.reviewViewController!,
+                                                                              animated: true)
+                        self.didCapture(withDocument: firstDocument)
+                    }
+                }
+            case .qrcode, .pdf:
+                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
+                self.screenAPINavigationController.pushViewController(self.analysisViewController!,
+                                                                      animated: true)
+                self.didCapture(withDocument: firstDocument)
+            }
+        }
+    }
 }
 
 // MARK: - Review Screen
