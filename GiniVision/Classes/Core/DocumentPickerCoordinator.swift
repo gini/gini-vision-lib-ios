@@ -73,9 +73,9 @@ internal final class DocumentPickerCoordinator: NSObject {
     // MARK: Picker presentation
     
     func showGalleryPicker(from viewController: UIViewController) {
-        galleryCoordinator.checkGalleryAccessPermission(deniedHandler: {[unowned self] error in
+        galleryCoordinator.checkGalleryAccessPermission(deniedHandler: { error in
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
-                self.showErrorDialog(for: error, from: viewController)
+                viewController.showErrorDialog(for: error, positiveAction: UIApplication.shared.openAppSettings)
             }
             }, authorizedHandler: {
                 self.galleryCoordinator.delegate = self
@@ -100,29 +100,6 @@ internal final class DocumentPickerCoordinator: NSObject {
         }
         
         viewController.present(documentPicker, animated: true, completion: nil)
-    }
-    
-    func showErrorDialog(for error: Error, from viewController: UIViewController) {
-        let dialog: UIAlertController
-        
-        switch error {
-        case let error as FilePickerError where error == .photoLibraryAccessDenied:
-            dialog = errorDialog(withMessage: error.message,
-                                 cancelActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
-                                                                               comment: "cancel button title"),
-                                 confirmActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
-                                                                                comment: "cancel button title"),
-                                 confirmAction: UIApplication.shared.openAppSettings)
-        case let error as FilePickerError where error == .maxFilesPickedCountExceeded:
-            dialog = errorDialog(withMessage: error.message,
-                                 cancelActionTitle: NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.confirmButton",
-                                                                               comment: "cancel button title"))
-            
-        default:
-            return
-        }
-        
-        viewController.present(dialog, animated: true, completion: nil)
     }
     
     // MARK: File data picked from gallery or document pickers

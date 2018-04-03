@@ -43,22 +43,29 @@ extension UIViewController {
                                                                      comment: "pick another file button title")
         
         switch error {
+            
         case let validationError as DocumentValidationError:
             message = validationError.message
         case let customValidationError as CustomDocumentValidationError:
             message = customValidationError.message
         case let pickerError as FilePickerError:
             message = pickerError.message
-            if pickerError == .maxFilesPickedCountExceeded {
+
+            switch pickerError {
+            case .maxFilesPickedCountExceeded:
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
                                                                 comment: "review pages button title")
-            } else if pickerError == .mixedDocumentsUnsupported {
+            case .photoLibraryAccessDenied:
+                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
+                                                                comment: "cancel button title")
+                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
+                                                                comment: "cancel button title")
+            case .mixedDocumentsUnsupported:
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
                                                                comment: "cancel button text for popup")
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
                                                                 comment: "use photos button text in popup")
             }
-            
         default:
             message = DocumentValidationError.unknown.message
         }
@@ -69,5 +76,29 @@ extension UIViewController {
                                  confirmAction: positiveAction)
         
         present(dialog, animated: true, completion: nil)
+    }
+
+    fileprivate func errorDialog(withMessage message: String,
+                                 title: String? = nil,
+                                 cancelActionTitle: String,
+                                 confirmActionTitle: String? = nil,
+                                 confirmAction: (() -> Void)? = nil) -> UIAlertController {
+        
+        let alertViewController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertViewController.addAction(UIAlertAction(title: cancelActionTitle,
+                                                    style: .cancel,
+                                                    handler: { _ in
+                                                        alertViewController.dismiss(animated: true, completion: nil)
+        }))
+        
+        if let confirmActionTitle = confirmActionTitle {
+            alertViewController.addAction(UIAlertAction(title: confirmActionTitle,
+                                                        style: .default,
+                                                        handler: { _ in
+                                                            confirmAction?()
+            }))
+        }
+        
+        return alertViewController
     }
 }

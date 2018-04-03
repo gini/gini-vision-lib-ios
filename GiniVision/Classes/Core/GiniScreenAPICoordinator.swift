@@ -408,7 +408,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                                                        positiveAction: positiveAction)
                 } else {
                     self.cameraViewController?.showErrorDialog(for: error,
-                                                               possitiveAction: positiveAction)
+                                                               positiveAction: positiveAction)
                 }
             }
             
