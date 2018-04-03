@@ -36,7 +36,7 @@ final class SingleDocumentService: DocumentServiceProtocol {
         isAnalyzing = false
     }
     
-    func upload(document: GiniVisionDocument) {
+    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         
@@ -47,9 +47,9 @@ final class SingleDocumentService: DocumentServiceProtocol {
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
                 }
-            case .failure(let error):
-                print(error)
+            case .failure:
+                break
             }
         }
-    }    
+    }
 }

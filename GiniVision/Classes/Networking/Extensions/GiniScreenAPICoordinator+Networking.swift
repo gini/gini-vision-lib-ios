@@ -117,7 +117,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument) {
-        self.documentService?.upload(document: document)
+        documentService?.upload(document: document)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {

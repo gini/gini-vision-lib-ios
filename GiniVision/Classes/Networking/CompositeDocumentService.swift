@@ -30,7 +30,7 @@ final class CompositeDocumentService: DocumentServiceProtocol {
         self.fetchExtractions(for: partialDocuments, completion: completion)
     }
     
-    func upload(document: GiniVisionDocument) {
+    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         partialDocuments.append((nil, cancellationTokenSource.token))
@@ -39,8 +39,9 @@ final class CompositeDocumentService: DocumentServiceProtocol {
             switch result {
             case .success(let createdDocument):
                 self.partialDocuments.append((createdDocument, token))
+                completion?(.success(createdDocument))
             case .failure(let error):
-                print(error)
+                completion?(.failure(error))
             }
         }
     }

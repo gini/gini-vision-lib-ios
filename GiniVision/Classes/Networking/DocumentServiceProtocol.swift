@@ -33,10 +33,14 @@ protocol DocumentServiceProtocol: class {
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
-    func upload(document: GiniVisionDocument)
+    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?)
 }
 
 extension DocumentServiceProtocol {
+    
+    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion? = nil) {
+        self.upload(document: document, completion: completion)
+    }
     
     func createDocument(from document: GiniVisionDocument,
                         fileName: String,
