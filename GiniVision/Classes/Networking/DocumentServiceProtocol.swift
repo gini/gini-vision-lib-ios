@@ -28,12 +28,12 @@ protocol DocumentServiceProtocol: class {
     
     var giniSDK: GiniSDK { get }
     var isAnalyzing: Bool { get }
+    var compositeDocument: GINIDocument? { get }
     
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
     func upload(document: GiniVisionDocument)
-    func sendFeedback(withResults results: [String: Extraction])
 }
 
 extension DocumentServiceProtocol {
@@ -45,7 +45,7 @@ extension DocumentServiceProtocol {
                         completion: @escaping UploadDocumentCompletion) {
         giniSDK.sessionManager
             .getSession()
-            .continueWith(block: getSessionBlock(cancellationToken: cancellationToken))
+            .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
             .continueOnSuccessWith(block: { [weak self] _ in
                 return self?.giniSDK.documentTaskManager.createDocument(withFilename: fileName,
                                                                         from: document.data,
@@ -65,25 +65,22 @@ extension DocumentServiceProtocol {
             })
     }
     
-    func getSessionBlock(cancellationToken token: BFCancellationToken? = nil)
-        -> ((BFTask<AnyObject>) -> Any?) {
-            return {
-                [weak self] (task: BFTask<AnyObject>?) -> Any! in
-                guard let `self` = self else { return nil }
-                
-                if task?.error != nil {
-                    return self.giniSDK.sessionManager.logIn()
-                }
-                return task?.result
-            }
-    }
-    
     func fetchExtractions(for documents: [GINIDocument], completion: @escaping AnalysisCompletion) {
-        self.giniSDK
+        let documentsURLs = documents.flatMap { $0.links.document }
+        giniSDK
             .documentTaskManager
-            .getExtractionsFor(documents,
-                               cancellationToken: nil)
+            .createCompositeDocument(withPartialDocumentsURLs: documentsURLs,
+                                     fileName: "",
+                                     docType: "",
+                                     cancellationToken: nil)
+            .continueOnSuccessWith { task in
+                if let document = task.result as? GINIDocument {
+                    return self.giniSDK.documentTaskManager.getExtractionsFor(document)
+                }
+                return BFTask<AnyObject>(error: AnalysisError.documentCreation)
+            }
             .continueWith(block: handleAnalysisResults(completion: completion))
+        
     }
     
     func handleAnalysisResults(completion: @escaping AnalysisCompletion)
@@ -105,7 +102,7 @@ extension DocumentServiceProtocol {
                 } else if let result = task.result as? [String: Extraction] {
                     print("✅", finishedString, "no errors")
                     
-                    completion(.success((result)))
+                    completion(.success(result))
                 } else {
                     let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
                     print("❌", finishedString, "this error: \(error)")
@@ -113,8 +110,43 @@ extension DocumentServiceProtocol {
                     completion(.failure(AnalysisError.unknown))
                 }
                 
-                
                 return nil
+            }
+    }
+    
+    func sendFeedback(with updatedExtractions: [String: Extraction]) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock())
+            .continueOnSuccessWith(block: { _ in
+                return self.giniSDK
+                .documentTaskManager?
+                    .update(self.compositeDocument,
+                            updatedExtractions: updatedExtractions,
+                            cancellationToken: nil)
+            })
+            .continueWith(block: { (task: BFTask?) in
+                guard let extractions = task?.result as? NSMutableDictionary else {
+                    print("Error sending feedback for document with id: ",
+                          String(describing: self.compositeDocument?.documentId))
+                    return nil
+                }
+                
+                print("🚀 Feedback sent with \(extractions.count) extractions")
+                return nil
+            })
+    }
+    
+    func sessionBlock(cancellationToken token: BFCancellationToken? = nil)
+        -> ((BFTask<AnyObject>) -> Any?) {
+            return {
+                [weak self] task in
+                guard let `self` = self else { return nil }
+                
+                if task.error != nil {
+                    return self.giniSDK.sessionManager.logIn()
+                }
+                return task.result
             }
     }
     

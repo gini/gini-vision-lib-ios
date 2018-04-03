@@ -73,23 +73,19 @@ extension GiniScreenAPICoordinator {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
-        if hasExtactions {
-            // TODO: Handle more documents
-            if let visionDocument = visionDocuments.first {
-                self.resultsDelegate?.giniVision([visionDocument],
-                                                 analysisDidFinishWithResults: result) { [weak self] feedback in
-                                                    guard let `self` = self else { return }
-                                                    self.documentService?.sendFeedback(withResults: feedback)
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            if hasExtactions {
+                self.resultsDelegate?
+                    .giniVision(self.visionDocuments,
+                                analysisDidFinishWithResults: result) { [weak self] updatedExtractions in
+                                    guard let `self` = self else { return }
+                                    self.documentService?.sendFeedback(with: updatedExtractions)
                 }
-            }
-        } else {
-            // TODO: Handle more documents
-            if let visionDocument = visionDocuments.first {
-                DispatchQueue.main.async { [weak self] in
-                    guard let `self` = self else { return }
-                    self.resultsDelegate?.giniVision([visionDocument],
-                                                     analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
-                }
+            } else {
+                self.resultsDelegate?
+                    .giniVision(self.visionDocuments,
+                                analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
             }
         }
     }
@@ -139,8 +135,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     // Optional delegate methods
     func didCancelReview() {
-        // Cancel analysis process to avoid unnecessary network calls.
-        documentService?.cancelAnalysis()
+        // When not using multipage, the analysis should be cancelled
+        if !giniConfiguration.multipageEnabled {
+            documentService?.cancelAnalysis()
+        }
     }
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {

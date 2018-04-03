@@ -25,9 +25,9 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        let uploadedDocuments = partialDocuments.flatMap { $0.document}
+        let partialDocuments = self.partialDocuments.flatMap { $0.document }
         
-        fetchExtractions(for: uploadedDocuments, completion: completion)
+        self.fetchExtractions(for: partialDocuments, completion: completion)
     }
     
     func upload(document: GiniVisionDocument) {
@@ -43,35 +43,5 @@ final class CompositeDocumentService: DocumentServiceProtocol {
                 print(error)
             }
         }
-    }
-    
-    func sendFeedback(withResults results: [String: Extraction]) {
-        //        _ = giniSDK?.sessionManager.getSession()
-        //            .continueWith(block: getSessionBlock())
-        //            .continueOnSuccessWith(block: { _ in return self.document?.getExtractions() })
-        //            .continueOnSuccessWith(block: { (task: BFTask?) in
-        //                if let extractions = task?.result as? NSMutableDictionary {
-        //                    results.forEach { result in
-        //                        extractions[result.key] = result.value
-        //                    }
-        //
-        //                    return self.giniSDK?
-        //                        .documentTaskManager?
-        //                        .update(self.document)
-        //                }
-        //
-        //                return nil
-        //            })
-        //            .continueOnSuccessWith(block: { _ in return self.document?.getExtractions() })
-        //            .continueWith(block: { (task: BFTask?) in
-        //                guard let extractions = task?.result as? NSMutableDictionary else {
-        //                    print("Error sending feedback for document with id: ",
-        //                          String(describing: self.document?.documentId))
-        //                    return nil
-        //                }
-        //
-        //                print("🚀 Feedback sent with \(extractions.count) extractions")
-        //                return nil
-        //            })
     }
 }
