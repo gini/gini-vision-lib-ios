@@ -34,6 +34,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var reviewViewController: ReviewViewController?
     var multiPageReviewController: MultipageReviewViewController?
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
+
         return DocumentPickerCoordinator()
     }()
     
