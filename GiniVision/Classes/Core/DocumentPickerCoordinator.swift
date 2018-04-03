@@ -27,6 +27,7 @@ protocol DocumentPickerCoordinatorDelegate: class {
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument])
 }
+
 @objc public enum DocumentPickerType: Int {
     case gallery, explorer, dragndrop
 }
@@ -39,10 +40,6 @@ internal final class DocumentPickerCoordinator: NSObject {
     var isPDFSelectionAllowed: Bool = true
     var currentPickerDismissesAutomatically: Bool = false
     var rootViewController: UIViewController?
-    
-    var isGalleryPermissionGranted: Bool {
-        return galleryCoordinator.isGalleryPermissionGranted
-    }
     
     var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted
