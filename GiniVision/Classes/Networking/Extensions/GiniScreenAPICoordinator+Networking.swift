@@ -117,7 +117,20 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument) {
-        documentService?.upload(document: document)
+        
+        var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
+        
+        if giniConfiguration.multipageEnabled {
+            uploadDocumentCompletionHandler = { result in
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    break
+                }
+            }
+        }
+        documentService?.upload(document: document, completion: uploadDocumentCompletionHandler)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
