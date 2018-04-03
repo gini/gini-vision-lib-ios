@@ -29,9 +29,6 @@ protocol DocumentPickerCoordinatorDelegate: class {
                         from picker: UIViewController?)
 }
 
-public typealias DidDismissPickerCompletion = () -> Void
-public typealias DocumentValidationHandler = (Error?, DidDismissPickerCompletion?) -> Void
-
 @objc public enum DocumentPickerType: Int {
     case gallery, explorer, dragndrop
 }
@@ -42,10 +39,6 @@ internal final class DocumentPickerCoordinator: NSObject {
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
     var isPDFSelectionAllowed: Bool = true
-    
-    var isGalleryPermissionGranted: Bool {
-        return galleryCoordinator.isGalleryPermissionGranted
-    }
     
     var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted

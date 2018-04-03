@@ -480,7 +480,8 @@ extension CameraViewController {
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
-        self.didPick(imageDocument)        
+        didPick(imageDocument)
+        animateToControlsView(imageDocument: imageDocument)
     }
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
