@@ -692,49 +692,6 @@ extension CameraViewController {
             self.captureButton.isEnabled = true
         }
     }
-    
-    func showErrorDialog(for error: Error, possitiveAction: (() -> Void)? = nil) {
-        let message: String
-        var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
-                                                                   comment: "cancel button title")
-        var confirmActionTitle: String? = NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
-                                                                     comment: "pick another file button title")
-        var confirmAction: (() -> Void)?
-        
-        switch error {
-        case let validationError as DocumentValidationError:
-            message = validationError.message
-            confirmAction = self.showImportFileSheet
-        case let customValidationError as CustomDocumentValidationError:
-            message = customValidationError.message
-            confirmAction = self.showImportFileSheet
-        case let pickerError as FilePickerError:
-            message = pickerError.message
-            if pickerError == .maxFilesPickedCountExceeded {
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
-                                                                comment: "review pages button title")
-                confirmAction = { [weak self] in
-                    guard let `self` = self else { return }
-                    self.delegate?.cameraDidTapMultipageReviewButton(self)
-                }
-            } else if pickerError == .mixedDocumentsUnsupported {
-                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
-                                                        comment: "cancel button text for popup")
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
-                                                           comment: "use photos button text in popup")
-            }
-
-        default:
-            message = DocumentValidationError.unknown.message
-        }
-
-        let dialog = errorDialog(withMessage: message,
-                                 cancelActionTitle: cancelActionTitle,
-                                 confirmActionTitle: confirmActionTitle,
-                                 confirmAction: possitiveAction ?? confirmAction)
-        
-        present(dialog, animated: true, completion: nil)
-    }
 }
 
 // MARK: - Default and not authorized views
