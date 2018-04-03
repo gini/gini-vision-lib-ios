@@ -43,7 +43,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var changesOnReview: Bool = false
     var visionDocuments: [GiniVisionDocument] = []
     weak var visionDelegate: GiniVisionDelegate?
-    
     // Resources
     fileprivate(set) lazy var backButtonResource =
         PreferredButtonResource(image: "navigationReviewBack",

@@ -10,10 +10,11 @@ import Gini_iOS_SDK
 
 final class SingleDocumentService: DocumentServiceProtocol {
 
+    var compositeDocument: GINIDocument?
     var giniSDK: GiniSDK
     var isAnalyzing = false
     
-    var document: GINIDocument?
+    var partialDocument: GINIDocument?
     var pendingAnalysisHandler: AnalysisCompletion?
     
     init(sdk: GiniSDK) {
@@ -21,7 +22,7 @@ final class SingleDocumentService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        guard let document = document else {
+        guard let document = compositeDocument else {
             pendingAnalysisHandler = completion
             return
         }
@@ -30,7 +31,8 @@ final class SingleDocumentService: DocumentServiceProtocol {
     }
     
     func cancelAnalysis() {
-        document = nil
+        compositeDocument = nil
+        partialDocument = nil
         isAnalyzing = false
     }
     
@@ -41,7 +43,7 @@ final class SingleDocumentService: DocumentServiceProtocol {
         createDocument(from: document, fileName: "fileName", cancellationToken: token) { result in
             switch result {
             case .success(let document):
-                self.document = document
+                self.compositeDocument = document
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
                 }
@@ -49,10 +51,5 @@ final class SingleDocumentService: DocumentServiceProtocol {
                 print(error)
             }
         }
-    }
-    
-    func sendFeedback(withResults results: [String: Extraction]) {
-        
-    }
-    
+    }    
 }
