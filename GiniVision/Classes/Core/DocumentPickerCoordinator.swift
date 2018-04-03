@@ -26,14 +26,13 @@ protocol DocumentPickerCoordinatorDelegate: class {
      */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument],
-                        from picker: DocumentPickerType,
-                        validationHandler: DocumentValidationHandler?)
+                        from picker: UIViewController?)
 }
 
 public typealias DidDismissPickerCompletion = () -> Void
 public typealias DocumentValidationHandler = (Error?, DidDismissPickerCompletion?) -> Void
 
-enum DocumentPickerType {
+@objc public enum DocumentPickerType: Int {
     case gallery, explorer, dragndrop
 }
 
@@ -162,15 +161,9 @@ internal final class DocumentPickerCoordinator: NSObject {
 extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator,
                  didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
-        delegate?.documentPicker(self, didPick: imageDocuments, from: .gallery) { [weak self] error, didDismiss in
-            guard let error = error else {
-                coordinator.dismissGallery(completion: didDismiss)
-                return
-            }
-            
-            self?.showErrorDialog(for: error, from: coordinator.rootViewController)
-        }
-        
+        delegate?.documentPicker(self,
+                                 didPick: imageDocuments,
+                                 from: coordinator.rootViewController)         
     }
     
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {
@@ -185,8 +178,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
         let documents: [GiniVisionDocument] = urls
             .flatMap(self.data)
             .flatMap(self.createDocument)
-        
-        delegate?.documentPicker(self, didPick: documents, from: .explorer, validationHandler: nil)
+        delegate?.documentPicker(self, didPick: documents, from: nil)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -236,7 +228,7 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
         
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.delegate?.documentPicker(self, didPick: documents, from: .dragndrop, validationHandler: nil)
+            self.delegate?.documentPicker(self, didPick: documents, from: nil)
         }
     }
     
