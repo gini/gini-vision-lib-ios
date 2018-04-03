@@ -43,24 +43,23 @@ extension UIViewController {
                                                                      comment: "pick another file button title")
         
         switch error {
-            
         case let validationError as DocumentValidationError:
             message = validationError.message
         case let customValidationError as CustomDocumentValidationError:
             message = customValidationError.message
         case let pickerError as FilePickerError:
             message = pickerError.message
-
             switch pickerError {
             case .maxFilesPickedCountExceeded:
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
                                                                 comment: "review pages button title")
             case .photoLibraryAccessDenied:
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
-                                                                comment: "cancel button title")
+                                                               comment: "cancel button title")
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
                                                                 comment: "cancel button title")
             case .mixedDocumentsUnsupported:
+                
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
                                                                comment: "cancel button text for popup")
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
@@ -77,7 +76,7 @@ extension UIViewController {
         
         present(dialog, animated: true, completion: nil)
     }
-
+    
     fileprivate func errorDialog(withMessage message: String,
                                  title: String? = nil,
                                  cancelActionTitle: String,
