@@ -374,7 +374,9 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
 
 extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
     
-    func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument], from picker: UIViewController?) {
+    func documentPicker(_ coordinator: DocumentPickerCoordinator,
+                        didPick documents: [GiniVisionDocument],
+                        from picker: UIViewController?) {
         
         self.validateCollectionOf(documents: documents) { result in
             switch result {
@@ -382,7 +384,6 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 picker?.dismiss(animated: true, completion: nil)
                 self.visionDocuments.append(contentsOf: validatedDocuments)
                 self.showNextScreenAfterPicking(documents: validatedDocuments)
-                break
             case .failure(let error):
                 var positiveAction: () -> Void = {}
                 
@@ -392,12 +393,11 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                         positiveAction = {
                             
                         }
-                        break
                     case .mixedDocumentsUnsupported:
                         positiveAction = {
-                            self.showMultipageReview(withImageDocuments: self.visionDocuments as! [GiniImageDocument])
+                            let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+                            self.showMultipageReview(withImageDocuments: imageDocuments)
                         }
-                        break
                     case .photoLibraryAccessDenied:
                         break
                     }
@@ -428,7 +428,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             return
         }
         
-        guard (documents + visionDocuments).containsDifferentTypes else {
+        guard !(documents + visionDocuments).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
