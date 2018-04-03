@@ -35,7 +35,11 @@ extension UIViewController {
         }
     }
     
+<<<<<<< HEAD
     func showErrorDialog(for error: Error, positiveAction: (() -> Void)?) {
+=======
+    func showErrorDialog(for error: Error, positiveAction: @escaping (() -> Void)) {
+>>>>>>> Moved DocumentPicker from camera to coordinator.
         let message: String
         var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
                                                                    comment: "cancel button title")
@@ -59,7 +63,6 @@ extension UIViewController {
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
                                                                 comment: "cancel button title")
             case .mixedDocumentsUnsupported:
-                
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
                                                                comment: "cancel button text for popup")
                 confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",

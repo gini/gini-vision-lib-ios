@@ -27,7 +27,6 @@ protocol DocumentPickerCoordinatorDelegate: class {
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument])
 }
-
 @objc public enum DocumentPickerType: Int {
     case gallery, explorer, dragndrop
 }
