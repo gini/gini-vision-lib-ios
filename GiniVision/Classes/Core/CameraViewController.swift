@@ -474,7 +474,6 @@ extension CameraViewController {
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
-
         didPick(imageDocument)
     }
     
