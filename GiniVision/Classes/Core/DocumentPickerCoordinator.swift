@@ -43,13 +43,16 @@ internal final class DocumentPickerCoordinator: NSObject {
     weak var delegate: DocumentPickerCoordinatorDelegate?
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
+    var isPDFSelectionAllowed: Bool = true
     
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
-            return GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes
+            return isPDFSelectionAllowed ?
+                GiniPDFDocument.acceptedPDFTypes + GiniImageDocument.acceptedImageTypes :
+                GiniImageDocument.acceptedImageTypes
         case .pdf:
-            return GiniPDFDocument.acceptedPDFTypes
+            return isPDFSelectionAllowed ? GiniPDFDocument.acceptedPDFTypes : []
         case .none:
             return []
         }
@@ -190,13 +193,17 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
 @available(iOS 11.0, *)
 extension DocumentPickerCoordinator: UIDropInteractionDelegate {
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        let isItemsSelectionAllowed = session.items.count > 1 ? giniConfiguration.multipageEnabled : true
+        guard isPDFDropSelectionAllowed(forSession: session) else {
+            return false
+        }
+        
+        let isMultipleItemsSelectionAllowed = session.items.count > 1 ? giniConfiguration.multipageEnabled : true
         switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
             return (session.canLoadObjects(ofClass: GiniImageDocument.self) ||
-                session.canLoadObjects(ofClass: GiniPDFDocument.self)) && isItemsSelectionAllowed
+                session.canLoadObjects(ofClass: GiniPDFDocument.self)) && isMultipleItemsSelectionAllowed
         case .pdf:
-            return session.canLoadObjects(ofClass: GiniPDFDocument.self) && isItemsSelectionAllowed
+            return session.canLoadObjects(ofClass: GiniPDFDocument.self) && isMultipleItemsSelectionAllowed
         case .none:
             return false
         }
@@ -227,10 +234,10 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
     }
     
-    fileprivate func loadDocuments<T: NSItemProviderReading>(ofClass classs: T.Type,
-                                                             from session: UIDropSession,
-                                                             in group: DispatchGroup,
-                                                             completion: @escaping (([T]?) -> Void)) {
+    private func loadDocuments<T: NSItemProviderReading>(ofClass classs: T.Type,
+                                                         from session: UIDropSession,
+                                                         in group: DispatchGroup,
+                                                         completion: @escaping (([T]?) -> Void)) {
         group.enter()
         session.loadObjects(ofClass: classs.self) { items in
             if let items = items as? [T], items.isNotEmpty {
@@ -240,5 +247,18 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
             }
             group.leave()
         }
+    }
+    
+    private func isPDFDropSelectionAllowed(forSession session: UIDropSession) -> Bool {
+        if session.hasItemsConforming(toTypeIdentifiers: GiniPDFDocument.acceptedPDFTypes) {
+            let pdfIdentifier = GiniPDFDocument.acceptedPDFTypes[0]
+            let pdfItems = session.items.filter { $0.itemProvider.hasItemConformingToTypeIdentifier(pdfIdentifier) }
+            
+            if pdfItems.count > 1 || !isPDFSelectionAllowed {
+                return false
+            }
+        }
+        
+        return true
     }
 }
