@@ -112,10 +112,6 @@ extension GiniVisionDocument {
     fileprivate var MAX_FILE_SIZE: Int { // Bytes
         return 10 * 1024 * 1024
     }
-
-    fileprivate var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) {
-        return GiniConfiguration.sharedConfiguration.customDocumentValidations
-    }
     
     // MARK: File validation
     /**
