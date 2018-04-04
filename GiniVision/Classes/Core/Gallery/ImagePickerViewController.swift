@@ -79,14 +79,6 @@ final class ImagePickerViewController: UIViewController {
     
     // MARK: - Others
     
-    func deselectAllCells() {
-        var indexesToDeselect: [IndexPath] = []
-        indexesToDeselect.append(contentsOf: indexesForSelectedCells)
-        
-        indexesForSelectedCells.removeAll()
-        self.collectionView.reloadItems(at: indexesToDeselect)
-    }
-    
     func addToDownloadingItems(index: IndexPath) {
         indexesForAssetsBeingDownloaded.append(index)
         collectionView.reloadItems(at: [index])
@@ -109,6 +101,14 @@ final class ImagePickerViewController: UIViewController {
             indexesForSelectedCells.remove(at: deselectCellIndex)
             collectionView.reloadItems(at: [indexPath])
         }
+    }
+    
+    func deselectAllCells() {
+        var indexesToDeselect: [IndexPath] = []
+        indexesToDeselect.append(contentsOf: indexesForSelectedCells)
+        
+        indexesForSelectedCells.removeAll()
+        self.collectionView.reloadItems(at: indexesToDeselect)
     }
  
     fileprivate func scrollToBottomOnStartup() {
