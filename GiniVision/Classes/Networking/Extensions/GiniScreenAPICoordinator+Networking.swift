@@ -65,7 +65,11 @@ extension GiniScreenAPICoordinator {
                                                    userEmailDomain: client.clientEmailDomain)
         
         if let sdk = builder?.build() {
-            self.documentService = CompositeDocumentService(sdk: sdk)
+            if giniConfiguration.multipageEnabled {
+                self.documentService = CompositeDocumentService(sdk: sdk)
+            } else {
+                self.documentService = SingleDocumentService(sdk: sdk)
+            }
         }
     }
     
