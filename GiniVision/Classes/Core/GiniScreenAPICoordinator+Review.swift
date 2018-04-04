@@ -58,7 +58,6 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
                          didReorder documents: [GiniImageDocument]) {
         replaceSessionDocuments(with: documents)
     }
-    
     func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
         -> MultipageReviewViewController {
             let vc = MultipageReviewViewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
