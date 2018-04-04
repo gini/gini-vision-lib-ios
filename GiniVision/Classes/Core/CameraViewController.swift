@@ -443,12 +443,7 @@ extension CameraViewController {
             }
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
-            guard let `self` = self else { return }
-            do {
-                try qrDocument.validate()
-                self.showPopup(forQRDetected: qrDocument)
-            } catch {
-            }
+            self?.didPick(qrDocument)
         }
     }
     
@@ -480,7 +475,6 @@ extension CameraViewController {
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
         didPick(imageDocument)
-        animateToControlsView(imageDocument: imageDocument)
     }
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
@@ -532,7 +526,7 @@ extension CameraViewController {
         previewLayer?.connection?.videoOrientation = orientation
     }
     
-    fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument) {
+    func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         if self.detectedQRCodeDocument != qrDocument {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
@@ -543,7 +537,7 @@ extension CameraViewController {
                                                              document: qrDocument,
                                                              giniConfiguration: self.giniConfiguration)
                 newQRCodePopup.didTapDone = { [weak self] in
-                    self?.didPick(qrDocument)
+                    didTapDone()
                     self?.detectedQRCodeDocument = nil
                     self?.currentQRCodePopup?.hide()
                 }

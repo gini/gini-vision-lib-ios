@@ -242,14 +242,25 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         let loadingView = viewController.addValidationLoadingView()
 
-        validateCollectionOf(documents: [document]) { result in
+        validate([document]) { result in
             loadingView.removeFromSuperview()
             switch result {
             case .success:
                 self.visionDocuments.append(document)
-                self.showNextScreenAfterPicking(documents: self.visionDocuments)
-            case .failure:
-                break
+                if let imageDocument = document as? GiniImageDocument {
+                    viewController.animateToControlsView(imageDocument: imageDocument)
+                } else if let qrDocument = document as? GiniQRCodeDocument {
+                    viewController.showPopup(forQRDetected: qrDocument) {
+                        self.showNextScreenAfterPicking(documents: self.visionDocuments)
+                    }
+                }
+            case .failure(let error):
+                if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
+                    viewController.showErrorDialog(for: error) {
+                        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+                        self.showMultipageReview(withImageDocuments: imageDocuments)
+                    }
+                }
             }
         }
     }
@@ -296,15 +307,14 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                                  target: self)
         
         if giniConfiguration.fileImportSupportedTypes != .none {
-            if #available(iOS 11.0, *) {
-                addDropInteraction(forView: cameraViewController.view, with: documentPickerCoordinator)
-            }
-            
-            // Configure file picker
             documentPickerCoordinator.delegate = self
             
             if documentPickerCoordinator.isGalleryPermissionGranted {
                 documentPickerCoordinator.startCaching()
+            }
+            
+            if #available(iOS 11.0, *) {
+                addDropInteraction(forView: cameraViewController.view, with: documentPickerCoordinator)
             }
         }
         
@@ -372,43 +382,48 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
 }
 
+// MARK: - DocumentPickerCoordinatorDelegate
+
 extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
     
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
-                        didPick documents: [GiniVisionDocument],
-                        from picker: UIViewController?) {
+                        didPick documents: [GiniVisionDocument]) {
         
-        self.validateCollectionOf(documents: documents) { result in
+        self.validate(documents) { result in
             switch result {
             case .success(let validatedDocuments):
-                picker?.dismiss(animated: true, completion: nil)
-                self.visionDocuments.append(contentsOf: validatedDocuments)
-                self.showNextScreenAfterPicking(documents: validatedDocuments)
+                coordinator.dismissCurrentPicker {
+                    self.visionDocuments.append(contentsOf: validatedDocuments)
+                    self.showNextScreenAfterPicking(documents: validatedDocuments)
+                }
             case .failure(let error):
-                var positiveAction: () -> Void = {}
+                var positiveAction: (() -> Void)?
                 
                 if let error = error as? FilePickerError {
                     switch error {
-                    case .maxFilesPickedCountExceeded:
-                        positiveAction = {
-                            
+                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
+                        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+
+                        if imageDocuments.isNotEmpty {
+                            positiveAction = {
+                                coordinator.dismissCurrentPicker {
+                                    let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+                                    self.showMultipageReview(withImageDocuments: imageDocuments)
+                                }
+                            }
                         }
-                    case .mixedDocumentsUnsupported:
-                        positiveAction = {
-                            let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
-                            self.showMultipageReview(withImageDocuments: imageDocuments)
-                        }
+
                     case .photoLibraryAccessDenied:
                         break
                     }
                 }
                 
-                if let destViewController = picker {
-                    destViewController.showErrorDialog(for: error,
-                                                       positiveAction: positiveAction)
-                } else {
+                if coordinator.currentPickerDismissesAutomatically {
                     self.cameraViewController?.showErrorDialog(for: error,
                                                                positiveAction: positiveAction)
+                } else {
+                    coordinator.rootViewController?.showErrorDialog(for: error,
+                                                                    positiveAction: positiveAction)
                 }
             }
             
@@ -421,18 +436,19 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
         view.addInteraction(dropInteraction)
     }
     
-    func validateCollectionOf(documents: [GiniVisionDocument], completion: @escaping (Result<[GiniVisionDocument]>) -> Void) {
-        
-        if (documents.count + visionDocuments.count) > GiniPDFDocument.maxPagesCount {
-            completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
-            return
-        }
+    fileprivate func validate(_ documents: [GiniVisionDocument],
+                              completion: @escaping (Result<[GiniVisionDocument]>) -> Void) {
         
         guard !(documents + visionDocuments).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
-
+        
+        guard (documents.count + visionDocuments.count) <= GiniPDFDocument.maxPagesCount else {
+            completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
+            return
+        }
+        
         self.validate(importedDocuments: documents) { validatedDocuments in
             let elementsWithError = validatedDocuments.filter { $0.1 != nil }
             if let firstElement = elementsWithError.first,
@@ -452,7 +468,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             documents.forEach { document in
                 var documentError: Error?
                 do {
-                    try document.validate()
+                    try document.validate(giniConfiguration: self.giniConfiguration)
                 } catch let error {
                     documentError = error
                 }

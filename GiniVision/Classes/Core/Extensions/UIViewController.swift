@@ -35,7 +35,7 @@ extension UIViewController {
         }
     }
     
-    func showErrorDialog(for error: Error, positiveAction: @escaping (() -> Void)) {
+    func showErrorDialog(for error: Error, positiveAction: (() -> Void)?) {
         let message: String
         var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
                                                                    comment: "cancel button title")
@@ -91,11 +91,11 @@ extension UIViewController {
                                                         alertViewController.dismiss(animated: true, completion: nil)
         }))
         
-        if let confirmActionTitle = confirmActionTitle {
+        if let confirmActionTitle = confirmActionTitle, let confirmAction = confirmAction {
             alertViewController.addAction(UIAlertAction(title: confirmActionTitle,
                                                         style: .default,
                                                         handler: { _ in
-                                                            confirmAction?()
+                                                            confirmAction()
             }))
         }
         
