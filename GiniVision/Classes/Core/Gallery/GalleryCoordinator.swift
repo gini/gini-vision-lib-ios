@@ -23,7 +23,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     fileprivate var currentImagePickerViewController: ImagePickerViewController?
     
     var isGalleryPermissionGranted: Bool {
-        return PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized
+        return PHPhotoLibrary.authorizationStatus() == .authorized
     }
     
     // MARK: - View controllers

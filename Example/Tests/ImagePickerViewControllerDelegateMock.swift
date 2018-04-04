@@ -18,8 +18,8 @@ final class ImagePickerViewControllerDelegateMock: ImagePickerViewControllerDele
     }
     
     func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset asset: Asset, at index: IndexPath) {
-        if let index = selectedAssets.index(where: { $0.identifier == asset.identifier}) {
-            selectedAssets.remove(at: index)
+        if let selectedIndex = selectedAssets.index(where: { $0.identifier == asset.identifier}) {
+            selectedAssets.remove(at: selectedIndex)
         }
         viewController.deselectCell(at: index)
     }
