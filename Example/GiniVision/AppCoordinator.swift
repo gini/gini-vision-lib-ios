@@ -77,7 +77,7 @@ final class AppCoordinator: Coordinator {
         
         // 3. Validate document
         do {
-            try document?.validate()
+            try document?.validate(giniConfiguration: self.giniConfiguration)
             showOpenWithSwitchDialog(forDocuments: [document!])
         } catch {
             showExternalDocumentNotValidDialog()

@@ -25,8 +25,7 @@ protocol DocumentPickerCoordinatorDelegate: class {
      picker has been dismissed when there are no errors.
      */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
-                        didPick documents: [GiniVisionDocument],
-                        from picker: UIViewController?)
+                        didPick documents: [GiniVisionDocument])
 }
 
 @objc public enum DocumentPickerType: Int {
@@ -39,6 +38,8 @@ internal final class DocumentPickerCoordinator: NSObject {
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
     var isPDFSelectionAllowed: Bool = true
+    var currentPickerDismissesAutomatically: Bool = false
+    var rootViewController: UIViewController?
     
     var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted
@@ -79,6 +80,8 @@ internal final class DocumentPickerCoordinator: NSObject {
             }
             }, authorizedHandler: {
                 self.galleryCoordinator.delegate = self
+                self.currentPickerDismissesAutomatically = false
+                self.rootViewController = self.galleryCoordinator.rootViewController
                 viewController.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         })
     }
@@ -99,7 +102,20 @@ internal final class DocumentPickerCoordinator: NSObject {
             setStatusBarStyle(to: .default)
         }
         
+        self.currentPickerDismissesAutomatically = true
+        self.rootViewController = documentPicker
+        
         viewController.present(documentPicker, animated: true, completion: nil)
+    }
+    
+    func dismissCurrentPicker(completion: @escaping () -> Void) {
+        if currentPickerDismissesAutomatically {
+            completion()
+        } else {
+            self.galleryCoordinator.dismissGallery(completion: completion)
+        }
+        
+        rootViewController = nil
     }
     
     // MARK: File data picked from gallery or document pickers
@@ -132,8 +148,7 @@ extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator,
                  didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
         delegate?.documentPicker(self,
-                                 didPick: imageDocuments,
-                                 from: coordinator.rootViewController)         
+                                 didPick: imageDocuments)
     }
     
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {
@@ -148,7 +163,8 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
         let documents: [GiniVisionDocument] = urls
             .flatMap(self.data)
             .flatMap(self.createDocument)
-        delegate?.documentPicker(self, didPick: documents, from: nil)
+        
+        delegate?.documentPicker(self, didPick: documents)
     }
     
     func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
@@ -198,7 +214,8 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
         
         dispatchGroup.notify(queue: DispatchQueue.main) {
-            self.delegate?.documentPicker(self, didPick: documents, from: nil)
+            self.currentPickerDismissesAutomatically = true
+            self.delegate?.documentPicker(self, didPick: documents)
         }
     }
     

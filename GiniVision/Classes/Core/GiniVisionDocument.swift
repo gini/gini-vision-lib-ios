@@ -126,11 +126,11 @@ extension GiniVisionDocument {
      - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
      
      */
-    public func validate() throws {
+    public func validate(giniConfiguration: GiniConfiguration) throws {
         let document = self
         if !maxFileSizeExceeded(forData: document.data) {
             try checkType()
-            let customValidationResult = customDocumentValidations(self)
+            let customValidationResult = giniConfiguration.customDocumentValidations(self)
             if let error = customValidationResult.error, !customValidationResult.isSuccess {
                 throw error
             }
