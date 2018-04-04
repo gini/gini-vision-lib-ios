@@ -35,11 +35,7 @@ extension UIViewController {
         }
     }
     
-<<<<<<< HEAD
     func showErrorDialog(for error: Error, positiveAction: (() -> Void)?) {
-=======
-    func showErrorDialog(for error: Error, positiveAction: @escaping (() -> Void)) {
->>>>>>> Moved DocumentPicker from camera to coordinator.
         let message: String
         var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
                                                                    comment: "cancel button title")
