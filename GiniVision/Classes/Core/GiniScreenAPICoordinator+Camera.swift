@@ -18,6 +18,8 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             switch result {
             case .success:
                 self.visionDocuments.append(document)
+                self.didCaptureAndValidate(document)
+
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
@@ -96,7 +98,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return cameraViewController
     }
     
-    private func didCaptureAndValidate(_ document: GiniVisionDocument) {
+    fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
         if let didCapture = visionDelegate?.didCapture(document:) {
             didCapture(document)
         } else if let didCapture = visionDelegate?.didCapture(_:) {
@@ -170,14 +172,12 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                         self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
                         self.screenAPINavigationController.pushViewController(self.reviewViewController!,
                                                                               animated: true)
-                        self.didCaptureAndValidate(firstDocument)
                     }
                 }
             case .qrcode, .pdf:
                 self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
                 self.screenAPINavigationController.pushViewController(self.analysisViewController!,
                                                                       animated: true)
-                self.didCaptureAndValidate(firstDocument)
             }
         }
     }
@@ -196,6 +196,11 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
                     self.visionDocuments.append(contentsOf: validatedDocuments.map { $0.document })
+                    validatedDocuments.forEach { validatedDocument in
+                        if validatedDocument.error == nil {
+                            self.didCaptureAndValidate(validatedDocument.document)
+                        }
+                    }
                     self.showNextScreenAfterPicking(documents: validatedDocuments.map { $0.document })
                 }
             case .failure(let error):
