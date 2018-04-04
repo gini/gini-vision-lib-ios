@@ -19,7 +19,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             case .success:
                 self.addToSessionDocuments(newDocuments: [document])
                 self.didCaptureAndValidate(document)
-                
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
@@ -204,7 +203,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 
                 if let error = error as? FilePickerError {
                     switch error {
-                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:                        
+                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
                         if self.visionDocuments.isNotEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
