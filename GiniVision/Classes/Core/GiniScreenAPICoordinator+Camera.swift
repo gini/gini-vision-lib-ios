@@ -19,7 +19,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             case .success:
                 self.visionDocuments.append(document)
                 self.didCaptureAndValidate(document)
-
+                
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
