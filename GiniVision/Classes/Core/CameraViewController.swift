@@ -538,7 +538,7 @@ extension CameraViewController {
                                                              document: qrDocument,
                                                              giniConfiguration: self.giniConfiguration)
                 newQRCodePopup.didTapDone = { [weak self] in
-                    self?.didPick(qrDocument)
+                    didTapDone()
                     self?.detectedQRCodeDocument = nil
                     self?.currentQRCodePopup?.hide()
                 }
