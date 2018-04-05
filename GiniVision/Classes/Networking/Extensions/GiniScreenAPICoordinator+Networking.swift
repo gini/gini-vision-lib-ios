@@ -134,7 +134,17 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 }
             }
         }
-        documentService?.upload(document: document, completion: uploadDocumentCompletionHandler)
+        
+        
+        var documentParameters: [String: Any] = [:]
+        if let document = document as? GiniImageDocument,
+            let key = documentService?.rotationDeltaKey {
+            documentParameters[key] = document.rotationDelta
+        }
+        
+        documentService?.upload(document: document,
+                                withParameters: documentParameters,
+                                completion: uploadDocumentCompletionHandler)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
