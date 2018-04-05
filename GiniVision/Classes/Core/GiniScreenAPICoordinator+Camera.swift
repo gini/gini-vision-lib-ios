@@ -251,7 +251,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             return
         }
         
-        guard (documents.count + visionDocuments.count) <= GiniPDFDocument.maxPagesCount else {
+        guard (documents.count + visionDocuments.count) <= GiniVisionDocumentValidator.maxPagesCount else {
             completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
             return
         }
@@ -275,7 +275,8 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             documents.forEach { document in
                 var documentError: Error?
                 do {
-                    try document.validate(giniConfiguration: self.giniConfiguration)
+                    try GiniVisionDocumentValidator.validate(document,
+                                                             withConfig: self.giniConfiguration)
                 } catch let error {
                     documentError = error
                 }
