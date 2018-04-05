@@ -95,6 +95,5 @@ final class CameraViewControllerTests: XCTestCase {
                       "multipageReviewBackgroundView should not be hidden after capture the second picture")
         
     }
-    
 }
 
