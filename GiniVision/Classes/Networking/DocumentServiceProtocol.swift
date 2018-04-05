@@ -33,16 +33,24 @@ protocol DocumentServiceProtocol: class {
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
-    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?)
+    func upload(document: GiniVisionDocument,
+                withParameters: [String: Any],
+                completion: UploadDocumentCompletion?)
 }
 
 extension DocumentServiceProtocol {
     
-    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion? = nil) {
-        self.upload(document: document, completion: completion)
+    var rotationDeltaKey: String { return "rotationDelta" }
+    
+    func upload(document: GiniVisionDocument,
+                withParameters: [String: Any]) {
+        self.upload(document: document,
+                    withParameters: withParameters,
+                    completion: nil)
     }
     
     func createDocument(from document: GiniVisionDocument,
+                        withParameters: [String: Any],
                         fileName: String,
                         docType: String = "",
                         cancellationToken: BFCancellationToken,
@@ -69,11 +77,11 @@ extension DocumentServiceProtocol {
             })
     }
     
-    func fetchExtractions(for documents: [GINIDocument], completion: @escaping AnalysisCompletion) {
-        let documentsURLs = documents.flatMap { $0.links.document }
+    func fetchExtractions(for documents: [PartialDocumentInfo], completion: @escaping AnalysisCompletion) {
+        let partialDocumentsInfo = documents.map { $0.toJson() }
         giniSDK
             .documentTaskManager
-            .createCompositeDocument(withPartialDocumentsURLs: documentsURLs,
+            .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
                                      fileName: "",
                                      docType: "",
                                      cancellationToken: nil)

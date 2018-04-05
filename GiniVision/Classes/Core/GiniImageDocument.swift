@@ -22,6 +22,9 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
+    public var rotationDelta: Int { // Should be normalized to be in [0, 360)
+        return self.metaInformationManager.imageRotationDeltaDegrees()
+    }
     
     fileprivate let metaInformationManager: ImageMetaInformationManager
     

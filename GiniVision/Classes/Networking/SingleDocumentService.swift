@@ -14,7 +14,7 @@ final class SingleDocumentService: DocumentServiceProtocol {
     var giniSDK: GiniSDK
     var isAnalyzing = false
     
-    var partialDocument: GINIDocument?
+    var partialDocumentInfo: PartialDocumentInfo?
     var pendingAnalysisHandler: AnalysisCompletion?
     
     init(sdk: GiniSDK) {
@@ -22,28 +22,34 @@ final class SingleDocumentService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        guard let document = compositeDocument else {
+        guard let partialDocumentInfo = partialDocumentInfo else {
             pendingAnalysisHandler = completion
             return
         }
         
-        fetchExtractions(for: [document], completion: completion)
+        fetchExtractions(for: [partialDocumentInfo], completion: completion)
     }
     
     func cancelAnalysis() {
         compositeDocument = nil
-        partialDocument = nil
+        partialDocumentInfo = nil
         isAnalyzing = false
     }
     
-    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
+    func upload(document: GiniVisionDocument,
+                withParameters parameters: [String: Any],
+                completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         
-        createDocument(from: document, fileName: "fileName", cancellationToken: token) { result in
+        createDocument(from: document,
+                       withParameters: parameters,
+                       fileName: "fileName",
+                       cancellationToken: token) { result in
             switch result {
             case .success(let document):
-                self.compositeDocument = document
+                self.partialDocumentInfo = PartialDocumentInfo(document: document.links.document,
+                                                                         additionalParameters: parameters)
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
                 }

@@ -12,7 +12,7 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
     var isAnalyzing = false
-    var partialDocuments: [(document: GINIDocument?, token: BFCancellationToken?)] = []
+    var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     
     func cancelAnalysis() {
@@ -25,20 +25,21 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        let partialDocuments = self.partialDocuments.flatMap { $0.document }
-        
-        self.fetchExtractions(for: partialDocuments, completion: completion)
+        let partialDocumentsInfo = partialDocuments.map { $0.value }
+        self.fetchExtractions(for: partialDocumentsInfo, completion: completion)
     }
     
-    func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
+    func upload(document: GiniVisionDocument,
+                withParameters parameters: [String: Any],
+                completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
-        partialDocuments.append((nil, cancellationTokenSource.token))
         
-        createDocument(from: document, fileName: "", cancellationToken: token) { result in
+        createDocument(from: document, withParameters: parameters, fileName: "", cancellationToken: token) { result in
             switch result {
             case .success(let createdDocument):
-                self.partialDocuments.append((createdDocument, token))
+                self.partialDocuments[document.id] = PartialDocumentInfo(document: createdDocument.links.document,
+                                                                         additionalParameters: parameters)
                 completion?(.success(createdDocument))
             case .failure(let error):
                 completion?(.failure(error))

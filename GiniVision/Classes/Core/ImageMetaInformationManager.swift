@@ -266,7 +266,7 @@ internal class ImageMetaInformationManager {
         return existingUUID ?? NSUUID().uuidString
     }
     
-    fileprivate func imageRotationDeltaDegrees() -> Int {
+    func imageRotationDeltaDegrees() -> Int {
         return rotationDeltaFromImage() ?? 0
     }
     
