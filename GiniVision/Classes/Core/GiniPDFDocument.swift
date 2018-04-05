@@ -53,26 +53,6 @@ final public class GiniPDFDocument: NSObject, GiniVisionDocument {
         return nil
     }
     
-    /**
-     Check pdf document type. It should have less than 10 pages.
-     
-     - Throws: `DocumentValidationError.pdfPageLengthExceeded` if page length is exceeded.
-     Also throws `DocumentValidationError.fileFormatNotValid` if it is not a pdf
-     
-     */
-    
-    public func checkType() throws {
-        if self.data.isPDF {
-            if case 1...GiniPDFDocument.maxPagesCount = self.numberPages {
-                return
-            } else {
-                throw DocumentValidationError.pdfPageLengthExceeded
-            }
-        } else {
-            throw DocumentValidationError.fileFormatNotValid
-        }
-    }
-    
     fileprivate func renderFirstPage(fromPdf pdf: CGPDFDocument) -> UIImage? {
         var pdfImage: UIImage?
         let pdfDoc = pdf

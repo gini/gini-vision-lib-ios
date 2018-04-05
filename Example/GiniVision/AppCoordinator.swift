@@ -76,11 +76,14 @@ final class AppCoordinator: Coordinator {
         popToRootViewControllerIfNeeded()
         
         // 3. Validate document
-        do {
-            try document?.validate(giniConfiguration: self.giniConfiguration)
-            showOpenWithSwitchDialog(forDocuments: [document!])
-        } catch {
-            showExternalDocumentNotValidDialog()
+        if let document = document {
+            do {
+                try GiniVisionDocumentValidator.validate(document,
+                                                         withConfig: self.giniConfiguration)
+                showOpenWithSwitchDialog(forDocuments: [document])
+            } catch {
+                showExternalDocumentNotValidDialog()
+            }
         }
     }
     
