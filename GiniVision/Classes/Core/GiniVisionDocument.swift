@@ -19,6 +19,7 @@ import Foundation
     var previewImage: UIImage? { get }
     var isReviewable: Bool { get }
     var isImported: Bool { get }
+<<<<<<< HEAD
 }
 
 extension GiniVisionDocument {
@@ -27,6 +28,8 @@ extension GiniVisionDocument {
         try GiniVisionDocumentValidator.validate(self,
                                                  withConfig: GiniConfiguration.sharedConfiguration)
     }
+=======
+>>>>>>> Moved document validation to a separated class.
 }
 
 // MARK: GiniVisionDocumentType
