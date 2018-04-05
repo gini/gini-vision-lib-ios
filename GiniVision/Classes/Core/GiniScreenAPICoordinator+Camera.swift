@@ -141,7 +141,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     private func showMultipageNewFeatureDialog() {
         let alertDialog = AlertDialogController(giniConfiguration: giniConfiguration,
                                                 title: "This is the title",
-                                                subTitle: "This is the subtitle",
+                                                message: "This is the subtitle",
                                                 image: UIImageNamedPreferred(named: "multipageIcon"),
                                                 buttonTitle: "Let's scan!",
                                                 buttonImage: UIImage(named: "cameraIcon",
