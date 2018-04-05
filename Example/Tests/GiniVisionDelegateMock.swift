@@ -14,7 +14,7 @@ final class GiniVisionDelegateMock: GiniVisionDelegate {
     func didCapture(document: GiniVisionDocument) {
         
     }
-    
+        
     func didCancelCapturing() {
         
     }

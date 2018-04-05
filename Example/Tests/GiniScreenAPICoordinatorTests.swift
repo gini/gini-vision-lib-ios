@@ -92,41 +92,5 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         XCTAssertNotNil(screenNavigator?.viewControllers.last as? ReviewViewController,
                         "first view controller is not a ReviewViewController")
-    }
-    
-    func testCameraDidCaptureImagesWithEmptyArray(){
-        let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedImages, validationHandler: nil)
-        
-        XCTAssertEqual(coordinator.visionDocuments.count, 2,
-                       "vision documents count should match the number of images captured")
-    }
-    
-    func testCameraDidCaptureImagesWithNotEmptyArray(){
-        let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedImages, validationHandler: nil)
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedImages, validationHandler: nil)
-
-        XCTAssertEqual(coordinator.visionDocuments.count, 4,
-                       "vision documents count should match the number of images captured")
-    }
-    
-    func testCameraDidCapturePDFWithEmptyArray(){
-        let capturedPDFs = [loadPDFDocument(withName: "testPDF")]
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedPDFs, validationHandler: nil)
-        
-        XCTAssertEqual(coordinator.visionDocuments.count, 1,
-                       "vision documents count should match the number of PDF captured")
-    }
-    
-    func testCameraDidCapturePDFWithExistingImages(){
-        let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
-        let capturedPDFs = [loadPDFDocument(withName: "testPDF")]
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedImages, validationHandler: nil)
-        coordinator.camera(CameraViewController(giniConfiguration: giniConfiguration), didCaptureDocuments: capturedPDFs, validationHandler: nil)
-        
-        XCTAssertEqual(coordinator.visionDocuments.count, 2,
-                       "vision documents count should be 2 since it can not be a mixed array")
-    }
-    
+    }   
 }

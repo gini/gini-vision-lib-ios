@@ -11,6 +11,7 @@ import XCTest
 
 class GINIVisionDocumentTests: XCTestCase {
     
+    let giniConfiguration: GiniConfiguration = GiniConfiguration()
     var filePickerManager: DocumentPickerCoordinator {
         return DocumentPickerCoordinator()
     }
@@ -18,9 +19,10 @@ class GINIVisionDocumentTests: XCTestCase {
     func testExcedeedMaxFileSize() {
         let higherThan10MBData = generateFakeData(megaBytes: 12)
         
-        let fakeDocument = GiniPDFDocument(data: higherThan10MBData)
+        let pdfDocument = GiniPDFDocument(data: higherThan10MBData)
         
-        XCTAssertThrowsError(try fakeDocument.validate(),
+        XCTAssertThrowsError(try GiniVisionDocumentValidator.validate(pdfDocument,
+                                                                      withConfig: giniConfiguration),
                              "Files with a size lower than 10MB should be valid") { error in
             XCTAssert(error as? DocumentValidationError == DocumentValidationError.exceededMaxFileSize,
                       "should indicate that max file size has been exceeded")
@@ -30,9 +32,10 @@ class GINIVisionDocumentTests: XCTestCase {
     func testNotExcedeedMaxFileSize() {
         let lowerThanOrEqualTo10MBData = generateFakeData(megaBytes: 10)
         
-        let fakeDocument = GiniPDFDocument(data: lowerThanOrEqualTo10MBData)
+        let pdfDocument = GiniPDFDocument(data: lowerThanOrEqualTo10MBData)
 
-        XCTAssertThrowsError(try fakeDocument.validate(),
+        XCTAssertThrowsError(try GiniVisionDocumentValidator.validate(pdfDocument,
+                                                                      withConfig: giniConfiguration),
                              "Files with a size greater than 10MB should not be valid") { error in
             XCTAssert(error as? DocumentValidationError != DocumentValidationError.exceededMaxFileSize,
                       "should indicate that max file size has been exceeded")
@@ -43,7 +46,9 @@ class GINIVisionDocumentTests: XCTestCase {
         let image = loadImage(withName: "tabBarIconHelp")
         let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!, imageSource: .camera)
         
-        XCTAssertNoThrow(try imageDocument.validate(), "Valid images should validate without throwing an exception")
+        XCTAssertNoThrow(try GiniVisionDocumentValidator.validate(imageDocument,
+                                                                  withConfig: giniConfiguration),
+                         "Valid images should validate without throwing an exception")
     }
     
     fileprivate func generateFakeData(megaBytes lengthInMB: Int) -> Data {
