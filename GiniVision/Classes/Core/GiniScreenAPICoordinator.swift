@@ -45,14 +45,10 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     // Properties
     fileprivate(set) var giniConfiguration: GiniConfiguration
+    fileprivate(set) var visionDocuments: [GiniVisionDocument] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     var changesOnReview: Bool = false
-    var visionDocuments: [GiniVisionDocument] = [] {
-        didSet {
-            let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument}
-            multiPageReviewViewController.imageDocuments = imageDocuments
-        }
-    }
+    
     weak var visionDelegate: GiniVisionDelegate?
     // Resources
     fileprivate(set) lazy var backButtonResource =
@@ -99,7 +95,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
             }
             
             if !documents.containsDifferentTypes {
-                self.visionDocuments = documents
+                self.addToSessionDocuments(newDocuments: documents)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
@@ -139,6 +135,31 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
             self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
             return [self.analysisViewController!]
         }
+    }
+}
+
+// MARK: - Session documents
+
+extension GiniScreenAPICoordinator {
+    func addToSessionDocuments(newDocuments: [GiniVisionDocument]) {
+        visionDocuments.append(contentsOf: newDocuments)
+        
+        if let imageDocuments = visionDocuments as? [GiniImageDocument],
+            giniConfiguration.multipageEnabled {
+            refreshMultipageReview(with: imageDocuments)
+        }
+    }
+    
+    func removeFromSessionDocuments(document: GiniVisionDocument) {
+        visionDocuments.remove(document)
+    }
+    
+    func updateOnSessionDocuments(document: GiniVisionDocument) {
+        visionDocuments.update(document)
+    }
+    
+    func clearSessionDocuments() {
+        visionDocuments.removeAll()
     }
 }
 
@@ -198,7 +219,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             reviewViewController = nil
             visionDelegate?.didCancelReview?()
-            visionDocuments.removeAll()
+            clearSessionDocuments()
         }
         
         let isFromCameraToMultipage = (toVC == multiPageReviewViewController && fromVC == cameraViewController)

@@ -17,7 +17,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             loadingView.removeFromSuperview()
             switch result {
             case .success:
-                self.visionDocuments.append(document)
+                self.addToSessionDocuments(newDocuments: [document])
                 self.didCaptureAndValidate(document)
                 
                 if let imageDocument = document as? GiniImageDocument {
@@ -34,8 +34,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
                     viewController.showErrorDialog(for: error) {
-                        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
-                        self.showMultipageReview(withImageDocuments: imageDocuments)
+                        self.showMultipageReview()
                     }
                 }
             }
@@ -62,9 +61,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
-        if let imageDocuments = visionDocuments as? [GiniImageDocument] {
-            showMultipageReview(withImageDocuments: imageDocuments)
-        }
+        showMultipageReview()
     }
     
     func createCameraViewController() -> CameraViewController {
@@ -161,22 +158,21 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         if let firstDocument = documents.first, let documentsType = documents.type {
             switch documentsType {
             case .image:
-                if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
+                if let imageDocuments = visionDocuments as? [GiniImageDocument],
                     let lastDocument = imageDocuments.last {
                     if self.giniConfiguration.multipageEnabled {
-                        if let imageDocuments = self.visionDocuments as? [GiniImageDocument],
-                            lastDocument.isImported {
-                            self.showMultipageReview(withImageDocuments: imageDocuments)
+                        if lastDocument.isImported {
+                            showMultipageReview()
                         }
                     } else {
-                        self.reviewViewController = self.createReviewScreen(withDocument: lastDocument)
-                        self.screenAPINavigationController.pushViewController(self.reviewViewController!,
+                        reviewViewController = createReviewScreen(withDocument: lastDocument)
+                        screenAPINavigationController.pushViewController(reviewViewController!,
                                                                               animated: true)
                     }
                 }
             case .qrcode, .pdf:
-                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
-                self.screenAPINavigationController.pushViewController(self.analysisViewController!,
+                analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+                screenAPINavigationController.pushViewController(analysisViewController!,
                                                                       animated: true)
             }
         }
@@ -195,7 +191,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             switch result {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
-                    self.visionDocuments.append(contentsOf: validatedDocuments.map { $0.document })
+                    self.addToSessionDocuments(newDocuments: validatedDocuments.map { $0.document })
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
                             self.didCaptureAndValidate(validatedDocument.document)
@@ -208,14 +204,11 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 
                 if let error = error as? FilePickerError {
                     switch error {
-                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
-                        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
-                        
-                        if imageDocuments.isNotEmpty {
+                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:                        
+                        if self.visionDocuments.isNotEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
-                                    let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
-                                    self.showMultipageReview(withImageDocuments: imageDocuments)
+                                    self.showMultipageReview()
                                 }
                             }
                         }
