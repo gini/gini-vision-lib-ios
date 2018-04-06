@@ -9,7 +9,7 @@ import UIKit
 
 final class MultipageReviewTransitionAnimator: NSObject {
     
-    let animationDuration = AnimationDuration.mediumFast
+    let animationDuration = AnimationDuration.fast
     var operation: UINavigationControllerOperation = .push
     var originFrame: CGRect = .zero
     var popImage: UIImage?

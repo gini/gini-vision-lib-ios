@@ -70,10 +70,8 @@ internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UI
 
 internal struct AnimationDuration {
     static var slow = 1.0
-    static var mediumSlow = 0.7
-    static var medium = 0.5
-    static var mediumFast = 0.3
-    static var fast = 0.2
+    static var medium = 0.6
+    static var fast = 0.3
 }
 
 internal enum FontWeight {
