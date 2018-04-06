@@ -27,7 +27,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     }
     
     // MARK: - View controllers
-
+    
     var rootViewController: UIViewController {
         return containerNavigationController
     }
@@ -53,7 +53,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     }()
     
     // MARK: - Navigation bar buttons
-
+    
     lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
                                                              target: self,
                                                              action: #selector(cancelAction))
@@ -75,12 +75,12 @@ final class GalleryCoordinator: NSObject, Coordinator {
         button.setAttributedTitle(attributedString, for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.titleLabel?.minimumScaleFactor = 14/fontSize
-
+        
         return UIBarButtonItem(customView: button)
     }()
     
     // MARK: - Initializer
-
+    
     init(galleryManager: GalleryManagerProtocol = GalleryManager(), giniConfiguration: GiniConfiguration) {
         self.galleryManager = galleryManager
         self.giniConfiguration = giniConfiguration
@@ -119,8 +119,10 @@ final class GalleryCoordinator: NSObject, Coordinator {
     }
     
     @objc fileprivate func openImages() {
-        let imageDocuments: [GiniImageDocument] = selectedImageDocuments.map { $0.value }
-        delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
+        DispatchQueue.main.async {
+            let imageDocuments: [GiniImageDocument] = self.selectedImageDocuments.map { $0.value }
+            self.delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
+        }
     }
     
     // MARK: - Image picker generation.
@@ -199,30 +201,22 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         
         galleryManager.fetchImageData(from: asset) { [weak self] data in
             guard let `self` = self else { return }
-            DispatchQueue.global().async {
-                if let data = data {
-                    DispatchQueue.main.async {
+            if let data = data {
+                viewController.selectCell(at: index)
+                self.addSelected(asset, withData: data)
+            } else {
+                viewController.addToDownloadingItems(index: index)
+                self.galleryManager.fetchRemoteImageData(from: asset) { [weak self] data in
+                    guard let `self` = self else { return }
+                    if let data = data {
+                        viewController.removeFromDownloadingItems(index: index)
                         viewController.selectCell(at: index)
-                    }
-                    self.addSelected(asset, withData: data)
-                } else {
-                    DispatchQueue.main.async {
-                        viewController.addToDownloadingItems(index: index)
-                    }
-                    self.galleryManager.fetchImageData(from: asset, isRemote: true) { [weak self] data in
-                        guard let `self` = self else { return }
-                        if let data = data {
-                            DispatchQueue.main.async {
-                                viewController.removeFromDownloadingItems(index: index)
-                                viewController.selectCell(at: index)
-                            }
-                            self.addSelected(asset, withData: data)
-                        }
+                        self.addSelected(asset, withData: data)
                     }
                 }
             }
         }
-
+        
     }
     
     func imagePicker(_ viewController: ImagePickerViewController,
@@ -255,9 +249,7 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         self.selectedImageDocuments[asset.identifier] = imageDocument
         
         if !self.giniConfiguration.multipageEnabled {
-            DispatchQueue.main.async {
-                self.openImages()
-            }
+            openImages()
         }
     }
 }
