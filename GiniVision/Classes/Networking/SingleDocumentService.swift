@@ -36,24 +36,28 @@ final class SingleDocumentService: DocumentServiceProtocol {
         isAnalyzing = false
     }
     
+    func update(parameters: [String: Any], for document: GiniVisionDocument) {
+        partialDocumentInfo?.updateAdditionalParameters(with: parameters)
+    }
+    
     func upload(document: GiniVisionDocument,
-                withParameters parameters: [String: Any],
                 completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
+        partialDocumentInfo = PartialDocumentInfo()
         
         createDocument(from: document,
-                       withParameters: parameters,
                        fileName: "fileName",
                        cancellationToken: token) { result in
             switch result {
             case .success(let document):
-                self.partialDocumentInfo = PartialDocumentInfo(document: document.links.document,
-                                                                         additionalParameters: parameters)
+                self.partialDocumentInfo?.documentUrl = document.links.document
+                
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
                 }
-            case .failure:
+            case .failure(let error):
+                print("Partial document creation error: ", error)
                 break
             }
         }

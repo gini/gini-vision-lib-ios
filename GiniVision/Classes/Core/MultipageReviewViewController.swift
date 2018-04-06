@@ -374,7 +374,7 @@ extension MultipageReviewViewController {
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didUpdateDocuments: imageDocuments)
+            delegate?.multipageReview(self, didUpdateDocuments: [imageDocuments[currentIndexPath.row]])
         }
     }
     

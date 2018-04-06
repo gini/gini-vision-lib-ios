@@ -29,17 +29,20 @@ final class CompositeDocumentService: DocumentServiceProtocol {
         self.fetchExtractions(for: partialDocumentsInfo, completion: completion)
     }
     
+    func update(parameters: [String: Any], for document: GiniVisionDocument) {
+        self.partialDocuments[document.id]?.updateAdditionalParameters(with: parameters)
+    }
+    
     func upload(document: GiniVisionDocument,
-                withParameters parameters: [String: Any],
                 completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
+        self.partialDocuments[document.id] = PartialDocumentInfo()
         
-        createDocument(from: document, withParameters: parameters, fileName: "", cancellationToken: token) { result in
+        createDocument(from: document, fileName: "", cancellationToken: token) { result in
             switch result {
             case .success(let createdDocument):
-                self.partialDocuments[document.id] = PartialDocumentInfo(document: createdDocument.links.document,
-                                                                         additionalParameters: parameters)
+                self.partialDocuments[document.id]?.documentUrl = createdDocument.links.document
                 completion?(.success(createdDocument))
             case .failure(let error):
                 completion?(.failure(error))
