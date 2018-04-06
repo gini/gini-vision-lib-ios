@@ -47,7 +47,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var giniConfiguration: GiniConfiguration
     fileprivate(set) var visionDocuments: [GiniVisionDocument] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
-    
     weak var visionDelegate: GiniVisionDelegate?
     // Resources
     fileprivate(set) lazy var backButtonResource =

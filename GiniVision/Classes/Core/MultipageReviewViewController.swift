@@ -23,6 +23,7 @@ public final class MultipageReviewViewController: UIViewController {
     var imageDocuments: [GiniImageDocument]
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
+    var uploadProgress: Double = 0.0
 
     // MARK: - UI initialization
 
