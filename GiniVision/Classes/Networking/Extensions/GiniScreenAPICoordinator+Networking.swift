@@ -129,34 +129,22 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 switch result {
                 case .success:
                     break
-                case .failure:
-                    break
+                case .failure(let error):
+                    print("Partial document creation error: ", error)
                 }
             }
         }
         
-        
-        var documentParameters: [String: Any] = [:]
-        if let document = document as? GiniImageDocument,
-            let key = documentService?.rotationDeltaKey {
-            documentParameters[key] = document.rotationDelta
-        }
-        
         documentService?.upload(document: document,
-                                withParameters: documentParameters,
                                 completion: uploadDocumentCompletionHandler)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        // Analyze reviewed document when changes were made by the user during review or
-        // there is no result and is not analysing.        
-        documentService?.startAnalysis { result in
-            switch result {
-            case .success(let extractions):
-                self.present(result: extractions)
-            case .failure(let error):
-                print(error)
-            }
+        var documentParameters: [String: Any] = [:]
+        if let document = document as? GiniImageDocument,
+            let key = documentService?.rotationDeltaKey {
+            documentParameters[key] = document.rotationDelta
+            documentService?.update(parameters: documentParameters, for: document)
         }
     }
     
@@ -169,11 +157,14 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
-        // The analysis screen is where the user should be confronted with
-        // any errors occuring during the analysis process.
-        // Show any errors that occured while the user was still reviewing the image here.
-        // Make sure to only show errors relevant to the user.
-
+        documentService?.startAnalysis { result in
+            switch result {
+            case .success(let extractions):
+                self.present(result: extractions)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func didCancelAnalysis() {

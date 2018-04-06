@@ -43,6 +43,11 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didUpdateDocuments documents: [GiniImageDocument]) {
         self.visionDocuments = documents
+        self.visionDocuments.forEach { document in
+            self.visionDelegate?.didReview?(document: document,
+                                            withChanges: true)
+        }
+        
         if self.visionDocuments.isEmpty {
             self.closeMultipageScreen()
         }

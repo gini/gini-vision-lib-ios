@@ -9,15 +9,23 @@ import Foundation
 
 struct PartialDocumentInfo {
     
-    let document: String
-    let additionalParameters: [String: Any]?
+    var documentUrl: String?
+    private(set) var additionalParameters: [String: Any]?
+    
+    init() { }
+    
+    func updateAdditionalParameters(with newParameters: [String: Any]) {
+        var currentParameters = additionalParameters ?? [:]
+        newParameters.forEach { parameter in
+            currentParameters[parameter.key] = parameter.value
+        }
+    }
 }
 
-// TODO: Remove when updating to Swift 4.1
 extension PartialDocumentInfo {
-    func toJson() -> [String: Any] {
+    func toDictionary() -> [String: Any] {
         var dict = additionalParameters ?? [:]
-        dict["document"] = document
+        dict["document"] = documentUrl
        
         return dict
     }

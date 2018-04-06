@@ -34,27 +34,25 @@ protocol DocumentServiceProtocol: class {
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
     func upload(document: GiniVisionDocument,
-                withParameters: [String: Any],
                 completion: UploadDocumentCompletion?)
+    func update(parameters: [String: Any], for document: GiniVisionDocument)
 }
 
 extension DocumentServiceProtocol {
     
     var rotationDeltaKey: String { return "rotationDelta" }
     
-    func upload(document: GiniVisionDocument,
-                withParameters: [String: Any]) {
+    func upload(document: GiniVisionDocument) {
         self.upload(document: document,
-                    withParameters: withParameters,
                     completion: nil)
     }
     
     func createDocument(from document: GiniVisionDocument,
-                        withParameters: [String: Any],
                         fileName: String,
                         docType: String = "",
                         cancellationToken: BFCancellationToken,
                         completion: @escaping UploadDocumentCompletion) {
+        print("Creating document for: ", document.id)
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
@@ -65,7 +63,8 @@ extension DocumentServiceProtocol {
                                                                         cancellationToken: cancellationToken)
             }).continueWith(block: { task in
                 if let createdDocument = task.result as? GINIDocument {
-                    print("📄 Created document with id: \(createdDocument.documentId ?? "")")
+                    print("📄 Created document with id:", createdDocument.documentId ?? "",
+                          "for vision document:", document.id)
                     completion(.success(createdDocument))
                 } else if task.isCancelled {
                     completion(.failure(AnalysisError.cancelled))
@@ -78,7 +77,7 @@ extension DocumentServiceProtocol {
     }
     
     func fetchExtractions(for documents: [PartialDocumentInfo], completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfo = documents.map { $0.toJson() }
+        let partialDocumentsInfo = documents.map { $0.toDictionary() }
         giniSDK
             .documentTaskManager
             .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
