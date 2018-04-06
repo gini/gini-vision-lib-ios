@@ -180,7 +180,6 @@ extension MultipageReviewViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
         
         if #available(iOS 9.0, *) {
@@ -449,6 +448,8 @@ extension MultipageReviewViewController {
                 self.view.layoutIfNeeded()
                 }, completion: { _ in
             })
+        } else {
+            self.view.layoutIfNeeded()
         }
     }
 }
