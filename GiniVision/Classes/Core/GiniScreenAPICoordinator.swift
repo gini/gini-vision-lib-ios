@@ -34,8 +34,9 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var reviewViewController: ReviewViewController?
     lazy var multiPageReviewViewController: MultipageReviewViewController = {
         let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
-        let multiPageReviewViewController = self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
-
+        let multiPageReviewViewController =
+            self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+        _ = multiPageReviewViewController.view
         return multiPageReviewViewController
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
