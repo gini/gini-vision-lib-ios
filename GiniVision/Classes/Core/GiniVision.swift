@@ -59,6 +59,8 @@ import UIKit
      */
     @objc optional func didCancelReview()
     
+    @objc optional func didCancelReview(for document: GiniVisionDocument)
+    
     /**
      Called when the user is presented with the analsis screen. Use the `analysisDelegate`
      object to inform the user about the current status of the analysis task.

@@ -35,5 +35,19 @@ extension Collection where Iterator.Element == GiniVisionDocument {
     var type: GiniVisionDocumentType? {
         return containsDifferentTypes ? nil : first?.type
     }
+}
+
+extension Array where Iterator.Element == GiniVisionDocument {
     
+    mutating func remove(_ document: GiniVisionDocument) {
+        if let documentIndex = (self.index { $0.id == document.id }) {
+            remove(at: documentIndex)
+        }
+    }
+    
+    mutating func update(_ document: GiniVisionDocument) {
+        if let documentIndex = (self.index { $0.id == document.id }) {
+            self[documentIndex] = document
+        }
+    }
 }

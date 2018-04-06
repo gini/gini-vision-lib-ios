@@ -91,6 +91,7 @@ final class DocumentService {
         let builder = GINISDKBuilder.anonymousUser(withClientID: clientId,
                                                    clientSecret: clientSecret,
                                                    userEmailDomain: "example.com")
+        
         self.giniSDK = builder?.build()
         
         print("Gini Vision Library for iOS (\(GiniVision.versionString)) / Client id: \(clientId)")

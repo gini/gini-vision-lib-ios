@@ -29,6 +29,12 @@ final class CompositeDocumentService: DocumentServiceProtocol {
         self.fetchExtractions(for: partialDocumentsInfo, completion: completion)
     }
     
+    func remove(document: GiniVisionDocument) {
+        if let index = partialDocuments.index(forKey: document.id) {
+            partialDocuments.remove(at: index)
+        }
+    }
+    
     func update(parameters: [String: Any], for document: GiniVisionDocument) {
         self.partialDocuments[document.id]?.updateAdditionalParameters(with: parameters)
     }

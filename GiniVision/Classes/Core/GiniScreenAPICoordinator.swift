@@ -32,7 +32,12 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var cameraViewController: CameraViewController?
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
-    var multiPageReviewController: MultipageReviewViewController?
+    lazy var multiPageReviewViewController: MultipageReviewViewController = {
+        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+        let multiPageReviewViewController = self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+
+        return multiPageReviewViewController
+    }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
         return DocumentPickerCoordinator()
     }()
@@ -41,7 +46,12 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var giniConfiguration: GiniConfiguration
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     var changesOnReview: Bool = false
-    var visionDocuments: [GiniVisionDocument] = []
+    var visionDocuments: [GiniVisionDocument] = [] {
+        didSet {
+            let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument}
+            multiPageReviewViewController.imageDocuments = imageDocuments
+        }
+    }
     weak var visionDelegate: GiniVisionDelegate?
     // Resources
     fileprivate(set) lazy var backButtonResource =
@@ -115,10 +125,10 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 self.cameraViewController = self.createCameraViewController()
                 self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
                                                                        showingStack: imageDocuments.count > 1)
-                self.multiPageReviewController =
+                self.multiPageReviewViewController =
                     createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
                 
-                return [self.cameraViewController!, self.multiPageReviewController!]
+                return [self.cameraViewController!, self.multiPageReviewViewController]
             } else {
                 self.cameraViewController = self.createCameraViewController()
                 self.reviewViewController = self.createReviewScreen(withDocument: documents[0])
@@ -190,8 +200,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             visionDocuments.removeAll()
         }
         
-        let isFromCameraToMultipage = (toVC == multiPageReviewController && fromVC == cameraViewController)
-        let isFromMultipageToCamera = (fromVC == multiPageReviewController && toVC == cameraViewController)
+        let isFromCameraToMultipage = (toVC == multiPageReviewViewController && fromVC == cameraViewController)
+        let isFromMultipageToCamera = (fromVC == multiPageReviewViewController && toVC == cameraViewController)
         
         if isFromCameraToMultipage || isFromMultipageToCamera {
             return multipageTransition(operation: operation, from: fromVC, to: toVC)

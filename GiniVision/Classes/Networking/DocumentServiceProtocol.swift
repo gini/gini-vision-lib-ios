@@ -33,6 +33,7 @@ protocol DocumentServiceProtocol: class {
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
+    func remove(document: GiniVisionDocument)
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?)
     func update(parameters: [String: Any], for document: GiniVisionDocument)
@@ -57,10 +58,10 @@ extension DocumentServiceProtocol {
             .getSession()
             .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
             .continueOnSuccessWith(block: { [weak self] _ in
-                return self?.giniSDK.documentTaskManager.createDocument(withFilename: fileName,
-                                                                        from: document.data,
-                                                                        docType: docType,
-                                                                        cancellationToken: cancellationToken)
+                return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
+                                                                               from: document.data,
+                                                                               docType: docType,
+                                                                               cancellationToken: cancellationToken)
             }).continueWith(block: { task in
                 if let createdDocument = task.result as? GINIDocument {
                     print("📄 Created document with id:", createdDocument.documentId ?? "",
