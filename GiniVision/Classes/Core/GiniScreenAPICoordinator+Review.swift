@@ -39,6 +39,17 @@ internal extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
+        visionDocuments.update(document)
+        visionDelegate?.didReview?(document: document,
+                                   withChanges: true)
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete document: GiniImageDocument) {
+        visionDocuments.remove(document)
+        visionDelegate?.didCancelReview?(for: document)
+    }
+    
     func multipageReview(_ controller: MultipageReviewViewController,
                          didRotate document: GiniImageDocument) {
         updateInSessionDocuments(document: document)
