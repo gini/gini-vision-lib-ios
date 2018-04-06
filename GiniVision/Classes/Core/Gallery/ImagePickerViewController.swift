@@ -9,18 +9,23 @@ import Foundation
 import Photos
 
 protocol ImagePickerViewControllerDelegate: class {
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset)
-    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset  asset: Asset)
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didSelectAsset asset: Asset,
+                     at index: IndexPath)
+    func imagePicker(_ viewController: ImagePickerViewController,
+                     didDeselectAsset  asset: Asset,
+                     at index: IndexPath)
 }
 
 final class ImagePickerViewController: UIViewController {
     
     let currentAlbum: Album
     weak var delegate: ImagePickerViewControllerDelegate?
+    fileprivate var indexesForAssetsBeingDownloaded: [IndexPath] = []
+    fileprivate var indexesForSelectedCells: [IndexPath] = []
     fileprivate let galleryManager: GalleryManagerProtocol
     fileprivate let giniConfiguration: GiniConfiguration
     private var isInitialized: Bool = false
-    private let multipleSelectionLimit: Int = 10
     
     // MARK: - Views
     
@@ -73,6 +78,38 @@ final class ImagePickerViewController: UIViewController {
     }
     
     // MARK: - Others
+    
+    func addToDownloadingItems(index: IndexPath) {
+        indexesForAssetsBeingDownloaded.append(index)
+        collectionView.reloadItems(at: [index])
+    }
+    
+    func removeFromDownloadingItems(index: IndexPath) {
+        if let assetIndex = indexesForAssetsBeingDownloaded.index(of: index) {
+            indexesForAssetsBeingDownloaded.remove(at: assetIndex)
+            collectionView.reloadItems(at: [index])
+        }
+    }
+    
+    func selectCell(at indexPath: IndexPath) {
+        indexesForSelectedCells.append(indexPath)
+        collectionView.reloadItems(at: [indexPath])
+    }
+    
+    func deselectCell(at indexPath: IndexPath) {
+        if let deselectCellIndex = indexesForSelectedCells.index(of: indexPath) {
+            indexesForSelectedCells.remove(at: deselectCellIndex)
+            collectionView.reloadItems(at: [indexPath])
+        }
+    }
+    
+    func deselectAllCells() {
+        var indexesToDeselect: [IndexPath] = []
+        indexesToDeselect.append(contentsOf: indexesForSelectedCells)
+        
+        indexesForSelectedCells.removeAll()
+        self.collectionView.reloadItems(at: indexesToDeselect)
+    }
  
     fileprivate func scrollToBottomOnStartup() {
         // This tweak is needed to fix an issue with the UICollectionView. UICollectionView doesn't
@@ -99,7 +136,9 @@ extension ImagePickerViewController: UICollectionViewDataSource {
         let asset = currentAlbum.assets[indexPath.row]
         cell?.fill(withAsset: asset,
                    multipleSelectionEnabled: giniConfiguration.multipageEnabled,
-                   galleryManager: galleryManager)
+                   galleryManager: galleryManager,
+                   isDownloading: indexesForAssetsBeingDownloaded.contains(indexPath),
+                   isSelected: indexesForSelectedCells.contains(indexPath))
         
         return cell!
     }
@@ -124,16 +163,12 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let selectedIndexes = collectionView.indexPathsForSelectedItems, selectedIndexes.count > 10 {
-            collectionView.deselectItem(at: indexPath, animated: false)
-        } else {
-            let asset = currentAlbum.assets[indexPath.row]
-            delegate?.imagePicker(self, didSelectAsset: asset)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let asset = currentAlbum.assets[indexPath.row]
-        delegate?.imagePicker(self, didDeselectAsset: asset)
+
+        if indexesForSelectedCells.contains(indexPath) {
+            delegate?.imagePicker(self, didDeselectAsset: asset, at: indexPath)
+        } else {
+            delegate?.imagePicker(self, didSelectAsset: asset, at: indexPath)
+        }
     }
 }

@@ -13,8 +13,9 @@ protocol GalleryManagerProtocol: class {
     func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage) -> Void))
-    func fetchImageData(from asset: Asset,
-                        completion: @escaping ((Data) -> Void))
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data?) -> Void))
+    func fetchRemoteImageData(from asset: Asset,completion: @escaping ((Data?) -> Void))
+    func reloadAlbums()
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
 }
@@ -25,11 +26,9 @@ enum ImageQuality {
 
 final class GalleryManager: GalleryManagerProtocol {
     
-    fileprivate let cachingImageManager = PHCachingImageManager()
+    private lazy var cachingImageManager = PHCachingImageManager()
     fileprivate let thumbnailSize = CGSize(width: 250, height: 250)
-    lazy var albums: [Album] = self.fetchAlbums().sorted(by: {
-        return $0.count > $1.count
-    })
+    lazy var albums: [Album] = self.fetchSortedAlbums()
         
     func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,
@@ -45,12 +44,24 @@ final class GalleryManager: GalleryManagerProtocol {
         }
     }
     
-    func fetchImageData(from asset: Asset, completion: @escaping ((Data) -> Void)) {
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
         cachingImageManager.requestImageData(for: asset.value, options: nil) { data, _, _, _ in
-            if let data = data {
-                completion(data)
-            }
+            completion(data)
         }
+    }
+    
+    func fetchRemoteImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
+        var options: PHImageRequestOptions
+        options = PHImageRequestOptions()
+        options.isNetworkAccessAllowed = true
+        
+        cachingImageManager.requestImageData(for: asset.value, options: options) { data, _, _, _ in
+            completion(data)
+        }
+    }
+    
+    func reloadAlbums() {
+        self.albums = fetchSortedAlbums()
     }
     
     func startCachingImages(for album: Album) {
@@ -90,7 +101,7 @@ extension GalleryManager {
         return assets
     }
     
-    fileprivate func fetchAlbums() -> [Album] {
+    fileprivate func fetchSortedAlbums() -> [Album] {
         var albums: [Album] = []
         let userAlbumsCollection = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum,
                                                                            subtype: PHAssetCollectionSubtype.any,
@@ -112,6 +123,8 @@ extension GalleryManager {
             })
         }
 
-        return albums
+        return albums.sorted(by: {
+            return $0.count > $1.count
+        })
     }
 }

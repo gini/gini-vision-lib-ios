@@ -38,18 +38,10 @@ final class GalleryCoordinatorTests: XCTestCase {
                                          giniConfiguration: giniConfiguration)
     }
     
-    func testGalleryCoordinatorStart() {
-        coordinator.start()
-        
-        XCTAssertTrue(galleryManager.isCaching, "gallery manager should have started caching")
-        XCTAssertEqual(coordinator.galleryNavigator.viewControllers.count, 2,
-                       "there should be 2 view controllers in the navigator when the gallery coordinator starts")
-    }
-    
     func testCloseGallery() {
         let delegate = GalleryCoordinatorDelegateMock()
         coordinator.delegate = delegate
-        selectImage(at: 0, in: galleryManager.albums[2]) { _ in
+        selectImage(at: IndexPath(row: 0, section: 0), in: galleryManager.albums[2]) { _ in
             _ = self.coordinator.cancelButton.target?.perform(self.coordinator.cancelButton.action)
             
             XCTAssertTrue(delegate.didCancelGallery,
@@ -63,8 +55,8 @@ final class GalleryCoordinatorTests: XCTestCase {
         let delegate = GalleryCoordinatorDelegateMock()
         coordinator.delegate = delegate
         
-        selectImage(at: 0, in: galleryManager.albums[2]) { _ in
-            self.selectImage(at: 1, in: self.galleryManager.albums[2]) { _ in
+        selectImage(at: IndexPath(row: 0, section: 0), in: galleryManager.albums[2]) { _ in
+            self.selectImage(at: IndexPath(row: 1, section: 0), in: self.galleryManager.albums[2]) { _ in
                 let innerButton = self.coordinator.openImagesButton.customView as? UIButton
                 innerButton?.sendActions(for: .touchUpInside)
                 
@@ -81,7 +73,7 @@ final class GalleryCoordinatorTests: XCTestCase {
     func testNavigateBackToAlbumsTable() {
         coordinator.start()
         
-        selectImage(at: 0, in: galleryManager.albums[2]) { _ in
+        selectImage(at: IndexPath(row: 0, section: 0), in: galleryManager.albums[2]) { _ in
             _ = self.coordinator.navigationController(self.coordinator.galleryNavigator,
                                                       animationControllerFor: .pop,
                                                       from: self.dummyImagePicker,
@@ -94,7 +86,7 @@ final class GalleryCoordinatorTests: XCTestCase {
     }
     
     func testImagePickerDelegateDidSelect() {
-        selectImage(at: 0, in: galleryManager.albums[2]) { imagePicker in
+        selectImage(at: IndexPath(row: 0, section: 0), in: galleryManager.albums[2]) { imagePicker in
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
                            self.coordinator.openImagesButton,
                            "once that an image has been selected, the right bar button should be Open and not Cancel")
@@ -105,10 +97,11 @@ final class GalleryCoordinatorTests: XCTestCase {
     
     func testImagePickerDelegateDidDeselect() {
         let album = galleryManager.albums[1]
-        let deselectionIndex = 0
+        let deselectionIndex = IndexPath(row: 0, section: 0)
         selectImage(at: deselectionIndex, in: album) { imagePicker in
             self.coordinator.imagePicker(imagePicker,
-                                         didDeselectAsset: album.assets[deselectionIndex])
+                                         didDeselectAsset: album.assets[deselectionIndex.row],
+                                         at: deselectionIndex)
             XCTAssertTrue(self.coordinator.selectedImageDocuments.isEmpty,
                           "selected documents array should be 0 after removing all selected items.")
             XCTAssertEqual(imagePicker.navigationItem.rightBarButtonItem,
@@ -117,12 +110,13 @@ final class GalleryCoordinatorTests: XCTestCase {
         }
     }
     
-    fileprivate func selectImage(at index: Int, in album: Album, handler: @escaping ((ImagePickerViewController) -> Void)) {
+    fileprivate func selectImage(at index: IndexPath, in album: Album, handler: @escaping ((ImagePickerViewController) -> Void)) {
         let imagePicker = ImagePickerViewController(album: album,
                                                     galleryManager: galleryManager,
                                                     giniConfiguration: GiniConfiguration.sharedConfiguration)
         coordinator.imagePicker(imagePicker,
-                                didSelectAsset: album.assets[index])
+                                didSelectAsset: album.assets[index.row],
+                                at: index)
 
         _ = expectation(for: NSPredicate(format: "count != 0"),
                         evaluatedWith: coordinator.selectedImageDocuments, handler: nil)

@@ -8,7 +8,6 @@
 
 import Foundation
 import MobileCoreServices
-import Photos
 
 protocol DocumentPickerCoordinatorDelegate: class {
     /**
@@ -45,6 +44,10 @@ internal final class DocumentPickerCoordinator: NSObject {
     let giniConfiguration: GiniConfiguration
     var isPDFSelectionAllowed: Bool = true
     
+    var isGalleryPermissionGranted: Bool {
+        return galleryCoordinator.isGalleryPermissionGranted
+    }
+    
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
@@ -68,9 +71,7 @@ internal final class DocumentPickerCoordinator: NSObject {
     // MARK: - Start caching
     
     func startCaching() {
-        DispatchQueue.global().async {
-            self.galleryCoordinator.start()
-        }
+        galleryCoordinator.start()
     }
     
     // MARK: Picker presentation
@@ -155,7 +156,8 @@ internal final class DocumentPickerCoordinator: NSObject {
 // MARK: GalleryCoordinatorDelegate
 
 extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
-    func gallery(_ coordinator: GalleryCoordinator, didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
+    func gallery(_ coordinator: GalleryCoordinator,
+                 didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
         delegate?.documentPicker(self, didPick: imageDocuments, from: .gallery) { [weak self] error, didDismiss in
             guard let error = error else {
                 coordinator.dismissGallery(completion: didDismiss)

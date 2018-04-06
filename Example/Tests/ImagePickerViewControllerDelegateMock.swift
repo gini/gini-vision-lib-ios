@@ -12,14 +12,16 @@ import Foundation
 final class ImagePickerViewControllerDelegateMock: ImagePickerViewControllerDelegate {
     var selectedAssets: [Asset] = []
 
-    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset) {
+    func imagePicker(_ viewController: ImagePickerViewController, didSelectAsset asset: Asset, at index: IndexPath) {
         selectedAssets.append(asset)
+        viewController.selectCell(at: index)
     }
     
-    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset asset: Asset) {
-        if let index = selectedAssets.index(where: { $0.identifier == asset.identifier}) {
-            selectedAssets.remove(at: index)
+    func imagePicker(_ viewController: ImagePickerViewController, didDeselectAsset asset: Asset, at index: IndexPath) {
+        if let selectedIndex = selectedAssets.index(where: { $0.identifier == asset.identifier}) {
+            selectedAssets.remove(at: selectedIndex)
         }
+        viewController.deselectCell(at: index)
     }
     
 }

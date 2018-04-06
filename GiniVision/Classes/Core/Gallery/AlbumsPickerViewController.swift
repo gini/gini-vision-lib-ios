@@ -55,6 +55,10 @@ final class AlbumsPickerViewController: UIViewController {
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
     
+    func reloadAlbums() {
+        albumsTableView.reloadData()
+    }
+    
 }
 
 // MARK: UITableViewDataSource

@@ -701,8 +701,11 @@ extension CameraViewController: DocumentPickerCoordinatorDelegate {
 extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure file picker
-        documentPickerCoordinator.startCaching()
         documentPickerCoordinator.delegate = self
+
+        if documentPickerCoordinator.isGalleryPermissionGranted {
+            documentPickerCoordinator.startCaching()
+        }
         
         // Configure import file button
         controlsView.addSubview(importFileButton)
