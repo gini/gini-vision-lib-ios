@@ -36,6 +36,10 @@ final class SingleDocumentService: DocumentServiceProtocol {
         isAnalyzing = false
     }
     
+    func remove(document: GiniVisionDocument) {
+        cancelAnalysis()
+    }
+    
     func update(parameters: [String: Any], for document: GiniVisionDocument) {
         partialDocumentInfo?.updateAdditionalParameters(with: parameters)
     }
@@ -58,7 +62,6 @@ final class SingleDocumentService: DocumentServiceProtocol {
                 }
             case .failure(let error):
                 print("Partial document creation error: ", error)
-                break
             }
         }
     }

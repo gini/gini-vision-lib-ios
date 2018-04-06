@@ -121,7 +121,6 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument) {
-        
         var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
         
         if giniConfiguration.multipageEnabled {
@@ -132,6 +131,9 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 case .failure(let error):
                     print("Partial document creation error: ", error)
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                    self.multiPageReviewViewController.updateUploadingStatus(for: document, with: nil)
+                })
             }
         }
         
@@ -154,6 +156,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         if !giniConfiguration.multipageEnabled {
             documentService?.cancelAnalysis()
         }
+    }
+    
+    func didCancelReview(for document: GiniVisionDocument) {
+        documentService?.remove(document: document)
     }
     
     func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
