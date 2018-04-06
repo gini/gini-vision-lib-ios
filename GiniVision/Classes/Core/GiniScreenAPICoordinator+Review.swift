@@ -14,7 +14,7 @@ internal extension GiniScreenAPICoordinator {
                             isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.visionDocuments[0] = document
+            self.addToSessionDocuments(newDocuments: [document])
             self.changesOnReview = true
             }, failureBlock: { _ in
         })
@@ -41,19 +41,19 @@ internal extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     
     func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
-        visionDocuments.update(document)
+        updateOnSessionDocuments(document: document)
         visionDelegate?.didReview?(document: document,
                                    withChanges: true)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didDelete document: GiniImageDocument) {
-        visionDocuments.remove(document)
+        removeFromSessionDocuments(document: document)
         visionDelegate?.didCancelReview?(for: document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
                          didUpdateDocuments documents: [GiniImageDocument]) {
-        visionDocuments = documents
+//        visionDocuments = documents
         visionDocuments.forEach { document in
             self.visionDelegate?.didReview?(document: document,
                                             withChanges: true)
@@ -84,10 +84,13 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         self.screenAPINavigationController.popViewController(animated: true)
     }
     
-    func showMultipageReview(withImageDocuments imageDocuments: [GiniImageDocument]) {
-        multiPageReviewViewController.imageDocuments = imageDocuments
-        multiPageReviewViewController.reloadCollections()
+    func showMultipageReview() {
         screenAPINavigationController.pushViewController(multiPageReviewViewController,
                                                          animated: true)
+    }
+    
+    func refreshMultipageReview(with imageDocuments: [GiniImageDocument]) {
+        multiPageReviewViewController.imageDocuments = imageDocuments
+        multiPageReviewViewController.reloadCollections()
     }
 }

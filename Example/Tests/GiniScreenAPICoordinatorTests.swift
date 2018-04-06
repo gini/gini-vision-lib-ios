@@ -92,5 +92,34 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         XCTAssertNotNil(screenNavigator?.viewControllers.last as? ReviewViewController,
                         "first view controller is not a ReviewViewController")
-    }   
+    }
+    
+    func testDocumentCollectionAfterRotateImageInMultipage() {
+        let capturedImageDocument = loadImageDocument(withName: "invoice")
+        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
+        
+        coordinator.multiPageReviewViewController.imageDocuments[0].rotatePreviewImage90Degrees()
+        coordinator.multipageReview(coordinator.multiPageReviewViewController,
+                                    didRotate: coordinator.multiPageReviewViewController.imageDocuments[0])
+
+        let imageDocument = coordinator.visionDocuments[0] as? GiniImageDocument
+        XCTAssertEqual(imageDocument?.rotationDelta, 90,
+                       "the image document rotation delta should have been updated after rotation")
+    }
+    
+    func testDocumentCollectionAfterRemoveImageInMultipage() {
+        let capturedImageDocument = loadImageDocument(withName: "invoice")
+        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
+        
+        coordinator.multipageReview(coordinator.multiPageReviewViewController,
+                                    didDelete: coordinator.multiPageReviewViewController.imageDocuments[0])
+        
+        XCTAssertTrue(coordinator.visionDocuments.isEmpty,
+                      "vision documents collection should be empty after delete the image in the multipage review view controller")
+    }
+    
+    func testMultipageImageDocumentWhenUpdatingSessionDocuments() {
+        let capturedImageDocument = loadImageDocument(withName: "invoice")
+        
+    }
 }

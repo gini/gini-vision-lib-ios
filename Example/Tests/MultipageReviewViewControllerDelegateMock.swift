@@ -11,6 +11,15 @@ import Foundation
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
     
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
+        
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete document: GiniImageDocument) {
+        
+    }
+    
+    
     var updatedDocuments: [GiniImageDocument] = []
     
     func multipageReview(_ controller: MultipageReviewViewController,
