@@ -290,7 +290,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func createReorderPagesTip() {
-        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
