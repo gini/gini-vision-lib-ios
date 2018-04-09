@@ -77,6 +77,26 @@ extension DocumentServiceProtocol {
             })
     }
     
+    func deleteCompositeDocument(withId id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                    self?.giniSDK.documentTaskManager.deleteDocument(withId: id,
+                                                                    cancellationToken: nil)
+            })
+    }
+    
+    func deletePartialDocument(withId id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
+                                                                        cancellationToken: nil)
+            })
+    }
+    
     func fetchExtractions(for documents: [PartialDocumentInfo], completion: @escaping AnalysisCompletion) {
         let partialDocumentsInfo = documents.map { $0.toDictionary() }
         giniSDK

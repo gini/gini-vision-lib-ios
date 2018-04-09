@@ -152,10 +152,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     // Optional delegate methods
     func didCancelReview() {
-        // When not using multipage, the analysis should be cancelled
-        if !giniConfiguration.multipageEnabled {
-            documentService?.cancelAnalysis()
-        }
+        // TODO: Handle document deletion.
     }
     
     func didCancelReview(for document: GiniVisionDocument) {
