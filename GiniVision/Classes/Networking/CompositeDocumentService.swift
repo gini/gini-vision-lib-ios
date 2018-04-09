@@ -15,11 +15,6 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     
-    func cancelAnalysis() {
-        partialDocuments.removeAll()
-        isAnalyzing = false
-    }
-    
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
     }
@@ -29,8 +24,23 @@ final class CompositeDocumentService: DocumentServiceProtocol {
         self.fetchExtractions(for: partialDocumentsInfo, completion: completion)
     }
     
+    func cancelAnalysis() {
+        if let compositeDocument = compositeDocument {
+            deleteCompositeDocument(withId: compositeDocument.documentId)
+        }
+        
+        compositeDocument = nil
+        isAnalyzing = false
+    }
+    
     func remove(document: GiniVisionDocument) {
         if let index = partialDocuments.index(forKey: document.id) {
+            if let partialDocumentId = partialDocuments[document.id]?
+                .documentUrl?
+                .components(separatedBy: "/")
+                .last {
+                deletePartialDocument(withId: partialDocumentId)
+            }
             partialDocuments.remove(at: index)
         }
     }
