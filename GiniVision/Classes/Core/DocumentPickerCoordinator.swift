@@ -48,10 +48,6 @@ internal final class DocumentPickerCoordinator: NSObject {
         return galleryCoordinator.isGalleryPermissionGranted
     }
     
-    var isGalleryPermissionGranted: Bool {
-        return galleryCoordinator.isGalleryPermissionGranted
-    }
-    
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
