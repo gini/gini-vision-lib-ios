@@ -60,6 +60,10 @@ final class GalleryCoordinatorTests: XCTestCase {
                 let innerButton = self.coordinator.openImagesButton.customView as? UIButton
                 innerButton?.sendActions(for: .touchUpInside)
                 
+                let expect = self.expectation(for: NSPredicate(value: true),
+                                              evaluatedWith: delegate.didOpenImages,
+                                              handler: nil)
+                self.wait(for: [expect], timeout: 2)
                 XCTAssertTrue(delegate.didOpenImages,
                               "gallery images picked should be processed after tapping open images button")
                 XCTAssertEqual(delegate.openedImageDocuments.count, 2,
