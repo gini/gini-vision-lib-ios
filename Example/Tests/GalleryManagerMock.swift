@@ -23,9 +23,7 @@ final class GalleryManagerMock: GalleryManagerProtocol {
                                  identifier: "Album 3")]
     
     var isCaching = false
-    
-    
-    
+        
     func reloadAlbums() {
         
     }
