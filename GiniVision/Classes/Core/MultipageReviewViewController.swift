@@ -1,5 +1,5 @@
 //
-//  MultipageReviewController.swift
+//  MultipageReviewViewController.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 1/26/18.
@@ -7,11 +7,17 @@
 
 import Foundation
 
+protocol MultipageReviewViewControllerDelegate: class {
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didUpdateDocuments documents: [GiniImageDocument])
+}
+
 //swiftlint:disable file_length
-public final class MultipageReviewController: UIViewController {
+public final class MultipageReviewViewController: UIViewController {
     
     fileprivate var imageDocuments: [GiniImageDocument]
-    var didUpdateDocuments: (([GiniImageDocument]) -> Void)?
+    weak var delegate: MultipageReviewViewControllerDelegate?
+    let giniConfiguration: GiniConfiguration
 
     // MARK: - UI initialization
 
@@ -93,22 +99,25 @@ public final class MultipageReviewController: UIViewController {
         return toolBar
     }()
     
+    var toolTipView: ToolTipView?
+    fileprivate var blurEffect: UIVisualEffectView?
+    
     lazy var rotateButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(rotateSelectedImage))
+                                  action: #selector(rotateImageButtonAction))
     }()
     
     lazy var reorderButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
                                   insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                  action: #selector(toggleReorder))
+                                  action: #selector(reorderButtonAction))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(deleteSelectedImage))
+                                  action: #selector(deleteImageButtonAction))
     }()
     
     fileprivate lazy var pagesCollectionContainerConstraint: NSLayoutConstraint = {
@@ -139,9 +148,9 @@ public final class MultipageReviewController: UIViewController {
     
     // MARK: - Init
     
-    public init(imageDocuments: [GiniImageDocument]) {
+    public init(imageDocuments: [GiniImageDocument], giniConfiguration: GiniConfiguration) {
         self.imageDocuments = imageDocuments
-        
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -151,7 +160,7 @@ public final class MultipageReviewController: UIViewController {
 }
 
 // MARK: - UIViewController
-extension MultipageReviewController {
+extension MultipageReviewViewController {
     override public func loadView() {
         super.loadView()
         view.addSubview(mainCollection)
@@ -167,18 +176,46 @@ extension MultipageReviewController {
         super.viewDidLoad()
         selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
+        
         if #available(iOS 9.0, *) {
             longPressGesture.delaysTouchesBegan = true
             pagesCollection.addGestureRecognizer(longPressGesture)
+        }
+        
+        if ToolTipView.shouldShowReorderPagesButtonToolTip {
+            createReorderPagesTip()
         }
     }
     
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        UIView.animate(withDuration: AnimationDuration.fast, animations: {
-            self.toolBar.alpha = 1
-        }, completion: { _ in
-            self.pagesCollectionContainer.alpha = 1
+        showToolbar()
+        
+        toolTipView?.show {
+            self.blurEffect?.alpha = 1
+            self.deleteButton.isEnabled = false
+            self.rotateButton.isEnabled = false
+            self.navigationItem.rightBarButtonItem?.isEnabled = false
+            ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        }
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        toolTipView?.arrangeViews()
+        blurEffect?.frame = self.mainCollection.frame
+    }
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            guard let `self` = self else {
+                return
+            }
+            
+            self.toolTipView?.arrangeViews()
+            
         })
     }
     
@@ -194,7 +231,7 @@ extension MultipageReviewController {
 
 // MARK: - Private methods
 
-extension MultipageReviewController {
+extension MultipageReviewViewController {
     fileprivate func barButtonItem(withImage image: UIImage?,
                                    insets: UIEdgeInsets,
                                    action: Selector) -> UIBarButtonItem {
@@ -252,6 +289,37 @@ extension MultipageReviewController {
         }
     }
     
+    fileprivate func createReorderPagesTip() {
+        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blurEffect?.alpha = 0
+        self.view.addSubview(blurEffect!)
+        
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderButtonTooltipMessage",
+                                                          bundle: Bundle(for: GiniVision.self),
+                                                          comment: "reorder button tooltip message"),
+                                  giniConfiguration: giniConfiguration,
+                                  referenceView: reorderButton.customView!,
+                                  superView: view,
+                                  position: .above,
+                                  distanceToRefView: UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0))
+        
+        toolTipView?.willDismiss = { [weak self] in
+            guard let `self` = self else { return }
+            self.blurEffect?.removeFromSuperview()
+            self.deleteButton.isEnabled = true
+            self.rotateButton.isEnabled = true
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+    }
+    
+    fileprivate func showToolbar() {
+        UIView.animate(withDuration: AnimationDuration.fast, animations: {
+            self.toolBar.alpha = 1
+        }, completion: { _ in
+            self.pagesCollectionContainer.alpha = 1
+        })
+    }
+    
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
@@ -299,18 +367,18 @@ extension MultipageReviewController {
 
 // MARK: - Toolbar actions
 
-extension MultipageReviewController {
-    @objc fileprivate func rotateSelectedImage() {
+extension MultipageReviewViewController {
+    @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            didUpdateDocuments?(self.imageDocuments)
+            delegate?.multipageReview(self, didUpdateDocuments: imageDocuments)
         }
     }
     
-    @objc fileprivate func deleteSelectedImage() {
+    @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
@@ -330,12 +398,17 @@ extension MultipageReviewController {
                     
                     self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
                 }
-                self.didUpdateDocuments?(self.imageDocuments)
+                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
             })
         }
     }
     
-    @objc fileprivate func toggleReorder() {
+    @objc fileprivate func reorderButtonAction() {
+        self.toolTipView?.dismiss()
+        self.toggleReorder()
+    }
+    
+    private func toggleReorder() {
         let hide = self.pagesCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
         self.pagesCollectionContainerConstraint.isActive = !hide
@@ -352,7 +425,7 @@ extension MultipageReviewController {
 
 // MARK: UICollectionViewDataSource
 
-extension MultipageReviewController: UICollectionViewDataSource {
+extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imageDocuments.count
     }
@@ -401,7 +474,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.didUpdateDocuments?(self.imageDocuments)
+                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
             })
         }
     }
@@ -410,7 +483,7 @@ extension MultipageReviewController: UICollectionViewDataSource {
 
 // MARK: UICollectionViewDelegateFlowLayout
 
-extension MultipageReviewController: UICollectionViewDelegateFlowLayout {
+extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView,
                                layout collectionViewLayout: UICollectionViewLayout,

@@ -57,7 +57,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         XCTAssertNotNil(screenNavigator?.viewControllers.first as? CameraViewController,
                         "first view controller is not a CameraViewController")
-        XCTAssertNotNil(screenNavigator?.viewControllers.last as? MultipageReviewController,
+        XCTAssertNotNil(screenNavigator?.viewControllers.last as? MultipageReviewViewController,
                         "last view controller is not a MultipageReviewController")
     }
     

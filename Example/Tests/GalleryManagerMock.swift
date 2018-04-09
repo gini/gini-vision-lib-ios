@@ -11,7 +11,6 @@ import Photos
 @testable import GiniVision
 
 final class GalleryManagerMock: GalleryManagerProtocol {
-
     
     var albums: [Album] = [Album(assets: [Asset(identifier: "Asset 1")],
                                  title: "Album 1",
@@ -24,7 +23,7 @@ final class GalleryManagerMock: GalleryManagerProtocol {
                                  identifier: "Album 3")]
     
     var isCaching = false
-    
+        
     func reloadAlbums() {
         
     }
@@ -37,7 +36,11 @@ final class GalleryManagerMock: GalleryManagerProtocol {
         isCaching = false
     }
     
-    func fetchImageData(from asset: Asset, isRemote: Bool, completion: @escaping ((Data?) -> Void)) {
+    func fetchImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
+        completion(Data(count: 10))
+    }
+    
+    func fetchRemoteImageData(from asset: Asset, completion: @escaping ((Data?) -> Void)) {
         completion(Data(count: 10))
     }
     

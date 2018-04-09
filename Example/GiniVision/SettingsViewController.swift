@@ -57,6 +57,10 @@ final class SettingsViewController: UIViewController {
 
     }
     
+    @IBAction func resetUserDefaults(_ sender: Any) {
+        UserDefaults().removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: false)

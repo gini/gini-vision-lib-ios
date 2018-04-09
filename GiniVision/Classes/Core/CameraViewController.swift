@@ -38,7 +38,7 @@ import AVFoundation
     
     /**
      Called when a user taps the `MultipageReviewButton` (the one with the thumbnail of the images(s) taken).
-     Once this method is called, the `MultipageReviewController` should be presented.
+     Once this method is called, the `MultipageReviewViewController` should be presented.
      
      - parameter viewController: Camera view controller where the button was tapped.
      */
@@ -817,13 +817,11 @@ extension CameraViewController {
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "tooltip text indicating new file import feature"),
-                                  textColor: giniConfiguration.fileImportToolTipTextColor,
-                                  font: giniConfiguration.customFont.regular.withSize(14),
-                                  backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor,
-                                  closeButtonColor: giniConfiguration.fileImportToolTipCloseButtonColor,
+                                  giniConfiguration: giniConfiguration,
                                   referenceView: importFileButton,
                                   superView: self.view,
-                                  position: UIDevice.current.isIpad ? .left : .above)
+                                  position: UIDevice.current.isIpad ? .left : .above,
+                                  distanceToRefView: UIEdgeInsets(top: 36, left: 0, bottom: 36, right: 0))
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
