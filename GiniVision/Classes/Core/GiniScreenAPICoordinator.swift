@@ -185,9 +185,9 @@ extension GiniScreenAPICoordinator {
     @objc func showAnalysisScreen() {
         let documentToShow = visionDocuments[0]
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(documentToShow, true)
+            didReview(documentToShow, false)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
-            didReview(documentToShow.data, true)
+            didReview(documentToShow.data, false)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
