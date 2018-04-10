@@ -9,6 +9,7 @@ import Foundation
 
 struct PartialDocumentInfo {
     
+    private(set) var additionalParameters: [String: Any]?
     var documentUrl: String?
     var documentId: String? {
         if let documentUrl = documentUrl,
@@ -17,7 +18,7 @@ struct PartialDocumentInfo {
         }
         return nil
     }
-    private(set) var additionalParameters: [String: Any]?
+    var order: Int = 0
     
     init() { }
     
@@ -26,6 +27,20 @@ struct PartialDocumentInfo {
         newParameters.forEach { parameter in
             currentParameters[parameter.key] = parameter.value
         }
+    }
+}
+
+extension PartialDocumentInfo: Comparable {
+    static func == (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
+        return lhs.documentId == rhs.documentId
+    }
+    
+    public static func > (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
+        return lhs.order > rhs.order
+    }
+    
+    public static func < (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
+        return lhs.order < rhs.order
     }
 }
 

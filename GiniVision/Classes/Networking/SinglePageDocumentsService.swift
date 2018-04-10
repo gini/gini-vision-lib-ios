@@ -1,5 +1,5 @@
 //
-//  SingleDocumentService.swift
+//  SinglePageDocumentsService.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 3/29/18.
@@ -8,7 +8,7 @@
 import Foundation
 import Gini_iOS_SDK
 
-final class SingleDocumentService: DocumentServiceProtocol {
+final class SinglePageDocumentsService: DocumentServiceProtocol {
 
     var compositeDocument: GINIDocument?
     var giniSDK: GiniSDK

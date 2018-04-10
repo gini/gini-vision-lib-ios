@@ -1,5 +1,5 @@
 //
-//  DocumentService.swift
+//  MultipageDocumentsService.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/14/18.
@@ -8,7 +8,7 @@
 import UIKit
 import Gini_iOS_SDK
 
-final class CompositeDocumentService: DocumentServiceProtocol {
+final class MultipageDocumentsService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
     var partialDocuments: [String: PartialDocumentInfo] = [:]
@@ -20,8 +20,8 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfo = partialDocuments.map { $0.value }
-        self.fetchExtractions(for: partialDocumentsInfo, completion: completion)
+        let partialDocumentsInfoSorted = partialDocuments.map { $0.value }.sorted()
+        self.fetchExtractions(for: partialDocumentsInfoSorted, completion: completion)
     }
     
     func cancelAnalysis() {
@@ -44,6 +44,13 @@ final class CompositeDocumentService: DocumentServiceProtocol {
     
     func update(parameters: [String: Any], for document: GiniVisionDocument) {
         self.partialDocuments[document.id]?.updateAdditionalParameters(with: parameters)
+    }
+    
+    func orderDocuments(givenVisionDocumentIds ids: [String]) {
+        for index in 0..<ids.count {
+            let id = ids[index]
+            partialDocuments[id]?.order = index
+        }
     }
     
     func upload(document: GiniVisionDocument,

@@ -45,9 +45,11 @@ extension Array where Iterator.Element == GiniVisionDocument {
         }
     }
     
-    mutating func update(_ document: GiniVisionDocument) {
+    mutating func updateOrAdd(_ document: GiniVisionDocument) {
         if let documentIndex = (self.index { $0.id == document.id }) {
             self[documentIndex] = document
+        } else {
+            append(document)
         }
     }
 }

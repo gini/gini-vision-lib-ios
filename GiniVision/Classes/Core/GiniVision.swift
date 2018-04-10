@@ -37,6 +37,7 @@ import UIKit
      - parameter changes:   Indicates whether `imageData` was altered.
      */
     @objc optional func didReview(document: GiniVisionDocument, withChanges changes: Bool)
+    @objc optional func didReview(documents: [GiniVisionDocument])
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
