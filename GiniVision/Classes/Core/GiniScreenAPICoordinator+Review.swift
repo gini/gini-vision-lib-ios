@@ -14,7 +14,7 @@ internal extension GiniScreenAPICoordinator {
                             isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.updateSessionDocuments(document: document)
+            self.updateInSessionDocuments(document: document)
             }, failureBlock: { _ in
         })
         
@@ -39,13 +39,13 @@ internal extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
-        updateSessionDocuments(document: document)
-        visionDelegate?.didReview?(document: document,
-                                   withChanges: true)
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didRotate document: GiniImageDocument) {
+        updateInSessionDocuments(document: document)
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didDelete document: GiniImageDocument) {
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didDelete document: GiniImageDocument) {
         removeFromSessionDocuments(document: document)
         visionDelegate?.didCancelReview?(for: document)
         
@@ -55,11 +55,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didUpdateDocuments documents: [GiniImageDocument]) {
-        visionDocuments.forEach { document in
-            self.visionDelegate?.didReview?(document: document,
-                                            withChanges: true)
-        }
+                         didReorder documents: [GiniImageDocument]) {
+        replaceSessionDocuments(with: documents)
     }
     
     func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])

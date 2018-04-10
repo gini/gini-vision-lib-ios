@@ -66,9 +66,9 @@ extension GiniScreenAPICoordinator {
         
         if let sdk = builder?.build() {
             if giniConfiguration.multipageEnabled {
-                self.documentService = CompositeDocumentService(sdk: sdk)
+                self.documentService = MultipageDocumentsService(sdk: sdk)
             } else {
-                self.documentService = SingleDocumentService(sdk: sdk)
+                self.documentService = SinglePageDocumentsService(sdk: sdk)
             }
         }
     }
@@ -148,11 +148,25 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         }
     }
     
+    func didReview(documents: [GiniVisionDocument]) {
+        // There is the need to check the order when using multipage before
+        // creating composite document
+        if let documentService = documentService as? MultipageDocumentsService {
+            documentService.orderDocuments(givenVisionDocumentIds: documents.map { $0.id })
+        }
+        
+        // And review the changes for each document recursively.
+        for document in documents {
+            didReview(document: document, withChanges: false)
+        }
+
+    }
+    
     func didCancelReview(for document: GiniVisionDocument) {
         documentService?.remove(document: document)
     }
     
-    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
+    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {        
         documentService?.startAnalysis { result in
             switch result {
             case .success(let extractions):

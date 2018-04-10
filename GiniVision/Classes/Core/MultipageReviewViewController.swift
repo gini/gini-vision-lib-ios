@@ -9,7 +9,7 @@ import Foundation
 
 protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didUpdateDocuments documents: [GiniImageDocument])
+                         didReorder documents: [GiniImageDocument])
     func multipageReview(_ controller: MultipageReviewViewController,
                          didRotate document: GiniImageDocument)
     func multipageReview(_ controller: MultipageReviewViewController,
@@ -498,7 +498,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
+                self.delegate?.multipageReview(self, didReorder: self.imageDocuments)
             })
         }
     }

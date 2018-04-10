@@ -153,8 +153,12 @@ extension GiniScreenAPICoordinator {
         visionDocuments.remove(document)
     }
     
-    func updateSessionDocuments(document: GiniVisionDocument) {
-        visionDocuments.update(document)
+    func updateInSessionDocuments(document: GiniVisionDocument) {
+        visionDocuments.updateOrAdd(document)
+    }
+    
+    func replaceSessionDocuments(with documents: [GiniVisionDocument]) {
+        visionDocuments = documents
     }
     
     func clearSessionDocuments() {
@@ -183,17 +187,18 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-        let documentToShow = visionDocuments[0]
-        if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(documentToShow, false)
+        if let didReviewDocuments = visionDelegate?.didReview(documents:) {
+            didReviewDocuments(visionDocuments)
+        } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
+            didReview(visionDocuments[0], false)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
-            didReview(documentToShow.data, false)
+            didReview(visionDocuments[0].data, false)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
         }
         
-        self.analysisViewController = createAnalysisScreen(withDocument: documentToShow)
+        self.analysisViewController = createAnalysisScreen(withDocument: visionDocuments[0])
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
