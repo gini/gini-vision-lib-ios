@@ -23,7 +23,6 @@ public final class MultipageReviewViewController: UIViewController {
     var imageDocuments: [GiniImageDocument]
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
-    var uploadProgress: Double = 0.0
 
     // MARK: - UI initialization
 
@@ -239,12 +238,6 @@ extension MultipageReviewViewController {
                                          animated: true,
                                          scrollPosition: .centeredHorizontally)
         self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
-    }
-    
-    func updateUploadingStatus(for document: GiniVisionDocument,
-                               with error: Error?) {
-        uploadProgress += 1 / Double(self.imageDocuments.count)
-        print("Upload progress: ", uploadProgress * 100, "%")
     }
     
     func reloadCollections() {

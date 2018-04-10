@@ -131,9 +131,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 case .failure(let error):
                     print("Partial document creation error: ", error)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                    self.multiPageReviewViewController.updateUploadingStatus(for: document, with: nil)
-                })
+                // TODO: Update upload status in MultipageReviewViewController
             }
         }
         
