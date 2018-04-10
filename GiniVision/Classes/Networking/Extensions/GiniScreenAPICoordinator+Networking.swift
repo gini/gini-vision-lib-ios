@@ -166,7 +166,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         documentService?.remove(document: document)
     }
     
-    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
+    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {        
         documentService?.startAnalysis { result in
             switch result {
             case .success(let extractions):
