@@ -12,10 +12,10 @@ final class SingleDocumentService: DocumentServiceProtocol {
 
     var compositeDocument: GINIDocument?
     var giniSDK: GiniSDK
-    var isAnalyzing = false
     
     var partialDocumentInfo: PartialDocumentInfo?
     var pendingAnalysisHandler: AnalysisCompletion?
+    var analysisCancellationToken: BFCancellationTokenSource?
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
@@ -26,17 +26,23 @@ final class SingleDocumentService: DocumentServiceProtocol {
             pendingAnalysisHandler = completion
             return
         }
-        
+
         fetchExtractions(for: [partialDocumentInfo], completion: completion)
     }
     
     func cancelAnalysis() {
         compositeDocument = nil
         partialDocumentInfo = nil
-        isAnalyzing = false
+        pendingAnalysisHandler = nil
+        
+        analysisCancellationToken?.cancel()
+        analysisCancellationToken = nil
     }
     
     func remove(document: GiniVisionDocument) {
+        if let documentId = partialDocumentInfo?.documentId {
+            deletePartialDocument(withId: documentId)
+        }
         cancelAnalysis()
     }
     
@@ -46,13 +52,10 @@ final class SingleDocumentService: DocumentServiceProtocol {
     
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
-        let cancellationTokenSource = BFCancellationTokenSource()
-        let token = cancellationTokenSource.token
         partialDocumentInfo = PartialDocumentInfo()
         
         createDocument(from: document,
-                       fileName: "fileName",
-                       cancellationToken: token) { result in
+                       fileName: "fileName") { result in
             switch result {
             case .success(let document):
                 self.partialDocumentInfo?.documentUrl = document.links.document

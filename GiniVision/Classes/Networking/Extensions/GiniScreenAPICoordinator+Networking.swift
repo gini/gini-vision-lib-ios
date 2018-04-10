@@ -148,11 +148,6 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         }
     }
     
-    // Optional delegate methods
-    func didCancelReview() {
-        // TODO: Handle document deletion.
-    }
-    
     func didCancelReview(for document: GiniVisionDocument) {
         documentService?.remove(document: document)
     }
