@@ -10,6 +10,13 @@ import Foundation
 struct PartialDocumentInfo {
     
     var documentUrl: String?
+    var documentId: String? {
+        if let documentUrl = documentUrl,
+            let documentId = documentUrl.components(separatedBy: "/") .last {
+            return documentId
+        }
+        return nil
+    }
     private(set) var additionalParameters: [String: Any]?
     
     init() { }

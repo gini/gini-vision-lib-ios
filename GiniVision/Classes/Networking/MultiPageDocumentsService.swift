@@ -11,9 +11,9 @@ import Gini_iOS_SDK
 final class CompositeDocumentService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
-    var isAnalyzing = false
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
+    var analysisCancellationToken: BFCancellationTokenSource?
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
@@ -30,15 +30,12 @@ final class CompositeDocumentService: DocumentServiceProtocol {
         }
         
         compositeDocument = nil
-        isAnalyzing = false
     }
     
     func remove(document: GiniVisionDocument) {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
-                .documentUrl?
-                .components(separatedBy: "/")
-                .last {
+                .documentId {
                 deletePartialDocument(withId: partialDocumentId)
             }
             partialDocuments.remove(at: index)

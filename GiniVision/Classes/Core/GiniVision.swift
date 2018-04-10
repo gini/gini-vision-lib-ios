@@ -57,6 +57,7 @@ import UIKit
      Called when the user navigates back from the review screen to the camera potentially to
      retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
+    @available(*, deprecated)
     @objc optional func didCancelReview()
     
     @objc optional func didCancelReview(for document: GiniVisionDocument)

@@ -27,9 +27,9 @@ typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
 protocol DocumentServiceProtocol: class {
     
     var giniSDK: GiniSDK { get }
-    var isAnalyzing: Bool { get }
     var compositeDocument: GINIDocument? { get }
-    
+    var analysisCancellationToken: BFCancellationTokenSource? { get set }
+
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
@@ -51,9 +51,8 @@ extension DocumentServiceProtocol {
     func createDocument(from document: GiniVisionDocument,
                         fileName: String,
                         docType: String = "",
-                        cancellationToken: BFCancellationToken,
+                        cancellationToken: BFCancellationToken? = nil,
                         completion: @escaping UploadDocumentCompletion) {
-        print("Creating document for: ", document.id)
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
@@ -97,14 +96,17 @@ extension DocumentServiceProtocol {
             })
     }
     
-    func fetchExtractions(for documents: [PartialDocumentInfo], completion: @escaping AnalysisCompletion) {
+    func fetchExtractions(for documents: [PartialDocumentInfo],
+                          completion: @escaping AnalysisCompletion) {
         let partialDocumentsInfo = documents.map { $0.toDictionary() }
+        analysisCancellationToken = BFCancellationTokenSource()
+        
         giniSDK
             .documentTaskManager
             .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
                                      fileName: "",
                                      docType: "",
-                                     cancellationToken: nil)
+                                     cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
                     return self.giniSDK.documentTaskManager.getExtractionsFor(document)

@@ -217,9 +217,21 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             visionDelegate?.didCancelAnalysis?()
         }
         if fromVC == reviewViewController && toVC == cameraViewController {
+            // This only happen when not using multipage
             reviewViewController = nil
-            visionDelegate?.didCancelReview?()
-            clearSessionDocuments()
+            if let firstDocument = visionDocuments.first {
+                if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
+                    didCancelReviewForDocument(firstDocument)
+                } else if let didCancelReview = visionDelegate?.didCancelReview?() {
+                    // TODO: Print message indicating deprecation in Logger
+                    didCancelReview
+                } else {
+                    fatalError("GiniVisionDelegate.didCancelReview(for document: GiniVisionDocument)" +
+                        "should be implemented")
+                }
+                
+                clearSessionDocuments()
+            }
         }
         
         let isFromCameraToMultipage = (toVC == multiPageReviewViewController && fromVC == cameraViewController)
