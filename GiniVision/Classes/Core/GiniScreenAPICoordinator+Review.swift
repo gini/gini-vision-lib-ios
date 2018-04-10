@@ -14,8 +14,7 @@ internal extension GiniScreenAPICoordinator {
                             isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.addToSessionDocuments(newDocuments: [document])
-            self.changesOnReview = true
+            self.updateSessionDocuments(document: document)
             }, failureBlock: { _ in
         })
         
@@ -41,7 +40,7 @@ internal extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     
     func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
-        updateOnSessionDocuments(document: document)
+        updateSessionDocuments(document: document)
         visionDelegate?.didReview?(document: document,
                                    withChanges: true)
     }
@@ -57,11 +56,10 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     
     func multipageReview(_ controller: MultipageReviewViewController,
                          didUpdateDocuments documents: [GiniImageDocument]) {
-//        visionDocuments = documents
         visionDocuments.forEach { document in
             self.visionDelegate?.didReview?(document: document,
                                             withChanges: true)
-        }        
+        }
     }
     
     func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])

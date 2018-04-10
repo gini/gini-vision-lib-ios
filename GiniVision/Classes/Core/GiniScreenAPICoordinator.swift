@@ -47,7 +47,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var giniConfiguration: GiniConfiguration
     fileprivate(set) var visionDocuments: [GiniVisionDocument] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
-    var changesOnReview: Bool = false
     
     weak var visionDelegate: GiniVisionDelegate?
     // Resources
@@ -154,7 +153,7 @@ extension GiniScreenAPICoordinator {
         visionDocuments.remove(document)
     }
     
-    func updateOnSessionDocuments(document: GiniVisionDocument) {
+    func updateSessionDocuments(document: GiniVisionDocument) {
         visionDocuments.update(document)
     }
     
@@ -186,9 +185,9 @@ extension GiniScreenAPICoordinator {
     @objc func showAnalysisScreen() {
         let documentToShow = visionDocuments[0]
         if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(documentToShow, changesOnReview)
+            didReview(documentToShow, true)
         } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
-            didReview(documentToShow.data, changesOnReview)
+            didReview(documentToShow.data, true)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
