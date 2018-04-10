@@ -351,7 +351,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        delegate?.cameraDidAppear(self)
+        delegate?.cameraDidAppear(self)        
     }
     
     /**

@@ -288,7 +288,11 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
-        showOnboardingIfNeeded()
+        if shouldShowOnBoarding() {
+            showOnboardingScreen()
+        } else if AlertDialogController.shouldShowNewMultipageFeature {
+            showMultipageNewFeatureDialog()
+        }
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
@@ -326,14 +330,16 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         }
     }
     
-    fileprivate func showOnboardingIfNeeded() {
+    fileprivate func shouldShowOnBoarding() -> Bool {
         if giniConfiguration.onboardingShowAtFirstLaunch &&
             !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed") {
-            showOnboardingScreen()
             UserDefaults.standard.set(true, forKey: "ginivision.defaults.onboardingShowed")
+            return true
         } else if giniConfiguration.onboardingShowAtLaunch {
-            showOnboardingScreen()
+            return true
         }
+        
+        return false
     }
     
     private func showOnboardingScreen() {
@@ -352,6 +358,25 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         navigationController.applyStyle(withConfiguration: giniConfiguration)
         navigationController.modalPresentationStyle = .overCurrentContext
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
+    }
+    
+    private func showMultipageNewFeatureDialog() {
+        let alertDialog = AlertDialogController(giniConfiguration: giniConfiguration,
+                                                title: "This is the title",
+                                                message: "This is the message",
+                                                image: UIImageNamedPreferred(named: "multipageIcon"),
+                                                buttonTitle: "Let's scan!",
+                                                buttonImage: UIImage(named: "cameraIcon",
+                                                                     in: Bundle(for: GiniVision.self),
+                                                                     compatibleWith: nil))
+        alertDialog.continueAction = {
+            alertDialog.dismiss(animated: true, completion: nil)
+            AlertDialogController.shouldShowNewMultipageFeature = false
+        }
+        alertDialog.cancelAction = alertDialog.continueAction
+        screenAPINavigationController.present(alertDialog,
+                                              animated: true,
+                                              completion: nil)
     }
     
 }
