@@ -16,18 +16,19 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             loadingView.removeFromSuperview()
             switch result {
-            case .success:
-                self.addToDocuments(newDocuments: [document])
+            case .success(let validatedDocuments):
+                let validatedDocument = validatedDocuments[0]
+                self.addToSessionDocuments(newDocuments: [validatedDocument])
                 self.didCaptureAndValidate(document)
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
-                        self.showNextScreenAfterPicking(documents: [imageDocument])
+                        self.showNextScreenAfterPicking(documents: [validatedDocument])
                     }
                 } else if let qrDocument = document as? GiniQRCodeDocument {
                     viewController.showPopup(forQRDetected: qrDocument) {
-                        self.showNextScreenAfterPicking(documents: self.visionDocuments)
+                        self.showNextScreenAfterPicking(documents: self.sessionDocuments)
                     }
                 }
             case .failure(let error):
@@ -45,7 +46,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         case .gallery:
             documentPickerCoordinator.showGalleryPicker(from: viewController)
         case .explorer:
-            documentPickerCoordinator.isPDFSelectionAllowed = visionDocuments.isEmpty
+            documentPickerCoordinator.isPDFSelectionAllowed = sessionDocuments.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
         case .dragndrop: break
         }
@@ -151,8 +152,9 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                               completion: nil)
     }
     
-    func showNextScreenAfterPicking(documents: [GiniVisionDocument]) {
-        if let firstDocument = documents.first, let documentsType = documents.type {
+    func showNextScreenAfterPicking(documents: [ValidatedDocument]) {
+        let visionDocuments = documents.map { $0.document }
+        if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
             switch documentsType {
             case .image:
                 if let imageDocuments = visionDocuments as? [GiniImageDocument],
@@ -188,13 +190,13 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             switch result {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
-                    self.addToDocuments(newDocuments: validatedDocuments.map { $0.document })
+                    self.addToSessionDocuments(newDocuments: validatedDocuments)
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
                             self.didCaptureAndValidate(validatedDocument.document)
                         }
                     }
-                    self.showNextScreenAfterPicking(documents: validatedDocuments.map { $0.document })
+                    self.showNextScreenAfterPicking(documents: validatedDocuments)
                 }
             case .failure(let error):
                 var positiveAction: (() -> Void)?
@@ -240,12 +242,12 @@ extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
                               completion: @escaping (Result<[ValidatedDocument]>) -> Void) {
         
-        guard !(documents + visionDocuments).containsDifferentTypes else {
+        guard !(documents + sessionDocuments.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
         
-        guard (documents.count + visionDocuments.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+        guard (documents.count + sessionDocuments.count) <= GiniVisionDocumentValidator.maxPagesCount else {
             completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
             return
         }

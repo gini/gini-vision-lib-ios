@@ -102,7 +102,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
                                     didRotate: coordinator.multiPageReviewViewController.imageDocuments[0])
 
-        let imageDocument = coordinator.visionDocuments[0] as? GiniImageDocument
+        let imageDocument = coordinator.sessionDocuments[0] as? GiniImageDocument
         XCTAssertEqual(imageDocument?.rotationDelta, 90,
                        "the image document rotation delta should have been updated after rotation")
     }
