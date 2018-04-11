@@ -14,7 +14,7 @@ internal extension GiniScreenAPICoordinator {
                             isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.updateInDocuments(document: document)
+            self.updateValueInSessionDocuments(for: document)
             }, failureBlock: { _ in
         })
         
@@ -50,18 +50,19 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         removeFromDocuments(document: document)
         visionDelegate?.didCancelReview(for: document)
         
-        if visionDocuments.isEmpty {
+        if sessionDocuments.isEmpty {
             closeMultipageScreen()
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documents: [GiniImageDocument]) {
-        replaceDocuments(with: documents)
+                         didReorder documents: [ValidatedDocument]) {
+        replaceSessionDocuments(with: documents)
     }
+
     func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
         -> MultipageReviewViewController {
-            let vc = MultipageReviewViewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
+            let vc = MultipageReviewViewController(validatedDocuments: validatedDocuments, giniConfiguration: giniConfiguration)
             vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
                                    selector: #selector(closeMultipageScreen),
@@ -84,8 +85,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
                                                          animated: true)
     }
     
-    func refreshMultipageReview(with imageDocuments: [GiniImageDocument]) {
-        multiPageReviewViewController.imageDocuments = imageDocuments
+    func refreshMultipageReview(with imageDocuments: [ValidatedDocument]) {
+        multiPageReviewViewController.validatedDocuments = imageDocuments
         multiPageReviewViewController.reloadCollections()
     }
 }

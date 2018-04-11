@@ -81,14 +81,14 @@ extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             if hasExtactions {
                 self.resultsDelegate?
-                    .giniVision(self.visionDocuments,
+                    .giniVision(self.sessionDocuments.map {$0.document},
                                 analysisDidFinishWithResults: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
                                     self.documentService?.sendFeedback(with: updatedExtractions)
                 }
             } else {
                 self.resultsDelegate?
-                    .giniVision(self.visionDocuments,
+                    .giniVision(self.sessionDocuments.map {$0.document},
                                 analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
             }
         }

@@ -9,18 +9,18 @@ import Foundation
 
 protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documents: [GiniImageDocument])
+                         didReorder documents: [ValidatedDocument])
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didRotate document: GiniImageDocument)
+                         didRotate document: ValidatedDocument)
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didDelete document: GiniImageDocument)
+                         didDelete document: ValidatedDocument)
 
 }
 
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    var imageDocuments: [GiniImageDocument]
+    var validatedDocuments: [ValidatedDocument]
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
 
@@ -153,8 +153,8 @@ public final class MultipageReviewViewController: UIViewController {
     
     // MARK: - Init
     
-    public init(imageDocuments: [GiniImageDocument], giniConfiguration: GiniConfiguration) {
-        self.imageDocuments = imageDocuments
+    public init(validatedDocuments: [ValidatedDocument], giniConfiguration: GiniConfiguration) {
+        self.validatedDocuments = validatedDocuments
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
@@ -271,7 +271,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = "\(page) of \(imageDocuments.count)"
+        title = "\(page) of \(validatedDocuments.count)"
     }
     
     fileprivate func changeReorderButtonState(toActive activate: Bool) {
@@ -389,34 +389,38 @@ extension MultipageReviewViewController {
 extension MultipageReviewViewController {
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            imageDocuments[currentIndexPath.row].rotatePreviewImage90Degrees()
+            guard let imageDocument = validatedDocuments[currentIndexPath.row].document as? GiniImageDocument else {
+                return
+            }
+            imageDocument.rotatePreviewImage90Degrees()
+            validatedDocuments[currentIndexPath.row].document = imageDocument
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didRotate: imageDocuments[currentIndexPath.row])
+            delegate?.multipageReview(self, didRotate: validatedDocuments[currentIndexPath.row])
         }
     }
     
     @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            let documentToDelete = imageDocuments[currentIndexPath.row]
-            imageDocuments.remove(at: currentIndexPath.row)
+            let documentToDelete = validatedDocuments[currentIndexPath.row]
+            validatedDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
             
             pagesCollection.performBatchUpdates({
                 self.pagesCollection.deleteItems(at: [currentIndexPath])
             }, completion: { [weak self] _ in
                 guard let `self` = self else { return }
-                if self.imageDocuments.count > 0 {
-                    if currentIndexPath.row != self.imageDocuments.count {
+                if self.validatedDocuments.count > 0 {
+                    if currentIndexPath.row != self.validatedDocuments.count {
                         var indexes = IndexPath.indexesBetween(currentIndexPath,
-                                                               and: IndexPath(row: self.imageDocuments.count,
+                                                               and: IndexPath(row: self.validatedDocuments.count,
                                                                               section: 0))
                         indexes.append(currentIndexPath)
                         self.pagesCollection.reloadItems(at: indexes)
                     }
                     
-                    self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
+                    self.selectItem(at: min(currentIndexPath.row, self.validatedDocuments.count - 1))
                 }
                 self.delegate?.multipageReview(self, didDelete: documentToDelete)
             })
@@ -451,7 +455,7 @@ extension MultipageReviewViewController {
 
 extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageDocuments.count
+        return self.validatedDocuments.count
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -460,13 +464,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            cell?.documentImage.image = imageDocuments[indexPath.row].previewImage
+            cell?.documentImage.image = validatedDocuments[indexPath.row].document.previewImage
             return cell!
         } else {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            if let image = imageDocuments[indexPath.row].previewImage {
+            if let image = validatedDocuments[indexPath.row].document.previewImage {
                 cell?.documentImage.contentMode = image.size.width > image.size.height ?
                     .scaleAspectFit :
                     .scaleAspectFill
@@ -489,8 +493,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 indexes.append(destinationIndexPath)
             }
             
-            let elementMoved = imageDocuments.remove(at: sourceIndexPath.row)
-            imageDocuments.insert(elementMoved, at: destinationIndexPath.row)
+            let elementMoved = validatedDocuments.remove(at: sourceIndexPath.row)
+            validatedDocuments.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
             
             // This is needed because this method is called before the dragging animation finishes.
@@ -498,7 +502,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.delegate?.multipageReview(self, didReorder: self.imageDocuments)
+                self.delegate?.multipageReview(self, didReorder: self.validatedDocuments)
             })
         }
     }
@@ -519,7 +523,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
-            if imageDocuments.count > 1 {
+            if validatedDocuments.count > 1 {
                 mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
