@@ -389,11 +389,10 @@ extension MultipageReviewViewController {
 extension MultipageReviewViewController {
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            guard let imageDocument = validatedDocuments[currentIndexPath.row].document as? GiniImageDocument else {
+            guard let imageDocument = validatedDocuments[currentIndexPath.row].value as? GiniImageDocument else {
                 return
             }
             imageDocument.rotatePreviewImage90Degrees()
-            validatedDocuments[currentIndexPath.row].document = imageDocument
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
@@ -464,13 +463,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            cell?.documentImage.image = validatedDocuments[indexPath.row].document.previewImage
+            cell?.documentImage.image = validatedDocuments[indexPath.row].value.previewImage
             return cell!
         } else {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            if let image = validatedDocuments[indexPath.row].document.previewImage {
+            if let image = validatedDocuments[indexPath.row].value.previewImage {
                 cell?.documentImage.contentMode = image.size.width > image.size.height ?
                     .scaleAspectFit :
                     .scaleAspectFill
