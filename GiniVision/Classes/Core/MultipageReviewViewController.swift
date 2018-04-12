@@ -469,13 +469,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            if let image = validatedDocuments[indexPath.row].value.previewImage {
-                cell?.documentImage.contentMode = image.size.width > image.size.height ?
-                    .scaleAspectFit :
-                    .scaleAspectFill
-                cell?.documentImage.image = image
-            }
-            cell?.pageIndicatorLabel.text = "\(indexPath.row + 1)"
+            cell?.fill(with: validatedDocuments[indexPath.row], at: indexPath.row)
             return cell!
         }
     }

@@ -7,6 +7,75 @@
 
 import Foundation
 
+final class PageStatusView: UIView {
+    
+    enum PageStatus {
+        case success, failure, loading
+    }
+    
+    lazy private var icon: UIImageView  = {
+        let icon = UIImageView()
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        
+        return icon
+    }()
+    
+    lazy private var loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(icon)
+        addSubview(loadingIndicator)
+        addConstraints()
+    }
+    
+    func addConstraints() {
+        
+        // loadingIndicator
+        Constraints.active(item: loadingIndicator, attr: .centerX, relatedBy: .equal, to: self, attr: .centerX)
+        Constraints.active(item: loadingIndicator, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY)
+        
+        // icon
+        Constraints.active(item: icon, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: 10)
+        Constraints.active(item: icon, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 10)
+        Constraints.active(item: icon, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing, constant: -10)
+        Constraints.active(item: icon, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -10)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func update(to status: PageStatus) {
+        switch status {
+        case .success:
+            backgroundColor = Colors.Gini.paleGreen
+            icon.image = UIImage.init(named: "supportedFormatsIcon",
+                                      in: Bundle(for: GiniVision.self),
+                                      compatibleWith: nil)
+            loadingIndicator.stopAnimating()
+
+        case .failure:
+            backgroundColor = Colors.Gini.crimson
+            icon.image = UIImage.init(named: "nonSupportedFormatsIcon",
+                                      in: Bundle(for: GiniVision.self),
+                                      compatibleWith: nil)
+            loadingIndicator.stopAnimating()
+        case .loading:
+            backgroundColor = .clear
+            icon.image = nil
+            loadingIndicator.startAnimating()
+        default:
+            break
+        }
+    }
+}
+
 final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
     static let identifier = "MultipageReviewPagesCollectionCellIdentifier"
@@ -17,6 +86,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
+    let statusViewSize = CGSize(width: 40, height: 40)
     
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
@@ -33,6 +103,21 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    lazy var statusView: PageStatusView  = {
+        let view = PageStatusView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = self.statusViewSize.width / 2
+        
+        return view
+    }()
+    
+    lazy var traslucentBackground: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        return view
     }()
     
     lazy var draggableIcon: UIImageView = {
@@ -87,6 +172,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         roundMask.addSubview(bottomContainer)
         roundMask.addSubview(pageSelectedLine)
         roundMask.addSubview(documentImage)
+        roundMask.addSubview(traslucentBackground)
+        roundMask.addSubview(statusView)
         bottomContainer.addSubview(pageIndicatorLabel)
         bottomContainer.addSubview(pageIndicatorCircle)
         bottomContainer.addSubview(draggableIcon)
@@ -115,6 +202,14 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: pageIndicatorLabel, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerY)
         
+        // statusView
+        Constraints.active(item: statusView, attr: .centerX, relatedBy: .equal, to: documentImage, attr: .centerX)
+        Constraints.active(item: statusView, attr: .centerY, relatedBy: .equal, to: documentImage, attr: .centerY)
+        Constraints.active(item: statusView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: statusViewSize.height)
+        Constraints.active(item: statusView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: statusViewSize.width)
+
         // pageIndicatorCircle
         Constraints.active(item: pageIndicatorCircle, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: pageIndicatorCircleSize.height)
@@ -152,6 +247,15 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: documentImage, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
         Constraints.active(item: documentImage, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .top)
         
+        // traslucentBackground
+        Constraints.active(item: traslucentBackground, attr: .top, relatedBy: .equal, to: documentImage, attr: .top)
+        Constraints.active(item: traslucentBackground, attr: .leading, relatedBy: .equal, to: documentImage,
+                           attr: .leading)
+        Constraints.active(item: traslucentBackground, attr: .trailing, relatedBy: .equal, to: documentImage,
+                           attr: .trailing)
+        Constraints.active(item: traslucentBackground, attr: .bottom, relatedBy: .equal, to: documentImage,
+                           attr: .bottom)
+        
         // bottomContainer
         Constraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
         Constraints.active(item: bottomContainer, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
@@ -166,5 +270,23 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0,
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
+    }
+    
+    func fill(with validatedDocument: ValidatedDocument, at index: Int) {
+        if let image = validatedDocument.value.previewImage {
+            documentImage.contentMode = image.size.width > image.size.height ?
+                .scaleAspectFit :
+                .scaleAspectFill
+            documentImage.image = image
+        }
+        pageIndicatorLabel.text = "\(index + 1)"
+        
+        if index == 0 {
+            statusView.update(to: .success)
+        } else if index == 1 {
+            statusView.update(to: .failure)
+        } else {
+            statusView.update(to: .loading)
+        }
     }
 }
