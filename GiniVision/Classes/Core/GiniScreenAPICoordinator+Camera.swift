@@ -153,7 +153,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     func showNextScreenAfterPicking(documents: [ValidatedDocument]) {
-        let visionDocuments = documents.map { $0.document }
+        let visionDocuments = documents.map { $0.value }
         if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
             switch documentsType {
             case .image:
@@ -193,7 +193,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                     self.addToSessionDocuments(newDocuments: validatedDocuments)
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
-                            self.didCaptureAndValidate(validatedDocument.document)
+                            self.didCaptureAndValidate(validatedDocument.value)
                         }
                     }
                     self.showNextScreenAfterPicking(documents: validatedDocuments)
@@ -242,7 +242,7 @@ extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
                               completion: @escaping (Result<[ValidatedDocument]>) -> Void) {
         
-        guard !(documents + sessionDocuments.map {$0.document}).containsDifferentTypes else {
+        guard !(documents + sessionDocuments.map {$0.value}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
@@ -255,8 +255,8 @@ extension GiniScreenAPICoordinator {
         self.validate(importedDocuments: documents) { validatedDocuments in
             let elementsWithError = validatedDocuments.filter { $0.error != nil }
             if let firstElement = elementsWithError.first,
-                let error = firstElement.1,
-                (!self.giniConfiguration.multipageEnabled || firstElement.document.type != .image) {
+                let error = firstElement.error,
+                (!self.giniConfiguration.multipageEnabled || firstElement.value.type != .image) {
                 completion(.failure(error))
             } else {
                 completion(.success(validatedDocuments))
@@ -267,7 +267,7 @@ extension GiniScreenAPICoordinator {
     private func validate(importedDocuments documents: [GiniVisionDocument],
                           completion: @escaping ([ValidatedDocument]) -> Void) {
         DispatchQueue.global().async {
-            var validatedDocuments: [(GiniVisionDocument, Error?)] = []
+            var validatedDocuments: [ValidatedDocument] = []
             documents.forEach { document in
                 var documentError: Error?
                 do {
@@ -276,7 +276,7 @@ extension GiniScreenAPICoordinator {
                 } catch let error {
                     documentError = error
                 }
-                validatedDocuments.append((document, documentError))
+                validatedDocuments.append(ValidatedDocument(value: document, error: documentError))
             }
             
             DispatchQueue.main.async {

@@ -40,17 +40,21 @@ extension Collection where Iterator.Element == GiniVisionDocument {
 extension Array where Iterator.Element == ValidatedDocument {
     
     mutating func remove(_ document: GiniVisionDocument) {
-        if let documentIndex = (self.index { $0.document.id == document.id }) {
+        if let documentIndex = (self.index { $0.value.id == document.id }) {
             remove(at: documentIndex)
         }
     }
     
     @discardableResult
     mutating func updateValue(of document: GiniVisionDocument) -> Bool {
-        if let documentIndex = (self.index { $0.document.id == document.id }) {
-            self[documentIndex].document = document
+        if let documentIndex = (self.index { $0.value.id == document.id }) {
+            self[documentIndex].value = document
             return true
         }
         return false
+    }
+    
+    var type: GiniVisionDocumentType? {
+        return map {$0.value}.type
     }
 }

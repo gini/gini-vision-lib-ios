@@ -12,9 +12,7 @@ protocol Coordinator: class {
     var rootViewController: UIViewController { get }
 }
 
-public typealias ValidatedDocument = (document: GiniVisionDocument, error: Error?)
-
-internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
+final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     var rootViewController: UIViewController {
         return screenAPINavigationController
@@ -37,7 +35,6 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
         if let type = self.visionDocuments.type, type != .image {
             assertionFailure("The MultipageReviewViewController can only handle image documents.")
         }
-        
         let multiPageReviewViewController =
             self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
         return multiPageReviewViewController
@@ -96,12 +93,13 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
             }
             
             if !documents.containsDifferentTypes {
-                self.addToSessionDocuments(newDocuments: documents.map {($0, nil)})
+                let validatedDocuments: [ValidatedDocument] = documents.map { ValidatedDocument(value: $0) }
+                self.addToSessionDocuments(newDocuments: validatedDocuments)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
-                viewControllers = initialViewControllers(withDocuments: documents)
+                viewControllers = initialViewControllers(withDocuments: validatedDocuments)
                 
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
@@ -117,23 +115,23 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
                                              parent: self)
     }
     
-    private func initialViewControllers(withDocuments documents: [GiniVisionDocument]) -> [UIViewController] {
-        if let imageDocuments = documents as? [GiniImageDocument] {
+    private func initialViewControllers(withDocuments documents: [ValidatedDocument]) -> [UIViewController] {
+        if documents.type == .image {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
-                self.cameraViewController?.updateMultipageReviewButton(withImage: imageDocuments[0].previewImage,
-                                                                       showingStack: imageDocuments.count > 1)
+                self.cameraViewController?.updateMultipageReviewButton(withImage: documents[0].value.previewImage,
+                                                                       showingStack: documents.count > 1)
                 self.multiPageReviewViewController =
-                    createMultipageReviewScreenContainer(with: imageDocuments)
+                    createMultipageReviewScreenContainer(with: documents)
                 
                 return [self.cameraViewController!, self.multiPageReviewViewController]
             } else {
                 self.cameraViewController = self.createCameraViewController()
-                self.reviewViewController = self.createReviewScreen(withDocument: documents[0])
+                self.reviewViewController = self.createReviewScreen(withDocument: documents[0].value)
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0])
+            self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0].value)
             return [self.analysisViewController!]
         }
     }
@@ -189,7 +187,7 @@ extension GiniScreenAPICoordinator {
     
     @objc func showAnalysisScreen() {
         if let didReviewDocuments = visionDelegate?.didReview(documents:) {
-            didReviewDocuments(sessionDocuments.map {$0.document})
+            didReviewDocuments(sessionDocuments.map {$0.value})
         } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
             guard let firstElement = visionDocuments.first else {
                 fatalError("There aren't elements to review.")
@@ -200,7 +198,7 @@ extension GiniScreenAPICoordinator {
                 "withChanges changes: Bool) should be implemented")
         }
         
-        self.analysisViewController = createAnalysisScreen(withDocument: sessionDocuments.map {$0.document}[0])
+        self.analysisViewController = createAnalysisScreen(withDocument: sessionDocuments[0].value)
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
@@ -225,7 +223,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             // This can only happen when not using multipage
             reviewViewController = nil
-            if let firstDocument = sessionDocuments.first?.document {
+            if let firstDocument = sessionDocuments.first?.value {
                 if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
                     didCancelReviewForDocument(firstDocument)
                 } else {
@@ -268,7 +266,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             
             var image: UIImage? = nil
             if let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row {
-                image = self.sessionDocuments[visibleIndex].document.previewImage
+                image = self.sessionDocuments[visibleIndex].value.previewImage
             }
             cameraVC.updateMultipageReviewButton(withImage: image,
                                                  showingStack: self.sessionDocuments.count > 1)
