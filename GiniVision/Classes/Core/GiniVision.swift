@@ -179,4 +179,14 @@ import UIKit
     public static var versionString: String {
         return GiniVisionVersion
     }
+    
+    /**
+     Validates a `GiniVisionDocument` with a given `GiniConfiguration`.
+     
+     - Throws: `DocumentValidationError` if there was an error during the validation.
+     
+     */
+    public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
+        try GiniVisionDocumentValidator.validate(document, withConfig: giniConfiguration)
+    }
 }
