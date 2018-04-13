@@ -62,7 +62,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
 
     func createMultipageReviewScreenContainer(with validatedDocuments: [ValidatedDocument])
         -> MultipageReviewViewController {
-            let vc = MultipageReviewViewController(validatedDocuments: validatedDocuments, giniConfiguration: giniConfiguration)
+            let vc = MultipageReviewViewController(validatedDocuments: validatedDocuments,
+                                                   giniConfiguration: giniConfiguration)
             vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
                                    selector: #selector(closeMultipageScreen),
