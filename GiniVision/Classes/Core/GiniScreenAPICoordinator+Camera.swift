@@ -143,10 +143,10 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     private func showMultipageNewFeatureDialog() {
         let alertDialog = AlertDialogController(giniConfiguration: giniConfiguration,
-                                                title: "This is the title",
-                                                message: "This is the subtitle",
+                                                title: "Multi-Page Rechnungsanalyse",
+                                                message: "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren",
                                                 image: UIImageNamedPreferred(named: "multipageIcon"),
-                                                buttonTitle: "Let's scan!",
+                                                buttonTitle: "Zur Kamera",
                                                 buttonImage: UIImage(named: "cameraIcon",
                                                                      in: Bundle(for: GiniVision.self),
                                                                      compatibleWith: nil))
