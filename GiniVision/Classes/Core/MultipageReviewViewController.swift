@@ -20,7 +20,14 @@ protocol MultipageReviewViewControllerDelegate: class {
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    var validatedDocuments: [ValidatedDocument]
+    var validatedDocuments: [ValidatedDocument] {
+        didSet {
+            navigationItem
+                .rightBarButtonItem?
+                .isEnabled = validatedDocuments
+                    .reduce(true, { $0.0 && $0.1.isUploaded})
+        }
+    }
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
 
@@ -228,9 +235,13 @@ extension MultipageReviewViewController {
     }
     
     func reloadCollections() {
+        let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()
-        self.selectItem(at: 0)
+        
+        if let currentSelectedItem = currentSelectedItem {
+            self.selectItem(at: currentSelectedItem.row)
+        }
     }
 
 }

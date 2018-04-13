@@ -20,7 +20,8 @@ import UIKit
      Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
      */
     
-    func didCapture(document: GiniVisionDocument)
+    @objc optional func didCapture(document: GiniVisionDocument)
+    @objc optional func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate)
     
     /**
      Called when the user has taken an image.

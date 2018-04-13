@@ -73,6 +73,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
                                    selector: #selector(showAnalysisScreen),
                                    position: .right,
                                    target: self)
+            
+            vc.navigationItem.rightBarButtonItem?.isEnabled = false
             return vc
     }
     

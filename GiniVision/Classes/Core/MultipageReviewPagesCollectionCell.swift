@@ -10,8 +10,8 @@ import Foundation
 final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
     static let identifier = "MultipageReviewPagesCollectionCellIdentifier"
-    static let size = CGSize(width: 84,
-                             height: 150 +
+    static let size = CGSize(width: 107,
+                             height: 192 +
                                 MultipageReviewPagesCollectionCell.shadowHeight +
                                 MultipageReviewPagesCollectionCell.shadowRadius)
     static let shadowHeight: CGFloat = 2
@@ -212,9 +212,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         }
         pageIndicatorLabel.text = "\(index + 1)"
         
-        if index == 0 {
+        if validatedDocument.isUploaded {
             statusView.update(to: .success)
-        } else if index == 1 {
+        } else if validatedDocument.error != nil {
             statusView.update(to: .failure)
         } else {
             statusView.update(to: .loading)

@@ -45,13 +45,11 @@ extension Array where Iterator.Element == ValidatedDocument {
         }
     }
     
-    @discardableResult
-    mutating func updateValue(of document: GiniVisionDocument) -> Bool {
+    func index(of document: GiniVisionDocument) -> Int? {
         if let documentIndex = (self.index { $0.value.id == document.id }) {
-            self[documentIndex].value = document
-            return true
+            return documentIndex
         }
-        return false
+        return nil
     }
     
     var type: GiniVisionDocumentType? {
