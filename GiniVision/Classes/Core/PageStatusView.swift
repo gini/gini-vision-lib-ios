@@ -22,7 +22,7 @@ final class PageStatusView: UIView {
     }()
     
     lazy private(set) var loadingIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
         return indicator
