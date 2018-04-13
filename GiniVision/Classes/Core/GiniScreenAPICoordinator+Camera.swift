@@ -9,6 +9,11 @@ import Foundation
 
 // MARK: - Camera Screen
 
+@objc public protocol UploadDelegate {
+    func uploadDidFail(for document: GiniVisionDocument, with error: Error)
+    func uploadDidComplete(for document: GiniVisionDocument)
+}
+
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         let loadingView = viewController.addValidationLoadingView()
@@ -20,6 +25,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 let validatedDocument = validatedDocuments[0]
                 self.addToSessionDocuments(newDocuments: [validatedDocument])
                 self.didCaptureAndValidate(document)
+                
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
@@ -96,7 +102,9 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
-        if let didCapture = visionDelegate?.didCapture(document:) {
+        if let didCaptureWithDelegate = visionDelegate?.didCapture(document:uploadDelegate:) {
+            didCaptureWithDelegate(document, self)
+        } else if let didCapture = visionDelegate?.didCapture(document:) {
             didCapture(document)
         } else {
             fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
@@ -166,13 +174,13 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                     } else {
                         reviewViewController = createReviewScreen(withDocument: lastDocument)
                         screenAPINavigationController.pushViewController(reviewViewController!,
-                                                                              animated: true)
+                                                                         animated: true)
                     }
                 }
             case .qrcode, .pdf:
                 analysisViewController = createAnalysisScreen(withDocument: firstDocument)
                 screenAPINavigationController.pushViewController(analysisViewController!,
-                                                                      animated: true)
+                                                                 animated: true)
             }
         }
     }
@@ -282,6 +290,26 @@ extension GiniScreenAPICoordinator {
             DispatchQueue.main.async {
                 completion(validatedDocuments)
             }
+        }
+    }
+}
+
+// MARK: - UploadDelegate
+
+extension GiniScreenAPICoordinator: UploadDelegate {
+    func uploadDidComplete(for document: GiniVisionDocument) {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.updateUploadStatusInSessionDocuments(for: document, to: true)
+            self.refreshMultipageReview(with: self.sessionDocuments)
+        }
+    }
+    
+    func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.updateErrorInSessionDocuments(for: document, to: error)
+            self.refreshMultipageReview(with: self.sessionDocuments)
         }
     }
 }

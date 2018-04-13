@@ -153,7 +153,21 @@ extension GiniScreenAPICoordinator {
     }
     
     func updateValueInSessionDocuments(for document: GiniVisionDocument) {
-        sessionDocuments.updateValue(of: document)
+        if let index = sessionDocuments.index(of: document) {
+            sessionDocuments[index].value = document
+        }
+    }
+    
+    func updateUploadStatusInSessionDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
+        if let index = sessionDocuments.index(of: document) {
+            sessionDocuments[index].isUploaded = uploaded
+        }
+    }
+    
+    func updateErrorInSessionDocuments(for document: GiniVisionDocument, to error: Error) {
+        if let index = sessionDocuments.index(of: document) {
+            sessionDocuments[index].error = error
+        }
     }
     
     func replaceSessionDocuments(with documents: [ValidatedDocument]) {

@@ -120,19 +120,18 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         resultsDelegate?.giniVision([], analysisDidCancel: true)
         
     }
-        
-    func didCapture(document: GiniVisionDocument) {
+    
+    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {
         var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
         
         if giniConfiguration.multipageEnabled {
             uploadDocumentCompletionHandler = { result in
                 switch result {
-                case .success:
-                    break
-                case .failure(let error):
-                    print("Partial document creation error: ", error)
+                case .success: break
+                    uploadDelegate.uploadDidComplete(for: document)
+                case .failure(let error): break
+                    uploadDelegate.uploadDidFail(for: document, with: error)
                 }
-                // TODO: Update upload status in MultipageReviewViewController
             }
         }
         
