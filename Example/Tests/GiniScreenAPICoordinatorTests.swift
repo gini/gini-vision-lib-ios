@@ -95,24 +95,24 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = loadImageDocument(withName: "invoice")
-        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
+        let capturedImageDocument = loadValidatedImageDocument(withName: "invoice")
+        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
         
-        coordinator.multiPageReviewViewController.imageDocuments[0].rotatePreviewImage90Degrees()
+        (coordinator.multiPageReviewViewController.validatedDocuments[0].value as? GiniImageDocument)?.rotatePreviewImage90Degrees()
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didRotate: coordinator.multiPageReviewViewController.imageDocuments[0])
+                                    didRotate: coordinator.multiPageReviewViewController.validatedDocuments[0])
 
-        let imageDocument = coordinator.sessionDocuments[0] as? GiniImageDocument
+        let imageDocument = coordinator.sessionDocuments[0].value as? GiniImageDocument
         XCTAssertEqual(imageDocument?.rotationDelta, 90,
                        "the image document rotation delta should have been updated after rotation")
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = loadImageDocument(withName: "invoice")
-        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
+        let capturedImageDocument = loadValidatedImageDocument(withName: "invoice")
+        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didDelete: coordinator.multiPageReviewViewController.imageDocuments[0])
+                                    didDelete: coordinator.multiPageReviewViewController.validatedDocuments[0])
         
         XCTAssertTrue(coordinator.visionDocuments.isEmpty,
                       "vision documents collection should be empty after delete " +

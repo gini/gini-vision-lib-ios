@@ -53,7 +53,6 @@ public final class MultipageReviewViewController: UIViewController {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = Colors.Gini.pearl
-        view.alpha = 0
         
         return view
     }()
@@ -95,10 +94,7 @@ public final class MultipageReviewViewController: UIViewController {
         var items = [self.rotateButton,
                      flexibleSpace,
                      self.deleteButton]
-        if #available(iOS 9.0, *) {
-            items.insert(self.reorderButton, at: 2)
-            items.insert(flexibleSpace, at: 3)
-        }
+        
         toolBar.setItems(items, animated: false)
         
         return toolBar
@@ -125,7 +121,7 @@ public final class MultipageReviewViewController: UIViewController {
                                   action: #selector(deleteImageButtonAction))
     }()
     
-    fileprivate lazy var pagesCollectionContainerConstraint: NSLayoutConstraint = {
+    fileprivate lazy var pagesCollectionShownConstraint: NSLayoutConstraint = {
         let constraint = NSLayoutConstraint(item: self.pagesCollectionContainer,
                                             attribute: .bottom,
                                             relatedBy: .equal,
@@ -137,7 +133,7 @@ public final class MultipageReviewViewController: UIViewController {
         return constraint
     }()
     
-    fileprivate lazy var topCollectionContainerConstraint: NSLayoutConstraint = {
+    fileprivate lazy var pagesCollectionHiddenConstraint: NSLayoutConstraint = {
         return NSLayoutConstraint(item: self.pagesCollectionContainer,
                                   attribute: .top,
                                   relatedBy: .equal,
@@ -194,7 +190,6 @@ extension MultipageReviewViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showToolbar()
-        pagesCollection.alpha = 1
 
         toolTipView?.show {
             self.blurEffect?.alpha = 1
@@ -202,14 +197,6 @@ extension MultipageReviewViewController {
             self.rotateButton.isEnabled = false
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             ToolTipView.shouldShowReorderPagesButtonToolTip = false
-        }
-    }
-    
-    public override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        pagesCollection.alpha = 0
-        if pagesCollectionContainerConstraint.isActive {
-            toggleReorder(animated: false)
         }
     }
     
@@ -317,10 +304,10 @@ extension MultipageReviewViewController {
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "reorder button tooltip message"),
                                   giniConfiguration: giniConfiguration,
-                                  referenceView: reorderButton.customView!,
+                                  referenceView: pagesCollectionContainer,
                                   superView: view,
                                   position: .above,
-                                  distanceToRefView: UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0))
+                                  distanceToRefView: .zero)
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
@@ -355,7 +342,7 @@ extension MultipageReviewViewController {
         Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionContainer
-        Constraints.active(constraint: topCollectionContainerConstraint)
+        Constraints.active(constraint: pagesCollectionShownConstraint)
         Constraints.active(item: pagesCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
                           attr: .trailing)
         Constraints.active(item: pagesCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
@@ -432,11 +419,11 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func toggleReorder(animated: Bool = true) {
-        let hide = self.pagesCollectionContainerConstraint.isActive
-        self.topCollectionContainerConstraint.isActive = hide
-        self.pagesCollectionContainerConstraint.isActive = !hide
+        let hide = self.pagesCollectionShownConstraint.isActive
+        self.pagesCollectionHiddenConstraint.isActive = hide
+        self.pagesCollectionShownConstraint.isActive = !hide
         self.mainCollection.collectionViewLayout.invalidateLayout()
-        self.changeReorderButtonState(toActive: self.pagesCollectionContainerConstraint.isActive)
+        self.changeReorderButtonState(toActive: self.pagesCollectionShownConstraint.isActive)
         
         if animated {
             UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
