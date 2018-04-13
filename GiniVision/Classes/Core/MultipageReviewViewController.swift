@@ -311,7 +311,7 @@ extension MultipageReviewViewController {
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderButtonTooltipMessage",
+        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderContainerTooltipMessage",
                                                           bundle: Bundle(for: GiniVision.self),
                                                           comment: "reorder button tooltip message"),
                                   giniConfiguration: giniConfiguration,
