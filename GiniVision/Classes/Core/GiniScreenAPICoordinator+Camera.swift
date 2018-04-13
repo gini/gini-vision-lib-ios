@@ -242,7 +242,11 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
         let dropInteraction = UIDropInteraction(delegate: delegate)
         view.addInteraction(dropInteraction)
     }
-    
+}
+
+// MARK: - Validation
+
+extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
                               completion: @escaping (Result<[ValidatedDocument]>) -> Void) {
         
@@ -268,8 +272,8 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
         }
     }
     
-    fileprivate func validate(importedDocuments documents: [GiniVisionDocument],
-                              completion: @escaping ([ValidatedDocument]) -> Void) {
+    private func validate(importedDocuments documents: [GiniVisionDocument],
+                          completion: @escaping ([ValidatedDocument]) -> Void) {
         DispatchQueue.global().async {
             var validatedDocuments: [(GiniVisionDocument, Error?)] = []
             documents.forEach { document in
@@ -288,5 +292,4 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             }
         }
     }
-    
 }

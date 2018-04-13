@@ -78,8 +78,8 @@ final class AppCoordinator: Coordinator {
         // 3. Validate document
         if let document = document {
             do {
-                try GiniVisionDocumentValidator.validate(document,
-                                                         withConfig: self.giniConfiguration)
+                try GiniVision.validate(document,
+                                        withConfig: self.giniConfiguration)
                 showOpenWithSwitchDialog(forDocuments: [document])
             } catch {
                 showExternalDocumentNotValidDialog()
