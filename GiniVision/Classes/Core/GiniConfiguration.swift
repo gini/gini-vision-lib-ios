@@ -119,7 +119,7 @@ import UIKit
      - note: Screen API only.
      */
     public var navigationBarItemFont = UIBarButtonItem.appearance()
-        .titleTextAttributes(for: .normal)?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular,
+        .titleTextAttributes(for: .normal)?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.bold,
                                                                                                andSize: 16)
     
     /**

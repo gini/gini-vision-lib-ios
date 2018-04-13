@@ -83,8 +83,10 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func showMultipageReview() {
-        screenAPINavigationController.pushViewController(multiPageReviewViewController,
-                                                         animated: true)
+        if !screenAPINavigationController.viewControllers.contains(multiPageReviewViewController) {
+            screenAPINavigationController.pushViewController(multiPageReviewViewController,
+                                                             animated: true)
+        }
     }
     
     func refreshMultipageReview(with imageDocuments: [ValidatedDocument]) {
