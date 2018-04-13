@@ -74,6 +74,11 @@ internal struct AnimationDuration {
     static var fast = 0.3
 }
 
+enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
 internal enum FontWeight {
     case thin, light, regular, bold
     
