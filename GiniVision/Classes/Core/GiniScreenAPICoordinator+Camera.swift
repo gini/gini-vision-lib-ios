@@ -60,9 +60,15 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         if shouldShowOnBoarding() {
-            showOnboardingScreen()
-        } else if AlertDialogController.shouldShowNewMultipageFeature {
-            showMultipageNewFeatureDialog()
+            showOnboardingScreen(onDismiss: showMultipageFeatureDialogIfNeeded)
+        } else {
+            showMultipageFeatureDialogIfNeeded()
+        }
+    }
+    
+    private func showMultipageFeatureDialogIfNeeded() {
+        if AlertDialogController.shouldShowNewMultipageFeature {
+            self.showMultipageNewFeatureDialog()
         }
     }
     
@@ -123,7 +129,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return false
     }
     
-    private func showOnboardingScreen() {
+    private func showOnboardingScreen(onDismiss: @escaping (() -> ())) {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
@@ -133,6 +139,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             self.cameraViewController?.showCameraOverlay()
             self.cameraViewController?.showCaptureButton()
             self.cameraViewController?.showFileImportTip()
+            onDismiss()
         }
         
         let navigationController = UINavigationController(rootViewController: vc)

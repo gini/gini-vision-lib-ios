@@ -326,6 +326,7 @@ extension MultipageReviewViewController {
             self.deleteButton.isEnabled = true
             self.rotateButton.isEnabled = true
             self.navigationItem.rightBarButtonItem?.isEnabled = true
+            self.toolTipView = nil
         }
     }
     
