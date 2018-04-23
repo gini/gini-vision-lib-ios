@@ -22,7 +22,7 @@ typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
 protocol DocumentServiceProtocol: class {
     
     var giniSDK: GiniSDK { get }
-    var compositeDocument: GINIDocument? { get }
+    var compositeDocument: GINIDocument? { get set }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
 
     init(sdk: GiniSDK)
@@ -106,6 +106,7 @@ extension DocumentServiceProtocol {
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
+                    self.compositeDocument = document
                     return self.giniSDK.documentTaskManager.getExtractionsFor(document)
                 }
                 return BFTask<AnyObject>(error: AnalysisError.documentCreation)
@@ -157,13 +158,13 @@ extension DocumentServiceProtocol {
                             cancellationToken: nil)
             })
             .continueWith(block: { (task: BFTask?) in
-                guard let extractions = task?.result as? NSMutableDictionary else {
+                if let error = task?.error {
                     print("❌ Error sending feedback for document with id: ",
-                          String(describing: self.compositeDocument?.documentId))
+                          String(describing: self.compositeDocument?.documentId), "error:", error)
                     return nil
                 }
                 
-                print("🚀 Feedback sent with \(extractions.count) extractions")
+                print("🚀 Feedback sent with \(updatedExtractions.count) extractions")
                 return nil
             })
     }
