@@ -14,20 +14,13 @@ import AVFoundation
      Called when a user takes a picture, imports a PDF/QRCode or imports one or several images.
      Once the method has been implemented, it is necessary to check if the number of
      documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
-     Afterwards, it is mandatory to call the `DocumentValidationHandler` block passing the error
-     `CameraError.maxFilesPickedCountExceeded` (if the page count limit was exceeded) and
-     the inner completion block that will be executed once the gallery dismissal animation completes.
      
      - parameter viewController: `CameraViewController` where the documents were taken.
      - parameter documents: One or several documents either captured or imported in
      the `CameraViewController`. They can contain an error produced in the validation process.
-     - parameter completion: `DocumentPickerCompletion` block used to check if there is an issue with
-     the captured documents. The completion block also has an inner block that is executed once the
-     picker has been dismissed when there are no errors.
      */
     @objc func camera(_ viewController: CameraViewController,
-                      didCaptureDocuments documents: [GiniVisionDocument],
-                      validationHandler: DocumentValidationHandler?)
+                      didCapture document: GiniVisionDocument)
     
     /**
      Called when the `CameraViewController` appears.
@@ -43,6 +36,9 @@ import AVFoundation
      - parameter viewController: Camera view controller where the button was tapped.
      */
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
+    
+    @objc func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType)
+
 }
 
 /**
@@ -185,9 +181,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     weak var delegate: CameraViewControllerDelegate?
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
-    fileprivate lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
-        return DocumentPickerCoordinator()
-    }()
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     
@@ -279,18 +272,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         NotificationCenter.default.removeObserver(self)
     }
     
-    fileprivate func didPick(validatedDocuments documents: [GiniVisionDocument],
-                             validationHandler: DocumentValidationHandler?) {
+    fileprivate func didPick(_ document: GiniVisionDocument) {
         if let delegate = delegate {
-            delegate.camera(self, didCaptureDocuments: documents, validationHandler: validationHandler)
-        } else if let firstDocument = documents.first {
-            validationHandler?(nil, nil)
-            successBlock?(firstDocument)
-            if documents.count > 1 {
-                // TODO: Show a warning in the logger
-            }
+            delegate.camera(self, didCapture: document)
         } else {
-            print("A CameraViewControllerDelegate has not been specified")
+            successBlock?(document)
         }
     }
     
@@ -458,12 +444,7 @@ extension CameraViewController {
             }
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
-            guard let `self` = self else { return }
-            do {
-                try qrDocument.validate()
-                self.showPopup(forQRDetected: qrDocument)
-            } catch {
-            }
+            self?.didPick(qrDocument)
         }
     }
     
@@ -494,20 +475,7 @@ extension CameraViewController {
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
-        
-        if giniConfiguration.multipageEnabled {
-            self.didPick(validatedDocuments: [imageDocument]) { error, _ in
-                if let error = error {
-                    self.showErrorDialog(for: error)
-                    return
-                }
-                
-                self.animateToControlsView(imageDocument: imageDocument)
-            }
-        } else {
-            self.didPick(validatedDocuments: [imageDocument], validationHandler: nil)
-        }
-        
+        didPick(imageDocument)
     }
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
@@ -559,7 +527,7 @@ extension CameraViewController {
         previewLayer?.connection?.videoOrientation = orientation
     }
     
-    fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument) {
+    func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         if self.detectedQRCodeDocument != qrDocument {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
@@ -570,7 +538,7 @@ extension CameraViewController {
                                                              document: qrDocument,
                                                              giniConfiguration: self.giniConfiguration)
                 newQRCodePopup.didTapDone = { [weak self] in
-                    self?.didPick(validatedDocuments: [qrDocument], validationHandler: nil)
+                    didTapDone()
                     self?.detectedQRCodeDocument = nil
                     self?.currentQRCodePopup?.hide()
                 }
@@ -652,115 +620,16 @@ extension CameraViewController {
     }
 }
 
-// MARK: - DocumentPickerCoordinatorDelegate
-
-extension CameraViewController: DocumentPickerCoordinatorDelegate {
-
-    func documentPicker(_ coordinator: DocumentPickerCoordinator,
-                        didPick documents: [GiniVisionDocument],
-                        from: DocumentPickerType,
-                        validationHandler: DocumentValidationHandler?) {
-        let loadingView = addValidationLoadingView()
-        self.validate(importedDocuments: documents) { validatedDocuments in
-            loadingView.removeFromSuperview()
-            let elementsWithError = validatedDocuments.filter { $0.error != nil}
-            if elementsWithError.isNotEmpty && (!self.giniConfiguration.multipageEnabled ||
-                elementsWithError.first?.document.type != .image) {
-                guard let error = elementsWithError.first?.error else { return }
-                if let handler = validationHandler {
-                    handler(nil) {
-                        self.showErrorDialog(for: error)
-                    }
-                } else {
-                    self.showErrorDialog(for: error)
-                }
-            } else {
-                self.process(validatedImportedDocuments: validatedDocuments.map { $0.document }) { [weak self] error, didDismiss in
-                    guard let `self` = self else { return }
-                    // This is needed since the `UIDocumentPickerViewController` is automatically
-                    // dismissed and the drag&drop is done in this view controller.
-                    // For that reason the error must not be forwarded.
-                    if from != .gallery {
-                        guard let error = error else {
-                            didDismiss?()
-                            return
-                        }
-                        
-                        self.showErrorDialog(for: error)
-                    } else {
-                        validationHandler?(error, didDismiss)
-                    }
-                }
-            }
-        }
-    }
-}
-
 // MARK: - Document import
 
 extension CameraViewController {
-    fileprivate func enableFileImport() {
-        // Configure file picker
-        documentPickerCoordinator.delegate = self
-
-        if documentPickerCoordinator.isGalleryPermissionGranted {
-            documentPickerCoordinator.startCaching()
-        }
-        
+    fileprivate func enableFileImport() {        
         // Configure import file button
         controlsView.addSubview(importFileButton)
         addImportButtonConstraints()
-        
-        if #available(iOS 11.0, *) {
-            addDropInteraction()
-        }
     }
     
-    fileprivate func validate(importedDocuments documents: [GiniVisionDocument],
-                              completion: @escaping ([(document: GiniVisionDocument, error: Error?)]) -> Void) {
-        DispatchQueue.global().async {
-            var validatedDocuments: [(GiniVisionDocument, Error?)] = []
-            documents.forEach { document in
-                var visionError: Error?
-                do {
-                    try document.validate()
-                } catch let error {
-                    visionError = error
-                }
-                validatedDocuments.append((document, visionError))
-            }
-            
-            DispatchQueue.main.async {
-                completion(validatedDocuments)
-            }
-            
-        }
-    }
-    
-    fileprivate func process(validatedImportedDocuments documents: [GiniVisionDocument],
-                             validationHandler: DocumentValidationHandler?) {
-        let didValidate: DocumentValidationHandler
-        if !documents.containsDifferentTypes {
-            didValidate = { error, coordinatorCompletion in
-                validationHandler?(error, coordinatorCompletion)
-                if error == nil {
-                    if let firstImage = documents.first as? GiniImageDocument, self.giniConfiguration.multipageEnabled {
-                        self.updateMultipageReviewButton(withImage: firstImage.previewImage,
-                                                         showingStack: documents.count > 1)
-                    }
-                }
-            }
-            didPick(validatedDocuments: documents, validationHandler: didValidate)
-            
-        } else {
-            showErrorDialog(for: FilePickerError.mixedDocumentsUnsupported) {
-                let imageDocuments = documents.filter { $0.type == .image }
-                self.didPick(validatedDocuments: imageDocuments, validationHandler: validationHandler)
-            }
-        }
-    }
-    
-    fileprivate func addValidationLoadingView() -> UIView {
+    func addValidationLoadingView() -> UIView {
         let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         blurredView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]
@@ -781,14 +650,13 @@ extension CameraViewController {
         
         if giniConfiguration.fileImportSupportedTypes == .pdf_and_images {
             alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
-                self.documentPickerCoordinator.showGalleryPicker(from: self)
+                self.delegate?.camera(self, didSelect: .gallery)
             })
             alertViewControllerMessage = "Fotos oder PDF importieren"
         }
         
         alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
-            self.documentPickerCoordinator.isPDFSelectionAllowed = !self.imagesAlreadyPicked()
-            self.documentPickerCoordinator.showDocumentPicker(from: self)
+            self.delegate?.camera(self, didSelect: .explorer)
         })
         
         alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil))
@@ -797,16 +665,6 @@ extension CameraViewController {
         alertViewController.popoverPresentationController?.sourceView = importFileButton
         
         self.present(alertViewController, animated: true, completion: nil)
-    }
-    
-    fileprivate func imagesAlreadyPicked() -> Bool {
-        return self.multipageReviewButton.image(for: .normal) != nil
-    }
-    
-    @available(iOS 11.0, *)
-    fileprivate func addDropInteraction() {
-        let dropInteraction = UIDropInteraction(delegate: documentPickerCoordinator)
-        view.addInteraction(dropInteraction)
     }
     
     fileprivate func createFileImportTip(giniConfiguration: GiniConfiguration) {
@@ -828,49 +686,6 @@ extension CameraViewController {
             self.blurEffect?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
-    }
-    
-    func showErrorDialog(for error: Error, possitiveAction: (() -> Void)? = nil) {
-        let message: String
-        var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
-                                                                   comment: "cancel button title")
-        var confirmActionTitle: String? = NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
-                                                                     comment: "pick another file button title")
-        var confirmAction: (() -> Void)?
-        
-        switch error {
-        case let validationError as DocumentValidationError:
-            message = validationError.message
-            confirmAction = self.showImportFileSheet
-        case let customValidationError as CustomDocumentValidationError:
-            message = customValidationError.message
-            confirmAction = self.showImportFileSheet
-        case let pickerError as FilePickerError:
-            message = pickerError.message
-            if pickerError == .maxFilesPickedCountExceeded {
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
-                                                                comment: "review pages button title")
-                confirmAction = { [weak self] in
-                    guard let `self` = self else { return }
-                    self.delegate?.cameraDidTapMultipageReviewButton(self)
-                }
-            } else if pickerError == .mixedDocumentsUnsupported {
-                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
-                                                        comment: "cancel button text for popup")
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
-                                                           comment: "use photos button text in popup")
-            }
-
-        default:
-            message = DocumentValidationError.unknown.message
-        }
-
-        let dialog = errorDialog(withMessage: message,
-                                 cancelActionTitle: cancelActionTitle,
-                                 confirmActionTitle: confirmActionTitle,
-                                 confirmAction: possitiveAction ?? confirmAction)
-        
-        present(dialog, animated: true, completion: nil)
     }
 }
 

@@ -27,7 +27,7 @@ import Foundation
     lazy var extractedParameters: [String: String] = QRCodesExtractor
         .extractParameters(from: self.scannedString, withFormat: self.qrCodeFormat)
     fileprivate let epc06912LinesCount = 12
-    fileprivate lazy var qrCodeFormat: QRCodesFormat? = {
+    lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
             return .bezahlcode
         } else {
@@ -44,16 +44,7 @@ import Foundation
     init(scannedString: String) {
         self.scannedString = scannedString
         super.init()
-    }
-    
-    public func checkType() throws {
-        if self.qrCodeFormat == nil ||
-            self.extractedParameters.isEmpty ||
-            self.extractedParameters["iban"] == nil {
-            throw DocumentValidationError.qrCodeFormatNotValid
-        }
-    }
-    
+    }    
 }
 
 // MARK: Equatable

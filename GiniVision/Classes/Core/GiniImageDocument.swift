@@ -52,23 +52,6 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         }
     }
     
-    /**
-     Check image document type. It should be a PNG, JPEG, GIF or TIFF.
-     
-     - Throws: `DocumentValidationError.imageFormatNotValid` if it is not a image valid format.
-     Also throws `DocumentValidationError.fileFormatNotValid` if it is not an image
-     
-     */
-    public func checkType() throws {
-        if self.data.isImage {
-            if !(self.data.isJPEG || self.data.isPNG || self.data.isGIF || self.data.isTIFF) {
-                throw DocumentValidationError.imageFormatNotValid
-            }
-        } else {
-            throw DocumentValidationError.fileFormatNotValid
-        }
-    }
-    
     func rotatePreviewImage90Degrees() {
         guard let rotatedImage = self.previewImage?.rotated90Degrees() else { return }
         metaInformationManager.rotate(degrees: 90, imageOrientation: rotatedImage.imageOrientation)

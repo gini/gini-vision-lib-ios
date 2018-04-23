@@ -7,6 +7,7 @@ final class CameraViewControllerTests: XCTestCase {
     var cameraViewController: CameraViewController!
     var giniConfiguration: GiniConfiguration!
     var screenAPICoordinator: GiniScreenAPICoordinator!
+    let visionDelegate = GiniVisionDelegateMock()
     lazy var imageData: Data = {
         let image = self.loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)!
@@ -19,7 +20,7 @@ final class CameraViewControllerTests: XCTestCase {
         giniConfiguration = GiniConfiguration.sharedConfiguration
         giniConfiguration.multipageEnabled = true
         cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
-        screenAPICoordinator = GiniScreenAPICoordinator(withDelegate: nil,
+        screenAPICoordinator = GiniScreenAPICoordinator(withDelegate: visionDelegate,
                                                         giniConfiguration: self.giniConfiguration)
         cameraViewController.delegate = screenAPICoordinator
     }
@@ -78,49 +79,7 @@ final class CameraViewControllerTests: XCTestCase {
         XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should not be hidden after capture the second picture")
         
-    }
-    
-    func testPickerCompletionBlockWhenNoErrorsOccurred() {
-        let documents = [GiniImageDocument(data: imageData, imageSource: .external)]
-        let expect = expectation(description: "Document validation finishes")
-
-        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
-            expect.fulfill()
-            XCTAssertNil(error, "Completion block should not return an error when pciking one image")
-        }
-        
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
-    func testPickerCompletionBlockWhenNoErrorsOccurredWithDeprecatedInit() {
-        let documents = [loadImageDocument(withName: "invoice")]
-        let expect = expectation(description: "Document validation finishes")
-        cameraViewController = CameraViewController(success: {_ in}, failure: {_ in})
-        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
-            expect.fulfill()
-            XCTAssertNil(error, "Completion block should not return an error when using the deprecated initializer")
-        }
-        
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
-    func testPickerCompletionBlockWhenTooManyPages() {
-        var documents: [GiniVisionDocument] = []
-        for _ in 0...GiniPDFDocument.maxPagesCount {
-            documents.append(loadImageDocument(withName: "invoice"))
-        }
-
-        let expect = expectation(description: "Document validation finishes")
-        cameraViewController.documentPicker(DocumentPickerCoordinator(), didPick: documents, from: .gallery) { error, _ in
-            expect.fulfill()
-            let error = error as? FilePickerError
-            XCTAssertTrue(error == FilePickerError.maxFilesPickedCountExceeded,
-                          "Completion block should return the FilePickerError.maxFilesPickedCountExceeded error from outside of the camera screen")
-        }
-        
-        waitForExpectations(timeout: 2, handler: nil)
-    }
-    
+    }    
     
 }
 

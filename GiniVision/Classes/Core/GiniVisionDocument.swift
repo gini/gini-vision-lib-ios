@@ -18,8 +18,14 @@ import Foundation
     var previewImage: UIImage? { get }
     var isReviewable: Bool { get }
     var isImported: Bool { get }
-    
-    func checkType() throws
+}
+
+extension GiniVisionDocument {
+    @available(*, deprecated)
+    public func validate() throws {
+        try GiniVisionDocumentValidator.validate(self,
+                                                 withConfig: GiniConfiguration.sharedConfiguration)
+    }
 }
 
 // MARK: GiniVisionDocumentType
@@ -98,53 +104,5 @@ public class GiniVisionDocumentBuilder: NSObject {
             }
         }
         return nil
-    }
-}
-
-// MARK: GiniVisionDocument extension
-
-extension GiniVisionDocument {
-    
-    public static var maxPagesCount: Int {
-        return 10
-    }
-    
-    fileprivate var MAX_FILE_SIZE: Int { // Bytes
-        return 10 * 1024 * 1024
-    }
-
-    fileprivate var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) {
-        return GiniConfiguration.sharedConfiguration.customDocumentValidations
-    }
-    
-    // MARK: File validation
-    /**
-     Validates a document. The validation process is done in the _global_ `DispatchQueue`.
-     Also it is possible to add custom validations in the `GiniConfiguration.customDocumentValidations`
-     closure.
-     
-     - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
-     
-     */
-    public func validate() throws {
-        let document = self
-        if !maxFileSizeExceeded(forData: document.data) {
-            try checkType()
-            let customValidationResult = customDocumentValidations(self)
-            if let error = customValidationResult.error, !customValidationResult.isSuccess {
-                throw error
-            }
-        } else {
-            throw DocumentValidationError.exceededMaxFileSize
-        }
-    }
-    
-    // MARK: File size check
-    
-    fileprivate func maxFileSizeExceeded(forData data: Data) -> Bool {
-        if data.count > MAX_FILE_SIZE {
-            return true
-        }
-        return false
     }
 }
