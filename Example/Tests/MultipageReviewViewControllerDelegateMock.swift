@@ -20,7 +20,7 @@ final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewContro
         
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didReorder documents: [GiniImageDocument]) {
-        updatedDocuments = documents
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: ValidatedDocument) {
+        
     }
 }

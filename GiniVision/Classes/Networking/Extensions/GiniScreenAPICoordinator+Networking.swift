@@ -127,9 +127,9 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         if giniConfiguration.multipageEnabled {
             uploadDocumentCompletionHandler = { result in
                 switch result {
-                case .success: break
+                case .success:
                     uploadDelegate.uploadDidComplete(for: document)
-                case .failure(let error): break
+                case .failure(let error): 
                     uploadDelegate.uploadDidFail(for: document, with: error)
                 }
             }
