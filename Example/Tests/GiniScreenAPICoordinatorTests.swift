@@ -115,11 +115,21 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
                                     didDelete: coordinator.multiPageReviewViewController.imageDocuments[0])
         
         XCTAssertTrue(coordinator.visionDocuments.isEmpty,
-                      "vision documents collection should be empty after delete the image in the multipage review view controller")
+                      "vision documents collection should be empty after delete " +
+            "the image in the multipage review view controller")
     }
     
-    func testMultipageImageDocumentWhenUpdatingSessionDocuments() {
-        let capturedImageDocument = loadImageDocument(withName: "invoice")
+    func testMultipageImageDocumentWhenSortingDocuments() {
+        let capturedImageDocument = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice")]
+        let firstItemId = capturedImageDocument.first?.id
+        coordinator.addToSessionDocuments(newDocuments: capturedImageDocument)
+        
+        var reorderedItems = capturedImageDocument
+        reorderedItems.swapAt(0, 1)
+
+        coordinator.multipageReview(coordinator.multiPageReviewViewController, didReorder: reorderedItems)
+        
+        XCTAssertTrue(coordinator.visionDocuments.last?.id == firstItemId, "last items should be the one moved")
         
     }
 }
