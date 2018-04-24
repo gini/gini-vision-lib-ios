@@ -20,8 +20,6 @@ struct PartialDocumentInfo {
     }
     var order: Int = 0
     
-    init() { }
-    
     func updateAdditionalParameters(with newParameters: [String: Any]) {
         var currentParameters = additionalParameters ?? [:]
         newParameters.forEach { parameter in
@@ -33,10 +31,6 @@ struct PartialDocumentInfo {
 extension PartialDocumentInfo: Comparable {
     static func == (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
         return lhs.documentId == rhs.documentId
-    }
-    
-    public static func > (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
-        return lhs.order > rhs.order
     }
     
     public static func < (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {

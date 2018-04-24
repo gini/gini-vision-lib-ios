@@ -40,6 +40,7 @@ import UIKit
     
     /**
      Called when the user has reviewed one or several documents.
+     It is used to add any optional parameters, like rotationDelta, when creating the composite document.
      
      - parameter documents: An array containing on or several `GiniVisionDocument`
      */
