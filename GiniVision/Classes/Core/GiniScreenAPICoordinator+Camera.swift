@@ -97,8 +97,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
         if let didCapture = visionDelegate?.didCapture(document:) {
             didCapture(document)
-        } else if let didCapture = visionDelegate?.didCapture(_:) {
-            didCapture(document.data)
         } else {
             fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
         }

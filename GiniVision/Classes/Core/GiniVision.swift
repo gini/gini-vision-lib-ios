@@ -20,15 +20,15 @@ import UIKit
      Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
      */
     
-    @objc optional func didCapture(document: GiniVisionDocument)
+    func didCapture(document: GiniVisionDocument)
     
     /**
      Called when the user has taken an image.
      
      - parameter fileData: JPEG image data including meta information or PDF data
      */
-    @available(*, deprecated)
-    @objc optional func didCapture(_ imageData: Data)
+    @available(*, unavailable, renamed: "didCapture(document:)")
+    func didCapture(_ imageData: Data)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -37,6 +37,12 @@ import UIKit
      - parameter changes:   Indicates whether `imageData` was altered.
      */
     @objc optional func didReview(document: GiniVisionDocument, withChanges changes: Bool)
+    
+    /**
+     Called when the user has reviewed one or several documents.
+     
+     - parameter documents: An array containing on or several `GiniVisionDocument`
+     */
     @objc optional func didReview(documents: [GiniVisionDocument])
     
     /**
@@ -45,8 +51,16 @@ import UIKit
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
      */
-    @available(*, deprecated)
-    @objc optional func didReview(_ imageData: Data, withChanges changes: Bool)
+    @available(*, unavailable, renamed: "didReview(document:withChanges:)")
+    func didReview(_ imageData: Data, withChanges changes: Bool)
+    
+    /**
+     Called when the user is presented with the analsis screen. Use the `analysisDelegate`
+     object to inform the user about the current status of the analysis task.
+     
+     - parameter analysisDelegate: The analsis delegate to send updates to.
+     */
+    @objc optional func didShowAnalysis(_ analysisDelegate: AnalysisDelegate)
     
     /**
      Called when the user cancels capturing on the camera screen.
@@ -58,24 +72,20 @@ import UIKit
      Called when the user navigates back from the review screen to the camera potentially to
      retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
-    @available(*, deprecated)
-    @objc optional func didCancelReview()
-    
-    @objc optional func didCancelReview(for document: GiniVisionDocument)
+    @available(*, unavailable, renamed: "didCancelReview(for:)")
+    func didCancelReview()
     
     /**
-     Called when the user is presented with the analsis screen. Use the `analysisDelegate`
-     object to inform the user about the current status of the analysis task.
-     
-     - parameter analysisDelegate: The analsis delegate to send updates to.
+     Called when the user navigates back from the review screen to the camera potentially to
+     retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
-    @objc optional func didShowAnalysis(_ analysisDelegate: AnalysisDelegate)
+    func didCancelReview(for document: GiniVisionDocument)
     
     /**
      Called when the user navigates back from the analysis screen to the review screen.
-     Should be used to cancel any ongoing analysis task on the image.
+     It is used to cancel any ongoing analysis task on the image.
      */
-    @objc optional func didCancelAnalysis()
+    func didCancelAnalysis()
     
 }
 

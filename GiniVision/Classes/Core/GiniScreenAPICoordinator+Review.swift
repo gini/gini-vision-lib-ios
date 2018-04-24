@@ -48,7 +48,7 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete document: GiniImageDocument) {
         removeFromSessionDocuments(document: document)
-        visionDelegate?.didCancelReview?(for: document)
+        visionDelegate?.didCancelReview(for: document)
         
         if visionDocuments.isEmpty {
             closeMultipageScreen()
