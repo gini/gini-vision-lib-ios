@@ -118,8 +118,9 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCancelCapturing() {
         resultsDelegate?.giniVision([], analysisDidCancel: true)
+        
     }
-    
+        
     func didCapture(document: GiniVisionDocument) {
         var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
         

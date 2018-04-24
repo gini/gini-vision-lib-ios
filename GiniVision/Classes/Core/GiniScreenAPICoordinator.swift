@@ -190,8 +190,6 @@ extension GiniScreenAPICoordinator {
             didReviewDocuments(visionDocuments)
         } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
             didReview(visionDocuments[0], false)
-        } else if let didReview = visionDelegate?.didReview(_:withChanges:) {
-            didReview(visionDocuments[0].data, false)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
@@ -217,7 +215,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if fromVC == analysisViewController && operation == .pop {
             analysisViewController = nil
-            visionDelegate?.didCancelAnalysis?()
+            visionDelegate?.didCancelAnalysis()
         }
         if fromVC == reviewViewController && toVC == cameraViewController {
             // This only happen when not using multipage
@@ -225,9 +223,6 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             if let firstDocument = visionDocuments.first {
                 if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
                     didCancelReviewForDocument(firstDocument)
-                } else if let didCancelReview = visionDelegate?.didCancelReview?() {
-                    // TODO: Print message indicating deprecation in Logger
-                    didCancelReview
                 } else {
                     fatalError("GiniVisionDelegate.didCancelReview(for document: GiniVisionDocument)" +
                         "should be implemented")
