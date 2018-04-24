@@ -46,10 +46,6 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
         cancelAnalysis()
     }
     
-    func remove(document: GiniVisionDocument) {
-        cancelAnalysis()
-    }
-    
     func update(parameters: [String: Any], for document: GiniVisionDocument) {
         partialDocumentInfo?.updateAdditionalParameters(with: parameters)
     }
