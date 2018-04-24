@@ -81,8 +81,8 @@ extension DocumentServiceProtocol {
             .getSession()
             .continueWith(block: sessionBlock(cancellationToken: nil))
             .continueOnSuccessWith(block: { [weak self] _ in
-                    self?.giniSDK.documentTaskManager.deleteDocument(withId: id,
-                                                                    cancellationToken: nil)
+                    self?.giniSDK.documentTaskManager.deleteCompositeDocument(withId: id,
+                                                                              cancellationToken: nil)
             })
     }
     
