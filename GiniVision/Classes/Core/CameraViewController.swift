@@ -126,28 +126,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
     }()
-    lazy var multipageReviewButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.isUserInteractionEnabled = false
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 1
-        button.layer.shadowOpacity = 0.5
-        button.layer.shadowOffset = CGSize(width: -2, height: 2)
-        button.addTarget(self, action: #selector(multipageReviewButtonAction), for: .touchUpInside)
-        
-        return button
-    }()
-    lazy var multipageReviewContentView: UIView = {
-        let view = UIView()
+    lazy var capturedImagesStackView: CapturedImagesStackView = {
+        let view = CapturedImagesStackView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    lazy var multipageReviewBackgroundView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .lightGray
         view.isHidden = true
+        view.didTapImageStackButton = { [weak self] in
+            guard let `self` = self else { return }
+            self.delegate?.cameraDidTapMultipageReviewButton(self)
+        }
         return view
     }()
     lazy var previewView: CameraPreviewView = {
@@ -300,9 +286,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         controlsView.addSubview(captureButton)
         
         if giniConfiguration.multipageEnabled {
-            controlsView.addSubview(multipageReviewContentView)
-            multipageReviewContentView.addSubview(multipageReviewBackgroundView)
-            multipageReviewContentView.addSubview(multipageReviewButton)
+            controlsView.addSubview(capturedImagesStackView)
         }
         
         addConstraints()
@@ -479,10 +463,12 @@ extension CameraViewController {
     }
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
+        guard let documentImage = imageDocument.previewImage else { return }
+        
         let imageFrame = previewView.frame
         let imageView = UIImageView(frame: imageFrame)
         imageView.center = previewView.center
-        imageView.image = imageDocument.previewImage
+        imageView.image = documentImage
         
         view.addSubview(imageView)
         
@@ -490,16 +476,15 @@ extension CameraViewController {
             imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
             UIView.animate(withDuration: AnimationDuration.slow, delay: 1, animations: {
-                let scaleRatioY = self.multipageReviewButton.frame.height / imageFrame.height
-                let scaleRatioX = self.multipageReviewButton.frame.width / imageFrame.width
-                
+                let thumbnailSize = self.capturedImagesStackView.thumbnailSize
+                let scaleRatioY = thumbnailSize.height / imageFrame.height
+                let scaleRatioX = thumbnailSize.width / imageFrame.width
+
                 imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                imageView.center = self.multipageReviewContentView.convert(self.multipageReviewButton.center,
-                                                                           to: self.view)
+                imageView.center = self.capturedImagesStackView.absoluteThumbnailCenter(from: self.view)
             }, completion: { _ in
                 imageView.removeFromSuperview()
-                self.updateMultipageReviewButton(withImage: imageDocument.previewImage,
-                                                 showingStack: self.multipageReviewButton.isUserInteractionEnabled)
+                self.capturedImagesStackView.addImageToStack(image: documentImage)
                 completion?()
             })
         })
@@ -509,10 +494,8 @@ extension CameraViewController {
         delegate?.cameraDidTapMultipageReviewButton(self)
     }
     
-    func updateMultipageReviewButton(withImage image: UIImage?, showingStack: Bool) {
-        multipageReviewBackgroundView.isHidden = !showingStack
-        multipageReviewButton.setImage(image, for: .normal)
-        multipageReviewButton.isUserInteractionEnabled = image != nil
+    func updateCapturedImagesStack(to status: CapturedImagesStackView.Status) {
+        capturedImagesStackView.updateStackStatus(to: status)
     }
     
     func updatePreviewViewOrientation() {
