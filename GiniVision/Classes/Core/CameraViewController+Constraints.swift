@@ -75,9 +75,9 @@ extension CameraViewController {
             Constraints.active(item: capturedImagesStackView, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
             Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
-                              attr: .top, constant: -60)
-            Constraints.active(item: capturedImagesStackView, attr: .height, relatedBy: .greaterThanOrEqual,
-                               to: nil, attr: .notAnAttribute, constant: capturedImagesStackView.thumbnailSize.height)
+                              attr: .top, constant: -50)
+            Constraints.active(item: capturedImagesStackView, attr: .top, relatedBy: .greaterThanOrEqual,
+                               to: controlsView, attr: .top)
         } else {
             Constraints.active(item: capturedImagesStackView, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
@@ -99,8 +99,8 @@ extension CameraViewController {
             Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
-                              attr: .bottom, constant: 60)
-            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .equal, to: captureButton,
+                              attr: .bottom, constant: 50)
+            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .equal, to: importFileButton,
                                attr: .bottom, constant: 6)
         } else {
             Constraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
@@ -111,10 +111,11 @@ extension CameraViewController {
                               attr: .leading, priority: 750)
             Constraints.active(item: importFileSubtitleLabel, attr: .bottom, relatedBy: .equal, to: controlsView,
                                attr: .bottom, constant: -10)
-            Constraints.active(item: importFileSubtitleLabel, attr: .centerX, relatedBy: .equal, to: importFileButton,
-                               attr: .centerX)
             Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .greaterThanOrEqual,
                                to: importFileButton, attr: .bottom)
         }
+        
+        Constraints.active(item: importFileSubtitleLabel, attr: .centerX, relatedBy: .equal, to: importFileButton,
+                           attr: .centerX)
     }
 }
