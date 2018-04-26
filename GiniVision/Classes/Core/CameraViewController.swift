@@ -129,7 +129,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var importFileSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Import"
+        label.text = NSLocalizedString("ginivision.camera.fileImportButtonLabel",
+                                       bundle: Bundle(for: GiniVision.self),
+                                       comment: "label shown below import button")
         label.font = label.font.withSize(12)
         label.textColor = .white
         return label
