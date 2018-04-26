@@ -9,7 +9,13 @@ import UIKit
 
 final class CapturedImagesStackView: UIView {
     
-    let thumbnailSize = CGSize(width: 30, height: 45)
+    let thumbnailSize: CGSize = {
+        if UIDevice.current.isIpad {
+            return CGSize(width: 40, height: 60)
+        } else {
+            return CGSize(width: 30, height: 45)
+        }
+    }()
     private let stackCountCircleSize = CGSize(width: 25, height: 25)
     
     enum Status {
@@ -49,6 +55,9 @@ final class CapturedImagesStackView: UIView {
         view.frame.size = self.stackCountCircleSize
         view.backgroundColor = .white
         view.layer.cornerRadius = self.stackCountCircleSize.width / 2
+        view.layer.shadowRadius = 1
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowOffset = CGSize(width: -1, height: 1)
         return view
     }()
     
@@ -136,7 +145,8 @@ final class CapturedImagesStackView: UIView {
                            attr: .notAnAttribute, constant: stackCountCircleSize.height)
         Constraints.active(item: stackIndicatorCircleView, attr: .width, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: stackCountCircleSize.width)
-        
+        Constraints.active(item: stackIndicatorCircleView, attr: .top, relatedBy: .greaterThanOrEqual,
+                           to: self, attr: .top, constant: 10)
         // stackIndicatorLabel
         Constraints.active(item: stackIndicatorLabel, attr: .centerX, relatedBy: .equal,
                            to: stackIndicatorCircleView, attr: .centerX)
