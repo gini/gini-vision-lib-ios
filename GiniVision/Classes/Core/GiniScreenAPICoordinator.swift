@@ -254,14 +254,14 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let reviewImagesButtonCenter = cameraViewController?.capturedImagesStackView,
-            let buttonFrame = cameraViewController?
+            let buttonFradme = cameraViewController?
                 .capturedImagesStackView
                 .convert(reviewImagesButtonCenter.frame,
                          to: screenAPINavigationController.view) else {
                             return nil
         }
         
-        multiPageTransition.originFrame = buttonFrame
+        multiPageTransition.originFrame = reviewImagesButtonCenter.absoluteThumbnailFrame(from: screenAPINavigationController.view)
         multiPageTransition.operation = operation
         
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {

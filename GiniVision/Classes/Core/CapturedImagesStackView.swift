@@ -79,8 +79,8 @@ final class CapturedImagesStackView: UIView {
         fatalError("Use init(frame:) initializer instead")
     }
     
-    func absoluteThumbnailCenter(from view: UIView) -> CGPoint {
-        return convert(multipageReviewButton.center, to: view)
+    func absoluteThumbnailFrame(from view: UIView) -> CGRect {
+        return convert(multipageReviewButton.frame, to: view)
     }
     
     func updateStackStatus(to status: Status) {

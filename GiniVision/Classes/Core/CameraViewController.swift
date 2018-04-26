@@ -478,17 +478,26 @@ extension CameraViewController {
         imageView.image = documentImage
         
         view.addSubview(imageView)
-        
+
         UIView.animate(withDuration: AnimationDuration.medium, animations: {
             imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
-            UIView.animate(withDuration: AnimationDuration.slow, delay: 1, animations: {
-                let thumbnailSize = self.capturedImagesStackView.thumbnailSize
-                let scaleRatioY = thumbnailSize.height / imageFrame.height
-                let scaleRatioX = thumbnailSize.width / imageFrame.width
-                
-                imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                imageView.center = self.capturedImagesStackView.absoluteThumbnailCenter(from: self.view)
+            UIView.animateKeyframes(withDuration: AnimationDuration.medium, delay: 0.7, animations: {
+                UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
+                    let thumbnailSize = self.capturedImagesStackView.thumbnailSize
+                    let scaleRatioY = thumbnailSize.height / imageFrame.height
+                    let scaleRatioX = thumbnailSize.width / imageFrame.width
+                    
+                    imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
+                    imageView.center = self.capturedImagesStackView
+                        .absoluteThumbnailFrame(from: self.view)
+                        .center
+                })
+                if !self.capturedImagesStackView.isHidden {
+                    UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 1, animations: {
+                        imageView.alpha = 0
+                    })
+                }
             }, completion: { _ in
                 imageView.removeFromSuperview()
                 self.capturedImagesStackView.addImageToStack(image: documentImage)
