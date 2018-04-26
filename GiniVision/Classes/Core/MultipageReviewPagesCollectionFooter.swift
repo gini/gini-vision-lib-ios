@@ -30,7 +30,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     fileprivate lazy var addLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Add new page for this invoice"
+        label.text = "Add new page to this invoice"
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.numberOfLines = 0

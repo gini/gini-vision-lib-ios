@@ -30,9 +30,9 @@ public final class MultipageReviewViewController: UIViewController {
     }
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
-
+    
     // MARK: - UI initialization
-
+    
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -70,6 +70,15 @@ public final class MultipageReviewViewController: UIViewController {
         view.backgroundColor = UIColor.lightGray
         
         return view
+    }()
+    
+    lazy var pagesCollectionBottomTipLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Drag and drop to reorder"
+        label.font = label.font.withSize(11)
+        
+        return label
     }()
     
     lazy var pagesCollection: UICollectionView = {
@@ -180,6 +189,7 @@ extension MultipageReviewViewController {
         view.insertSubview(pagesCollectionContainer, belowSubview: toolBar)
         pagesCollectionContainer.addSubview(pagesCollection)
         pagesCollectionContainer.addSubview(pagesCollectionTopBorder)
+        pagesCollectionContainer.addSubview(pagesCollectionBottomTipLabel)
         
         addConstraints()
     }
@@ -201,7 +211,7 @@ extension MultipageReviewViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showToolbar()
-
+        
         toolTipView?.show {
             self.blurEffect?.alpha = 1
             self.deleteButton.isEnabled = false
@@ -233,8 +243,8 @@ extension MultipageReviewViewController {
     func selectItem(at position: Int, in section: Int = 0) {
         let indexPath = IndexPath(row: position, section: section)
         self.pagesCollection.selectItem(at: indexPath,
-                                         animated: true,
-                                         scrollPosition: .centeredHorizontally)
+                                        animated: true,
+                                        scrollPosition: .centeredHorizontally)
         self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
     }
     
@@ -247,7 +257,7 @@ extension MultipageReviewViewController {
             self.selectItem(at: currentSelectedItem.row)
         }
     }
-
+    
 }
 
 // MARK: - Private methods
@@ -268,7 +278,7 @@ extension MultipageReviewViewController {
         if let image = image {
             button.frame = CGRect(origin: .zero, size: image.size)
         }
-
+        
         return UIBarButtonItem(customView: button)
     }
     
@@ -345,45 +355,51 @@ extension MultipageReviewViewController {
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
-                          attr: .bottom)
+                           attr: .bottom)
         Constraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // toolBar
         Constraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionContainer
         Constraints.active(constraint: pagesCollectionShownConstraint)
         Constraints.active(item: pagesCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
-                          attr: .trailing)
+                           attr: .trailing)
         Constraints.active(item: pagesCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionTopBorder
         Constraints.active(item: pagesCollectionTopBorder, attr: .top, relatedBy: .equal,
                            to: pagesCollectionContainer, attr: .top)
         Constraints.active(item: pagesCollectionTopBorder, attr: .leading, relatedBy: .equal,
-                          to: pagesCollectionContainer, attr: .leading)
+                           to: pagesCollectionContainer, attr: .leading)
         Constraints.active(item: pagesCollectionTopBorder, attr: .trailing, relatedBy: .equal,
-                          to: pagesCollectionContainer, attr: .trailing)
+                           to: pagesCollectionContainer, attr: .trailing)
         Constraints.active(item: pagesCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
-                          attr: .notAnAttribute, constant: 0.5)
+                           attr: .notAnAttribute, constant: 0.5)
         
         // pagesCollection
-        Constraints.active(item: pagesCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .bottom)
+        Constraints.active(item: pagesCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionBottomTipLabel,
+                           attr: .top)
         Constraints.active(item: pagesCollection, attr: .top, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: pagesCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: pagesCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewPagesCollectionCell.size.height +
+                           constant: MultipageReviewPagesCollectionCell.size.height +
                             pagesCollectionInsets.top +
                             pagesCollectionInsets.bottom)
+        
+        // pagesCollectionBottomTipLabel
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
+                           attr: .bottom, constant: -10)
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .centerX, relatedBy: .equal, to: pagesCollectionContainer,
+                           attr: .centerX)
     }
 }
 
@@ -563,7 +579,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
             let image = cell.documentImage.image else {
                 return nil
         }
-
+        
         return (image, cell.frame)
     }
     
