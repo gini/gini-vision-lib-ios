@@ -14,7 +14,7 @@ protocol MultipageReviewViewControllerDelegate: class {
                          didRotate documentRequest: DocumentRequest)
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
-
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
 
 //swiftlint:disable file_length
@@ -53,7 +53,7 @@ public final class MultipageReviewViewController: UIViewController {
     var pagesCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (pagesCollection.frame.width -
             MultipageReviewPagesCollectionCell.size.width) / 2
-        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
+        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 16)
     }
     
     lazy var pagesCollectionContainer: UIView = {
@@ -76,6 +76,7 @@ public final class MultipageReviewViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
+        layout.footerReferenceSize = MultipageReviewPagesCollectionCell.size
         var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
@@ -85,6 +86,9 @@ public final class MultipageReviewViewController: UIViewController {
         
         collection.register(MultipageReviewPagesCollectionCell.self,
                             forCellWithReuseIdentifier: MultipageReviewPagesCollectionCell.identifier)
+        collection.register(MultipageReviewPagesCollectionFooter.self,
+                            forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                            withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier)
         return collection
     }()
     
@@ -471,6 +475,20 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             cell?.fill(with: documentRequests[indexPath.row], at: indexPath.row)
             return cell!
         }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView
+            .dequeueReusableSupplementaryView(ofKind: kind,
+                                              withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier,
+                                              for: indexPath) as? MultipageReviewPagesCollectionFooter
+        footer?.didTapAddButton = { [weak self] in
+            guard let `self` = self else { return }
+            self.delegate?.multipageReviewDidTapAddImage(self)
+        }
+        return footer!
     }
     
     public func collectionView(_ collectionView: UICollectionView,
