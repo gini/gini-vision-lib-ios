@@ -9,6 +9,10 @@ import UIKit
 
 final class CapturedImagesStackView: UIView {
     
+    enum Status {
+        case filled(count: Int, lastImage: UIImage), empty
+    }
+    
     let thumbnailSize: CGSize = {
         if UIDevice.current.isIpad {
             return CGSize(width: 40, height: 60)
@@ -16,13 +20,11 @@ final class CapturedImagesStackView: UIView {
             return CGSize(width: 30, height: 45)
         }
     }()
-    private let stackCountCircleSize = CGSize(width: 25, height: 25)
+    var didTapImageStackButton: (() -> Void)?
+    fileprivate let stackCountCircleSize = CGSize(width: 25, height: 25)
+    fileprivate var imagesCount: Int = 0
     
-    enum Status {
-        case filled(count: Int, lastImage: UIImage), empty
-    }
-    
-    private lazy var multipageReviewButton: UIButton = {
+    fileprivate lazy var thumbnailButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.shadowColor = UIColor.black.cgColor
@@ -34,7 +36,7 @@ final class CapturedImagesStackView: UIView {
         return button
     }()
     
-    private lazy var multipageReviewBackgroundView: UIView = {
+    fileprivate lazy var thumbnailStackBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
@@ -42,14 +44,14 @@ final class CapturedImagesStackView: UIView {
         return view
     }()
     
-    private lazy var stackIndicatorLabel: UILabel = {
+    fileprivate lazy var stackIndicatorLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Colors.Gini.blue
         return label
     }()
     
-    private lazy var stackIndicatorCircleView: UIView = {
+    fileprivate lazy var stackIndicatorCircleView: UIView = {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.frame.size = self.stackCountCircleSize
@@ -61,7 +63,7 @@ final class CapturedImagesStackView: UIView {
         return view
     }()
     
-    private lazy var capturedImagesStackSubtitleLabel: UILabel = {
+    fileprivate lazy var capturedImagesStackSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = NSLocalizedString("ginivision.camera.capturedImagesStackLabel",
@@ -74,12 +76,10 @@ final class CapturedImagesStackView: UIView {
         return label
     }()
     
-    var didTapImageStackButton: (() -> Void)?
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(multipageReviewBackgroundView)
-        addSubview(multipageReviewButton)
+        addSubview(thumbnailStackBackgroundView)
+        addSubview(thumbnailButton)
         addSubview(stackIndicatorCircleView)
         addSubview(capturedImagesStackSubtitleLabel)
         stackIndicatorCircleView.addSubview(stackIndicatorLabel)
@@ -89,60 +89,69 @@ final class CapturedImagesStackView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("Use init(frame:) initializer instead")
     }
-    
+
+}
+
+// MARK: - Public methods
+
+extension CapturedImagesStackView {
     func absoluteThumbnailFrame(from view: UIView) -> CGRect {
-        return convert(multipageReviewButton.frame, to: view)
+        return convert(thumbnailButton.frame, to: view)
     }
     
     func updateStackStatus(to status: Status) {
         switch status {
         case .filled(let count, let lastImage):
-            stackIndicatorLabel.text = "\(count)"
-            multipageReviewBackgroundView.isHidden = count < 2
-            multipageReviewButton.setImage(lastImage, for: .normal)
+            imagesCount = count
+            thumbnailStackBackgroundView.isHidden = count < 2
+            thumbnailButton.setImage(lastImage, for: .normal)
             isHidden = false
         case .empty:
-            multipageReviewBackgroundView.isHidden = true
-            multipageReviewButton.setImage(nil, for: .normal)
+            imagesCount = 0
+            thumbnailStackBackgroundView.isHidden = true
+            thumbnailButton.setImage(nil, for: .normal)
             isHidden = true
         }
+        
+        stackIndicatorLabel.text = "\(imagesCount)"
     }
     
     func addImageToStack(image: UIImage) {
-        var count: Int = 0
-        if let text = stackIndicatorLabel.text, let currentCount = Int(text) {
-            count = currentCount + 1
-        } else {
-            count += 1
-        }
-        
-        updateStackStatus(to: .filled(count: count, lastImage: image))
+        updateStackStatus(to: .filled(count: imagesCount + 1, lastImage: image))
+    }
+}
+
+// MARK: - Private methods
+
+extension CapturedImagesStackView {
+    @objc fileprivate func thumbnailButtonAction() {
+        didTapImageStackButton?()
     }
     
     fileprivate func addConstraints() {
         // multipageReviewButton
-        Constraints.active(item: multipageReviewButton, attr: .centerX, relatedBy: .equal,
+        Constraints.active(item: thumbnailButton, attr: .centerX, relatedBy: .equal,
                            to: self, attr: .centerX)
-        Constraints.active(item: multipageReviewButton, attr: .height, relatedBy: .equal, to: nil,
+        Constraints.active(item: thumbnailButton, attr: .height, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: thumbnailSize.height)
-        Constraints.active(item: multipageReviewButton, attr: .width, relatedBy: .equal, to: nil,
+        Constraints.active(item: thumbnailButton, attr: .width, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: thumbnailSize.width)
         
         // multipageReviewBackgroundView
-        Constraints.active(item: multipageReviewBackgroundView, attr: .centerY, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .centerY, constant: 3)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .centerX, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .centerX, constant: -3)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
+        Constraints.active(item: thumbnailStackBackgroundView, attr: .centerY, relatedBy: .equal,
+                           to: thumbnailButton, attr: .centerY, constant: 3)
+        Constraints.active(item: thumbnailStackBackgroundView, attr: .centerX, relatedBy: .equal,
+                           to: thumbnailButton, attr: .centerX, constant: -3)
+        Constraints.active(item: thumbnailStackBackgroundView, attr: .height, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: thumbnailSize.height)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
+        Constraints.active(item: thumbnailStackBackgroundView, attr: .width, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: thumbnailSize.width)
         
         // stackIndicatorCircleView
         Constraints.active(item: stackIndicatorCircleView, attr: .trailing, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .trailing, constant: stackCountCircleSize.height / 2)
+                           to: thumbnailButton, attr: .trailing, constant: stackCountCircleSize.height / 2)
         Constraints.active(item: stackIndicatorCircleView, attr: .top, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .top, constant: -stackCountCircleSize.height / 2)
+                           to: thumbnailButton, attr: .top, constant: -stackCountCircleSize.height / 2)
         Constraints.active(item: stackIndicatorCircleView, attr: .height, relatedBy: .equal, to: nil,
                            attr: .notAnAttribute, constant: stackCountCircleSize.height)
         Constraints.active(item: stackIndicatorCircleView, attr: .width, relatedBy: .equal, to: nil,
@@ -159,15 +168,11 @@ final class CapturedImagesStackView: UIView {
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .bottom, relatedBy: .equal,
                            to: self, attr: .bottom, constant: -10)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .top, relatedBy: .equal,
-                           to: multipageReviewBackgroundView, attr: .bottom, constant: 4)
+                           to: thumbnailStackBackgroundView, attr: .bottom, constant: 4)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .leading, relatedBy: .equal,
                            to: self, attr: .leading)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .trailing, relatedBy: .equal,
                            to: self, attr: .trailing)
-
-    }
-    
-    @objc func thumbnailButtonAction() {
-        didTapImageStackButton?()
+        
     }
 }
