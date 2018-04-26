@@ -57,6 +57,10 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
                          didReorder documentRequests: [DocumentRequest]) {
         replaceDocuments(with: documentRequests)
     }
+    
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
+        closeMultipageScreen()
+    }
 
     func createMultipageReviewScreenContainer(with documentRequests: [DocumentRequest])
         -> MultipageReviewViewController {
