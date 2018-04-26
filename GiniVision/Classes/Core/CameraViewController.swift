@@ -38,7 +38,7 @@ import AVFoundation
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
     
     @objc func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType)
-
+    
 }
 
 /**
@@ -125,6 +125,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.setImage(self.documentImportButtonImage, for: .normal)
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
+    }()
+    lazy var importFileSubtitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Import"
+        label.font = label.font.withSize(12)
+        label.textColor = .white
+        return label
     }()
     lazy var capturedImagesStackView: CapturedImagesStackView = {
         let view = CapturedImagesStackView(frame: .zero)
@@ -478,7 +486,7 @@ extension CameraViewController {
                 let thumbnailSize = self.capturedImagesStackView.thumbnailSize
                 let scaleRatioY = thumbnailSize.height / imageFrame.height
                 let scaleRatioX = thumbnailSize.width / imageFrame.width
-
+                
                 imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
                 imageView.center = self.capturedImagesStackView.absoluteThumbnailCenter(from: self.view)
             }, completion: { _ in
@@ -608,6 +616,7 @@ extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure import file button
         controlsView.addSubview(importFileButton)
+        controlsView.addSubview(importFileSubtitleLabel)
         addImportButtonConstraints()
     }
     

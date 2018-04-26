@@ -100,6 +100,8 @@ extension CameraViewController {
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
                               attr: .bottom, constant: 60)
+            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .equal, to: captureButton,
+                               attr: .bottom, constant: 6)
         } else {
             Constraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
@@ -107,6 +109,12 @@ extension CameraViewController {
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
                               attr: .leading, priority: 750)
+            Constraints.active(item: importFileSubtitleLabel, attr: .bottom, relatedBy: .equal, to: controlsView,
+                               attr: .bottom, constant: -10)
+            Constraints.active(item: importFileSubtitleLabel, attr: .centerX, relatedBy: .equal, to: importFileButton,
+                               attr: .centerX)
+            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .greaterThanOrEqual,
+                               to: importFileButton, attr: .bottom)
         }
     }
 }
