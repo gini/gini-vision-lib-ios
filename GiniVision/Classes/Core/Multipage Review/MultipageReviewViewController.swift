@@ -72,15 +72,17 @@ public final class MultipageReviewViewController: UIViewController {
         return view
     }()
     
-    lazy var pagesCollectionBottomTipLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
+    lazy var pagesCollectionBottomTipLabel: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
                                        bundle: Bundle(for: GiniVision.self),
                                        comment: "drag and drop tip shown below pages collection")
-        label.font = label.font.withSize(11)
-        
-        return label
+        textView.font = textView.font?.withSize(11)
+        textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = false
+        textView.backgroundColor = .clear
+        return textView
     }()
     
     lazy var pagesCollection: UICollectionView = {
@@ -134,6 +136,17 @@ public final class MultipageReviewViewController: UIViewController {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                                   action: #selector(deleteImageButtonAction))
+    }()
+    
+    fileprivate lazy var pagesCollectionTipLabelHeightConstraint: NSLayoutConstraint = {
+        let constraint = NSLayoutConstraint(item: self.pagesCollectionBottomTipLabel,
+                                            attribute: .height,
+                                            relatedBy: .equal,
+                                            toItem: nil,
+                                            attribute: .notAnAttribute,
+                                            multiplier: 1.0,
+                                            constant: 0)
+        return constraint
     }()
     
     @available(iOS 9.0, *)
@@ -272,6 +285,7 @@ extension MultipageReviewViewController {
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {
         pagesCollectionBottomTipLabel.isHidden = hidden
+        pagesCollectionTipLabelHeightConstraint.constant = hidden ? 0 : 30
     }
     
     @objc @available(iOS 9.0, *)
@@ -375,7 +389,8 @@ extension MultipageReviewViewController {
         
         // pagesCollectionBottomTipLabel
         Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal,
-                           to: pagesCollectionContainer, attr: .bottom, constant: -10)
+                           to: pagesCollectionContainer, attr: .bottom)
+        Constraints.active(constraint: pagesCollectionTipLabelHeightConstraint)
         Constraints.active(item: pagesCollectionBottomTipLabel, attr: .centerX, relatedBy: .equal,
                            to: pagesCollectionContainer, attr: .centerX)
     }
