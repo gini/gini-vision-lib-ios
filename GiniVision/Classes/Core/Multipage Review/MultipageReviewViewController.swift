@@ -126,6 +126,10 @@ public final class MultipageReviewViewController: UIViewController {
     var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     
+    let localizedTitle = NSLocalizedString("ginivision.multipagereview.title",
+                                           bundle: Bundle(for: GiniVision.self),
+                                           comment: "title with the page indicator")
+    
     lazy var rotateButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
@@ -280,7 +284,8 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = "\(page) of \(documentRequests.count)"
+        title = String.init(format: localizedTitle,
+                            arguments: [page, validatedDocuments.count])
     }
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {

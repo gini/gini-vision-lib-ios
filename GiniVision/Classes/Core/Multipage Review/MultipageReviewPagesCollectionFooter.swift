@@ -123,6 +123,11 @@ extension MultipageReviewPagesCollectionFooter {
         Constraints.active(item: addButton, attr: .centerX, relatedBy: .equal, to: roundMask, attr: .centerX)
         Constraints.active(item: addButton, attr: .centerY, relatedBy: .lessThanOrEqual, to: roundMask,
                            attr: .centerY, priority: 999)
+        Constraints.active(item: addButton, attr: .height, relatedBy: .equal, to: nil,
+                           attr: .notAnAttribute, constant: 60)
+        Constraints.active(item: addButton, attr: .width, relatedBy: .equal, to: addButton, attr: .height)
+        Constraints.active(item: addButton, attr: .top, relatedBy: .greaterThanOrEqual, to: roundMask,
+                           attr: .top, priority: 750)
         
         // addLabel
         Constraints.active(item: addLabel, attr: .centerX, relatedBy: .equal, to: addButton, attr: .centerX)
@@ -132,7 +137,6 @@ extension MultipageReviewPagesCollectionFooter {
                            constant: -MultipageReviewPagesCollectionFooter.padding().bottom)
         Constraints.active(item: addLabel, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading,
                            constant: MultipageReviewPagesCollectionFooter.padding().left)
-        
         
         // Since it is not possible to add an inset to the footer, but only to the section
         // (header and footer are not part of the section), we add a right inset dynamically through a
