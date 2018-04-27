@@ -184,6 +184,7 @@ extension MultipageReviewViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectLastItem()
+        changeReorderTipVisibility(to: validatedDocuments.count < 2)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -267,6 +268,10 @@ extension MultipageReviewViewController {
     
     fileprivate func changeTitle(withPage page: Int) {
         title = "\(page) of \(documentRequests.count)"
+    }
+    
+    fileprivate func changeReorderTipVisibility(to hidden: Bool) {
+        pagesCollectionBottomTipLabel.isHidden = hidden
     }
     
     @objc @available(iOS 9.0, *)
