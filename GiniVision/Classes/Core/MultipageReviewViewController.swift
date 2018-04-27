@@ -396,10 +396,10 @@ extension MultipageReviewViewController {
                             pagesCollectionInsets.bottom)
         
         // pagesCollectionBottomTipLabel
-        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
-                           attr: .bottom, constant: -10)
-        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .centerX, relatedBy: .equal, to: pagesCollectionContainer,
-                           attr: .centerX)
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal,
+                           to: pagesCollectionContainer, attr: .bottom, constant: -10)
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .centerX, relatedBy: .equal,
+                           to: pagesCollectionContainer, attr: .centerX)
     }
 }
 
