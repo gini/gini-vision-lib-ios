@@ -58,8 +58,9 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         self.partialDocuments[document.id] = PartialDocumentInfo()
+        let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
         
-        createDocument(from: document, fileName: "", cancellationToken: token) { result in
+        createDocument(from: document, fileName: fileName, cancellationToken: token) { result in
             switch result {
             case .success(let createdDocument):
                 self.partialDocuments[document.id]?.documentUrl = createdDocument.links.document

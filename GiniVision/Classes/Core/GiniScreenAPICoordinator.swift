@@ -33,10 +33,13 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
     lazy var multiPageReviewViewController: MultipageReviewViewController = {
-        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument }
+        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument}
+        if let type = self.visionDocuments.type, type != .image {
+            assertionFailure("The MultipageReviewViewController can only handle image documents.")
+        }
+        
         let multiPageReviewViewController =
             self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
-        _ = multiPageReviewViewController.view
         return multiPageReviewViewController
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
@@ -93,7 +96,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
             }
             
             if !documents.containsDifferentTypes {
-                self.addToSessionDocuments(newDocuments: documents)
+                self.addToDocuments(newDocuments: documents)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
@@ -139,7 +142,7 @@ internal final class GiniScreenAPICoordinator: NSObject, Coordinator {
 // MARK: - Session documents
 
 extension GiniScreenAPICoordinator {
-    func addToSessionDocuments(newDocuments: [GiniVisionDocument]) {
+    func addToDocuments(newDocuments: [GiniVisionDocument]) {
         visionDocuments.append(contentsOf: newDocuments)
         
         if let imageDocuments = visionDocuments as? [GiniImageDocument],
@@ -148,19 +151,19 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func removeFromSessionDocuments(document: GiniVisionDocument) {
+    func removeFromDocuments(document: GiniVisionDocument) {
         visionDocuments.remove(document)
     }
     
-    func updateInSessionDocuments(document: GiniVisionDocument) {
+    func updateInDocuments(document: GiniVisionDocument) {
         visionDocuments.updateOrAdd(document)
     }
     
-    func replaceSessionDocuments(with documents: [GiniVisionDocument]) {
+    func replaceDocuments(with documents: [GiniVisionDocument]) {
         visionDocuments = documents
     }
     
-    func clearSessionDocuments() {
+    func clearDocuments() {
         visionDocuments.removeAll()
     }
 }
@@ -189,7 +192,10 @@ extension GiniScreenAPICoordinator {
         if let didReviewDocuments = visionDelegate?.didReview(documents:) {
             didReviewDocuments(visionDocuments)
         } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            didReview(visionDocuments[0], false)
+            guard let firstElement = visionDocuments.first else {
+                fatalError("There aren't elements to review.")
+            }
+            didReview(firstElement, false)
         } else {
             fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
                 "withChanges changes: Bool) should be implemented")
@@ -218,7 +224,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             visionDelegate?.didCancelAnalysis()
         }
         if fromVC == reviewViewController && toVC == cameraViewController {
-            // This only happen when not using multipage
+            // This can only happen when not using multipage
             reviewViewController = nil
             if let firstDocument = visionDocuments.first {
                 if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
@@ -228,7 +234,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                         "should be implemented")
                 }
                 
-                clearSessionDocuments()
+                clearDocuments()
             }
         }
         

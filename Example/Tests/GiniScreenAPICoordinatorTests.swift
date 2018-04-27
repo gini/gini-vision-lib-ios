@@ -96,7 +96,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
         let capturedImageDocument = loadImageDocument(withName: "invoice")
-        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
+        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
         
         coordinator.multiPageReviewViewController.imageDocuments[0].rotatePreviewImage90Degrees()
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
@@ -109,7 +109,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
         let capturedImageDocument = loadImageDocument(withName: "invoice")
-        coordinator.addToSessionDocuments(newDocuments: [capturedImageDocument])
+        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
                                     didDelete: coordinator.multiPageReviewViewController.imageDocuments[0])
@@ -122,7 +122,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     func testMultipageImageDocumentWhenSortingDocuments() {
         let capturedImageDocument = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice")]
         let firstItemId = capturedImageDocument.first?.id
-        coordinator.addToSessionDocuments(newDocuments: capturedImageDocument)
+        coordinator.addToDocuments(newDocuments: capturedImageDocument)
         
         var reorderedItems = capturedImageDocument
         reorderedItems.swapAt(0, 1)

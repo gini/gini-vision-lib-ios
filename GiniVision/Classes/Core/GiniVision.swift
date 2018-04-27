@@ -56,10 +56,10 @@ import UIKit
     func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
-     Called when the user is presented with the analsis screen. Use the `analysisDelegate`
+     Called when the user is presented with the analysis screen. Use the `analysisDelegate`
      object to inform the user about the current status of the analysis task.
      
-     - parameter analysisDelegate: The analsis delegate to send updates to.
+     - parameter analysisDelegate: The analysis delegate to send updates to.
      */
     @objc optional func didShowAnalysis(_ analysisDelegate: AnalysisDelegate)
     
