@@ -130,38 +130,10 @@ public final class MultipageReviewViewController: UIViewController {
                                   action: #selector(rotateImageButtonAction))
     }()
     
-    lazy var reorderButton: UIBarButtonItem = {
-        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
-                                  insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                  action: #selector(reorderButtonAction))
-    }()
-    
     lazy var deleteButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                                   action: #selector(deleteImageButtonAction))
-    }()
-    
-    fileprivate lazy var pagesCollectionShownConstraint: NSLayoutConstraint = {
-        let constraint = NSLayoutConstraint(item: self.pagesCollectionContainer,
-                                            attribute: .bottom,
-                                            relatedBy: .equal,
-                                            toItem: self.toolBar,
-                                            attribute: .top,
-                                            multiplier: 1.0,
-                                            constant: 0)
-        constraint.priority = 999
-        return constraint
-    }()
-    
-    fileprivate lazy var pagesCollectionHiddenConstraint: NSLayoutConstraint = {
-        return NSLayoutConstraint(item: self.pagesCollectionContainer,
-                                  attribute: .top,
-                                  relatedBy: .equal,
-                                  toItem: self.toolBar,
-                                  attribute: .top,
-                                  multiplier: 1.0,
-                                  constant: 0)
     }()
     
     @available(iOS 9.0, *)
@@ -297,16 +269,6 @@ extension MultipageReviewViewController {
         title = "\(page) of \(documentRequests.count)"
     }
     
-    fileprivate func changeReorderButtonState(toActive activate: Bool) {
-        if activate {
-            reorderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
-            reorderButton.customView?.tintColor = .white
-        } else {
-            reorderButton.customView?.layer.backgroundColor = nil
-            reorderButton.customView?.tintColor = Colors.Gini.blue
-        }
-    }
-    
     @objc @available(iOS 9.0, *)
     fileprivate func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
@@ -379,7 +341,7 @@ extension MultipageReviewViewController {
         Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionContainer
-        Constraints.active(constraint: pagesCollectionShownConstraint)
+        Constraints.active(item: pagesCollectionContainer, attr: .bottom, relatedBy: .equal, to: toolBar, attr: .top)
         Constraints.active(item: pagesCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
                            attr: .trailing)
         Constraints.active(item: pagesCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
@@ -453,29 +415,6 @@ extension MultipageReviewViewController {
                 }
                 self.delegate?.multipageReview(self, didDelete: documentToDelete)
             })
-        }
-    }
-    
-    @objc fileprivate func reorderButtonAction() {
-        self.toolTipView?.dismiss()
-        self.toggleReorder()
-    }
-    
-    fileprivate func toggleReorder(animated: Bool = true) {
-        let hide = self.pagesCollectionShownConstraint.isActive
-        self.pagesCollectionHiddenConstraint.isActive = hide
-        self.pagesCollectionShownConstraint.isActive = !hide
-        self.mainCollection.collectionViewLayout.invalidateLayout()
-        self.changeReorderButtonState(toActive: self.pagesCollectionShownConstraint.isActive)
-        
-        if animated {
-            UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
-                guard let `self` = self else { return }
-                self.view.layoutIfNeeded()
-                }, completion: { _ in
-            })
-        } else {
-            self.view.layoutIfNeeded()
         }
     }
 }
@@ -593,20 +532,32 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func visibleImage(in collection: UICollectionView) -> (image: UIImage, size: CGRect)? {
-        let visibleIndex = self.visibleCell(in: collection)
+    func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
+        collectionView.layoutIfNeeded() // It is needed due to a bug in UIKit.
+        return collectionView.indexPathsForVisibleItems.first
+    }
+    
+    func visibleMainCollectionImage(from coordinateSpace: UICoordinateSpace) -> (UIImage, CGRect)? {
+        let visibleIndex = self.visibleCell(in: mainCollection)
         guard let visibleCellIndex = visibleIndex,
-            let cell = collectionView(collection,
+            let cell = collectionView(mainCollection,
                                       cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell,
             let image = cell.documentImage.image else {
                 return nil
         }
         
-        return (image, cell.frame)
+        cell.documentImage.frame = cell.frame
+        return (image, frame(for: cell.documentImage, from: coordinateSpace))
     }
     
-    func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
-        collectionView.layoutIfNeeded() // It is needed due to a bug in UIKit.
-        return collectionView.indexPathsForVisibleItems.first
+    private func frame(for imageView: UIImageView, from coordinateSpace: UICoordinateSpace) -> CGRect {
+        guard let image = imageView.image else { return .zero }
+        let origin = view.convert(imageView.frame.origin, to: coordinateSpace)
+        let imageWidth = imageView.frame.size.height * image.size.width / image.size.height
+        let imageOriginX = (imageView.frame.size.width - imageWidth) / 2
+        
+        return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
+                      size: CGSize(width: imageWidth, height: imageView.frame.size.height))
     }
+
 }
