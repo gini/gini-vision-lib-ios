@@ -53,7 +53,7 @@ public final class MultipageReviewViewController: UIViewController {
     var pagesCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (pagesCollection.frame.width -
             MultipageReviewPagesCollectionCell.size.width) / 2
-        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 16)
+        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 0)
     }
     
     lazy var pagesCollectionContainer: UIView = {
@@ -75,7 +75,9 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var pagesCollectionBottomTipLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Drag and drop to reorder"
+        label.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
+                                       bundle: Bundle(for: GiniVision.self),
+                                       comment: "drag and drop tip shown below pages collection")
         label.font = label.font.withSize(11)
         
         return label
@@ -85,7 +87,6 @@ public final class MultipageReviewViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 10
-        layout.footerReferenceSize = MultipageReviewPagesCollectionCell.size
         var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.dataSource = self
@@ -208,6 +209,11 @@ extension MultipageReviewViewController {
         }
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        selectLastItem()
+    }
+    
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showToolbar()
@@ -240,12 +246,17 @@ extension MultipageReviewViewController {
         })
     }
     
-    func selectItem(at position: Int, in section: Int = 0) {
+    func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
         let indexPath = IndexPath(row: position, section: section)
         self.pagesCollection.selectItem(at: indexPath,
-                                        animated: true,
+                                        animated: animated,
                                         scrollPosition: .centeredHorizontally)
         self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
+    }
+    
+    func selectLastItem(animated: Bool = false) {
+        let lastPosition = self.validatedDocuments.count - 1
+        selectItem(at: lastPosition, animated: animated)
     }
     
     func reloadCollections() {
@@ -500,6 +511,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier,
                                               for: indexPath) as? MultipageReviewPagesCollectionFooter
+        footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
         footer?.didTapAddButton = { [weak self] in
             guard let `self` = self else { return }
             self.delegate?.multipageReviewDidTapAddImage(self)
@@ -545,6 +557,16 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         return collectionView == mainCollection ?
             collectionView.frame.size :
             MultipageReviewPagesCollectionCell.size
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard collectionView == pagesCollection else {
+            return .zero
+        }
+        
+        return MultipageReviewPagesCollectionFooter.size(in: collectionView)
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
