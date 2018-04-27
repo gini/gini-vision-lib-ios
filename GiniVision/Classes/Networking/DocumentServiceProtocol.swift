@@ -100,11 +100,12 @@ extension DocumentServiceProtocol {
                           completion: @escaping AnalysisCompletion) {
         let partialDocumentsInfo = documents.map { $0.toDictionary() }
         analysisCancellationToken = BFCancellationTokenSource()
+        let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
         giniSDK
             .documentTaskManager
             .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
-                                     fileName: "",
+                                     fileName: fileName,
                                      docType: "",
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
@@ -161,7 +162,7 @@ extension DocumentServiceProtocol {
             })
             .continueWith(block: { (task: BFTask?) in
                 guard let extractions = task?.result as? NSMutableDictionary else {
-                    print("Error sending feedback for document with id: ",
+                    print("❌ Error sending feedback for document with id: ",
                           String(describing: self.compositeDocument?.documentId))
                     return nil
                 }

@@ -17,7 +17,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             loadingView.removeFromSuperview()
             switch result {
             case .success:
-                self.addToSessionDocuments(newDocuments: [document])
+                self.addToDocuments(newDocuments: [document])
                 self.didCaptureAndValidate(document)
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
@@ -188,7 +188,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             switch result {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
-                    self.addToSessionDocuments(newDocuments: validatedDocuments.map { $0.document })
+                    self.addToDocuments(newDocuments: validatedDocuments.map { $0.document })
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
                             self.didCaptureAndValidate(validatedDocument.document)

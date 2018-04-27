@@ -53,9 +53,10 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
         partialDocumentInfo = PartialDocumentInfo()
-        
+        let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
+
         createDocument(from: document,
-                       fileName: "fileName") { result in
+                       fileName: fileName) { result in
             switch result {
             case .success(let document):
                 self.partialDocumentInfo?.documentUrl = document.links.document
@@ -64,7 +65,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
                     self.startAnalysis(completion: handler)
                 }
             case .failure(let error):
-                print("Partial document creation error: ", error)
+                print("❌ Partial document creation error: ", error)
             }
         }
     }
