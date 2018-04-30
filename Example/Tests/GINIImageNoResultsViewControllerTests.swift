@@ -35,6 +35,7 @@ final class GINIImageNoResultsViewControllerTests: XCTestCase {
     
     override func setUp() {
         _ = viewController.view
+        viewController.captureSuggestions = items
     }
     
     func testViewControllerTitleOnInitialization() {

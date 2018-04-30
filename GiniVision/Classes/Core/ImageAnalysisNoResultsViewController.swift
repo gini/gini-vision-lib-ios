@@ -59,7 +59,10 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
                            comment: "Third suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion4"),
          NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self),
-                           comment: "Forth suggestion for analysis screen"))
+                           comment: "Forth suggestion for analysis screen")),
+        (UIImageNamedPreferred(named: "captureSuggestion5"),
+         NSLocalizedString("ginivision.analysis.suggestion.5", bundle: Bundle(for: GiniVision.self),
+                           comment: "Fifth suggestion for analysis screen"))
     ]
     
     fileprivate var subHeaderTitle: String?

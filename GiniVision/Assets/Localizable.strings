@@ -63,6 +63,7 @@
 "ginivision.analysis.suggestion.2" = "Seite glatt streichen";
 "ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
 "ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.analysis.suggestion.5" = "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren";
 "ginivision.analysis.error.actionTitle" = "Wiederholen";
 
 "ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";

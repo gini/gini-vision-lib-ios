@@ -47,7 +47,7 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
         Constraints.active(item: suggestionImage, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 85)
         Constraints.active(item: suggestionImage, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
-                          attr: .notAnAttribute, constant: 85)
+                          attr: .notAnAttribute, constant: 75)
         Constraints.active(item: suggestionImage, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY)
         
         Constraints.active(item: suggestionText, attr: .top, relatedBy: .equal, to: self, attr: .top)
