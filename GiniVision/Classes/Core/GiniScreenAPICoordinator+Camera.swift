@@ -60,15 +60,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         if shouldShowOnBoarding() {
-            showOnboardingScreen(onDismiss: showMultipageFeatureDialogIfNeeded)
-        } else {
-            showMultipageFeatureDialogIfNeeded()
-        }
-    }
-    
-    private func showMultipageFeatureDialogIfNeeded() {
-        if AlertDialogController.shouldShowNewMultipageFeature {
-            self.showMultipageNewFeatureDialog()
+            showOnboardingScreen()
         }
     }
     
@@ -123,7 +115,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return false
     }
     
-    private func showOnboardingScreen(onDismiss: @escaping (() -> Void)) {
+    private func showOnboardingScreen() {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
@@ -133,7 +125,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             self.cameraViewController?.showCameraOverlay()
             self.cameraViewController?.showCaptureButton()
             self.cameraViewController?.showFileImportTip()
-            onDismiss()
         }
         
         let navigationController = UINavigationController(rootViewController: vc)
@@ -141,26 +132,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         navigationController.modalPresentationStyle = .overCurrentContext
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
     }
-    
-    private func showMultipageNewFeatureDialog() {
-        let alertDialog = AlertDialogController(giniConfiguration: giniConfiguration,
-                                                title: "Multi-Page Rechnungsanalyse",
-                                                message: "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren",
-                                                image: UIImageNamedPreferred(named: "multipageIcon"),
-                                                buttonTitle: "Zur Kamera",
-                                                buttonImage: UIImage(named: "cameraIcon",
-                                                                     in: Bundle(for: GiniVision.self),
-                                                                     compatibleWith: nil))
-        alertDialog.continueAction = {
-            alertDialog.dismiss(animated: true, completion: nil)
-            AlertDialogController.shouldShowNewMultipageFeature = false
-        }
-        alertDialog.cancelAction = alertDialog.continueAction
-        screenAPINavigationController.present(alertDialog,
-                                              animated: true,
-                                              completion: nil)
-    }
-    
+        
     func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
         let visionDocuments = documentRequests.map { $0.document }
         if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
