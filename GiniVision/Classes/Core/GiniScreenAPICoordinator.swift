@@ -196,7 +196,8 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showHelpMenuScreen() {
-        self.screenAPINavigationController.pushViewController(HelpMenuViewController(), animated: true)
+        self.screenAPINavigationController.pushViewController(HelpMenuViewController(giniConfiguration: giniConfiguration),
+                                                              animated: true)
     }
     
     @objc func showAnalysisScreen() {

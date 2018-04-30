@@ -210,7 +210,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
         var navigationStack = newDocumentViewController.viewControllers
         
-        if let deleteViewController = (navigationStack.flatMap { $0 as? T }.first) as? UIViewController,
+        if let deleteViewController = (navigationStack.compactMap { $0 as? T }.first) as? UIViewController,
             let index = navigationStack.index(of: deleteViewController) {
             navigationStack.remove(at: index)
         }
@@ -219,7 +219,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     func didTapRetry() {
-        if (newDocumentViewController.viewControllers.flatMap { $0 as? ComponentAPICameraViewController}).first == nil {
+        if (newDocumentViewController.viewControllers.compactMap { $0 as? ComponentAPICameraViewController}).first == nil {
             closeComponentAPI()
             return
         }

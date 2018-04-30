@@ -142,7 +142,7 @@ final class ToolTipView: UIView {
     
     // MARK: Frame and size calculations
     fileprivate func size(forText text: String, withFont font: UIFont) -> CGSize {
-        let attributes = [NSFontAttributeName: font]
+        let attributes = [NSAttributedStringKey.font: font]
         
         var textSize = text.boundingRect(with: CGSize(width: textWidth,
                                                       height: CGFloat.greatestFiniteMagnitude),

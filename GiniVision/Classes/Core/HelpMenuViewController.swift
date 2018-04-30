@@ -66,7 +66,7 @@ final public class HelpMenuViewController: UITableViewController {
                                 comment: "Button title in the navigation bar for the back button on the help screen",
                                 configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
-    public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+    public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
@@ -95,7 +95,7 @@ final public class HelpMenuViewController: UITableViewController {
                             target: self)
     }
     
-    func back() {
+    @objc func back() {
         navigationController?.popViewController(animated: true)
     }
     

@@ -158,7 +158,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     }
     
     // MARK: Button action
-    func didTapBottomButtonAction() {
+    @objc func didTapBottomButtonAction() {
         didTapBottomButton()
     }
 }

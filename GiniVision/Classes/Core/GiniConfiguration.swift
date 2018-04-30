@@ -119,8 +119,8 @@ import UIKit
      - note: Screen API only.
      */
     public var navigationBarItemFont = UIBarButtonItem.appearance()
-        .titleTextAttributes(for: .normal)?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.bold,
-                                                                                               andSize: 16)
+        .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ?? UIFontPreferred(.bold,
+                                                                                                               andSize: 16)
     
     /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to
@@ -130,7 +130,7 @@ import UIKit
      */
     public var navigationBarTitleColor = UINavigationBar
         .appearance()
-        .titleTextAttributes?[NSForegroundColorAttributeName] as? UIColor ?? .white
+        .titleTextAttributes?[NSAttributedStringKey.foregroundColor] as? UIColor ?? .white
     
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to
@@ -141,7 +141,7 @@ import UIKit
      */
     public var navigationBarTitleFont = UINavigationBar
         .appearance()
-        .titleTextAttributes?[NSFontAttributeName] as? UIFont ?? UIFontPreferred(.regular,
+        .titleTextAttributes?[NSAttributedStringKey.font] as? UIFont ?? UIFontPreferred(.regular,
                                                                                  andSize: 16)
     
     /**
