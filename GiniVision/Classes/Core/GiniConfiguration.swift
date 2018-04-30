@@ -424,6 +424,13 @@ import UIKit
                                    comment: "Text on the fourth page of the onboarding screen")
     
     /**
+     Sets the text on the fifth onboarding page.
+     */
+    public var onboardingFifthPageText =
+        NSLocalizedStringPreferred("ginivision.onboarding.fifthPage",
+                                   comment: "Text on the fifth page of the onboarding screen")
+    
+    /**
      Sets the font of the text for all onboarding pages.
      (Deprecated, use `GiniConfiguration.customFont` instead)
 
@@ -453,14 +460,17 @@ import UIKit
                 let page2 = OnboardingPage(imageNamed: "onboardingPage2",
                                            text: onboardingSecondPageText),
                 let page3 = OnboardingPage(imageNamed: "onboardingPage3",
-                                           text: onboardingThirdPageText) else {
+                                           text: onboardingThirdPageText),
+                let page4 = OnboardingPage(imageNamed: "onboardingPage5",
+                                           text: onboardingFifthPageText) else {
                     return [UIView]()
             }
             
-            onboardingCustomPages = [page1, page2, page3]
-            if UIDevice.current.isIpad {
-                onboardingCustomPages?.insert(OnboardingPage(imageNamed: "onboardingPage4",
-                                                             text: onboardingFourthPageText)!, at: 0)
+            onboardingCustomPages = [page1, page2, page3, page4]
+            if let ipadTipPage = OnboardingPage(imageNamed: "onboardingPage4",
+                                                text: onboardingFourthPageText),
+                UIDevice.current.isIpad {
+                onboardingCustomPages?.insert(ipadTipPage, at: 0)
             }
             return onboardingCustomPages!
         }
