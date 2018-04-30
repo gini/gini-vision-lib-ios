@@ -149,7 +149,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravity.resizeAspectFill
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
         return previewView
@@ -580,13 +580,13 @@ extension CameraViewController {
     
     @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
         guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-        let devicePoint = previewLayer.captureDevicePointOfInterest(for: sender.location(in: sender.view))
+        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: sender.location(in: sender.view))
         camera?.focus(withMode: .autoFocus,
                       exposeWithMode: .autoExpose,
                       atDevicePoint: devicePoint,
                       monitorSubjectAreaChange: true)
         let imageView = createFocusIndicator(withImage: cameraFocusSmall,
-                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
+                                             atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
         showFocusIndicator(imageView)
     }
     
@@ -600,7 +600,7 @@ extension CameraViewController {
                       monitorSubjectAreaChange: false)
         
         let imageView = createFocusIndicator(withImage: cameraFocusLarge,
-                                             atPoint: previewLayer.pointForCaptureDevicePoint(ofInterest: devicePoint))
+                                             atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
         showFocusIndicator(imageView)
     }
     

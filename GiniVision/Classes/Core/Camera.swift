@@ -57,8 +57,8 @@ internal class Camera: NSObject {
         }
     }
     
-    func focus(withMode mode: AVCaptureFocusMode,
-               exposeWithMode exposureMode: AVCaptureExposureMode,
+    func focus(withMode mode: AVCaptureDevice.FocusMode,
+               exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
                atDevicePoint point: CGPoint,
                monitorSubjectAreaChange: Bool) {
         sessionQueue.async {
@@ -85,7 +85,7 @@ internal class Camera: NSObject {
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
-            guard let connection = self.stillImageOutput?.connection(withMediaType: AVMediaTypeVideo) else {
+            guard let connection = self.stillImageOutput?.connection(with: AVMediaType.video) else {
                 return completion(nil, .noInputDevice)
             }
             
@@ -99,7 +99,7 @@ internal class Camera: NSObject {
             self.stillImageOutput?
                 .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
                     guard error != nil else {
-                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
+                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!), nil)
                         return
                     }
                     completion(nil, .captureFailed)
@@ -110,15 +110,15 @@ internal class Camera: NSObject {
     // MARK: Private methods
     fileprivate func setupSession() throws {
         var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(withMediaType: AVMediaTypeVideo).filter {
-                ($0 as? AVCaptureDevice)?.position == .back
+            let devices = AVCaptureDevice.devices(for: AVMediaType.video).filter {
+                $0.position == .back
             }
-            guard let device = devices.first as? AVCaptureDevice else { return nil }
+            guard let device = devices.first else { return nil }
             return device
         }
         
         do {
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice!)
         } catch let error as NSError {
             if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
                 throw CameraError.notAuthorizedToUseDevice
@@ -130,9 +130,9 @@ internal class Camera: NSObject {
     
     fileprivate func setupInput() {
         // Specify that we are capturing a photo, this will reset the format to be 4:3
-        self.session.sessionPreset = AVCaptureSessionPresetPhoto
-        if self.session.canAddInput(self.videoDeviceInput) {
-            self.session.addInput(self.videoDeviceInput)
+        self.session.sessionPreset = AVCaptureSession.Preset.photo
+        if self.session.canAddInput(self.videoDeviceInput!) {
+            self.session.addInput(self.videoDeviceInput!)
         } else {
             print("Could not add video device input to the session")
         }
@@ -157,7 +157,7 @@ internal class Camera: NSObject {
             self.session.addOutput(qrOutput)
             
             qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
-            qrOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            qrOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         } else {
             print("Could not add metadata output to the session")
         }
@@ -167,16 +167,16 @@ internal class Camera: NSObject {
 // MARK: AVCaptureMetadataOutputObjectsDelegate
 
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
-    func captureOutput(_ output: AVCaptureOutput!,
-                       didOutputMetadataObjects metadataObjects: [Any]!,
-                       from connection: AVCaptureConnection!) {
+    func metadataOutput(_ output: AVCaptureMetadataOutput,
+                       didOutput metadataObjects: [AVMetadataObject],
+                       from connection: AVCaptureConnection) {
         if metadataObjects.isEmpty {
             return
         }
         
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-            metadataObj.type == AVMetadataObjectTypeQRCode {
-            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue)
+            metadataObj.type == AVMetadataObject.ObjectType.qr {
+            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue!)
             DispatchQueue.main.async { [weak self] in
                 self?.didDetectQR?(qrDocument)
             }

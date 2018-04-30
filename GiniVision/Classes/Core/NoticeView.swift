@@ -34,7 +34,7 @@ final class NoticeView: UIView {
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 12 / 14
-        label.setContentCompressionResistancePriority(UILayoutPriorityDefaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
         label.font = self.giniConfiguration.customFont.isEnabled ?
             self.giniConfiguration.customFont.regular.withSize(14) :
             self.giniConfiguration.noticeFont
@@ -44,7 +44,7 @@ final class NoticeView: UIView {
     lazy var actionButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        button.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
 
         button.titleLabel?.textColor = self.giniConfiguration.noticeErrorTextColor
         button.titleLabel?.font =  self.giniConfiguration.customFont.bold.withSize(16)

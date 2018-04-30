@@ -23,9 +23,9 @@ internal class GiniNavigationViewController: UINavigationController {
         navigationBar.isTranslucent = false
         navigationBar.barTintColor = GiniConfiguration.sharedConfiguration.navigationBarTintColor
         navigationBar.tintColor = GiniConfiguration.sharedConfiguration.navigationBarItemTintColor
-        var attributes = navigationBar.titleTextAttributes ?? [String: AnyObject]()
-        attributes[NSForegroundColorAttributeName] = GiniConfiguration.sharedConfiguration.navigationBarTitleColor
-        attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
+        var attributes = navigationBar.titleTextAttributes ?? [NSAttributedStringKey: Any]()
+        attributes[NSAttributedStringKey.foregroundColor] = GiniConfiguration.sharedConfiguration.navigationBarTitleColor
+        attributes[NSAttributedStringKey.font] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
             GiniConfiguration.sharedConfiguration.customFont.light.withSize(16) :
             GiniConfiguration.sharedConfiguration.navigationBarTitleFont
         navigationBar.titleTextAttributes = attributes
