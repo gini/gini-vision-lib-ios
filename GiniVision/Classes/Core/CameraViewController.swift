@@ -474,39 +474,47 @@ extension CameraViewController {
     
     func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
         guard let documentImage = imageDocument.previewImage else { return }
-        
-        let imageFrame = previewView.frame
-        let imageView = UIImageView(frame: imageFrame)
-        imageView.center = previewView.center
-        imageView.image = documentImage
-        
-        view.addSubview(imageView)
+        let previewImageView = previewCapturedImageView(with: documentImage)
+        view.addSubview(previewImageView)
 
         UIView.animate(withDuration: AnimationDuration.medium, animations: {
-            imageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
+            previewImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
-            UIView.animateKeyframes(withDuration: AnimationDuration.medium, delay: 0.7, animations: {
+            UIView.animateKeyframes(withDuration: AnimationDuration.medium, delay: 0.6, animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
                     let thumbnailSize = self.capturedImagesStackView.thumbnailSize
-                    let scaleRatioY = thumbnailSize.height / imageFrame.height
-                    let scaleRatioX = thumbnailSize.width / imageFrame.width
+                    let scaleRatioY = thumbnailSize.height / self.previewView.frame.height
+                    let scaleRatioX = thumbnailSize.width / self.previewView.frame.width
                     
-                    imageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                    imageView.center = self.capturedImagesStackView
+                    previewImageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
+                    previewImageView.center = self.capturedImagesStackView
                         .absoluteThumbnailFrame(from: self.view)
                         .center
                 })
                 if !self.capturedImagesStackView.isHidden {
                     UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 1, animations: {
-                        imageView.alpha = 0
+                        previewImageView.alpha = 0
                     })
                 }
             }, completion: { _ in
-                imageView.removeFromSuperview()
+                previewImageView.removeFromSuperview()
                 self.capturedImagesStackView.addImageToStack(image: documentImage)
                 completion?()
             })
         })
+    }
+    
+    private func previewCapturedImageView(with image: UIImage) -> UIImageView {
+        let imageFrame = previewView.frame
+        let imageView = UIImageView(frame: imageFrame)
+        imageView.center = previewView.center
+        imageView.image = image
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
+        imageView.layer.shadowRadius = 4
+        imageView.layer.shadowOpacity = 0.3
+        
+        return imageView
     }
     
     @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
