@@ -20,77 +20,90 @@ internal typealias OnboardingContainerCompletionBlock = () -> Void
  */
 internal class OnboardingContainerViewController: UIViewController, ContainerViewController {
     
-    // Container attributes
-    internal var containerView     = UIView()
-    internal var contentController = UIViewController()
-    
-    // User Interface
-    fileprivate var pageControlContainerView = UIView()
-    fileprivate var pageControl              = UIPageControl()
-    fileprivate var continueButton           = UIBarButtonItem()
-    fileprivate let backgroundAlpha: CGFloat = 0.85
-    
-    // Output
+    let giniConfiguration: GiniConfiguration
+    fileprivate let backgroundAlpha: CGFloat = 0.25
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?
+
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
-         withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
-        super.init(nibName: nil, bundle: nil)
-        
-        // Set callback
-        completionBlock = completion
-        
-        // Configure content controller
-        var pages = giniConfiguration.onboardingPages
+    lazy var contentController: UIViewController = {
+        var pages = self.giniConfiguration.onboardingPages
         pages.append(UIView()) // Add an empty last page to transition nicely back to camera
-        contentController = OnboardingViewController(pages: pages,
-                                                     scrollViewDelegate: self)
-        
-        // Configure title
-        title = giniConfiguration.navigationBarOnboardingTitle
-        
-        // Configure colors
-        view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
-        
-        // Configure page control
+        return OnboardingViewController(pages: pages,
+                                        scrollViewDelegate: self)
+    }()
+    
+    fileprivate lazy var pageControlContainerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    fileprivate lazy var pageControl: UIPageControl = {
+       let pageControl = UIPageControl()
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPage = 0
-        pageControl.numberOfPages = pages.count
+        pageControl.numberOfPages = self.giniConfiguration.onboardingPages.count + 1 // Empty page at the end
         pageControl.currentPageIndicatorTintColor = giniConfiguration.onboardingCurrentPageIndicatorColor
         pageControl.pageIndicatorTintColor = giniConfiguration.onboardingPageIndicatorColor
         pageControl.isUserInteractionEnabled = false
         pageControl.isAccessibilityElement = false
-        
-        // Configure continue button
+        return pageControl
+    }()
+    
+    fileprivate lazy var continueButton: UIBarButtonItem = {
         let continueButtonResources =
             PreferredButtonResource(image: "navigationOnboardingContinue",
                                     title: "ginivision.navigationbar.onboarding.continue",
                                     comment: "Button title in the navigation bar for the " +
-                                             "continue button on the onboarding screen",
-                                    configEntry: giniConfiguration.navigationBarOnboardingTitleContinueButton)
-        continueButton = GiniBarButtonItem(
+                "continue button on the onboarding screen",
+                                    configEntry: self.giniConfiguration.navigationBarOnboardingTitleContinueButton)
+        return GiniBarButtonItem(
             image: continueButtonResources.preferredImage,
             title: continueButtonResources.preferredText,
             style: .plain,
             target: self,
-            action: #selector(nextPage)
+            action: #selector(self.nextPage)
         )
-        
-        // Configure view hierachy
-        view.addSubview(containerView)
-        view.addSubview(pageControlContainerView)
-        pageControlContainerView.addSubview(pageControl)
-        navigationItem.setRightBarButton(continueButton, animated: false)
-        
-        // Add constraints
-        addConstraints()
+    }()
+    
+    fileprivate lazy var blurredView: UIVisualEffectView = {
+        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blurredView.translatesAutoresizingMaskIntoConstraints = false
+        return blurredView
+    }()
+    
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+         withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
+        self.giniConfiguration = giniConfiguration
+        self.completionBlock = completion
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addSubview(blurredView)
+        view.addSubview(containerView)
+        view.addSubview(pageControlContainerView)
+        pageControlContainerView.addSubview(pageControl)
+        navigationItem.setRightBarButton(continueButton, animated: false)
+        
+        addConstraints()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = giniConfiguration.navigationBarOnboardingTitle
+        view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
         // Add content to container view
         displayContent(contentController)
@@ -124,7 +137,6 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         let superview = self.view
         
         // Container view
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         Constraints.active(item: containerView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
         Constraints.active(item: containerView, attr: .bottom, relatedBy: .greaterThanOrEqual, to: superview,
                           attr: .bottom, priority: 750)
@@ -135,7 +147,6 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         Constraints.active(item: containerView, attr: .centerX, relatedBy: .equal, to: superview, attr: .centerX)
         
         // Page control container view
-        pageControlContainerView.translatesAutoresizingMaskIntoConstraints = false
         Constraints.active(item: pageControlContainerView, attr: .top, relatedBy: .equal, to: containerView,
                           attr: .bottom, priority: 750)
         Constraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview,
@@ -148,12 +159,14 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
                           to: pageControl, attr: .height, multiplier: 1.1)
         
         // Page control
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
         Constraints.active(item: pageControl, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 55)
         Constraints.active(item: pageControl, attr: .centerX, relatedBy: .equal, to: pageControlContainerView,
                           attr: .centerX)
         Constraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView,
                           attr: .centerY)
+        
+        // Blurred view
+        Constraints.pin(view: blurredView, toSuperView: view)
     }
 }
 
@@ -170,7 +183,6 @@ extension OnboardingContainerViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         // Update fixed elements position
         let pageWidth = scrollView.frame.size.width
         let contentOffsetX = scrollView.contentOffset.x
@@ -180,17 +192,6 @@ extension OnboardingContainerViewController: UIScrollViewDelegate {
         frameOffsetX = min(frameOffsetX, 0)
         navigationController?.navigationBar.frame.origin.x = frameOffsetX
         pageControlContainerView.frame.origin.x = frameOffsetX
-        
-        // Update background alpha
-        var alpha = backgroundAlpha
-        if contentOffsetX > 0 {
-            // Lighten the background when overflowing to the right
-            alpha = min(backgroundAlpha, 1 - fabs(frameOffsetX/fixedFrame.width))
-        } else {
-            // Darken the background when overflowing to the left
-            alpha = max(backgroundAlpha, fabs((contentOffsetX*0.3)/fixedFrame.width) + backgroundAlpha)
-        }
-        view.backgroundColor = view.backgroundColor?.withAlphaComponent(alpha)
     }
     
     fileprivate func setPageControl(_ scrollView: UIScrollView) {

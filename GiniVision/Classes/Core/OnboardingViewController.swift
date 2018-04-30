@@ -172,10 +172,7 @@ import UIKit
         
         // Content view
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: contentView, attr: .top, relatedBy: .equal, to: scrollView, attr: .top)
-        Constraints.active(item: contentView, attr: .trailing, relatedBy: .equal, to: scrollView, attr: .trailing)
-        Constraints.active(item: contentView, attr: .bottom, relatedBy: .equal, to: scrollView, attr: .bottom)
-        Constraints.active(item: contentView, attr: .leading, relatedBy: .equal, to: scrollView, attr: .leading)
+        Constraints.pin(view: contentView, toSuperView: scrollView)
         Constraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width,
                           multiplier: pagesCount)
         Constraints.active(item: contentView, attr: .height, relatedBy: .equal, to: scrollView, attr: .height)
