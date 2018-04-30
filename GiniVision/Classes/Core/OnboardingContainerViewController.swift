@@ -151,8 +151,8 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
                           attr: .bottom, priority: 750)
         Constraints.active(item: pageControlContainerView, attr: .trailing, relatedBy: .equal, to: superview,
                           attr: .trailing)
-        Constraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: superview,
-                          attr: .bottom)
+        Constraints.active(item: pageControlContainerView, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
+                          attr: .top)
         Constraints.active(item: pageControlContainerView, attr: .leading, relatedBy: .equal, to: superview,
                           attr: .leading)
         Constraints.active(item: pageControlContainerView, attr: .height, relatedBy: .greaterThanOrEqual,

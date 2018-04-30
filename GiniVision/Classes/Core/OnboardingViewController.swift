@@ -54,18 +54,31 @@ import UIKit
  */
 @objc public final class OnboardingViewController: UIViewController {
     
-    /**
-     Scroll view used to display different onboarding pages.
-     */
-    public var scrollView = UIScrollView()
+    weak var scrollViewDelegate: UIScrollViewDelegate?
     
     /**
      Array of views displayed as pages inside the scroll view.
      */
     public var pages = [UIView]()
-
-    // User interface
-    private var contentView = UIView()
+    
+    /**
+     Scroll view used to display different onboarding pages.
+     */
+    public lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.delegate = self.scrollViewDelegate
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        return scrollView
+    }()
+    
+    private lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        return contentView
+    }()
 
     /**
      Designated intitializer for the `OnboardingViewController` which allows to pass a custom set of
@@ -78,26 +91,9 @@ import UIKit
      the functionality provided by the Gini Vision Library.
      */
     public init(pages: [UIView], scrollViewDelegate: UIScrollViewDelegate?) {
-        super.init(nibName: nil, bundle: nil)
-        
-        // Set pages
+        self.scrollViewDelegate = scrollViewDelegate
         self.pages = pages
-        
-        // Configure scroll view
-        scrollView.delegate = scrollViewDelegate
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.showsHorizontalScrollIndicator = false
-        scrollView.isPagingEnabled = true
-        
-        // Configure view hierachy
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        for page in self.pages {
-            contentView.addSubview(page)
-        }
-        
-        // Add constraints
-        addConstraints()
+        super.init(nibName: nil, bundle: nil)
     }
     
     /**
@@ -120,6 +116,17 @@ import UIKit
      */
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public override func loadView() {
+        super.loadView()
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        for page in self.pages {
+            contentView.addSubview(page)
+        }
+        
+        addConstraints()
     }
     
     /**
@@ -158,20 +165,14 @@ import UIKit
         scrollView.setContentOffset(offset, animated: true)
     }
         
-    // MARK: Constraints
+    // MARK: - Constraints
     fileprivate func addConstraints() {
-        let superview = self.view
         let pagesCount = CGFloat(pages.count)
         
         // Scroll view
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: scrollView, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Constraints.active(item: scrollView, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
-        Constraints.active(item: scrollView, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Constraints.active(item: scrollView, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        Constraints.pin(view: scrollView, toSuperView: self.view)
         
         // Content view
-        contentView.translatesAutoresizingMaskIntoConstraints = false
         Constraints.pin(view: contentView, toSuperView: scrollView)
         Constraints.active(item: contentView, attr: .width, relatedBy: .equal, to: scrollView, attr: .width,
                           multiplier: pagesCount)
@@ -191,5 +192,4 @@ import UIKit
             }
         }
     }
-    
 }
