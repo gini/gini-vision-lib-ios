@@ -19,7 +19,7 @@ struct Asset {
 }
 
 extension Asset: Equatable {
-    static func ==(lhs: Asset, rhs: Asset) -> Bool {
+    static func == (lhs: Asset, rhs: Asset) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }
