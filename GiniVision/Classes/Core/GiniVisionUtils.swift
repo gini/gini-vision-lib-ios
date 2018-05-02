@@ -148,6 +148,11 @@ internal class Constraints {
     
 }
 
+enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
 internal struct Colors {
     
     struct Gini {

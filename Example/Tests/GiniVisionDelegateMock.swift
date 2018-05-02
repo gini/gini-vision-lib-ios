@@ -10,6 +10,14 @@ import Foundation
 @testable import GiniVision
 
 final class GiniVisionDelegateMock: GiniVisionDelegate {
+    func didCancelReview(for document: GiniVisionDocument) {
+        
+    }
+    
+    func didCancelAnalysis() {
+        
+    }
+    
     
     func didCapture(document: GiniVisionDocument) {
         

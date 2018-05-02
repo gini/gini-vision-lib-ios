@@ -10,11 +10,6 @@ import Gini_iOS_SDK
 
 public typealias Extraction = GINIExtraction
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
 enum AnalysisError: Error {
     case cancelled
     case documentCreation
@@ -98,7 +93,8 @@ extension DocumentServiceProtocol {
     
     func fetchExtractions(for documents: [PartialDocumentInfo],
                           completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfo = documents.map { $0.toDictionary() }
+        let partialDocumentsInfo = documents.flatMap { GINIPartialDocumentInfo(documentId: $0.documentId,
+                                                                           rotationDelta: $0.additionalParameters?["rotationDelta"] as? Int32 ?? 0) }
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
