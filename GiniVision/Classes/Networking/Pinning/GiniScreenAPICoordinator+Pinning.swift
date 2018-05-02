@@ -22,6 +22,12 @@ extension GiniScreenAPICoordinator {
                                                    clientSecret: client.clientSecret,
                                                    userEmailDomain: client.clientEmailDomain,
                                                    publicKeyPinningConfig: publicKeyPinningConfig)
-        self.apiService = APIService(sdk: builder?.build())
+        if let sdk = builder?.build() {
+            if giniConfiguration.multipageEnabled {
+                self.documentService = MultipageDocumentsService(sdk: sdk)
+            } else {
+                self.documentService = SinglePageDocumentsService(sdk: sdk)
+            }
+        }
     }
 }

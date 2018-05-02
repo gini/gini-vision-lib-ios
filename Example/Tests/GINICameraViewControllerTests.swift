@@ -79,7 +79,6 @@ final class CameraViewControllerTests: XCTestCase {
         XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
                       "multipageReviewBackgroundView should not be hidden after capture the second picture")
         
-    }    
-    
+    }
 }
 

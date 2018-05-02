@@ -18,7 +18,7 @@ import Gini_iOS_SDK
 
 extension GiniScreenAPICoordinator {
     fileprivate struct AssociatedKey {
-        static var apiService = "apiService"
+        static var documentService = "documentService"
         static var resultsDelegate = "resultsDelegate"
     }
     
@@ -37,15 +37,15 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    var apiService: APIServiceProtocol? {
+    var documentService: DocumentServiceProtocol? {
         get {
-            return objc_getAssociatedObject(self, &AssociatedKey.apiService) as? APIServiceProtocol
+            return objc_getAssociatedObject(self, &AssociatedKey.documentService) as? DocumentServiceProtocol
         }
         
         set {
             if let value = newValue {
                 objc_setAssociatedObject(self,
-                                         &AssociatedKey.apiService,
+                                         &AssociatedKey.documentService,
                                          value,
                                          objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
@@ -63,19 +63,12 @@ extension GiniScreenAPICoordinator {
         let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
                                                    clientSecret: client.clientSecret,
                                                    userEmailDomain: client.clientEmailDomain)
-        self.apiService = APIService(sdk: builder?.build())
-    }
-    
-    func analyzeDocument(visionDocument document: GiniVisionDocument) {
-        cancelAnalysis()
         
-        apiService?.analyze(document: document) { [weak self] result in
-            switch result {
-            case .success(let response):
-                self?.present(result: response)
-            case .failure(let error):
-                self?.show(error: error)
-                
+        if let sdk = builder?.build() {
+            if giniConfiguration.multipageEnabled {
+                self.documentService = MultipageDocumentsService(sdk: sdk)
+            } else {
+                self.documentService = SinglePageDocumentsService(sdk: sdk)
             }
         }
     }
@@ -84,41 +77,38 @@ extension GiniScreenAPICoordinator {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
-        if hasExtactions {
-            // TODO: Handle more documents
-            if let visionDocument = visionDocuments.first {
-                self.resultsDelegate?.giniVision([visionDocument],
-                                                 analysisDidFinishWithResults: result) { [weak self] feedback in
-                                                    guard let `self` = self else { return }
-                                                    self.apiService?.sendFeedback(withResults: feedback)
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            if hasExtactions {
+                self.resultsDelegate?
+                    .giniVision(self.visionDocuments,
+                                analysisDidFinishWithResults: result) { [weak self] updatedExtractions in
+                                    guard let `self` = self else { return }
+                                    self.documentService?.sendFeedback(with: updatedExtractions)
                 }
-            }
-        } else {
-            // TODO: Handle more documents
-            if let visionDocument = visionDocuments.first {
-                DispatchQueue.main.async { [weak self] in
-                    guard let `self` = self else { return }
-                    self.resultsDelegate?.giniVision([visionDocument],
-                                                     analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
-                }
+            } else {
+                self.resultsDelegate?
+                    .giniVision(self.visionDocuments,
+                                analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
             }
         }
-    }
-    
-    func cancelAnalysis() {
-        apiService?.cancelAnalysis()
     }
     
     func show(error: Error) {
-        // TODO: Handle more documents
-        guard let document = self.visionDocuments.first else {
-            return
-        }
         let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
         
         // Display an error with a custom message and custom action on the analysis screen
         displayError(withMessage: errorMessage, andAction: { [weak self] in
-            self?.analyzeDocument(visionDocument: document)
+            guard let `self` = self else { return }
+            
+            self.documentService?.startAnalysis { result in
+                switch result {
+                case .success(let extractions):
+                    self.present(result: extractions)
+                case .failure(let error):
+                    print(error)
+                }
+            }
         })
     }
     
@@ -128,52 +118,68 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCancelCapturing() {
         resultsDelegate?.giniVision([], analysisDidCancel: true)
+        
     }
-    
+        
     func didCapture(document: GiniVisionDocument) {
-        // Analyze document data right away with the Gini SDK for iOS to have results in as early as possible.
-        if document.type != .image { // TODO: Add multipage support
-            self.analyzeDocument(visionDocument: document)
+        var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
+        
+        if giniConfiguration.multipageEnabled {
+            uploadDocumentCompletionHandler = { result in
+                switch result {
+                case .success:
+                    break
+                case .failure(let error):
+                    print("Partial document creation error: ", error)
+                }
+                // TODO: Update upload status in MultipageReviewViewController
+            }
         }
+        
+        documentService?.upload(document: document,
+                                completion: uploadDocumentCompletionHandler)
     }
     
     func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        // Analyze reviewed document when changes were made by the user during review or
-        // there is no result and is not analysing.
-        guard let apiService = apiService else {
-            return
-        }
-        if changes || (!apiService.isAnalyzing  && apiService.result == nil) {
-            self.analyzeDocument(visionDocument: document)
-            
-            return
+        var documentParameters: [String: Any] = [:]
+        if let document = document as? GiniImageDocument,
+            let key = documentService?.rotationDeltaKey {
+            documentParameters[key] = document.rotationDelta
+            documentService?.update(parameters: documentParameters, for: document)
         }
     }
     
-    // Optional delegate methods
-    func didCancelReview() {
-        // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalysis()
-    }
-    
-    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {
-        
-        // if there is already results, present them
-        if let result = apiService?.result {
-            present(result: result)
+    func didReview(documents: [GiniVisionDocument]) {
+        // There is the need to check the order when using multipage before
+        // creating composite document
+        if let documentService = documentService as? MultipageDocumentsService {
+            documentService.orderDocuments(givenVisionDocumentIds: documents.map { $0.id })
         }
         
-        // The analysis screen is where the user should be confronted with
-        // any errors occuring during the analysis process.
-        // Show any errors that occured while the user was still reviewing the image here.
-        // Make sure to only show errors relevant to the user.
-        if let error = apiService?.error {
-            show(error: error)
+        // And review the changes for each document recursively.
+        for document in documents {
+            didReview(document: document, withChanges: false)
+        }
+
+    }
+    
+    func didCancelReview(for document: GiniVisionDocument) {
+        documentService?.remove(document: document)
+    }
+    
+    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {        
+        documentService?.startAnalysis { result in
+            switch result {
+            case .success(let extractions):
+                self.present(result: extractions)
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
     func didCancelAnalysis() {
         // Cancel analysis process to avoid unnecessary network calls.
-        cancelAnalysis()
+        documentService?.cancelAnalysis()
     }
 }

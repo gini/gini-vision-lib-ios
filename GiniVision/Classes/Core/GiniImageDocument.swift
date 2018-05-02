@@ -17,10 +17,14 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
                                                kUTTypeTIFF as String]
     
     public var type: GiniVisionDocumentType = .image
+    public var id: String
     public var data: Data
     public var previewImage: UIImage?
     public var isReviewable: Bool
     public var isImported: Bool
+    public var rotationDelta: Int { // Should be normalized to be in [0, 360)
+        return self.metaInformationManager.imageRotationDeltaDegrees()
+    }
     
     fileprivate let metaInformationManager: ImageMetaInformationManager
     
@@ -39,6 +43,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
          deviceOrientation: UIInterfaceOrientation? = nil) {
         self.previewImage = UIImage(data: data)
         self.isReviewable = true
+        self.id = UUID().uuidString
         self.isImported = imageSource != DocumentSource.camera
         self.metaInformationManager = ImageMetaInformationManager(imageData: data,
                                                                   deviceOrientation: deviceOrientation,

@@ -9,13 +9,18 @@ import Foundation
 
 protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didUpdateDocuments documents: [GiniImageDocument])
+                         didReorder documents: [GiniImageDocument])
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didRotate document: GiniImageDocument)
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didDelete document: GiniImageDocument)
+
 }
 
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    fileprivate var imageDocuments: [GiniImageDocument]
+    var imageDocuments: [GiniImageDocument]
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
 
@@ -174,7 +179,6 @@ extension MultipageReviewViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        selectItem(at: 0)
         view.backgroundColor = mainCollection.backgroundColor
         
         if #available(iOS 9.0, *) {
@@ -190,13 +194,22 @@ extension MultipageReviewViewController {
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showToolbar()
-        
+        pagesCollection.alpha = 1
+
         toolTipView?.show {
             self.blurEffect?.alpha = 1
             self.deleteButton.isEnabled = false
             self.rotateButton.isEnabled = false
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        }
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        pagesCollection.alpha = 0
+        if pagesCollectionContainerConstraint.isActive {
+            toggleReorder(animated: false)
         }
     }
     
@@ -225,6 +238,12 @@ extension MultipageReviewViewController {
                                          animated: true,
                                          scrollPosition: .centeredHorizontally)
         self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
+    }
+    
+    func reloadCollections() {
+        self.mainCollection.reloadData()
+        self.pagesCollection.reloadData()
+        self.selectItem(at: 0)
     }
 
 }
@@ -374,12 +393,13 @@ extension MultipageReviewViewController {
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didUpdateDocuments: imageDocuments)
+            delegate?.multipageReview(self, didRotate: imageDocuments[currentIndexPath.row])
         }
     }
     
     @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
+            let documentToDelete = imageDocuments[currentIndexPath.row]
             imageDocuments.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
             
@@ -398,7 +418,7 @@ extension MultipageReviewViewController {
                     
                     self.selectItem(at: min(currentIndexPath.row, self.imageDocuments.count - 1))
                 }
-                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
+                self.delegate?.multipageReview(self, didDelete: documentToDelete)
             })
         }
     }
@@ -408,18 +428,22 @@ extension MultipageReviewViewController {
         self.toggleReorder()
     }
     
-    private func toggleReorder() {
+    fileprivate func toggleReorder(animated: Bool = true) {
         let hide = self.pagesCollectionContainerConstraint.isActive
         self.topCollectionContainerConstraint.isActive = hide
         self.pagesCollectionContainerConstraint.isActive = !hide
         self.mainCollection.collectionViewLayout.invalidateLayout()
         self.changeReorderButtonState(toActive: self.pagesCollectionContainerConstraint.isActive)
         
-        UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
-            guard let `self` = self else { return }
+        if animated {
+            UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
+                guard let `self` = self else { return }
+                self.view.layoutIfNeeded()
+                }, completion: { _ in
+            })
+        } else {
             self.view.layoutIfNeeded()
-            }, completion: { _ in
-        })
+        }
     }
 }
 
@@ -474,7 +498,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.delegate?.multipageReview(self, didUpdateDocuments: self.imageDocuments)
+                self.delegate?.multipageReview(self, didReorder: self.imageDocuments)
             })
         }
     }

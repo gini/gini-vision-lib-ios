@@ -24,19 +24,28 @@ PODS:
   - TrustKit (1.5.3)
 
 DEPENDENCIES:
+  - Gini-iOS-SDK (from `git@github.com:gini/gini-sdk-ios.git`, branch `develop`)
   - GiniVision (from `../`)
   - GiniVision/Networking+Pinning (from `../`)
 
 EXTERNAL SOURCES:
+  Gini-iOS-SDK:
+    :branch: develop
+    :git: git@github.com:gini/gini-sdk-ios.git
   GiniVision:
     :path: ../
 
+CHECKOUT OPTIONS:
+  Gini-iOS-SDK:
+    :commit: 311f9d7c30a2d0ea304d55e825d2a3ba1722b691
+    :git: git@github.com:gini/gini-sdk-ios.git
+
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Gini-iOS-SDK: 5b1de7265013626e418df9781a9f5f0cbd2b9b2a
+  Gini-iOS-SDK: c1b1b67e931058292e77d6237602a1ec92336bf1
   GiniVision: c74e0928198f8ef8fce26dd19cac0ccdaf76d6a6
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
-PODFILE CHECKSUM: a97fff156f9bde6d14ac0f3ed6a158ec9bd4f008
+PODFILE CHECKSUM: c78dd5155e6ce9299870d174cede9fbec62a6dc6
 
 COCOAPODS: 1.4.0

@@ -59,7 +59,6 @@ final class GalleryManager: GalleryManagerProtocol {
             completion(data)
         }
     }
-
     func reloadAlbums() {
         self.albums = fetchSortedAlbums()
     }
