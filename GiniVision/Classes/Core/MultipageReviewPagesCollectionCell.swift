@@ -17,7 +17,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
-    let statusViewSize = CGSize(width: 40, height: 40)
+    let stateViewSize = CGSize(width: 40, height: 40)
     
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
@@ -36,10 +36,10 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var statusView: PageStateView  = {
+    lazy var stateView: PageStateView  = {
         let view = PageStateView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = self.statusViewSize.width / 2
+        view.layer.cornerRadius = self.stateViewSize.width / 2
         
         return view
     }()
@@ -104,7 +104,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         roundMask.addSubview(pageSelectedLine)
         roundMask.addSubview(documentImage)
         roundMask.addSubview(traslucentBackground)
-        roundMask.addSubview(statusView)
+        roundMask.addSubview(stateView)
         bottomContainer.addSubview(pageIndicatorLabel)
         bottomContainer.addSubview(pageIndicatorCircle)
         bottomContainer.addSubview(draggableIcon)
@@ -133,13 +133,13 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: pageIndicatorLabel, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerY)
         
-        // statusView
-        Constraints.active(item: statusView, attr: .centerX, relatedBy: .equal, to: documentImage, attr: .centerX)
-        Constraints.active(item: statusView, attr: .centerY, relatedBy: .equal, to: documentImage, attr: .centerY)
-        Constraints.active(item: statusView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: statusViewSize.height)
-        Constraints.active(item: statusView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: statusViewSize.width)
+        // stateView
+        Constraints.active(item: stateView, attr: .centerX, relatedBy: .equal, to: documentImage, attr: .centerX)
+        Constraints.active(item: stateView, attr: .centerY, relatedBy: .equal, to: documentImage, attr: .centerY)
+        Constraints.active(item: stateView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: stateViewSize.height)
+        Constraints.active(item: stateView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: stateViewSize.width)
 
         // pageIndicatorCircle
         Constraints.active(item: pageIndicatorCircle, attr: .height, relatedBy: .equal, to: nil,
@@ -213,11 +213,11 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         pageIndicatorLabel.text = "\(index + 1)"
         
         if validatedDocument.isUploaded {
-            statusView.update(to: .success)
+            stateView.update(to: .success)
         } else if validatedDocument.error != nil {
-            statusView.update(to: .failure)
+            stateView.update(to: .failure)
         } else {
-            statusView.update(to: .loading)
+            stateView.update(to: .loading)
         }
     }
 }
