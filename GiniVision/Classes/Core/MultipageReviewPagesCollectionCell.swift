@@ -36,8 +36,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    lazy var statusView: PageStatusView  = {
-        let view = PageStatusView()
+    lazy var statusView: PageStateView  = {
+        let view = PageStateView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = self.statusViewSize.width / 2
         

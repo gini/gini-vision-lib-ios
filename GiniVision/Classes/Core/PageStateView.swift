@@ -1,5 +1,5 @@
 //
-//  PageStatusView.swift
+//  PageStateView.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 4/13/18.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class PageStatusView: UIView {
+final class PageStateView: UIView {
     
-    enum PageStatus {
+    enum State {
         case success, failure, loading
     }
     
@@ -51,7 +51,7 @@ final class PageStatusView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(to status: PageStatus) {
+    func update(to status: State) {
         switch status {
         case .success:
             backgroundColor = Colors.Gini.springGreen
