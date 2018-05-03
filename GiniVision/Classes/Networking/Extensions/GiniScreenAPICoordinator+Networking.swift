@@ -139,25 +139,16 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                                 completion: uploadDocumentCompletionHandler)
     }
     
-    func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        var documentParameters: [String: Any] = [:]
-        if let document = document as? GiniImageDocument,
-            let key = documentService?.rotationDeltaKey {
-            documentParameters[key] = document.rotationDelta
-            documentService?.update(parameters: documentParameters, for: document)
-        }
-    }
-    
     func didReview(documents: [GiniVisionDocument]) {
-        // There is the need to check the order when using multipage before
-        // creating composite document
+        // It is necessary to check the order when using multipage before
+        // creating the composite document
         if let documentService = documentService as? MultipageDocumentsService {
-            documentService.orderDocuments(givenVisionDocumentIds: documents.map { $0.id })
+            documentService.sortDocuments(withSameOrderAs: documents)
         }
         
         // And review the changes for each document recursively.
-        for document in documents {
-            didReview(document: document, withChanges: false)
+        for document in (documents.flatMap { $0 as? GiniImageDocument }) {
+            documentService?.update(imageDocument: document)
         }
 
     }

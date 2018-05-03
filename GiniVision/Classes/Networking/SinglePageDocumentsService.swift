@@ -13,7 +13,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     var compositeDocument: GINIDocument?
     var giniSDK: GiniSDK
     
-    var partialDocumentInfo: PartialDocumentInfo?
+    var partialDocumentInfo: GINIPartialDocumentInfo?
     var pendingAnalysisHandler: AnalysisCompletion?
     var analysisCancellationToken: BFCancellationTokenSource?
     
@@ -46,20 +46,20 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
         cancelAnalysis()
     }
     
-    func update(parameters: [String: Any], for document: GiniVisionDocument) {
-        partialDocumentInfo?.updateAdditionalParameters(with: parameters)
+    func update(imageDocument: GiniImageDocument) {
+        partialDocumentInfo?.rotationDelta = Int32(imageDocument.rotationDelta)
     }
     
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
-        partialDocumentInfo = PartialDocumentInfo()
+        partialDocumentInfo = GINIPartialDocumentInfo(documentId: nil, rotationDelta: 0)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
 
         createDocument(from: document,
                        fileName: fileName) { result in
             switch result {
             case .success(let document):
-                self.partialDocumentInfo?.documentUrl = document.links.document
+                self.partialDocumentInfo?.documentId = document.links.document
                 
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
