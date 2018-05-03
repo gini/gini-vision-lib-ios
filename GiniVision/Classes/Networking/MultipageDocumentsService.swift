@@ -11,7 +11,7 @@ import Gini_iOS_SDK
 final class MultipageDocumentsService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
-    var partialDocuments: [GiniVisionDocumentId: PartialDocumentInfo] = [:]
+    var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
     
