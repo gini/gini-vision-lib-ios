@@ -142,7 +142,7 @@ extension GiniScreenAPICoordinator {
     func addToDocuments(newDocuments: [ValidatedDocument]) {
         sessionDocuments.append(contentsOf: newDocuments)
         
-        if giniConfiguration.multipageEnabled {
+        if giniConfiguration.multipageEnabled, sessionDocuments.type == .image {
             refreshMultipageReview(with: sessionDocuments)
         }
     }
