@@ -31,12 +31,11 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
     lazy var multiPageReviewViewController: MultipageReviewViewController = {
-        let imageDocuments = self.visionDocuments.flatMap { $0 as? GiniImageDocument}
-        if let type = self.visionDocuments.type, type != .image {
+        if let type = self.sessionDocuments.type, type != .image {
             assertionFailure("The MultipageReviewViewController can only handle image documents.")
         }
         let multiPageReviewViewController =
-            self.createMultipageReviewScreenContainer(withImageDocuments: imageDocuments)
+            self.createMultipageReviewScreenContainer(with: self.sessionDocuments)
         return multiPageReviewViewController
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
@@ -94,7 +93,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
             
             if !documents.containsDifferentTypes {
                 let validatedDocuments: [ValidatedDocument] = documents.map { ValidatedDocument(value: $0) }
-                self.addToSessionDocuments(newDocuments: validatedDocuments)
+                self.addToDocuments(newDocuments: validatedDocuments)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
@@ -140,7 +139,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 // MARK: - Session documents
 
 extension GiniScreenAPICoordinator {
-    func addToSessionDocuments(newDocuments: [ValidatedDocument]) {
+    func addToDocuments(newDocuments: [ValidatedDocument]) {
         sessionDocuments.append(contentsOf: newDocuments)
         
         if giniConfiguration.multipageEnabled {
@@ -148,33 +147,33 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func removeFromSessionDocuments(document: GiniVisionDocument) {
+    func removeFromDocuments(document: GiniVisionDocument) {
         sessionDocuments.remove(document)
     }
     
-    func updateValueInSessionDocuments(for document: GiniVisionDocument) {
+    func updateValueInDocuments(for document: GiniVisionDocument) {
         if let index = sessionDocuments.index(of: document) {
             sessionDocuments[index].value = document
         }
     }
     
-    func updateUploadStatusInSessionDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
+    func updateUploadStatusInDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
         if let index = sessionDocuments.index(of: document) {
             sessionDocuments[index].isUploaded = uploaded
         }
     }
     
-    func updateErrorInSessionDocuments(for document: GiniVisionDocument, to error: Error) {
+    func updateErrorInDocuments(for document: GiniVisionDocument, to error: Error) {
         if let index = sessionDocuments.index(of: document) {
             sessionDocuments[index].error = error
         }
     }
     
-    func replaceSessionDocuments(with documents: [ValidatedDocument]) {
+    func replaceDocuments(with documents: [ValidatedDocument]) {
         sessionDocuments = documents
     }
     
-    func clearSessionDocuments() {
+    func clearDocuments() {
         sessionDocuments.removeAll()
     }
 }
@@ -200,17 +199,7 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-        if let didReviewDocuments = visionDelegate?.didReview(documents:) {
-            didReviewDocuments(sessionDocuments.map {$0.value})
-        } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            guard let firstElement = visionDocuments.first else {
-                fatalError("There aren't elements to review.")
-            }
-            didReview(firstElement, false)
-        } else {
-            fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
-                "withChanges changes: Bool) should be implemented")
-        }
+        visionDelegate?.didReview(documents: sessionDocuments.map { $0.value })
         
         self.analysisViewController = createAnalysisScreen(withDocument: sessionDocuments[0].value)
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)

@@ -23,7 +23,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             switch result {
             case .success(let validatedDocuments):
                 let validatedDocument = validatedDocuments[0]
-                self.addToSessionDocuments(newDocuments: [validatedDocument])
+                self.addToDocuments(newDocuments: [validatedDocument])
                 self.didCaptureAndValidate(document)
                 
                 if let imageDocument = document as? GiniImageDocument {
@@ -108,13 +108,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
-        if let didCaptureWithDelegate = visionDelegate?.didCapture(document:uploadDelegate:) {
-            didCaptureWithDelegate(document, self)
-        } else if let didCapture = visionDelegate?.didCapture(document:) {
-            didCapture(document)
-        } else {
-            fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
-        }
+        visionDelegate?.didCapture(document: document, uploadDelegate: self)
     }
     
     private func shouldShowOnBoarding() -> Bool {
@@ -129,7 +123,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return false
     }
     
-    private func showOnboardingScreen(onDismiss: @escaping (() -> ())) {
+    private func showOnboardingScreen(onDismiss: @escaping (() -> Void)) {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
@@ -205,7 +199,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             switch result {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
-                    self.addToSessionDocuments(newDocuments: validatedDocuments)
+                    self.addToDocuments(newDocuments: validatedDocuments)
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
                             self.didCaptureAndValidate(validatedDocument.value)
@@ -307,7 +301,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidComplete(for document: GiniVisionDocument) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            self.updateUploadStatusInSessionDocuments(for: document, to: true)
+            self.updateUploadStatusInDocuments(for: document, to: true)
             self.refreshMultipageReview(with: self.sessionDocuments)
         }
     }
@@ -315,7 +309,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            self.updateErrorInSessionDocuments(for: document, to: error)
+            self.updateErrorInDocuments(for: document, to: error)
             self.refreshMultipageReview(with: self.sessionDocuments)
         }
     }

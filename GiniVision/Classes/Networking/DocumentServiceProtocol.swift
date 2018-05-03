@@ -31,7 +31,7 @@ protocol DocumentServiceProtocol: class {
     func remove(document: GiniVisionDocument)
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?)
-    func update(parameters: [String: Any], for document: GiniVisionDocument)
+    func update(imageDocument: GiniImageDocument)
 }
 
 extension DocumentServiceProtocol {
@@ -91,16 +91,14 @@ extension DocumentServiceProtocol {
             })
     }
     
-    func fetchExtractions(for documents: [PartialDocumentInfo],
+    func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                           completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfo = documents.flatMap { GINIPartialDocumentInfo(documentId: $0.documentId,
-                                                                           rotationDelta: $0.additionalParameters?["rotationDelta"] as? Int32 ?? 0) }
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
         giniSDK
             .documentTaskManager
-            .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
+            .createCompositeDocument(withPartialDocumentsInfo: documents,
                                      fileName: fileName,
                                      docType: "",
                                      cancellationToken: analysisCancellationToken?.token)
