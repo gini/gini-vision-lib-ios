@@ -13,7 +13,7 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
-        sh '/usr/local/bin/pod install --project-directory=ExampleObjC/'
+        sh '/usr/local/bin/pod install --repo-update --project-directory=ExampleObjC/'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
       }
     }
