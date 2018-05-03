@@ -1,5 +1,5 @@
 //
-//  PageStatusViewTests.swift
+//  PageStateViewTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 4/13/18.
@@ -9,29 +9,29 @@
 import XCTest
 @testable import GiniVision
 
-final class PageStatusViewTests: XCTestCase {
+final class PageStateViewTests: XCTestCase {
     
-    var statusView: PageStatusView!
+    var statusView: PageStateView!
     
     override func setUp() {
         super.setUp()
-        statusView = PageStatusView(frame: .zero)
+        statusView = PageStateView(frame: .zero)
     }
     
-    func testLoadingStatus() {
+    func testLoadingState() {
         statusView.update(to: .loading)
         XCTAssertNil(statusView.icon.image, "icon image should be nil when it is loading")
         XCTAssertTrue(statusView.loadingIndicator.isAnimating, "loading indicator should be animating when loading")
     }
     
-    func testSuccessStatus() {
+    func testSuccessState() {
         statusView.update(to: .success)
         XCTAssertEqual(statusView.backgroundColor, Colors.Gini.springGreen, "background color should be green")
         XCTAssertNotNil(statusView.icon.image, "icon image should not be nil when it is loading")
         XCTAssertFalse(statusView.loadingIndicator.isAnimating, "loading indicator should not be animating when loading")
     }
     
-    func testFailureStatus() {
+    func testFailureState() {
         statusView.update(to: .failure)
         XCTAssertEqual(statusView.backgroundColor, Colors.Gini.crimson, "background color should be red")
         XCTAssertNotNil(statusView.icon.image, "icon image should not be nil when it is loading")
