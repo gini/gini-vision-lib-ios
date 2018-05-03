@@ -8,12 +8,10 @@
 import UIKit
 import Gini_iOS_SDK
 
-typealias GiniVisionDocumentId = String
-
 final class MultipageDocumentsService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
-    var partialDocuments: [GiniVisionDocumentId: GINIPartialDocumentInfo] = [:]
+    var partialDocuments: [GiniVisionDocumentId: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
     
@@ -22,7 +20,10 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfoSorted = partialDocuments.map { $0.value }
+        let partialDocumentsInfoSorted = partialDocuments
+            .map { $0.value }
+            .sorted()
+            .map { $0.info }
         self.fetchExtractions(for: partialDocumentsInfoSorted, completion: completion)
     }
     
@@ -39,6 +40,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     func remove(document: GiniVisionDocument) {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
+                .info
                 .documentId {
                 deletePartialDocument(withId: partialDocumentId)
             }
@@ -47,39 +49,34 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     }
     
     func update(imageDocument: GiniImageDocument) {
-        partialDocuments[imageDocument.id]?.rotationDelta = Int32(imageDocument.rotationDelta)
+        partialDocuments[imageDocument.id]?.info.rotationDelta = Int32(imageDocument.rotationDelta)
     }
     
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
-        partialDocuments.sorted(like: documents)
+        for index in 0..<documents.count {
+            let id = documents[index].id
+            partialDocuments[id]?.order = index
+        }
+
     }
     
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
-        self.partialDocuments[document.id] = GINIPartialDocumentInfo(documentId: nil, rotationDelta: 0)
+        self.partialDocuments[document.id] =
+            PartialDocumentInfo(info: (GINIPartialDocumentInfo(documentId: nil, rotationDelta: 0)),
+                                order: self.partialDocuments.count)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
-        
+
         createDocument(from: document, fileName: fileName, cancellationToken: token) { result in
             switch result {
             case .success(let createdDocument):
-                self.partialDocuments[document.id]?.documentId = createdDocument.links.document
+                self.partialDocuments[document.id]?.info.documentId = createdDocument.links.document
                 completion?(.success(createdDocument))
             case .failure(let error):
                 completion?(.failure(error))
             }
         }
-    }
-}
-
-extension Dictionary where Value == GINIPartialDocumentInfo, Key == GiniVisionDocumentId {
-    mutating func sorted(like sortedDocuments: [GiniVisionDocument]) {
-        var sortedDict: [GiniVisionDocumentId: GINIPartialDocumentInfo] = [:]
-        for document in sortedDocuments {
-            sortedDict[document.id] = self[document.id]
-        }
-        
-        self = sortedDict
     }
 }
