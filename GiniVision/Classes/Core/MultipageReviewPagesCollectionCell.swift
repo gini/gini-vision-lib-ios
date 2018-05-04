@@ -213,9 +213,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         pageIndicatorLabel.text = "\(index + 1)"
         
         if validatedDocument.isUploaded {
-            stateView.update(to: .success)
+            stateView.update(to: .succeeded)
         } else if validatedDocument.error != nil {
-            stateView.update(to: .failure)
+            stateView.update(to: .failed)
         } else {
             stateView.update(to: .loading)
         }
