@@ -161,8 +161,8 @@ extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
 extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let documents: [GiniVisionDocument] = urls
-            .flatMap(self.data)
-            .flatMap(self.createDocument)
+            .compactMap(self.data)
+            .compactMap(self.createDocument)
         
         delegate?.documentPicker(self, didPick: documents)
     }

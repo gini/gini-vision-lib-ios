@@ -92,7 +92,7 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     }
     
     private func show(notice: NoticeView) {
-        let noticeView = analysisViewController?.view.subviews.flatMap { $0 as? NoticeView }.first
+        let noticeView = analysisViewController?.view.subviews.compactMap { $0 as? NoticeView }.first
         if let noticeView = noticeView {
             noticeView.hide(completion: { [weak self] in
                 self?.show(notice: notice)
