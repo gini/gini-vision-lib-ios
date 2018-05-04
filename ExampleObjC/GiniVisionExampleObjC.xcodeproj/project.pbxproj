@@ -19,12 +19,9 @@
 		0A9984711D192DC000A5C996 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A99846F1D192DC000A5C996 /* Main.storyboard */; };
 		0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0A9984721D192DC000A5C996 /* Assets.xcassets */; };
 		0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0A9984741D192DC000A5C996 /* LaunchScreen.storyboard */; };
-		0AB97B051D64981C0024C266 /* In-House-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AB97B041D64981C0024C266 /* In-House-Config.xcconfig */; };
 		0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7F34F1D5CB5B400014D5A /* AnalysisManager.m */; };
 		0AC8FC6A1D65C30500FFB50E /* CancelationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC8FC691D65C30500FFB50E /* CancelationToken.m */; };
 		0AEACE041D634AC600052120 /* NoResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE031D634AC600052120 /* NoResultViewController.m */; };
-		0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE051D6380EF00052120 /* Release-Config.xcconfig */; };
-		0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 0AEACE071D6380F600052120 /* Dev-Config.xcconfig */; };
 		3FF2F976C6F3C8A7EC0D74F5 /* Pods_GiniVisionExampleObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D9D5A0AE7CDE622B1A95598 /* Pods_GiniVisionExampleObjC.framework */; };
 /* End PBXBuildFile section */
 
@@ -204,7 +201,7 @@
 		0A99845B1D192DC000A5C996 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = Gini;
 				TargetAttributes = {
 					0A9984621D192DC000A5C996 = {
@@ -241,12 +238,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AB97B051D64981C0024C266 /* In-House-Config.xcconfig in Resources */,
-				0AEACE081D6380F600052120 /* Dev-Config.xcconfig in Resources */,
 				0A9984761D192DC000A5C996 /* LaunchScreen.storyboard in Resources */,
 				0A1FEC7F1D6DEDF800F415B7 /* Localizable.strings in Resources */,
 				0A9984731D192DC000A5C996 /* Assets.xcassets in Resources */,
-				0AEACE061D6380EF00052120 /* Release-Config.xcconfig in Resources */,
 				0A9984711D192DC000A5C996 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,13 +356,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -407,13 +411,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -440,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DB75DEEDFE6E80881C8CB693 /* Pods-GiniVisionExampleObjC.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVisionExampleObjC.entitlements;
@@ -457,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DBD49AC17441BFCBB9006BB2 /* Pods-GiniVisionExampleObjC.in house.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVisionExampleObjC.entitlements;
@@ -479,13 +495,23 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -512,6 +538,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CF704F0B52C536629D6788B6 /* Pods-GiniVisionExampleObjC.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GiniVisionExampleObjC.entitlements;

@@ -118,7 +118,7 @@ final public class HelpMenuViewController: UITableViewController {
             vc.didTapBottomButton = {
                 if let cameraViewController = (self.navigationController?
                     .viewControllers
-                    .flatMap { $0 as? CameraViewController })?
+                    .compactMap { $0 as? CameraViewController })?
                     .first {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
                 }
