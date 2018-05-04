@@ -25,16 +25,24 @@ final class PageStateViewTests: XCTestCase {
     }
     
     func testSuccessState() {
-        statusView.update(to: .success)
+        statusView.update(to: .succeeded)
         XCTAssertEqual(statusView.backgroundColor, Colors.Gini.springGreen, "background color should be green")
-        XCTAssertNotNil(statusView.icon.image, "icon image should not be nil when it is loading")
+        XCTAssertEqual(statusView.icon.image,
+                       UIImage(named: "successfullUploadIcon",
+                               in: Bundle(for: GiniVision.self),
+                               compatibleWith: nil),
+                       "icon image should match successfullUploadIcon asset")
         XCTAssertFalse(statusView.loadingIndicator.isAnimating, "loading indicator should not be animating when loading")
     }
     
     func testFailureState() {
-        statusView.update(to: .failure)
+        statusView.update(to: .failed)
         XCTAssertEqual(statusView.backgroundColor, Colors.Gini.crimson, "background color should be red")
-        XCTAssertNotNil(statusView.icon.image, "icon image should not be nil when it is loading")
+        XCTAssertEqual(statusView.icon.image,
+                       UIImage(named: "failureUploadIcon",
+                               in: Bundle(for: GiniVision.self),
+                               compatibleWith: nil),
+                       "icon image should match failureUploadIcon asset")
         XCTAssertFalse(statusView.loadingIndicator.isAnimating, "loading indicator should not be animating when loading")
     }
     

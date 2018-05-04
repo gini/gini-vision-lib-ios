@@ -10,7 +10,7 @@ import Foundation
 final class PageStateView: UIView {
     
     enum State {
-        case success, failure, loading
+        case succeeded, failed, loading
     }
     
     lazy private(set) var icon: UIImageView  = {
@@ -53,14 +53,14 @@ final class PageStateView: UIView {
     
     func update(to status: State) {
         switch status {
-        case .success:
+        case .succeeded:
             backgroundColor = Colors.Gini.springGreen
             icon.image = UIImage.init(named: "successfullUploadIcon",
                                       in: Bundle(for: GiniVision.self),
                                       compatibleWith: nil)
             loadingIndicator.stopAnimating()
             
-        case .failure:
+        case .failed:
             backgroundColor = Colors.Gini.crimson
             icon.image = UIImage.init(named: "failureUploadIcon",
                                       in: Bundle(for: GiniVision.self),
