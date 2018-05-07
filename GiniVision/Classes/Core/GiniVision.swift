@@ -134,7 +134,7 @@ import UIKit
      
      - parameter configuration: The configuration to set.
      */
-    public class func setConfiguration(_ configuration: GiniConfiguration) {
+    @objc public class func setConfiguration(_ configuration: GiniConfiguration) {
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
@@ -154,8 +154,8 @@ import UIKit
      
      - returns: A presentable view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate,
-                                     importedDocuments: [GiniVisionDocument]? = nil) -> UIViewController {
+    @objc public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                           importedDocuments: [GiniVisionDocument]? = nil) -> UIViewController {
         let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
                                                          giniConfiguration: GiniConfiguration.sharedConfiguration)
         
@@ -175,8 +175,8 @@ import UIKit
 
      - returns: A presentable view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate,
-                                     importedDocument: GiniVisionDocument? = nil) -> UIViewController {
+    @objc public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                           importedDocument: GiniVisionDocument? = nil) -> UIViewController {
         var documents: [GiniVisionDocument]?
         if let importedDocument = importedDocument {
             documents = [importedDocument]
@@ -198,7 +198,7 @@ import UIKit
 
      - returns: A presentable view controller.
      */
-    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+    @objc public class func viewController(withDelegate delegate: GiniVisionDelegate,
                                      withConfiguration configuration: GiniConfiguration,
                                      importedDocument: GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
@@ -209,7 +209,7 @@ import UIKit
      Returns the current version of the Gini Vision Library. 
      If there is an error retrieving the version the returned value will be an empty string.
      */
-    public static var versionString: String {
+    @objc public static var versionString: String {
         return GiniVisionVersion
     }
     
@@ -219,7 +219,7 @@ import UIKit
      - Throws: `DocumentValidationError` if there was an error during the validation.
      
      */
-    public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
+    @objc public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
         try GiniVisionDocumentValidator.validate(document, withConfig: giniConfiguration)
     }
 }

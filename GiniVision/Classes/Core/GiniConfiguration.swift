@@ -62,13 +62,13 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var backgroundColor = UIColor.black
+    @objc public var backgroundColor = UIColor.black
     
     /**
      Sets custom validations that can be done apart from the default ones (file size, file type...).
      It should throw a `CustomDocumentValidationError` error.
      */
-    public var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) = { _ in
+    @objc public var customDocumentValidations: ((GiniVisionDocument) -> CustomDocumentValidationResult) = { _ in
         return CustomDocumentValidationResult.success()
     }
     
@@ -76,7 +76,7 @@ import UIKit
      Sets the font used in the GiniVision library by default.
      */
     
-    public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
+    @objc public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
                                                                 bold: UIFontPreferred(.bold, andSize: 14),
                                                                 light: UIFontPreferred(.light, andSize: 14),
                                                                 thin: UIFontPreferred(.thin, andSize: 14),
@@ -87,13 +87,13 @@ import UIKit
      
      - warning: Should never be used outside of a development enviroment.
      */
-    public var debugModeOn = false
+    @objc public var debugModeOn = false
     
     /**
      Indicates whether the multipage feature is enabled or not. In case of `true`,
      multiple pages can be processed, showing a different review screen when capturing.
      */
-    public var multipageEnabled = false
+    @objc public var multipageEnabled = false
     
     /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to
@@ -101,7 +101,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
+    @objc public var navigationBarTintColor = UINavigationBar.appearance().barTintColor ?? Colors.Gini.blue
     
     /**
      Sets the tint color of all navigation items in all screens of the Gini Vision Library to
@@ -109,7 +109,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
+    @objc public var navigationBarItemTintColor = UINavigationBar.appearance().tintColor
     
     /**
      Sets the font of all navigation items in all screens of the Gini Vision Library to
@@ -118,7 +118,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarItemFont = UIBarButtonItem.appearance()
+    @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
         .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ?? UIFontPreferred(.bold,
                                                                                                                andSize: 16)
     
@@ -128,7 +128,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarTitleColor = UINavigationBar
+    @objc public var navigationBarTitleColor = UINavigationBar
         .appearance()
         .titleTextAttributes?[NSAttributedStringKey.foregroundColor] as? UIColor ?? .white
     
@@ -139,7 +139,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    public var navigationBarTitleFont = UINavigationBar
+    @objc public var navigationBarTitleFont = UINavigationBar
         .appearance()
         .titleTextAttributes?[NSAttributedStringKey.font] as? UIFont ?? UIFontPreferred(.regular,
                                                                                  andSize: 16)
@@ -148,51 +148,51 @@ import UIKit
      Sets the background color of an informal notice. Notices are small pieces of
      information appearing underneath the navigation bar.
      */
-    public var noticeInformationBackgroundColor = UIColor.black
+    @objc public var noticeInformationBackgroundColor = UIColor.black
     
     /**
      Sets the text color of an informal notice. Notices are small pieces of
      information appearing underneath the navigation bar.
      */
-    public var noticeInformationTextColor = UIColor.white
+    @objc public var noticeInformationTextColor = UIColor.white
     
     /**
      Sets the background color of an error notice. Notices are small pieces of
      information appearing underneath the navigation bar.
      */
-    public var noticeErrorBackgroundColor = UIColor.red
+    @objc public var noticeErrorBackgroundColor = UIColor.red
     
     /**
      Sets the text color of an error notice. Notices are small pieces of
      information appearing underneath the navigation bar.
      */
-    public var noticeErrorTextColor = UIColor.white
+    @objc public var noticeErrorTextColor = UIColor.white
     
     /**
      Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
      (Deprecated, use `GiniConfiguration.customFont` instead)
 
      */
-    public var noticeFont = UIFontPreferred(.regular, andSize: 12)
+    @objc public var noticeFont = UIFontPreferred(.regular, andSize: 12)
     
     /**
      Indicates whether the open with feature is enabled or not. In case of `true`,
      a new option with the open with tutorial wil be shown in the Help menu
      */
-    public var openWithEnabled = false
+    @objc public var openWithEnabled = false
     
     /**
      Sets the descriptional text when photo library access was denied, advising the
      user to authorize the photo library access in the settings application.
      */
-    public var photoLibraryAccessDeniedMessageText =
+    @objc public var photoLibraryAccessDeniedMessageText =
         NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
                                    comment: "This message is shown when Photo library permission is denied")
     
     /**
      Indicates whether the QR Code scanning feature is enabled or not.
      */
-    public var qrCodeScanningEnabled = false
+    @objc public var qrCodeScanningEnabled = false
     
     /**
      Indicates the status bar style in the Gini Vision Library.
@@ -201,7 +201,7 @@ import UIKit
      it may not work in future versions of iOS since the `UIApplication.setStatusBarStyle` method was
      deprecated on iOS 9.0
      */
-    public var statusBarStyle = UIStatusBarStyle.lightContent
+    @objc public var statusBarStyle = UIStatusBarStyle.lightContent
     
     // MARK: Camera options
     
@@ -211,7 +211,7 @@ import UIKit
      
      - note: Used exclusively for accessibility label.
      */
-    public var cameraCaptureButtonTitle =
+    @objc public var cameraCaptureButtonTitle =
         NSLocalizedStringPreferred("ginivision.camera.captureButton",
                                    comment: "Title for capture button in camera screen will be " +
                                             "used exclusively for accessibility label")
@@ -220,7 +220,7 @@ import UIKit
      Sets the descriptional text when camera access was denied, advising the user to
      authorize the camera in the settings application.
      */
-    public var cameraNotAuthorizedText =
+    @objc public var cameraNotAuthorizedText =
         NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
                                    comment: "Description text when the camera is not authorized " +
                                             "and the user is advised to change that in the settings app")
@@ -230,17 +230,17 @@ import UIKit
      (Deprecated, use `GiniConfiguration.customFont` instead)
      
      */
-    public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
+    @objc public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
     
     /**
      Sets the text color of the descriptional text when camera access was denied.
      */
-    public var cameraNotAuthorizedTextColor = UIColor.white
+    @objc public var cameraNotAuthorizedTextColor = UIColor.white
     
     /**
      Sets the button title when camera access was denied, clicking the button will open the settings application.
      */
-    public var cameraNotAuthorizedButtonTitle =
+    @objc public var cameraNotAuthorizedButtonTitle =
         NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton",
                                    comment: "Button title to open the settings app")
     
@@ -249,22 +249,22 @@ import UIKit
      (Deprecated, use `GiniConfiguration.customFont` instead)
      
      */
-    public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
+    @objc public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
     
     /**
      Sets the text color of the button title when camera access was denied.
      */
-    public var cameraNotAuthorizedButtonTitleColor = UIColor.white
+    @objc public var cameraNotAuthorizedButtonTitleColor = UIColor.white
     
     /**
      Sets the color of camera preview corner guides
      */
-    public var cameraPreviewCornerGuidesColor = UIColor.white
+    @objc public var cameraPreviewCornerGuidesColor = UIColor.white
     
     /**
      Sets the message text of a general document validation error, shown in camera screen.
      */
-    public var documentValidationErrorGeneral =
+    @objc public var documentValidationErrorGeneral =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general",
                                    comment: "Message text of a general document validation " +
                                             "error shown in camera screen")
@@ -272,7 +272,7 @@ import UIKit
     /**
      Sets the message text of a document validation error dialog when a file size is higher than 10MB
      */
-    public var documentValidationErrorExcedeedFileSize =
+    @objc public var documentValidationErrorExcedeedFileSize =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize",
                                    comment: "Message text error shown in camera screen when a file " +
                                             "size is higher than 10MB")
@@ -280,7 +280,7 @@ import UIKit
     /**
      Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
      */
-    public var documentValidationErrorTooManyPages =
+    @objc public var documentValidationErrorTooManyPages =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
                                    comment: "Message text error shown in camera screen when a pdf " +
                                             "length is higher than 10 pages")
@@ -289,7 +289,7 @@ import UIKit
      Sets the message text of a document validation error dialog when a file has a
      wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
      */
-    public var documentValidationErrorWrongFormat =
+    @objc public var documentValidationErrorWrongFormat =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat",
                                    comment: "Message text error shown in camera screen when a file " +
                                             "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
@@ -297,22 +297,22 @@ import UIKit
      Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
      
      */
-    public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
+    @objc public var fileImportSupportedTypes: GiniVisionImportFileTypes = .none
     
     /**
      Sets the background color of the new file import button hint
      */
-    public var fileImportToolTipBackgroundColor = UIColor.white
+    @objc public var fileImportToolTipBackgroundColor = UIColor.white
     
     /**
      Sets the text color of the new file import button hint
      */
-    public var fileImportToolTipTextColor = UIColor.black
+    @objc public var fileImportToolTipTextColor = UIColor.black
     
     /**
      Sets the text color of the new file import button hint
      */
-    public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
+    @objc public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
      Sets the background style when the tooltip is shown
@@ -324,7 +324,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarCameraTitle =
+    @objc public var navigationBarCameraTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.camera.title",
                                    comment: "Title in the navigation bar on the camera screen")
     
@@ -333,29 +333,29 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleCloseButton = ""
+    @objc public var navigationBarCameraTitleCloseButton = ""
     
     /**
      Sets the help button text in the navigation bar on the camera screen.
      
      - note: Screen API only.
      */
-    public var navigationBarCameraTitleHelpButton = ""
+    @objc public var navigationBarCameraTitleHelpButton = ""
     
     /**
      Sets the text color of the QR Code popup button
      */
-    public var qrCodePopupButtonColor = Colors.Gini.blue
+    @objc public var qrCodePopupButtonColor = Colors.Gini.blue
     
     /**
      Sets the text color of the QR Code popup label
      */
-    public var qrCodePopupTextColor = UIColor.black
+    @objc public var qrCodePopupTextColor = UIColor.black
     
     /**
      Sets the text color of the QR Code popup background
      */
-    public var qrCodePopupBackgroundColor = UIColor.white
+    @objc public var qrCodePopupBackgroundColor = UIColor.white
     
     // MARK: Onboarding options
     /**
@@ -363,7 +363,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarOnboardingTitle =
+    @objc public var navigationBarOnboardingTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.title",
                                    comment: "Title in the navigation bar on the onboarding screen")
     
@@ -372,24 +372,24 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarOnboardingTitleContinueButton = ""
+    @objc public var navigationBarOnboardingTitleContinueButton = ""
     
     /**
      Sets the color of the page controller's page indicator items.
      */
-    public var onboardingPageIndicatorColor = UIColor.white.withAlphaComponent(0.2)
+    @objc public var onboardingPageIndicatorColor = UIColor.white.withAlphaComponent(0.2)
     
     /**
      Sets the color of the page controller's current page indicator item.
      */
-    public var onboardingCurrentPageIndicatorColor = UIColor.white
+    @objc public var onboardingCurrentPageIndicatorColor = UIColor.white
     
     /**
      Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.
      
      - note: Screen API only.
      */
-    public var onboardingShowAtLaunch = false
+    @objc public var onboardingShowAtLaunch = false
     
     /**
      Indicates whether the onboarding screen should be presented at the first
@@ -398,40 +398,40 @@ import UIKit
      - note: Overwrites `onboardingShowAtLaunch` for the first launch.
      - note: Screen API only.
      */
-    public var onboardingShowAtFirstLaunch = true
+    @objc public var onboardingShowAtFirstLaunch = true
     
     /**
      Sets the text on the first onboarding page.
      */
-    public var onboardingFirstPageText =
+    @objc public var onboardingFirstPageText =
         NSLocalizedStringPreferred("ginivision.onboarding.firstPage",
                                    comment: "Text on the first page of the onboarding screen")
     
     /**
      Sets the text on the second onboarding page.
      */
-    public var onboardingSecondPageText =
+    @objc public var onboardingSecondPageText =
         NSLocalizedStringPreferred("ginivision.onboarding.secondPage",
                                    comment: "Text on the second page of the onboarding screen")
     
     /**
      Sets the text on the third onboarding page.
      */
-    public var onboardingThirdPageText =
+    @objc public var onboardingThirdPageText =
         NSLocalizedStringPreferred("ginivision.onboarding.thirdPage",
                                    comment: "Text on the third page of the onboarding screen")
     
     /**
      Sets the text on the fourth onboarding page. (It is the first on iPad)
      */
-    public var onboardingFourthPageText =
+    @objc public var onboardingFourthPageText =
         NSLocalizedStringPreferred("ginivision.onboarding.fourthPage",
                                    comment: "Text on the fourth page of the onboarding screen")
     
     /**
      Sets the text on the fifth onboarding page.
      */
-    public var onboardingFifthPageText =
+    @objc public var onboardingFifthPageText =
         NSLocalizedStringPreferred("ginivision.onboarding.fifthPage",
                                    comment: "Text on the fifth page of the onboarding screen")
     
@@ -440,12 +440,12 @@ import UIKit
      (Deprecated, use `GiniConfiguration.customFont` instead)
 
      */
-    public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
+    @objc public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
     
     /**
      Sets the color ot the text for all onboarding pages.
      */
-    public var onboardingTextColor = UIColor.white
+    @objc public var onboardingTextColor = UIColor.white
     
     /**
      All onboarding pages which will be presented in a horizontal scroll view to the user.
@@ -454,7 +454,7 @@ import UIKit
      
      - note: Any array of views can be passed, but for your convenience we provide the `GINIOnboardingPage` class.
      */
-    public var onboardingPages: [UIView] {
+    @objc public var onboardingPages: [UIView] {
         get {
             if let pages = onboardingCustomPages {
                 return pages
@@ -491,7 +491,7 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitle =
+    @objc public var navigationBarReviewTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.review.title",
                                    comment: "Title in the navigation bar on the review screen")
     
@@ -500,27 +500,27 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitleBackButton = ""
+    @objc public var navigationBarReviewTitleBackButton = ""
     
     /**
      Sets the close button text in the navigation bar on the review screen.
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitleCloseButton = ""
+    @objc public var navigationBarReviewTitleCloseButton = ""
     
     /**
      Sets the continue button text in the navigation bar on the review screen.
      
      - note: Screen API only.
      */
-    public var navigationBarReviewTitleContinueButton = ""
+    @objc public var navigationBarReviewTitleContinueButton = ""
     
     /**
      Sets the text appearing at the top of the review screen which should ask the user if the
      whole document is in focus and has correct orientation.
      */
-    public var reviewTextTop =
+    @objc public var reviewTextTop =
         NSLocalizedStringPreferred("ginivision.review.top",
                                    comment: "Text at the top of the review screen asking the user if " +
                                             "the full document is sharp and in the correct orientation")
@@ -531,7 +531,7 @@ import UIKit
 
      - seeAlso: `noticeFont`
      */
-    public var reviewTextTopFont: UIFont {
+    @objc public var reviewTextTopFont: UIFont {
         return noticeFont
     }
     
@@ -541,7 +541,7 @@ import UIKit
      
      - note: Used exclusively for accessibility label.
      */
-    public var reviewRotateButtonTitle =
+    @objc public var reviewRotateButtonTitle =
         NSLocalizedStringPreferred("ginivision.review.rotateButton",
                                    comment: "Title for rotate button in review screen will be " +
                                             "used exclusively for accessibility label")
@@ -551,7 +551,7 @@ import UIKit
      
      - note: Used exclusively for accessibility label.
      */
-    public var reviewDocumentImageTitle =
+    @objc public var reviewDocumentImageTitle =
         NSLocalizedStringPreferred("ginivision.review.documentImageTitle",
                                    comment: "Title for document image in review screen will be " +
                                             "used exclusively for accessibility label")
@@ -561,7 +561,7 @@ import UIKit
      
      - note: Background will have a 20% transparency, to have enough space for the document image on smaller devices.
      */
-    public var reviewBottomViewBackgroundColor = UIColor.black
+    @objc public var reviewBottomViewBackgroundColor = UIColor.black
     
     /**
      Sets the text appearing at the bottom of the review screen which should encourage
@@ -569,7 +569,7 @@ import UIKit
      (Deprecated, use `GiniConfiguration.customFont` instead)
 
      */
-    public var reviewTextBottom =
+    @objc public var reviewTextBottom =
         NSLocalizedStringPreferred("ginivision.review.bottom",
                                    comment: "Text at the bottom of the review screen encouraging the " +
                                             "user to check sharpness by double-tapping the image")
@@ -577,24 +577,24 @@ import UIKit
     /**
      Sets the font of the text appearing at the bottom of the review screen.
      */
-    public var reviewTextBottomFont = UIFontPreferred(.thin, andSize: 12)
+    @objc public var reviewTextBottomFont = UIFontPreferred(.thin, andSize: 12)
     
     /**
      Sets the color of the text appearing at the bottom of the review screen.
      */
-    public var reviewTextBottomColor = UIColor.white
+    @objc public var reviewTextBottomColor = UIColor.white
     
     // MARK: Analysis options
     
     /**
      Sets the color of the loading indicator on the analysis screen to the specified color.
      */
-    public var analysisLoadingIndicatorColor = Colors.Gini.blue
+    @objc public var analysisLoadingIndicatorColor = Colors.Gini.blue
     
     /**
      Sets the text of the loading indicator on the analysis screen to the specified text.
      */
-    public var analysisLoadingText =
+    @objc public var analysisLoadingText =
         NSLocalizedStringPreferred("ginivision.analysis.loadingText",
                                    comment: "Text appearing at the center of the analysis screen " +
                                             "indicating that the document is being analysed")
@@ -602,17 +602,17 @@ import UIKit
     /**
      Sets the color of the PDF information view on the analysis screen to the specified color.
      */
-    public var analysisPDFInformationBackgroundColor = Colors.Gini.bluishGreen
+    @objc public var analysisPDFInformationBackgroundColor = Colors.Gini.bluishGreen
     
     /**
      Sets the color of the PDF information view on the analysis screen to the specified color.
      */
-    public var analysisPDFInformationTextColor = UIColor.white
+    @objc public var analysisPDFInformationTextColor = UIColor.white
     
     /**
      Sets the text appearing at the top of the analysis screen indicating pdf number of pages
      */
-    public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
+    @objc public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
         return NSLocalizedStringPreferred("ginivision.analysis.pdfpages",
                                           comment: "Text appearing at the top of the analysis " +
                                                     "screen indicating pdf number of pages",
@@ -624,38 +624,38 @@ import UIKit
      
      - note: Screen API only.
      */
-    public var navigationBarAnalysisTitle =
+    @objc public var navigationBarAnalysisTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title",
                                    comment: "Title in the navigation bar on the analysis screen")
     
     /**
      Sets the back button text in the navigation bar on the analysis screen.
      */
-    public var navigationBarAnalysisTitleBackButton = ""
+    @objc public var navigationBarAnalysisTitleBackButton = ""
     
     // MARK: Help screens
     
     /**
      Sets the back button text in the navigation bar on the help menu screen.
      */
-    public var navigationBarHelpMenuTitleBackToCameraButton = ""
+    @objc public var navigationBarHelpMenuTitleBackToCameraButton = ""
     
     /**
      Sets the back button text in the navigation bar on the help screen.
      */
-    public var navigationBarHelpScreenTitleBackToMenuButton = ""
+    @objc public var navigationBarHelpScreenTitleBackToMenuButton = ""
     
     // MARK: Supported formats
     
     /**
      Sets the color of the unsupported formats icon background to the specified color.
      */
-    public var nonSupportedFormatsIconColor = Colors.Gini.crimson
+    @objc public var nonSupportedFormatsIconColor = Colors.Gini.crimson
     
     /**
      Sets the color of the supported formats icon background to the specified color.
      */
-    public var supportedFormatsIconColor = Colors.Gini.paleGreen
+    @objc public var supportedFormatsIconColor = Colors.Gini.paleGreen
     
     // MARK: Open with tutorial options
     
@@ -663,23 +663,23 @@ import UIKit
      Sets the text of the app name for the Open with tutorial texts
      
      */
-    public var openWithAppNameForTexts = Bundle.main.appName
+    @objc public var openWithAppNameForTexts = Bundle.main.appName
     
     /**
      Sets the color of the step indicator for the Open with tutorial
      
      */
-    public var stepIndicatorColor = Colors.Gini.blue
+    @objc public var stepIndicatorColor = Colors.Gini.blue
     
     // MARK: No results options
     
     /**
      Sets the color of the bottom button to the specified color
      */
-    public var noResultsBottomButtonColor = Colors.Gini.blue
+    @objc public var noResultsBottomButtonColor = Colors.Gini.blue
     
     /**
      Sets the color of the warning container background to the specified color
      */
-    public var noResultsWarningContainerIconColor = Colors.Gini.rose
+    @objc public var noResultsWarningContainerIconColor = Colors.Gini.rose
 }
