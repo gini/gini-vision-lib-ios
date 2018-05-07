@@ -22,9 +22,7 @@
 		0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */; };
 		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
-		0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* DocumentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */; };
-		0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */; };
 		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
 		1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */; };
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
@@ -120,9 +118,7 @@
 		0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelationToken.swift; sourceTree = "<group>"; };
 		0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoResultViewController.swift; sourceTree = "<group>"; };
 		0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
-		0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIReviewViewController.swift; sourceTree = "<group>"; };
 		0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentServiceProtocol.swift; sourceTree = "<group>"; };
-		0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPICameraViewController.swift; sourceTree = "<group>"; };
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.debug.xcconfig"; sourceTree = "<group>"; };
 		1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF2Pages.pdf; sourceTree = "<group>"; };
@@ -265,10 +261,8 @@
 				1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */,
 				1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */,
 				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
-				0AFE00C31D130C7E00E4425C /* ComponentAPICameraViewController.swift */,
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
-				0AE3571B1D196CEB006785EE /* ComponentAPIReviewViewController.swift */,
 			);
 			name = "Component API";
 			sourceTree = "<group>";
@@ -692,7 +686,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */,
-				0AE3571C1D196CEB006785EE /* ComponentAPIReviewViewController.swift in Sources */,
 				1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */,
 				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
 				1F59756120A0A21A0012196B /* MultipageDocumentService.swift in Sources */,
@@ -704,7 +697,6 @@
 				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
 				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
 				1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */,
-				0AFE00C41D130C7E00E4425C /* ComponentAPICameraViewController.swift in Sources */,
 				1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,

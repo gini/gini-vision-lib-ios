@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -66,112 +66,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hMI-K3-wUA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3823" y="-255"/>
-        </scene>
-        <!--Component API-->
-        <scene sceneID="ZuU-uX-Wsc">
-            <objects>
-                <viewController storyboardIdentifier="ComponentAPICamera" id="pYU-Ln-Vjq" customClass="ComponentAPICameraViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="hDk-Fp-Wsr"/>
-                        <viewControllerLayoutGuide type="bottom" id="4f2-WH-Mos"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ph2-oy-6hw">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NO8-lz-gzK">
-                                <rect key="frame" x="0.0" y="20" width="375" height="607"/>
-                            </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xiy-Qn-t95">
-                                <rect key="frame" x="0.0" y="627" width="375" height="40"/>
-                                <color key="backgroundColor" red="0.4549019608" green="0.81960784310000001" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="GLv-47-mFs"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="16"/>
-                                <state key="normal" title="Close">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="back:" destination="pYU-Ln-Vjq" eventType="touchUpInside" id="akQ-Hz-jwj"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="NO8-lz-gzK" firstAttribute="leading" secondItem="Ph2-oy-6hw" secondAttribute="leading" id="B7T-iB-KL0"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xiy-Qn-t95" secondAttribute="trailing" id="DCG-Av-rnT"/>
-                            <constraint firstItem="NO8-lz-gzK" firstAttribute="top" secondItem="Ph2-oy-6hw" secondAttribute="topMargin" id="Es2-1c-Sea"/>
-                            <constraint firstAttribute="trailing" secondItem="NO8-lz-gzK" secondAttribute="trailing" id="JVu-9J-gje"/>
-                            <constraint firstItem="4f2-WH-Mos" firstAttribute="top" secondItem="NO8-lz-gzK" secondAttribute="bottom" id="KKw-n0-qex"/>
-                            <constraint firstItem="4f2-WH-Mos" firstAttribute="top" secondItem="xiy-Qn-t95" secondAttribute="bottom" id="Y0y-7P-P0v"/>
-                            <constraint firstItem="xiy-Qn-t95" firstAttribute="leading" secondItem="Ph2-oy-6hw" secondAttribute="leading" id="gcP-9L-yz5"/>
-                            <constraint firstItem="xiy-Qn-t95" firstAttribute="top" secondItem="NO8-lz-gzK" secondAttribute="bottom" id="kj7-co-Ttr"/>
-                            <constraint firstItem="NO8-lz-gzK" firstAttribute="top" secondItem="hDk-Fp-Wsr" secondAttribute="bottom" id="rJk-PK-o7W"/>
-                            <constraint firstItem="xiy-Qn-t95" firstAttribute="width" secondItem="Ph2-oy-6hw" secondAttribute="width" id="yhL-O0-nTP"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="rJk-PK-o7W"/>
-                                <exclude reference="KKw-n0-qex"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <navigationItem key="navigationItem" title="Component API" id="u33-fr-0bj"/>
-                    <connections>
-                        <outlet property="containerView" destination="NO8-lz-gzK" id="ekj-pK-WL7"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ewg-dP-sNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4676" y="-255"/>
-        </scene>
-        <!--ComponentAPI Review View Controller-->
-        <scene sceneID="54T-xI-a0p">
-            <objects>
-                <viewController storyboardIdentifier="ComponentAPIReview" automaticallyAdjustsScrollViewInsets="NO" id="bpn-9B-40f" customClass="ComponentAPIReviewViewController" customModule="GiniVision_Example" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="5s3-1m-ck7"/>
-                        <viewControllerLayoutGuide type="bottom" id="jlx-L6-fKV"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="q0u-mJ-1aS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uvg-cz-X1a">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Uvg-cz-X1a" secondAttribute="trailing" id="CTp-Hb-jrM"/>
-                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="keP-0Z-lM3"/>
-                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="5s3-1m-ck7" secondAttribute="bottom" id="pRw-Gb-A0q"/>
-                            <constraint firstItem="jlx-L6-fKV" firstAttribute="top" secondItem="Uvg-cz-X1a" secondAttribute="bottom" id="rws-YQ-mgE"/>
-                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="leading" secondItem="q0u-mJ-1aS" secondAttribute="leading" id="wPm-dp-hPb"/>
-                            <constraint firstItem="Uvg-cz-X1a" firstAttribute="top" secondItem="q0u-mJ-1aS" secondAttribute="top" id="wm8-Vz-XOw"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="pRw-Gb-A0q"/>
-                                <exclude reference="wm8-Vz-XOw"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <navigationItem key="navigationItem" id="q0I-MG-EXb">
-                        <barButtonItem key="rightBarButtonItem" title="Continue" id="EQl-K1-00e">
-                            <connections>
-                                <action selector="showAnalysis:" destination="bpn-9B-40f" id="0td-of-9cv"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="containerView" destination="Uvg-cz-X1a" id="Jr1-sh-Ssh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w4V-do-qjJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5414" y="-255"/>
         </scene>
         <!--API Selection-->
         <scene sceneID="Cmn-ER-b8i">
@@ -458,7 +352,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="back:" destination="pYU-Ln-Vjq" eventType="touchUpInside" id="IVV-xb-Po2"/>
                                     <action selector="errorButtonTapped:" destination="ej4-eT-XJQ" eventType="touchUpInside" id="uvW-ia-9lb"/>
                                 </connections>
                             </button>
