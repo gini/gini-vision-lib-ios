@@ -278,6 +278,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     public override func loadView() {
         super.loadView()
+        edgesForExtendedLayout = []
         
         if let validCamera = camera {
             cameraState = .valid

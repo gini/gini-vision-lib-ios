@@ -16,6 +16,7 @@ extension CameraViewController {
         if giniConfiguration.multipageEnabled {
             addMultipageReviewImagesButtonConstraints()
         }
+        
     }
     
     fileprivate func addPreviewViewConstraints() {
