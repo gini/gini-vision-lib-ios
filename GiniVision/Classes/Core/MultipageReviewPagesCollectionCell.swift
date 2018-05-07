@@ -203,8 +203,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
     
-    func fill(with validatedDocument: ValidatedDocument, at index: Int) {
-        if let image = validatedDocument.value.previewImage {
+    func fill(with documentRequest: DocumentRequest, at index: Int) {
+        if let image = documentRequest.document.previewImage {
             documentImage.contentMode = image.size.width > image.size.height ?
                 .scaleAspectFit :
                 .scaleAspectFill
@@ -212,9 +212,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         }
         pageIndicatorLabel.text = "\(index + 1)"
         
-        if validatedDocument.isUploaded {
+        if documentRequest.isUploaded {
             stateView.update(to: .succeeded)
-        } else if validatedDocument.error != nil {
+        } else if documentRequest.error != nil {
             stateView.update(to: .failed)
         } else {
             stateView.update(to: .loading)

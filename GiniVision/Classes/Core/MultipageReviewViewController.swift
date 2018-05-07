@@ -9,22 +9,22 @@ import Foundation
 
 protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documents: [ValidatedDocument])
+                         didReorder documentRequests: [DocumentRequest])
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didRotate document: ValidatedDocument)
+                         didRotate documentRequest: DocumentRequest)
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didDelete document: ValidatedDocument)
+                         didDelete documentRequest: DocumentRequest)
 
 }
 
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    var validatedDocuments: [ValidatedDocument] {
+    var documentRequests: [DocumentRequest] {
         didSet {
             navigationItem
                 .rightBarButtonItem?
-                .isEnabled = validatedDocuments
+                .isEnabled = documentRequests
                     .reduce(true, { $0.0 && $0.1.isUploaded})
         }
     }
@@ -156,8 +156,8 @@ public final class MultipageReviewViewController: UIViewController {
     
     // MARK: - Init
     
-    public init(validatedDocuments: [ValidatedDocument], giniConfiguration: GiniConfiguration) {
-        self.validatedDocuments = validatedDocuments
+    public init(documentRequests: [DocumentRequest], giniConfiguration: GiniConfiguration) {
+        self.documentRequests = documentRequests
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
@@ -269,7 +269,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = "\(page) of \(validatedDocuments.count)"
+        title = "\(page) of \(documentRequests.count)"
     }
     
     fileprivate func changeReorderButtonState(toActive activate: Bool) {
@@ -388,37 +388,37 @@ extension MultipageReviewViewController {
 extension MultipageReviewViewController {
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            guard let imageDocument = validatedDocuments[currentIndexPath.row].value as? GiniImageDocument else {
+            guard let imageDocument = documentRequests[currentIndexPath.row].document as? GiniImageDocument else {
                 return
             }
             imageDocument.rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didRotate: validatedDocuments[currentIndexPath.row])
+            delegate?.multipageReview(self, didRotate: documentRequests[currentIndexPath.row])
         }
     }
     
     @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            let documentToDelete = validatedDocuments[currentIndexPath.row]
-            validatedDocuments.remove(at: currentIndexPath.row)
+            let documentToDelete = documentRequests[currentIndexPath.row]
+            documentRequests.remove(at: currentIndexPath.row)
             mainCollection.deleteItems(at: [currentIndexPath])
             
             pagesCollection.performBatchUpdates({
                 self.pagesCollection.deleteItems(at: [currentIndexPath])
             }, completion: { [weak self] _ in
                 guard let `self` = self else { return }
-                if self.validatedDocuments.count > 0 {
-                    if currentIndexPath.row != self.validatedDocuments.count {
+                if self.documentRequests.count > 0 {
+                    if currentIndexPath.row != self.documentRequests.count {
                         var indexes = IndexPath.indexesBetween(currentIndexPath,
-                                                               and: IndexPath(row: self.validatedDocuments.count,
+                                                               and: IndexPath(row: self.documentRequests.count,
                                                                               section: 0))
                         indexes.append(currentIndexPath)
                         self.pagesCollection.reloadItems(at: indexes)
                     }
                     
-                    self.selectItem(at: min(currentIndexPath.row, self.validatedDocuments.count - 1))
+                    self.selectItem(at: min(currentIndexPath.row, self.documentRequests.count - 1))
                 }
                 self.delegate?.multipageReview(self, didDelete: documentToDelete)
             })
@@ -453,7 +453,7 @@ extension MultipageReviewViewController {
 
 extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.validatedDocuments.count
+        return self.documentRequests.count
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -462,13 +462,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            cell?.documentImage.image = validatedDocuments[indexPath.row].value.previewImage
+            cell?.documentImage.image = documentRequests[indexPath.row].document.previewImage
             return cell!
         } else {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            cell?.fill(with: validatedDocuments[indexPath.row], at: indexPath.row)
+            cell?.fill(with: documentRequests[indexPath.row], at: indexPath.row)
             return cell!
         }
     }
@@ -485,8 +485,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 indexes.append(destinationIndexPath)
             }
             
-            let elementMoved = validatedDocuments.remove(at: sourceIndexPath.row)
-            validatedDocuments.insert(elementMoved, at: destinationIndexPath.row)
+            let elementMoved = documentRequests.remove(at: sourceIndexPath.row)
+            documentRequests.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
             
             // This is needed because this method is called before the dragging animation finishes.
@@ -494,7 +494,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.delegate?.multipageReview(self, didReorder: self.validatedDocuments)
+                self.delegate?.multipageReview(self, didReorder: self.documentRequests)
             })
         }
     }
@@ -515,7 +515,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
-            if validatedDocuments.count > 1 {
+            if documentRequests.count > 1 {
                 mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }

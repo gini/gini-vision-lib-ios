@@ -95,41 +95,41 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = loadValidatedImageDocument(withName: "invoice")
-        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
+        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        coordinator.addToDocuments(new: [capturedImageDocument])
         
-        (coordinator.multiPageReviewViewController.validatedDocuments[0].value as? GiniImageDocument)?.rotatePreviewImage90Degrees()
+        (coordinator.multiPageReviewViewController.documentRequests[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didRotate: coordinator.multiPageReviewViewController.validatedDocuments[0])
+                                    didRotate: coordinator.multiPageReviewViewController.documentRequests[0])
 
-        let imageDocument = coordinator.sessionDocuments[0].value as? GiniImageDocument
+        let imageDocument = coordinator.documentRequests[0].document as? GiniImageDocument
         XCTAssertEqual(imageDocument?.rotationDelta, 90,
                        "the image document rotation delta should have been updated after rotation")
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = loadValidatedImageDocument(withName: "invoice")
-        coordinator.addToDocuments(newDocuments: [capturedImageDocument])
+        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        coordinator.addToDocuments(new: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didDelete: coordinator.multiPageReviewViewController.validatedDocuments[0])
+                                    didDelete: coordinator.multiPageReviewViewController.documentRequests[0])
         
-        XCTAssertTrue(coordinator.sessionDocuments.isEmpty,
+        XCTAssertTrue(coordinator.documentRequests.isEmpty,
                       "vision documents collection should be empty after delete " +
             "the image in the multipage review view controller")
     }
     
     func testMultipageImageDocumentWhenSortingDocuments() {
-        let capturedImageDocument = [loadValidatedImageDocument(withName: "invoice"), loadValidatedImageDocument(withName: "invoice")]
-        let firstItemId = capturedImageDocument.first?.value.id
-        coordinator.addToDocuments(newDocuments: capturedImageDocument)
+        let capturedImageDocument = [loadImageDocumentRequest(withName: "invoice"), loadImageDocumentRequest(withName: "invoice")]
+        let firstItemId = capturedImageDocument.first?.document.id
+        coordinator.addToDocuments(new: capturedImageDocument)
         
         var reorderedItems = capturedImageDocument
         reorderedItems.swapAt(0, 1)
 
         coordinator.multipageReview(coordinator.multiPageReviewViewController, didReorder: reorderedItems)
         
-        XCTAssertTrue(coordinator.sessionDocuments.last?.value.id == firstItemId, "last items should be the one moved")
+        XCTAssertTrue(coordinator.documentRequests.last?.document.id == firstItemId, "last items should be the one moved")
         
     }
 }

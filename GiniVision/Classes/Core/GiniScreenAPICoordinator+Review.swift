@@ -39,28 +39,28 @@ internal extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didRotate document: ValidatedDocument) {
-        updateValueInDocuments(for: document.value)
+                         didRotate documentRequest: DocumentRequest) {
+        updateValueInDocuments(for: documentRequest.document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didDelete document: ValidatedDocument) {
-        removeFromDocuments(document: document.value)
-        visionDelegate?.didCancelReview(for: document.value)
+                         didDelete documentRequest: DocumentRequest) {
+        removeFromDocuments(document: documentRequest.document)
+        visionDelegate?.didCancelReview(for: documentRequest.document)
         
-        if sessionDocuments.isEmpty {
+        if documentRequests.isEmpty {
             closeMultipageScreen()
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documents: [ValidatedDocument]) {
-        replaceDocuments(with: documents)
+                         didReorder documentRequests: [DocumentRequest]) {
+        replaceDocuments(with: documentRequests)
     }
 
-    func createMultipageReviewScreenContainer(with validatedDocuments: [ValidatedDocument])
+    func createMultipageReviewScreenContainer(with documentRequests: [DocumentRequest])
         -> MultipageReviewViewController {
-            let vc = MultipageReviewViewController(validatedDocuments: validatedDocuments,
+            let vc = MultipageReviewViewController(documentRequests: documentRequests,
                                                    giniConfiguration: giniConfiguration)
             vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
@@ -88,8 +88,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         }
     }
     
-    func refreshMultipageReview(with imageDocuments: [ValidatedDocument]) {
-        multiPageReviewViewController.validatedDocuments = imageDocuments
+    func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+        multiPageReviewViewController.documentRequests = documentRequests
         multiPageReviewViewController.reloadCollections()
     }
 }
