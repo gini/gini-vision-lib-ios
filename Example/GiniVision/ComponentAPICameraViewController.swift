@@ -10,8 +10,9 @@ import UIKit
 import GiniVision
 
 protocol ComponentAPICameraViewControllerDelegate: class {
-    func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument)
-    func componentAPICamera(viewController: UIViewController, didTapClose: ())
+    func componentAPICamera(_ viewController: UIViewController, didPickDocument document: GiniVisionDocument)
+    func componentAPICamera(_ viewController: UIViewController, didTapClose: ())
+    func componentAPICamera(_ viewController: UIViewController, didSelect documentPicker: DocumentPickerType)
 }
 
 /**
@@ -22,23 +23,20 @@ final class ComponentAPICameraViewController: UIViewController {
     @IBOutlet var containerView: UIView!
     var contentController = UIViewController()
     weak var delegate: ComponentAPICameraViewControllerDelegate?
+    var giniConfiguration: GiniConfiguration!
     
     // MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // 2. Create the camera view controller
-        contentController = CameraViewController(successBlock: { [weak self] document in
-                guard let `self` = self else { return }
-                DispatchQueue.main.async {
-                    self.delegate?.componentAPICamera(viewController: self,
-                                                      didPickDocument: document)
-                }
-        }, failureBlock: { error in
-            print("Component API camera view controller received error:\n\(error)")
-        })
+        let cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
+        cameraViewController.delegate = self
+        
+
         
         // 3. Display the camera view controller
+        contentController = cameraViewController
         displayContent(contentController)
     }
     
@@ -52,7 +50,28 @@ final class ComponentAPICameraViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func back(_ sender: AnyObject) {
-        delegate?.componentAPICamera(viewController: self, didTapClose: ())
+        delegate?.componentAPICamera(self, didTapClose: ())
     }
 }
+
+// MARK: - CameraViewControllerDelegate
+
+extension ComponentAPICameraViewController: CameraViewControllerDelegate {
+    func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
+        self.delegate?.componentAPICamera(self, didPickDocument: document)
+    }
+    
+    func cameraDidAppear(_ viewController: CameraViewController) {
+        
+    }
+    
+    func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
+        
+    }
+    
+    func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType) {
+        delegate?.componentAPICamera(self, didSelect: documentPicker)
+    }
+}
+
 

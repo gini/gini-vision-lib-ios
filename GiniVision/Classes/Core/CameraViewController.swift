@@ -174,7 +174,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     // Properties
     let giniConfiguration: GiniConfiguration
-    weak var delegate: CameraViewControllerDelegate?
+    public weak var delegate: CameraViewControllerDelegate?
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
