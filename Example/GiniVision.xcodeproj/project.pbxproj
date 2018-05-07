@@ -49,6 +49,8 @@
 		1F66D9892020A3180093771C /* GINIMultipageReviewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66D9882020A3180093771C /* GINIMultipageReviewControllerTests.swift */; };
 		1F79630A2068DF5C005CB2CA /* MultipageReviewViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7963082068DEA8005CB2CA /* MultipageReviewViewControllerDelegateMock.swift */; };
 		1F8E41DE20A0526A00561769 /* CapturedImagesStackViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */; };
+		1F8E41DF20A0721200561769 /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
+		1F8E41E020A0721B00561769 /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
 		1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
 		1F8FAC442020AA6200F586EF /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
 		1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */; };
@@ -558,6 +560,8 @@
 			files = (
 				0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */,
 				1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */,
+				1F8E41E020A0721B00561769 /* invoice2.jpg in Resources */,
+				1F8E41DF20A0721200561769 /* invoice3.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
