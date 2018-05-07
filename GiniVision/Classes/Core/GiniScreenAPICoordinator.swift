@@ -201,20 +201,7 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-<<<<<<< HEAD
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
-=======
-        if let didReviewDocuments = visionDelegate?.didReview(documents:) {
-            didReviewDocuments(sessionDocuments.map {$0.value})
-        } else if let didReview = visionDelegate?.didReview(document:withChanges:) {
-            guard let firstElement = sessionDocuments.first else {
-                fatalError("There aren't elements to review.")
-            }
-        } else {
-            fatalError("GiniVisionDelegate.didReview(document: GiniVisionDocument," +
-                "withChanges changes: Bool) should be implemented")
-        }
->>>>>>> Updated swift_version to podspec.
         
         self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
@@ -249,7 +236,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                         "should be implemented")
                 }
                 
-                clearSessionDocuments()
+                clearDocuments()
             }
         }
         
