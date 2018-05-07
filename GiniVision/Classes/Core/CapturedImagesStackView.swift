@@ -96,10 +96,10 @@ final class CapturedImagesStackView: UIView {
 
 extension CapturedImagesStackView {
     /**
-     Return the absolute frame of the CaptureImagesStackView regarding
-     a given view coordinate space.
+     Return the thumbnail frame relative to a given view coordinate space.
+     Used to make a transition from the thumbnail to a new screen.
      */
-    func absoluteThumbnailFrame(from view: UIView) -> CGRect {
+    func thumbnailFrameRelative(to view: UIView) -> CGRect {
         return convert(thumbnailButton.frame, to: view)
     }
     
