@@ -118,8 +118,9 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
         if documentRequests.type == .image {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
-                self.cameraViewController?.updateMultipageReviewButton(withImage: documentRequests[0].document.previewImage,
-                                                                       showingStack: documentRequests.count > 1)
+                self.cameraViewController?
+                    .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage} )
+                
                 self.multiPageReviewViewController =
                     createMultipageReviewScreenContainer(with: documentRequests)
                 
@@ -251,30 +252,21 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     private func multipageTransition(operation: UINavigationControllerOperation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let reviewImagesButtonCenter = cameraViewController?.multipageReviewButton,
-            let buttonFrame = cameraViewController?
-                .multipageReviewContentView
-                .convert(reviewImagesButtonCenter.frame,
-                         to: self.screenAPINavigationController.view) else {
-                            return nil
+        guard let reviewImagesButtonCenter = cameraViewController?.capturedImagesStackView else {
+            return nil
         }
         
-        multiPageTransition.originFrame = buttonFrame
+        multiPageTransition.originFrame = reviewImagesButtonCenter
+            .thumbnailFrameRelative(to: screenAPINavigationController.view)
         multiPageTransition.operation = operation
         
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
-            let visibleImageAndSize = multipageVC.visibleImage(in: multipageVC.mainCollection)
-            multiPageTransition.popImage = visibleImageAndSize.image
-            multiPageTransition.popImageFrame = visibleImageAndSize.size
-            
-            var image: UIImage? = nil
-            if let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row {
-                image = self.documentRequests[visibleIndex].document.previewImage
-            }
-            cameraVC.updateMultipageReviewButton(withImage: image,
-                                                 showingStack: self.documentRequests.count > 1)
-            
-            if documentRequests.isEmpty {
+            if let (image, size) = multipageVC.visibleImage(in: multipageVC.mainCollection) {
+                multiPageTransition.popImage = image
+                multiPageTransition.popImageFrame = size
+                cameraVC.replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage } )
+            } else {
+                cameraVC.replaceCapturedStackImages(with: [])
                 return nil
             }
         }

@@ -27,7 +27,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 self.didCaptureAndValidate(document)
                 
                 if let imageDocument = document as? GiniImageDocument {
-                    if self.giniConfiguration.multipageEnabled {
+                    if self.documentRequests.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
                         self.showNextScreenAfterPicking(documentRequests: [validatedDocument])
@@ -169,9 +169,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 if let imageDocuments = visionDocuments as? [GiniImageDocument],
                     let lastDocument = imageDocuments.last {
                     if self.giniConfiguration.multipageEnabled {
-                        if lastDocument.isImported {
-                            showMultipageReview()
-                        }
+                        showMultipageReview()
                     } else {
                         reviewViewController = createReviewScreen(withDocument: lastDocument)
                         screenAPINavigationController.pushViewController(reviewViewController!,

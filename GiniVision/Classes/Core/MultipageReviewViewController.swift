@@ -537,15 +537,16 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func visibleImage(in collection: UICollectionView) -> (image: UIImage?, size: CGRect) {
+    func visibleImage(in collection: UICollectionView) -> (image: UIImage, size: CGRect)? {
         let visibleIndex = self.visibleCell(in: collection)
         guard let visibleCellIndex = visibleIndex,
             let cell = collectionView(collection,
-                                      cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell else {
-                return (nil, .zero)
+                                      cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell,
+            let image = cell.documentImage.image else {
+                return nil
         }
 
-        return (cell.documentImage.image, cell.frame)
+        return (image, cell.frame)
     }
     
     func visibleCell(in collectionView: UICollectionView) -> IndexPath? {

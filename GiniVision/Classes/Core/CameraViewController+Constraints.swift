@@ -70,44 +70,26 @@ extension CameraViewController {
     
     fileprivate func addMultipageReviewImagesButtonConstraints() {
         if UIDevice.current.isIpad {
-            Constraints.active(item: multipageReviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
-            Constraints.active(item: multipageReviewContentView, attr: .leading, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
-            Constraints.active(item: multipageReviewContentView, attr: .bottom, relatedBy: .equal, to: captureButton,
-                              attr: .top, constant: -60)
-            Constraints.active(item: multipageReviewContentView, attr: .height, relatedBy: .greaterThanOrEqual,
-                               to: multipageReviewButton, attr: .height)
+            Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
+                              attr: .top, constant: -50)
+            Constraints.active(item: capturedImagesStackView, attr: .top, relatedBy: .greaterThanOrEqual,
+                               to: controlsView, attr: .top)
         } else {
-            Constraints.active(item: multipageReviewContentView, attr: .centerY, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
-            Constraints.active(item: multipageReviewContentView, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
-            Constraints.active(item: multipageReviewContentView, attr: .top, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .top, relatedBy: .equal, to: controlsView,
                               attr: .top)
-            Constraints.active(item: multipageReviewContentView, attr: .bottom, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: controlsView,
                               attr: .bottom)
-            Constraints.active(item: multipageReviewContentView, attr: .leading, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: capturedImagesStackView, attr: .leading, relatedBy: .equal, to: captureButton,
                               attr: .trailing, priority: 750)
         }
-        
-        Constraints.active(item: multipageReviewButton, attr: .centerY, relatedBy: .equal,
-                           to: multipageReviewContentView, attr: .centerY)
-        Constraints.active(item: multipageReviewButton, attr: .centerX, relatedBy: .equal,
-                           to: multipageReviewContentView, attr: .centerX)
-        Constraints.active(item: multipageReviewButton, attr: .height, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: 60)
-        Constraints.active(item: multipageReviewButton, attr: .width, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: 40)
-        
-        Constraints.active(item: multipageReviewBackgroundView, attr: .centerY, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .centerY, constant: 3)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .centerX, relatedBy: .equal,
-                           to: multipageReviewButton, attr: .centerX, constant: -3)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .height, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: 60)
-        Constraints.active(item: multipageReviewBackgroundView, attr: .width, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: 40)
     }
     
     func addImportButtonConstraints() {
@@ -117,7 +99,9 @@ extension CameraViewController {
             Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
-                              attr: .bottom, constant: 60)
+                              attr: .bottom, constant: 50)
+            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .equal, to: importFileButton,
+                               attr: .bottom, constant: 6)
         } else {
             Constraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
@@ -125,6 +109,13 @@ extension CameraViewController {
                               attr: .leading)
             Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
                               attr: .leading, priority: 750)
+            Constraints.active(item: importFileSubtitleLabel, attr: .bottom, relatedBy: .equal, to: controlsView,
+                               attr: .bottom, constant: -10)
+            Constraints.active(item: importFileSubtitleLabel, attr: .top, relatedBy: .greaterThanOrEqual,
+                               to: importFileButton, attr: .bottom)
         }
+        
+        Constraints.active(item: importFileSubtitleLabel, attr: .centerX, relatedBy: .equal, to: importFileButton,
+                           attr: .centerX)
     }
 }

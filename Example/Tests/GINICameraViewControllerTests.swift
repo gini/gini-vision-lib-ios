@@ -53,32 +53,5 @@ final class CameraViewControllerTests: XCTestCase {
         XCTAssertFalse(cameraViewController.captureButton.isEnabled, "capture button should be disaled when tooltip is shown")
         
     }
-    
-    func testReviewButtonBackgroundBeforeCapturing() {
-        _ = cameraViewController.view
-
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should be hidden before capture the first picture")
-        
-    }
-    
-    func testReviewButtonBackgroundAfter1ImageWasCaptured() {
-        _ = cameraViewController.view
-
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should be hidden after capture the first picture")
-        
-    }
-    
-    func testReviewButtonBackgroundAfter2ImagesWereCaptured() {
-        _ = cameraViewController.view
-
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should not be hidden after capture the second picture")
-        
-    }
 }
 
