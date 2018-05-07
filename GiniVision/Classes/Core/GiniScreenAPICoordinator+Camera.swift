@@ -27,7 +27,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 self.didCaptureAndValidate(document)
                 
                 if let imageDocument = document as? GiniImageDocument {
-                    if self.sessionDocuments.count > 1 {
+                    if self.documentRequests.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
                         self.showNextScreenAfterPicking(documentRequests: [validatedDocument])

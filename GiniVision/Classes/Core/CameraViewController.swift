@@ -521,7 +521,7 @@ extension CameraViewController {
         delegate?.cameraDidTapMultipageReviewButton(self)
     }
     
-    func updateCapturedImagesStack(to status: CapturedImagesStackView.Status) {
+    func updateCapturedImagesStack(to status: CapturedImagesStackView.State) {
         capturedImagesStackView.updateStackStatus(to: status)
     }
     

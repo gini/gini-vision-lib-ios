@@ -9,7 +9,7 @@ import UIKit
 
 final class CapturedImagesStackView: UIView {
     
-    enum Status {
+    enum State {
         case filled(count: Int, lastImage: UIImage), empty
     }
     
@@ -36,7 +36,7 @@ final class CapturedImagesStackView: UIView {
         return button
     }()
     
-    fileprivate lazy var thumbnailStackBackgroundView: UIView = {
+    lazy var thumbnailStackBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .lightGray
@@ -99,7 +99,7 @@ extension CapturedImagesStackView {
         return convert(thumbnailButton.frame, to: view)
     }
     
-    func updateStackStatus(to status: Status) {
+    func updateStackStatus(to status: State) {
         switch status {
         case .filled(let count, let lastImage):
             imagesCount = count
