@@ -99,7 +99,19 @@ extension CapturedImagesStackView {
         return convert(thumbnailButton.frame, to: view)
     }
     
-    func updateStackStatus(to status: State) {
+    func replaceStackImages(with images: [UIImage]) {
+        if let lastImage = images.last {
+            updateStackStatus(to: .filled(count: images.count, lastImage: lastImage))
+        } else {
+            updateStackStatus(to: .empty)
+        }
+    }
+    
+    func addImageToStack(image: UIImage) {
+        updateStackStatus(to: .filled(count: imagesCount + 1, lastImage: image))
+    }
+    
+    private func updateStackStatus(to status: State) {
         switch status {
         case .filled(let count, let lastImage):
             imagesCount = count
@@ -114,10 +126,6 @@ extension CapturedImagesStackView {
         }
         
         stackIndicatorLabel.text = "\(imagesCount)"
-    }
-    
-    func addImageToStack(image: UIImage) {
-        updateStackStatus(to: .filled(count: imagesCount + 1, lastImage: image))
     }
 }
 
