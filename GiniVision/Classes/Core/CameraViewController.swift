@@ -520,8 +520,8 @@ extension CameraViewController {
         delegate?.cameraDidTapMultipageReviewButton(self)
     }
     
-    func updateCapturedImagesStack(to status: CapturedImagesStackView.State) {
-        capturedImagesStackView.updateStackStatus(to: status)
+    func replaceCapturedStackImages(with images: [UIImage]) {
+        capturedImagesStackView.replaceStackImages(with: images)
     }
     
     func updatePreviewViewOrientation() {
