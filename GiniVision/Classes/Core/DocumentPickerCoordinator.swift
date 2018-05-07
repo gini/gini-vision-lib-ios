@@ -60,7 +60,7 @@ internal final class DocumentPickerCoordinator: NSObject {
     
     // MARK: - Initializer
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared) {
         self.giniConfiguration = giniConfiguration
         self.galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
     }

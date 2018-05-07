@@ -12,7 +12,7 @@ import XCTest
 final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
-    let initialGiniConfiguration = GiniConfiguration.sharedConfiguration
+    let initialGiniConfiguration = GiniConfiguration.shared
     
     var sections: [SupportedFormatCollectionSection] = [
         (NSLocalizedString("ginivision.supportedFormats.section.1.title",
@@ -30,7 +30,7 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
          UIImage(named: "supportedFormatsIcon",
                  in: Bundle(for: GiniVision.self),
                  compatibleWith: nil),
-         GiniConfiguration.sharedConfiguration.supportedFormatsIconColor),
+         GiniConfiguration.shared.supportedFormatsIconColor),
         (NSLocalizedString("ginivision.supportedFormats.section.2.title",
                            bundle: Bundle(for: GiniVision.self),
                            comment: "title for unsupported formats section"),
@@ -43,7 +43,7 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
          UIImage(named: "nonSupportedFormatsIcon",
                  in: Bundle(for: GiniVision.self),
                  compatibleWith: nil),
-         GiniConfiguration.sharedConfiguration.nonSupportedFormatsIconColor)
+         GiniConfiguration.shared.nonSupportedFormatsIconColor)
     ]
     
     override func setUp() {
@@ -262,12 +262,12 @@ final class GINISupportedFormatsViewControllerTests: XCTestCase {
     
     override func tearDown() {
         super.tearDown()
-        GiniConfiguration.sharedConfiguration = initialGiniConfiguration
+        GiniConfiguration.shared = initialGiniConfiguration
     }
     
     fileprivate func setFileImportSupportedTypes(to supportedTypes: GiniConfiguration.GiniVisionImportFileTypes) {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.fileImportSupportedTypes = supportedTypes
-        GiniConfiguration.sharedConfiguration = giniConfiguration
+        GiniConfiguration.shared = giniConfiguration
     }
 }

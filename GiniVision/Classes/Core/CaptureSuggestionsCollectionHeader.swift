@@ -52,7 +52,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         let icon = UIImageView()
         icon.translatesAutoresizingMaskIntoConstraints = false
         icon.contentMode = .scaleAspectFit
-        icon.tintColor = GiniConfiguration.sharedConfiguration.noResultsWarningContainerIconColor
+        icon.tintColor = GiniConfiguration.shared.noResultsWarningContainerIconColor
         return icon
     }()
     lazy var topViewText: UILabel = {

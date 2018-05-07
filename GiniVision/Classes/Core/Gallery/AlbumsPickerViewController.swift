@@ -35,7 +35,7 @@ final class AlbumsPickerViewController: UIViewController {
     // MARK: - Initializers
 
     init(galleryManager: GalleryManagerProtocol,
-         giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+         giniConfiguration: GiniConfiguration = GiniConfiguration.shared) {
         self.galleryManager = galleryManager
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)

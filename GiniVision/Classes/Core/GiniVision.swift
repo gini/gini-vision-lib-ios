@@ -138,7 +138,7 @@ import UIKit
         if configuration.debugModeOn {
             print("GiniVision: Set mode to DEBUG (WARNING: Never make a release in DEBUG mode!)")
         }
-        GiniConfiguration.sharedConfiguration = configuration
+        GiniConfiguration.shared = configuration
     }
     
     /**
@@ -157,7 +157,7 @@ import UIKit
     @objc public class func viewController(withDelegate delegate: GiniVisionDelegate,
                                            importedDocuments: [GiniVisionDocument]? = nil) -> UIViewController {
         let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
-                                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                                         giniConfiguration: GiniConfiguration.shared)
         
         return screenCoordinator.start(withDocuments: importedDocuments)
     }

@@ -128,17 +128,17 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .exceededMaxFileSize:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorExcedeedFileSize
+            return GiniConfiguration.shared.documentValidationErrorExcedeedFileSize
         case .imageFormatNotValid:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .fileFormatNotValid:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .pdfPageLengthExceeded:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorTooManyPages
+            return GiniConfiguration.shared.documentValidationErrorTooManyPages
         case .qrCodeFormatNotValid:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorWrongFormat
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .unknown:
-            return GiniConfiguration.sharedConfiguration.documentValidationErrorGeneral
+            return GiniConfiguration.shared.documentValidationErrorGeneral
         }
     }
     

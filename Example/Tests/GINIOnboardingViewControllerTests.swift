@@ -7,7 +7,7 @@ class OnboardingViewControllerTests: XCTestCase {
     
     func testConvenientInitialization() {
         XCTAssertNotNil(vc, "view controller should not be nil")
-        XCTAssert(vc.pages == GiniConfiguration.sharedConfiguration.onboardingPages, "default pages should be set")
+        XCTAssert(vc.pages == GiniConfiguration.shared.onboardingPages, "default pages should be set")
     }
     
     func testScrollViewAccessibility() {

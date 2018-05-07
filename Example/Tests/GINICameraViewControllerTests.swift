@@ -17,7 +17,7 @@ final class CameraViewControllerTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        giniConfiguration = GiniConfiguration.sharedConfiguration
+        giniConfiguration = GiniConfiguration.shared
         giniConfiguration.multipageEnabled = true
         cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         screenAPICoordinator = GiniScreenAPICoordinator(withDelegate: visionDelegate,

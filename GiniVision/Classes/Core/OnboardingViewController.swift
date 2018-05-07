@@ -106,7 +106,7 @@ import UIKit
      the functionality provided by the Gini Vision Library.
      */
     public convenience init(scrollViewDelegate: UIScrollViewDelegate?) {
-        self.init(pages: GiniConfiguration.sharedConfiguration.onboardingPages, scrollViewDelegate: scrollViewDelegate)
+        self.init(pages: GiniConfiguration.shared.onboardingPages, scrollViewDelegate: scrollViewDelegate)
     }
     
     /**
