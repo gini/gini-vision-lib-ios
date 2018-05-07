@@ -25,7 +25,9 @@ public final class MultipageReviewViewController: UIViewController {
             navigationItem
                 .rightBarButtonItem?
                 .isEnabled = documentRequests
-                    .reduce(true, { $0.0 && $0.1.isUploaded})
+                    .reduce(true, { result, documentRequest in
+                        result && documentRequest.isUploaded
+                    })
         }
     }
     weak var delegate: MultipageReviewViewControllerDelegate?
