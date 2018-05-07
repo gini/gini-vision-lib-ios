@@ -22,7 +22,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return self.componentAPITabBarController
     }
     
-    fileprivate let documentService: DocumentService
+    fileprivate var documentService: DocumentServiceProtocol?
     fileprivate var document: GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate let giniConfiguration: GiniConfiguration
@@ -48,22 +48,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
-    fileprivate var didDocumentAnalysisComplete: DocumentAnalysisCompletion {
-        return {(result, document, error) in
-            DispatchQueue.main.async { [weak self] in
-                if let error = error {
-                    self?.handleAnalysis(error: error)
-                    return
-                }
-                
-                if let result = result,
-                    let document = document,
-                    self?.analysisScreen != nil {
-                    self?.handleAnalysis(result, fromDocument: document)
-                }
-            }
-        }
-    }
     
     fileprivate(set) var cameraScreen: ComponentAPICameraViewController?
     fileprivate(set) var reviewScreen: ComponentAPIReviewViewController?
@@ -73,11 +57,27 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 
     init(document: GiniVisionDocument?,
          configuration: GiniConfiguration,
-         documentService: DocumentService) {
+         client: GiniClient) {
         self.document = document
-        self.documentService = documentService
         self.giniConfiguration = configuration
+        super.init()
+        setupDocumentService(client: client, giniConfiguration: giniConfiguration)
         GiniVision.setConfiguration(configuration)
+    }
+    
+    func setupDocumentService(client: GiniClient,
+                                    giniConfiguration: GiniConfiguration) {
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        
+        if let sdk = builder?.build() {
+            if giniConfiguration.multipageEnabled {
+                documentService = MultipageDocumentsService(sdk: sdk)
+            } else {
+                documentService = SinglePageDocumentsService(sdk: sdk)
+            }
+        }
     }
     
     func start() {
@@ -123,12 +123,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         reviewScreen?.giniConfiguration = giniConfiguration
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
         
-        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
-        // to have results in as early as possible.
-        documentService.analyzeDocument(withData: document.data,
-                                        cancelationToken: CancelationToken(),
-                                        completion: didDocumentAnalysisComplete)
-        
         newDocumentViewController.pushViewController(reviewScreen!, animated: true)
     }
     
@@ -138,14 +132,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         analysisScreen?.delegate = self
         analysisScreen?.document = document
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
-        
-        // In case that the view is loaded but is not analysing (i.e: user imported a PDF with
-        // the Open With feature), it should start.
-        if !documentService.isAnalyzing {
-            documentService.analyzeDocument(withData: document.data,
-                                            cancelationToken: CancelationToken(),
-                                            completion: didDocumentAnalysisComplete)
-        }
         
         newDocumentViewController.pushViewController(analysisScreen!, animated: true)
     }
@@ -203,13 +189,13 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     @objc fileprivate func closeComponentAPI() {
-        documentService.cancelAnalysis()
+        documentService?.cancelAnalysis()
         delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
     @objc fileprivate func closeComponentAPIFromResults() {
-        if let document = resultsScreen?.document {
-            documentService.sendFeedback(forDocument: document)
+        if let results = resultsScreen?.result {
+            documentService?.sendFeedback(with: results)
         }
         closeComponentAPI()
     }
@@ -258,17 +244,17 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         if fromViewController is ComponentAPIReviewViewController &&
             viewController is ComponentAPICameraViewController {
             reviewScreen = nil
-            documentService.cancelAnalysis()
+            documentService?.cancelAnalysis()
         }
         
         if fromViewController is ComponentAPIAnalysisViewController &&
             viewController is ComponentAPIReviewViewController {
             analysisScreen = nil
-            documentService.cancelAnalysis()
+            documentService?.cancelAnalysis()
         }
         
         if let resultsScreen = fromViewController as? ResultTableViewController {
-            documentService.sendFeedback(forDocument: resultsScreen.document)
+            documentService?.sendFeedback(with: resultsScreen.result)
         }
     }
 }
@@ -313,28 +299,13 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
 extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
     func componentAPIReview(_ viewController: ComponentAPIReviewViewController,
                             didReviewDocument document: GiniVisionDocument) {
-        // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
-        if let result = documentService.result,
-            let document = documentService.document {
-            handleAnalysis(result, fromDocument: document)
-            return
-        }
-        
-        // Restart analysis if it was canceled and is currently not running.
-        if !documentService.isAnalyzing {
-            if let documentData = self.document?.data {
-                documentService.analyzeDocument(withData: documentData,
-                                                cancelationToken: CancelationToken(),
-                                                completion: didDocumentAnalysisComplete)
-            }
-        }
         
         showAnalysisScreen(withDocument: document)
     }
     
     func componentAPIReview(_ viewController: ComponentAPIReviewViewController, didRotate document: GiniVisionDocument) {
         self.document = document
-        documentService.cancelAnalysis()
+        documentService?.cancelAnalysis()
     }
 }
 
@@ -342,11 +313,7 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
 
 extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {    
     func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
-        if let document = document {
-            documentService.analyzeDocument(withData: document.data,
-                                            cancelationToken: CancelationToken(),
-                                            completion: didDocumentAnalysisComplete)
-        }
+        
     }
 }
 
@@ -369,15 +336,6 @@ extension ComponentAPICoordinator {
             showResultsTableScreen(forDocument: document, withResult: result)
         } else {
             showNoResultsScreen()
-        }
-    }
-    
-    fileprivate func handleExistingResults() {
-        if let result = documentService.result,
-            let document = documentService.document {
-            handleAnalysis(result, fromDocument: document)
-        } else if let error = documentService.error {
-            analysisScreen?.displayError(error)
         }
     }
     
