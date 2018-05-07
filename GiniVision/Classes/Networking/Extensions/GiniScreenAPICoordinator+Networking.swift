@@ -147,7 +147,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         }
         
         // And review the changes for each document recursively.
-        for document in (documents.flatMap { $0 as? GiniImageDocument }) {
+        for document in (documents.compactMap { $0 as? GiniImageDocument }) {
             documentService?.update(imageDocument: document)
         }
 

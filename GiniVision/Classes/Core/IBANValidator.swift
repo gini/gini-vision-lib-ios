@@ -39,7 +39,7 @@ final class IBANValidator {
             return false
         }
         
-        let countryCode = iban.substring(to: iban.index(iban.startIndex, offsetBy: 2))
+        let countryCode = String(iban[..<iban.index(iban.startIndex, offsetBy: 2)])
         let countryDescriptor = countryIbanDictionary[countryCode]
         var countryIsValid = false
         if let countryDescriptor = countryDescriptor {
@@ -49,8 +49,8 @@ final class IBANValidator {
             }
         }
         
-        let normalizedIban = "\(iban.substring(from: iban.index(iban.startIndex, offsetBy: 4)))" +
-        "\(iban.substring(to: iban.index(iban.startIndex, offsetBy: 4)))"
+        let normalizedIban = "\(String(iban[iban.index(iban.startIndex, offsetBy: 4)...]))" +
+        "\(String(iban[..<iban.index(iban.startIndex, offsetBy: 4)]))"
         
         let result = validateMod97(iban: normalizedIban)
         if !countryIsValid && result == true {

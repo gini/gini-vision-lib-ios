@@ -11,7 +11,8 @@ import XCTest
 
 final class GINIHelpMenuViewControllerTests: XCTestCase {
     
-    var helpMenuViewController: HelpMenuViewController = HelpMenuViewController()
+    var helpMenuViewController: HelpMenuViewController =
+        HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
     var items: [(text: String, id: Int)] {
         var items = [
             (NSLocalizedString("ginivision.helpmenu.firstItem",
@@ -47,7 +48,7 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     func testItemsCountOpenWithEnabled() {
         GiniConfiguration.sharedConfiguration.openWithEnabled = true
-        helpMenuViewController = HelpMenuViewController()
+        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
         _ = helpMenuViewController.view
         
         let itemsCount = items.count
@@ -59,7 +60,7 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     func testItemsCountOpenWithDisabled() {
         GiniConfiguration.sharedConfiguration.openWithEnabled = false
-        helpMenuViewController = HelpMenuViewController()
+        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
         
         _ = helpMenuViewController.view
         
