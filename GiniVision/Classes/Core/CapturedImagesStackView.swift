@@ -24,7 +24,7 @@ final class CapturedImagesStackView: UIView {
     fileprivate let stackCountCircleSize = CGSize(width: 25, height: 25)
     fileprivate var imagesCount: Int = 0
     
-    fileprivate lazy var thumbnailButton: UIButton = {
+    lazy var thumbnailButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.shadowColor = UIColor.black.cgColor
