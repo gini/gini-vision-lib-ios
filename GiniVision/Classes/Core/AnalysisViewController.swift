@@ -69,8 +69,8 @@ import UIKit
     }()
     fileprivate var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
-        loadingText.text = GiniConfiguration.sharedConfiguration.analysisLoadingText
-        loadingText.font = GiniConfiguration.sharedConfiguration.customFont.regular.withSize(18)
+        loadingText.text = GiniConfiguration.shared.analysisLoadingText
+        loadingText.font = GiniConfiguration.shared.customFont.regular.withSize(18)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
         return loadingText
@@ -140,17 +140,17 @@ import UIKit
         
         if let document = document as? GiniPDFDocument {
             addLoadingView(intoContainer: loadingIndicatorContainer)
-            loadingIndicatorView.color = GiniConfiguration.sharedConfiguration.analysisLoadingIndicatorColor
+            loadingIndicatorView.color = GiniConfiguration.shared.analysisLoadingIndicatorColor
             
             showPDFInformationView(withDocument: document,
-                                   giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                   giniConfiguration: GiniConfiguration.shared)
         } else {
             addLoadingView()
             addLoadingText(below: loadingIndicatorView)
             addOverlay()
             
             if document.type == .image {
-                showCaptureSuggestions(giniConfiguration: GiniConfiguration.sharedConfiguration)
+                showCaptureSuggestions(giniConfiguration: GiniConfiguration.shared)
             }
         }
     }

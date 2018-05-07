@@ -12,7 +12,7 @@ import XCTest
 final class GINIHelpMenuViewControllerTests: XCTestCase {
     
     var helpMenuViewController: HelpMenuViewController =
-        HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
+        HelpMenuViewController(giniConfiguration: GiniConfiguration.shared)
     var items: [(text: String, id: Int)] {
         var items = [
             (NSLocalizedString("ginivision.helpmenu.firstItem",
@@ -25,7 +25,7 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
              3)
         ]
         
-        if GiniConfiguration.sharedConfiguration.openWithEnabled {
+        if GiniConfiguration.shared.openWithEnabled {
             items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
                                             bundle: Bundle(for: GiniVision.self),
                                             comment: "help menu second item text"), 2), 
@@ -47,8 +47,8 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     }
     
     func testItemsCountOpenWithEnabled() {
-        GiniConfiguration.sharedConfiguration.openWithEnabled = true
-        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
+        GiniConfiguration.shared.openWithEnabled = true
+        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.shared)
         _ = helpMenuViewController.view
         
         let itemsCount = items.count
@@ -59,8 +59,8 @@ final class GINIHelpMenuViewControllerTests: XCTestCase {
     }
     
     func testItemsCountOpenWithDisabled() {
-        GiniConfiguration.sharedConfiguration.openWithEnabled = false
-        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.sharedConfiguration)
+        GiniConfiguration.shared.openWithEnabled = false
+        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.shared)
         
         _ = helpMenuViewController.view
         

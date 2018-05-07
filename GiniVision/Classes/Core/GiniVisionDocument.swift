@@ -25,7 +25,7 @@ extension GiniVisionDocument {
     @available(*, deprecated)
     public func validate() throws {
         try GiniVisionDocumentValidator.validate(self,
-                                                 withConfig: GiniConfiguration.sharedConfiguration)
+                                                 withConfig: GiniConfiguration.shared)
     }
 }
 

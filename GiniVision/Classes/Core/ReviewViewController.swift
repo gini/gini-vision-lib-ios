@@ -86,18 +86,18 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewDocumentImageTitle
+        imageView.accessibilityLabel = GiniConfiguration.shared.reviewDocumentImageTitle
         return imageView
     }()
     fileprivate var topView: UIView = {
-        let topView = NoticeView(text: GiniConfiguration.sharedConfiguration.reviewTextTop)
+        let topView = NoticeView(text: GiniConfiguration.shared.reviewTextTop)
         topView.translatesAutoresizingMaskIntoConstraints = false
        return topView
     }()
     fileprivate var bottomView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = GiniConfiguration.sharedConfiguration
+        view.backgroundColor = GiniConfiguration.shared
             .reviewBottomViewBackgroundColor
             .withAlphaComponent(0.8)
         return view
@@ -106,22 +106,22 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
-        button.accessibilityLabel = GiniConfiguration.sharedConfiguration.reviewRotateButtonTitle
+        button.accessibilityLabel = GiniConfiguration.shared.reviewRotateButtonTitle
 
         return button
     }()
     fileprivate var bottomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = GiniConfiguration.sharedConfiguration.reviewTextBottom
+        label.text = GiniConfiguration.shared.reviewTextBottom
         label.numberOfLines = 0
-        label.textColor = GiniConfiguration.sharedConfiguration.reviewTextBottomColor
+        label.textColor = GiniConfiguration.shared.reviewTextBottomColor
         label.textAlignment = .right
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
-        label.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
-            GiniConfiguration.sharedConfiguration.customFont.thin.withSize(12) :
-            GiniConfiguration.sharedConfiguration.reviewTextBottomFont
+        label.font = GiniConfiguration.shared.customFont.isEnabled ?
+            GiniConfiguration.shared.customFont.thin.withSize(12) :
+            GiniConfiguration.shared.reviewTextBottomFont
         return label
     }()
     

@@ -58,7 +58,7 @@ final class AlertDialogController: UIViewController {
 
         button.addTarget(self, action: #selector(continueButtonAction), for: .touchUpInside)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
-        button.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
+        button.backgroundColor = GiniConfiguration.shared.noResultsBottomButtonColor
         return button
     }()
     

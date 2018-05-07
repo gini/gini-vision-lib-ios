@@ -21,7 +21,7 @@ internal class CameraNotAuthorizedView: UIView {
         return UIImageNamedPreferred(named: "cameraNotAuthorizedIcon")
     }
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared) {
         super.init(frame: CGRect.zero)
         
         // Configure image view

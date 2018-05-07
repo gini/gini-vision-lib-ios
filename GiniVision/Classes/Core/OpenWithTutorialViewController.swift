@@ -15,7 +15,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
     var appName: String {
-        return GiniConfiguration.sharedConfiguration.openWithAppNameForTexts
+        return GiniConfiguration.shared.openWithAppNameForTexts
     }
     
     lazy var items: [OpenWithTutorialStep] = [

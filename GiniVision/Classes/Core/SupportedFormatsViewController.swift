@@ -29,7 +29,7 @@ final class SupportedFormatsViewController: UITableViewController {
              UIImage(named: "supportedFormatsIcon",
                      in: Bundle(for: GiniVision.self),
                      compatibleWith: nil),
-             GiniConfiguration.sharedConfiguration.supportedFormatsIconColor),
+             GiniConfiguration.shared.supportedFormatsIconColor),
             (NSLocalizedString("ginivision.supportedFormats.section.2.title",
                                bundle: Bundle(for: GiniVision.self),
                                comment: "title for unsupported formats section"),
@@ -40,11 +40,11 @@ final class SupportedFormatsViewController: UITableViewController {
                                 bundle: Bundle(for: GiniVision.self),
                                 comment: "message for second item on unsupported formats section")],
              UIImage(named: "nonSupportedFormatsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil),
-             GiniConfiguration.sharedConfiguration.nonSupportedFormatsIconColor)
+             GiniConfiguration.shared.nonSupportedFormatsIconColor)
         ]
         
-        if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
-            if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
+        if GiniConfiguration.shared.fileImportSupportedTypes != .none {
+            if GiniConfiguration.shared.fileImportSupportedTypes == .pdf_and_images {
                 sections[0].items.append(NSLocalizedString("ginivision.supportedFormats.section.1.item.2",
                                                            bundle: Bundle(for: GiniVision.self),
                                                            comment: "message for second item on " +

@@ -21,7 +21,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     lazy var stepIndicator: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = GiniConfiguration.sharedConfiguration.stepIndicatorColor
+        label.textColor = GiniConfiguration.shared.stepIndicatorColor
         return label
     }()
     

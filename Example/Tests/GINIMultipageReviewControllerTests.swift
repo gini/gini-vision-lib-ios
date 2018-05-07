@@ -11,7 +11,7 @@ import XCTest
 
 final class GINIMultipageReviewControllerTests: XCTestCase {
     
-    let giniConfiguration = GiniConfiguration.sharedConfiguration
+    let giniConfiguration = GiniConfiguration.shared
     lazy var multipageReviewViewController: MultipageReviewViewController = {
         let vc = MultipageReviewViewController(documentRequests: self.imageDocumentRequests,
                                                giniConfiguration: self.giniConfiguration)
