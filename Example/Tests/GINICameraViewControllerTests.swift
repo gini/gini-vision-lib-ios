@@ -68,32 +68,6 @@ final class CameraViewControllerTests: XCTestCase {
         
         XCTAssertEqual(vc.opaqueView?.backgroundColor, UIColor.black.withAlphaComponent(0.8))
     }
-    
-    func testReviewButtonBackgroundBeforeCapturing() {
-        _ = cameraViewController.view
 
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should be hidden before capture the first picture")
-        
-    }
-    
-    func testReviewButtonBackgroundAfter1ImageWasCaptured() {
-        _ = cameraViewController.view
-
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should be hidden after capture the first picture")
-        
-    }
-    
-    func testReviewButtonBackgroundAfter2ImagesWereCaptured() {
-        _ = cameraViewController.view
-
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        cameraViewController.cameraDidCapture(imageData: imageData, error: nil)
-        XCTAssertTrue(cameraViewController.multipageReviewBackgroundView.isHidden,
-                      "multipageReviewBackgroundView should not be hidden after capture the second picture")
-        
-    }
 }
 
