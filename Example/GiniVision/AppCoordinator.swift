@@ -106,7 +106,7 @@ final class AppCoordinator: Coordinator {
     fileprivate func showComponentAPI(withImportedDocument document: GiniVisionDocument? = nil) {
         let componentAPICoordinator = ComponentAPICoordinator(document: document,
                                                               configuration: giniConfiguration,
-                                                              documentService: DocumentService())
+                                                              client: client)
         componentAPICoordinator.delegate = self
         componentAPICoordinator.start()
         add(childCoordinator: componentAPICoordinator)
