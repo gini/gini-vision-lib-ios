@@ -14,7 +14,7 @@ struct PartialDocumentInfo {
 
 extension PartialDocumentInfo: Comparable {
     static func == (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
-        return lhs.info.documentId == rhs.info.documentId
+        return lhs.info.documentUrl == rhs.info.documentUrl
     }
     
     public static func < (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {

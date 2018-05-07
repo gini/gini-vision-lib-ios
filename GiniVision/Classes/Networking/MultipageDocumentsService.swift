@@ -41,7 +41,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
                 .info
-                .documentId {
+                .documentUrl {
                 deletePartialDocument(withId: partialDocumentId)
             }
             partialDocuments.remove(at: index)
@@ -65,14 +65,14 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         self.partialDocuments[document.id] =
-            PartialDocumentInfo(info: (GINIPartialDocumentInfo(documentId: nil, rotationDelta: 0)),
+            PartialDocumentInfo(info: (GINIPartialDocumentInfo(documentUrl: nil, rotationDelta: 0)),
                                 order: self.partialDocuments.count)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
 
         createDocument(from: document, fileName: fileName, cancellationToken: token) { result in
             switch result {
             case .success(let createdDocument):
-                self.partialDocuments[document.id]?.info.documentId = createdDocument.links.document
+                self.partialDocuments[document.id]?.info.documentUrl = createdDocument.links.document
                 completion?(.success(createdDocument))
             case .failure(let error):
                 completion?(.failure(error))
