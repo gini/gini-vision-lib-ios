@@ -95,6 +95,10 @@ final class CapturedImagesStackView: UIView {
 // MARK: - Public methods
 
 extension CapturedImagesStackView {
+    /**
+     Return the absolute frame of the CaptureImagesStackView regarding
+     a given view coordinate space.
+     */
     func absoluteThumbnailFrame(from view: UIView) -> CGRect {
         return convert(thumbnailButton.frame, to: view)
     }
