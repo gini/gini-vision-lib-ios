@@ -8,11 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A1FEC7F1D6DEDF800F415B7 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1FEC7E1D6DEDF800F415B7 /* Localizable.strings */; };
-		0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */; };
-		0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */; };
 		0A58FE441D5DCC510023502B /* ResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A58FE431D5DCC510023502B /* ResultTableViewController.m */; };
-		0A7A1A2F1D3D29F600E234A3 /* ComponentAPIReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A1A2E1D3D29F600E234A3 /* ComponentAPIReviewViewController.m */; };
-		0A7A1A321D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7A1A311D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m */; };
 		0A9984681D192DC000A5C996 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A9984671D192DC000A5C996 /* main.m */; };
 		0A99846B1D192DC000A5C996 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99846A1D192DC000A5C996 /* AppDelegate.m */; };
 		0A99846E1D192DC000A5C996 /* ScreenAPIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A99846D1D192DC000A5C996 /* ScreenAPIViewController.m */; };
@@ -27,16 +23,8 @@
 
 /* Begin PBXFileReference section */
 		0A1FEC7E1D6DEDF800F415B7 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		0A32ECC51D1AF14F008E29DF /* ComponentAPICameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPICameraViewController.h; sourceTree = "<group>"; };
-		0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPICameraViewController.m; sourceTree = "<group>"; };
-		0A4A53CE1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIOnboardingViewController.h; sourceTree = "<group>"; };
-		0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPIOnboardingViewController.m; sourceTree = "<group>"; };
 		0A58FE421D5DCC510023502B /* ResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultTableViewController.h; sourceTree = "<group>"; };
 		0A58FE431D5DCC510023502B /* ResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultTableViewController.m; sourceTree = "<group>"; };
-		0A7A1A2D1D3D29F600E234A3 /* ComponentAPIReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIReviewViewController.h; sourceTree = "<group>"; };
-		0A7A1A2E1D3D29F600E234A3 /* ComponentAPIReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPIReviewViewController.m; sourceTree = "<group>"; };
-		0A7A1A301D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComponentAPIAnalysisViewController.h; sourceTree = "<group>"; };
-		0A7A1A311D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComponentAPIAnalysisViewController.m; sourceTree = "<group>"; };
 		0A9984631D192DC000A5C996 /* GiniVisionExampleObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiniVisionExampleObjC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A9984671D192DC000A5C996 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0A9984691D192DC000A5C996 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -120,14 +108,6 @@
 				0AEACE031D634AC600052120 /* NoResultViewController.m */,
 				0A99846C1D192DC000A5C996 /* ScreenAPIViewController.h */,
 				0A99846D1D192DC000A5C996 /* ScreenAPIViewController.m */,
-				0A32ECC51D1AF14F008E29DF /* ComponentAPICameraViewController.h */,
-				0A32ECC61D1AF14F008E29DF /* ComponentAPICameraViewController.m */,
-				0A7A1A2D1D3D29F600E234A3 /* ComponentAPIReviewViewController.h */,
-				0A7A1A2E1D3D29F600E234A3 /* ComponentAPIReviewViewController.m */,
-				0A7A1A301D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.h */,
-				0A7A1A311D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m */,
-				0A4A53CE1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.h */,
-				0A4A53CF1D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m */,
 				0A99846F1D192DC000A5C996 /* Main.storyboard */,
 				0A9984721D192DC000A5C996 /* Assets.xcassets */,
 				0A9984741D192DC000A5C996 /* LaunchScreen.storyboard */,
@@ -310,15 +290,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A7A1A321D3D2A0200E234A3 /* ComponentAPIAnalysisViewController.m in Sources */,
 				0A99846E1D192DC000A5C996 /* ScreenAPIViewController.m in Sources */,
-				0A4A53D01D2EB9C800E062D5 /* ComponentAPIOnboardingViewController.m in Sources */,
 				0AC7F3501D5CB5B400014D5A /* AnalysisManager.m in Sources */,
 				0A99846B1D192DC000A5C996 /* AppDelegate.m in Sources */,
 				0AC8FC6A1D65C30500FFB50E /* CancelationToken.m in Sources */,
-				0A32ECC71D1AF14F008E29DF /* ComponentAPICameraViewController.m in Sources */,
 				0A9984681D192DC000A5C996 /* main.m in Sources */,
-				0A7A1A2F1D3D29F600E234A3 /* ComponentAPIReviewViewController.m in Sources */,
 				0AEACE041D634AC600052120 /* NoResultViewController.m in Sources */,
 				0A58FE441D5DCC510023502B /* ResultTableViewController.m in Sources */,
 			);
