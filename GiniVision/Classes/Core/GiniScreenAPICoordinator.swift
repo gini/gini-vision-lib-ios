@@ -31,11 +31,11 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
     lazy var multiPageReviewViewController: MultipageReviewViewController = {
-        if let type = self.sessionDocuments.type, type != .image {
+        if let type = self.documentRequests.type, type != .image {
             assertionFailure("The MultipageReviewViewController can only handle image documents.")
         }
         let multiPageReviewViewController =
-            self.createMultipageReviewScreenContainer(with: self.sessionDocuments)
+            self.createMultipageReviewScreenContainer(with: self.documentRequests)
         return multiPageReviewViewController
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
@@ -44,7 +44,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     // Properties
     fileprivate(set) var giniConfiguration: GiniConfiguration
-    fileprivate(set) var sessionDocuments: [ValidatedDocument] = []
+    fileprivate(set) var documentRequests: [DocumentRequest] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
     // Resources
@@ -92,13 +92,13 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
             }
             
             if !documents.containsDifferentTypes {
-                let validatedDocuments: [ValidatedDocument] = documents.map { ValidatedDocument(value: $0) }
-                self.addToDocuments(newDocuments: validatedDocuments)
+                let documentRequests: [DocumentRequest] = documents.map { DocumentRequest(value: $0) }
+                self.addToDocuments(new: documentRequests)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
-                viewControllers = initialViewControllers(withDocuments: validatedDocuments)
+                viewControllers = initialViewControllers(with: documentRequests)
                 
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
@@ -114,23 +114,23 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                                              parent: self)
     }
     
-    private func initialViewControllers(withDocuments documents: [ValidatedDocument]) -> [UIViewController] {
-        if documents.type == .image {
+    private func initialViewControllers(with documentRequests: [DocumentRequest]) -> [UIViewController] {
+        if documentRequests.type == .image {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
-                self.cameraViewController?.updateMultipageReviewButton(withImage: documents[0].value.previewImage,
-                                                                       showingStack: documents.count > 1)
+                self.cameraViewController?.updateMultipageReviewButton(withImage: documentRequests[0].document.previewImage,
+                                                                       showingStack: documentRequests.count > 1)
                 self.multiPageReviewViewController =
-                    createMultipageReviewScreenContainer(with: documents)
+                    createMultipageReviewScreenContainer(with: documentRequests)
                 
                 return [self.cameraViewController!, self.multiPageReviewViewController]
             } else {
                 self.cameraViewController = self.createCameraViewController()
-                self.reviewViewController = self.createReviewScreen(withDocument: documents[0].value)
+                self.reviewViewController = self.createReviewScreen(withDocument: documentRequests[0].document)
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            self.analysisViewController = self.createAnalysisScreen(withDocument: documents[0].value)
+            self.analysisViewController = self.createAnalysisScreen(withDocument: documentRequests[0].document)
             return [self.analysisViewController!]
         }
     }
@@ -139,42 +139,42 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 // MARK: - Session documents
 
 extension GiniScreenAPICoordinator {
-    func addToDocuments(newDocuments: [ValidatedDocument]) {
-        sessionDocuments.append(contentsOf: newDocuments)
+    func addToDocuments(new documentRequests: [DocumentRequest]) {
+        self.documentRequests.append(contentsOf: documentRequests)
         
-        if giniConfiguration.multipageEnabled, sessionDocuments.type == .image {
-            refreshMultipageReview(with: sessionDocuments)
+        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
+            refreshMultipageReview(with: documentRequests)
         }
     }
     
     func removeFromDocuments(document: GiniVisionDocument) {
-        sessionDocuments.remove(document)
+        documentRequests.remove(document)
     }
     
     func updateValueInDocuments(for document: GiniVisionDocument) {
-        if let index = sessionDocuments.index(of: document) {
-            sessionDocuments[index].value = document
+        if let index = documentRequests.index(of: document) {
+            documentRequests[index].document = document
         }
     }
     
     func updateUploadStatusInDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
-        if let index = sessionDocuments.index(of: document) {
-            sessionDocuments[index].isUploaded = uploaded
+        if let index = documentRequests.index(of: document) {
+            documentRequests[index].isUploaded = uploaded
         }
     }
     
     func updateErrorInDocuments(for document: GiniVisionDocument, to error: Error) {
-        if let index = sessionDocuments.index(of: document) {
-            sessionDocuments[index].error = error
+        if let index = documentRequests.index(of: document) {
+            documentRequests[index].error = error
         }
     }
     
-    func replaceDocuments(with documents: [ValidatedDocument]) {
-        sessionDocuments = documents
+    func replaceDocuments(with documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
     }
     
     func clearDocuments() {
-        sessionDocuments.removeAll()
+        documentRequests.removeAll()
     }
 }
 
@@ -199,9 +199,9 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-        visionDelegate?.didReview(documents: sessionDocuments.map { $0.value })
+        visionDelegate?.didReview(documents: documentRequests.map { $0.document })
         
-        self.analysisViewController = createAnalysisScreen(withDocument: sessionDocuments[0].value)
+        self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
@@ -226,7 +226,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             // This can only happen when not using multipage
             reviewViewController = nil
-            if let firstDocument = sessionDocuments.first?.value {
+            if let firstDocument = documentRequests.first?.document {
                 if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
                     didCancelReviewForDocument(firstDocument)
                 } else {
@@ -269,12 +269,12 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             
             var image: UIImage? = nil
             if let visibleIndex = multipageVC.visibleCell(in: multipageVC.mainCollection)?.row {
-                image = self.sessionDocuments[visibleIndex].value.previewImage
+                image = self.documentRequests[visibleIndex].document.previewImage
             }
             cameraVC.updateMultipageReviewButton(withImage: image,
-                                                 showingStack: self.sessionDocuments.count > 1)
+                                                 showingStack: self.documentRequests.count > 1)
             
-            if sessionDocuments.isEmpty {
+            if documentRequests.isEmpty {
                 return nil
             }
         }
