@@ -25,6 +25,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate let documentService: DocumentService
     fileprivate var document: GiniVisionDocument?
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
+    fileprivate let giniConfiguration: GiniConfiguration
     
     fileprivate lazy var storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController =
@@ -68,12 +69,14 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var reviewScreen: ComponentAPIReviewViewController?
     fileprivate(set) var analysisScreen: ComponentAPIAnalysisViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
-    
+    fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
+
     init(document: GiniVisionDocument?,
          configuration: GiniConfiguration,
          documentService: DocumentService) {
         self.document = document
         self.documentService = documentService
+        self.giniConfiguration = configuration
         GiniVision.setConfiguration(configuration)
     }
     
@@ -97,6 +100,18 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         cameraScreen = self.storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera")
             as? ComponentAPICameraViewController
         cameraScreen?.delegate = self
+        cameraScreen?.giniConfiguration = giniConfiguration
+        if giniConfiguration.fileImportSupportedTypes != .none {
+            documentPickerCoordinator.delegate = self
+            
+            if documentPickerCoordinator.isGalleryPermissionGranted {
+                documentPickerCoordinator.startCaching()
+            }
+            
+            if #available(iOS 11.0, *) {
+                documentPickerCoordinator.setupDragAndDrop(in: cameraScreen!.view)
+            }
+        }
         newDocumentViewController.pushViewController(cameraScreen!, animated: true)
     }
     
@@ -105,6 +120,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             as? ComponentAPIReviewViewController
         reviewScreen?.delegate = self
         reviewScreen?.document = document
+        reviewScreen?.giniConfiguration = giniConfiguration
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
         
         // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
@@ -260,7 +276,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 // MARK: ComponentAPICameraScreenDelegate
 
 extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
-    func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument) {
+    func componentAPICamera(_ viewController: UIViewController, didPickDocument document: GiniVisionDocument) {
         if document.isReviewable {
             showReviewScreen(withDocument: document)
         } else {
@@ -268,15 +284,34 @@ extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
         }
     }
     
-    func componentAPICamera(viewController: UIViewController, didTapClose: ()) {
+    func componentAPICamera(_ viewController: UIViewController, didTapClose: ()) {
         closeComponentAPI()
     }
+    
+    func componentAPICamera(_ viewController: UIViewController, didSelect documentPicker: DocumentPickerType) {
+        switch documentPicker {
+        case .gallery:
+            documentPickerCoordinator.showGalleryPicker(from: viewController)
+        case .explorer:
+            documentPickerCoordinator.isPDFSelectionAllowed = true
+            documentPickerCoordinator.showDocumentPicker(from: viewController)
+        case .dragndrop: break
+        }
+    }
+}
+
+// MARK: - DocumentPickerCoordinatorDelegate
+
+extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
+    func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
+        
+    }    
 }
 
 // MARK: ComponentAPIReviewScreenDelegate
 
 extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
-    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+    func componentAPIReview(_ viewController: ComponentAPIReviewViewController,
                             didReviewDocument document: GiniVisionDocument) {
         // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
         if let result = documentService.result,
@@ -297,7 +332,7 @@ extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
         showAnalysisScreen(withDocument: document)
     }
     
-    func componentAPIReview(viewController: ComponentAPIReviewViewController, didRotate document: GiniVisionDocument) {
+    func componentAPIReview(_ viewController: ComponentAPIReviewViewController, didRotate document: GiniVisionDocument) {
         self.document = document
         documentService.cancelAnalysis()
     }

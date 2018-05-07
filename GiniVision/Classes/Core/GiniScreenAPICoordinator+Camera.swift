@@ -92,7 +92,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             }
             
             if #available(iOS 11.0, *) {
-                addDropInteraction(forView: cameraViewController.view, with: documentPickerCoordinator)
+                documentPickerCoordinator.setupDragAndDrop(in: cameraViewController.view)
             }
         }
         

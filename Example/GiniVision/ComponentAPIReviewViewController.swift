@@ -11,9 +11,9 @@ import GiniVision
 import Gini_iOS_SDK
 
 protocol ComponentAPIReviewViewControllerDelegate: class {
-    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+    func componentAPIReview(_ viewController: ComponentAPIReviewViewController,
                             didReviewDocument document: GiniVisionDocument)
-    func componentAPIReview(viewController: ComponentAPIReviewViewController,
+    func componentAPIReview(_ viewController: ComponentAPIReviewViewController,
                             didRotate document: GiniVisionDocument)
 }
 
@@ -28,6 +28,7 @@ final class ComponentAPIReviewViewController: UIViewController {
     var contentController = UIViewController()
     weak var delegate: ComponentAPIReviewViewControllerDelegate?
     var document: GiniVisionDocument!
+    var giniConfiguration: GiniConfiguration!
     
     // MARK: View life cycle
     override func viewDidLoad() {
@@ -38,21 +39,12 @@ final class ComponentAPIReviewViewController: UIViewController {
          *************************************************************************/
         
         // 1. Create the review view controller
-        let reviewViewController = ReviewViewController(document, giniConfiguration: GiniConfiguration())
+        let reviewViewController = ReviewViewController(document, giniConfiguration: giniConfiguration)
         reviewViewController.delegate = self
-        contentController = ReviewViewController(document, successBlock: { [weak self] document in
-                guard let `self` = self else { return }
-                // Update current image data when image is rotated by user
-                self.document = document
-                self.delegate?.componentAPIReview(viewController: self, didRotate: document)
-
-            }, failureBlock: { error in
-                print("Component API review view controller received error:\n\(error)")
-            })
+        contentController = reviewViewController
         
         // 2. Display the review view controller
         displayContent(contentController)
-        
     }
     
     // Displays the content controller inside the container view
@@ -65,13 +57,13 @@ final class ComponentAPIReviewViewController: UIViewController {
     
     // MARK: User actions
     @IBAction func showAnalysis(_ sender: AnyObject) {
-        delegate?.componentAPIReview(viewController: self, didReviewDocument: document)
+        delegate?.componentAPIReview(self, didReviewDocument: document)
     }
 }
 
 extension ComponentAPIReviewViewController: ReviewViewControllerDelegate {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
         self.document = document
-        self.delegate?.componentAPIReview(viewController: self, didRotate: document)
+        self.delegate?.componentAPIReview(self, didRotate: document)
     }
 }

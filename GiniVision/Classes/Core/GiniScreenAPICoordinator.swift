@@ -39,7 +39,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
         return multiPageReviewViewController
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
-        return DocumentPickerCoordinator()
+        return DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
     }()
     
     // Properties
