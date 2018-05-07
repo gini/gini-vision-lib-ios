@@ -257,7 +257,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         }
         
         multiPageTransition.originFrame = reviewImagesButtonCenter
-            .absoluteThumbnailFrame(from: screenAPINavigationController.view)
+            .thumbnailFrameRelative(to: screenAPINavigationController.view)
         multiPageTransition.operation = operation
         
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {

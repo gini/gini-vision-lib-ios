@@ -488,7 +488,7 @@ extension CameraViewController {
                     
                     previewImageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
                     previewImageView.center = self.capturedImagesStackView
-                        .absoluteThumbnailFrame(from: self.view)
+                        .thumbnailFrameRelative(to: self.view)
                         .center
                 })
                 if !self.capturedImagesStackView.isHidden {
