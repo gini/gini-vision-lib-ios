@@ -9,15 +9,17 @@ import Foundation
 
 // MARK: - Review Screen
 
-internal extension GiniScreenAPICoordinator {
+extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
+    
+    func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
+        self.updateValueInDocuments(for: document)
+    }
+    
     func createReviewScreen(withDocument document: GiniVisionDocument,
                             isFirstScreen: Bool = false) -> ReviewViewController {
-        let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
-            guard let `self` = self else { return }
-            self.updateValueInDocuments(for: document)
-            }, failureBlock: { _ in
-        })
-        
+        let reviewViewController = ReviewViewController(document,
+                                                        giniConfiguration: giniConfiguration)
+        reviewViewController.delegate = self
         reviewViewController.title = giniConfiguration.navigationBarReviewTitle
         reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
         reviewViewController.setupNavigationItem(usingResources: nextButtonResource,

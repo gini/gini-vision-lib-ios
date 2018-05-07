@@ -8,6 +8,10 @@
 
 import UIKit
 
+@objc public protocol ReviewViewControllerDelegate: class {
+    func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument)
+}
+
 /**
  Block that will be executed each time the user rotates a picture. It contains the
  JPEG representation of the image including meta information about the rotated image.
@@ -131,6 +135,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var imageViewTopConstraint: NSLayoutConstraint!
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
     fileprivate var currentDocument: GiniVisionDocument?
+    fileprivate var giniConfiguration: GiniConfiguration
+    public weak var delegate: ReviewViewControllerDelegate?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -140,6 +146,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     // Output
     fileprivate var successBlock: ReviewScreenSuccessBlock?
     fileprivate var failureBlock: ReviewScreenFailureBlock?
+    
+    public init(_ document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
+        self.giniConfiguration = giniConfiguration
+        self.currentDocument = document
+        super.init(nibName: nil, bundle: nil)
+    }
     
     /**
      Designated initializer for the `ReviewViewController` which allows to set a success block and
@@ -151,12 +163,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to review a picture.
      */
-    public init(_ document: GiniVisionDocument,
-                successBlock: @escaping ReviewScreenSuccessBlock,
-                failureBlock: @escaping ReviewScreenFailureBlock) {
-        super.init(nibName: nil, bundle: nil)
+    @available(*, deprecated)
+    public convenience init(_ document: GiniVisionDocument,
+                            successBlock: @escaping ReviewScreenSuccessBlock,
+                            failureBlock: @escaping ReviewScreenFailureBlock) {
+        self.init(document, giniConfiguration: GiniConfiguration.shared)
         
-        self.currentDocument = document
         self.successBlock = successBlock
         self.failureBlock = failureBlock
     }
@@ -235,6 +247,14 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
     }
     
+    private func didReview(_ imageDocument: GiniImageDocument) {
+        if let delegate = delegate {
+            delegate.review(self, didReview: imageDocument)
+        } else {
+            successBlock?(imageDocument)
+        }
+    }
+    
     // MARK: Rotation handling
     @objc fileprivate func rotate(_ sender: AnyObject) {
         guard let rotatedImage = imageView.image?.rotated90Degrees() else { return }
@@ -242,7 +262,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         imageView.image = rotatedImage
         imageDocument.rotatePreviewImage90Degrees()
-        successBlock?(imageDocument)
+        didReview(imageDocument)
     }
     
     // MARK: Zoom handling
