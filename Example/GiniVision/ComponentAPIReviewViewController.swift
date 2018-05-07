@@ -38,6 +38,8 @@ final class ComponentAPIReviewViewController: UIViewController {
          *************************************************************************/
         
         // 1. Create the review view controller
+        let reviewViewController = ReviewViewController(document, giniConfiguration: GiniConfiguration())
+        reviewViewController.delegate = self
         contentController = ReviewViewController(document, successBlock: { [weak self] document in
                 guard let `self` = self else { return }
                 // Update current image data when image is rotated by user
@@ -67,3 +69,9 @@ final class ComponentAPIReviewViewController: UIViewController {
     }
 }
 
+extension ComponentAPIReviewViewController: ReviewViewControllerDelegate {
+    func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
+        self.document = document
+        self.delegate?.componentAPIReview(viewController: self, didRotate: document)
+    }
+}
