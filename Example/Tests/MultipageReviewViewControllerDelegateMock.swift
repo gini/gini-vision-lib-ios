@@ -10,19 +10,17 @@ import Foundation
 @testable import GiniVision
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
-    
-    var updatedDocuments: [GiniImageDocument] = []
+    var updatedDocuments: [DocumentRequest] = []
 
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
+        updatedDocuments = documentRequests
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequests: DocumentRequest) {
         
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didDelete document: GiniImageDocument) {
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequests: DocumentRequest) {
         
     }
-    
-    func multipageReview(_ controller: MultipageReviewViewController, didReorder documents: [GiniImageDocument]) {
-        updatedDocuments = documents
-    }
-
 }

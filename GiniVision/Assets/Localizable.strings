@@ -95,6 +95,6 @@
 "ginivision.albums.title" = "Alben";
 "ginivision.imagepicker.openbutton" = "Öffnen";
 
-"ginivision.multipagereview.reorderButtonTooltipMessage" = "Hier können Sie die Seiten neu anordnen";
+"ginivision.multipagereview.reorderContainerTooltipMessage" = "Die Seiten müssen in der richtigen Reihenfolge sein. Hier können Sie sie sortieren";
 
 

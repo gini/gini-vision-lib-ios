@@ -81,14 +81,14 @@ extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             if hasExtactions {
                 self.resultsDelegate?
-                    .giniVision(self.visionDocuments,
+                    .giniVision(self.documentRequests.map {$0.document},
                                 analysisDidFinishWithResults: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
                                     self.documentService?.sendFeedback(with: updatedExtractions)
                 }
             } else {
                 self.resultsDelegate?
-                    .giniVision(self.visionDocuments,
+                    .giniVision(self.documentRequests.map {$0.document},
                                 analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
             }
         }
@@ -120,19 +120,18 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         resultsDelegate?.giniVision([], analysisDidCancel: true)
         
     }
-        
-    func didCapture(document: GiniVisionDocument) {
+    
+    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {
         var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
         
         if giniConfiguration.multipageEnabled {
             uploadDocumentCompletionHandler = { result in
                 switch result {
                 case .success:
-                    break
-                case .failure(let error):
-                    print("Partial document creation error: ", error)
+                    uploadDelegate.uploadDidComplete(for: document)
+                case .failure(let error): 
+                    uploadDelegate.uploadDidFail(for: document, with: error)
                 }
-                // TODO: Update upload status in MultipageReviewViewController
             }
         }
         
@@ -140,25 +139,16 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                                 completion: uploadDocumentCompletionHandler)
     }
     
-    func didReview(document: GiniVisionDocument, withChanges changes: Bool) {
-        var documentParameters: [String: Any] = [:]
-        if let document = document as? GiniImageDocument,
-            let key = documentService?.rotationDeltaKey {
-            documentParameters[key] = document.rotationDelta
-            documentService?.update(parameters: documentParameters, for: document)
-        }
-    }
-    
     func didReview(documents: [GiniVisionDocument]) {
-        // There is the need to check the order when using multipage before
-        // creating composite document
+        // It is necessary to check the order when using multipage before
+        // creating the composite document
         if let documentService = documentService as? MultipageDocumentsService {
-            documentService.orderDocuments(givenVisionDocumentIds: documents.map { $0.id })
+            documentService.sortDocuments(withSameOrderAs: documents)
         }
         
         // And review the changes for each document recursively.
-        for document in documents {
-            didReview(document: document, withChanges: false)
+        for document in (documents.flatMap { $0 as? GiniImageDocument }) {
+            documentService?.update(imageDocument: document)
         }
 
     }

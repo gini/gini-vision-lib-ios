@@ -14,7 +14,7 @@ internal extension GiniScreenAPICoordinator {
                             isFirstScreen: Bool = false) -> ReviewViewController {
         let reviewViewController = ReviewViewController(document, successBlock: { [weak self] document in
             guard let `self` = self else { return }
-            self.updateInDocuments(document: document)
+            self.updateValueInDocuments(for: document)
             }, failureBlock: { _ in
         })
         
@@ -38,30 +38,30 @@ internal extension GiniScreenAPICoordinator {
 // MARK: - Multipage Review screen
 
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
-    
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate document: GiniImageDocument) {
-        updateInDocuments(document: document)
-        visionDelegate?.didReview?(document: document,
-                                   withChanges: true)
+    func multipageReview(_ controller: MultipageReviewViewController,
+                         didRotate documentRequest: DocumentRequest) {
+        updateValueInDocuments(for: documentRequest.document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didDelete document: GiniImageDocument) {
-        removeFromDocuments(document: document)
-        visionDelegate?.didCancelReview(for: document)
+                         didDelete documentRequest: DocumentRequest) {
+        removeFromDocuments(document: documentRequest.document)
+        visionDelegate?.didCancelReview(for: documentRequest.document)
         
-        if visionDocuments.isEmpty {
+        if documentRequests.isEmpty {
             closeMultipageScreen()
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documents: [GiniImageDocument]) {
-        replaceDocuments(with: documents)
+                         didReorder documentRequests: [DocumentRequest]) {
+        replaceDocuments(with: documentRequests)
     }
-    func createMultipageReviewScreenContainer(withImageDocuments documents: [GiniImageDocument])
+
+    func createMultipageReviewScreenContainer(with documentRequests: [DocumentRequest])
         -> MultipageReviewViewController {
-            let vc = MultipageReviewViewController(imageDocuments: documents, giniConfiguration: giniConfiguration)
+            let vc = MultipageReviewViewController(documentRequests: documentRequests,
+                                                   giniConfiguration: giniConfiguration)
             vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
                                    selector: #selector(closeMultipageScreen),
@@ -72,6 +72,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
                                    selector: #selector(showAnalysisScreen),
                                    position: .right,
                                    target: self)
+            
+            vc.navigationItem.rightBarButtonItem?.isEnabled = false
             return vc
     }
     
@@ -80,12 +82,14 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func showMultipageReview() {
-        screenAPINavigationController.pushViewController(multiPageReviewViewController,
-                                                         animated: true)
+        if !screenAPINavigationController.viewControllers.contains(multiPageReviewViewController) {
+            screenAPINavigationController.pushViewController(multiPageReviewViewController,
+                                                             animated: true)
+        }
     }
     
-    func refreshMultipageReview(with imageDocuments: [GiniImageDocument]) {
-        multiPageReviewViewController.imageDocuments = imageDocuments
+    func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+        multiPageReviewViewController.documentRequests = documentRequests
         multiPageReviewViewController.reloadCollections()
     }
 }

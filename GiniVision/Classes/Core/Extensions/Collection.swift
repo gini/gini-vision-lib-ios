@@ -37,19 +37,22 @@ extension Collection where Iterator.Element == GiniVisionDocument {
     }
 }
 
-extension Array where Iterator.Element == GiniVisionDocument {
+extension Array where Iterator.Element == DocumentRequest {
     
     mutating func remove(_ document: GiniVisionDocument) {
-        if let documentIndex = (self.index { $0.id == document.id }) {
+        if let documentIndex = (self.index { $0.document.id == document.id }) {
             remove(at: documentIndex)
         }
     }
     
-    mutating func updateOrAdd(_ document: GiniVisionDocument) {
-        if let documentIndex = (self.index { $0.id == document.id }) {
-            self[documentIndex] = document
-        } else {
-            append(document)
+    func index(of document: GiniVisionDocument) -> Int? {
+        if let documentIndex = (self.index { $0.document.id == document.id }) {
+            return documentIndex
         }
+        return nil
+    }
+    
+    var type: GiniVisionDocumentType? {
+        return map {$0.document}.type
     }
 }

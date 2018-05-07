@@ -18,8 +18,22 @@ import UIKit
     
     /**
      Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
+     
+     - parameter document: `GiniVisionDocument`
+     - parameter uploadDelegate: `UploadDelegate` used to tell the Gini Vision Library to update the pages upload state
+
      */
     
+    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate)
+
+    /**
+     Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
+     
+     - parameter document: `GiniVisionDocument`
+     */
+    
+    @available(*, unavailable,
+    message: "Use didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) instead")
     func didCapture(document: GiniVisionDocument)
     
     /**
@@ -27,8 +41,17 @@ import UIKit
      
      - parameter fileData: JPEG image data including meta information or PDF data
      */
-    @available(*, unavailable, renamed: "didCapture(document:)")
+    @available(*, unavailable,
+    message: "Use didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) instead")
     func didCapture(_ imageData: Data)
+    
+    /**
+     Called when the user has reviewed one or several documents.
+     It is used to add any optional parameters, like rotationDelta, when creating the composite document.
+     
+     - parameter documents: An array containing on or several reviewed `GiniVisionDocument`
+     */
+    func didReview(documents: [GiniVisionDocument])
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -36,23 +59,18 @@ import UIKit
      - parameter document:  `GiniVisionDocument`
      - parameter changes:   Indicates whether `imageData` was altered.
      */
-    @objc optional func didReview(document: GiniVisionDocument, withChanges changes: Bool)
-    
-    /**
-     Called when the user has reviewed one or several documents.
-     It is used to add any optional parameters, like rotationDelta, when creating the composite document.
-     
-     - parameter documents: An array containing on or several `GiniVisionDocument`
-     */
-    @objc optional func didReview(documents: [GiniVisionDocument])
-    
+    @available(*, unavailable,
+    message: "Use didReview(documents: [GiniVisionDocument]) instead")
+    func didReview(document: GiniVisionDocument, withChanges changes: Bool)
+
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
      - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
      */
-    @available(*, unavailable, renamed: "didReview(document:withChanges:)")
+    @available(*, unavailable,
+    message: "Use didReview(documents: [GiniVisionDocument]) instead")
     func didReview(_ imageData: Data, withChanges changes: Bool)
     
     /**
@@ -73,14 +91,14 @@ import UIKit
      Called when the user navigates back from the review screen to the camera potentially to
      retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
-    @available(*, unavailable, renamed: "didCancelReview(for:)")
-    func didCancelReview()
+    func didCancelReview(for document: GiniVisionDocument)
     
     /**
      Called when the user navigates back from the review screen to the camera potentially to
      retake an image. Should be used to cancel any ongoing analysis task on the image.
      */
-    func didCancelReview(for document: GiniVisionDocument)
+    @available(*, unavailable, message: "Use didCancelReview(for: GiniVisionDocument) instead")
+    func didCancelReview()
     
     /**
      Called when the user navigates back from the analysis screen to the review screen.

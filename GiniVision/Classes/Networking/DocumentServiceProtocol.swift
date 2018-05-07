@@ -22,7 +22,7 @@ typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
 protocol DocumentServiceProtocol: class {
     
     var giniSDK: GiniSDK { get }
-    var compositeDocument: GINIDocument? { get }
+    var compositeDocument: GINIDocument? { get set }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
 
     init(sdk: GiniSDK)
@@ -31,7 +31,7 @@ protocol DocumentServiceProtocol: class {
     func remove(document: GiniVisionDocument)
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?)
-    func update(parameters: [String: Any], for document: GiniVisionDocument)
+    func update(imageDocument: GiniImageDocument)
 }
 
 extension DocumentServiceProtocol {
@@ -91,21 +91,20 @@ extension DocumentServiceProtocol {
             })
     }
     
-    func fetchExtractions(for documents: [PartialDocumentInfo],
+    func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                           completion: @escaping AnalysisCompletion) {
-        let partialDocumentsInfo = documents.flatMap { GINIPartialDocumentInfo(documentId: $0.documentId,
-                                                                           rotationDelta: $0.additionalParameters?["rotationDelta"] as? Int32 ?? 0) }
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
         giniSDK
             .documentTaskManager
-            .createCompositeDocument(withPartialDocumentsInfo: partialDocumentsInfo,
+            .createCompositeDocument(withPartialDocumentsInfo: documents,
                                      fileName: fileName,
                                      docType: "",
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
+                    self.compositeDocument = document
                     return self.giniSDK.documentTaskManager.getExtractionsFor(document)
                 }
                 return BFTask<AnyObject>(error: AnalysisError.documentCreation)
@@ -157,13 +156,13 @@ extension DocumentServiceProtocol {
                             cancellationToken: nil)
             })
             .continueWith(block: { (task: BFTask?) in
-                guard let extractions = task?.result as? NSMutableDictionary else {
+                if let error = task?.error {
                     print("❌ Error sending feedback for document with id: ",
-                          String(describing: self.compositeDocument?.documentId))
+                          String(describing: self.compositeDocument?.documentId), "error:", error)
                     return nil
                 }
                 
-                print("🚀 Feedback sent with \(extractions.count) extractions")
+                print("🚀 Feedback sent with \(updatedExtractions.count) extractions")
                 return nil
             })
     }

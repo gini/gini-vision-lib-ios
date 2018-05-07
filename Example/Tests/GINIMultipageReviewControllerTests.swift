@@ -13,16 +13,16 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.sharedConfiguration
     lazy var multipageReviewViewController: MultipageReviewViewController = {
-        let vc = MultipageReviewViewController(imageDocuments: self.imageDocuments,
-                                           giniConfiguration: self.giniConfiguration)
+        let vc = MultipageReviewViewController(documentRequests: self.imageDocumentRequests,
+                                               giniConfiguration: self.giniConfiguration)
         _ = vc.view
         return vc
     }()
     
-    lazy var imageDocuments: [GiniImageDocument] = [
-        self.loadImageDocument(withName: "invoice"),
-        self.loadImageDocument(withName: "invoice2"),
-        self.loadImageDocument(withName: "invoice3")
+    lazy var imageDocumentRequests: [DocumentRequest] = [
+        self.loadImageDocumentRequest(withName: "invoice"),
+        self.loadImageDocumentRequest(withName: "invoice2"),
+        self.loadImageDocumentRequest(withName: "invoice3")
     ]
     
     func testCollectionsItemsCount() {
@@ -40,11 +40,11 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewMainCollectionCell
         let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
                                           cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewMainCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
+        XCTAssertEqual(firstCell?.documentImage.image, imageDocumentRequests[0].document.previewImage,
                        "First cell image should match the one passed in the initializer")
-        XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
+        XCTAssertEqual(secondCell?.documentImage.image, imageDocumentRequests[1].document.previewImage,
                        "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
+        XCTAssertEqual(thirdCell?.documentImage.image, imageDocumentRequests[2].document.previewImage,
                        "Third cell image should match the one passed in the initializer")
 
     }
@@ -85,15 +85,15 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
         let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
                                           cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.image, imageDocuments[0].previewImage,
+        XCTAssertEqual(firstCell?.documentImage.image, imageDocumentRequests[0].document.previewImage,
                        "First cell image should match the one passed in the initializer")
         XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
                        "First cell indicator should match its position")
-        XCTAssertEqual(secondCell?.documentImage.image, imageDocuments[1].previewImage,
+        XCTAssertEqual(secondCell?.documentImage.image, imageDocumentRequests[1].document.previewImage,
                        "Second cell image should match the one passed in the initializer")
         XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
                        "Second cell indicator should match its position")
-        XCTAssertEqual(thirdCell?.documentImage.image, imageDocuments[2].previewImage,
+        XCTAssertEqual(thirdCell?.documentImage.image, imageDocumentRequests[2].document.previewImage,
                        "Third cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
@@ -137,9 +137,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         }
         XCTAssertEqual(items[0], self.multipageReviewViewController.rotateButton,
                        "First toolbar item should be the rotateButton")
-        XCTAssertEqual(items[2], self.multipageReviewViewController.reorderButton,
-                       "Third toolbar item should be the reorderButton")
-        XCTAssertEqual(items[4], self.multipageReviewViewController.deleteButton,
+        XCTAssertEqual(items[2], self.multipageReviewViewController.deleteButton,
                        "Fifth toolbar item should be the deleteButton")
     }
     
@@ -149,7 +147,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testDatasourceOnDelete() {
-        let vc = MultipageReviewViewController(imageDocuments: imageDocuments, giniConfiguration: giniConfiguration)
+        let vc = MultipageReviewViewController(documentRequests: imageDocumentRequests, giniConfiguration: giniConfiguration)
         _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
@@ -167,7 +165,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let expect = expectation(for: NSPredicate(value: true), evaluatedWith: delegateMock.updatedDocuments.isNotEmpty, handler: nil)
         let currentIndexPath = IndexPath(row: 0, section: 0)
         let destinationIndexPath = IndexPath(row: 2, section: 0)
-        var updatedImageDocument: [GiniImageDocument] = []
+        var updatedImageDocument: [DocumentRequest] = []
         
         multipageReviewViewController.delegate = delegateMock
         multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
@@ -181,15 +179,15 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
                                           cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         
-        XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].previewImage,
+        XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].document.previewImage,
                        "Second cell image should match the one passed in the initializer")
         XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
                        "First cell indicator should match its position")
-        XCTAssertEqual(secondCell?.documentImage.image, updatedImageDocument[1].previewImage,
+        XCTAssertEqual(secondCell?.documentImage.image, updatedImageDocument[1].document.previewImage,
                        "Second cell image should match the one passed in the initializer")
         XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
                        "Second cell indicator should match its position")
-        XCTAssertEqual(thirdCell?.documentImage.image, updatedImageDocument[2].previewImage,
+        XCTAssertEqual(thirdCell?.documentImage.image, updatedImageDocument[2].document.previewImage,
                        "Third cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
@@ -199,8 +197,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testDeleteButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
         
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
         
@@ -212,8 +210,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testDeleteButtonEnabledWhenToolTipIsNotShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
         
@@ -225,8 +223,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testRotateButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
 
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
 
@@ -238,8 +236,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testRotateButtonEnabledWhenToolTipIsNotShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
         
@@ -251,8 +249,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolTipShouldAppearTheFirstTime() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
         
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
         XCTAssertNotNil(multipageReviewViewController.toolTipView,
@@ -263,8 +261,8 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolTipShouldNotAppearWhenItWasShownBefore() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(imageDocuments: imageDocuments,
-                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                                      giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
         XCTAssertNil(multipageReviewViewController.toolTipView,

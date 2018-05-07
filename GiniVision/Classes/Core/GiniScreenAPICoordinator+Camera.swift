@@ -9,6 +9,11 @@ import Foundation
 
 // MARK: - Camera Screen
 
+@objc public protocol UploadDelegate {
+    func uploadDidFail(for document: GiniVisionDocument, with error: Error)
+    func uploadDidComplete(for document: GiniVisionDocument)
+}
+
 extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         let loadingView = viewController.addValidationLoadingView()
@@ -16,18 +21,20 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             loadingView.removeFromSuperview()
             switch result {
-            case .success:
-                self.addToDocuments(newDocuments: [document])
+            case .success(let validatedDocuments):
+                let validatedDocument = validatedDocuments[0]
+                self.addToDocuments(new: [validatedDocument])
                 self.didCaptureAndValidate(document)
+                
                 if let imageDocument = document as? GiniImageDocument {
                     if self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
-                        self.showNextScreenAfterPicking(documents: [imageDocument])
+                        self.showNextScreenAfterPicking(documentRequests: [validatedDocument])
                     }
                 } else if let qrDocument = document as? GiniQRCodeDocument {
                     viewController.showPopup(forQRDetected: qrDocument) {
-                        self.showNextScreenAfterPicking(documents: self.visionDocuments)
+                        self.showNextScreenAfterPicking(documentRequests: self.documentRequests)
                     }
                 }
             case .failure(let error):
@@ -45,7 +52,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         case .gallery:
             documentPickerCoordinator.showGalleryPicker(from: viewController)
         case .explorer:
-            documentPickerCoordinator.isPDFSelectionAllowed = visionDocuments.isEmpty
+            documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
         case .dragndrop: break
         }
@@ -53,9 +60,15 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         if shouldShowOnBoarding() {
-            showOnboardingScreen()
-        } else if AlertDialogController.shouldShowNewMultipageFeature {
-            showMultipageNewFeatureDialog()
+            showOnboardingScreen(onDismiss: showMultipageFeatureDialogIfNeeded)
+        } else {
+            showMultipageFeatureDialogIfNeeded()
+        }
+    }
+    
+    private func showMultipageFeatureDialogIfNeeded() {
+        if AlertDialogController.shouldShowNewMultipageFeature {
+            self.showMultipageNewFeatureDialog()
         }
     }
     
@@ -95,11 +108,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
-        if let didCapture = visionDelegate?.didCapture(document:) {
-            didCapture(document)
-        } else {
-            fatalError("GiniVisionDelegate.didCapture(document: GiniVisionDocument) should be implemented")
-        }
+        visionDelegate?.didCapture(document: document, uploadDelegate: self)
     }
     
     private func shouldShowOnBoarding() -> Bool {
@@ -114,7 +123,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return false
     }
     
-    private func showOnboardingScreen() {
+    private func showOnboardingScreen(onDismiss: @escaping (() -> Void)) {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
@@ -124,6 +133,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             self.cameraViewController?.showCameraOverlay()
             self.cameraViewController?.showCaptureButton()
             self.cameraViewController?.showFileImportTip()
+            onDismiss()
         }
         
         let navigationController = UINavigationController(rootViewController: vc)
@@ -134,10 +144,10 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     private func showMultipageNewFeatureDialog() {
         let alertDialog = AlertDialogController(giniConfiguration: giniConfiguration,
-                                                title: "This is the title",
-                                                message: "This is the subtitle",
+                                                title: "Multi-Page Rechnungsanalyse",
+                                                message: "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren",
                                                 image: UIImageNamedPreferred(named: "multipageIcon"),
-                                                buttonTitle: "Let's scan!",
+                                                buttonTitle: "Zur Kamera",
                                                 buttonImage: UIImage(named: "cameraIcon",
                                                                      in: Bundle(for: GiniVision.self),
                                                                      compatibleWith: nil))
@@ -151,8 +161,9 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                                               completion: nil)
     }
     
-    func showNextScreenAfterPicking(documents: [GiniVisionDocument]) {
-        if let firstDocument = documents.first, let documentsType = documents.type {
+    func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
+        let visionDocuments = documentRequests.map { $0.document }
+        if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
             switch documentsType {
             case .image:
                 if let imageDocuments = visionDocuments as? [GiniImageDocument],
@@ -164,13 +175,13 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                     } else {
                         reviewViewController = createReviewScreen(withDocument: lastDocument)
                         screenAPINavigationController.pushViewController(reviewViewController!,
-                                                                              animated: true)
+                                                                         animated: true)
                     }
                 }
             case .qrcode, .pdf:
                 analysisViewController = createAnalysisScreen(withDocument: firstDocument)
                 screenAPINavigationController.pushViewController(analysisViewController!,
-                                                                      animated: true)
+                                                                 animated: true)
             }
         }
     }
@@ -188,13 +199,13 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
             switch result {
             case .success(let validatedDocuments):
                 coordinator.dismissCurrentPicker {
-                    self.addToDocuments(newDocuments: validatedDocuments.map { $0.document })
+                    self.addToDocuments(new: validatedDocuments)
                     validatedDocuments.forEach { validatedDocument in
                         if validatedDocument.error == nil {
                             self.didCaptureAndValidate(validatedDocument.document)
                         }
                     }
-                    self.showNextScreenAfterPicking(documents: validatedDocuments.map { $0.document })
+                    self.showNextScreenAfterPicking(documentRequests: validatedDocuments)
                 }
             case .failure(let error):
                 var positiveAction: (() -> Void)?
@@ -202,7 +213,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 if let error = error as? FilePickerError {
                     switch error {
                     case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
-                        if self.visionDocuments.isNotEmpty {
+                        if self.documentRequests.isNotEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
                                     self.showMultipageReview()
@@ -238,14 +249,14 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
 
 extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[ValidatedDocument]>) -> Void) {
+                              completion: @escaping (Result<[DocumentRequest]>) -> Void) {
         
-        guard !(documents + visionDocuments).containsDifferentTypes else {
+        guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
         
-        guard (documents.count + visionDocuments.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+        guard (documents.count + documentRequests.count) <= GiniVisionDocumentValidator.maxPagesCount else {
             completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
             return
         }
@@ -253,7 +264,7 @@ extension GiniScreenAPICoordinator {
         self.validate(importedDocuments: documents) { validatedDocuments in
             let elementsWithError = validatedDocuments.filter { $0.error != nil }
             if let firstElement = elementsWithError.first,
-                let error = firstElement.1,
+                let error = firstElement.error,
                 (!self.giniConfiguration.multipageEnabled || firstElement.document.type != .image) {
                 completion(.failure(error))
             } else {
@@ -263,9 +274,9 @@ extension GiniScreenAPICoordinator {
     }
     
     private func validate(importedDocuments documents: [GiniVisionDocument],
-                          completion: @escaping ([ValidatedDocument]) -> Void) {
+                          completion: @escaping ([DocumentRequest]) -> Void) {
         DispatchQueue.global().async {
-            var validatedDocuments: [(GiniVisionDocument, Error?)] = []
+            var documentRequests: [DocumentRequest] = []
             documents.forEach { document in
                 var documentError: Error?
                 do {
@@ -274,12 +285,32 @@ extension GiniScreenAPICoordinator {
                 } catch let error {
                     documentError = error
                 }
-                validatedDocuments.append((document, documentError))
+                documentRequests.append(DocumentRequest(value: document, error: documentError))
             }
             
             DispatchQueue.main.async {
-                completion(validatedDocuments)
+                completion(documentRequests)
             }
+        }
+    }
+}
+
+// MARK: - UploadDelegate
+
+extension GiniScreenAPICoordinator: UploadDelegate {
+    func uploadDidComplete(for document: GiniVisionDocument) {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.updateUploadStatusInDocuments(for: document, to: true)
+            self.refreshMultipageReview(with: self.documentRequests)
+        }
+    }
+    
+    func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.updateErrorInDocuments(for: document, to: error)
+            self.refreshMultipageReview(with: self.documentRequests)
         }
     }
 }

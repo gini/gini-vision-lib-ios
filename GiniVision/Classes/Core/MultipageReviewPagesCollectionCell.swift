@@ -17,6 +17,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
+    let stateViewSize = CGSize(width: 40, height: 40)
     
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
@@ -33,6 +34,21 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
+    }()
+    
+    lazy var stateView: PageStateView  = {
+        let view = PageStateView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = self.stateViewSize.width / 2
+        
+        return view
+    }()
+    
+    lazy var traslucentBackground: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        return view
     }()
     
     lazy var draggableIcon: UIImageView = {
@@ -87,6 +103,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         roundMask.addSubview(bottomContainer)
         roundMask.addSubview(pageSelectedLine)
         roundMask.addSubview(documentImage)
+        roundMask.addSubview(traslucentBackground)
+        roundMask.addSubview(stateView)
         bottomContainer.addSubview(pageIndicatorLabel)
         bottomContainer.addSubview(pageIndicatorCircle)
         bottomContainer.addSubview(draggableIcon)
@@ -115,6 +133,14 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: pageIndicatorLabel, attr: .centerY, relatedBy: .equal, to: pageIndicatorCircle,
                           attr: .centerY)
         
+        // stateView
+        Constraints.active(item: stateView, attr: .centerX, relatedBy: .equal, to: documentImage, attr: .centerX)
+        Constraints.active(item: stateView, attr: .centerY, relatedBy: .equal, to: documentImage, attr: .centerY)
+        Constraints.active(item: stateView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: stateViewSize.height)
+        Constraints.active(item: stateView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: stateViewSize.width)
+
         // pageIndicatorCircle
         Constraints.active(item: pageIndicatorCircle, attr: .height, relatedBy: .equal, to: nil,
                           attr: .notAnAttribute, constant: pageIndicatorCircleSize.height)
@@ -142,7 +168,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -16)
         Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
-                          attr: .trailing, constant: 22)
+                           attr: .trailing, constant: 22, priority: 999)
         Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer,
                            attr: .trailing, constant: -11)
         
@@ -151,6 +177,15 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: documentImage, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
         Constraints.active(item: documentImage, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
         Constraints.active(item: documentImage, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .top)
+        
+        // traslucentBackground
+        Constraints.active(item: traslucentBackground, attr: .top, relatedBy: .equal, to: documentImage, attr: .top)
+        Constraints.active(item: traslucentBackground, attr: .leading, relatedBy: .equal, to: documentImage,
+                           attr: .leading)
+        Constraints.active(item: traslucentBackground, attr: .trailing, relatedBy: .equal, to: documentImage,
+                           attr: .trailing)
+        Constraints.active(item: traslucentBackground, attr: .bottom, relatedBy: .equal, to: documentImage,
+                           attr: .bottom)
         
         // bottomContainer
         Constraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
@@ -166,5 +201,23 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0,
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
+    }
+    
+    func fill(with documentRequest: DocumentRequest, at index: Int) {
+        if let image = documentRequest.document.previewImage {
+            documentImage.contentMode = image.size.width > image.size.height ?
+                .scaleAspectFit :
+                .scaleAspectFill
+            documentImage.image = image
+        }
+        pageIndicatorLabel.text = "\(index + 1)"
+        
+        if documentRequest.isUploaded {
+            stateView.update(to: .succeeded)
+        } else if documentRequest.error != nil {
+            stateView.update(to: .failed)
+        } else {
+            stateView.update(to: .loading)
+        }
     }
 }

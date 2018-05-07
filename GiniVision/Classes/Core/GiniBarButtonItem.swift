@@ -28,7 +28,7 @@ internal class GiniBarButtonItem: UIBarButtonItem {
         
         var attributes = titleTextAttributes(for: .normal) ?? [String: AnyObject]()
         attributes[NSFontAttributeName] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
-            GiniConfiguration.sharedConfiguration.customFont.regular.withSize(16) :
+            GiniConfiguration.sharedConfiguration.customFont.bold.withSize(16) :
             GiniConfiguration.sharedConfiguration.navigationBarItemFont
         
         setTitleTextAttributes(attributes, for: .normal)

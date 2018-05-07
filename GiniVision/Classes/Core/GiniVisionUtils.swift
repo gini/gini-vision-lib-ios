@@ -74,6 +74,11 @@ internal struct AnimationDuration {
     static var fast = 0.3
 }
 
+enum Result<T> {
+    case success(T)
+    case failure(Error)
+}
+
 internal enum FontWeight {
     case thin, light, regular, bold
     
@@ -148,11 +153,6 @@ internal class Constraints {
     
 }
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
 internal struct Colors {
     
     struct Gini {
@@ -166,6 +166,7 @@ internal struct Colors {
         static var rose = Colors.UIColorHex(0xFC6B7E)
         static var pearl = Colors.UIColorHex(0xF2F2F2)
         static var paleGreen = Colors.UIColorHex(0xB8E986)
+        static var springGreen = Colors.UIColorHex(0x00FA9A)
         static var veryLightGray = Colors.UIColorHex(0xD8D8D8)
     }
     

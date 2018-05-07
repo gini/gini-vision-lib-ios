@@ -30,4 +30,21 @@ internal extension XCTestCase {
         let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         return (builder.build() as? GiniImageDocument)!
     }
+    
+    private func loadDocumentRequest(withName name: String,
+                                     fileExtension ext: String) -> DocumentRequest {
+        let path = Bundle.main.url(forResource: name, withExtension: ext)
+        let data = try? Data(contentsOf: path!)
+        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
+        return DocumentRequest(value: builder.build()!)
+    }
+    
+    func loadImageDocumentRequest(withName name: String) -> DocumentRequest {
+        return self.loadDocumentRequest(withName: name, fileExtension: "jpg")
+    }
+    
+    func loadPDFDocumentRequest(withName name: String) -> DocumentRequest {
+        return self.loadDocumentRequest(withName: name, fileExtension: "pdf")
+
+    }
 }
