@@ -61,7 +61,6 @@ extension MultipageReviewTransitionAnimator: UIViewControllerAnimatedTransitioni
                                                    y: yScaleFactor)
                 transitionContext.containerView.addSubview(toView)
                 transitionContext.containerView.addSubview(popImageView)
-                popImageView.center = toView.center
                 
                 animations = {
                     popImageView.transform = scaleTransform

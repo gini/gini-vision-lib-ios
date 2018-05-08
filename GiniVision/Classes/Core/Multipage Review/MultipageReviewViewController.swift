@@ -14,7 +14,7 @@ protocol MultipageReviewViewControllerDelegate: class {
                          didRotate documentRequest: DocumentRequest)
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
-
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
 
 //swiftlint:disable file_length
@@ -30,9 +30,9 @@ public final class MultipageReviewViewController: UIViewController {
     }
     weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
-
+    
     // MARK: - UI initialization
-
+    
     lazy var mainCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -53,7 +53,7 @@ public final class MultipageReviewViewController: UIViewController {
     var pagesCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (pagesCollection.frame.width -
             MultipageReviewPagesCollectionCell.size.width) / 2
-        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: sideInset)
+        return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 0)
     }
     
     lazy var pagesCollectionContainer: UIView = {
@@ -72,6 +72,19 @@ public final class MultipageReviewViewController: UIViewController {
         return view
     }()
     
+    lazy var pagesCollectionBottomTipLabel: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
+                                       bundle: Bundle(for: GiniVision.self),
+                                       comment: "drag and drop tip shown below pages collection")
+        textView.font = textView.font?.withSize(11)
+        textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = false
+        textView.backgroundColor = .clear
+        return textView
+    }()
+    
     lazy var pagesCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -85,6 +98,9 @@ public final class MultipageReviewViewController: UIViewController {
         
         collection.register(MultipageReviewPagesCollectionCell.self,
                             forCellWithReuseIdentifier: MultipageReviewPagesCollectionCell.identifier)
+        collection.register(MultipageReviewPagesCollectionFooter.self,
+                            forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                            withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier)
         return collection
     }()
     
@@ -110,16 +126,14 @@ public final class MultipageReviewViewController: UIViewController {
     var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     
+    let localizedTitle = NSLocalizedString("ginivision.multipagereview.title",
+                                           bundle: Bundle(for: GiniVision.self),
+                                           comment: "title with the page indicator")
+    
     lazy var rotateButton: UIBarButtonItem = {
         return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                                   insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                                   action: #selector(rotateImageButtonAction))
-    }()
-    
-    lazy var reorderButton: UIBarButtonItem = {
-        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "reorderPagesIcon"),
-                                  insets: UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4),
-                                  action: #selector(reorderButtonAction))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
@@ -128,26 +142,15 @@ public final class MultipageReviewViewController: UIViewController {
                                   action: #selector(deleteImageButtonAction))
     }()
     
-    fileprivate lazy var pagesCollectionShownConstraint: NSLayoutConstraint = {
-        let constraint = NSLayoutConstraint(item: self.pagesCollectionContainer,
-                                            attribute: .bottom,
+    fileprivate lazy var pagesCollectionTipLabelHeightConstraint: NSLayoutConstraint = {
+        let constraint = NSLayoutConstraint(item: self.pagesCollectionBottomTipLabel,
+                                            attribute: .height,
                                             relatedBy: .equal,
-                                            toItem: self.toolBar,
-                                            attribute: .top,
+                                            toItem: nil,
+                                            attribute: .notAnAttribute,
                                             multiplier: 1.0,
                                             constant: 0)
-        constraint.priority = 999
         return constraint
-    }()
-    
-    fileprivate lazy var pagesCollectionHiddenConstraint: NSLayoutConstraint = {
-        return NSLayoutConstraint(item: self.pagesCollectionContainer,
-                                  attribute: .top,
-                                  relatedBy: .equal,
-                                  toItem: self.toolBar,
-                                  attribute: .top,
-                                  multiplier: 1.0,
-                                  constant: 0)
     }()
     
     @available(iOS 9.0, *)
@@ -176,6 +179,7 @@ extension MultipageReviewViewController {
         view.insertSubview(pagesCollectionContainer, belowSubview: toolBar)
         pagesCollectionContainer.addSubview(pagesCollection)
         pagesCollectionContainer.addSubview(pagesCollectionTopBorder)
+        pagesCollectionContainer.addSubview(pagesCollectionBottomTipLabel)
         
         addConstraints()
     }
@@ -194,10 +198,16 @@ extension MultipageReviewViewController {
         }
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        selectLastItem()
+        changeReorderTipVisibility(to: documentRequests.count < 2)
+    }
+    
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         showToolbar()
-
+        
         toolTipView?.show {
             self.blurEffect?.alpha = 1
             self.deleteButton.isEnabled = false
@@ -226,12 +236,17 @@ extension MultipageReviewViewController {
         })
     }
     
-    func selectItem(at position: Int, in section: Int = 0) {
+    func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
         let indexPath = IndexPath(row: position, section: section)
         self.pagesCollection.selectItem(at: indexPath,
-                                         animated: true,
-                                         scrollPosition: .centeredHorizontally)
+                                        animated: animated,
+                                        scrollPosition: .centeredHorizontally)
         self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
+    }
+    
+    func selectLastItem(animated: Bool = false) {
+        let lastPosition = self.documentRequests.count - 1
+        selectItem(at: lastPosition, animated: animated)
     }
     
     func reloadCollections() {
@@ -243,7 +258,7 @@ extension MultipageReviewViewController {
             self.selectItem(at: currentSelectedItem.row)
         }
     }
-
+    
 }
 
 // MARK: - Private methods
@@ -264,22 +279,17 @@ extension MultipageReviewViewController {
         if let image = image {
             button.frame = CGRect(origin: .zero, size: image.size)
         }
-
+        
         return UIBarButtonItem(customView: button)
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = "\(page) of \(documentRequests.count)"
+        title = String(format: localizedTitle, arguments: [page, documentRequests.count])
     }
     
-    fileprivate func changeReorderButtonState(toActive activate: Bool) {
-        if activate {
-            reorderButton.customView?.layer.backgroundColor = Colors.Gini.blue.cgColor
-            reorderButton.customView?.tintColor = .white
-        } else {
-            reorderButton.customView?.layer.backgroundColor = nil
-            reorderButton.customView?.tintColor = Colors.Gini.blue
-        }
+    fileprivate func changeReorderTipVisibility(to hidden: Bool) {
+        pagesCollectionBottomTipLabel.isHidden = hidden
+        pagesCollectionTipLabelHeightConstraint.constant = hidden ? 0 : 30
     }
     
     @objc @available(iOS 9.0, *)
@@ -341,45 +351,52 @@ extension MultipageReviewViewController {
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: mainCollection, attr: .top, relatedBy: .equal, to: topLayoutGuide,
-                          attr: .bottom)
+                           attr: .bottom)
         Constraints.active(item: mainCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: mainCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // toolBar
         Constraints.active(item: toolBar, attr: .bottom, relatedBy: .equal, to: bottomLayoutGuide,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: toolBar, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: toolBar, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionContainer
-        Constraints.active(constraint: pagesCollectionShownConstraint)
+        Constraints.active(item: pagesCollectionContainer, attr: .bottom, relatedBy: .equal, to: toolBar, attr: .top)
         Constraints.active(item: pagesCollectionContainer, attr: .trailing, relatedBy: .equal, to: view,
-                          attr: .trailing)
+                           attr: .trailing)
         Constraints.active(item: pagesCollectionContainer, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         
         // pagesCollectionTopBorder
         Constraints.active(item: pagesCollectionTopBorder, attr: .top, relatedBy: .equal,
                            to: pagesCollectionContainer, attr: .top)
         Constraints.active(item: pagesCollectionTopBorder, attr: .leading, relatedBy: .equal,
-                          to: pagesCollectionContainer, attr: .leading)
+                           to: pagesCollectionContainer, attr: .leading)
         Constraints.active(item: pagesCollectionTopBorder, attr: .trailing, relatedBy: .equal,
-                          to: pagesCollectionContainer, attr: .trailing)
+                           to: pagesCollectionContainer, attr: .trailing)
         Constraints.active(item: pagesCollectionTopBorder, attr: .height, relatedBy: .equal, to: nil,
-                          attr: .notAnAttribute, constant: 0.5)
+                           attr: .notAnAttribute, constant: 0.5)
         
         // pagesCollection
-        Constraints.active(item: pagesCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .bottom)
+        Constraints.active(item: pagesCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionBottomTipLabel,
+                           attr: .top)
         Constraints.active(item: pagesCollection, attr: .top, relatedBy: .equal, to: pagesCollectionContainer,
-                          attr: .top)
+                           attr: .top)
         Constraints.active(item: pagesCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: pagesCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
         Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                          constant: MultipageReviewPagesCollectionCell.size.height +
+                           constant: MultipageReviewPagesCollectionCell.size.height +
                             pagesCollectionInsets.top +
                             pagesCollectionInsets.bottom)
+        
+        // pagesCollectionBottomTipLabel
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal,
+                           to: pagesCollectionContainer, attr: .bottom)
+        Constraints.active(constraint: pagesCollectionTipLabelHeightConstraint)
+        Constraints.active(item: pagesCollectionBottomTipLabel, attr: .centerX, relatedBy: .equal,
+                           to: pagesCollectionContainer, attr: .centerX)
     }
 }
 
@@ -424,29 +441,6 @@ extension MultipageReviewViewController {
             })
         }
     }
-    
-    @objc fileprivate func reorderButtonAction() {
-        self.toolTipView?.dismiss()
-        self.toggleReorder()
-    }
-    
-    fileprivate func toggleReorder(animated: Bool = true) {
-        let hide = self.pagesCollectionShownConstraint.isActive
-        self.pagesCollectionHiddenConstraint.isActive = hide
-        self.pagesCollectionShownConstraint.isActive = !hide
-        self.mainCollection.collectionViewLayout.invalidateLayout()
-        self.changeReorderButtonState(toActive: self.pagesCollectionShownConstraint.isActive)
-        
-        if animated {
-            UIView.animate(withDuration: AnimationDuration.medium, animations: { [weak self] in
-                guard let `self` = self else { return }
-                self.view.layoutIfNeeded()
-                }, completion: { _ in
-            })
-        } else {
-            self.view.layoutIfNeeded()
-        }
-    }
 }
 
 // MARK: UICollectionViewDataSource
@@ -471,6 +465,21 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             cell?.fill(with: documentRequests[indexPath.row], at: indexPath.row)
             return cell!
         }
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView,
+                               viewForSupplementaryElementOfKind kind: String,
+                               at indexPath: IndexPath) -> UICollectionReusableView {
+        let footer = collectionView
+            .dequeueReusableSupplementaryView(ofKind: kind,
+                                              withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier,
+                                              for: indexPath) as? MultipageReviewPagesCollectionFooter
+        footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
+        footer?.didTapAddButton = { [weak self] in
+            guard let `self` = self else { return }
+            self.delegate?.multipageReviewDidTapAddImage(self)
+        }
+        return footer!
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -513,6 +522,16 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
             MultipageReviewPagesCollectionCell.size
     }
     
+    public func collectionView(_ collectionView: UICollectionView,
+                               layout collectionViewLayout: UICollectionViewLayout,
+                               referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard collectionView == pagesCollection else {
+            return .zero
+        }
+        
+        return MultipageReviewPagesCollectionFooter.size(in: collectionView)
+    }
+    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
             if documentRequests.count > 1 {
@@ -537,20 +556,32 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func visibleImage(in collection: UICollectionView) -> (image: UIImage, size: CGRect)? {
-        let visibleIndex = self.visibleCell(in: collection)
-        guard let visibleCellIndex = visibleIndex,
-            let cell = collectionView(collection,
-                                      cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell,
-            let image = cell.documentImage.image else {
-                return nil
-        }
-
-        return (image, cell.frame)
-    }
-    
     func visibleCell(in collectionView: UICollectionView) -> IndexPath? {
         collectionView.layoutIfNeeded() // It is needed due to a bug in UIKit.
         return collectionView.indexPathsForVisibleItems.first
     }
+    
+    func visibleMainCollectionImage(from coordinateSpace: UICoordinateSpace) -> (UIImage, CGRect)? {
+        let visibleIndex = self.visibleCell(in: mainCollection)
+        guard let visibleCellIndex = visibleIndex,
+            let cell = collectionView(mainCollection,
+                                      cellForItemAt: visibleCellIndex) as? MultipageReviewMainCollectionCell,
+            let image = cell.documentImage.image else {
+                return nil
+        }
+        
+        cell.documentImage.frame = cell.frame
+        return (image, frame(for: cell.documentImage, from: coordinateSpace))
+    }
+    
+    private func frame(for imageView: UIImageView, from coordinateSpace: UICoordinateSpace) -> CGRect {
+        guard let image = imageView.image else { return .zero }
+        let origin = view.convert(imageView.frame.origin, to: coordinateSpace)
+        let imageWidth = imageView.frame.size.height * image.size.width / image.size.height
+        let imageOriginX = (imageView.frame.size.width - imageWidth) / 2
+        
+        return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
+                      size: CGSize(width: imageWidth, height: imageView.frame.size.height))
+    }
+
 }
