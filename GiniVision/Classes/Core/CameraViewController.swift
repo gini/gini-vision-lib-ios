@@ -149,7 +149,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = .resizeAspectFill
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
         previewView.addGestureRecognizer(tapGesture)
         return previewView
