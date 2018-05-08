@@ -35,12 +35,15 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         let navBarViewController = UINavigationController()
         navBarViewController.navigationBar.barTintColor = self.giniColor
         navBarViewController.navigationBar.tintColor = .white
+        navBarViewController.view.backgroundColor = .black
+
         return navBarViewController
     }()
     fileprivate lazy var componentAPITabBarController: UITabBarController = {
         let tabBarViewController = UITabBarController()
         tabBarViewController.tabBar.barTintColor = self.giniColor
         tabBarViewController.tabBar.tintColor = .white
+        tabBarViewController.view.backgroundColor = .black
         
         if #available(iOS 10.0, *) {
             tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
@@ -50,8 +53,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }()
     
     fileprivate(set) var cameraScreen: CameraViewController?
-    fileprivate(set) var reviewScreen: ComponentAPIReviewViewController?
-    fileprivate(set) var analysisScreen: ComponentAPIAnalysisViewController?
+    fileprivate(set) var reviewScreen: ReviewViewController?
+    fileprivate(set) var analysisScreen: AnalysisViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
 
@@ -88,7 +91,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             if document.isReviewable {
                 showReviewScreen(withDocument: document)
             } else {
-                showAnalysisScreen(withDocument: document)
+                showAnalysisScreen()
             }
         } else {
             showCameraScreen()
@@ -119,22 +122,21 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
-        reviewScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview")
-            as? ComponentAPIReviewViewController
+        reviewScreen = ReviewViewController(document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
-        reviewScreen?.document = document
-        reviewScreen?.giniConfiguration = giniConfiguration
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
+        reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
+                                                                         style: .plain,
+                                                                         target: self,
+                                                                         action: #selector(showAnalysisScreen))
         
         
         navigationController.pushViewController(reviewScreen!, animated: true)
     }
     
-    fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
-        analysisScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis")
-            as? ComponentAPIAnalysisViewController
-        analysisScreen?.delegate = self
-        analysisScreen?.document = document
+    @objc fileprivate func showAnalysisScreen() {
+        guard let document = document else { return }
+        analysisScreen = AnalysisViewController(document: document)
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
         navigationController.pushViewController(analysisScreen!, animated: true)
@@ -147,7 +149,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         resultsScreen?.result = result
         resultsScreen?.document = document
         
-        if navigationController.viewControllers.first is ComponentAPIAnalysisViewController {
+        if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
                 .rightBarButtonItem = UIBarButtonItem(title: "Schließen",
                                                       style: .plain,
@@ -155,7 +157,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                                                       action: #selector(closeComponentAPIFromResults))
         }
         
-        push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        push(viewController: resultsScreen!, removingViewControllerOfType: AnalysisViewController.self)
         analysisScreen = nil
     }
     
@@ -174,7 +176,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             vc = genericNoResults!
         }
         
-        push(viewController: vc, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
         analysisScreen = nil
 
     }
@@ -249,7 +251,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
             documentService?.cancelAnalysis()
         }
         
-        if fromViewController is ComponentAPIAnalysisViewController &&
+        if fromViewController is AnalysisViewController &&
             viewController is ReviewViewController {
             analysisScreen = nil
             documentService?.cancelAnalysis()
@@ -263,10 +265,11 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 
 extension ComponentAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
+        self.document = document
         if document.isReviewable {
             showReviewScreen(withDocument: document)
         } else {
-            showAnalysisScreen(withDocument: document)
+            showAnalysisScreen()
         }
     }
     
@@ -298,20 +301,12 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     }    
 }
 
-// MARK: ComponentAPIReviewScreenDelegate
+// MARK: ReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
         self.document = document
         documentService?.cancelAnalysis()
-    }
-}
-
-// MARK: ComponentAPIAnalysisScreenDelegate
-
-extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {    
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
-        
     }
 }
 
@@ -338,6 +333,6 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func handleAnalysis(error: Error) {
-        analysisScreen?.displayError(error)
+
     }
 }

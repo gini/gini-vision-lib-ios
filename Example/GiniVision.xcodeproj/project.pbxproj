@@ -17,7 +17,6 @@
 		0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */; };
 		0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */; };
 		0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */; };
-		0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */; };
 		0A82FAD21D59D78300D84632 /* GINIAnalysisUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */; };
 		0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */; };
 		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
@@ -113,7 +112,6 @@
 		0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOnboardingViewControllerTests.swift; sourceTree = "<group>"; };
 		0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINICameraViewControllerTests.swift; sourceTree = "<group>"; };
-		0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIAnalysisViewController.swift; sourceTree = "<group>"; };
 		0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIAnalysisUITests.swift; path = UITests/GINIAnalysisUITests.swift; sourceTree = SOURCE_ROOT; };
 		0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelationToken.swift; sourceTree = "<group>"; };
 		0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoResultViewController.swift; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 				1F59756020A0A21A0012196B /* MultipageDocumentService.swift */,
 				1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */,
 				1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */,
-				0A735C361D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift */,
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
 			);
@@ -687,7 +684,6 @@
 			files = (
 				1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */,
 				1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */,
-				0A735C371D3948E7000444A7 /* ComponentAPIAnalysisViewController.swift in Sources */,
 				1F59756120A0A21A0012196B /* MultipageDocumentService.swift in Sources */,
 				1F59756520A0A3C00012196B /* SinglePageDocumentService.swift in Sources */,
 				1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */,
