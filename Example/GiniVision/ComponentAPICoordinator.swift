@@ -24,6 +24,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate var documentService: DocumentServiceProtocol?
     fileprivate var documentRequests: [DocumentRequest]
+    
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate let giniConfiguration: GiniConfiguration
     
@@ -51,20 +52,20 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
-    
-    fileprivate(set) var analysisScreen: AnalysisViewController?
-    fileprivate(set) var cameraScreen: CameraViewController?
     fileprivate(set) lazy var multipageReviewScreen: MultipageReviewViewController = {
         let multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
-                                                              giniConfiguration: giniConfiguration)
+                                                                  giniConfiguration: giniConfiguration)
         multipageReviewScreen.delegate = self
         addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
         multipageReviewScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
-                                                                                   style: .plain,
-                                                                                   target: self,
-                                                                                   action: #selector(showAnalysisScreen))
+                                                                                  style: .plain,
+                                                                                  target: self,
+                                                                                  action: #selector(showAnalysisScreen))
         return multipageReviewScreen
     }()
+    
+    fileprivate(set) var analysisScreen: AnalysisViewController?
+    fileprivate(set) var cameraScreen: CameraViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) var reviewScreen: ReviewViewController?
     fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
@@ -75,6 +76,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         self.documentRequests = documentRequests
         self.giniConfiguration = configuration
         super.init()
+        
         setupDocumentService(client: client, giniConfiguration: configuration)
         GiniVision.setConfiguration(configuration)
     }
@@ -201,6 +203,22 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 
     }
     
+    func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
+        let visionDocuments = documentRequests.map { $0.document }
+        if let documentsType = visionDocuments.type {
+            switch documentsType {
+            case .image:
+                if self.giniConfiguration.multipageEnabled {
+                    showMultipageReviewScreen()
+                } else {
+                    showReviewScreen()
+                }
+            case .qrcode, .pdf:
+                showAnalysisScreen()
+            }
+        }
+    }
+    
     // MARK: Other
     fileprivate func setupTabBar() {
         let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
@@ -314,7 +332,8 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
-        
+        // Here you can show the Onboarding screen in case that you decide
+        // to launch it from the camera screen
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
@@ -326,7 +345,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         case .gallery:
             documentPickerCoordinator.showGalleryPicker(from: viewController)
         case .explorer:
-            documentPickerCoordinator.isPDFSelectionAllowed = true
+            documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
         case .dragndrop: break
         }
@@ -337,7 +356,47 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
 
 extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
-        
+        self.validate(documents) { result in
+            switch result {
+            case .success(let validatedDocuments):
+                coordinator.dismissCurrentPicker {
+                    self.documentRequests.append(contentsOf: validatedDocuments)
+                    validatedDocuments.forEach { validatedDocument in
+                        if validatedDocument.error == nil {
+                            self.documentService?.upload(document: validatedDocument.document)
+                        }
+                    }
+                    self.showNextScreenAfterPicking(documentRequests: validatedDocuments)
+                }
+            case .failure(let error):
+                var positiveAction: (() -> Void)?
+                
+                if let error = error as? FilePickerError {
+                    switch error {
+                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
+                        if !self.documentRequests.isEmpty {
+                            positiveAction = {
+                                coordinator.dismissCurrentPicker {
+                                    self.showMultipageReviewScreen()
+                                }
+                            }
+                        }
+                        
+                    case .photoLibraryAccessDenied:
+                        break
+                    }
+                }
+
+                if coordinator.currentPickerDismissesAutomatically {
+                    self.cameraScreen?.showErrorDialog(for: error,
+                                                       positiveAction: positiveAction)
+                } else {
+                    coordinator.rootViewController?.showErrorDialog(for: error,
+                                                                    positiveAction: positiveAction)
+                }
+            }
+            
+        }
     }    
 }
 
@@ -351,19 +410,30 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     }
 }
 
-// MARK: ReviewViewControllerDelegate
+// MARK: MultipageReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
         
+        if let multipageDocumentService = documentService as? MultipageDocumentsService {
+            multipageDocumentService.sortDocuments(withSameOrderAs: self.documentRequests.map { $0.document })
+        }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
-        
+        if let index = documentRequests.index(of: documentRequest.document) {
+            documentRequests[index].document = documentRequest.document
+        }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
+        documentRequests.remove(documentRequest.document)
+        documentService?.remove(document: documentRequest.document)
         
+        if documentRequests.isEmpty {
+            navigationController.popViewController(animated: true)
+        }
     }
     
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {

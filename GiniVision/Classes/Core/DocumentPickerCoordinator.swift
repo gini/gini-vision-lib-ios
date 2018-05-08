@@ -36,11 +36,11 @@ public final class DocumentPickerCoordinator: NSObject {
     
     public weak var delegate: DocumentPickerCoordinatorDelegate?
     public var isPDFSelectionAllowed: Bool = true
+    private(set) public var currentPickerDismissesAutomatically: Bool = false
+    private(set) public var rootViewController: UIViewController?
 
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
-    var currentPickerDismissesAutomatically: Bool = false
-    var rootViewController: UIViewController?
     
     public var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted
@@ -115,7 +115,7 @@ public final class DocumentPickerCoordinator: NSObject {
         viewController.present(documentPicker, animated: true, completion: nil)
     }
     
-    func dismissCurrentPicker(completion: @escaping () -> Void) {
+    public func dismissCurrentPicker(completion: @escaping () -> Void) {
         if currentPickerDismissesAutomatically {
             completion()
         } else {
