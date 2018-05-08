@@ -253,13 +253,13 @@
 		1F577530203C4EB40074FD63 /* Component API */ = {
 			isa = PBXGroup;
 			children = (
-				0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */,
 				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
-				1F59756020A0A21A0012196B /* MultipageDocumentService.swift */,
-				1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */,
-				1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */,
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
+				0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */,
+				1F59756020A0A21A0012196B /* MultipageDocumentService.swift */,
+				1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */,
+				1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */,
 			);
 			name = "Component API";
 			sourceTree = "<group>";

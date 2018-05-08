@@ -7,9 +7,9 @@
 
 import Foundation
 
-final class GiniVisionDocumentValidator {
+public final class GiniVisionDocumentValidator {
     
-    static var maxPagesCount: Int {
+    public static var maxPagesCount: Int {
         return 10
     }
     
@@ -26,7 +26,7 @@ final class GiniVisionDocumentValidator {
      - Throws: `DocumentValidationError.exceededMaxFileSize` is thrown if the document is not valid.
      
      */
-    class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
+    public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
         if !maxFileSizeExceeded(forData: document.data) {
             try validateType(for: document)
             let customValidationResult = giniConfiguration.customDocumentValidations(document)
