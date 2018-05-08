@@ -10,6 +10,10 @@ import Foundation
 @testable import GiniVision
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
+        
+    }
+    
     var updatedDocuments: [DocumentRequest] = []
 
     func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {

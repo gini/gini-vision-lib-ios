@@ -263,7 +263,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
             if let (image, frame) = multipageVC.visibleMainCollectionImage(from: screenAPINavigationController.view) {
                 multiPageTransition.popImage = image
-                multiPageTransition.popImageFrame = size
+                multiPageTransition.popImageFrame = frame
                 cameraVC.replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage } )
             } else {
                 cameraVC.replaceCapturedStackImages(with: [])
