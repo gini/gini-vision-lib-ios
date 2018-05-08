@@ -54,7 +54,17 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate(set) var analysisScreen: AnalysisViewController?
     fileprivate(set) var cameraScreen: CameraViewController?
-    fileprivate(set) var multipageReviewScreen: MultipageReviewViewController?
+    fileprivate(set) lazy var multipageReviewScreen: MultipageReviewViewController = {
+        let multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
+                                                              giniConfiguration: giniConfiguration)
+        multipageReviewScreen.delegate = self
+        addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
+        multipageReviewScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
+                                                                                   style: .plain,
+                                                                                   target: self,
+                                                                                   action: #selector(showAnalysisScreen))
+        return multipageReviewScreen
+    }()
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) var reviewScreen: ReviewViewController?
     fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
@@ -127,17 +137,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate func showMultipageReviewScreen() {
-        multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
-                                                              giniConfiguration: giniConfiguration)
-        multipageReviewScreen?.delegate = self
-        addCloseButtonIfNeeded(onViewController: multipageReviewScreen!)
-        multipageReviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
-                                                                                   style: .plain,
-                                                                                   target: self,
-                                                                                   action: #selector(showAnalysisScreen))
-        
-        
-        navigationController.pushViewController(multipageReviewScreen!, animated: true)
+        navigationController.pushViewController(multipageReviewScreen, animated: true)
     }
     
     fileprivate func showReviewScreen() {
@@ -287,27 +287,30 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 
 extension ComponentAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
-        
         validate([document]) { result in
             switch result {
             case .success(let documentRequests):
                 self.documentRequests.append(contentsOf: documentRequests)
                 if document.isReviewable {
-                    if let imageDocument = document as? GiniImageDocument, giniConfiguration.multipageEnabled {
+                    if let imageDocument = document as? GiniImageDocument, self.giniConfiguration.multipageEnabled {
                         viewController.animateToControlsView(imageDocument: imageDocument) {
-                            self.showMultipageReviewScreen(withDocument: document)
+                            self.showMultipageReviewScreen()
                         }
                     } else {
-                        showReviewScreen(withDocument: document)
+                        self.showReviewScreen()
                     }
                 } else {
-                    showAnalysisScreen()
+                    self.showAnalysisScreen()
                 }
             case .failure(let error):
-                
+                if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
+                    viewController.showErrorDialog(for: error) {
+                        self.showMultipageReviewScreen()
+                    }
+                }
+                break
             }
         }
-
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
@@ -315,7 +318,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
-        
+        showMultipageReviewScreen()
     }
     
     func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType) {
@@ -342,8 +345,9 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
 
 extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
-        self.document = document
-        documentService?.cancelAnalysis()
+        if let index = documentRequests.index(of: document) {
+            documentRequests[index].document = document
+        }
     }
 }
 
@@ -363,10 +367,8 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
-        
+        navigationController.popViewController(animated: true)
     }
-    
-    
 }
 
 // MARK: NoResultsScreenDelegate
