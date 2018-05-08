@@ -80,7 +80,7 @@ final class AppCoordinator: Coordinator {
             do {
                 try GiniVision.validate(document,
                                         withConfig: self.giniConfiguration)
-                showOpenWithSwitchDialog(forDocuments: [document])
+                showOpenWithSwitchDialog(forDocuments: [DocumentRequest(value: document, error: nil)])
             } catch {
                 showExternalDocumentNotValidDialog()
             }
@@ -92,9 +92,9 @@ final class AppCoordinator: Coordinator {
         self.window.makeKeyAndVisible()
     }
     
-    fileprivate func showScreenAPI(withImportedDocuments documents: [GiniVisionDocument]? = nil) {
+    fileprivate func showScreenAPI(withImportedDocuments documents: [DocumentRequest]? = nil) {
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
-                                                        importedDocuments: documents,
+                                                        importedDocuments: documents?.map { $0.document },
                                                         client: client)
         screenAPICoordinator.delegate = self
         screenAPICoordinator.start()
@@ -103,8 +103,8 @@ final class AppCoordinator: Coordinator {
         rootViewController.present(screenAPICoordinator.rootViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showComponentAPI(withImportedDocument document: GiniVisionDocument? = nil) {
-        let componentAPICoordinator = ComponentAPICoordinator(document: document,
+    fileprivate func showComponentAPI(withImportedDocument documents: [DocumentRequest]? = nil) {
+        let componentAPICoordinator = ComponentAPICoordinator(documentRequests: documents ?? [],
                                                               configuration: giniConfiguration,
                                                               client: client)
         componentAPICoordinator.delegate = self
@@ -125,7 +125,7 @@ final class AppCoordinator: Coordinator {
         rootViewController.present(settingsViewController, animated: true, completion: nil)
     }
     
-    fileprivate func showOpenWithSwitchDialog(forDocuments documents: [GiniVisionDocument]) {
+    fileprivate func showOpenWithSwitchDialog(forDocuments documents: [DocumentRequest]) {
         let alertViewController = UIAlertController(title: "Importierte Datei",
                                                     message: "Möchten Sie die importierte Datei mit dem " +
             "ScreenAPI oder ComponentAPI verwenden?",
@@ -134,7 +134,7 @@ final class AppCoordinator: Coordinator {
             self?.showScreenAPI(withImportedDocuments: documents)
         })        
         alertViewController.addAction(UIAlertAction(title: "Component API", style: .default) { [weak self] _ in
-            self?.showComponentAPI(withImportedDocument: documents[0])
+            self?.showComponentAPI(withImportedDocument: documents)
         })
         
         rootViewController.present(alertViewController, animated: true, completion: nil)

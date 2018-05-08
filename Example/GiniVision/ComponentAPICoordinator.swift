@@ -23,7 +23,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate var documentService: DocumentServiceProtocol?
-    fileprivate var document: GiniVisionDocument?
+    fileprivate var documentRequests: [DocumentRequest]
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate let giniConfiguration: GiniConfiguration
     
@@ -52,16 +52,17 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return tabBarViewController
     }()
     
-    fileprivate(set) var cameraScreen: CameraViewController?
-    fileprivate(set) var reviewScreen: ReviewViewController?
     fileprivate(set) var analysisScreen: AnalysisViewController?
+    fileprivate(set) var cameraScreen: CameraViewController?
+    fileprivate(set) var multipageReviewScreen: MultipageReviewViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
+    fileprivate(set) var reviewScreen: ReviewViewController?
     fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
 
-    init(document: GiniVisionDocument?,
+    init(documentRequests: [DocumentRequest],
          configuration: GiniConfiguration,
          client: GiniClient) {
-        self.document = document
+        self.documentRequests = documentRequests
         self.giniConfiguration = configuration
         super.init()
         setupDocumentService(client: client, giniConfiguration: configuration)
@@ -69,7 +70,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     func setupDocumentService(client: GiniClient,
-                                    giniConfiguration: GiniConfiguration) {
+                              giniConfiguration: GiniConfiguration) {
         let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
                                                    clientSecret: client.clientSecret,
                                                    userEmailDomain: client.clientEmailDomain)
@@ -87,14 +88,18 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         self.setupTabBar()
         self.navigationController.delegate = self
         
-        if let document = document {
-            if document.isReviewable {
-                showReviewScreen(withDocument: document)
+        if documentRequests.isEmpty {
+            showCameraScreen()
+        } else {
+            if documentRequests.type == .image {
+                if giniConfiguration.multipageEnabled {
+                    showMultipageReviewScreen()
+                } else {
+                    showReviewScreen()
+                }
             } else {
                 showAnalysisScreen()
             }
-        } else {
-            showCameraScreen()
         }
     }
     
@@ -121,21 +126,36 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         navigationController.pushViewController(cameraScreen!, animated: true)
     }
     
-    fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
+    fileprivate func showMultipageReviewScreen() {
+        multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
+                                                              giniConfiguration: giniConfiguration)
+        multipageReviewScreen?.delegate = self
+        addCloseButtonIfNeeded(onViewController: multipageReviewScreen!)
+        multipageReviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
+                                                                                   style: .plain,
+                                                                                   target: self,
+                                                                                   action: #selector(showAnalysisScreen))
+        
+        
+        navigationController.pushViewController(multipageReviewScreen!, animated: true)
+    }
+    
+    fileprivate func showReviewScreen() {
+        guard let document = documentRequests.first?.document else { return }
         reviewScreen = ReviewViewController(document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
         reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
-                                                                         style: .plain,
-                                                                         target: self,
-                                                                         action: #selector(showAnalysisScreen))
+                                                                          style: .plain,
+                                                                          target: self,
+                                                                          action: #selector(showAnalysisScreen))
         
         
         navigationController.pushViewController(reviewScreen!, animated: true)
     }
     
     @objc fileprivate func showAnalysisScreen() {
-        guard let document = document else { return }
+        guard let document = documentRequests.first?.document else { return }
         analysisScreen = AnalysisViewController(document: document)
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
@@ -163,7 +183,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate func showNoResultsScreen() {
         let vc: UIViewController
-        if document?.type == .image {
+        if documentRequests.type == .image {
             let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
             imageAnalysisNoResultsViewController.didTapBottomButton = { [unowned self] in
                 self.didTapRetry()
@@ -263,14 +283,31 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
     }
 }
 
+// MARK: - CameraViewControllerDelegate
+
 extension ComponentAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
-        self.document = document
-        if document.isReviewable {
-            showReviewScreen(withDocument: document)
-        } else {
-            showAnalysisScreen()
+        
+        validate([document]) { result in
+            switch result {
+            case .success(let documentRequests):
+                self.documentRequests.append(contentsOf: documentRequests)
+                if document.isReviewable {
+                    if let imageDocument = document as? GiniImageDocument, giniConfiguration.multipageEnabled {
+                        viewController.animateToControlsView(imageDocument: imageDocument) {
+                            self.showMultipageReviewScreen(withDocument: document)
+                        }
+                    } else {
+                        showReviewScreen(withDocument: document)
+                    }
+                } else {
+                    showAnalysisScreen()
+                }
+            case .failure(let error):
+                
+            }
         }
+
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
@@ -301,7 +338,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     }    
 }
 
-// MARK: ReviewViewControllerDelegate
+// MARK: - ReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
@@ -310,11 +347,83 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     }
 }
 
+// MARK: ReviewViewControllerDelegate
+
+extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
+        
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
+        
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
+        
+    }
+    
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
+        
+    }
+    
+    
+}
+
 // MARK: NoResultsScreenDelegate
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
         self.didTapRetry()
+    }
+}
+
+// MARK: - Validation
+
+extension ComponentAPICoordinator {
+    fileprivate func validate(_ documents: [GiniVisionDocument],
+                              completion: @escaping (Result<[DocumentRequest]>) -> Void) {
+        
+        guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
+            completion(.failure(FilePickerError.mixedDocumentsUnsupported))
+            return
+        }
+        
+        guard (documents.count + documentRequests.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+            completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
+            return
+        }
+        
+        self.validate(importedDocuments: documents) { validatedDocuments in
+            let elementsWithError = validatedDocuments.filter { $0.error != nil }
+            if let firstElement = elementsWithError.first,
+                let error = firstElement.error,
+                (!self.giniConfiguration.multipageEnabled || firstElement.document.type != .image) {
+                completion(.failure(error))
+            } else {
+                completion(.success(validatedDocuments))
+            }
+        }
+    }
+    
+    private func validate(importedDocuments documents: [GiniVisionDocument],
+                          completion: @escaping ([DocumentRequest]) -> Void) {
+        DispatchQueue.global().async {
+            var documentRequests: [DocumentRequest] = []
+            documents.forEach { document in
+                var documentError: Error?
+                do {
+                    try GiniVisionDocumentValidator.validate(document,
+                                                             withConfig: self.giniConfiguration)
+                } catch let error {
+                    documentError = error
+                }
+                documentRequests.append(DocumentRequest(value: document, error: documentError))
+            }
+            
+            DispatchQueue.main.async {
+                completion(documentRequests)
+            }
+        }
     }
 }
 

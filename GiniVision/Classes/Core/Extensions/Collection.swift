@@ -22,7 +22,7 @@ internal extension Collection where Iterator.Element == CFString {
     
 }
 
-extension Collection where Iterator.Element == GiniVisionDocument {
+public extension Collection where Iterator.Element == GiniVisionDocument {
     var containsDifferentTypes: Bool {        
         if let firstElement = first {
             let otherTypes = filter { $0.type != firstElement.type }
@@ -37,7 +37,7 @@ extension Collection where Iterator.Element == GiniVisionDocument {
     }
 }
 
-extension Array where Iterator.Element == DocumentRequest {
+public extension Array where Iterator.Element == DocumentRequest {
     
     mutating func remove(_ document: GiniVisionDocument) {
         if let documentIndex = (self.index { $0.document.id == document.id }) {

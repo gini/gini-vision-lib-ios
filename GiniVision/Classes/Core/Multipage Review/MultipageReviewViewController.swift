@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MultipageReviewViewControllerDelegate: class {
+public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didReorder documentRequests: [DocumentRequest])
     func multipageReview(_ controller: MultipageReviewViewController,
@@ -30,7 +30,7 @@ public final class MultipageReviewViewController: UIViewController {
                     })
         }
     }
-    weak var delegate: MultipageReviewViewControllerDelegate?
+    public weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
     
     // MARK: - UI initialization
