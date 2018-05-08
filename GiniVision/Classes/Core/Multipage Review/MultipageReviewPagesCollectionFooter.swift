@@ -11,6 +11,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     
     static let identifier = "MultipageReviewPagesCollectionFooterIdentifier"
     var didTapAddButton: (() -> Void)?
+    static let defaultPadding: CGFloat = 10
     
     fileprivate static let contentSize = MultipageReviewPagesCollectionCell.size
     var trailingConstraint: NSLayoutConstraint?
@@ -71,13 +72,13 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     }
     
     class func padding(in collectionView: UICollectionView? = nil) -> UIEdgeInsets {
-        var rightPadding: CGFloat = 10
-        if let collection =  collectionView {
+        var rightPadding: CGFloat = defaultPadding
+        if let collection = collectionView {
             rightPadding = ((collection.frame.width -
                 MultipageReviewPagesCollectionCell.size.width) / 2)
         }
         
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: rightPadding)
+        return UIEdgeInsets(top: defaultPadding, left: defaultPadding, bottom: defaultPadding, right: rightPadding)
     }
 }
 
