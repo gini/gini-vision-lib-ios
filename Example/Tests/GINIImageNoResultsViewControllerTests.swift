@@ -16,25 +16,18 @@ final class GINIImageNoResultsViewControllerTests: XCTestCase {
         ImageAnalysisNoResultsViewController(title: self.viewControllerTitle)
     lazy var items: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "captureSuggestion1"),
-         NSLocalizedString("ginivision.analysis.suggestion.1",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "First suggestion for analysis screen")),
+         "Capture suggestion text 1"),
         (UIImageNamedPreferred(named: "captureSuggestion2"),
-         NSLocalizedString("ginivision.analysis.suggestion.2",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "Second suggestion for analysis screen")),
+         "Capture suggestion text 2"),
         (UIImageNamedPreferred(named: "captureSuggestion3"),
-         NSLocalizedString("ginivision.analysis.suggestion.3",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "Third suggestion for analysis screen")),
+         "Capture suggestion text 3"),
         (UIImageNamedPreferred(named: "captureSuggestion4"),
-         NSLocalizedString("ginivision.analysis.suggestion.4",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "Forth suggestion for analysis screen"))
+         "Capture suggestion text 4")
     ]
     
     override func setUp() {
         _ = viewController.view
+        viewController.captureSuggestions = items
     }
     
     func testViewControllerTitleOnInitialization() {
@@ -54,25 +47,6 @@ final class GINIImageNoResultsViewControllerTests: XCTestCase {
                        "suggestionsCollectionView items count should be equal to captureSuggestions array count")
     }
     
-    func testFirstSuggestionCell() {
-        let indexPath = IndexPath(row: 0, section: 0)
-        
-        let suggestion1Text = items[indexPath.row].text
-        let suggestion1Image = items[indexPath.row].image
-        
-        let suggestionCollectionCell = viewController
-            .collectionView(viewController.suggestionsCollectionView,
-                            cellForItemAt: indexPath) as? CaptureSuggestionsCollectionCell
-        
-        XCTAssertEqual(suggestion1Text, suggestionCollectionCell!.suggestionText.text,
-                       "first suggestionsCollectionView item text should be equal to " +
-                       "first captureSuggestions item text")
-        XCTAssertEqual(suggestion1Image, suggestionCollectionCell!.suggestionImage.image,
-                       "first suggestionsCollectionView item image should be equal to first " +
-                       "captureSuggestions item image")
-
-    }
-    
     func testSecondSuggestionCell() {
         let indexPath = IndexPath(row: 1, section: 0)
         
@@ -89,44 +63,6 @@ final class GINIImageNoResultsViewControllerTests: XCTestCase {
         XCTAssertEqual(suggestion2Image, suggestionCollectionCell!.suggestionImage.image,
                        "second suggestionsCollectionView item image should be equal to " +
                        "second captureSuggestions item image")
-        
-    }
-    
-    func testThirdSuggestionCell() {
-        let indexPath = IndexPath(row: 2, section: 0)
-        
-        let suggestion3Text = items[indexPath.row].text
-        let suggestion3Image = items[indexPath.row].image
-        
-        let suggestionCollectionCell = viewController
-            .collectionView(viewController.suggestionsCollectionView,
-                            cellForItemAt: indexPath) as? CaptureSuggestionsCollectionCell
-        
-        XCTAssertEqual(suggestion3Text, suggestionCollectionCell!.suggestionText.text,
-                       "third suggestionsCollectionView item text should be equal to " +
-                       "third captureSuggestions item text")
-        XCTAssertEqual(suggestion3Image, suggestionCollectionCell!.suggestionImage.image,
-                       "third suggestionsCollectionView item image should be equal to " +
-                       "third captureSuggestions item image")
-        
-    }
-    
-    func testFourthSuggestionCell() {
-        let indexPath = IndexPath(row: 3, section: 0)
-        
-        let suggestion4Text = items[indexPath.row].text
-        let suggestion4Image = items[indexPath.row].image
-        
-        let suggestionCollectionCell = viewController
-            .collectionView(viewController.suggestionsCollectionView,
-                            cellForItemAt: indexPath) as? CaptureSuggestionsCollectionCell
-        
-        XCTAssertEqual(suggestion4Text, suggestionCollectionCell!.suggestionText.text,
-                       "fourth suggestionsCollectionView item text should be equal to " +
-                       "fourth captureSuggestions item text")
-        XCTAssertEqual(suggestion4Image, suggestionCollectionCell!.suggestionImage.image,
-                       "fourth suggestionsCollectionView item image should be equal to " +
-                       "fourth captureSuggestions item image")
         
     }
     
