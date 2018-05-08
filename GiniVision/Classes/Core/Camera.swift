@@ -85,7 +85,7 @@ internal class Camera: NSObject {
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
-            guard let connection = self.stillImageOutput?.connection(with: AVMediaType.video) else {
+            guard let connection = self.stillImageOutput?.connection(with: .video) else {
                 return completion(nil, .noInputDevice)
             }
             
@@ -110,7 +110,7 @@ internal class Camera: NSObject {
     // MARK: Private methods
     fileprivate func setupSession() throws {
         var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(for: AVMediaType.video).filter {
+            let devices = AVCaptureDevice.devices(for: .video).filter {
                 $0.position == .back
             }
             guard let device = devices.first else { return nil }
@@ -118,7 +118,8 @@ internal class Camera: NSObject {
         }
         
         do {
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice!)
+            guard let videoDevice = videoDevice else { throw CameraError.unknown }
+            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
         } catch let error as NSError {
             if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
                 throw CameraError.notAuthorizedToUseDevice
