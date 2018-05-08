@@ -201,7 +201,7 @@ extension MultipageReviewViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectLastItem()
-        changeReorderTipVisibility(to: validatedDocuments.count < 2)
+        changeReorderTipVisibility(to: documentRequests.count < 2)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -245,7 +245,7 @@ extension MultipageReviewViewController {
     }
     
     func selectLastItem(animated: Bool = false) {
-        let lastPosition = self.validatedDocuments.count - 1
+        let lastPosition = self.documentRequests.count - 1
         selectItem(at: lastPosition, animated: animated)
     }
     
@@ -285,7 +285,7 @@ extension MultipageReviewViewController {
     
     fileprivate func changeTitle(withPage page: Int) {
         title = String.init(format: localizedTitle,
-                            arguments: [page, validatedDocuments.count])
+                            arguments: [page, documentRequests.count])
     }
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {
