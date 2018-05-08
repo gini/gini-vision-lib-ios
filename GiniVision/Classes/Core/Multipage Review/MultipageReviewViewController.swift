@@ -284,8 +284,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = String.init(format: localizedTitle,
-                            arguments: [page, documentRequests.count])
+        title = String(format: localizedTitle, arguments: [page, documentRequests.count])
     }
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {
