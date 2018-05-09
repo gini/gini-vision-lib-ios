@@ -94,4 +94,13 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         }
     }
     
+    func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+        multiPageReviewViewController.navigationItem
+            .rightBarButtonItem?
+            .isEnabled = documentRequests
+                .reduce(true, { result, documentRequest in
+                    result && documentRequest.isUploaded
+                })
+        multiPageReviewViewController.updateCollections(with: documentRequests)
+    }
 }

@@ -272,7 +272,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             self.updateUploadStatusInDocuments(for: document, to: true)
-            self.multiPageReviewViewController.updateCollections(with: self.documentRequests)
+            self.refreshMultipageReview(with: self.documentRequests)
         }
     }
     
@@ -280,7 +280,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             self.updateErrorInDocuments(for: document, to: error)
-            self.multiPageReviewViewController.updateCollections(with: self.documentRequests)
+            self.refreshMultipageReview(with: self.documentRequests)
         }
     }
 }
