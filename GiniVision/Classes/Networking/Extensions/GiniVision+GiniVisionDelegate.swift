@@ -8,10 +8,10 @@
 import Foundation
 
 extension GiniVision {
-    public class func viewController(withClient client: GiniClient,
-                                     importedDocuments: [GiniVisionDocument]? = nil,
-                                     giniConfiguration: GiniConfiguration,
-                                     resultsDelegate: GiniVisionResultsDelegate) -> UIViewController {
+    @objc public class func viewController(withClient client: GiniClient,
+                                           importedDocuments: [GiniVisionDocument]? = nil,
+                                           giniConfiguration: GiniConfiguration,
+                                           resultsDelegate: GiniVisionResultsDelegate) -> UIViewController {
         GiniVision.setConfiguration(giniConfiguration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,

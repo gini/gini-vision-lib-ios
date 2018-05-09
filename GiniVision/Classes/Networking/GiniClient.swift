@@ -7,12 +7,12 @@
 
 import Foundation
 
-public final class GiniClient: NSObject {
+@objc public final class GiniClient: NSObject {
     public let clientId: String
     public let clientSecret: String
     public let clientEmailDomain: String
     
-    public init(clientId: String, clientSecret: String, clientEmailDomain: String) {
+    @objc public init(clientId: String, clientSecret: String, clientEmailDomain: String) {
         self.clientId = clientId
         self.clientSecret = clientSecret
         self.clientEmailDomain = clientEmailDomain
