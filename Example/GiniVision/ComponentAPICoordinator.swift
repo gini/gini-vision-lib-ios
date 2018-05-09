@@ -164,18 +164,18 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func showAnalysisScreen() {
         guard let document = documentRequests.first?.document else { return }
+        
+        startAnalysis()
         analysisScreen = AnalysisViewController(document: document)
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
         navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(forDocument document: GINIDocument,
-                                            withResult result: [String: GINIExtraction]) {
+    fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
-        resultsScreen?.result = result
-        resultsScreen?.document = document
+        resultsScreen?.result = extractions
         
         if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
@@ -214,7 +214,7 @@ extension ComponentAPICoordinator {
             switch documentsType {
             case .image:
                 if giniConfiguration.multipageEnabled {
-                    multipageReviewScreen.updateCollections(with: self.documentRequests)
+                    refreshMultipageReview(with: self.documentRequests)
                     showMultipageReviewScreen()
                 } else {
                     showReviewScreen()
@@ -247,12 +247,21 @@ extension ComponentAPICoordinator {
         navigationStack.append(viewController)
         navigationController.setViewControllers(navigationStack, animated: true)
     }
+    
+    fileprivate func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+        multipageReviewScreen.navigationItem
+            .rightBarButtonItem?
+            .isEnabled = documentRequests
+                .reduce(true, { result, documentRequest in
+                    result && documentRequest.isUploaded
+                })
+        multipageReviewScreen.updateCollections(with: documentRequests)
+    }
 }
 
-// MARK: - Other
+// MARK: - Networking
 
 extension ComponentAPICoordinator {
-    
     fileprivate func upload(documentRequests: [DocumentRequest]) {
         documentRequests.forEach { documentRequest in
             if documentRequest.error == nil {
@@ -267,13 +276,35 @@ extension ComponentAPICoordinator {
                         }
                         
                         if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
-                            self.multipageReviewScreen.updateCollections(with: self.documentRequests)
+                            self.refreshMultipageReview(with: self.documentRequests)
                         }
                     }
                 }
             }
         }
     }
+    
+    fileprivate func startAnalysis() {
+        documentService?.startAnalysis(completion: { result in
+            switch result {
+            case .success(let extractions):
+                self.handleAnalysis(with: extractions)
+                break
+            case .failure(let error):
+                break
+            }
+        })
+    }
+    
+    fileprivate func delete(document: GiniVisionDocument) {
+        documentService?.deletePartialDocument(withId: document.id)
+        documentService?.remove(document: document)
+    }
+}
+
+// MARK: - Other
+
+extension ComponentAPICoordinator {
     
     fileprivate func setupTabBar() {
         let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
@@ -375,7 +406,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         // Here you can show the Onboarding screen in case that you decide
-        // to launch it from there
+        // to launch it once the camera screen appears
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
@@ -467,7 +498,6 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     
     func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
         documentRequests.remove(documentRequest.document)
-        documentService?.remove(document: documentRequest.document)
         
         if documentRequests.isEmpty {
             navigationController.popViewController(animated: true)
@@ -540,18 +570,14 @@ extension ComponentAPICoordinator {
 // MARK: Handle analysis results
 
 extension ComponentAPICoordinator {
-    fileprivate func handleAnalysis(_ result: [String: GINIExtraction], fromDocument document: GINIDocument) {
+    fileprivate func handleAnalysis(with extractions: [String: GINIExtraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
+        let hasPayFive = extractions.filter { payFive.contains($0.0) }.count > 0
         
         if hasPayFive {
-            showResultsTableScreen(forDocument: document, withResult: result)
+            showResultsTableScreen(withExtractions: extractions)
         } else {
             showNoResultsScreen()
         }
-    }
-    
-    fileprivate func handleAnalysis(error: Error) {
-
     }
 }
