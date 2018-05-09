@@ -98,11 +98,11 @@ internal class Camera: NSObject {
             self.videoDeviceInput?.device.setFlashModeSecurely(.on)
             self.stillImageOutput?
                 .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
-                    guard error != nil else {
-                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer!), nil)
-                        return
+                    if let buffer = buffer, error == nil {
+                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
+                    } else {
+                        completion(nil, .captureFailed)
                     }
-                    completion(nil, .captureFailed)
             }
         }
     }
