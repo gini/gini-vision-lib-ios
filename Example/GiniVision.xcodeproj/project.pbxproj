@@ -103,13 +103,6 @@
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
 			remoteInfo = GiniVision_Example;
 		};
-		1F93351620A334F2004BC50C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1F9334FD20A334F2004BC50C;
-			remoteInfo = "Example ObjC";
-		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -177,7 +170,6 @@
 		1F93350C20A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F93350E20A334F2004BC50C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F93350F20A334F2004BC50C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1F93351520A334F2004BC50C /* Example ObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Example ObjCTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F93352420A33616004BC50C /* CancelationToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelationToken.h; sourceTree = "<group>"; };
 		1F93352520A33616004BC50C /* ScreenAPIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenAPIViewController.h; sourceTree = "<group>"; };
 		1F93352620A33617004BC50C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -210,7 +202,7 @@
 		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
 		28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		607FACD01AFB9204008FA782 /* GiniVision_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GiniVision_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACD01AFB9204008FA782 /* Example Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAPIViewController.swift; sourceTree = "<group>"; };
@@ -249,13 +241,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				419916D85C637C50AAB47532 /* Pods_Example_ObjC.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F93351220A334F2004BC50C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,30 +356,29 @@
 			isa = PBXGroup;
 			children = (
 				0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */,
+				607FACD21AFB9204008FA782 /* Example Swift */,
+				1F9334FF20A334F2004BC50C /* Example ObjC */,
+				0FCE0A335BC8574434680E4E /* Frameworks */,
+				746ED1F9F314AF254449E3C5 /* Pods */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
-				607FACD21AFB9204008FA782 /* Example for GiniVision */,
+				607FACD11AFB9204008FA782 /* Products */,
 				607FACE81AFB9204008FA782 /* Tests */,
 				0A3B96531D478BF700BFEF05 /* UITests */,
-				1F9334FF20A334F2004BC50C /* Example ObjC */,
-				607FACD11AFB9204008FA782 /* Products */,
-				746ED1F9F314AF254449E3C5 /* Pods */,
-				0FCE0A335BC8574434680E4E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
 		607FACD11AFB9204008FA782 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				607FACD01AFB9204008FA782 /* GiniVision_Example.app */,
+				607FACD01AFB9204008FA782 /* Example Swift.app */,
 				607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */,
 				0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */,
 				1F9334FE20A334F2004BC50C /* Example ObjC.app */,
-				1F93351520A334F2004BC50C /* Example ObjCTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		607FACD21AFB9204008FA782 /* Example for GiniVision */ = {
+		607FACD21AFB9204008FA782 /* Example Swift */ = {
 			isa = PBXGroup;
 			children = (
 				1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */,
@@ -412,7 +396,7 @@
 				1F577531203C4EEE0074FD63 /* Screen API */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
-			name = "Example for GiniVision";
+			name = "Example Swift";
 			path = GiniVision;
 			sourceTree = "<group>";
 		};
@@ -555,27 +539,9 @@
 			productReference = 1F9334FE20A334F2004BC50C /* Example ObjC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		1F93351420A334F2004BC50C /* Example ObjCTests */ = {
+		607FACCF1AFB9204008FA782 /* Example Swift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1F93352320A334F2004BC50C /* Build configuration list for PBXNativeTarget "Example ObjCTests" */;
-			buildPhases = (
-				1F93351120A334F2004BC50C /* Sources */,
-				1F93351220A334F2004BC50C /* Frameworks */,
-				1F93351320A334F2004BC50C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1F93351720A334F2004BC50C /* PBXTargetDependency */,
-			);
-			name = "Example ObjCTests";
-			productName = "Example ObjCTests";
-			productReference = 1F93351520A334F2004BC50C /* Example ObjCTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		607FACCF1AFB9204008FA782 /* GiniVision_Example */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Example" */;
+			buildConfigurationList = 607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Example Swift" */;
 			buildPhases = (
 				9FA62A3D130B272850E65229 /* [CP] Check Pods Manifest.lock */,
 				607FACCC1AFB9204008FA782 /* Sources */,
@@ -589,9 +555,9 @@
 			);
 			dependencies = (
 			);
-			name = GiniVision_Example;
+			name = "Example Swift";
 			productName = GiniVision;
-			productReference = 607FACD01AFB9204008FA782 /* GiniVision_Example.app */;
+			productReference = 607FACD01AFB9204008FA782 /* Example Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		607FACE41AFB9204008FA782 /* GiniVision_Tests */ = {
@@ -635,12 +601,6 @@
 						DevelopmentTeam = BQY9KX4V88;
 						ProvisioningStyle = Automatic;
 					};
-					1F93351420A334F2004BC50C = {
-						CreatedOnToolsVersion = 9.3;
-						DevelopmentTeam = BQY9KX4V88;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 1F9334FD20A334F2004BC50C;
-					};
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = BQY9KX4V88;
@@ -675,11 +635,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				607FACCF1AFB9204008FA782 /* GiniVision_Example */,
+				607FACCF1AFB9204008FA782 /* Example Swift */,
+				1F9334FD20A334F2004BC50C /* Example ObjC */,
 				607FACE41AFB9204008FA782 /* GiniVision_Tests */,
 				0A3B96511D478BF700BFEF05 /* GiniVision_UITests */,
-				1F9334FD20A334F2004BC50C /* Example ObjC */,
-				1F93351420A334F2004BC50C /* Example ObjCTests */,
 			);
 		};
 /* End PBXProject section */
@@ -701,13 +660,6 @@
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1F93351320A334F2004BC50C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -999,13 +951,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1F93351120A334F2004BC50C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		607FACCC1AFB9204008FA782 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1072,17 +1017,12 @@
 /* Begin PBXTargetDependency section */
 		0A3B96581D478BF700BFEF05 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* GiniVision_Example */;
+			target = 607FACCF1AFB9204008FA782 /* Example Swift */;
 			targetProxy = 0A3B96571D478BF700BFEF05 /* PBXContainerItemProxy */;
-		};
-		1F93351720A334F2004BC50C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1F9334FD20A334F2004BC50C /* Example ObjC */;
-			targetProxy = 1F93351620A334F2004BC50C /* PBXContainerItemProxy */;
 		};
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* GiniVision_Example */;
+			target = 607FACCF1AFB9204008FA782 /* Example Swift */;
 			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1339,79 +1279,6 @@
 			};
 			name = Release;
 		};
-		1F93351F20A334F2004BC50C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = BQY9KX4V88;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Example ObjCTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjCTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example ObjC.app/Example ObjC";
-			};
-			name = Debug;
-		};
-		1F93352020A334F2004BC50C /* In House */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BQY9KX4V88;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Example ObjCTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjCTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example ObjC.app/Example ObjC";
-			};
-			name = "In House";
-		};
-		1F93352120A334F2004BC50C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BQY9KX4V88;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = "Example ObjCTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjCTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example ObjC.app/Example ObjC";
-			};
-			name = Release;
-		};
 		607FACED1AFB9204008FA782 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1637,16 +1504,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		1F93352320A334F2004BC50C /* Build configuration list for PBXNativeTarget "Example ObjCTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1F93351F20A334F2004BC50C /* Debug */,
-				1F93352020A334F2004BC50C /* In House */,
-				1F93352120A334F2004BC50C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		607FACCB1AFB9204008FA782 /* Build configuration list for PBXProject "GiniVision" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1657,7 +1514,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Example" */ = {
+		607FACEF1AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Example Swift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
