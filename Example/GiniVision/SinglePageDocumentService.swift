@@ -40,18 +40,28 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
         analysisCancellationToken = nil
     }
     
-    func remove(document: GiniVisionDocument) {
+    func delete(_ document: GiniVisionDocument) {
         if let documentId = partialDocumentInfo?.documentUrl {
-            deletePartialDocument(withId: documentId)
+            deletePartialDocument(with: documentId)
         }
         cancelAnalysis()
     }
     
-    func update(imageDocument: GiniImageDocument) {
+    private func deletePartialDocument(with id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
+                                                                        cancellationToken: nil)
+            })
+    }
+    
+    func update(_ imageDocument: GiniImageDocument) {
         partialDocumentInfo?.rotationDelta = Int32(imageDocument.rotationDelta)
     }
     
-    func upload(document: GiniVisionDocument,
+    func upload(_ document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
         partialDocumentInfo = GINIPartialDocumentInfo(documentUrl: nil, rotationDelta: 0)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"

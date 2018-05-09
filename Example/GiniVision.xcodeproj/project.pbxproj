@@ -248,6 +248,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1F1D3B0120A32EAC00F37632 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1F59756720A1C5C00012196B /* UIViewController.swift */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
 		1F577530203C4EB40074FD63 /* Component API */ = {
 			isa = PBXGroup;
 			children = (
@@ -300,13 +308,13 @@
 				1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				1F2E1AA01FB58EC900E1022A /* Coordinator.swift */,
-				1F59756720A1C5C00012196B /* UIViewController.swift */,
 				1F9466C4203702E600F52B40 /* CredentialsManager.swift */,
 				0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */,
 				0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */,
 				607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */,
 				1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */,
 				1F577530203C4EB40074FD63 /* Component API */,
+				1F1D3B0120A32EAC00F37632 /* Extensions */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				1F577531203C4EEE0074FD63 /* Screen API */,

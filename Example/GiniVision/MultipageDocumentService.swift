@@ -38,18 +38,28 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         compositeDocument = nil
     }
     
-    func remove(document: GiniVisionDocument) {
+    func delete(_ document: GiniVisionDocument) {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
                 .info
                 .documentUrl {
-                deletePartialDocument(withId: partialDocumentId)
+                deletePartialDocument(with: partialDocumentId)
             }
             partialDocuments.remove(at: index)
         }
     }
     
-    func update(imageDocument: GiniImageDocument) {
+    private func deletePartialDocument(with id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
+                                                                        cancellationToken: nil)
+            })
+    }
+    
+    func update(_ imageDocument: GiniImageDocument) {
         partialDocuments[imageDocument.id]?.info.rotationDelta = Int32(imageDocument.rotationDelta)
     }
     
@@ -61,7 +71,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         
     }
     
-    func upload(document: GiniVisionDocument,
+    func upload(_ document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token

@@ -59,10 +59,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                                                                   giniConfiguration: giniConfiguration)
         multipageReviewScreen.delegate = self
         addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
-        multipageReviewScreen.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
-                                                                                  style: .plain,
-                                                                                  target: self,
-                                                                                  action: #selector(showAnalysisScreen))
+        let weiterBarButton = UIBarButtonItem(title: "Weiter",
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(showAnalysisScreen))
+        weiterBarButton.isEnabled = false
+        multipageReviewScreen.navigationItem.rightBarButtonItem = weiterBarButton
         return multipageReviewScreen
     }()
     
@@ -70,7 +72,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var cameraScreen: CameraViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) var reviewScreen: ReviewViewController?
-    fileprivate(set) lazy var documentPickerCoordinator = DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
+    fileprivate(set) lazy var documentPickerCoordinator =
+        DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
 
     init(documentRequests: [DocumentRequest],
          configuration: GiniConfiguration,
@@ -150,14 +153,13 @@ extension ComponentAPICoordinator {
     
     fileprivate func showReviewScreen() {
         guard let document = documentRequests.first?.document else { return }
-        reviewScreen = ReviewViewController(document, giniConfiguration: giniConfiguration)
+        reviewScreen = ReviewViewController(document: document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
         reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
                                                                           style: .plain,
                                                                           target: self,
                                                                           action: #selector(showAnalysisScreen))
-        
         
         navigationController.pushViewController(reviewScreen!, animated: true)
     }
@@ -265,9 +267,10 @@ extension ComponentAPICoordinator {
     fileprivate func upload(documentRequests: [DocumentRequest]) {
         documentRequests.forEach { documentRequest in
             if documentRequest.error == nil {
-                self.documentService?.upload(document: documentRequest.document) { result in
+                self.documentService?.upload(documentRequest.document) { result in
                     DispatchQueue.main.async { [weak self] in
-                        guard let `self` = self, let index = self.documentRequests.index(of: documentRequest.document) else { return }
+                        guard let `self` = self, let index = self.documentRequests
+                            .index(of: documentRequest.document) else { return }
                         switch result {
                         case .success:
                             self.documentRequests[index].isUploaded = true
@@ -289,7 +292,6 @@ extension ComponentAPICoordinator {
             switch result {
             case .success(let extractions):
                 self.handleAnalysis(with: extractions)
-                break
             case .failure(let error):
                 break
             }
@@ -297,8 +299,7 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func delete(document: GiniVisionDocument) {
-        documentService?.deletePartialDocument(withId: document.id)
-        documentService?.remove(document: document)
+        documentService?.delete(document)
     }
 }
 
@@ -346,7 +347,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        if fromVC is ReviewViewController && toVC is CameraViewController {
+        if fromVC is ReviewViewController && operation == .pop {
             reviewScreen = nil
             documentService?.cancelAnalysis()
         }
@@ -399,7 +400,6 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
                         self.showMultipageReviewScreen()
                     }
                 }
-                break
             }
         }
     }
@@ -497,6 +497,7 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
+        documentService?.delete(documentRequest.document)
         documentRequests.remove(documentRequest.document)
         
         if documentRequests.isEmpty {
