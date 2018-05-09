@@ -84,7 +84,6 @@
 		1FFC9E6720512E04007D505D /* GiniScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */; };
 		1FFC9E6A20513388007D505D /* GiniVisionDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */; };
 		2C6F599D8B27A6A37706D1EA /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02ECA63474B5ED5FCF96CEA /* Pods_GiniVision_UITests.framework */; };
-		37975173A4FFCC2734442225 /* Pods_GiniVision_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */; };
 		419916D85C637C50AAB47532 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B00B4CEC80722D85C7693C1D /* Pods_Example_ObjC.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */; };
@@ -253,7 +252,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37975173A4FFCC2734442225 /* Pods_GiniVision_Example.framework in Frameworks */,
 				857088AA1E934FD1AFB73F21 /* Pods_Example_Swift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
