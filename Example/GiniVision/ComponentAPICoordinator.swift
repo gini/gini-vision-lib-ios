@@ -40,6 +40,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 
         return navBarViewController
     }()
+    
     fileprivate lazy var componentAPITabBarController: UITabBarController = {
         let tabBarViewController = UITabBarController()
         tabBarViewController.tabBar.barTintColor = self.giniColor
@@ -52,6 +53,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
+    
     fileprivate(set) lazy var multipageReviewScreen: MultipageReviewViewController = {
         let multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
                                                                   giniConfiguration: giniConfiguration)
@@ -114,8 +116,11 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             }
         }
     }
-    
-    // MARK: Show screens
+}
+
+// MARK: Screens presentation
+
+extension ComponentAPICoordinator {
     fileprivate func showCameraScreen() {
         cameraScreen = CameraViewController(giniConfiguration: giniConfiguration)
         cameraScreen?.delegate = self
@@ -123,11 +128,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                                                                          style: .plain,
                                                                          target: self,
                                                                          action: #selector(closeComponentAPI))
-
+        
         if giniConfiguration.fileImportSupportedTypes != .none {
             documentPickerCoordinator.delegate = self
             
-            if documentPickerCoordinator.isGalleryPermissionGranted {
+            if giniConfiguration.fileImportSupportedTypes == .pdf_and_images,
+                documentPickerCoordinator.isGalleryPermissionGranted {
                 documentPickerCoordinator.startCaching()
             }
             
@@ -203,12 +209,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 
     }
     
-    func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
-        let visionDocuments = documentRequests.map { $0.document }
-        if let documentsType = visionDocuments.type {
+    fileprivate func showNextScreenAfterPicking() {
+        if let documentsType = documentRequests.type {
             switch documentsType {
             case .image:
-                if self.giniConfiguration.multipageEnabled {
+                if giniConfiguration.multipageEnabled {
+                    multipageReviewScreen.updateCollections(with: self.documentRequests)
                     showMultipageReviewScreen()
                 } else {
                     showReviewScreen()
@@ -217,19 +223,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                 showAnalysisScreen()
             }
         }
-    }
-    
-    // MARK: Other
-    fileprivate func setupTabBar() {
-        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
-        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
-        
-        self.navigationController.tabBarItem = navTabBarItem
-        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
-        
-        self.componentAPITabBarController.setViewControllers([navigationController,
-                                                              componentAPIOnboardingViewController],
-                                                             animated: true)
     }
     
     @objc fileprivate func closeComponentAPI() {
@@ -244,15 +237,6 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         closeComponentAPI()
     }
     
-    fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
-        if navigationController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
-                                                                              style: .plain,
-                                                                              target: self,
-                                                                              action: #selector(closeComponentAPI))
-        }
-    }
-    
     fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
         var navigationStack = navigationController.viewControllers
         
@@ -262,6 +246,54 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         }
         navigationStack.append(viewController)
         navigationController.setViewControllers(navigationStack, animated: true)
+    }
+}
+
+// MARK: - Other
+
+extension ComponentAPICoordinator {
+    
+    fileprivate func upload(documentRequests: [DocumentRequest]) {
+        documentRequests.forEach { documentRequest in
+            if documentRequest.error == nil {
+                self.documentService?.upload(document: documentRequest.document) { result in
+                    DispatchQueue.main.async { [weak self] in
+                        guard let `self` = self, let index = self.documentRequests.index(of: documentRequest.document) else { return }
+                        switch result {
+                        case .success:
+                            self.documentRequests[index].isUploaded = true
+                        case .failure(let error):
+                            self.documentRequests[index].error = error
+                        }
+                        
+                        if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
+                            self.multipageReviewScreen.updateCollections(with: self.documentRequests)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    fileprivate func setupTabBar() {
+        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
+        
+        self.navigationController.tabBarItem = navTabBarItem
+        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
+        
+        self.componentAPITabBarController.setViewControllers([navigationController,
+                                                              componentAPIOnboardingViewController],
+                                                             animated: true)
+    }
+    
+    fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
+        if navigationController.viewControllers.isEmpty {
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
+                                                                              style: .plain,
+                                                                              target: self,
+                                                                              action: #selector(closeComponentAPI))
+        }
     }
     
     func didTapRetry() {
@@ -277,27 +309,39 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
 // MARK: UINavigationControllerDelegate
 
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
+    
     func navigationController(_ navigationController: UINavigationController,
-                              willShow viewController: UIViewController,
-                              animated: Bool) {
-        guard let fromViewController = navigationController
-            .transitionCoordinator?.viewController(forKey: .from) else { return }
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
-        if fromViewController is ReviewViewController &&
-            viewController is CameraViewController {
+        if fromVC is ReviewViewController && toVC is CameraViewController {
             reviewScreen = nil
             documentService?.cancelAnalysis()
         }
         
-        if fromViewController is AnalysisViewController &&
-            viewController is ReviewViewController {
+        if fromVC is AnalysisViewController && operation == .pop {
+            // Going directly from the analysis to the camera means that
+            // the document is not an image and should be removed
+            if toVC is CameraViewController {
+                documentRequests.removeAll()
+            }
+            
             analysisScreen = nil
             documentService?.cancelAnalysis()
         }
         
-        if let resultsScreen = fromViewController as? ResultTableViewController {
+        if let resultsScreen = fromVC as? ResultTableViewController {
             documentService?.sendFeedback(with: resultsScreen.result)
         }
+        
+        if let cameraViewController = toVC as? CameraViewController,
+            fromVC is MultipageReviewViewController {
+            cameraViewController
+                .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage })
+        }
+        
+        return nil
     }
 }
 
@@ -309,16 +353,14 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
             switch result {
             case .success(let documentRequests):
                 self.documentRequests.append(contentsOf: documentRequests)
-                if document.isReviewable {
-                    if let imageDocument = document as? GiniImageDocument, self.giniConfiguration.multipageEnabled {
-                        viewController.animateToControlsView(imageDocument: imageDocument) {
-                            self.showMultipageReviewScreen()
-                        }
-                    } else {
-                        self.showReviewScreen()
+                self.upload(documentRequests: documentRequests)
+                
+                if self.giniConfiguration.multipageEnabled, self.documentRequests.count > 1 {
+                    if let imageDocument = document as? GiniImageDocument {
+                        viewController.animateToControlsView(imageDocument: imageDocument)
                     }
                 } else {
-                    self.showAnalysisScreen()
+                    self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
@@ -333,7 +375,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         // Here you can show the Onboarding screen in case that you decide
-        // to launch it from the camera screen
+        // to launch it from there
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
@@ -358,15 +400,11 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
         self.validate(documents) { result in
             switch result {
-            case .success(let validatedDocuments):
+            case .success(let documentRequests):
                 coordinator.dismissCurrentPicker {
-                    self.documentRequests.append(contentsOf: validatedDocuments)
-                    validatedDocuments.forEach { validatedDocument in
-                        if validatedDocument.error == nil {
-                            self.documentService?.upload(document: validatedDocument.document)
-                        }
-                    }
-                    self.showNextScreenAfterPicking(documentRequests: validatedDocuments)
+                    self.documentRequests.append(contentsOf: documentRequests)
+                    self.upload(documentRequests: documentRequests)
+                    self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
                 var positiveAction: (() -> Void)?

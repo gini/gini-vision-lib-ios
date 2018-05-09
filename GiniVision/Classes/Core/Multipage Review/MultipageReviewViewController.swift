@@ -251,7 +251,12 @@ extension MultipageReviewViewController {
         selectItem(at: lastPosition, animated: animated)
     }
     
-    func reloadCollections() {
+    public func updateCollections(with documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
+        self.reloadCollections()
+    }
+    
+    private func reloadCollections() {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()

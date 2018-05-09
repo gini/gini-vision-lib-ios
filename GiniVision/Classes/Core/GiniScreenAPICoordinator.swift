@@ -119,7 +119,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
                 self.cameraViewController?
-                    .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage} )
+                    .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage } )
                 
                 self.multiPageReviewViewController =
                     createMultipageReviewScreenContainer(with: documentRequests)
@@ -144,7 +144,7 @@ extension GiniScreenAPICoordinator {
         self.documentRequests.append(contentsOf: documentRequests)
         
         if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            refreshMultipageReview(with: documentRequests)
+            self.multiPageReviewViewController.updateCollections(with: self.documentRequests)
         }
     }
     

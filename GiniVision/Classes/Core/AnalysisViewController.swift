@@ -133,7 +133,8 @@ import UIKit
     
     public override func loadView() {
         super.loadView()
-        self.imageView.image = self.document.previewImage
+        imageView.image = document.previewImage
+        edgesForExtendedLayout = []
         
         // Configure view hierachy
         addImageView()
