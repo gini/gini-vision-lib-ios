@@ -14,7 +14,7 @@ protocol GalleryManagerProtocol: class {
                     imageQuality: ImageQuality,
                     completion: @escaping ((UIImage) -> Void))
     func fetchImageData(from asset: Asset, completion: @escaping ((Data?) -> Void))
-    func fetchRemoteImageData(from asset: Asset,completion: @escaping ((Data?) -> Void))
+    func fetchRemoteImageData(from asset: Asset, completion: @escaping ((Data?) -> Void))
     func reloadAlbums()
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)

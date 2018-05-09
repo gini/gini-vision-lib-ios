@@ -366,7 +366,7 @@ internal extension NSMutableDictionary {
     fileprivate var stringKeys: [String] {
         return allKeys
             .map { $0 as? String }
-            .flatMap { $0 }
+            .compactMap { $0 }
     }
     
     func set(metaInformation value: AnyObject?, forKey key: String, inSubdictionary isSubdictionary: Bool = false) {
@@ -396,7 +396,7 @@ internal extension NSMutableDictionary {
         // Try to set in subdictioanies
         let dictionaries = allValues
             .map { $0 as? NSMutableDictionary }
-            .flatMap { $0 }
+            .compactMap { $0 }
         
         for dictionary in dictionaries {
             dictionary.set(metaInformation: value, forKey: key, inSubdictionary: true)
@@ -411,7 +411,7 @@ internal extension NSMutableDictionary {
         }
         let dictionaries = allValues
             .map { $0 as? NSMutableDictionary }
-            .flatMap { $0 }
+            .compactMap { $0 }
         
         for dictionary in dictionaries {
             if let value = dictionary.getMetaInformation(forKey: key) {

@@ -15,7 +15,7 @@ internal extension UIImage {
         filter?.setValue("Q", forKey: "inputCorrectionLevel")
 
         if let outputImage = filter?.outputImage {
-            self.init(ciImage: outputImage.applying(CGAffineTransform(scaleX: 2, y: 2)))
+            self.init(ciImage: outputImage.transformed(by: CGAffineTransform(scaleX: 2, y: 2)))
         } else {
             return nil
         }

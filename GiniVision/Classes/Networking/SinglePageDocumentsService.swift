@@ -40,7 +40,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func remove(document: GiniVisionDocument) {
-        if let documentId = partialDocumentInfo?.documentId {
+        if let documentId = partialDocumentInfo?.documentUrl {
             deletePartialDocument(withId: documentId)
         }
         cancelAnalysis()
@@ -52,14 +52,14 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?) {
-        partialDocumentInfo = GINIPartialDocumentInfo(documentId: nil, rotationDelta: 0)
+        partialDocumentInfo = GINIPartialDocumentInfo(documentUrl: nil, rotationDelta: 0)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
 
         createDocument(from: document,
                        fileName: fileName) { result in
             switch result {
             case .success(let document):
-                self.partialDocumentInfo?.documentId = document.links.document
+                self.partialDocumentInfo?.documentUrl = document.links.document
                 
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)

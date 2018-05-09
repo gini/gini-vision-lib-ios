@@ -78,10 +78,10 @@ import UIKit
     fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
     fileprivate lazy var loadingIndicatorContainer: UIView = {
         let loadingIndicatorContainer = UIView(frame: CGRect(origin: .zero,
-                                                             size: CGSize(width: loadingIndicatorContainerHeight,
-                                                                          height: loadingIndicatorContainerHeight)))
+                                                             size: CGSize(width: AnalysisViewController.loadingIndicatorContainerHeight,
+                                                                          height: AnalysisViewController.loadingIndicatorContainerHeight)))
         loadingIndicatorContainer.backgroundColor = .white
-        loadingIndicatorContainer.layer.cornerRadius = loadingIndicatorContainerHeight / 2
+        loadingIndicatorContainer.layer.cornerRadius = AnalysisViewController.loadingIndicatorContainerHeight / 2
         loadingIndicatorContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
         loadingIndicatorContainer.layer.shadowRadius = 0.8
         loadingIndicatorContainer.layer.shadowOpacity = 0.2

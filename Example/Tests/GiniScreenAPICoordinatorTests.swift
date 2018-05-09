@@ -113,7 +113,6 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
                                     didDelete: coordinator.multiPageReviewViewController.documentRequests[0])
-        
         XCTAssertTrue(coordinator.documentRequests.isEmpty,
                       "vision documents collection should be empty after delete " +
             "the image in the multipage review view controller")

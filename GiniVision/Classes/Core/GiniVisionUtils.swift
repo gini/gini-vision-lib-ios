@@ -60,7 +60,7 @@ internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: C
  */
 internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UIFont {
     if #available(iOS 8.2, *) {
-        return UIFont.systemFont(ofSize: size, weight: weight.cgFloatValue)
+        return UIFont.systemFont(ofSize: size, weight: UIFont.Weight(rawValue: weight.cgFloatValue))
     } else {
         let fontName = weight == .regular ? "HelveticaNeue" : "HelveticaNeue-\(weight.stringValue)"
         let font = UIFont(name: fontName, size: size)
@@ -99,13 +99,13 @@ internal enum FontWeight {
     var cgFloatValue: CGFloat {
         switch self {
         case .thin:
-            return UIFontWeightThin
+            return UIFont.Weight.thin.rawValue
         case .light:
-            return UIFontWeightLight
+            return UIFont.Weight.light.rawValue
         case .regular:
-            return UIFontWeightRegular
+            return UIFont.Weight.regular.rawValue
         case .bold:
-            return UIFontWeightBold
+            return UIFont.Weight.bold.rawValue
         }
     }
 }
@@ -119,7 +119,7 @@ internal class Constraints {
                       attr attr2: NSLayoutAttribute,
                       multiplier: CGFloat = 1.0,
                       constant: CGFloat = 0,
-                      priority: UILayoutPriority = 1000,
+                      priority: Float = 1000,
                       identifier: String? = nil) {
         
         let constraint = NSLayoutConstraint(item: view1,
@@ -132,9 +132,9 @@ internal class Constraints {
     }
     
     class func active(constraint: NSLayoutConstraint,
-                      priority: UILayoutPriority = 1000,
+                      priority: Float = 1000,
                       identifier: String? = nil) {
-        constraint.priority = priority
+        constraint.priority = UILayoutPriority(priority)
         constraint.identifier = identifier
         constraint.isActive = true
     }

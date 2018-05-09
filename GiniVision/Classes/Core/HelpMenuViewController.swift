@@ -66,7 +66,7 @@ final public class HelpMenuViewController: UITableViewController {
                                 comment: "Button title in the navigation bar for the back button on the help screen",
                                 configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
-    public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+    public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
@@ -95,7 +95,7 @@ final public class HelpMenuViewController: UITableViewController {
                             target: self)
     }
     
-    func back() {
+    @objc func back() {
         navigationController?.popViewController(animated: true)
     }
     
@@ -118,7 +118,7 @@ final public class HelpMenuViewController: UITableViewController {
             vc.didTapBottomButton = {
                 if let cameraViewController = (self.navigationController?
                     .viewControllers
-                    .flatMap { $0 as? CameraViewController })?
+                    .compactMap { $0 as? CameraViewController })?
                     .first {
                     _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
                 }
