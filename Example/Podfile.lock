@@ -37,7 +37,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Gini-iOS-SDK:
-    :commit: 95fd06b32cbb98792390995e400b9a6fa2502cb9
+    :commit: 7efa7ca3785a388bdd6051dcd7444fa0f442c999
     :git: git@github.com:gini/gini-sdk-ios.git
 
 SPEC CHECKSUMS:
@@ -46,6 +46,6 @@ SPEC CHECKSUMS:
   GiniVision: 9488f743f3e51ced2656d3ba44826e8e3a2ad62f
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
-PODFILE CHECKSUM: c78dd5155e6ce9299870d174cede9fbec62a6dc6
+PODFILE CHECKSUM: 1e4e59309bedafd80007c788d5a841f9d00ba0fc
 
 COCOAPODS: 1.4.0
