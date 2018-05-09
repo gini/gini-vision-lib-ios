@@ -70,6 +70,8 @@
 		1FA85EFA1FD6B569005C0C24 /* GINIQRCodeDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA85EF81FD6B520005C0C24 /* GINIQRCodeDocumentTests.swift */; };
 		1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */; };
 		1FAA2AB120A5D31000A54452 /* ReviewViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */; };
+		1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9620A3546E00A54452 /* CredentialsManager.m */; };
+		1FAA2A9A20A3567C00A54452 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9920A3567C00A54452 /* Credentials.plist */; };
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
 		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
 		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
@@ -182,6 +184,9 @@
 		1FA85EF81FD6B520005C0C24 /* GINIQRCodeDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIQRCodeDocumentTests.swift; sourceTree = "<group>"; };
 		1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewControllerTests.swift; sourceTree = "<group>"; };
 		1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewControllerDelegateMock.swift; sourceTree = "<group>"; };
+		1FAA2A9620A3546E00A54452 /* CredentialsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsManager.m; sourceTree = "<group>"; };
+		1FAA2A9820A3548D00A54452 /* CredentialsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsManager.h; sourceTree = "<group>"; };
+		1FAA2A9920A3567C00A54452 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
 		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -328,21 +333,24 @@
 			isa = PBXGroup;
 			children = (
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
+				1F93350120A334F2004BC50C /* AppDelegate.m */,
+				1F93350920A334F2004BC50C /* Assets.xcassets */,
+				1FAA2A9820A3548D00A54452 /* CredentialsManager.h */,
+				1FAA2A9620A3546E00A54452 /* CredentialsManager.m */,
+				1F93350E20A334F2004BC50C /* Info.plist */,
+				1F93350B20A334F2004BC50C /* LaunchScreen.storyboard */,
 				1F93352620A33617004BC50C /* Localizable.strings */,
+				1F93350F20A334F2004BC50C /* main.m */,
+				1F93350620A334F2004BC50C /* Main.storyboard */,
 				1F93352820A33617004BC50C /* NoResultViewController.h */,
 				1F93352920A33617004BC50C /* NoResultViewController.m */,
+				1FAA2A9920A3567C00A54452 /* Credentials.plist */,
 				1F93352A20A33617004BC50C /* ResultTableViewController.h */,
 				1F93352E20A33617004BC50C /* ResultTableViewController.m */,
 				1F93352520A33616004BC50C /* ScreenAPIViewController.h */,
 				1F93352C20A33617004BC50C /* ScreenAPIViewController.m */,
-				1F93350120A334F2004BC50C /* AppDelegate.m */,
 				1F93350320A334F2004BC50C /* ViewController.h */,
 				1F93350420A334F2004BC50C /* ViewController.m */,
-				1F93350620A334F2004BC50C /* Main.storyboard */,
-				1F93350920A334F2004BC50C /* Assets.xcassets */,
-				1F93350B20A334F2004BC50C /* LaunchScreen.storyboard */,
-				1F93350E20A334F2004BC50C /* Info.plist */,
-				1F93350F20A334F2004BC50C /* main.m */,
 			);
 			path = "Example ObjC";
 			sourceTree = "<group>";
@@ -656,6 +664,7 @@
 			files = (
 				1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */,
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
+				1FAA2A9A20A3567C00A54452 /* Credentials.plist in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
 			);
@@ -938,6 +947,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */,
 				1F93350520A334F2004BC50C /* ViewController.m in Sources */,
 				1F93351020A334F2004BC50C /* main.m in Sources */,
 				1F93350220A334F2004BC50C /* AppDelegate.m in Sources */,

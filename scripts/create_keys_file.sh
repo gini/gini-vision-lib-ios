@@ -11,5 +11,7 @@ printf '<?xml version="1.0" encoding="UTF-8"?>
 	<string>'$client_password'</string>
 	<key>client_id</key>
 	<string>'$client_id'</string>
+	<key>client_domain</key>
+	<string>gini.net</key>
 </dict>
 </plist>' > Example/Credentials.plist

@@ -7,15 +7,12 @@
 //
 
 #import "ScreenAPIViewController.h"
-#import "AnalysisManager.h"
 #import "ResultTableViewController.h"
 #import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
+#import "CredentialsManager.h"
 
-@interface ScreenAPIViewController () <GiniVisionResultsDelegate> {
-    id<AnalysisDelegate> _analysisDelegate;
-    NSData *_imageData;
-}
+@interface ScreenAPIViewController () <GiniVisionResultsDelegate>
 
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSDictionary *result;
@@ -54,7 +51,9 @@
     giniConfiguration.openWithEnabled = YES;
     giniConfiguration.qrCodeScanningEnabled = YES;
     
-    GiniClient *client = [[GiniClient alloc] initWithClientId:@"polo" clientSecret:@"loco" clientEmailDomain:@"polasd"];
+    NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init] getCredentials];
+    
+    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[@"client_id"] clientSecret:credentials[@"client_password"] clientEmailDomain:credentials[@"client_domain"]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
