@@ -31,12 +31,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
     lazy var multiPageReviewViewController: MultipageReviewViewController = {
-        if let type = self.documentRequests.type, type != .image {
-            assertionFailure("The MultipageReviewViewController can only handle image documents.")
-        }
-        let multiPageReviewViewController =
-            self.createMultipageReviewScreenContainer(with: self.documentRequests)
-        return multiPageReviewViewController
+        return self.createMultipageReviewScreenContainer(with: [])
     }()
     lazy var documentPickerCoordinator: DocumentPickerCoordinator = {
         return DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
@@ -222,9 +217,15 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if fromVC == analysisViewController && operation == .pop {
+            // Going directly from the analysis to the camera means that
+            // the document is not an image and should be removed
+            if toVC == cameraViewController {
+                documentRequests.removeAll()
+            }
             analysisViewController = nil
             visionDelegate?.didCancelAnalysis()
         }
+        
         if fromVC == reviewViewController && toVC == cameraViewController {
             // This can only happen when not using multipage
             reviewViewController = nil
