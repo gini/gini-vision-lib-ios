@@ -34,18 +34,18 @@ protocol DocumentServiceProtocol: class {
     init(sdk: GiniSDK)
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func cancelAnalysis()
-    func remove(document: GiniVisionDocument)
-    func upload(document: GiniVisionDocument,
+    func delete(_ document: GiniVisionDocument)
+    func upload(_ document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?)
-    func update(imageDocument: GiniImageDocument)
+    func update(_ imageDocument: GiniImageDocument)
 }
 
 extension DocumentServiceProtocol {
     
     var rotationDeltaKey: String { return "rotationDelta" }
     
-    func upload(document: GiniVisionDocument) {
-        self.upload(document: document,
+    func upload(_ document: GiniVisionDocument) {
+        self.upload(document,
                     completion: nil)
     }
     
@@ -84,16 +84,6 @@ extension DocumentServiceProtocol {
             .continueOnSuccessWith(block: { [weak self] _ in
                 self?.giniSDK.documentTaskManager.deleteCompositeDocument(withId: id,
                                                                           cancellationToken: nil)
-            })
-    }
-    
-    func deletePartialDocument(withId id: String) {
-        giniSDK.sessionManager
-            .getSession()
-            .continueWith(block: sessionBlock(cancellationToken: nil))
-            .continueOnSuccessWith(block: { [weak self] _ in
-                self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
-                                                                        cancellationToken: nil)
             })
     }
     

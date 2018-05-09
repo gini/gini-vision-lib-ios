@@ -250,6 +250,10 @@ extension MultipageReviewViewController {
     private func reloadCollections() {
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()
+        
+        if let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first {
+            self.selectItem(at: currentSelectedItem.row)
+        }
     }
     
 }
