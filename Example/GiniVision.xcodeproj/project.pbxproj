@@ -401,8 +401,7 @@
 				1F577531203C4EEE0074FD63 /* Screen API */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 			);
-			name = "Example Swift";
-			path = GiniVision;
+			path = "Example Swift";
 			sourceTree = "<group>";
 		};
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
@@ -625,6 +624,7 @@
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = BQY9KX4V88;
 						LastSwiftMigration = 0930;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -1132,7 +1132,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
-				INFOPLIST_FILE = GiniVision/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -1151,6 +1151,7 @@
 			baseConfigurationReference = 7F2CC95F2A1A2BF964FFCF74 /* Pods-GiniVision_Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1161,7 +1162,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example Swift.app/Example Swift";
 			};
 			name = Release;
 		};
@@ -1405,7 +1406,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
-				INFOPLIST_FILE = GiniVision/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -1432,7 +1433,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
-				INFOPLIST_FILE = GiniVision/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
@@ -1452,6 +1453,7 @@
 			baseConfigurationReference = 28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1466,7 +1468,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example Swift.app/Example Swift";
 			};
 			name = Debug;
 		};
@@ -1475,6 +1477,7 @@
 			baseConfigurationReference = D068EF1D8B20A075AC9402F9 /* Pods-GiniVision_Tests.in house.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = BQY9KX4V88;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1485,7 +1488,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GiniVision_Example.app/GiniVision_Example";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Example Swift.app/Example Swift";
 			};
 			name = "In House";
 		};
