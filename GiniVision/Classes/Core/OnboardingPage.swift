@@ -41,11 +41,11 @@ import UIKit
 
         // Configure label
         textLabel.numberOfLines = 0
-        textLabel.textColor = GiniConfiguration.sharedConfiguration.onboardingTextColor
+        textLabel.textColor = GiniConfiguration.shared.onboardingTextColor
         textLabel.textAlignment = .center
-        textLabel.font = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
-            GiniConfiguration.sharedConfiguration.customFont.thin.withSize(28) :
-            GiniConfiguration.sharedConfiguration.onboardingTextFont
+        textLabel.font = GiniConfiguration.shared.customFont.isEnabled ?
+            GiniConfiguration.shared.customFont.thin.withSize(28) :
+            GiniConfiguration.shared.onboardingTextFont
         
         // Configure view hierachy
         addSubview(contentView)

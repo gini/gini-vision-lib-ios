@@ -21,13 +21,13 @@ internal class GiniNavigationViewController: UINavigationController {
         
         // Edit style of navigation bar
         navigationBar.isTranslucent = false
-        navigationBar.barTintColor = GiniConfiguration.sharedConfiguration.navigationBarTintColor
-        navigationBar.tintColor = GiniConfiguration.sharedConfiguration.navigationBarItemTintColor
+        navigationBar.barTintColor = GiniConfiguration.shared.navigationBarTintColor
+        navigationBar.tintColor = GiniConfiguration.shared.navigationBarItemTintColor
         var attributes = navigationBar.titleTextAttributes ?? [NSAttributedStringKey: Any]()
-        attributes[NSAttributedStringKey.foregroundColor] = GiniConfiguration.sharedConfiguration.navigationBarTitleColor
-        attributes[NSAttributedStringKey.font] = GiniConfiguration.sharedConfiguration.customFont.isEnabled ?
-            GiniConfiguration.sharedConfiguration.customFont.light.withSize(16) :
-            GiniConfiguration.sharedConfiguration.navigationBarTitleFont
+        attributes[NSAttributedStringKey.foregroundColor] = GiniConfiguration.shared.navigationBarTitleColor
+        attributes[NSAttributedStringKey.font] = GiniConfiguration.shared.customFont.isEnabled ?
+            GiniConfiguration.shared.customFont.light.withSize(16) :
+            GiniConfiguration.shared.navigationBarTitleFont
         navigationBar.titleTextAttributes = attributes
     }
     

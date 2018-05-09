@@ -75,7 +75,7 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         return blurredView
     }()
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration,
+    init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared,
          withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
         self.giniConfiguration = giniConfiguration
         self.completionBlock = completion
@@ -210,8 +210,8 @@ extension OnboardingContainerViewController: UIScrollViewDelegate {
 
 extension OnboardingContainerViewController {
     static var willBeShown: Bool {
-        return (GiniConfiguration.sharedConfiguration.onboardingShowAtFirstLaunch &&
+        return (GiniConfiguration.shared.onboardingShowAtFirstLaunch &&
             !UserDefaults.standard.bool(forKey: "ginivision.defaults.onboardingShowed")) ||
-            GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch
+            GiniConfiguration.shared.onboardingShowAtLaunch
     }
 }

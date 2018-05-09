@@ -228,7 +228,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     @available(*, deprecated)
     public convenience init(successBlock: @escaping CameraScreenSuccessBlock,
                             failureBlock: @escaping CameraScreenFailureBlock) {
-        self.init(giniConfiguration: GiniConfiguration.sharedConfiguration)
+        self.init(giniConfiguration: GiniConfiguration.shared)
         
         // Set callback
         self.successBlock = successBlock

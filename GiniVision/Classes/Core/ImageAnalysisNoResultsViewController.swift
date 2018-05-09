@@ -43,7 +43,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
         bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
         bottomButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
-        bottomButton.backgroundColor = GiniConfiguration.sharedConfiguration.noResultsBottomButtonColor
+        bottomButton.backgroundColor = GiniConfiguration.shared.noResultsBottomButtonColor
         return bottomButton
     }()
     

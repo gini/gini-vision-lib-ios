@@ -33,7 +33,7 @@ final class ContainerNavigationController: UIViewController {
     
     init(rootViewController: UINavigationController,
          parent: Coordinator? = nil,
-         giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+         giniConfiguration: GiniConfiguration = GiniConfiguration.shared) {
         self.rootViewController = rootViewController
         self.coordinator = parent
         self.giniConfiguration = giniConfiguration

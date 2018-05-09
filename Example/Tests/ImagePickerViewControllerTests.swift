@@ -16,7 +16,7 @@ final class ImagePickerViewControllerTests: XCTestCase {
     
     lazy var vc = ImagePickerViewController(album: self.currentAlbum,
                                             galleryManager: GalleryManagerMock(),
-                                            giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                            giniConfiguration: GiniConfiguration.shared)
     
     override func setUp() {
         super.setUp()

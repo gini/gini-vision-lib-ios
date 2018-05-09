@@ -12,19 +12,19 @@ import XCTest
 final class GalleryCoordinatorTests: XCTestCase {
     
     let galleryManager = GalleryManagerMock()
-    let giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration
+    let giniConfiguration: GiniConfiguration = GiniConfiguration.shared
     let selectedImageDocuments: [GiniImageDocument] = [
         GiniImageDocument(data: Data(count: 1), imageSource: .external),
         GiniImageDocument(data: Data(count: 2), imageSource: .external),
         GiniImageDocument(data: Data(count: 3), imageSource: .external)
     ]
     lazy var coordinator = GalleryCoordinator(galleryManager: self.galleryManager,
-                                              giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                              giniConfiguration: GiniConfiguration.shared)
     
     var dummyImagePicker: ImagePickerViewController {
         return ImagePickerViewController(album: galleryManager.albums[0],
                                          galleryManager: galleryManager,
-                                         giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                         giniConfiguration: GiniConfiguration.shared)
     }
     
     var dummyAlbumPicker: AlbumsPickerViewController {
@@ -117,7 +117,7 @@ final class GalleryCoordinatorTests: XCTestCase {
     fileprivate func selectImage(at index: IndexPath, in album: Album, handler: @escaping ((ImagePickerViewController) -> Void)) {
         let imagePicker = ImagePickerViewController(album: album,
                                                     galleryManager: galleryManager,
-                                                    giniConfiguration: GiniConfiguration.sharedConfiguration)
+                                                    giniConfiguration: GiniConfiguration.shared)
         coordinator.imagePicker(imagePicker,
                                 didSelectAsset: album.assets[index.row],
                                 at: index)
