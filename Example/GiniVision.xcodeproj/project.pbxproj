@@ -18,7 +18,6 @@
 		0A6A78A61E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */; };
 		0A6A78A81E1412E000AEB328 /* GINICameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */; };
 		0A82FAD21D59D78300D84632 /* GINIAnalysisUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */; };
-		0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */; };
 		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* DocumentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */; };
@@ -113,7 +112,6 @@
 		0A6A78A51E140F8500AEB328 /* GINIOnboardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINIOnboardingViewControllerTests.swift; sourceTree = "<group>"; };
 		0A6A78A71E1412E000AEB328 /* GINICameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GINICameraViewControllerTests.swift; sourceTree = "<group>"; };
 		0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIAnalysisUITests.swift; path = UITests/GINIAnalysisUITests.swift; sourceTree = SOURCE_ROOT; };
-		0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelationToken.swift; sourceTree = "<group>"; };
 		0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoResultViewController.swift; sourceTree = "<group>"; };
 		0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentServiceProtocol.swift; sourceTree = "<group>"; };
@@ -253,7 +251,6 @@
 		1F577530203C4EB40074FD63 /* Component API */ = {
 			isa = PBXGroup;
 			children = (
-				0AAE6D471D6B473900EE9EDD /* CancelationToken.swift */,
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
 				0AEACE091D6385F700052120 /* DocumentServiceProtocol.swift */,
@@ -772,7 +769,6 @@
 				1F9466C5203702E600F52B40 /* CredentialsManager.swift in Sources */,
 				0AEACE0A1D6385F700052120 /* DocumentServiceProtocol.swift in Sources */,
 				607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */,
-				0AAE6D481D6B473900EE9EDD /* CancelationToken.swift in Sources */,
 				1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */,
 				1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */,
 				0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */,

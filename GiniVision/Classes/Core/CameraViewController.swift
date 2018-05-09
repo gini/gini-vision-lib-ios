@@ -505,6 +505,10 @@ extension CameraViewController {
         })
     }
     
+    public func replaceCapturedStackImages(with images: [UIImage]) {
+        capturedImagesStackView.replaceStackImages(with: images)
+    }
+    
     private func previewCapturedImageView(with image: UIImage) -> UIImageView {
         let imageFrame = previewView.frame
         let imageView = UIImageView(frame: imageFrame)
@@ -520,10 +524,6 @@ extension CameraViewController {
     
     @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
         delegate?.cameraDidTapMultipageReviewButton(self)
-    }
-    
-    func replaceCapturedStackImages(with images: [UIImage]) {
-        capturedImagesStackView.replaceStackImages(with: images)
     }
     
     func updatePreviewViewOrientation() {
