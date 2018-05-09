@@ -17,7 +17,7 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
     
     func createReviewScreen(withDocument document: GiniVisionDocument,
                             isFirstScreen: Bool = false) -> ReviewViewController {
-        let reviewViewController = ReviewViewController(document,
+        let reviewViewController = ReviewViewController(document: document,
                                                         giniConfiguration: giniConfiguration)
         reviewViewController.delegate = self
         reviewViewController.title = giniConfiguration.navigationBarReviewTitle
