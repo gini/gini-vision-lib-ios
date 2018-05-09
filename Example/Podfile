@@ -10,7 +10,7 @@ def project_pods
     pod 'GiniVision/Networking+Pinning', :path => '../'
 end
 
-target 'GiniVision_Example' do
+target 'Example Swift' do
 
     project_pods	
 
