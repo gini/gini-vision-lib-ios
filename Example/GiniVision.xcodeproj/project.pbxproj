@@ -60,9 +60,7 @@
 		1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350B20A334F2004BC50C /* LaunchScreen.storyboard */; };
 		1F93351020A334F2004BC50C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350F20A334F2004BC50C /* main.m */; };
 		1F93352F20A33617004BC50C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F93352620A33617004BC50C /* Localizable.strings */; };
-		1F93353020A33617004BC50C /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93352720A33617004BC50C /* AnalysisManager.m */; };
 		1F93353120A33617004BC50C /* NoResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93352920A33617004BC50C /* NoResultViewController.m */; };
-		1F93353220A33617004BC50C /* CancelationToken.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93352B20A33617004BC50C /* CancelationToken.m */; };
 		1F93353320A33617004BC50C /* ScreenAPIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93352C20A33617004BC50C /* ScreenAPIViewController.m */; };
 		1F93353420A33617004BC50C /* ResultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93352E20A33617004BC50C /* ResultTableViewController.m */; };
 		1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */; };
@@ -170,16 +168,12 @@
 		1F93350C20A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F93350E20A334F2004BC50C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F93350F20A334F2004BC50C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		1F93352420A33616004BC50C /* CancelationToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelationToken.h; sourceTree = "<group>"; };
 		1F93352520A33616004BC50C /* ScreenAPIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenAPIViewController.h; sourceTree = "<group>"; };
 		1F93352620A33617004BC50C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		1F93352720A33617004BC50C /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
 		1F93352820A33617004BC50C /* NoResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoResultViewController.h; sourceTree = "<group>"; };
 		1F93352920A33617004BC50C /* NoResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoResultViewController.m; sourceTree = "<group>"; };
 		1F93352A20A33617004BC50C /* ResultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultTableViewController.h; sourceTree = "<group>"; };
-		1F93352B20A33617004BC50C /* CancelationToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelationToken.m; sourceTree = "<group>"; };
 		1F93352C20A33617004BC50C /* ScreenAPIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenAPIViewController.m; sourceTree = "<group>"; };
-		1F93352D20A33617004BC50C /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
 		1F93352E20A33617004BC50C /* ResultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultTableViewController.m; sourceTree = "<group>"; };
 		1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
@@ -334,10 +328,6 @@
 			isa = PBXGroup;
 			children = (
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
-				1F93352D20A33617004BC50C /* AnalysisManager.h */,
-				1F93352720A33617004BC50C /* AnalysisManager.m */,
-				1F93352420A33616004BC50C /* CancelationToken.h */,
-				1F93352B20A33617004BC50C /* CancelationToken.m */,
 				1F93352620A33617004BC50C /* Localizable.strings */,
 				1F93352820A33617004BC50C /* NoResultViewController.h */,
 				1F93352920A33617004BC50C /* NoResultViewController.m */,
@@ -951,11 +941,9 @@
 				1F93350520A334F2004BC50C /* ViewController.m in Sources */,
 				1F93351020A334F2004BC50C /* main.m in Sources */,
 				1F93350220A334F2004BC50C /* AppDelegate.m in Sources */,
-				1F93353220A33617004BC50C /* CancelationToken.m in Sources */,
 				1F93353420A33617004BC50C /* ResultTableViewController.m in Sources */,
 				1F93353320A33617004BC50C /* ScreenAPIViewController.m in Sources */,
 				1F93353120A33617004BC50C /* NoResultViewController.m in Sources */,
-				1F93353020A33617004BC50C /* AnalysisManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
