@@ -1,2 +1,0 @@
-#include "In-House-Keys.xcconfig"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) GINI_CLIENT_ID=@\"$(GINI_CLIENT_ID)\" GINI_CLIENT_SECRET=@\"$(GINI_CLIENT_SECRET)\"
