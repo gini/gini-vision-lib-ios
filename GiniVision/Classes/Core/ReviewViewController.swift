@@ -147,7 +147,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var successBlock: ReviewScreenSuccessBlock?
     fileprivate var failureBlock: ReviewScreenFailureBlock?
     
-    public init(_ document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
+    public init(document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         self.currentDocument = document
         super.init(nibName: nil, bundle: nil)
@@ -167,7 +167,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public convenience init(_ document: GiniVisionDocument,
                             successBlock: @escaping ReviewScreenSuccessBlock,
                             failureBlock: @escaping ReviewScreenFailureBlock) {
-        self.init(document, giniConfiguration: GiniConfiguration.shared)
+        self.init(document: document, giniConfiguration: GiniConfiguration.shared)
         
         self.successBlock = successBlock
         self.failureBlock = failureBlock
