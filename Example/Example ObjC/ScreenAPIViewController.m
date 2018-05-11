@@ -53,12 +53,14 @@
     
     NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init] getCredentials];
     
-    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[@"client_id"] clientSecret:credentials[@"client_password"] clientEmailDomain:credentials[@"client_domain"]];
+    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[@"client_id"]
+                                                 clientSecret:credentials[@"client_password"]
+                                            clientEmailDomain:credentials[@"client_domain"]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
                                               giniConfiguration:giniConfiguration
-                                              resultsDelegate:self];
+                                                resultsDelegate:self];
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
     
@@ -73,7 +75,7 @@
 - (void)giniVision:(NSArray<id<GiniVisionDocument>> *)documents
 analysisDidFinishWithNoResults:(BOOL)showingNoResultsScreen {
     if(!showingNoResultsScreen){
-        [self presentResults];
+        [self presentResultsWithSendFeedbackBlock:nil];
     }
 }
 
@@ -81,10 +83,10 @@ analysisDidFinishWithNoResults:(BOOL)showingNoResultsScreen {
 analysisDidFinishWithResults:(NSDictionary<NSString *,GINIExtraction *> *)results
       sendFeedback:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedback {
     _result = results;
-    [self presentResults];
+    [self presentResultsWithSendFeedbackBlock:sendFeedback];
 }
 
-- (void)presentResults {
+- (void)presentResultsWithSendFeedbackBlock:(SendFeedbackBlock)sendFeedbackBlock {
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
@@ -98,7 +100,7 @@ analysisDidFinishWithResults:(NSDictionary<NSString *,GINIExtraction *> *)result
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
         vc.result = _result;
-        vc.document = _document;
+        vc.sendFeedback = sendFeedbackBlock;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:NO];
         });
