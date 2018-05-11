@@ -106,7 +106,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
             .withAlphaComponent(0.8)
         return view
     }()
-    fileprivate lazy var rotateButton: UIButton = {
+    lazy var rotateButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
