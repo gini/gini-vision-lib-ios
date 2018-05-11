@@ -259,11 +259,11 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     private func multipageTransition(operation: UINavigationControllerOperation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let reviewImagesButtonCenter = cameraViewController?.capturedImagesStackView else {
+        guard let stackView = cameraViewController?.capturedImagesStackView else {
             return nil
         }
         
-        multiPageTransition.originFrame = reviewImagesButtonCenter
+        multiPageTransition.originFrame = stackView
             .thumbnailFrameRelative(to: screenAPINavigationController.view)
         multiPageTransition.operation = operation
         
@@ -278,6 +278,10 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        return multiPageTransition
+        if stackView.isHidden && operation == .push {
+            return nil
+        } else {
+            return multiPageTransition
+        }
     }
 }
