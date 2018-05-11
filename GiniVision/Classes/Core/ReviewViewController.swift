@@ -207,7 +207,8 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func loadView() {
         super.loadView()
         edgesForExtendedLayout = []
-        
+        view.backgroundColor = .black
+
         scrollView.delegate = self
         imageView.image = currentDocument?.previewImage
         rotateButton.setImage(rotateButtonImage, for: .normal)
