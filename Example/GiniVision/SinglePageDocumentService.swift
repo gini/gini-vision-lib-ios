@@ -32,6 +32,10 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func cancelAnalysis() {
+        if let compositeId = compositeDocument?.documentId {
+            deleteCompositeDocument(withId: compositeId)
+        }
+        
         compositeDocument = nil
         partialDocumentInfo = nil
         pendingAnalysisHandler = nil
@@ -41,7 +45,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func delete(_ document: GiniVisionDocument) {
-        if let documentId = partialDocumentInfo?.documentUrl {
+        if let documentId = partialDocumentInfo?.documentId {
             deletePartialDocument(with: documentId)
         }
         cancelAnalysis()
@@ -54,6 +58,15 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
             .continueOnSuccessWith(block: { [weak self] _ in
                 self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
                                                                         cancellationToken: nil)
+            })
+            .continueWith(block: { task in
+                if task.isCancelled || task.error != nil {
+                    print("❌ Error deleting composite document with id:", id)
+                } else {
+                    print("🗑 Deleted partial document with id:", id)
+                }
+                
+                return nil
             })
     }
     

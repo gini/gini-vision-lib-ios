@@ -85,6 +85,15 @@ extension DocumentServiceProtocol {
                 self?.giniSDK.documentTaskManager.deleteCompositeDocument(withId: id,
                                                                           cancellationToken: nil)
             })
+            .continueWith(block: { task in
+                if task.isCancelled || task.error != nil {
+                    print("❌ Error deleting composite document with id:", id)
+                } else {
+                    print("🗑 Deleted composite document with id:", id)
+                }
+                
+                return nil
+            })
     }
     
     func fetchExtractions(for documents: [GINIPartialDocumentInfo],

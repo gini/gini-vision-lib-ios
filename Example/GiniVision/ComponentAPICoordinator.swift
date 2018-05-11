@@ -289,11 +289,14 @@ extension ComponentAPICoordinator {
     
     fileprivate func startAnalysis() {
         documentService?.startAnalysis(completion: { result in
-            switch result {
-            case .success(let extractions):
-                self.handleAnalysis(with: extractions)
-            case .failure(let error):
-                break
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
+                switch result {
+                case .success(let extractions):
+                    self.handleAnalysis(with: extractions)
+                case .failure(let error):
+                    break
+                }
             }
         })
     }
@@ -349,7 +352,10 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         
         if fromVC is ReviewViewController && operation == .pop {
             reviewScreen = nil
-            documentService?.cancelAnalysis()
+            if let document = documentRequests.first?.document {
+                documentService?.delete(document)
+            }
+            documentRequests.removeAll()
         }
         
         if fromVC is AnalysisViewController && operation == .pop {
@@ -476,6 +482,10 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
         if let index = documentRequests.index(of: document) {
             documentRequests[index].document = document
         }
+        
+        if let imageDocument = document as? GiniImageDocument {
+            documentService?.update(imageDocument)
+        }
     }
 }
 
@@ -491,8 +501,13 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
+        
         if let index = documentRequests.index(of: documentRequest.document) {
             documentRequests[index].document = documentRequest.document
+        }
+        
+        if let imageDocument = documentRequest.document as? GiniImageDocument {
+            documentService?.update(imageDocument)
         }
     }
     
