@@ -40,7 +40,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func remove(document: GiniVisionDocument) {
-        if let documentId = partialDocumentInfo?.documentUrl {
+        if let documentId = partialDocumentInfo?.documentId {
             deletePartialDocument(withId: documentId)
         }
         cancelAnalysis()
