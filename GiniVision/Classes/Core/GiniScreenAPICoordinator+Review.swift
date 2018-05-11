@@ -12,7 +12,7 @@ import Foundation
 extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
     
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
-        self.updateValueInDocuments(for: document)
+        updateValue(for: document)
     }
     
     func createReviewScreen(withDocument document: GiniVisionDocument,
@@ -42,7 +42,7 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didRotate documentRequest: DocumentRequest) {
-        updateValueInDocuments(for: documentRequest.document)
+        updateValue(for: documentRequest.document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
@@ -94,13 +94,12 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         }
     }
     
-    func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+    func refreshMultipageReviewNextButton(with documentRequests: [DocumentRequest]) {
         multiPageReviewViewController.navigationItem
             .rightBarButtonItem?
             .isEnabled = documentRequests
                 .reduce(true, { result, documentRequest in
                     result && documentRequest.isUploaded
                 })
-        multiPageReviewViewController.updateCollections(with: documentRequests)
     }
 }

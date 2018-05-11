@@ -139,29 +139,34 @@ extension GiniScreenAPICoordinator {
         self.documentRequests.append(contentsOf: documentRequests)
         
         if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            self.refreshMultipageReview(with: self.documentRequests)
+            refreshMultipageReviewNextButton(with: documentRequests)
+            multiPageReviewViewController.updateCollections(with: documentRequests)
         }
     }
     
     func removeFromDocuments(document: GiniVisionDocument) {
         documentRequests.remove(document)
+        
+        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
+            refreshMultipageReviewNextButton(with: documentRequests)
+        }
     }
     
-    func updateValueInDocuments(for document: GiniVisionDocument) {
+    func updateValue(for document: GiniVisionDocument) {
         if let index = documentRequests.index(of: document) {
             documentRequests[index].document = document
         }
     }
     
-    func updateUploadStatusInDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
+    func update(_ document: GiniVisionDocument, withError error: Error?, isUploaded: Bool) {
         if let index = documentRequests.index(of: document) {
-            documentRequests[index].isUploaded = uploaded
-        }
-    }
-    
-    func updateErrorInDocuments(for document: GiniVisionDocument, to error: Error) {
-        if let index = documentRequests.index(of: document) {
+            documentRequests[index].isUploaded = isUploaded
             documentRequests[index].error = error
+        }
+        
+        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
+            refreshMultipageReviewNextButton(with: documentRequests)
+            multiPageReviewViewController.updateCollections(with: documentRequests)
         }
     }
     
