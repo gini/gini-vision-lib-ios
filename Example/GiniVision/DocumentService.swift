@@ -106,7 +106,6 @@ final class DocumentService {
      - parameter cancelationToken: The cancelation token.
      - parameter completion:       The completion block handling the result.
      */
-    // swiftlint:disable function_body_length
     func analyzeDocument(withData data: Data,
                          cancelationToken token: CancelationToken,
                          completion: DocumentAnalysisCompletion?) {
