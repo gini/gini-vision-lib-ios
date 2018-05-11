@@ -14,7 +14,7 @@ final class CredentialsManager {
     class func fetchClientFromBundle() -> GiniClient {
         let clientID = "client_id"
         let clientPassword = "client_password"
-        let clientEmailDomain = "client_email_domain"
+        let clientEmailDomain = "client_domain"
         let credentialsPlistPath = Bundle.main.path(forResource: "Credentials", ofType: "plist")
         
         if let path = credentialsPlistPath,
