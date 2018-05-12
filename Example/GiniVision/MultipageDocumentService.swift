@@ -42,7 +42,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
                 .info
-                .documentId {
+                .documentUrl {
                 deletePartialDocument(with: partialDocumentId)
             }
             partialDocuments.remove(at: index)

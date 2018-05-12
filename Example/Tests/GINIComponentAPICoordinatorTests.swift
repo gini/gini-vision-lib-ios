@@ -12,13 +12,14 @@ import XCTest
 
 class GINIComponentAPICoordinatorTests: XCTestCase {
     
-    let documentService = DocumentService()
     var componentAPICoordinator: ComponentAPICoordinator?
     
     func testInitialization() {
-        componentAPICoordinator = ComponentAPICoordinator(document: nil,
+        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [],
                                                           configuration: GiniConfiguration(),
-                                                          documentService: self.documentService)
+                                                          client: GiniClient(clientId: "",
+                                                                             clientSecret: "",
+                                                                             clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.rootViewController, "the root view controller should never be nil")
@@ -27,9 +28,11 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenNoDocument() {
-        componentAPICoordinator = ComponentAPICoordinator(document: nil,
+        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [],
                                                           configuration: GiniConfiguration(),
-                                                          documentService: self.documentService)
+                                                          client: GiniClient(clientId: "",
+                                                                             clientSecret: "",
+                                                                             clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -44,11 +47,13 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     func testInitializationWhenImageImported() {
         let image = loadImage(withName: "tabBarIconHelp")
         let builder = GiniVisionDocumentBuilder(data: UIImagePNGRepresentation(image!), documentSource: .external)
-        let document = builder.build()
+        let document = builder.build()!
         
-        componentAPICoordinator = ComponentAPICoordinator(document: document,
+        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [DocumentRequest(value: document)],
                                                           configuration: GiniConfiguration(),
-                                                          documentService: self.documentService)
+                                                          client: GiniClient(clientId: "",
+                                                                             clientSecret: "",
+                                                                             clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -66,9 +71,11 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     func testInitializationWhenPDFImported() {
         let pdfDocument = loadPDFDocument(withName: "testPDF")
         
-        componentAPICoordinator = ComponentAPICoordinator(document: pdfDocument,
+        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [DocumentRequest(value: pdfDocument)],
                                                           configuration: GiniConfiguration(),
-                                                          documentService: self.documentService)
+                                                          client: GiniClient(clientId: "",
+                                                                             clientSecret: "",
+                                                                             clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.analysisScreen,

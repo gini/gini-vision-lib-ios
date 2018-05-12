@@ -12,7 +12,6 @@ import XCTest
 
 final class ScreenAPICoordinatorTests: XCTestCase {
     
-    let documentService = DocumentService()
     let client = GiniClient(clientId: "",
                             clientSecret: "",
                             clientEmailDomain: "")
