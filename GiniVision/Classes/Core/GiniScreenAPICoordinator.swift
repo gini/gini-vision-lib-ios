@@ -136,6 +136,10 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 
 extension GiniScreenAPICoordinator {
     func addToDocuments(new documentRequests: [DocumentRequest]) {
+        if self.documentRequests.type == .qrcode || self.documentRequests.type == .pdf {
+            self.clearDocuments()
+        }
+        
         self.documentRequests.append(contentsOf: documentRequests)
         
         if giniConfiguration.multipageEnabled, documentRequests.type == .image {
