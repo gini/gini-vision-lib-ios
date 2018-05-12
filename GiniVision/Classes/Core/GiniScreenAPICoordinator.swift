@@ -143,8 +143,8 @@ extension GiniScreenAPICoordinator {
         self.documentRequests.append(contentsOf: documentRequests)
         
         if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            refreshMultipageReviewNextButton(with: documentRequests)
-            multiPageReviewViewController.updateCollections(with: documentRequests)
+            refreshMultipageReviewNextButton(with: self.documentRequests)
+            multiPageReviewViewController.updateCollections(with: self.documentRequests)
         }
     }
     
