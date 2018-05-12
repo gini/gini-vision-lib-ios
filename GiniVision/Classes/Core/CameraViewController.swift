@@ -645,12 +645,16 @@ extension CameraViewController {
     func addValidationLoadingView() -> UIView {
         let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        blurredView.alpha = 0
         blurredView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]
         loadingIndicator.startAnimating()
         blurredView.contentView.addSubview(loadingIndicator)
         self.view.addSubview(blurredView)
         blurredView.frame = self.view.bounds
         loadingIndicator.center = blurredView.center
+        UIView.animate(withDuration: AnimationDuration.medium, animations: {
+            blurredView.alpha = 1
+        })
         
         return blurredView
     }
