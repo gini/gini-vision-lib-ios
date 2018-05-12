@@ -279,7 +279,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.loadView()
         edgesForExtendedLayout = []
         view.backgroundColor = .black
-
+        
         if let validCamera = camera {
             cameraState = .valid
             previewView.session = validCamera.session
@@ -439,7 +439,10 @@ extension CameraViewController {
             }
         }
         self.camera?.didDetectQR = {[weak self] qrDocument in
-            self?.didPick(qrDocument)
+            if self?.detectedQRCodeDocument != qrDocument {
+                self?.detectedQRCodeDocument = qrDocument
+                self?.didPick(qrDocument)
+            }
         }
     }
     
@@ -477,7 +480,7 @@ extension CameraViewController {
         guard let documentImage = imageDocument.previewImage else { return }
         let previewImageView = previewCapturedImageView(with: documentImage)
         view.addSubview(previewImageView)
-
+        
         UIView.animate(withDuration: AnimationDuration.medium, animations: {
             previewImageView.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
         }, completion: { _ in
@@ -539,35 +542,32 @@ extension CameraViewController {
     }
     
     func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
-        if self.detectedQRCodeDocument != qrDocument {
-            DispatchQueue.main.async { [weak self] in
-                guard let `self` = self else { return }
-                self.detectedQRCodeDocument = qrDocument
-                
-                let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
-                                                             refView: self.previewView,
-                                                             document: qrDocument,
-                                                             giniConfiguration: self.giniConfiguration)
-                newQRCodePopup.didTapDone = { [weak self] in
-                    didTapDone()
-                    self?.detectedQRCodeDocument = nil
-                    self?.currentQRCodePopup?.hide()
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            
+            let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
+                                                         refView: self.previewView,
+                                                         document: qrDocument,
+                                                         giniConfiguration: self.giniConfiguration)
+            newQRCodePopup.didTapDone = { [weak self] in
+                didTapDone()
+                self?.detectedQRCodeDocument = nil
+                self?.currentQRCodePopup?.hide()
+            }
+            
+            let didDismiss: () -> Void = { [weak self] in
+                self?.detectedQRCodeDocument = nil
+                self?.currentQRCodePopup = nil
+            }
+            
+            if self.currentQRCodePopup != nil {
+                self.currentQRCodePopup?.hide { [weak self] in
+                    self?.currentQRCodePopup = newQRCodePopup
+                    self?.currentQRCodePopup?.show(didDismiss: didDismiss)
                 }
-                
-                let didDismiss: () -> Void = { [weak self] in
-                    self?.detectedQRCodeDocument = nil
-                    self?.currentQRCodePopup = nil
-                }
-                
-                if self.currentQRCodePopup != nil {
-                    self.currentQRCodePopup?.hide { [weak self] in
-                        self?.currentQRCodePopup = newQRCodePopup
-                        self?.currentQRCodePopup?.show(didDismiss: didDismiss)
-                    }
-                } else {
-                    self.currentQRCodePopup = newQRCodePopup
-                    self.currentQRCodePopup?.show(didDismiss: didDismiss)
-                }
+            } else {
+                self.currentQRCodePopup = newQRCodePopup
+                self.currentQRCodePopup?.show(didDismiss: didDismiss)
             }
         }
     }
