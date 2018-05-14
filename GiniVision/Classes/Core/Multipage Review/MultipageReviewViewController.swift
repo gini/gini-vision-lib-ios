@@ -7,6 +7,10 @@
 
 import Foundation
 
+@objc public enum ErrorAction: Int {
+    case retry, retake
+}
+
 public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didReorder documentRequests: [DocumentRequest])
@@ -14,6 +18,9 @@ public protocol MultipageReviewViewControllerDelegate: class {
                          didRotate documentRequest: DocumentRequest)
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
+    func multipageReview(_ viewController: MultipageReviewViewController,
+                         didSelect errorAction: ErrorAction,
+                         for documentRequest: DocumentRequest)
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
 
@@ -419,7 +426,7 @@ extension MultipageReviewViewController {
         }
     }
     
-    func deleteItem(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
+    public func deleteItem(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
         let documentToDelete = documentRequests[indexPath.row]
         documentRequests.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
@@ -459,10 +466,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
             let documentRequest = documentRequests[indexPath.row]
-            cell?.fill(with: documentRequest) {
-                self.deleteItem(at: indexPath) {
-                    self.delegate?.multipageReviewDidTapAddImage(self)
-                }
+            cell?.fill(with: documentRequest) { action in
+                self.delegate?.multipageReview(self, didSelect: action, for: documentRequest)
             }
 
             return cell!
