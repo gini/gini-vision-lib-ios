@@ -278,8 +278,9 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            let visionError = error as? GiniVisionError
-            self.update(document, withError: visionError ?? AnalysisError.unknown, isUploaded: false)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                self.update(document, withError: error, isUploaded: false)
+            })
         }
     }
 }

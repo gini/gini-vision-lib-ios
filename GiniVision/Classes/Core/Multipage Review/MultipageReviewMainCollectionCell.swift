@@ -62,7 +62,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func fill(with documentRequest: DocumentRequest, errorAction: @escaping () -> Void) {
+    func fill(with documentRequest: DocumentRequest, errorAction: @escaping (ErrorAction) -> Void) {
         documentImage.image = documentRequest.document.previewImage
         
         let currentNoticeView = subviews
@@ -76,11 +76,14 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func showErrorView(with currentNoticeView: NoticeView?, error: Error, errorAction: @escaping () -> Void) {
+    func showErrorView(with currentNoticeView: NoticeView?,
+                       error: Error,
+                       errorAction: @escaping (ErrorAction) -> Void) {
+        
         let newNoticeView = noticeView(with: error, errorAction: errorAction)
         
         if let currentNoticeView = currentNoticeView {
-            currentNoticeView.hide(completion: {
+            currentNoticeView.hide(false, completion: {
                 self.addSubview(newNoticeView)
                 newNoticeView.show(false)
             })
@@ -91,14 +94,17 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     }
     
     func noticeView(with error: Error,
-                    errorAction: @escaping () -> Void) -> NoticeView {
+                    errorAction: @escaping (ErrorAction) -> Void) -> NoticeView {
         let buttonTitle: String
+        let action: ErrorAction
         
         switch error {
-        case is DocumentValidationError:
-            buttonTitle = "Retake"
-        default:
+        case is AnalysisError:
             buttonTitle = "Retry"
+            action = .retry
+        default:
+            buttonTitle = "Retake"
+            action = .retake
         }
         
         let message: String
@@ -115,7 +121,9 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         return NoticeView(giniConfiguration: .shared,
                           text: message,
                           type: .error,
-                          noticeAction: NoticeAction(title: buttonTitle, action: errorAction))
+                          noticeAction: NoticeAction(title: buttonTitle) {
+                            errorAction(action)
+                          })
         
     }
     
