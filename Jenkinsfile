@@ -77,7 +77,7 @@ pipeline {
         }
       }
       steps {
-        sh '/usr/local/bin/pod lib lint --allow-warnings'
+        sh '/usr/local/bin/pod lib lint --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
   }
