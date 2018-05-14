@@ -64,7 +64,8 @@ internal class Camera: NSObject {
         sessionQueue.async {
             guard let device = self.videoDeviceInput?.device else { return }
             guard case .some = try? device.lockForConfiguration() else {
-                return print("Could not lock device for configuration")
+                Logger.debug(message: "Could not lock device for configuration", event: .error)
+                return
             }
             
             if device.isFocusPointOfInterestSupported && device.isFocusModeSupported(mode) {
@@ -135,7 +136,7 @@ internal class Camera: NSObject {
         if self.session.canAddInput(self.videoDeviceInput!) {
             self.session.addInput(self.videoDeviceInput!)
         } else {
-            print("Could not add video device input to the session")
+            Logger.debug(message: "Could not add video device input to the session", event: .error)
         }
     }
     
@@ -147,7 +148,7 @@ internal class Camera: NSObject {
             self.session.addOutput(output)
             self.stillImageOutput = output
         } else {
-            print("Could not add still image output to the session")
+            Logger.debug(message: "Could not add still image output to the session", event: .error)
         }
     }
     
@@ -160,7 +161,7 @@ internal class Camera: NSObject {
             qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
             qrOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         } else {
-            print("Could not add metadata output to the session")
+            Logger.debug(message: "Could not add metadata output to the session", event: .error)
         }
     }
 }
@@ -169,8 +170,8 @@ internal class Camera: NSObject {
 
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,
-                       didOutput metadataObjects: [AVMetadataObject],
-                       from connection: AVCaptureConnection) {
+                        didOutput metadataObjects: [AVMetadataObject],
+                        from connection: AVCaptureConnection) {
         if metadataObjects.isEmpty {
             return
         }
