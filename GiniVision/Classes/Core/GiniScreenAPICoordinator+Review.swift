@@ -66,7 +66,7 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         switch errorAction {
         case .retry:
             update(documentRequest.document, withError: nil, isUploaded: false)
-            didCapture(document: documentRequest.document, uploadDelegate: self)
+            visionDelegate?.didCapture(document: documentRequest.document, uploadDelegate: self)
         case .retake:
             if let index = documentRequests.index(of: documentRequest.document) {
                 viewController.deleteItem(at: IndexPath(row: index, section: 0), completion: {
