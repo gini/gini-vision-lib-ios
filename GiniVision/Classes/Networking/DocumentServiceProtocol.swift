@@ -10,12 +10,6 @@ import Gini_iOS_SDK
 
 public typealias Extraction = GINIExtraction
 
-enum AnalysisError: Error {
-    case cancelled
-    case documentCreation
-    case unknown
-}
-
 typealias UploadDocumentCompletion = (Result<GINIDocument>) -> Void
 typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
 

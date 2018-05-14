@@ -56,7 +56,7 @@ final class NoticeView: UIView {
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate var userAction: NoticeAction?
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared,
+    init(giniConfiguration: GiniConfiguration = .shared,
          text: String,
          type: NoticeType = .information,
          noticeAction: NoticeAction? = nil) {

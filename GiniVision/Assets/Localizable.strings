@@ -65,6 +65,9 @@
 "ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.analysis.suggestion.5" = "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren";
 "ginivision.analysis.error.actionTitle" = "Wiederholen";
+"ginivision.analysis.error.documentCreation" = "Beim Hochladen des Dokuments ist ein Fehler aufgetreten";
+"ginivision.analysis.error.analysis" = "Beim Analysieren des Dokuments ist ein Fehler aufgetreten";
+"ginivision.analysis.error.cancelled" = "Die Analyse wurde abgebrochen";
 
 "ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";
 

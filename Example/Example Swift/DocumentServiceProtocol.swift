@@ -26,7 +26,6 @@ enum CustomAnalysisError: GiniVisionError {
         }
     }
 }
-
 enum Result<T> {
     case success(T)
     case failure(Error)
