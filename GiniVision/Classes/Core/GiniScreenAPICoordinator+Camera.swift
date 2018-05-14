@@ -248,12 +248,14 @@ extension GiniScreenAPICoordinator {
         DispatchQueue.global().async {
             var documentRequests: [DocumentRequest] = []
             documents.forEach { document in
-                var documentError: Error?
+                var documentError: GiniVisionError?
                 do {
                     try GiniVisionDocumentValidator.validate(document,
                                                              withConfig: self.giniConfiguration)
-                } catch let error {
+                } catch let error as DocumentValidationError {
                     documentError = error
+                } catch {
+                    documentError = DocumentValidationError.unknown
                 }
                 documentRequests.append(DocumentRequest(value: document, error: documentError))
             }
@@ -278,7 +280,8 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            self.update(document, withError: error, isUploaded: false)
+            let visionError = error as? GiniVisionError
+            self.update(document, withError: visionError ?? AnalysisError.unknown, isUploaded: false)
         }
     }
 }

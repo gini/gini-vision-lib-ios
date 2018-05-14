@@ -415,28 +415,33 @@ extension MultipageReviewViewController {
     
     @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            let documentToDelete = documentRequests[currentIndexPath.row]
-            documentRequests.remove(at: currentIndexPath.row)
-            mainCollection.deleteItems(at: [currentIndexPath])
-            
-            pagesCollection.performBatchUpdates({
-                self.pagesCollection.deleteItems(at: [currentIndexPath])
-            }, completion: { [weak self] _ in
-                guard let `self` = self else { return }
-                if self.documentRequests.count > 0 {
-                    if currentIndexPath.row != self.documentRequests.count {
-                        var indexes = IndexPath.indexesBetween(currentIndexPath,
-                                                               and: IndexPath(row: self.documentRequests.count,
-                                                                              section: 0))
-                        indexes.append(currentIndexPath)
-                        self.pagesCollection.reloadItems(at: indexes)
-                    }
-                    
-                    self.selectItem(at: min(currentIndexPath.row, self.documentRequests.count - 1))
-                }
-                self.delegate?.multipageReview(self, didDelete: documentToDelete)
-            })
+            deleteItem(at: currentIndexPath)
         }
+    }
+    
+    func deleteItem(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
+        let documentToDelete = documentRequests[indexPath.row]
+        documentRequests.remove(at: indexPath.row)
+        mainCollection.deleteItems(at: [indexPath])
+        
+        pagesCollection.performBatchUpdates({
+            self.pagesCollection.deleteItems(at: [indexPath])
+        }, completion: { [weak self] _ in
+            guard let `self` = self else { return }
+            if self.documentRequests.count > 0 {
+                if indexPath.row != self.documentRequests.count {
+                    var indexes = IndexPath.indexesBetween(indexPath,
+                                                           and: IndexPath(row: self.documentRequests.count,
+                                                                          section: 0))
+                    indexes.append(indexPath)
+                    self.pagesCollection.reloadItems(at: indexes)
+                }
+                
+                self.selectItem(at: min(indexPath.row, self.documentRequests.count - 1))
+            }
+            self.delegate?.multipageReview(self, didDelete: documentToDelete)
+            completion?()
+        })
     }
 }
 
@@ -453,7 +458,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            cell?.documentImage.image = documentRequests[indexPath.row].document.previewImage
+            let documentRequest = documentRequests[indexPath.row]
+            cell?.fill(with: documentRequest) {
+                self.deleteItem(at: indexPath) {
+                    self.delegate?.multipageReviewDidTapAddImage(self)
+                }
+            }
+
             return cell!
         } else {
             let cell = collectionView

@@ -62,6 +62,52 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
+    func fill(with documentRequest: DocumentRequest, errorAction: @escaping () -> Void) {
+        documentImage.image = documentRequest.document.previewImage
+        
+        let currentNoticeView = subviews
+            .compactMap { $0 as? NoticeView }
+            .first
+        
+        if let error = documentRequest.error {
+            showErrorView(with: currentNoticeView, error: error, errorAction: errorAction)
+        } else {
+            currentNoticeView?.hide(false, completion: nil)
+        }
+    }
+    
+    func showErrorView(with currentNoticeView: NoticeView?, error: GiniVisionError, errorAction: @escaping () -> Void) {
+        let newNoticeView = noticeView(with: error, errorAction: errorAction)
+        
+        if let currentNoticeView = currentNoticeView {
+            currentNoticeView.hide(completion: {
+                self.addSubview(newNoticeView)
+                newNoticeView.show(false)
+            })
+        } else {
+            self.addSubview(newNoticeView)
+            newNoticeView.show(false)
+        }
+    }
+    
+    func noticeView(with error: GiniVisionError,
+                    errorAction: @escaping () -> Void)-> NoticeView {
+        let buttonTitle: String
+        
+        switch error {
+        case is DocumentValidationError:
+            buttonTitle = "Retake"
+        default:
+            buttonTitle = "Retry"
+        }
+        
+        return NoticeView(giniConfiguration: .shared,
+                          text: error.message,
+                          type: .error,
+                          noticeAction: NoticeAction(title: buttonTitle, action: errorAction))
+        
+    }
+    
 }
 
 // MARK: - UIScrollViewDelegate
