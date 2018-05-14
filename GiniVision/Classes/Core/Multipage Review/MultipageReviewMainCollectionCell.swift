@@ -25,7 +25,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 5
-
+        
         return scrollView
     }()
     
@@ -76,7 +76,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func showErrorView(with currentNoticeView: NoticeView?, error: GiniVisionError, errorAction: @escaping () -> Void) {
+    func showErrorView(with currentNoticeView: NoticeView?, error: Error, errorAction: @escaping () -> Void) {
         let newNoticeView = noticeView(with: error, errorAction: errorAction)
         
         if let currentNoticeView = currentNoticeView {
@@ -90,8 +90,8 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func noticeView(with error: GiniVisionError,
-                    errorAction: @escaping () -> Void)-> NoticeView {
+    func noticeView(with error: Error,
+                    errorAction: @escaping () -> Void) -> NoticeView {
         let buttonTitle: String
         
         switch error {
@@ -101,8 +101,19 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
             buttonTitle = "Retry"
         }
         
+        let message: String
+        
+        switch error {
+        case let error as GiniVisionError:
+            message = error.message
+        case let error as CustomDocumentValidationError:
+            message = error.message
+        default:
+            message = DocumentValidationError.unknown.message
+        }
+        
         return NoticeView(giniConfiguration: .shared,
-                          text: error.message,
+                          text: message,
                           type: .error,
                           noticeAction: NoticeAction(title: buttonTitle, action: errorAction))
         

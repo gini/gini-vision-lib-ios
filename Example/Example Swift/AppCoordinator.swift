@@ -37,7 +37,7 @@ final class AppCoordinator: Coordinator {
         giniConfiguration.navigationBarItemTintColor = UIColor.white
         giniConfiguration.customDocumentValidations = { document in
             // As an example of custom document validation, we add a more strict check for file size
-            let maxFileSize = 5 * 1024 * 1024
+            let maxFileSize = 50 * 1024 * 1024
             if document.data.count > maxFileSize {
                 let error = CustomDocumentValidationError(message: "Diese Datei ist leider größer als 5MB")
                 return CustomDocumentValidationResult.failure(withError: error)
