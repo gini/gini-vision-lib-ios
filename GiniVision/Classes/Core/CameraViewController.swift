@@ -449,7 +449,8 @@ extension CameraViewController {
     
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
-            return print("GiniVision: No camera initialized.")
+            Logger.debug(message: "No camera initialized", event: .warning)
+            return
         }
         
         if GiniConfiguration.DEBUG {
