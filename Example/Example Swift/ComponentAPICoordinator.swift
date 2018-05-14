@@ -290,7 +290,6 @@ extension ComponentAPICoordinator {
                 // When multipage mode is used and documents are image, you have to refresh the multipage review screen
                 if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
                     self.refreshMultipageReview(with: self.documentRequests)
-
                 }
             }
         }
@@ -587,15 +586,14 @@ extension ComponentAPICoordinator {
         DispatchQueue.global().async {
             var documentRequests: [DocumentRequest] = []
             documents.forEach { document in
-                var documentError: GiniVisionError?
+                var documentError: Error?
                 do {
                     try GiniVisionDocumentValidator.validate(document,
                                                              withConfig: self.giniConfiguration)
-                } catch let error as DocumentValidationError {
+                } catch let error {
                     documentError = error
-                } catch {
-                    documentError = DocumentValidationError.unknown
                 }
+            
                 documentRequests.append(DocumentRequest(value: document, error: documentError))
             }
             

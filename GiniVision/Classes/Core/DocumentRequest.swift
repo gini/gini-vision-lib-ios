@@ -9,10 +9,10 @@ import Foundation
 
 public struct DocumentRequest {
     public var document: GiniVisionDocument
-    public var error: GiniVisionError?
+    public var error: Error?
     public var isUploaded = false
 
-    public init(value: GiniVisionDocument, error: GiniVisionError? = nil, isUploaded: Bool = false) {
+    public init(value: GiniVisionDocument, error: Error? = nil, isUploaded: Bool = false) {
         self.document = value
         self.error = error
         self.isUploaded = isUploaded
