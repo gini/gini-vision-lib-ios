@@ -61,7 +61,7 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: ErrorAction,
+                         didSelect errorAction: NoticeActionType,
                          for documentRequest: DocumentRequest) {
         switch errorAction {
         case .retry:

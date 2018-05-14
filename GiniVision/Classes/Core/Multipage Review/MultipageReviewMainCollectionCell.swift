@@ -29,10 +29,22 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         return scrollView
     }()
     
+    lazy var errorView: NoticeView = {
+        let noticeView = NoticeView(text: "",
+                                    type: .error,
+                                    noticeAction: NoticeAction(title: "", action: {}))
+        noticeView.translatesAutoresizingMaskIntoConstraints = false
+
+        noticeView.hide(false, completion: nil)
+        return noticeView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         zoomableScrollView.addSubview(documentImage)
         addSubview(zoomableScrollView)
+        addSubview(errorView)
+
         addConstraints()
         addDoubleTapGesture()
     }
@@ -44,6 +56,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     private func addConstraints() {
         Constraints.pin(view: documentImage, toSuperView: zoomableScrollView)
         Constraints.pin(view: zoomableScrollView, toSuperView: self)
+        Constraints.pin(view: errorView, toSuperView: self, positions: [.top, .left, .right])
         Constraints.center(view: documentImage, with: zoomableScrollView)
     }
     
@@ -62,48 +75,30 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func fill(with documentRequest: DocumentRequest, errorAction: @escaping (ErrorAction) -> Void) {
+    func fill(with documentRequest: DocumentRequest, errorAction: @escaping (NoticeActionType) -> Void) {
         documentImage.image = documentRequest.document.previewImage
         
-        let currentNoticeView = subviews
-            .compactMap { $0 as? NoticeView }
-            .first
-        
         if let error = documentRequest.error {
-            showErrorView(with: currentNoticeView, error: error, errorAction: errorAction)
+            updateErrorView(with: error, errorAction: errorAction)
+            errorView.show(false)
         } else {
-            currentNoticeView?.hide(false, completion: nil)
+            errorView.hide(false, completion: nil)
         }
     }
     
-    func showErrorView(with currentNoticeView: NoticeView?,
-                       error: Error,
-                       errorAction: @escaping (ErrorAction) -> Void) {
-        
-        let newNoticeView = noticeView(with: error, errorAction: errorAction)
-        
-        if let currentNoticeView = currentNoticeView {
-            currentNoticeView.hide(false, completion: {
-                self.addSubview(newNoticeView)
-                newNoticeView.show(false)
-            })
-        } else {
-            self.addSubview(newNoticeView)
-            newNoticeView.show(false)
-        }
-    }
-    
-    func noticeView(with error: Error,
-                    errorAction: @escaping (ErrorAction) -> Void) -> NoticeView {
+    func updateErrorView(with error: Error,
+                         errorAction: @escaping (NoticeActionType) -> Void) {
         let buttonTitle: String
-        let action: ErrorAction
+        let action: NoticeActionType
         
         switch error {
         case is AnalysisError:
-            buttonTitle = "Retry"
+            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retryAction",
+                                                     comment: "button title for retry action")
             action = .retry
         default:
-            buttonTitle = "Retake"
+            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retakeAction",
+                                                     comment: "button title for retake action")
             action = .retake
         }
         
@@ -118,13 +113,11 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
             message = DocumentValidationError.unknown.message
         }
         
-        return NoticeView(giniConfiguration: .shared,
-                          text: message,
-                          type: .error,
-                          noticeAction: NoticeAction(title: buttonTitle) {
-                            errorAction(action)
-                          })
-        
+        errorView.textLabel.text = message
+        errorView.actionButton.setTitle(buttonTitle, for: .normal)
+        errorView.userAction = NoticeAction(title: buttonTitle) {
+            errorAction(action)
+        }        
     }
     
 }

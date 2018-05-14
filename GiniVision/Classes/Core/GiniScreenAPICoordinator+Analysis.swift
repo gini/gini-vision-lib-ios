@@ -98,7 +98,10 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
                 self?.show(notice: notice)
             })
         } else {
-            analysisViewController?.view.addSubview(notice)
+            guard let analysisView = analysisViewController?.view else { return }
+
+            analysisView.addSubview(notice)
+            Constraints.pin(view: notice, toSuperView: analysisView, positions: [.top, .left, .right])
             notice.show()
         }
     }

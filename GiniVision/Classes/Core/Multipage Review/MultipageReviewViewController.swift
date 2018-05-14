@@ -7,10 +7,6 @@
 
 import Foundation
 
-@objc public enum ErrorAction: Int {
-    case retry, retake
-}
-
 public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didReorder documentRequests: [DocumentRequest])
@@ -19,7 +15,7 @@ public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: ErrorAction,
+                         didSelect errorAction: NoticeActionType,
                          for documentRequest: DocumentRequest)
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
@@ -76,8 +72,8 @@ public final class MultipageReviewViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "drag and drop tip shown below pages collection")
+                                          bundle: Bundle(for: GiniVision.self),
+                                          comment: "drag and drop tip shown below pages collection")
         textView.font = textView.font?.withSize(11)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
@@ -201,6 +197,7 @@ extension MultipageReviewViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectLastItem()
+        mainCollection.collectionViewLayout.invalidateLayout()
         changeReorderTipVisibility(to: documentRequests.count < 2)
     }
     
@@ -255,10 +252,12 @@ extension MultipageReviewViewController {
     }
     
     private func reloadCollections() {
+        let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
+        
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()
         
-        if let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first {
+        if let currentSelectedItem = currentSelectedItem {
             self.selectItem(at: currentSelectedItem.row)
         }
     }
@@ -469,7 +468,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             cell?.fill(with: documentRequest) { action in
                 self.delegate?.multipageReview(self, didSelect: action, for: documentRequest)
             }
-
+            
             return cell!
         } else {
             let cell = collectionView
@@ -596,5 +595,5 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
                       size: CGSize(width: imageWidth, height: imageView.frame.size.height))
     }
-
+    
 }
