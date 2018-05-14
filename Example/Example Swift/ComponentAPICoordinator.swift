@@ -513,7 +513,7 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
 extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
 
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: ErrorAction,
+                         didSelect errorAction: NoticeActionType,
                          for documentRequest: DocumentRequest) {
         switch errorAction {
         case .retake:

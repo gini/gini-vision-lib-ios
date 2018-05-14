@@ -88,7 +88,7 @@ extension MultipageReviewPagesCollectionFooter {
     
     @objc fileprivate func addImageButtonAction() {
         if #available(iOS 10.0, *) {
-            UISelectionFeedbackGenerator().selectionChanged()
+            UIImpactFeedbackGenerator().impactOccurred()
         }
         didTapAddButton?()
     }

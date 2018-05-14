@@ -106,3 +106,5 @@
 "ginivision.multipagereview.addButtonLabel" = "Fügen Sie dieser Rechnung eine neue Seite hinzu";
 "ginivision.multipagereview.dragAndDropTip" = "Drag & Drop zum Sortieren";
 "ginivision.multipagereview.title" = "%d von %d";
+"ginivision.multipagereview.error.retakeAction" = "Wiederholung";
+"ginivision.multipagereview.error.retryAction" = "Wiederholen";
