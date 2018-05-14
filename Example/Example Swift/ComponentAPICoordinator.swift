@@ -522,10 +522,15 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
                     self.navigationController.popViewController(animated: true)
                 })
             }
-            break
         case .retry:
             if let index = documentRequests.index(of: documentRequest.document) {
                 documentRequests[index].error = nil
+
+                if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
+                    self.refreshMultipageReview(with: self.documentRequests)
+                }
+
+                upload(documentRequests: [documentRequests[index]])
             }
         }
     }
