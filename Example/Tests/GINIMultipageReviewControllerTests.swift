@@ -115,7 +115,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                                          layout: multipageReviewViewController.pagesCollection.collectionViewLayout,
                                          sizeForItemAt: firstCellIndexPath)
         
-        let size = MultipageReviewPagesCollectionCell.size
+        let size = MultipageReviewPagesCollectionCell.size(in: multipageReviewViewController.pagesCollection)
         
         XCTAssertEqual(cellSize, size,
                        "Pages collection cells should have the value declared in the class")

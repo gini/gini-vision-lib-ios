@@ -176,9 +176,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -12)
         Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .greaterThanOrEqual, to: pageIndicatorCircle,
-                           attr: .trailing, constant: 22, priority: 999)
-        Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer,
-                           attr: .trailing, constant: -12)
+                           attr: .trailing, constant: 6, priority: 999)
+        Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .lessThanOrEqual, to: bottomContainer,
+                           attr: .trailing, constant: -6)
         
         // documentImage
         Constraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)

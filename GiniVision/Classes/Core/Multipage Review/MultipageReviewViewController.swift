@@ -240,7 +240,8 @@ extension MultipageReviewViewController {
         self.pagesCollection.selectItem(at: indexPath,
                                         animated: animated,
                                         scrollPosition: .centeredHorizontally)
-        self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
+        centerCollections(to: indexPath, animated: animated)
+        changeTitle(withPage: position + 1)
     }
     
     func selectLastItem(animated: Bool = false) {
@@ -253,6 +254,11 @@ extension MultipageReviewViewController {
         self.reloadCollections()
     }
     
+    fileprivate func centerCollections(to indexPath: IndexPath, animated: Bool = true) {
+        mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+        pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+    }
+    
     private func reloadCollections() {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
         
@@ -260,7 +266,9 @@ extension MultipageReviewViewController {
         self.pagesCollection.reloadData()
         
         if let currentSelectedItem = currentSelectedItem {
-            self.selectItem(at: currentSelectedItem.row)
+            self.selectItem(at: currentSelectedItem.row, animated: false)
+        } else {
+            self.selectLastItem(animated: false)
         }
     }
     
@@ -554,8 +562,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
             if documentRequests.count > 1 {
-                mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                centerCollections(to: indexPath)
             }
             changeTitle(withPage: indexPath.row + 1)
         }

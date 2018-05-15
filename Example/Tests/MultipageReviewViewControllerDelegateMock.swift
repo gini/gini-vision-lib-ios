@@ -10,6 +10,12 @@ import Foundation
 @testable import GiniVision
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
+    func multipageReview(_ viewController: MultipageReviewViewController,
+                         didSelect errorAction: NoticeActionType,
+                         for documentRequest: DocumentRequest) {
+        
+    }
+    
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
         
     }

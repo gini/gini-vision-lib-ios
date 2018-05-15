@@ -11,12 +11,6 @@ import GiniVision
 
 public typealias Extraction = GINIExtraction
 
-enum AnalysisError: Error {
-    case cancelled
-    case documentCreation
-    case unknown
-}
-
 enum CustomAnalysisError: GiniVisionError {
     case analysisFailed
     var message: String {
@@ -26,6 +20,7 @@ enum CustomAnalysisError: GiniVisionError {
         }
     }
 }
+
 enum Result<T> {
     case success(T)
     case failure(Error)

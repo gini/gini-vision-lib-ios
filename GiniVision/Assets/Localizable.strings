@@ -103,7 +103,7 @@
 "ginivision.imagepicker.openbutton" = "Öffnen";
 
 "ginivision.multipagereview.reorderContainerTooltipMessage" = "Die Seiten müssen in der richtigen Reihenfolge sein. Hier können Sie sie sortieren";
-"ginivision.multipagereview.addButtonLabel" = "Fügen Sie dieser Rechnung eine neue Seite hinzu";
+"ginivision.multipagereview.addButtonLabel" = "Seiten hinzufügen";
 "ginivision.multipagereview.dragAndDropTip" = "Drag & Drop zum Sortieren";
 "ginivision.multipagereview.title" = "%d von %d";
 "ginivision.multipagereview.error.retakeAction" = "Wiederholung";
