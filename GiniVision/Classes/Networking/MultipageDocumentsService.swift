@@ -14,6 +14,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
+    var pendingAnalysisHandler: AnalysisCompletion?
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
@@ -21,9 +22,21 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
         let partialDocumentsInfoSorted = partialDocuments
+            .lazy
             .map { $0.value }
             .sorted()
             .map { $0.info }
+            .filter { $0.documentUrl != nil}
+        
+        // When a PDF is imported the analysis screen is shown right away, and therefore the analysis is triggered.
+        // There could be the case where the PDF document hadn't been analyzed when this happens, that's why a reference
+        // to the completion block ahs to be kept. Once the document is uploaded, the completion block is
+        // called (see below).
+        guard partialDocumentsInfoSorted.isNotEmpty else {
+            pendingAnalysisHandler = completion
+            return
+        }
+        
         self.fetchExtractions(for: partialDocumentsInfoSorted, completion: completion)
     }
     
@@ -73,6 +86,12 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
             switch result {
             case .success(let createdDocument):
                 self.partialDocuments[document.id]?.info.documentUrl = createdDocument.links.document
+                
+                if let handler = self.pendingAnalysisHandler {
+                    self.startAnalysis(completion: handler)
+                    self.pendingAnalysisHandler = nil
+                }
+                
                 completion?(.success(createdDocument))
             case .failure(let error):
                 completion?(.failure(error))

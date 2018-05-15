@@ -63,6 +63,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
                 
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
+                    self.pendingAnalysisHandler = nil
                 }
             case .failure(let error):
                 Log(message: "Partial document creation error: \(error)", event: .error)

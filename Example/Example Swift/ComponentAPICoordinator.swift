@@ -114,6 +114,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                 } else {
                     showReviewScreen()
                 }
+                
+                upload(documentRequests: documentRequests)
             } else {
                 showAnalysisScreen()
             }
@@ -287,7 +289,7 @@ extension ComponentAPICoordinator {
                     self.documentRequests[index].error = error
                 }
                 
-                // When multipage mode is used and documents are image, you have to refresh the multipage review screen
+                // When multipage mode is used and documents are images, you have to refresh the multipage review screen
                 if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
                     self.refreshMultipageReview(with: self.documentRequests)
                 }
