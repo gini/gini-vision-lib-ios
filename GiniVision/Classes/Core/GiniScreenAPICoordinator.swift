@@ -93,8 +93,9 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
-                viewControllers = initialViewControllers(with: documentRequests)
                 
+                documentRequests.forEach { visionDelegate?.didCapture(document: $0.document, uploadDelegate: self) }
+                viewControllers = initialViewControllers(with: documentRequests)
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
                     "For now it is only possible to import either images or one PDF")
