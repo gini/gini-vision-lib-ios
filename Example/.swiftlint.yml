@@ -1,8 +1,8 @@
 included:
   - ../GiniVision
-  - GiniVision
+  - Example Swift
   - Tests/
-  
+
 excluded:
   - Pods/
 

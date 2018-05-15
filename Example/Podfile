@@ -4,10 +4,15 @@ platform :ios, '8.0'
 
 use_frameworks!
 
-target 'GiniVision_Example' do
+def project_pods
     pod 'Gini-iOS-SDK', :git => 'git@github.com:gini/gini-sdk-ios.git', :branch => 'develop'
     pod 'GiniVision', :path => '../'
     pod 'GiniVision/Networking+Pinning', :path => '../'
+end
+
+target 'Example Swift' do
+
+    project_pods	
 
     target 'GiniVision_Tests' do
         inherit! :search_paths
@@ -16,4 +21,10 @@ target 'GiniVision_Example' do
     target 'GiniVision_UITests' do
         inherit! :search_paths
     end
+end
+
+target 'Example ObjC' do
+
+    project_pods
+
 end
