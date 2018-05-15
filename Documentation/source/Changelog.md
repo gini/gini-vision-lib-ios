@@ -1,6 +1,13 @@
 Changelog
 =========
 
+4.0.0-beta.1 (2018-05-15)
+------------------
+
+-   Added multipage mode
+-   Added network plugin
+-   Minor UX/UI improvements
+
 3.3.4 (2018-06-13)
 ------------------
 
