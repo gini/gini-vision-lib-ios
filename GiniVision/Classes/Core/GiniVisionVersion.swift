@@ -1,1 +1,1 @@
-internal let GiniVisionVersion = "3.3.2"
+internal let GiniVisionVersion = "4.0.0-beta.1"
