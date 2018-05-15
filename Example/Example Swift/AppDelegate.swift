@@ -22,10 +22,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        coordinator.processExternalDocument(withUrl: url, sourceApplication: sourceApplication)
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+        coordinator.processExternalDocument(withUrl: url, sourceApplication: options[.sourceApplication] as? String)
         return true
-    } 
+    }
     
 }
-
