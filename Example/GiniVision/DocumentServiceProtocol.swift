@@ -17,6 +17,16 @@ enum AnalysisError: Error {
     case unknown
 }
 
+enum CustomAnalysisError: GiniVisionError {
+    case analysisFailed
+    var message: String {
+        switch self {
+        case .analysisFailed:
+            return NSLocalizedString("analysisFailedErrorMessage", comment: "analysis failed error message")
+        }
+    }
+}
+
 enum Result<T> {
     case success(T)
     case failure(Error)

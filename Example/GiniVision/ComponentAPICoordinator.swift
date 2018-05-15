@@ -59,7 +59,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                                                                   giniConfiguration: giniConfiguration)
         multipageReviewScreen.delegate = self
         addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
-        let weiterBarButton = UIBarButtonItem(title: "Weiter",
+        let weiterBarButton = UIBarButtonItem(title: NSLocalizedString("next", comment: "weiter button text"),
                                               style: .plain,
                                               target: self,
                                               action: #selector(showAnalysisScreen))
@@ -127,7 +127,8 @@ extension ComponentAPICoordinator {
     fileprivate func showCameraScreen() {
         cameraScreen = CameraViewController(giniConfiguration: giniConfiguration)
         cameraScreen?.delegate = self
-        cameraScreen?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
+        cameraScreen?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                                                  comment: "close button text"),
                                                                          style: .plain,
                                                                          target: self,
                                                                          action: #selector(closeComponentAPI))
@@ -156,7 +157,8 @@ extension ComponentAPICoordinator {
         reviewScreen = ReviewViewController(document: document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
-        reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Weiter",
+        reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("next",
+                                                                                                   comment: "close button text"),
                                                                           style: .plain,
                                                                           target: self,
                                                                           action: #selector(showAnalysisScreen))
@@ -181,7 +183,8 @@ extension ComponentAPICoordinator {
         
         if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
-                .rightBarButtonItem = UIBarButtonItem(title: "Schließen",
+                .rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                               comment: "close button text"),
                                                       style: .plain,
                                                       target: self,
                                                       action: #selector(closeComponentAPIFromResults))
@@ -267,21 +270,26 @@ extension ComponentAPICoordinator {
     fileprivate func upload(documentRequests: [DocumentRequest]) {
         documentRequests.forEach { documentRequest in
             if documentRequest.error == nil {
-                self.documentService?.upload(documentRequest.document) { result in
-                    DispatchQueue.main.async { [weak self] in
-                        guard let `self` = self, let index = self.documentRequests
-                            .index(of: documentRequest.document) else { return }
-                        switch result {
-                        case .success:
-                            self.documentRequests[index].isUploaded = true
-                        case .failure(let error):
-                            self.documentRequests[index].error = error
-                        }
-                        
-                        if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
-                            self.refreshMultipageReview(with: self.documentRequests)
-                        }
-                    }
+                self.upload(documentRequest: documentRequest)
+            }
+        }
+    }
+    
+    private func upload(documentRequest: DocumentRequest) {
+        self.documentService?.upload(documentRequest.document) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self, let index = self.documentRequests
+                    .index(of: documentRequest.document) else { return }
+                switch result {
+                case .success:
+                    self.documentRequests[index].isUploaded = true
+                case .failure(let error):
+                    self.documentRequests[index].error = error
+                }
+                
+                // When multipage mode is used and documents are image, you have to refresh the multipage review screen
+                if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
+                    self.refreshMultipageReview(with: self.documentRequests)
                 }
             }
         }
@@ -294,8 +302,11 @@ extension ComponentAPICoordinator {
                 switch result {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
-                case .failure(let error):
-                    break
+                case .failure:
+                    let visionError = CustomAnalysisError.analysisFailed
+                    self.analysisScreen?.showErrorDialog(for: visionError, positiveAction: {
+                        self.startAnalysis()
+                    })
                 }
             }
         })
@@ -311,8 +322,12 @@ extension ComponentAPICoordinator {
 extension ComponentAPICoordinator {
     
     fileprivate func setupTabBar() {
-        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
-        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
+        let newDocumentTabTitle = NSLocalizedString("newDocument",
+                                                    comment: "new document tab title")
+        let helpTabTitle = NSLocalizedString("help",
+                                             comment: "new document tab title")
+        let navTabBarItem = UITabBarItem(title: newDocumentTabTitle, image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let helpTabBarItem = UITabBarItem(title: helpTabTitle, image: UIImage(named: "tabBarIconHelp"), tag: 1)
         
         self.navigationController.tabBarItem = navTabBarItem
         self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
@@ -324,7 +339,8 @@ extension ComponentAPICoordinator {
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
         if navigationController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                                                       comment: "close button text"),
                                                                               style: .plain,
                                                                               target: self,
                                                                               action: #selector(closeComponentAPI))
@@ -386,6 +402,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
 // MARK: - CameraViewControllerDelegate
 
 extension ComponentAPICoordinator: CameraViewControllerDelegate {
+    
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         validate([document]) { result in
             switch result {
@@ -434,6 +451,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
 // MARK: - DocumentPickerCoordinatorDelegate
 
 extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
+    
     func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
         self.validate(documents) { result in
             switch result {
@@ -478,6 +496,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
 // MARK: - ReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: ReviewViewControllerDelegate {
+    
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
         if let index = documentRequests.index(of: document) {
             documentRequests[index].document = document
@@ -492,6 +511,7 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
 // MARK: MultipageReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
+    
     func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
         self.documentRequests = documentRequests
         
@@ -501,7 +521,6 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
-        
         if let index = documentRequests.index(of: documentRequest.document) {
             documentRequests[index].document = documentRequest.document
         }
@@ -528,6 +547,7 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
 // MARK: NoResultsScreenDelegate
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
+    
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
         self.didTapRetry()
     }
@@ -536,9 +556,9 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 // MARK: - Validation
 
 extension ComponentAPICoordinator {
+    
     fileprivate func validate(_ documents: [GiniVisionDocument],
                               completion: @escaping (Result<[DocumentRequest]>) -> Void) {
-        
         guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
@@ -586,6 +606,7 @@ extension ComponentAPICoordinator {
 // MARK: Handle analysis results
 
 extension ComponentAPICoordinator {
+    
     fileprivate func handleAnalysis(with extractions: [String: GINIExtraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
         let hasPayFive = extractions.filter { payFive.contains($0.0) }.count > 0
