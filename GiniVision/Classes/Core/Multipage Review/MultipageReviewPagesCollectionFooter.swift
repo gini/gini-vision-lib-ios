@@ -156,13 +156,14 @@ extension MultipageReviewPagesCollectionFooter {
                            attr: .top, priority: 750)
         
         // addLabel
-        Constraints.active(item: addLabel, attr: .centerX, relatedBy: .equal, to: addButton, attr: .centerX)
         Constraints.active(item: addLabel, attr: .top, relatedBy: .equal, to: addButton, attr: .bottom,
                            constant: MultipageReviewPagesCollectionFooter.padding().top)
         Constraints.active(item: addLabel, attr: .bottom, relatedBy: .lessThanOrEqual, to: roundMask, attr: .bottom,
                            constant: -MultipageReviewPagesCollectionFooter.padding().bottom)
         Constraints.active(item: addLabel, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading,
                            constant: MultipageReviewPagesCollectionFooter.padding().left)
+        Constraints.active(item: addLabel, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing,
+                           constant: -MultipageReviewPagesCollectionFooter.padding().right, priority: 999)
         
         // Since it is not possible to add an inset to the footer, but only to the section
         // (header and footer are not part of the section), we add a right inset dynamically through a
