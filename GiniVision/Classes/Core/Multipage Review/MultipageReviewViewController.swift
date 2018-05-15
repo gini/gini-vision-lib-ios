@@ -148,7 +148,6 @@ public final class MultipageReviewViewController: UIViewController {
         return constraint
     }()
     
-    @available(iOS 9.0, *)
     fileprivate lazy var longPressGesture = UILongPressGestureRecognizer(target: self,
                                                                          action: #selector(self.handleLongGesture))
     
@@ -304,8 +303,7 @@ extension MultipageReviewViewController {
         pagesCollectionTipLabelHeightConstraint.constant = hidden ? 0 : 30
     }
     
-    @objc @available(iOS 9.0, *)
-    fileprivate func handleLongGesture(gesture: UILongPressGestureRecognizer) {
+    @objc fileprivate func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
         case .began:
             guard let selectedIndexPath = self.pagesCollection
