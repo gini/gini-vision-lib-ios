@@ -22,24 +22,30 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return self.componentAPITabBarController
     }
     
-    fileprivate let documentService: DocumentService
-    fileprivate var document: GiniVisionDocument?
+    fileprivate var documentService: DocumentServiceProtocol?
+    fileprivate var documentRequests: [DocumentRequest]
+    
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
+    fileprivate let giniConfiguration: GiniConfiguration
     
     fileprivate lazy var storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
     fileprivate lazy var componentAPIOnboardingViewController: ComponentAPIOnboardingViewController =
         (self.storyboard.instantiateViewController(withIdentifier: "componentAPIOnboardingViewController")
             as? ComponentAPIOnboardingViewController)!
-    fileprivate lazy var newDocumentViewController: UINavigationController = {
+    fileprivate lazy var navigationController: UINavigationController = {
         let navBarViewController = UINavigationController()
         navBarViewController.navigationBar.barTintColor = self.giniColor
         navBarViewController.navigationBar.tintColor = .white
+        navBarViewController.view.backgroundColor = .black
+
         return navBarViewController
     }()
+    
     fileprivate lazy var componentAPITabBarController: UITabBarController = {
         let tabBarViewController = UITabBarController()
         tabBarViewController.tabBar.barTintColor = self.giniColor
         tabBarViewController.tabBar.tintColor = .white
+        tabBarViewController.view.backgroundColor = .black
         
         if #available(iOS 10.0, *) {
             tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
@@ -47,115 +53,150 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         
         return tabBarViewController
     }()
-    fileprivate var didDocumentAnalysisComplete: DocumentAnalysisCompletion {
-        return {(result, document, error) in
-            DispatchQueue.main.async { [weak self] in
-                if let error = error {
-                    self?.handleAnalysis(error: error)
-                    return
-                }
-                
-                if let result = result,
-                    let document = document,
-                    self?.analysisScreen != nil {
-                    self?.handleAnalysis(result, fromDocument: document)
-                }
-            }
-        }
+    
+    fileprivate(set) lazy var multipageReviewScreen: MultipageReviewViewController = {
+        let multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
+                                                                  giniConfiguration: giniConfiguration)
+        multipageReviewScreen.delegate = self
+        addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
+        let weiterBarButton = UIBarButtonItem(title: NSLocalizedString("next", comment: "weiter button text"),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(showAnalysisScreen))
+        weiterBarButton.isEnabled = false
+        multipageReviewScreen.navigationItem.rightBarButtonItem = weiterBarButton
+        return multipageReviewScreen
+    }()
+    
+    fileprivate(set) var analysisScreen: AnalysisViewController?
+    fileprivate(set) var cameraScreen: CameraViewController?
+    fileprivate(set) var resultsScreen: ResultTableViewController?
+    fileprivate(set) var reviewScreen: ReviewViewController?
+    fileprivate(set) lazy var documentPickerCoordinator =
+        DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
+
+    init(documentRequests: [DocumentRequest],
+         configuration: GiniConfiguration,
+         client: GiniClient) {
+        self.documentRequests = documentRequests
+        self.giniConfiguration = configuration
+        super.init()
+        
+        setupDocumentService(client: client, giniConfiguration: configuration)
+        GiniVision.setConfiguration(configuration)
     }
     
-    fileprivate(set) var cameraScreen: ComponentAPICameraViewController?
-    fileprivate(set) var reviewScreen: ComponentAPIReviewViewController?
-    fileprivate(set) var analysisScreen: ComponentAPIAnalysisViewController?
-    fileprivate(set) var resultsScreen: ResultTableViewController?
-    
-    init(document: GiniVisionDocument?,
-         configuration: GiniConfiguration,
-         documentService: DocumentService) {
-        self.document = document
-        self.documentService = documentService
-        GiniVision.setConfiguration(configuration)
+    func setupDocumentService(client: GiniClient,
+                              giniConfiguration: GiniConfiguration) {
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        
+        if let sdk = builder?.build() {
+            if giniConfiguration.multipageEnabled {
+                documentService = MultipageDocumentsService(sdk: sdk)
+            } else {
+                documentService = SinglePageDocumentsService(sdk: sdk)
+            }
+        }
     }
     
     func start() {
         self.setupTabBar()
-        self.newDocumentViewController.delegate = self
+        self.navigationController.delegate = self
         
-        if let document = document {
-            if document.isReviewable {
-                showReviewScreen(withDocument: document)
-            } else {
-                showAnalysisScreen(withDocument: document)
-            }
-        } else {
+        if documentRequests.isEmpty {
             showCameraScreen()
+        } else {
+            if documentRequests.type == .image {
+                if giniConfiguration.multipageEnabled {
+                    showMultipageReviewScreen()
+                } else {
+                    showReviewScreen()
+                }
+            } else {
+                showAnalysisScreen()
+            }
         }
     }
-    
-    // MARK: Show screens
+}
+
+// MARK: Screens presentation
+
+extension ComponentAPICoordinator {
     fileprivate func showCameraScreen() {
-        cameraScreen = self.storyboard.instantiateViewController(withIdentifier: "ComponentAPICamera")
-            as? ComponentAPICameraViewController
+        cameraScreen = CameraViewController(giniConfiguration: giniConfiguration)
         cameraScreen?.delegate = self
-        newDocumentViewController.pushViewController(cameraScreen!, animated: true)
+        cameraScreen?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                                                  comment: "close button text"),
+                                                                         style: .plain,
+                                                                         target: self,
+                                                                         action: #selector(closeComponentAPI))
+        
+        if giniConfiguration.fileImportSupportedTypes != .none {
+            documentPickerCoordinator.delegate = self
+            
+            if giniConfiguration.fileImportSupportedTypes == .pdf_and_images,
+                documentPickerCoordinator.isGalleryPermissionGranted {
+                documentPickerCoordinator.startCaching()
+            }
+            
+            if #available(iOS 11.0, *) {
+                documentPickerCoordinator.setupDragAndDrop(in: cameraScreen!.view)
+            }
+        }
+        navigationController.pushViewController(cameraScreen!, animated: true)
     }
     
-    fileprivate func showReviewScreen(withDocument document: GiniVisionDocument) {
-        reviewScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIReview")
-            as? ComponentAPIReviewViewController
+    fileprivate func showMultipageReviewScreen() {
+        navigationController.pushViewController(multipageReviewScreen, animated: true)
+    }
+    
+    fileprivate func showReviewScreen() {
+        guard let document = documentRequests.first?.document else { return }
+        reviewScreen = ReviewViewController(document: document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
-        reviewScreen?.document = document
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
+        reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("next",
+                                                                                                   comment: "close button text"),
+                                                                          style: .plain,
+                                                                          target: self,
+                                                                          action: #selector(showAnalysisScreen))
         
-        // Analogouse to the Screen API the image data should be analyzed right away with the Gini SDK for iOS
-        // to have results in as early as possible.
-        documentService.analyzeDocument(withData: document.data,
-                                        cancelationToken: CancelationToken(),
-                                        completion: didDocumentAnalysisComplete)
-        
-        newDocumentViewController.pushViewController(reviewScreen!, animated: true)
+        navigationController.pushViewController(reviewScreen!, animated: true)
     }
     
-    fileprivate func showAnalysisScreen(withDocument document: GiniVisionDocument) {
-        analysisScreen = storyboard.instantiateViewController(withIdentifier: "ComponentAPIAnalysis")
-            as? ComponentAPIAnalysisViewController
-        analysisScreen?.delegate = self
-        analysisScreen?.document = document
+    @objc fileprivate func showAnalysisScreen() {
+        guard let document = documentRequests.first?.document else { return }
+        
+        startAnalysis()
+        analysisScreen = AnalysisViewController(document: document)
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
-        // In case that the view is loaded but is not analysing (i.e: user imported a PDF with
-        // the Open With feature), it should start.
-        if !documentService.isAnalyzing {
-            documentService.analyzeDocument(withData: document.data,
-                                            cancelationToken: CancelationToken(),
-                                            completion: didDocumentAnalysisComplete)
-        }
-        
-        newDocumentViewController.pushViewController(analysisScreen!, animated: true)
+        navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(forDocument document: GINIDocument,
-                                            withResult result: [String: GINIExtraction]) {
+    fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
-        resultsScreen?.result = result
-        resultsScreen?.document = document
+        resultsScreen?.result = extractions
         
-        if newDocumentViewController.viewControllers.first is ComponentAPIAnalysisViewController {
+        if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
-                .rightBarButtonItem = UIBarButtonItem(title: "Schließen",
+                .rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                               comment: "close button text"),
                                                       style: .plain,
                                                       target: self,
                                                       action: #selector(closeComponentAPIFromResults))
         }
         
-        push(viewController: resultsScreen!, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        push(viewController: resultsScreen!, removingViewControllerOfType: AnalysisViewController.self)
         analysisScreen = nil
     }
     
     fileprivate func showNoResultsScreen() {
         let vc: UIViewController
-        if document?.type == .image {
+        if documentRequests.type == .image {
             let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
             imageAnalysisNoResultsViewController.didTapBottomButton = { [unowned self] in
                 self.didTapRetry()
@@ -168,185 +209,412 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
             vc = genericNoResults!
         }
         
-        push(viewController: vc, removingViewControllerOfType: ComponentAPIAnalysisViewController.self)
+        push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
         analysisScreen = nil
 
     }
     
-    // MARK: Other
-    fileprivate func setupTabBar() {
-        let navTabBarItem = UITabBarItem(title: "New document", image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
-        let helpTabBarItem = UITabBarItem(title: "Help", image: UIImage(named: "tabBarIconHelp"), tag: 1)
-        
-        self.newDocumentViewController.tabBarItem = navTabBarItem
-        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
-        
-        self.componentAPITabBarController.setViewControllers([newDocumentViewController,
-                                                              componentAPIOnboardingViewController],
-                                                             animated: true)
+    fileprivate func showNextScreenAfterPicking() {
+        if let documentsType = documentRequests.type {
+            switch documentsType {
+            case .image:
+                if giniConfiguration.multipageEnabled {
+                    refreshMultipageReview(with: self.documentRequests)
+                    showMultipageReviewScreen()
+                } else {
+                    showReviewScreen()
+                }
+            case .qrcode, .pdf:
+                showAnalysisScreen()
+            }
+        }
     }
     
     @objc fileprivate func closeComponentAPI() {
-        documentService.cancelAnalysis()
+        documentService?.cancelAnalysis()
         delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
     @objc fileprivate func closeComponentAPIFromResults() {
-        if let document = resultsScreen?.document {
-            documentService.sendFeedback(forDocument: document)
+        if let results = resultsScreen?.result {
+            documentService?.sendFeedback(with: results)
         }
         closeComponentAPI()
     }
     
-    fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
-        if newDocumentViewController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Schließen",
-                                                                              style: .plain,
-                                                                              target: self,
-                                                                              action: #selector(closeComponentAPI))
-        }
-    }
-    
     fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
-        var navigationStack = newDocumentViewController.viewControllers
+        var navigationStack = navigationController.viewControllers
         
         if let deleteViewController = (navigationStack.compactMap { $0 as? T }.first) as? UIViewController,
             let index = navigationStack.index(of: deleteViewController) {
             navigationStack.remove(at: index)
         }
         navigationStack.append(viewController)
-        newDocumentViewController.setViewControllers(navigationStack, animated: true)
+        navigationController.setViewControllers(navigationStack, animated: true)
+    }
+    
+    fileprivate func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+        multipageReviewScreen.navigationItem
+            .rightBarButtonItem?
+            .isEnabled = documentRequests
+                .reduce(true, { result, documentRequest in
+                    result && documentRequest.isUploaded
+                })
+        multipageReviewScreen.updateCollections(with: documentRequests)
+    }
+}
+
+// MARK: - Networking
+
+extension ComponentAPICoordinator {
+    fileprivate func upload(documentRequests: [DocumentRequest]) {
+        documentRequests.forEach { documentRequest in
+            if documentRequest.error == nil {
+                self.upload(documentRequest: documentRequest)
+            }
+        }
+    }
+    
+    private func upload(documentRequest: DocumentRequest) {
+        self.documentService?.upload(documentRequest.document) { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self, let index = self.documentRequests
+                    .index(of: documentRequest.document) else { return }
+                switch result {
+                case .success:
+                    self.documentRequests[index].isUploaded = true
+                case .failure(let error):
+                    self.documentRequests[index].error = error
+                }
+                
+                // When multipage mode is used and documents are image, you have to refresh the multipage review screen
+                if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
+                    self.refreshMultipageReview(with: self.documentRequests)
+                }
+            }
+        }
+    }
+    
+    fileprivate func startAnalysis() {
+        documentService?.startAnalysis(completion: { result in
+            DispatchQueue.main.async { [weak self] in
+                guard let `self` = self else { return }
+                switch result {
+                case .success(let extractions):
+                    self.handleAnalysis(with: extractions)
+                case .failure:
+                    let visionError = CustomAnalysisError.analysisFailed
+                    self.analysisScreen?.showErrorDialog(for: visionError, positiveAction: {
+                        self.startAnalysis()
+                    })
+                }
+            }
+        })
+    }
+    
+    fileprivate func delete(document: GiniVisionDocument) {
+        documentService?.delete(document)
+    }
+}
+
+// MARK: - Other
+
+extension ComponentAPICoordinator {
+    
+    fileprivate func setupTabBar() {
+        let newDocumentTabTitle = NSLocalizedString("newDocument",
+                                                    comment: "new document tab title")
+        let helpTabTitle = NSLocalizedString("help",
+                                             comment: "new document tab title")
+        let navTabBarItem = UITabBarItem(title: newDocumentTabTitle, image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let helpTabBarItem = UITabBarItem(title: helpTabTitle, image: UIImage(named: "tabBarIconHelp"), tag: 1)
+        
+        self.navigationController.tabBarItem = navTabBarItem
+        self.componentAPIOnboardingViewController.tabBarItem = helpTabBarItem
+        
+        self.componentAPITabBarController.setViewControllers([navigationController,
+                                                              componentAPIOnboardingViewController],
+                                                             animated: true)
+    }
+    
+    fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
+        if navigationController.viewControllers.isEmpty {
+            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                                                       comment: "close button text"),
+                                                                              style: .plain,
+                                                                              target: self,
+                                                                              action: #selector(closeComponentAPI))
+        }
     }
     
     func didTapRetry() {
-        if (newDocumentViewController.viewControllers.compactMap { $0 as? ComponentAPICameraViewController}).first == nil {
+        if (navigationController.viewControllers.compactMap { $0 as? CameraViewController}).first == nil {
             closeComponentAPI()
             return
         }
 
-        newDocumentViewController.popToRootViewController(animated: true)
+        navigationController.popToRootViewController(animated: true)
     }
 }
 
 // MARK: UINavigationControllerDelegate
 
 extension ComponentAPICoordinator: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController,
-                              willShow viewController: UIViewController,
-                              animated: Bool) {
-        guard let fromViewController = navigationController
-            .transitionCoordinator?.viewController(forKey: .from) else { return }
-        newDocumentViewController
-            .setNavigationBarHidden(viewController is ComponentAPICameraViewController, animated: true)
-        
-        if fromViewController is ComponentAPIReviewViewController &&
-            viewController is ComponentAPICameraViewController {
-            reviewScreen = nil
-            documentService.cancelAnalysis()
-        }
-        
-        if fromViewController is ComponentAPIAnalysisViewController &&
-            viewController is ComponentAPIReviewViewController {
-            analysisScreen = nil
-            documentService.cancelAnalysis()
-        }
-        
-        if let resultsScreen = fromViewController as? ResultTableViewController {
-            documentService.sendFeedback(forDocument: resultsScreen.document)
-        }
-    }
-}
-
-// MARK: ComponentAPICameraScreenDelegate
-
-extension ComponentAPICoordinator: ComponentAPICameraViewControllerDelegate {
-    func componentAPICamera(viewController: UIViewController, didPickDocument document: GiniVisionDocument) {
-        if document.isReviewable {
-            showReviewScreen(withDocument: document)
-        } else {
-            showAnalysisScreen(withDocument: document)
-        }
-    }
     
-    func componentAPICamera(viewController: UIViewController, didTapClose: ()) {
-        closeComponentAPI()
+    func navigationController(_ navigationController: UINavigationController,
+                              animationControllerFor operation: UINavigationControllerOperation,
+                              from fromVC: UIViewController,
+                              to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        if fromVC is ReviewViewController && operation == .pop {
+            reviewScreen = nil
+            if let document = documentRequests.first?.document {
+                documentService?.delete(document)
+            }
+            documentRequests.removeAll()
+        }
+        
+        if fromVC is AnalysisViewController && operation == .pop {
+            // Going directly from the analysis to the camera means that
+            // the document is not an image and should be removed
+            if toVC is CameraViewController {
+                documentRequests.removeAll()
+            }
+            
+            analysisScreen = nil
+            documentService?.cancelAnalysis()
+        }
+        
+        if let resultsScreen = fromVC as? ResultTableViewController {
+            documentService?.sendFeedback(with: resultsScreen.result)
+        }
+        
+        if let cameraViewController = toVC as? CameraViewController,
+            fromVC is MultipageReviewViewController {
+            cameraViewController
+                .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage })
+        }
+        
+        return nil
     }
 }
 
-// MARK: ComponentAPIReviewScreenDelegate
+// MARK: - CameraViewControllerDelegate
 
-extension ComponentAPICoordinator: ComponentAPIReviewViewControllerDelegate {
-    func componentAPIReview(viewController: ComponentAPIReviewViewController,
-                            didReviewDocument document: GiniVisionDocument) {
-        // Present already existing results retrieved from the first analysis process initiated in `viewDidLoad`.
-        if let result = documentService.result,
-            let document = documentService.document {
-            handleAnalysis(result, fromDocument: document)
-            return
-        }
-        
-        // Restart analysis if it was canceled and is currently not running.
-        if !documentService.isAnalyzing {
-            if let documentData = self.document?.data {
-                documentService.analyzeDocument(withData: documentData,
-                                                cancelationToken: CancelationToken(),
-                                                completion: didDocumentAnalysisComplete)
+extension ComponentAPICoordinator: CameraViewControllerDelegate {
+    
+    func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
+        validate([document]) { result in
+            switch result {
+            case .success(let documentRequests):
+                self.documentRequests.append(contentsOf: documentRequests)
+                self.upload(documentRequests: documentRequests)
+                
+                if self.giniConfiguration.multipageEnabled, self.documentRequests.count > 1 {
+                    if let imageDocument = document as? GiniImageDocument {
+                        viewController.animateToControlsView(imageDocument: imageDocument)
+                    }
+                } else {
+                    self.showNextScreenAfterPicking()
+                }
+            case .failure(let error):
+                if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
+                    viewController.showErrorDialog(for: error) {
+                        self.showMultipageReviewScreen()
+                    }
+                }
             }
         }
-        
-        showAnalysisScreen(withDocument: document)
     }
     
-    func componentAPIReview(viewController: ComponentAPIReviewViewController, didRotate document: GiniVisionDocument) {
-        self.document = document
-        documentService.cancelAnalysis()
+    func cameraDidAppear(_ viewController: CameraViewController) {
+        // Here you can show the Onboarding screen in case that you decide
+        // to launch it once the camera screen appears
+    }
+    
+    func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
+        showMultipageReviewScreen()
+    }
+    
+    func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType) {
+        switch documentPicker {
+        case .gallery:
+            documentPickerCoordinator.showGalleryPicker(from: viewController)
+        case .explorer:
+            documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
+            documentPickerCoordinator.showDocumentPicker(from: viewController)
+        case .dragndrop: break
+        }
     }
 }
 
-// MARK: ComponentAPIAnalysisScreenDelegate
+// MARK: - DocumentPickerCoordinatorDelegate
 
-extension ComponentAPICoordinator: ComponentAPIAnalysisViewControllerDelegate {    
-    func componentAPIAnalysis(viewController: ComponentAPIAnalysisViewController, didTapErrorButton: ()) {
-        if let document = document {
-            documentService.analyzeDocument(withData: document.data,
-                                            cancelationToken: CancelationToken(),
-                                            completion: didDocumentAnalysisComplete)
+extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
+    
+    func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
+        self.validate(documents) { result in
+            switch result {
+            case .success(let documentRequests):
+                coordinator.dismissCurrentPicker {
+                    self.documentRequests.append(contentsOf: documentRequests)
+                    self.upload(documentRequests: documentRequests)
+                    self.showNextScreenAfterPicking()
+                }
+            case .failure(let error):
+                var positiveAction: (() -> Void)?
+                
+                if let error = error as? FilePickerError {
+                    switch error {
+                    case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
+                        if !self.documentRequests.isEmpty {
+                            positiveAction = {
+                                coordinator.dismissCurrentPicker {
+                                    self.showMultipageReviewScreen()
+                                }
+                            }
+                        }
+                        
+                    case .photoLibraryAccessDenied:
+                        break
+                    }
+                }
+
+                if coordinator.currentPickerDismissesAutomatically {
+                    self.cameraScreen?.showErrorDialog(for: error,
+                                                       positiveAction: positiveAction)
+                } else {
+                    coordinator.rootViewController?.showErrorDialog(for: error,
+                                                                    positiveAction: positiveAction)
+                }
+            }
+            
         }
+    }    
+}
+
+// MARK: - ReviewViewControllerDelegate
+
+extension ComponentAPICoordinator: ReviewViewControllerDelegate {
+    
+    func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
+        if let index = documentRequests.index(of: document) {
+            documentRequests[index].document = document
+        }
+        
+        if let imageDocument = document as? GiniImageDocument {
+            documentService?.update(imageDocument)
+        }
+    }
+}
+
+// MARK: MultipageReviewViewControllerDelegate
+
+extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
+        
+        if let multipageDocumentService = documentService as? MultipageDocumentsService {
+            multipageDocumentService.sortDocuments(withSameOrderAs: self.documentRequests.map { $0.document })
+        }
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
+        if let index = documentRequests.index(of: documentRequest.document) {
+            documentRequests[index].document = documentRequest.document
+        }
+        
+        if let imageDocument = documentRequest.document as? GiniImageDocument {
+            documentService?.update(imageDocument)
+        }
+    }
+    
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
+        documentService?.delete(documentRequest.document)
+        documentRequests.remove(documentRequest.document)
+        
+        if documentRequests.isEmpty {
+            navigationController.popViewController(animated: true)
+        }
+    }
+    
+    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
+        navigationController.popViewController(animated: true)
     }
 }
 
 // MARK: NoResultsScreenDelegate
 
 extension ComponentAPICoordinator: NoResultsScreenDelegate {
+    
     func noResults(viewController: NoResultViewController, didTapRetry: ()) {
         self.didTapRetry()
+    }
+}
+
+// MARK: - Validation
+
+extension ComponentAPICoordinator {
+    
+    fileprivate func validate(_ documents: [GiniVisionDocument],
+                              completion: @escaping (Result<[DocumentRequest]>) -> Void) {
+        guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
+            completion(.failure(FilePickerError.mixedDocumentsUnsupported))
+            return
+        }
+        
+        guard (documents.count + documentRequests.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+            completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
+            return
+        }
+        
+        self.validate(importedDocuments: documents) { validatedDocuments in
+            let elementsWithError = validatedDocuments.filter { $0.error != nil }
+            if let firstElement = elementsWithError.first,
+                let error = firstElement.error,
+                (!self.giniConfiguration.multipageEnabled || firstElement.document.type != .image) {
+                completion(.failure(error))
+            } else {
+                completion(.success(validatedDocuments))
+            }
+        }
+    }
+    
+    private func validate(importedDocuments documents: [GiniVisionDocument],
+                          completion: @escaping ([DocumentRequest]) -> Void) {
+        DispatchQueue.global().async {
+            var documentRequests: [DocumentRequest] = []
+            documents.forEach { document in
+                var documentError: Error?
+                do {
+                    try GiniVisionDocumentValidator.validate(document,
+                                                             withConfig: self.giniConfiguration)
+                } catch let error {
+                    documentError = error
+                }
+                documentRequests.append(DocumentRequest(value: document, error: documentError))
+            }
+            
+            DispatchQueue.main.async {
+                completion(documentRequests)
+            }
+        }
     }
 }
 
 // MARK: Handle analysis results
 
 extension ComponentAPICoordinator {
-    fileprivate func handleAnalysis(_ result: [String: GINIExtraction], fromDocument document: GINIDocument) {
+    
+    fileprivate func handleAnalysis(with extractions: [String: GINIExtraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = result.filter { payFive.contains($0.0) }.count > 0
+        let hasPayFive = extractions.filter { payFive.contains($0.0) }.count > 0
         
         if hasPayFive {
-            showResultsTableScreen(forDocument: document, withResult: result)
+            showResultsTableScreen(withExtractions: extractions)
         } else {
             showNoResultsScreen()
         }
-    }
-    
-    fileprivate func handleExistingResults() {
-        if let result = documentService.result,
-            let document = documentService.document {
-            handleAnalysis(result, fromDocument: document)
-        } else if let error = documentService.error {
-            analysisScreen?.displayError(error)
-        }
-    }
-    
-    fileprivate func handleAnalysis(error: Error) {
-        analysisScreen?.displayError(error)
     }
 }

@@ -174,7 +174,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     // Properties
     let giniConfiguration: GiniConfiguration
-    weak var delegate: CameraViewControllerDelegate?
+    public weak var delegate: CameraViewControllerDelegate?
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
@@ -278,6 +278,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     public override func loadView() {
         super.loadView()
+        edgesForExtendedLayout = []
         
         if let validCamera = camera {
             cameraState = .valid
@@ -472,7 +473,7 @@ extension CameraViewController {
         didPick(imageDocument)
     }
     
-    func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
+    public func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
         guard let documentImage = imageDocument.previewImage else { return }
         let previewImageView = previewCapturedImageView(with: documentImage)
         view.addSubview(previewImageView)
@@ -504,6 +505,10 @@ extension CameraViewController {
         })
     }
     
+    public func replaceCapturedStackImages(with images: [UIImage]) {
+        capturedImagesStackView.replaceStackImages(with: images)
+    }
+    
     private func previewCapturedImageView(with image: UIImage) -> UIImageView {
         let imageFrame = previewView.frame
         let imageView = UIImageView(frame: imageFrame)
@@ -519,10 +524,6 @@ extension CameraViewController {
     
     @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
         delegate?.cameraDidTapMultipageReviewButton(self)
-    }
-    
-    func replaceCapturedStackImages(with images: [UIImage]) {
-        capturedImagesStackView.replaceStackImages(with: images)
     }
     
     func updatePreviewViewOrientation() {

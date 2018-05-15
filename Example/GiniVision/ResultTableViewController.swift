@@ -20,12 +20,6 @@ final class ResultTableViewController: UITableViewController {
      */
     var result: [String: GINIExtraction]!
     
-    /**
-     The document the results have been extracted from.
-     Can be used for further processing.
-     */
-    var document: GINIDocument!
-    
     fileprivate var sortedKeys: [String] {
         return Array(result.keys).sorted(by: <)
     }

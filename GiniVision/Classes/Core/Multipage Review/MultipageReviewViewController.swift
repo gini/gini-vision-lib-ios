@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MultipageReviewViewControllerDelegate: class {
+public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didReorder documentRequests: [DocumentRequest])
     func multipageReview(_ controller: MultipageReviewViewController,
@@ -20,17 +20,8 @@ protocol MultipageReviewViewControllerDelegate: class {
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    var documentRequests: [DocumentRequest] {
-        didSet {
-            navigationItem
-                .rightBarButtonItem?
-                .isEnabled = documentRequests
-                    .reduce(true, { result, documentRequest in
-                        result && documentRequest.isUploaded
-                    })
-        }
-    }
-    weak var delegate: MultipageReviewViewControllerDelegate?
+    var documentRequests: [DocumentRequest] 
+    public weak var delegate: MultipageReviewViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
     
     // MARK: - UI initialization
@@ -251,12 +242,16 @@ extension MultipageReviewViewController {
         selectItem(at: lastPosition, animated: animated)
     }
     
-    func reloadCollections() {
-        let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
+    public func updateCollections(with documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
+        self.reloadCollections()
+    }
+    
+    private func reloadCollections() {
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()
         
-        if let currentSelectedItem = currentSelectedItem {
+        if let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first {
             self.selectItem(at: currentSelectedItem.row)
         }
     }

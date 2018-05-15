@@ -9,7 +9,7 @@
 import Foundation
 import MobileCoreServices
 
-protocol DocumentPickerCoordinatorDelegate: class {
+public protocol DocumentPickerCoordinatorDelegate: class {
     /**
      Called when a user picks one or several files from either the gallery or the files explorer.
      The completion might provide errors that must be handled here before dismissing the
@@ -32,16 +32,17 @@ protocol DocumentPickerCoordinatorDelegate: class {
     case gallery, explorer, dragndrop
 }
 
-internal final class DocumentPickerCoordinator: NSObject {
+public final class DocumentPickerCoordinator: NSObject {
     
-    weak var delegate: DocumentPickerCoordinatorDelegate?
+    public weak var delegate: DocumentPickerCoordinatorDelegate?
+    public var isPDFSelectionAllowed: Bool = true
+    private(set) public var currentPickerDismissesAutomatically: Bool = false
+    private(set) public var rootViewController: UIViewController?
+
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
-    var isPDFSelectionAllowed: Bool = true
-    var currentPickerDismissesAutomatically: Bool = false
-    var rootViewController: UIViewController?
     
-    var isGalleryPermissionGranted: Bool {
+    public var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted
     }
     
@@ -60,20 +61,26 @@ internal final class DocumentPickerCoordinator: NSObject {
     
     // MARK: - Initializer
     
-    init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared) {
+    public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         self.galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
     }
     
     // MARK: - Start caching
     
-    func startCaching() {
+    public func startCaching() {
         galleryCoordinator.start()
+    }
+    
+    @available(iOS 11.0, *)
+    public func setupDragAndDrop(in view: UIView) {
+        let dropInteraction = UIDropInteraction(delegate: self)
+        view.addInteraction(dropInteraction)
     }
     
     // MARK: Picker presentation
     
-    func showGalleryPicker(from viewController: UIViewController) {
+    public func showGalleryPicker(from viewController: UIViewController) {
         galleryCoordinator.checkGalleryAccessPermission(deniedHandler: { error in
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
                 viewController.showErrorDialog(for: error, positiveAction: UIApplication.shared.openAppSettings)
@@ -86,8 +93,8 @@ internal final class DocumentPickerCoordinator: NSObject {
         })
     }
     
-    func showDocumentPicker(from viewController: UIViewController,
-                            device: UIDevice = UIDevice.current) {
+    public func showDocumentPicker(from viewController: UIViewController,
+                                   device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
         documentPicker.delegate = self
         
@@ -108,7 +115,7 @@ internal final class DocumentPickerCoordinator: NSObject {
         viewController.present(documentPicker, animated: true, completion: nil)
     }
     
-    func dismissCurrentPicker(completion: @escaping () -> Void) {
+    public func dismissCurrentPicker(completion: @escaping () -> Void) {
         if currentPickerDismissesAutomatically {
             completion()
         } else {
@@ -159,7 +166,7 @@ extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
 // MARK: UIDocumentPickerDelegate
 
 extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let documents: [GiniVisionDocument] = urls
             .compactMap(self.data)
             .compactMap(self.createDocument)
@@ -167,7 +174,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
         delegate?.documentPicker(self, didPick: documents)
     }
     
-    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+    public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         controller.dismiss(animated: false, completion: nil)
     }
 }
@@ -176,7 +183,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
 
 @available(iOS 11.0, *)
 extension DocumentPickerCoordinator: UIDropInteractionDelegate {
-    func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
+    public func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         guard isPDFDropSelectionAllowed(forSession: session) else {
             return false
         }
@@ -193,11 +200,11 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
     }
     
-    func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+    public func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         return UIDropProposal(operation: .copy)
     }
     
-    func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
+    public func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         let dispatchGroup = DispatchGroup()
         var documents: [GiniVisionDocument] = []
         
