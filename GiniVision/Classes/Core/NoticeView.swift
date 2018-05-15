@@ -46,7 +46,7 @@ final class NoticeView: UIView {
     lazy var textLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 12 / 14
@@ -127,12 +127,8 @@ final class NoticeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func didMoveToSuperview() {
-        addConstraints()
-    }
-    
     fileprivate func addConstraints() {
-        Constraints.active(item: self, attr: .height, relatedBy: .lessThanOrEqual, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: self, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                            constant: 70)
         // Text label
         Constraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: 16)

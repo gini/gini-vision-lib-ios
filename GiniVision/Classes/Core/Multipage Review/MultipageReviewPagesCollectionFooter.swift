@@ -146,14 +146,14 @@ extension MultipageReviewPagesCollectionFooter {
         // addButton
         Constraints.active(item: addButton, attr: .centerX, relatedBy: .equal, to: roundMask, attr: .centerX)
         Constraints.active(item: addButton, attr: .centerY, relatedBy: .lessThanOrEqual, to: roundMask,
-                           attr: .centerY, priority: 999)
+                           attr: .centerY, constant: -20, priority: 999)
         Constraints.active(item: addButton, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
                            attr: .notAnAttribute, constant: 60)
         Constraints.active(item: addButton, attr: .height, relatedBy: .greaterThanOrEqual, to: nil,
-                           attr: .notAnAttribute, constant: 40)
+                           attr: .notAnAttribute, constant: 20)
         Constraints.active(item: addButton, attr: .width, relatedBy: .equal, to: addButton, attr: .height)
         Constraints.active(item: addButton, attr: .top, relatedBy: .greaterThanOrEqual, to: roundMask,
-                           attr: .top, priority: 750)
+                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top, priority: 750)
         
         // addLabel
         Constraints.active(item: addLabel, attr: .top, relatedBy: .equal, to: addButton, attr: .bottom,
