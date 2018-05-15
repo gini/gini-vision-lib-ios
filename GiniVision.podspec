@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '3.4.0-alpha.1'
+  s.version          = '4.0.0-beta.1'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
   s.description      = <<-DESC
@@ -16,7 +16,7 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/gini'
   s.swift_version    = '4.1'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.default_subspec = 'Core'
 
   s.subspec 'Core' do |core|

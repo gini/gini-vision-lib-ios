@@ -81,14 +81,14 @@ We are providing example apps for Swift and Objective-C. These apps demonstrate 
 
 ## Requirements
 
-- iOS 8.0+
-- Xcode 8.0+
+- iOS 9.0+
+- Xcode 9.3+
 
 **Note:**
 In order to have better analysis results it is highly recommended to enable only devices with 8MP camera and flash. These devices would be:
 
-* iPhones with iOS 8.0 or higher.
-* iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash). 
+* iPhones with iOS 9.0 or higher.
+* iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash).
 
 
 ## Installation
