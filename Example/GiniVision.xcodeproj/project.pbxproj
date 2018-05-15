@@ -34,6 +34,7 @@
 		1F3F5A0B2044400F0037755F /* GalleryManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */; };
 		1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */; };
 		1F40FC0E20A9ECF5004B6BFA /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F9F321B1FED3BC200C7CFFE /* Credentials.plist */; };
+		1F40FC1220AB19BC004B6BFA /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F40FC1120AB19BC004B6BFA /* Credentials.plist */; };
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* GINISettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */; };
@@ -142,6 +143,7 @@
 		1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
 		1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryManagerMock.swift; sourceTree = "<group>"; };
 		1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
+		1F40FC1120AB19BC004B6BFA /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINISettingsViewControllerTests.swift; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 		1F9334FF20A334F2004BC50C /* Example ObjC */ = {
 			isa = PBXGroup;
 			children = (
+				1F40FC1120AB19BC004B6BFA /* Credentials.plist */,
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
 				1F93350120A334F2004BC50C /* AppDelegate.m */,
 				1F93350920A334F2004BC50C /* Assets.xcassets */,
@@ -658,6 +661,7 @@
 				1F40FC0E20A9ECF5004B6BFA /* Credentials.plist in Resources */,
 				1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */,
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
+				1F40FC1220AB19BC004B6BFA /* Credentials.plist in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
 			);
