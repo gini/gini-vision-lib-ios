@@ -20,10 +20,6 @@
     
     NSLog(@"Gini Vision Library for iOS (%@)", [GiniVision versionString]);
     
-    // Set up GiniSDK with your credentials.
-    GINISDKBuilder *builder = [GINISDKBuilder anonymousUserWithClientID:@"" clientSecret:@"" userEmailDomain:@"example.com"];
-    self.giniSDK = [builder build];
-    
     return YES;
 }
 
