@@ -10,14 +10,22 @@ import Foundation
 final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
     static let identifier = "MultipageReviewPagesCollectionCellIdentifier"
-    static let size = CGSize(width: 107,
-                             height: 192 +
-                                MultipageReviewPagesCollectionCell.shadowHeight +
-                                MultipageReviewPagesCollectionCell.shadowRadius)
     static let shadowHeight: CGFloat = 2
     static let shadowRadius: CGFloat = 1
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
     let stateViewSize = CGSize(width: 40, height: 40)
+    
+    class func size(in collection: UICollectionView) -> CGSize {
+        let collectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        let height = collection.frame.height -
+            collectionInset.top -
+            collectionInset.bottom +
+            shadowHeight +
+            shadowRadius
+        let width = height * 11 / 20
+        
+        return CGSize(width: width, height: height)
+    }
     
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
@@ -55,7 +63,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         let image = UIImage(named: "draggablePageIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
         let imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -164,13 +172,13 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         
         // draggableIcon
         Constraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
-                          constant: 16)
+                          constant: 12)
         Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
-                          constant: -16)
-        Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .equal, to: pageIndicatorCircle,
+                          constant: -12)
+        Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .greaterThanOrEqual, to: pageIndicatorCircle,
                            attr: .trailing, constant: 22, priority: 999)
         Constraints.active(item: draggableIcon, attr: .trailing, relatedBy: .equal, to: bottomContainer,
-                           attr: .trailing, constant: -11)
+                           attr: .trailing, constant: -12)
         
         // documentImage
         Constraints.active(item: documentImage, attr: .top, relatedBy: .equal, to: roundMask, attr: .top)

@@ -48,7 +48,7 @@ public final class MultipageReviewViewController: UIViewController {
     
     var pagesCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (pagesCollection.frame.width -
-            MultipageReviewPagesCollectionCell.size.width) / 2
+            MultipageReviewPagesCollectionCell.size(in: pagesCollection).width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 0)
     }
     
@@ -183,6 +183,8 @@ extension MultipageReviewViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = mainCollection.backgroundColor
+        automaticallyAdjustsScrollViewInsets = false
+        edgesForExtendedLayout = []
         
         if #available(iOS 9.0, *) {
             longPressGesture.delaysTouchesBegan = true
@@ -351,6 +353,10 @@ extension MultipageReviewViewController {
         })
     }
     
+    fileprivate func pagesCollectionMaxHeight(in device: UIDevice = UIDevice.current) -> CGFloat {
+        return device.isIpad ? 300 : 224
+    }
+    
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
@@ -389,10 +395,10 @@ extension MultipageReviewViewController {
                            attr: .top)
         Constraints.active(item: pagesCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: pagesCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: MultipageReviewPagesCollectionCell.size.height +
-                            pagesCollectionInsets.top +
-                            pagesCollectionInsets.bottom)
+        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: view, attr: .height,
+                           multiplier: 2 / 5, priority: 999)
+        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
+                           attr: .notAnAttribute, constant: pagesCollectionMaxHeight())
         
         // pagesCollectionBottomTipLabel
         Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal,
@@ -486,6 +492,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier,
                                               for: indexPath) as? MultipageReviewPagesCollectionFooter
+        footer?.updateMaskConstraints(with: collectionView)
         footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
         footer?.didTapAddButton = { [weak self] in
             guard let `self` = self else { return }
@@ -531,7 +538,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView == mainCollection ?
             collectionView.frame.size :
-            MultipageReviewPagesCollectionCell.size
+            MultipageReviewPagesCollectionCell.size(in: collectionView)
     }
     
     public func collectionView(_ collectionView: UICollectionView,
