@@ -28,10 +28,10 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
             .map { $0.info }
             .filter { $0.documentUrl != nil}
         
-        // When a PDF is imported the analysis screen is shown right away, and therefore the analysis is triggered.
-        // There could be the case where the PDF document hadn't been analyzed when this happens, that's why a reference
-        // to the completion block ahs to be kept. Once the document is uploaded, the completion block is
-        // called (see below).
+        // When a PDF/QrCode document is imported the analysis screen is shown right away, and therefore the analysis
+        // is triggered. There could be the case where the document hadn't been analyzed when this happens,
+        // that's why a reference to the completion block ahs to be kept. Once the document is uploaded,
+        // the completion block is called (see below).
         guard partialDocumentsInfoSorted.isNotEmpty else {
             pendingAnalysisHandler = completion
             return
