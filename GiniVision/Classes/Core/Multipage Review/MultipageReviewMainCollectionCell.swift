@@ -117,7 +117,8 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         errorView.actionButton.setTitle(buttonTitle, for: .normal)
         errorView.userAction = NoticeAction(title: buttonTitle) {
             errorAction(action)
-        }        
+        }
+        errorView.layoutIfNeeded()
     }
     
 }
