@@ -55,7 +55,6 @@
 		1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
 		1F8FAC442020AA6200F586EF /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
 		1F93350220A334F2004BC50C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350120A334F2004BC50C /* AppDelegate.m */; };
-		1F93350520A334F2004BC50C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350420A334F2004BC50C /* ViewController.m */; };
 		1F93350820A334F2004BC50C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350620A334F2004BC50C /* Main.storyboard */; };
 		1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350920A334F2004BC50C /* Assets.xcassets */; };
 		1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350B20A334F2004BC50C /* LaunchScreen.storyboard */; };
@@ -163,8 +162,6 @@
 		1F9334FE20A334F2004BC50C /* Example ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F93350020A334F2004BC50C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1F93350120A334F2004BC50C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1F93350320A334F2004BC50C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1F93350420A334F2004BC50C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1F93350720A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1F93350920A334F2004BC50C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1F93350C20A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -347,8 +344,6 @@
 				1F93352E20A33617004BC50C /* ResultTableViewController.m */,
 				1F93352520A33616004BC50C /* ScreenAPIViewController.h */,
 				1F93352C20A33617004BC50C /* ScreenAPIViewController.m */,
-				1F93350320A334F2004BC50C /* ViewController.h */,
-				1F93350420A334F2004BC50C /* ViewController.m */,
 			);
 			path = "Example ObjC";
 			sourceTree = "<group>";
@@ -946,7 +941,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */,
-				1F93350520A334F2004BC50C /* ViewController.m in Sources */,
 				1F93351020A334F2004BC50C /* main.m in Sources */,
 				1F93350220A334F2004BC50C /* AppDelegate.m in Sources */,
 				1F93353420A33617004BC50C /* ResultTableViewController.m in Sources */,
