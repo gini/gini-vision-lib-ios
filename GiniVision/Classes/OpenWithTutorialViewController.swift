@@ -61,8 +61,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = NSLocalizedString("ginivision.help.openWithTutorial.title",
-                                       bundle: Bundle(for: GiniVision.self),
+        self.title = NSLocalizedStringPreferred("ginivision.help.openWithTutorial.title",
                                        comment: "title shown when the view controller is within a view controller")
         self.view.backgroundColor = Colors.Gini.pearl
         self.collectionView!.backgroundColor = nil

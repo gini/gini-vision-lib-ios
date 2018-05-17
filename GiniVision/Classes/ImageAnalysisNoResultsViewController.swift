@@ -49,16 +49,16 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     var captureSuggestions: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "captureSuggestion1"),
-         NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self),
+         NSLocalizedStringPreferred("ginivision.analysis.suggestion.1",
                            comment: "First suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion2"),
-         NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self),
+         NSLocalizedStringPreferred("ginivision.analysis.suggestion.2",
                            comment: "Second suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion3"),
-         NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self),
+         NSLocalizedStringPreferred("ginivision.analysis.suggestion.3",
                            comment: "Third suggestion for analysis screen")),
         (UIImageNamedPreferred(named: "captureSuggestion4"),
-         NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self),
+         NSLocalizedStringPreferred("ginivision.analysis.suggestion.4",
                            comment: "Forth suggestion for analysis screen"))
     ]
     
@@ -71,18 +71,15 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     public var didTapBottomButton: (() -> Void) = { }
     
     public init(title: String? = nil,
-                subHeaderText: String? = NSLocalizedString("ginivision.noresults.collection.header",
-                                                           bundle: Bundle(for: GiniVision.self),
+                subHeaderText: String? = NSLocalizedStringPreferred("ginivision.noresults.collection.header",
                                                            comment: "no results suggestions collection header title"),
-                topViewText: String = NSLocalizedString("ginivision.noresults.warning",
-                                                        bundle: Bundle(for: GiniVision.self),
+                topViewText: String = NSLocalizedStringPreferred("ginivision.noresults.warning",
                                                         comment: "Warning text that indicates that there was any " +
                                                                  "result for this photo analysis"),
                 topViewIcon: UIImage? = UIImage(named: "warningNoResults",
                                                 in: Bundle(for: GiniVision.self),
                                                 compatibleWith: nil)?.withRenderingMode(.alwaysTemplate),
-                bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera",
-                                                              bundle: Bundle(for: GiniVision.self),
+                bottomButtonText: String? = NSLocalizedStringPreferred("ginivision.noresults.gotocamera",
                                                               comment: "bottom button title (go to camera button)"),
                 bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon",
                                                      in: Bundle(for: GiniVision.self),

@@ -30,13 +30,13 @@ final class CaptureSuggestionsView: UIView {
                                                   in: Bundle(for: GiniVision.self),
                                                   compatibleWith: nil)
     fileprivate var suggestionTexts: [String] = [
-        NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self),
+        NSLocalizedStringPreferred("ginivision.analysis.suggestion.1",
                           comment: "First suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self),
+        NSLocalizedStringPreferred("ginivision.analysis.suggestion.2",
                           comment: "Second suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self),
+        NSLocalizedStringPreferred("ginivision.analysis.suggestion.3",
                           comment: "Third suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self),
+        NSLocalizedStringPreferred("ginivision.analysis.suggestion.4",
                           comment: "Forth suggestion text for analysis screen")]
     
     init(superView: UIView, bottomLayout: UILayoutSupport, font: UIFont) {

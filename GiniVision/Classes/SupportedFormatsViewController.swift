@@ -20,24 +20,19 @@ final class SupportedFormatsViewController: UITableViewController {
     let sectionHeight: CGFloat = 70
     lazy var sections: [SupportedFormatCollectionSection] = {
         var sections: [SupportedFormatCollectionSection] =  [
-            (NSLocalizedString("ginivision.supportedFormats.section.1.title",
-                               bundle: Bundle(for: GiniVision.self),
+            (NSLocalizedStringPreferred("ginivision.supportedFormats.section.1.title",
                                comment: "title for supported formats section"),
-             [NSLocalizedString("ginivision.supportedFormats.section.1.item.1",
-                                bundle: Bundle(for: GiniVision.self),
+             [NSLocalizedStringPreferred("ginivision.supportedFormats.section.1.item.1",
                                 comment: "message for first item on supported formats section")],
              UIImage(named: "supportedFormatsIcon",
                      in: Bundle(for: GiniVision.self),
                      compatibleWith: nil),
              GiniConfiguration.sharedConfiguration.supportedFormatsIconColor),
-            (NSLocalizedString("ginivision.supportedFormats.section.2.title",
-                               bundle: Bundle(for: GiniVision.self),
+            (NSLocalizedStringPreferred("ginivision.supportedFormats.section.2.title",
                                comment: "title for unsupported formats section"),
-             [NSLocalizedString("ginivision.supportedFormats.section.2.item.1",
-                                bundle: Bundle(for: GiniVision.self),
+             [NSLocalizedStringPreferred("ginivision.supportedFormats.section.2.item.1",
                                 comment: "message for first item on unsupported formats section"),
-              NSLocalizedString("ginivision.supportedFormats.section.2.item.2",
-                                bundle: Bundle(for: GiniVision.self),
+              NSLocalizedStringPreferred("ginivision.supportedFormats.section.2.item.2",
                                 comment: "message for second item on unsupported formats section")],
              UIImage(named: "nonSupportedFormatsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil),
              GiniConfiguration.sharedConfiguration.nonSupportedFormatsIconColor)
@@ -45,13 +40,11 @@ final class SupportedFormatsViewController: UITableViewController {
         
         if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes != .none {
             if GiniConfiguration.sharedConfiguration.fileImportSupportedTypes == .pdf_and_images {
-                sections[0].items.append(NSLocalizedString("ginivision.supportedFormats.section.1.item.2",
-                                                           bundle: Bundle(for: GiniVision.self),
+                sections[0].items.append(NSLocalizedStringPreferred("ginivision.supportedFormats.section.1.item.2",
                                                            comment: "message for second item on " +
                                                                     "supported formats section"))
             }
-            sections[0].items.append(NSLocalizedString("ginivision.supportedFormats.section.1.item.3",
-                                                       bundle: Bundle(for: GiniVision.self),
+            sections[0].items.append(NSLocalizedStringPreferred("ginivision.supportedFormats.section.1.item.3",
                                                        comment: "message for third item on supported formats section"))
         }
         return sections
@@ -59,8 +52,7 @@ final class SupportedFormatsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = NSLocalizedString("ginivision.supportedFormats.title",
-                                  bundle: Bundle(for: GiniVision.self),
+        title = NSLocalizedStringPreferred("ginivision.supportedFormats.title",
                                   comment: "supported and unsupported formats screen title")
         tableView.register(SupportedFormatsTableViewCell.self, forCellReuseIdentifier: supportedFormatsCellIdentifier)
         tableView.rowHeight = rowHeight

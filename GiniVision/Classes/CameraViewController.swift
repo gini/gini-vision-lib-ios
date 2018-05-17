@@ -599,8 +599,7 @@ extension CameraViewController {
         blurEffect?.alpha = 0
         self.view.addSubview(blurEffect!)
         
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
-                                                          bundle: Bundle(for: GiniVision.self),
+        toolTipView = ToolTipView(text: NSLocalizedStringPreferred("ginivision.camera.fileImportTip",
                                                           comment: "tooltip text indicating new file import feature"),
                                   textColor: giniConfiguration.fileImportToolTipTextColor,
                                   font: giniConfiguration.customFont.regular.withSize(14),
