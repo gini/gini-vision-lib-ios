@@ -7,8 +7,10 @@
 
 import Foundation
 
-// MARK: - Camera Screen
-
+/**
+ The UploadDelegate protocol defines methods that allow you to notify the _Gini Vision Library_ when a document upload
+ has finished (either successfully or with an error) 
+ */
 @objc public protocol UploadDelegate {
     func uploadDidFail(for document: GiniVisionDocument, with error: Error)
     func uploadDidComplete(for document: GiniVisionDocument)

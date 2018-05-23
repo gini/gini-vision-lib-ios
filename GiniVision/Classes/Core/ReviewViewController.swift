@@ -8,6 +8,11 @@
 
 import UIKit
 
+/**
+ The ReviewViewControllerDelegate protocol defines methods that allow you to manage when a user rotates an image.
+ 
+ - note: Component API only.
+ */
 @objc public protocol ReviewViewControllerDelegate: class {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument)
 }
@@ -75,6 +80,11 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
  */
 @objc public final class ReviewViewController: UIViewController {
     
+    /**
+     The object that acts as the delegate of the review view controller.
+     */
+    public weak var delegate: ReviewViewControllerDelegate?
+    
     // User interface
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -136,7 +146,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var imageViewTrailingConstraint: NSLayoutConstraint!
     fileprivate var currentDocument: GiniVisionDocument?
     fileprivate var giniConfiguration: GiniConfiguration
-    public weak var delegate: ReviewViewControllerDelegate?
     
     // Images
     fileprivate var rotateButtonImage: UIImage? {
@@ -147,6 +156,14 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate var successBlock: ReviewScreenSuccessBlock?
     fileprivate var failureBlock: ReviewScreenFailureBlock?
     
+    /**
+     Designated initializer for ReviewViewController
+     
+     - parameter document: Document to be reviewed
+     - paramter giniConfiguration: `GiniConfiguration`
+     
+     - note: Component API only.
+     */
     public init(document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         self.currentDocument = document
@@ -163,7 +180,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to review a picture.
      */
-    @available(*, deprecated)
+    @available(*,
+    deprecated,
+    message: "Use init(document:giniConfiguration:) along with ReviewViewControllerDelegate instead")
     public convenience init(_ document: GiniVisionDocument,
                             successBlock: @escaping ReviewScreenSuccessBlock,
                             failureBlock: @escaping ReviewScreenFailureBlock) {
@@ -184,7 +203,9 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
      - returns: A view controller instance allowing the user to review a picture of a document.
      */
     
-    @available(*, deprecated)
+    @available(*,
+    deprecated,
+    message: "Use init(document:giniConfiguration:) along with ReviewViewControllerDelegate instead")
     public convenience init(_ imageData: Data,
                             success: @escaping ReviewSuccessBlock,
                             failure: @escaping ReviewErrorBlock) {

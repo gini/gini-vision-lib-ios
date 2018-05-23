@@ -22,7 +22,7 @@ import Foundation
 }
 
 extension GiniVisionDocument {
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use `GiniVisionDocumentValidator` instead")
     public func validate() throws {
         try GiniVisionDocumentValidator.validate(self,
                                                  withConfig: GiniConfiguration.shared)

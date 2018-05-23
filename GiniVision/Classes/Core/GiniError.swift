@@ -107,7 +107,11 @@ public protocol GiniVisionError: Error {
  */
 
 @objc public enum AnalysisError: Int, GiniVisionError {
+    
+    /// The analysis has been cancelled
     case cancelled
+    
+    /// There was an error creating the document
     case documentCreation
     case unknown    
     
