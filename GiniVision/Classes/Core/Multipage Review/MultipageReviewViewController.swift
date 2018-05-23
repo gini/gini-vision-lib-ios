@@ -54,7 +54,7 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var pagesCollectionContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Colors.Gini.pearl
+        view.backgroundColor = giniConfiguration.multipagePagesContainerAndToolBarColor
         
         return view
     }()
@@ -102,7 +102,7 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var toolBar: UIToolbar = {
         let toolBar = UIToolbar(frame: .zero)
         toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.barTintColor = Colors.Gini.pearl
+        toolBar.barTintColor = giniConfiguration.multipagePagesContainerAndToolBarColor
         toolBar.isTranslucent = false
         toolBar.alpha = 0
         
@@ -126,15 +126,15 @@ public final class MultipageReviewViewController: UIViewController {
                                            comment: "title with the page indicator")
     
     lazy var rotateButton: UIBarButtonItem = {
-        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
-                                  insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(rotateImageButtonAction))
+        return barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
+                             insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
+                             action: #selector(rotateImageButtonAction))
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
-        return self.barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
-                                  insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
-                                  action: #selector(deleteImageButtonAction))
+        return barButtonItem(withImage: UIImageNamedPreferred(named: "trashIcon"),
+                             insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
+                             action: #selector(deleteImageButtonAction))
     }()
     
     fileprivate lazy var pagesCollectionTipLabelHeightConstraint: NSLayoutConstraint = {
@@ -283,7 +283,7 @@ extension MultipageReviewViewController {
         button.addTarget(self, action: action, for: .touchUpInside)
         button.imageEdgeInsets = insets
         button.layer.cornerRadius = 5
-        button.tintColor = Colors.Gini.blue
+        button.tintColor = giniConfiguration.multipageToolbarItemsColor
         
         // This is needed since on iOS 9 and below,
         // the buttons are not resized automatically when using autolayout

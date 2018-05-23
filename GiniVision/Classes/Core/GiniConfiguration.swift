@@ -594,6 +594,28 @@ import UIKit
      */
     @objc public var reviewTextBottomColor = UIColor.white
     
+    // MARK: Multipage options
+    
+    /**
+     Sets the color of the pages container and toolbar
+     */
+    @objc public var multipagePagesContainerAndToolBarColor = Colors.Gini.pearl
+    
+    /**
+     Sets the tint color of the toolbar items
+     */
+    @objc public var multipageToolbarItemsColor = Colors.Gini.blue
+    
+    /**
+     Sets the tint color of the page indicator
+     */
+    @objc public var multipagePageIndicatorColor = Colors.Gini.blue
+    
+    /**
+     Sets the tint color of the page background
+     */
+    @objc public var multipagePageBackgroundColor = Colors.Gini.blue
+    
     // MARK: Analysis options
     
     /**
