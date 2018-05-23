@@ -9,6 +9,12 @@
 import Foundation
 import MobileCoreServices
 
+/**
+ The CameraViewControllerDelegate protocol defines methods that allow you to handle picked documents from both
+ Gallery and Files Explorer.
+ 
+ - note: Component API only.
+ */
 public protocol DocumentPickerCoordinatorDelegate: class {
     /**
      Called when a user picks one or several files from either the gallery or the files explorer.
@@ -28,23 +34,69 @@ public protocol DocumentPickerCoordinatorDelegate: class {
                         didPick documents: [GiniVisionDocument])
 }
 
+/**
+ Document picker types.
+ ````
+ case gallery
+ case explorer
+ ````
+ */
+
 @objc public enum DocumentPickerType: Int {
-    case gallery, explorer, dragndrop
+    /// Gallery picker
+    case gallery
+    
+    /// File explorer picker
+    case explorer
 }
+
+/**
+ The DocumentPickerCoordinator class allows you to present both the gallery and file explorer or to setup drag and drop
+ in a view. If you want to handle the picked elements, you have to assign a `DocumentPickerCoordinatorDelegate` to
+ the `delegate` property.
+ When using multipage and having imported/captured images, you have to update the `isPDFSelectionAllowed`
+ property before showing the File explorer in order to filter out PDFs.
+ 
+ - note: Component API only.
+ */
 
 public final class DocumentPickerCoordinator: NSObject {
     
+    /**
+     The object that acts as the delegate of the document picker coordinator.
+     */
     public weak var delegate: DocumentPickerCoordinatorDelegate?
-    public var isPDFSelectionAllowed: Bool = true
-    private(set) public var currentPickerDismissesAutomatically: Bool = false
-    private(set) public var rootViewController: UIViewController?
-
-    let galleryCoordinator: GalleryCoordinator
-    let giniConfiguration: GiniConfiguration
     
+    /**
+     Used to filter out PDFs when there are already imported images.
+     */
+    public var isPDFSelectionAllowed: Bool = true
+    
+    /**
+     Once the user has selected one or several documents from a picker, this has to be dismissed.
+     Files explorer dismissal is handled by the OS and drag and drop does not need to be dismissed.
+     However, the Gallery picker should be dismissed once the images has been imported.
+     
+     It is also used to check if the `currentPickerViewController` is still present so
+     an error dialog can be shown fro there
+     */
+    private(set) public var currentPickerDismissesAutomatically: Bool = false
+    
+    /**
+     The current picker `UIViewController`. Used to show an error after validating picked documents.
+     */
+    private(set) public var currentPickerViewController: UIViewController?
+    
+    /**
+     Indicated if the user granted access to the gallery before. Used to start caching images before showing the Gallery
+     picker.
+     */
     public var isGalleryPermissionGranted: Bool {
         return galleryCoordinator.isGalleryPermissionGranted
     }
+    
+    let galleryCoordinator: GalleryCoordinator
+    let giniConfiguration: GiniConfiguration
     
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
@@ -59,19 +111,29 @@ public final class DocumentPickerCoordinator: NSObject {
         }
     }
     
-    // MARK: - Initializer
-    
+    /**
+     Designated initializer for the `DocumentPickerCoordinator`.
+     
+     - parameter giniConfiguration: `GiniConfiguration` use to configure the pickers.
+     */
     public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         self.galleryCoordinator = GalleryCoordinator(giniConfiguration: giniConfiguration)
     }
     
-    // MARK: - Start caching
-    
+    /**
+     Starts caching gallery images. Gallery permissions should have been granted before using it.
+     */
     public func startCaching() {
         galleryCoordinator.start()
     }
     
+    /**
+     Set up the drag and drop feature in a view.
+     
+     - parameter view: View that will handle the drop interaction.
+     - note: Only available in iOS >= 11
+     */
     @available(iOS 11.0, *)
     public func setupDragAndDrop(in view: UIView) {
         let dropInteraction = UIDropInteraction(delegate: self)
@@ -80,6 +142,11 @@ public final class DocumentPickerCoordinator: NSObject {
     
     // MARK: Picker presentation
     
+    /**
+     Shows the Gallery picker from a given viewController
+     
+     - parameter viewController: View controller which presentes the gallery picker
+     */
     public func showGalleryPicker(from viewController: UIViewController) {
         galleryCoordinator.checkGalleryAccessPermission(deniedHandler: { error in
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
@@ -88,11 +155,16 @@ public final class DocumentPickerCoordinator: NSObject {
             }, authorizedHandler: {
                 self.galleryCoordinator.delegate = self
                 self.currentPickerDismissesAutomatically = false
-                self.rootViewController = self.galleryCoordinator.rootViewController
+                self.currentPickerViewController = self.galleryCoordinator.rootViewController
                 viewController.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
         })
     }
     
+    /**
+     Shows the File explorer picker from a given viewController
+     
+     - parameter viewController: View controller which presentes the gallery picker
+     */
     public func showDocumentPicker(from viewController: UIViewController,
                                    device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
@@ -110,11 +182,16 @@ public final class DocumentPickerCoordinator: NSObject {
         }
         
         self.currentPickerDismissesAutomatically = true
-        self.rootViewController = documentPicker
+        self.currentPickerViewController = documentPicker
         
         viewController.present(documentPicker, animated: true, completion: nil)
     }
     
+    /**
+     Dimisses the `currentPickerViewController`
+     
+     - parameter completion: Completion block executed once the picker is dismissed
+     */
     public func dismissCurrentPicker(completion: @escaping () -> Void) {
         if currentPickerDismissesAutomatically {
             completion()
@@ -122,11 +199,13 @@ public final class DocumentPickerCoordinator: NSObject {
             self.galleryCoordinator.dismissGallery(completion: completion)
         }
         
-        rootViewController = nil
+        currentPickerViewController = nil
     }
-    
-    // MARK: File data picked from gallery or document pickers
-    
+}
+
+// MARK: - Private methods
+
+extension DocumentPickerCoordinator {
     fileprivate func createDocument(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
@@ -146,7 +225,6 @@ public final class DocumentPickerCoordinator: NSObject {
         
         return nil
     }
-    
 }
 
 // MARK: GalleryCoordinatorDelegate
@@ -200,7 +278,8 @@ extension DocumentPickerCoordinator: UIDropInteractionDelegate {
         }
     }
     
-    public func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
+    public func dropInteraction(_ interaction: UIDropInteraction,
+                                sessionDidUpdate session: UIDropSession) -> UIDropProposal {
         return UIDropProposal(operation: .copy)
     }
     

@@ -19,7 +19,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         return (collectionViewLayout as? UICollectionViewFlowLayout)!
     }
     
-    public var sectionInset: UIEdgeInsets {
+    var sectionInset: UIEdgeInsets {
         if UIDevice.current.isIpad {
             return UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
         } else {

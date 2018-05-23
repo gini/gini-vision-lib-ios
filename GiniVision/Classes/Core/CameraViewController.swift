@@ -51,7 +51,6 @@ import AVFoundation
      */
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
 
-    
 }
 
 /**

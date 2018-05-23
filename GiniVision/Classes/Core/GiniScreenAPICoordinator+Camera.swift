@@ -54,7 +54,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         case .explorer:
             documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
-        case .dragndrop: break
         }
     }
     
@@ -200,7 +199,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                     self.cameraViewController?.showErrorDialog(for: error,
                                                                positiveAction: positiveAction)
                 } else {
-                    coordinator.rootViewController?.showErrorDialog(for: error,
+                    coordinator.currentPickerViewController?.showErrorDialog(for: error,
                                                                     positiveAction: positiveAction)
                 }
             }
