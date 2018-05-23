@@ -22,6 +22,10 @@
 
 @implementation ScreenAPIViewController
 
+NSString *kClientId = @"client_id";
+NSString *kClientPassword = @"client_password";
+NSString *kClientDomain = @"client_domain";
+
 // MARK: View life cycle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -53,9 +57,9 @@
     
     NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init] getCredentials];
     
-    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[@"client_id"]
-                                                 clientSecret:credentials[@"client_password"]
-                                            clientEmailDomain:credentials[@"client_domain"]];
+    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[kClientId]
+                                                 clientSecret:credentials[kClientPassword]
+                                            clientEmailDomain:credentials[kClientPassword]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
@@ -87,6 +91,7 @@ analysisDidFinishWithResults:(NSDictionary<NSString *,GINIExtraction *> *)result
 }
 
 - (void)presentResultsWithSendFeedbackBlock:(SendFeedbackBlock)sendFeedbackBlock {
+    // Here you can filter what paremeters are mandatory to show the results screen.
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
