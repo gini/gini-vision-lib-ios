@@ -7,6 +7,9 @@
 
 import Foundation
 
+/**
+ GiniClient used to enable document analysis in the _Gini Vision Library_
+ */
 @objc public final class GiniClient: NSObject {
     public let clientId: String
     public let clientSecret: String
