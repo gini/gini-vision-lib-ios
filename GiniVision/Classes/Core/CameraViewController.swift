@@ -9,6 +9,12 @@
 import UIKit
 import AVFoundation
 
+/**
+ The CameraViewControllerDelegate protocol defines methods that allow you to handle captured images and user
+ actions.
+ 
+ - note: Component API only.
+ */
 @objc public protocol CameraViewControllerDelegate: class {
     /**
      Called when a user takes a picture, imports a PDF/QRCode or imports one or several images.
@@ -21,6 +27,14 @@ import AVFoundation
      */
     @objc func camera(_ viewController: CameraViewController,
                       didCapture document: GiniVisionDocument)
+    
+    /**
+     Called when a user select a picker from the picker selector sheet.
+     
+     - parameter viewController: `CameraViewController` where the documents were taken.
+     - parameter documentPicker: `DocumentPickerType` selected in the sheet.
+     */
+    @objc func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType)
     
     /**
      Called when the `CameraViewController` appears.
@@ -36,8 +50,7 @@ import AVFoundation
      - parameter viewController: Camera view controller where the button was tapped.
      */
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
-    
-    @objc func camera(_ viewController: CameraViewController, didSelect documentPicker: DocumentPickerType)
+
     
 }
 
@@ -106,6 +119,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
 @objc public final class CameraViewController: UIViewController {
     
+    /**
+     The object that acts as the delegate of the camera view controller.
+     */
+    public weak var delegate: CameraViewControllerDelegate?
+    
     fileprivate enum CameraState {
         case valid, notValid
     }
@@ -161,10 +179,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return view
     }()
     
+    var toolTipView: ToolTipView?
     fileprivate var blurEffect: UIVisualEffectView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
-    var toolTipView: ToolTipView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
         .portrait: .portrait,
         .landscapeRight: .landscapeRight,
@@ -174,7 +192,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     // Properties
     let giniConfiguration: GiniConfiguration
-    public weak var delegate: CameraViewControllerDelegate?
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
@@ -229,7 +246,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public convenience init(successBlock: @escaping CameraScreenSuccessBlock,
                             failureBlock: @escaping CameraScreenFailureBlock) {
         self.init(giniConfiguration: GiniConfiguration.shared)
-        
         // Set callback
         self.successBlock = successBlock
         self.failureBlock = failureBlock
@@ -319,12 +335,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
             }
         }
     }
-    
-    /**
-     Notifies the view controller that its view is about to be added to a view hierarchy.
-     
-     - parameter animated: If `true`, the view is added to the window using an animation.
-     */
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
@@ -336,11 +347,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         delegate?.cameraDidAppear(self)        
     }
     
-    /**
-     Notifies the view controller that its view is about to be removed from a view hierarchy.
-     
-     - parameter animated: If `true`, the disappearance of the view is animated.
-     */
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -421,63 +427,20 @@ extension CameraViewController {
     public func hideFileImportTip() {
         self.toolTipView?.alpha = 0
     }
+    
 }
 
 // MARK: - Image capture
 
 extension CameraViewController {
     
-    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
-        self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
-                }
-                self?.failureBlock?(error)
-            }
-        }
-        self.camera?.didDetectQR = {[weak self] qrDocument in
-            if self?.detectedQRCodeDocument != qrDocument {
-                self?.detectedQRCodeDocument = qrDocument
-                self?.didPick(qrDocument)
-            }
-        }
-    }
-    
-    @objc fileprivate func captureImage(_ sender: AnyObject) {
-        guard let camera = camera else {
-            Log(message: "No camera initialized", event: .warning)
-            return
-        }
-        
-        if GiniConfiguration.DEBUG {
-            // Retrieve image from default image view to make sure image
-            // was set and therefor the correct states were checked before.
-            if let image = self.defaultImageView?.image,
-                let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                self.cameraDidCapture(imageData: imageData, error: nil)
-            }
-        }
-        
-        camera.captureStillImage(completion: self.cameraDidCapture)
-    }
-    
-    func cameraDidCapture(imageData: Data?, error: CameraError?) {
-        guard let imageData = imageData,
-            error == nil else {
-                self.failureBlock?(error ?? .captureFailed)
-                return
-        }
-        
-        let imageDocument = GiniImageDocument(data: imageData,
-                                              imageSource: .camera,
-                                              deviceOrientation: UIApplication.shared.statusBarOrientation)
-        didPick(imageDocument)
-    }
-    
+    /**
+     Used to animate the captured image, first shrinking it and then translating it to the captured images stack view.
+     
+     - parameter imageDocument: `GiniImageDocument` to be animated.
+     - parameter completion: Completion block.
+     
+     */
     public func animateToControlsView(imageDocument: GiniImageDocument, completion: (() -> Void)? = nil) {
         guard let documentImage = imageDocument.previewImage else { return }
         let previewImageView = previewCapturedImageView(with: documentImage)
@@ -510,39 +473,21 @@ extension CameraViewController {
         })
     }
     
+    /**
+     Replaces captured images stack content with new images.
+     
+     - parameter images: New images shown in the stack. (Last image will be shown on top)
+     */
     public func replaceCapturedStackImages(with images: [UIImage]) {
         capturedImagesStackView.replaceStackImages(with: images)
     }
     
-    private func previewCapturedImageView(with image: UIImage) -> UIImageView {
-        let imageFrame = previewView.frame
-        let imageView = UIImageView(frame: imageFrame)
-        imageView.center = previewView.center
-        imageView.image = image
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
-        imageView.layer.shadowRadius = 4
-        imageView.layer.shadowOpacity = 0.3
-        
-        return imageView
-    }
-    
-    @objc fileprivate func multipageReviewButtonAction(_ sender: AnyObject) {
-        delegate?.cameraDidTapMultipageReviewButton(self)
-    }
-    
-    func updatePreviewViewOrientation() {
-        let orientation: AVCaptureVideoOrientation
-        if UIDevice.current.isIpad {
-            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        } else {
-            orientation = .portrait
-        }
-        
-        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-        previewLayer?.connection?.videoOrientation = orientation
-    }
-    
+    /**
+     Used to show QR code popup once it has been validated
+     
+     - parameter qrDocument: `GiniQRCodeDocument` validated.
+     - parameter didTapDone: Block executed when the user taps _Done_ button to proceed with the `GiniQRCodeDocument`.
+     */
     func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
@@ -574,6 +519,81 @@ extension CameraViewController {
         }
     }
     
+    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
+        self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                }
+                self?.failureBlock?(error)
+            }
+        }
+        self.camera?.didDetectQR = {[weak self] qrDocument in
+            if self?.detectedQRCodeDocument != qrDocument {
+                self?.detectedQRCodeDocument = qrDocument
+                self?.didPick(qrDocument)
+            }
+        }
+    }
+    
+    @objc fileprivate func captureImage(_ sender: AnyObject) {
+        guard let camera = camera else {
+            Logger.debug(message: "No camera initialized", event: .warning)
+            return
+        }
+        
+        if GiniConfiguration.DEBUG {
+            // Retrieve image from default image view to make sure image
+            // was set and therefor the correct states were checked before.
+            if let image = self.defaultImageView?.image,
+                let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                self.cameraDidCapture(imageData: imageData, error: nil)
+            }
+        }
+        
+        camera.captureStillImage(completion: self.cameraDidCapture)
+    }
+    
+    fileprivate func updatePreviewViewOrientation() {
+        let orientation: AVCaptureVideoOrientation
+        if UIDevice.current.isIpad {
+            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        } else {
+            orientation = .portrait
+        }
+        
+        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+        previewLayer?.connection?.videoOrientation = orientation
+    }
+    
+    private func cameraDidCapture(imageData: Data?, error: CameraError?) {
+        guard let imageData = imageData,
+            error == nil else {
+                self.failureBlock?(error ?? .captureFailed)
+                return
+        }
+        
+        let imageDocument = GiniImageDocument(data: imageData,
+                                              imageSource: .camera,
+                                              deviceOrientation: UIApplication.shared.statusBarOrientation)
+        didPick(imageDocument)
+    }
+    
+    private func previewCapturedImageView(with image: UIImage) -> UIImageView {
+        let imageFrame = previewView.frame
+        let imageView = UIImageView(frame: imageFrame)
+        imageView.center = previewView.center
+        imageView.image = image
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
+        imageView.layer.shadowRadius = 4
+        imageView.layer.shadowOpacity = 0.3
+        
+        return imageView
+    }
 }
 
 // MARK: - Focus handling
