@@ -15,7 +15,7 @@ final class CapturedImagesStackViewTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        capturedImagesStackView = CapturedImagesStackView(frame: .zero)
+        capturedImagesStackView = CapturedImagesStackView()
     }
     
     func testCaptureStackWhenNoImages() {
@@ -56,6 +56,15 @@ final class CapturedImagesStackViewTests: XCTestCase {
         XCTAssertEqual(capturedImagesStackView.thumbnailButton.image(for: .normal), images[1],
                        "thumbnailButton image should match last image in array")
         
+    }
+    
+    func testIndicatorLabelTextColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.imagesStackIndicatorLabelTextcolor = .black
+        let stackView = CapturedImagesStackView(giniConfiguration: giniConfiguration)
+        
+        XCTAssertEqual(stackView.stackIndicatorLabel.textColor, giniConfiguration.imagesStackIndicatorLabelTextcolor,
+                       "stack indicator label text color should match the one specified in the configuration")
     }
     
 }

@@ -329,6 +329,11 @@ import UIKit
                                    comment: "Title in the navigation bar on the camera screen")
     
     /**
+     Sets the text color of the captured images stack indicator label
+     */
+    @objc public var imagesStackIndicatorLabelTextcolor: UIColor = Colors.Gini.blue
+    
+    /**
      Sets the close button text in the navigation bar on the camera screen.
      
      - note: Screen API only.
