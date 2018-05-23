@@ -142,9 +142,7 @@ import UIKit
     }
     
     /**
-     Returns a view controller with the camera screen loaded and ready to go. It's the
-     easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
-     all screens and transitions out of the box.
+     Returns a view controller which will handle the analysis process.
      
      - note: Screen API only.
      
@@ -163,10 +161,8 @@ import UIKit
     }
     
     /**
-     Returns a view controller with the camera screen loaded and ready to go. It's the
-     easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
-     all screens and transitions out of the box.
-     
+     Returns a view controller which will handle the analysis process.
+
      - note: Screen API only.
      
      - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
@@ -186,7 +182,7 @@ import UIKit
     }
     
     /**
-     Returns a view controller with the camera screen loaded and ready to go.
+     Returns a view controller which will handle the analysis process.
      Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
      
      - note: Screen API only.
