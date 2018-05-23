@@ -7,23 +7,67 @@
 
 import Foundation
 
+/**
+ The MultipageReviewViewControllerDelegate protocol defines methods that allow you to handle user actions in the
+ MultipageReviewViewControllerDelegate
+ (rotate, reorder, tap add, delete...)
+ 
+ - note: Component API only.
+ */
 public protocol MultipageReviewViewControllerDelegate: class {
-    func multipageReview(_ controller: MultipageReviewViewController,
+    /**
+     Called when a user reorder the pages collection
+     
+     - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
+     - parameter documentRequests: Reordered pages collection
+     */
+    func multipageReview(_ viewController: MultipageReviewViewController,
                          didReorder documentRequests: [DocumentRequest])
-    func multipageReview(_ controller: MultipageReviewViewController,
+    /**
+     Called when a user rotates one of the pages.
+     
+     - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
+     - parameter documentRequests: `DocumentPickerType` selected in the sheet.
+     */
+    func multipageReview(_ viewController: MultipageReviewViewController,
                          didRotate documentRequest: DocumentRequest)
-    func multipageReview(_ controller: MultipageReviewViewController,
+    
+    /**
+     Called when a user deletes one of the pages.
+     
+     - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
+     - parameter documentRequest: Page deleted.
+     */
+    func multipageReview(_ viewController: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
+    
+    /**
+     Called when a user taps on the error action when the errored page
+     
+     - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
+     - parameter errorAction: `NoticeActionType` selected.
+     - parameter documentRequest: Document request where the error action has been triggered
+     */
     func multipageReview(_ viewController: MultipageReviewViewController,
                          didTapRetryUploadFor documentRequest: DocumentRequest)
-    func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
+    
+    /**
+     Called when a user taps on the add page button
+     
+     - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
+     */
+    func multipageReviewDidTapAddImage(_ viewController: MultipageReviewViewController)
 }
 
 //swiftlint:disable file_length
 public final class MultipageReviewViewController: UIViewController {
     
-    var documentRequests: [DocumentRequest] 
+    /**
+     The object that acts as the delegate of the multipage review view controller.
+     */
     public weak var delegate: MultipageReviewViewControllerDelegate?
+
+    var documentRequests: [DocumentRequest] 
     let giniConfiguration: GiniConfiguration
     
     // MARK: - UI initialization
@@ -233,6 +277,17 @@ extension MultipageReviewViewController {
         })
     }
     
+    /**
+     Updates the collections with the given pages.
+     
+     - parameter documentRequests: Pages to be used in the collections.
+     */
+    
+    public func updateCollections(with documentRequests: [DocumentRequest]) {
+        self.documentRequests = documentRequests
+        self.reloadCollections()
+    }
+    
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
         let indexPath = IndexPath(row: position, section: section)
         self.pagesCollection.selectItem(at: indexPath,
@@ -245,11 +300,6 @@ extension MultipageReviewViewController {
     func selectLastItem(animated: Bool = false) {
         let lastPosition = self.documentRequests.count - 1
         selectItem(at: lastPosition, animated: animated)
-    }
-    
-    public func updateCollections(with documentRequests: [DocumentRequest]) {
-        self.documentRequests = documentRequests
-        self.reloadCollections()
     }
     
     fileprivate func centerCollections(to indexPath: IndexPath, animated: Bool = true) {
@@ -417,25 +467,13 @@ extension MultipageReviewViewController {
 // MARK: - Toolbar actions
 
 extension MultipageReviewViewController {
-    @objc fileprivate func rotateImageButtonAction() {
-        if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            guard let imageDocument = documentRequests[currentIndexPath.row].document as? GiniImageDocument else {
-                return
-            }
-            imageDocument.rotatePreviewImage90Degrees()
-            mainCollection.reloadItems(at: [currentIndexPath])
-            pagesCollection.reloadItems(at: [currentIndexPath])
-            selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didRotate: documentRequests[currentIndexPath.row])
-        }
-    }
-    
-    @objc fileprivate func deleteImageButtonAction() {
-        if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            deleteItem(at: currentIndexPath)
-        }
-    }
-    
+
+    /**
+     Used to delete a page.
+     
+     - parameter indexPath: Page to delete index
+     - parameter completion: Completion block executed once the element is deleted
+     */
     fileprivate func deleteItem(at indexPath: IndexPath) {
         let documentToDelete = documentRequests[indexPath.row]
         documentRequests.remove(at: indexPath.row)
@@ -463,6 +501,26 @@ extension MultipageReviewViewController {
         indexes.append(indexPath)
         pagesCollection.reloadItems(at: indexes)
     }
+
+    @objc fileprivate func rotateImageButtonAction() {
+        if let currentIndexPath = visibleCell(in: self.mainCollection) {
+            guard let imageDocument = documentRequests[currentIndexPath.row].document as? GiniImageDocument else {
+                return
+            }
+            imageDocument.rotatePreviewImage90Degrees()
+            mainCollection.reloadItems(at: [currentIndexPath])
+            pagesCollection.reloadItems(at: [currentIndexPath])
+            selectItem(at: currentIndexPath.row)
+            delegate?.multipageReview(self, didRotate: documentRequests[currentIndexPath.row])
+        }
+    }
+    
+    @objc fileprivate func deleteImageButtonAction() {
+        if let currentIndexPath = visibleCell(in: self.mainCollection) {
+            deleteItem(at: currentIndexPath)
+        }
+    }
+    
 }
 
 // MARK: UICollectionViewDataSource
