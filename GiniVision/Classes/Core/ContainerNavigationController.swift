@@ -27,7 +27,7 @@ final class ContainerNavigationController: UIViewController {
         return UIDevice.current.isIpad ? .all : .portrait
     }
     
-    public override var preferredStatusBarStyle: UIStatusBarStyle {
+    override var preferredStatusBarStyle: UIStatusBarStyle {
         return giniConfiguration.statusBarStyle
     }
     
