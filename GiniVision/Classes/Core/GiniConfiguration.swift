@@ -501,6 +501,7 @@ import UIKit
      
      - note: Screen API only.
      */
+    @available(*, deprecated, message: "Use ginivision.navigationbar.review.title localized string instead")
     @objc public var navigationBarReviewTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.review.title",
                                    comment: "Title in the navigation bar on the review screen")
@@ -530,6 +531,7 @@ import UIKit
      Sets the text appearing at the top of the review screen which should ask the user if the
      whole document is in focus and has correct orientation.
      */
+    @available(*, deprecated, message: "Use ginivision.review.top localized string instead")
     @objc public var reviewTextTop =
         NSLocalizedStringPreferred("ginivision.review.top",
                                    comment: "Text at the top of the review screen asking the user if " +
@@ -579,6 +581,7 @@ import UIKit
      (Deprecated, use `GiniConfiguration.customFont` instead)
 
      */
+    @available(*, deprecated, message: "Use ginivision.review.bottom localized string instead")
     @objc public var reviewTextBottom =
         NSLocalizedStringPreferred("ginivision.review.bottom",
                                    comment: "Text at the bottom of the review screen encouraging the " +
