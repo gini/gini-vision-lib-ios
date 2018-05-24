@@ -320,6 +320,11 @@ import UIKit
     @objc public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
+     Sets the text color of the item selected background check
+     */
+    @objc public var galleryPickerItemSelectedBackgroundCheckColor = Colors.Gini.blue
+    
+    /**
      Sets the title text in the navigation bar on the camera screen.
      
      - note: Screen API only.

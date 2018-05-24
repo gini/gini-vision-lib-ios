@@ -35,7 +35,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    fileprivate lazy var checkImage: UIImageView = {
+    lazy var checkImage: UIImageView = {
         let image = UIImageNamedPreferred(named: "supportedFormatsIcon")
         var imageView = UIImageView(image: image)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    fileprivate lazy var checkCircleBackground: UIView = {
+    lazy var checkCircleBackground: UIView = {
         let circleView = UIView()
         circleView.translatesAutoresizingMaskIntoConstraints = false
         circleView.layer.borderWidth = 1
@@ -126,10 +126,11 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
         return CGSize(width: widthWithoutSpacing, height: widthWithoutSpacing)
     }
     
-    fileprivate func changeCheckCircle(to selected: Bool) {
+    func changeCheckCircle(to selected: Bool, giniConfiguration: GiniConfiguration = .shared) {
         if selected {
-            checkCircleBackground.layer.borderColor = Colors.Gini.blue.cgColor
-            checkCircleBackground.backgroundColor = Colors.Gini.blue
+            checkCircleBackground.layer.borderColor =
+                giniConfiguration.galleryPickerItemSelectedBackgroundCheckColor.cgColor
+            checkCircleBackground.backgroundColor = giniConfiguration.galleryPickerItemSelectedBackgroundCheckColor
             checkImage.alpha = 1
         } else {
             checkCircleBackground.layer.borderColor = UIColor.white.cgColor
