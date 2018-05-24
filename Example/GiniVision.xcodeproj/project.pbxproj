@@ -75,6 +75,7 @@
 		1FAC24DA1F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */; };
 		1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */; };
 		1FD55CBE1F66BF9000A1F9C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */; };
+		1FDFFAFF20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */; };
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
 		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
@@ -188,6 +189,7 @@
 		1FAC24D91F97A39000861F60 /* GINIHelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIHelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIAnalysisViewControllerTests.swift; sourceTree = "<group>"; };
 		1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCellTests.swift; sourceTree = "<group>"; };
 		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
 		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
 		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
@@ -417,6 +419,7 @@
 				1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */,
 				1FD55CBD1F66BF9000A1F9C7 /* Extensions.swift */,
 				1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */,
+				1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */,
 				1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */,
 				1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */,
 				1FB0C66B1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift */,
@@ -888,6 +891,7 @@
 				1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */,
 				1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */,
 				1FB0C66C1F866B9F00AFE9F9 /* GINIAnalysisViewControllerTests.swift in Sources */,
+				1FDFFAFF20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift in Sources */,
 				1F3B5EAC2049554A0052204A /* GalleryCoordinatorDelegateMock.swift in Sources */,
 				1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */,
 				1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */,
