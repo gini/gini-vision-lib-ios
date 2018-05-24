@@ -136,32 +136,43 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 
 extension GiniScreenAPICoordinator {
     func addToDocuments(new documentRequests: [DocumentRequest]) {
+        // Since there could not be more than one PDF document and more than one QRCode document
+        // at the same time, the collection should be cleared up before adding the new document
+        if self.documentRequests.type == .qrcode || self.documentRequests.type == .pdf {
+            self.clearDocuments()
+        }
+        
         self.documentRequests.append(contentsOf: documentRequests)
         
         if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            self.refreshMultipageReview(with: self.documentRequests)
+            refreshMultipageReviewNextButton(with: self.documentRequests)
+            multiPageReviewViewController.updateCollections(with: self.documentRequests)
         }
     }
     
     func removeFromDocuments(document: GiniVisionDocument) {
         documentRequests.remove(document)
+        
+        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
+            refreshMultipageReviewNextButton(with: documentRequests)
+        }
     }
     
-    func updateValueInDocuments(for document: GiniVisionDocument) {
+    func updateDocument(for document: GiniVisionDocument) {
         if let index = documentRequests.index(of: document) {
             documentRequests[index].document = document
         }
     }
     
-    func updateUploadStatusInDocuments(for document: GiniVisionDocument, to uploaded: Bool) {
+    func update(_ document: GiniVisionDocument, withError error: Error?, isUploaded: Bool) {
         if let index = documentRequests.index(of: document) {
-            documentRequests[index].isUploaded = uploaded
-        }
-    }
-    
-    func updateErrorInDocuments(for document: GiniVisionDocument, to error: Error) {
-        if let index = documentRequests.index(of: document) {
+            documentRequests[index].isUploaded = isUploaded
             documentRequests[index].error = error
+        }
+        
+        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
+            refreshMultipageReviewNextButton(with: documentRequests)
+            multiPageReviewViewController.updateCollections(with: documentRequests)
         }
     }
     
@@ -254,11 +265,11 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     private func multipageTransition(operation: UINavigationControllerOperation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let reviewImagesButtonCenter = cameraViewController?.capturedImagesStackView else {
+        guard let stackView = cameraViewController?.capturedImagesStackView else {
             return nil
         }
         
-        multiPageTransition.originFrame = reviewImagesButtonCenter
+        multiPageTransition.originFrame = stackView
             .thumbnailFrameRelative(to: screenAPINavigationController.view)
         multiPageTransition.operation = operation
         
@@ -273,6 +284,10 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        return multiPageTransition
+        if stackView.isHidden && operation == .push {
+            return nil
+        } else {
+            return multiPageTransition
+        }
     }
 }

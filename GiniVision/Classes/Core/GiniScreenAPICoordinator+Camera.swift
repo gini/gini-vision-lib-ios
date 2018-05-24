@@ -271,16 +271,14 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidComplete(for document: GiniVisionDocument) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            self.updateUploadStatusInDocuments(for: document, to: true)
-            self.refreshMultipageReview(with: self.documentRequests)
+            self.update(document, withError: nil, isUploaded: true)
         }
     }
     
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            self.updateErrorInDocuments(for: document, to: error)
-            self.refreshMultipageReview(with: self.documentRequests)
+            self.update(document, withError: error, isUploaded: false)
         }
     }
 }

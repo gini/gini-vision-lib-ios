@@ -27,6 +27,7 @@ final class CapturedImagesStackView: UIView {
     lazy var thumbnailButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.imageView?.contentMode = .scaleAspectFill
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowRadius = 1
         button.layer.shadowOpacity = 0.5
