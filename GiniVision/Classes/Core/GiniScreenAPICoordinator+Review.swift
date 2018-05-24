@@ -12,7 +12,7 @@ import Foundation
 extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
     
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
-        updateValue(for: document)
+        updateDocument(for: document)
     }
     
     func createReviewScreen(withDocument document: GiniVisionDocument,
@@ -42,7 +42,7 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didRotate documentRequest: DocumentRequest) {
-        updateValue(for: documentRequest.document)
+        updateDocument(for: documentRequest.document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
