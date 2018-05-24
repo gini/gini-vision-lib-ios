@@ -20,7 +20,8 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
         let reviewViewController = ReviewViewController(document: document,
                                                         giniConfiguration: giniConfiguration)
         reviewViewController.delegate = self
-        reviewViewController.title = giniConfiguration.navigationBarReviewTitle
+        reviewViewController.title = NSLocalizedStringPreferred("ginivision.navigationbar.review.title",
+                                                            comment: "Title in the navigation bar on the review screen")
         reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
         reviewViewController.setupNavigationItem(usingResources: nextButtonResource,
                                                  selector: #selector(showAnalysisScreen),
