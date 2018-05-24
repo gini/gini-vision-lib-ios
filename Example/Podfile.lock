@@ -5,47 +5,52 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Gini-iOS-SDK (1.0.0-alpha.1):
-    - Gini-iOS-SDK/Core (= 1.0.0-alpha.1)
-  - Gini-iOS-SDK/Core (1.0.0-alpha.1):
+  - Gini-iOS-SDK (1.0.0-beta.1):
+    - Gini-iOS-SDK/Core (= 1.0.0-beta.1)
+  - Gini-iOS-SDK/Core (1.0.0-beta.1):
     - Bolts (~> 1.9)
-  - Gini-iOS-SDK/Pinning (1.0.0-alpha.1):
+  - Gini-iOS-SDK/Pinning (1.0.0-beta.1):
     - Bolts (~> 1.9)
     - TrustKit (~> 1.5)
   - GiniVision (3.4.0-alpha.1):
     - GiniVision/Core (= 3.4.0-alpha.1)
   - GiniVision/Core (3.4.0-alpha.1)
   - GiniVision/Networking (3.4.0-alpha.1):
-    - Gini-iOS-SDK (~> 1.0.0-alpha)
+    - Gini-iOS-SDK (~> 1.0.0-beta)
     - GiniVision/Core
-  - GiniVision/Networking+Pinning (3.4.0-alpha.1):
-    - Gini-iOS-SDK/Pinning (~> 1.0.0-alpha)
+  - "GiniVision/Networking+Pinning (3.4.0-alpha.1)":
+    - Gini-iOS-SDK/Pinning (~> 1.0.0-beta)
     - GiniVision/Networking
   - TrustKit (1.5.3)
 
 DEPENDENCIES:
-  - Gini-iOS-SDK (from `git@github.com:gini/gini-sdk-ios.git`, branch `develop`)
+  - "Gini-iOS-SDK (from `git@github.com:gini/gini-sdk-ios.git`, branch `develop`)"
   - GiniVision (from `../`)
-  - GiniVision/Networking+Pinning (from `../`)
+  - "GiniVision/Networking+Pinning (from `../`)"
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Bolts
+    - TrustKit
 
 EXTERNAL SOURCES:
   Gini-iOS-SDK:
     :branch: develop
-    :git: git@github.com:gini/gini-sdk-ios.git
+    :git: "git@github.com:gini/gini-sdk-ios.git"
   GiniVision:
-    :path: ../
+    :path: "../"
 
 CHECKOUT OPTIONS:
   Gini-iOS-SDK:
-    :commit: 7efa7ca3785a388bdd6051dcd7444fa0f442c999
-    :git: git@github.com:gini/gini-sdk-ios.git
+    :commit: 58e2ae387dac23f77b94aafc13f575fd9bf7408c
+    :git: "git@github.com:gini/gini-sdk-ios.git"
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Gini-iOS-SDK: c1b1b67e931058292e77d6237602a1ec92336bf1
-  GiniVision: 9488f743f3e51ced2656d3ba44826e8e3a2ad62f
+  Gini-iOS-SDK: 92f35b4bc3b4802f97676db9fe235c6e5a194765
+  GiniVision: 6927ba949c3a606a963dc1c09cf8004281291de3
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
 PODFILE CHECKSUM: 5440d1421cb7d0442937971587e5fe8f682b2aef
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.2
