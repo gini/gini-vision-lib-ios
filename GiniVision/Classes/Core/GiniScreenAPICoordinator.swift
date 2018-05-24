@@ -137,7 +137,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 extension GiniScreenAPICoordinator {
     func addToDocuments(new documentRequests: [DocumentRequest]) {
         // Since there could not be more than one PDF document and more than one QRCode document
-        // at the same time, the collection should be clear up before adding the new document
+        // at the same time, the collection should be cleared up before adding the new document
         if self.documentRequests.type == .qrcode || self.documentRequests.type == .pdf {
             self.clearDocuments()
         }
