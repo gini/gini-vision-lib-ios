@@ -90,6 +90,11 @@ import UIKit
     @objc public var debugModeOn = false
     
     /**
+     Used to handle all the logging messages in order to log them in a different way.
+     */
+    @objc public var logger: GiniLogger = DefaultLogger()
+    
+    /**
      Indicates whether the multipage feature is enabled or not. In case of `true`,
      multiple pages can be processed, showing a different review screen when capturing.
      */
