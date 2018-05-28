@@ -46,6 +46,11 @@ extension UIViewController {
                                                        bundle: Bundle(for: GiniVision.self),
                                                        comment: "use photos button text in popup")
             }
+        case let visionError as CustomAnalysisError:
+            message = visionError.message
+            confirmActionTitle = NSLocalizedString("ginivision.analysis.error.actionTitle",
+                                                   bundle: Bundle(for: GiniVision.self),
+                                                   comment: "Retry analysis")
         default:
             message = DocumentValidationError.unknown.message
         }

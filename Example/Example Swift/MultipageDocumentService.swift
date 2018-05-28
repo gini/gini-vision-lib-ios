@@ -27,6 +27,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
             .map { $0.value }
             .sorted()
             .map { $0.info }
+            .filter { $0.documentUrl != nil}
         
         // When a PDF/QrCode document is imported the analysis screen is shown right away, and therefore the analysis
         // is triggered. There could be the case where the document hadn't been analyzed when this happens,
