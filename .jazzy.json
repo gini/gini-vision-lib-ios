@@ -22,6 +22,7 @@
          "name":"Documentation",
          "children":[
            "Installation",
+           "Customization guide",
            "Open with guide",
            "Import PDFs and images guide",
            "QR Code scanning guide",
