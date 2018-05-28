@@ -58,8 +58,8 @@ extension DocumentServiceProtocol {
                                                                                cancellationToken: cancellationToken)
             }).continueWith(block: { task in
                 if let createdDocument = task.result as? GINIDocument {
-                    Logger.debug(message: "Created document with id: \(createdDocument.documentId ?? "") " +
-                        "for vision document \(document.id)", event: .custom(emoji:"📄"))
+                    Logger.log(message: "Created document with id: \(createdDocument.documentId ?? "") " +
+                        "for vision document \(document.id)", event: .custom("📄"))
                     completion(.success(createdDocument))
                 } else if task.isCancelled {
                     completion(.failure(AnalysisError.cancelled))
@@ -81,9 +81,9 @@ extension DocumentServiceProtocol {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    Logger.debug(message: "Error deleting composite document with id: \(id)", event: .error)
+                    Logger.log(message: "Error deleting composite document with id: \(id)", event: .error)
                 } else {
-                    Logger.debug(message: "Deleted composite document with id: \(id)", event: .custom(emoji:"🗑"))
+                    Logger.log(message: "Deleted composite document with id: \(id)", event: .custom("🗑"))
                 }
                 
                 return nil
@@ -101,9 +101,9 @@ extension DocumentServiceProtocol {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    Logger.debug(message: "Error deleting partial document with id: \(id)", event: .error)
+                    Logger.log(message: "Error deleting partial document with id: \(id)", event: .error)
                 } else {
-                    Logger.debug(message: "Deleted partial document with id: \(id)", event: .custom(emoji:"🗑"))
+                    Logger.log(message: "Deleted partial document with id: \(id)", event: .custom("🗑"))
                 }
                 
                 return nil
@@ -137,7 +137,7 @@ extension DocumentServiceProtocol {
         -> ((BFTask<AnyObject>) -> Any?) {
             return { task in
                 if task.isCancelled {
-                    Logger.debug(message: "Cancelled analysis process", event: .error)
+                    Logger.log(message: "Cancelled analysis process", event: .error)
                     completion(.failure(AnalysisError.documentCreation))
                     
                     return BFTask<AnyObject>.cancelled()
@@ -146,16 +146,16 @@ extension DocumentServiceProtocol {
                 let finishedString = "Finished analysis process with"
                 
                 if let error = task.error {
-                    Logger.debug(message: "\(finishedString) this error: \(error)", event: .error)
+                    Logger.log(message: "\(finishedString) this error: \(error)", event: .error)
                     
                     completion(.failure(error))
                 } else if let result = task.result as? [String: Extraction] {
-                    Logger.debug(message: "\(finishedString) no errors", event: .success)
+                    Logger.log(message: "\(finishedString) no errors", event: .success)
                     
                     completion(.success(result))
                 } else {
                     let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
-                    Logger.debug(message: "\(finishedString) this error: \(error)", event: .error)
+                    Logger.log(message: "\(finishedString) this error: \(error)", event: .error)
 
                     completion(.failure(AnalysisError.unknown))
                 }
@@ -179,13 +179,13 @@ extension DocumentServiceProtocol {
                 if let error = task?.error {
                     let id = self.compositeDocument?.documentId ?? ""
                     let message = "Error sending feedback for document with id: \(id) error: \(error)"
-                    Logger.debug(message: message, event: .error)
+                    Logger.log(message: message, event: .error)
                     
                     return nil
                 }
                 
-                Logger.debug(message: "Feedback sent with \(updatedExtractions.count) extractions",
-                    event: .custom(emoji:"🚀"))
+                Logger.log(message: "Feedback sent with \(updatedExtractions.count) extractions",
+                    event: .custom("🚀"))
 
                 return nil
             })

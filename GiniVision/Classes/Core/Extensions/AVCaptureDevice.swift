@@ -13,7 +13,7 @@ internal extension AVCaptureDevice {
     func setFlashModeSecurely(_ mode: AVCaptureDevice.FlashMode) {
         guard hasFlash && isFlashModeSupported(mode) else { return }
         guard case .some = try? lockForConfiguration() else {
-            Logger.debug(message: "Could not lock device for flash configuration", event: .error)
+            Logger.log(message: "Could not lock device for flash configuration", event: .error)
             return
         }
         flashMode = mode

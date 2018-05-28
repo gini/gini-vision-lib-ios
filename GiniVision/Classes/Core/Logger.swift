@@ -13,7 +13,9 @@ final class Logger {
         case error
         case success
         case warning
-        case custom(emoji: String)
+        
+        /// Custom event with an emoji as a parameter
+        case custom(String)
         
         var value: String {
             switch self {
@@ -25,22 +27,12 @@ final class Logger {
         }
     }
     
-    class func debug(message: String,
-                     event: Event,
-                     giniConfig: GiniConfiguration = .shared) {
+    class func log(message: String,
+                   event: Event,
+                   giniConfig: GiniConfiguration = .shared) {
         
         if giniConfig.debugModeOn {
-            print("[ GiniVision ](\(formattedString(from: Date()))): \(event.value) \(message)")
+            NSLog("[ GiniVision ] \(event.value) \(message)")
         }
-    }
-    
-    class func formattedString(from date: Date) -> String {
-        let dateFormat = "dd-MM-yy hh:mm:ss"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        dateFormatter.locale = Locale.current
-        dateFormatter.timeZone = TimeZone.current
-        
-        return dateFormatter.string(from: date)
     }
 }
