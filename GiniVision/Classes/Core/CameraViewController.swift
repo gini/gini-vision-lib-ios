@@ -448,7 +448,7 @@ extension CameraViewController {
     
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
-            Logger.log(message: "No camera initialized", event: .warning)
+            Log(message: "No camera initialized", event: .warning)
             return
         }
         

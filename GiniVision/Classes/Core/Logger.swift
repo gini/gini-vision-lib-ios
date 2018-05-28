@@ -7,37 +7,28 @@
 
 import Foundation
 
-final class Logger {
+enum LogEvent: String {
+    case error = "❌"
+    case success = "✅"
+    case warning = "⚠️"
+}
+
+func Log(message: String,
+         event: LogEvent,
+         giniConfig: GiniConfiguration = .shared) {
+    Log(message: message, event: event.rawValue, giniConfig: giniConfig)
+}
+
+func Log(message: String,
+         event: String,
+         giniConfig: GiniConfiguration = .shared) {
     
-    enum Event {
-        case error
-        case success
-        case warning
-        
-        /// Custom event with an emoji as a parameter
-        case custom(String)
-        
-        var value: String {
-            switch self {
-            case .error: return "❌"
-            case .success: return "✅"
-            case .warning: return "⚠️"
-            case .custom(let emoji): return emoji
-            }
-        }
-    }
-    
-    class func log(message: String,
-                   event: Event,
-                   giniConfig: GiniConfiguration = .shared) {
-        
-        if giniConfig.debugModeOn {
-            let message = "[ GiniVision ] \(event.value) \(message)"
-            if let loggerBlock = giniConfig.customLog {
-                loggerBlock(message)
-            } else {
-                NSLog(message)
-            }
+    if giniConfig.debugModeOn {
+        let message = "[ GiniVision ] \(event) \(message)"
+        if let loggerBlock = giniConfig.customLog {
+            loggerBlock(message)
+        } else {
+            NSLog(message)
         }
     }
 }
