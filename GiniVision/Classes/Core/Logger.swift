@@ -25,7 +25,7 @@ func Log(message: String,
          giniConfig: GiniConfiguration = .shared) {
     
     if giniConfig.debugModeOn {
-        giniConfig.logger.log(message: message, event: event)
+        giniConfig.logger.log(message: "\(event) \(message)")
     }
 }
 
@@ -35,16 +35,17 @@ func Log(message: String,
      Logs a message
      
      - parameter message: Message printed out
-     - parameter event: String which represents the printed message. i.e: ⚠️
      
      */
-    func log(message: String, event: String)
+    func log(message: String)
 }
 
 final class DefaultLogger: GiniLogger {
     
-    func log(message: String, event: String) {
-        let message = "[ GiniVision ] \(event) \(message)"
+    func log(message: String) {
+        let message = "[ GiniVision ] \(message)"
+        
+        // When having the `OS_ACTIVITY_MODE` disabled, NSLog messages are not printed
         if ProcessInfo.processInfo.environment["OS_ACTIVITY_MODE"] == "disable" {
             print(message)
         }
