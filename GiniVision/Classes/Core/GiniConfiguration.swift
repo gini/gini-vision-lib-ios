@@ -629,6 +629,7 @@ import UIKit
     /**
      Sets the text of the loading indicator on the analysis screen to the specified text.
      */
+    @available(*, deprecated, message: "Use ginivision.analysis.loadingText localized string instead")
     @objc public var analysisLoadingText =
         NSLocalizedStringPreferred("ginivision.analysis.loadingText",
                                    comment: "Text appearing at the center of the analysis screen " +
