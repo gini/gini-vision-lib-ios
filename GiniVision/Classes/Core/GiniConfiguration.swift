@@ -660,6 +660,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.analysis.loadingText localized string instead
 
      */
+    @available(*, deprecated, message: "Use ginivision.analysis.loadingText localized string instead")
     @objc public var analysisLoadingText =
         NSLocalizedStringPreferred("ginivision.analysis.loadingText",
                                    comment: "Text appearing at the center of the analysis screen " +
