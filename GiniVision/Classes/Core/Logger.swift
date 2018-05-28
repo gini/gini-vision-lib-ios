@@ -16,6 +16,7 @@ enum LogEvent: String {
 func Log(message: String,
          event: LogEvent,
          giniConfig: GiniConfiguration = .shared) {
+
     Log(message: message, event: event.rawValue, giniConfig: giniConfig)
 }
 
@@ -24,11 +25,29 @@ func Log(message: String,
          giniConfig: GiniConfiguration = .shared) {
     
     if giniConfig.debugModeOn {
+        giniConfig.logger.log(message: message, event: event)
+    }
+}
+
+@objc public protocol GiniLogger: class {
+    
+    /**
+     Logs a message
+     
+     - parameter message: Message printed out
+     - parameter event: String which represents the printed message. i.e: ⚠️
+     
+     */
+    func log(message: String, event: String)
+}
+
+final class DefaultLogger: GiniLogger {
+    
+    func log(message: String, event: String) {
         let message = "[ GiniVision ] \(event) \(message)"
-        if let loggerBlock = giniConfig.customLog {
-            loggerBlock(message)
-        } else {
-            NSLog(message)
+        if ProcessInfo.processInfo.environment["OS_ACTIVITY_MODE"] == "disable" {
+            print(message)
         }
+        NSLog(message)
     }
 }
