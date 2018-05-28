@@ -614,7 +614,7 @@ import UIKit
     /**
      Sets the tint color of the page background
      */
-    @objc public var multipagePageBackgroundColor = Colors.Gini.blue
+    @objc public var multipagePageBackgroundColor = UIColor.white
     
     // MARK: Analysis options
     
