@@ -32,7 +32,12 @@ final class Logger {
                    giniConfig: GiniConfiguration = .shared) {
         
         if giniConfig.debugModeOn {
-            NSLog("[ GiniVision ] \(event.value) \(message)")
+            let message = "[ GiniVision ] \(event.value) \(message)"
+            if let loggerBlock = giniConfig.customLog {
+                loggerBlock(message)
+            } else {
+                NSLog(message)
+            }
         }
     }
 }
