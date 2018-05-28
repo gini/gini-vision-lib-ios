@@ -59,6 +59,7 @@
 "ginivision.review.unknownError"       = "Auf dem Überprüfungsbildschirm ist ein unbekannter Fehler aufgetreten";
 
 "ginivision.analysis.loadingText" = "Dokument wird analysiert";
+"ginivision.analysis.suggestion.header" = "Um schneller Ergebnisse zu erhalten, bitte:";
 "ginivision.analysis.suggestion.1" = "Auf gute Beleuchtung achten";
 "ginivision.analysis.suggestion.2" = "Seite glatt streichen";
 "ginivision.analysis.suggestion.3" = "Gerät parallel über die Seite halten";
