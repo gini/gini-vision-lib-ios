@@ -65,7 +65,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
                     self.startAnalysis(completion: handler)
                 }
             case .failure(let error):
-                Logger.log(message: "Partial document creation error: \(error)", event: .error)
+                Log(message: "Partial document creation error: \(error)", event: .error)
             }
         }
     }

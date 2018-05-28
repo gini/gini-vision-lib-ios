@@ -198,5 +198,5 @@ internal func measure(block: () -> Void) {
     let start = Date()
     block()
     let elaspsedTime = Date().timeIntervalSince(start)
-    Logger.log(message: "Elapsed time: \(elaspsedTime) seconds", event: .custom("⏲️"))
+    Log(message: "Elapsed time: \(elaspsedTime) seconds", event: "⏲️")
 }

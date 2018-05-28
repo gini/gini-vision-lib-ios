@@ -136,7 +136,7 @@ import UIKit
      */
     @objc public class func setConfiguration(_ configuration: GiniConfiguration) {
         if configuration.debugModeOn {
-            Logger.log(message: "DEBUG mode is ON. Never make a release in DEBUG mode!", event: .warning)
+            Log(message: "DEBUG mode is ON. Never make a release in DEBUG mode!", event: .warning)
         }
         GiniConfiguration.shared = configuration
     }
