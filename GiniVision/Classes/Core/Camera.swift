@@ -64,7 +64,7 @@ internal class Camera: NSObject {
         sessionQueue.async {
             guard let device = self.videoDeviceInput?.device else { return }
             guard case .some = try? device.lockForConfiguration() else {
-                Logger.debug(message: "Could not lock device for configuration", event: .error)
+                Logger.log(message: "Could not lock device for configuration", event: .error)
                 return
             }
             
@@ -136,7 +136,7 @@ internal class Camera: NSObject {
         if self.session.canAddInput(self.videoDeviceInput!) {
             self.session.addInput(self.videoDeviceInput!)
         } else {
-            Logger.debug(message: "Could not add video device input to the session", event: .error)
+            Logger.log(message: "Could not add video device input to the session", event: .error)
         }
     }
     
@@ -148,7 +148,7 @@ internal class Camera: NSObject {
             self.session.addOutput(output)
             self.stillImageOutput = output
         } else {
-            Logger.debug(message: "Could not add still image output to the session", event: .error)
+            Logger.log(message: "Could not add still image output to the session", event: .error)
         }
     }
     
@@ -161,7 +161,7 @@ internal class Camera: NSObject {
             qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
             qrOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
         } else {
-            Logger.debug(message: "Could not add metadata output to the session", event: .error)
+            Logger.log(message: "Could not add metadata output to the session", event: .error)
         }
     }
 }
