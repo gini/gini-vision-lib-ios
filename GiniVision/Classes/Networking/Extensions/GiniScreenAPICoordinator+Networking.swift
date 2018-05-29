@@ -178,7 +178,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             case .success(let extractions):
                 self.present(result: extractions)
             case .failure(let error):
-                print(error)
+                guard let error = error as? GiniVisionError else { return }
+                self.displayError(withMessage: error.message, andAction: {
+                    self.didShowAnalysis(analysisDelegate)
+                })
             }
         }
     }
