@@ -75,7 +75,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func fill(with documentRequest: DocumentRequest, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
+    func setUp(with documentRequest: DocumentRequest, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
         documentImage.image = documentRequest.document.previewImage
         
         if let error = documentRequest.error {
