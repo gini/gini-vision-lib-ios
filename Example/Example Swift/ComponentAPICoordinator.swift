@@ -68,7 +68,12 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return multipageReviewScreen
     }()
     
-    fileprivate(set) var analysisScreen: AnalysisViewController?
+    fileprivate(set) lazy var analysisScreen: AnalysisViewController = {
+        guard let document = documentRequests.first?.document else {
+            fatalError("You are trying to access the analysis screen when there are not documents")
+        }
+        return AnalysisViewController(document: document)
+    }()
     fileprivate(set) var cameraScreen: CameraViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) var reviewScreen: ReviewViewController?
@@ -172,10 +177,10 @@ extension ComponentAPICoordinator {
         guard let document = documentRequests.first?.document else { return }
         
         startAnalysis()
-        analysisScreen = AnalysisViewController(document: document)
-        addCloseButtonIfNeeded(onViewController: analysisScreen!)
+        analysisScreen.updateDocument(with: document)
+        addCloseButtonIfNeeded(onViewController: analysisScreen)
         
-        navigationController.pushViewController(analysisScreen!, animated: true)
+        navigationController.pushViewController(analysisScreen, animated: true)
     }
     
     fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
@@ -193,7 +198,6 @@ extension ComponentAPICoordinator {
         }
         
         push(viewController: resultsScreen!, removingViewControllerOfType: AnalysisViewController.self)
-        analysisScreen = nil
     }
     
     fileprivate func showNoResultsScreen() {
@@ -212,7 +216,6 @@ extension ComponentAPICoordinator {
         }
         
         push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
-        analysisScreen = nil
         
     }
     
@@ -287,6 +290,13 @@ extension ComponentAPICoordinator {
                     self.documentRequests[index].isUploaded = true
                 case .failure(let error):
                     self.documentRequests[index].error = error
+                    
+                    if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
+                        guard let visionError = error as? GiniVisionError else { return }
+                        self.analysisScreen.showError(with: visionError.message, action: {
+                            self.upload(documentRequest: documentRequest)
+                        })
+                    }
                 }
                 
                 // When multipage mode is used and documents are images, you have to refresh the multipage review screen
@@ -306,7 +316,7 @@ extension ComponentAPICoordinator {
                     self.handleAnalysis(with: extractions)
                 case .failure:
                     let visionError = CustomAnalysisError.analysisFailed
-                    self.analysisScreen?.showErrorDialog(for: visionError, positiveAction: {
+                    self.analysisScreen.showError(with: visionError.message, action: {
                         self.startAnalysis()
                     })
                 }
@@ -383,7 +393,6 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
                 documentRequests.removeAll()
             }
             
-            analysisScreen = nil
             documentService?.cancelAnalysis()
         }
         

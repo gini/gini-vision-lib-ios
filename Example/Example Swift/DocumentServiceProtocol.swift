@@ -58,6 +58,8 @@ extension DocumentServiceProtocol {
                         docType: String = "",
                         cancellationToken: BFCancellationToken? = nil,
                         completion: @escaping UploadDocumentCompletion) {
+        print("📝 Creating document...")
+
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
@@ -72,8 +74,12 @@ extension DocumentServiceProtocol {
                           "for vision document:", document.id)
                     completion(.success(createdDocument))
                 } else if task.isCancelled {
+                    print("❌ Document creation was cancelled")
+
                     completion(.failure(AnalysisError.cancelled))
                 } else {
+                    print("❌ Document creation failed")
+
                     completion(.failure(AnalysisError.documentCreation))
                 }
                 
@@ -102,6 +108,8 @@ extension DocumentServiceProtocol {
     
     func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                           completion: @escaping AnalysisCompletion) {
+        print("🔎 Starting analysis...")
+
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
