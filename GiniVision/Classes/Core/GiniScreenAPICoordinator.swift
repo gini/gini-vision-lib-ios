@@ -26,7 +26,12 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     }()
     
     // Screens
-    var analysisViewController: AnalysisViewController?
+    lazy var analysisViewController: AnalysisViewController = {
+        guard let document = documentRequests.first?.document else {
+            fatalError("You are trying to access the analysis screen when there are not documents")
+        }
+        return createAnalysisScreen(withDocument: document)
+    }()
     var cameraViewController: CameraViewController?
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
@@ -127,8 +132,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            self.analysisViewController = self.createAnalysisScreen(withDocument: documentRequests[0].document)
-            return [self.analysisViewController!]
+            return [self.analysisViewController]
         }
     }
 }
@@ -203,14 +207,9 @@ extension GiniScreenAPICoordinator {
     
     @objc func showAnalysisScreen() {
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
+        analysisViewController.updateDocument(with: documentRequests[0].document)
         
-        if analysisViewController == nil {
-            analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
-        } else {
-            analysisViewController?.updateDocument(with: documentRequests[0].document)
-        }
-        
-        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+        self.screenAPINavigationController.pushViewController(analysisViewController, animated: true)
     }
     
     @objc func backToCamera() {
