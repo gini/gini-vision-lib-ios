@@ -137,12 +137,12 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {        
-        documentService?.upload(document: document) { result in
+        documentService?.upload(document: document) { [weak uploadDelegate] result in
             switch result {
             case .success:
-                uploadDelegate.uploadDidComplete(for: document)
+                uploadDelegate?.uploadDidComplete(for: document)
             case .failure(let error):
-                uploadDelegate.uploadDidFail(for: document, with: error)
+                uploadDelegate?.uploadDidFail(for: document, with: error)
             }
         }
     }
