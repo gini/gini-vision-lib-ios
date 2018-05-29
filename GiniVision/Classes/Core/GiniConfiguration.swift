@@ -92,6 +92,7 @@ import UIKit
     /**
      Used to handle all the logging messages in order to log them in a different way.
      */
+
     @objc public var logger: GiniLogger = DefaultLogger()
     
     /**
@@ -119,13 +120,11 @@ import UIKit
     /**
      Sets the font of all navigation items in all screens of the Gini Vision Library to
      the globally specified font or a default font.
-     (Deprecated, use `GiniConfiguration.customFont` instead)
      
      - note: Screen API only.
      */
     @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
         .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ?? UIFontPreferred(.bold,
-                                                                                                               andSize: 16)
     
     /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to
@@ -140,7 +139,6 @@ import UIKit
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to
      the globally specified font or to a default font.
-     (Deprecated, use `GiniConfiguration.customFont` instead)
 
      - note: Screen API only.
      */
@@ -190,6 +188,9 @@ import UIKit
      Sets the descriptional text when photo library access was denied, advising the
      user to authorize the photo library access in the settings application.
      */
+    @available(*,
+    deprecated,
+    message: "Use ginivision.camera.filepicker.photoLibraryAccessDenied localized string instead")
     @objc public var photoLibraryAccessDeniedMessageText =
         NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
                                    comment: "This message is shown when Photo library permission is denied")
@@ -269,6 +270,9 @@ import UIKit
     /**
      Sets the message text of a general document validation error, shown in camera screen.
      */
+    @available(*,
+    deprecated,
+    message: "Use ginivision.camera.documentValidationError.general localized string instead")
     @objc public var documentValidationErrorGeneral =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general",
                                    comment: "Message text of a general document validation " +
@@ -277,6 +281,9 @@ import UIKit
     /**
      Sets the message text of a document validation error dialog when a file size is higher than 10MB
      */
+    @available(*,
+    deprecated,
+    message: "Use ginivision.camera.documentValidationError.excedeedFileSize localized string instead")
     @objc public var documentValidationErrorExcedeedFileSize =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize",
                                    comment: "Message text error shown in camera screen when a file " +
@@ -285,6 +292,9 @@ import UIKit
     /**
      Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
      */
+    @available(*,
+    deprecated,
+    message: "Use ginivision.camera.documentValidationError.tooManyPages localized string instead")
     @objc public var documentValidationErrorTooManyPages =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
                                    comment: "Message text error shown in camera screen when a pdf " +
@@ -294,6 +304,9 @@ import UIKit
      Sets the message text of a document validation error dialog when a file has a
      wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
      */
+    @available(*,
+    deprecated,
+    message: "Use ginivision.camera.documentValidationError.wrongFormat localized string instead")
     @objc public var documentValidationErrorWrongFormat =
         NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat",
                                    comment: "Message text error shown in camera screen when a file " +
