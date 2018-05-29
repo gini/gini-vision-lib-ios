@@ -223,8 +223,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
             collectionInset.top -
             collectionInset.bottom +
             shadowHeight +
-        shadowRadius
-        let width = height * 11 / 20
+            shadowRadius
+        let aspectRatio: CGFloat = 11 / 20
+        let width = height * aspectRatio
         
         return CGSize(width: width, height: height)
     }

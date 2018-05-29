@@ -511,27 +511,17 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
 // MARK: MultipageReviewViewControllerDelegate
 
 extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
-
+    
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: NoticeActionType,
-                         for documentRequest: DocumentRequest) {
-        switch errorAction {
-        case .retake:
-            if let index = documentRequests.index(of: documentRequest.document) {
-                viewController.deleteItem(at: IndexPath(row: index, section: 0), completion: {
-                    self.navigationController.popViewController(animated: true)
-                })
+                         didTapRetryUploadFor documentRequest: DocumentRequest) {
+        if let index = documentRequests.index(of: documentRequest.document) {
+            documentRequests[index].error = nil
+            
+            if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
+                self.refreshMultipageReview(with: self.documentRequests)
             }
-        case .retry:
-            if let index = documentRequests.index(of: documentRequest.document) {
-                documentRequests[index].error = nil
-
-                if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
-                    self.refreshMultipageReview(with: self.documentRequests)
-                }
-
-                upload(documentRequests: [documentRequests[index]])
-            }
+            
+            upload(documentRequests: [documentRequests[index]])
         }
     }
     
