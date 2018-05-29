@@ -14,7 +14,7 @@ import UIKit
     var title: String {
         switch self {
         case .retry:
-            return  NSLocalizedStringPreferred("ginivision.multipagereview.error.retryAction",
+            return NSLocalizedStringPreferred("ginivision.multipagereview.error.retryAction",
                                                comment: "button title for retry action")
         case .retake:
             return NSLocalizedStringPreferred("ginivision.multipagereview.error.retakeAction",
