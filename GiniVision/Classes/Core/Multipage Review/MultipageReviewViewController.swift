@@ -14,6 +14,8 @@ public protocol MultipageReviewViewControllerDelegate: class {
                          didRotate documentRequest: DocumentRequest)
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
+    func multipageReview(_ viewController: MultipageReviewViewController,
+                         didTapRetryUploadFor documentRequest: DocumentRequest)
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
 
@@ -45,7 +47,7 @@ public final class MultipageReviewViewController: UIViewController {
     
     var pagesCollectionInsets: UIEdgeInsets {
         let sideInset: CGFloat = (pagesCollection.frame.width -
-            MultipageReviewPagesCollectionCell.size.width) / 2
+            MultipageReviewPagesCollectionCell.size(in: pagesCollection).width) / 2
         return UIEdgeInsets(top: 16, left: sideInset, bottom: 16, right: 0)
     }
     
@@ -69,8 +71,8 @@ public final class MultipageReviewViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "drag and drop tip shown below pages collection")
+                                          bundle: Bundle(for: GiniVision.self),
+                                          comment: "drag and drop tip shown below pages collection")
         textView.font = textView.font?.withSize(11)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
@@ -180,6 +182,8 @@ extension MultipageReviewViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = mainCollection.backgroundColor
+        automaticallyAdjustsScrollViewInsets = false
+        edgesForExtendedLayout = []
         
         if #available(iOS 9.0, *) {
             longPressGesture.delaysTouchesBegan = true
@@ -194,6 +198,7 @@ extension MultipageReviewViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         selectLastItem()
+        mainCollection.collectionViewLayout.invalidateLayout()
         changeReorderTipVisibility(to: documentRequests.count < 2)
     }
     
@@ -234,7 +239,8 @@ extension MultipageReviewViewController {
         self.pagesCollection.selectItem(at: indexPath,
                                         animated: animated,
                                         scrollPosition: .centeredHorizontally)
-        self.collectionView(self.pagesCollection, didSelectItemAt: indexPath)
+        centerCollections(to: indexPath, animated: animated)
+        changeTitle(withPage: position + 1)
     }
     
     func selectLastItem(animated: Bool = false) {
@@ -247,12 +253,21 @@ extension MultipageReviewViewController {
         self.reloadCollections()
     }
     
+    fileprivate func centerCollections(to indexPath: IndexPath, animated: Bool = true) {
+        mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+        pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
+    }
+    
     private func reloadCollections() {
+        let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
+        
         self.mainCollection.reloadData()
         self.pagesCollection.reloadData()
         
-        if let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first {
-            self.selectItem(at: currentSelectedItem.row)
+        if let currentSelectedItem = currentSelectedItem {
+            self.selectItem(at: currentSelectedItem.row, animated: false)
+        } else {
+            self.selectLastItem(animated: false)
         }
     }
     
@@ -345,6 +360,10 @@ extension MultipageReviewViewController {
         })
     }
     
+    fileprivate func pagesCollectionMaxHeight(in device: UIDevice = UIDevice.current) -> CGFloat {
+        return device.isIpad ? 300 : 224
+    }
+    
     fileprivate func addConstraints() {
         // mainCollection
         Constraints.active(item: mainCollection, attr: .bottom, relatedBy: .equal, to: pagesCollectionContainer,
@@ -383,10 +402,10 @@ extension MultipageReviewViewController {
                            attr: .top)
         Constraints.active(item: pagesCollection, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
         Constraints.active(item: pagesCollection, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: MultipageReviewPagesCollectionCell.size.height +
-                            pagesCollectionInsets.top +
-                            pagesCollectionInsets.bottom)
+        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .equal, to: view, attr: .height,
+                           multiplier: 2 / 5, priority: 999)
+        Constraints.active(item: pagesCollection, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
+                           attr: .notAnAttribute, constant: pagesCollectionMaxHeight())
         
         // pagesCollectionBottomTipLabel
         Constraints.active(item: pagesCollectionBottomTipLabel, attr: .bottom, relatedBy: .equal,
@@ -415,28 +434,36 @@ extension MultipageReviewViewController {
     
     @objc fileprivate func deleteImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            let documentToDelete = documentRequests[currentIndexPath.row]
-            documentRequests.remove(at: currentIndexPath.row)
-            mainCollection.deleteItems(at: [currentIndexPath])
-            
-            pagesCollection.performBatchUpdates({
-                self.pagesCollection.deleteItems(at: [currentIndexPath])
-            }, completion: { [weak self] _ in
-                guard let `self` = self else { return }
-                if self.documentRequests.count > 0 {
-                    if currentIndexPath.row != self.documentRequests.count {
-                        var indexes = IndexPath.indexesBetween(currentIndexPath,
-                                                               and: IndexPath(row: self.documentRequests.count,
-                                                                              section: 0))
-                        indexes.append(currentIndexPath)
-                        self.pagesCollection.reloadItems(at: indexes)
-                    }
-                    
-                    self.selectItem(at: min(currentIndexPath.row, self.documentRequests.count - 1))
-                }
-                self.delegate?.multipageReview(self, didDelete: documentToDelete)
-            })
+            deleteItem(at: currentIndexPath)
         }
+    }
+    
+    fileprivate func deleteItem(at indexPath: IndexPath) {
+        let documentToDelete = documentRequests[indexPath.row]
+        documentRequests.remove(at: indexPath.row)
+        mainCollection.deleteItems(at: [indexPath])
+        
+        pagesCollection.performBatchUpdates({
+            self.pagesCollection.deleteItems(at: [indexPath])
+        }, completion: { _ in
+            if self.documentRequests.count > 0 {
+                if indexPath.row != self.documentRequests.count {
+                    self.reloadPagesStarting(from: indexPath)
+                }
+                
+                self.selectItem(at: min(indexPath.row, self.documentRequests.count - 1))
+            }
+            
+            self.delegate?.multipageReview(self, didDelete: documentToDelete)
+        })
+    }
+    
+    private func reloadPagesStarting(from indexPath: IndexPath) {
+        var indexes = IndexPath.indexesBetween(indexPath,
+                                               and: IndexPath(row: documentRequests.count,
+                                                              section: 0))
+        indexes.append(indexPath)
+        pagesCollection.reloadItems(at: indexes)
     }
 }
 
@@ -453,13 +480,23 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            cell?.documentImage.image = documentRequests[indexPath.row].document.previewImage
+            let documentRequest = documentRequests[indexPath.row]
+            cell?.setUp(with: documentRequest) { action in
+                switch action {
+                case .retry:
+                    self.delegate?.multipageReview(self, didTapRetryUploadFor: documentRequest)
+                case .retake:
+                    self.delegate?.multipageReviewDidTapAddImage(self)
+                    self.deleteItem(at: indexPath)
+                }
+            }
+            
             return cell!
         } else {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            cell?.fill(with: documentRequests[indexPath.row], at: indexPath.row)
+            cell?.setUp(with: documentRequests[indexPath.row], at: indexPath.row)
             return cell!
         }
     }
@@ -471,6 +508,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier,
                                               for: indexPath) as? MultipageReviewPagesCollectionFooter
+        footer?.updateMaskConstraints(with: collectionView)
         footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
         footer?.didTapAddButton = { [weak self] in
             guard let `self` = self else { return }
@@ -516,7 +554,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
                                sizeForItemAt indexPath: IndexPath) -> CGSize {
         return collectionView == mainCollection ?
             collectionView.frame.size :
-            MultipageReviewPagesCollectionCell.size
+            MultipageReviewPagesCollectionCell.size(in: collectionView)
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -532,8 +570,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
             if documentRequests.count > 1 {
-                mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                centerCollections(to: indexPath)
             }
             changeTitle(withPage: indexPath.row + 1)
         }
@@ -580,5 +617,5 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
                       size: CGSize(width: imageWidth, height: imageView.frame.size.height))
     }
-
+    
 }

@@ -112,6 +112,10 @@ internal enum FontWeight {
 
 internal class Constraints {
     
+    enum Position {
+        case top, bottom, right, left
+    }
+    
     class func active(item view1: Any,
                       attr attr1: NSLayoutAttribute,
                       relatedBy relation: NSLayoutRelation,
@@ -139,11 +143,25 @@ internal class Constraints {
         constraint.isActive = true
     }
     
-    class func pin(view: UIView, toSuperView superview: UIView) {
-        Constraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
-        Constraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
-        Constraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
-        Constraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+    class func pin(view: UIView,
+                   toSuperView superview: UIView,
+                   positions: [Position] = [.top, .bottom, .left, .right]) {
+        
+        if positions.contains(.top) {
+            Constraints.active(item: view, attr: .top, relatedBy: .equal, to: superview, attr: .top)
+        }
+        
+        if positions.contains(.bottom) {
+            Constraints.active(item: view, attr: .bottom, relatedBy: .equal, to: superview, attr: .bottom)
+        }
+        
+        if positions.contains(.left) {
+            Constraints.active(item: view, attr: .leading, relatedBy: .equal, to: superview, attr: .leading)
+        }
+        
+        if positions.contains(.right) {
+            Constraints.active(item: view, attr: .trailing, relatedBy: .equal, to: superview, attr: .trailing)
+        }
     }
     
     class func center(view: UIView, with otherView: UIView) {

@@ -103,6 +103,33 @@ public protocol GiniVisionError: Error {
 }
 
 /**
+ Errors thrown when dealing with document analysis (both getting extractions and uploading documents)
+ */
+
+@objc public enum AnalysisError: Int, GiniVisionError {
+    case cancelled
+    case documentCreation
+    case unknown    
+    
+    public var message: String {
+        switch self {
+        case .documentCreation:
+            return NSLocalizedStringPreferred("ginivision.analysis.error.documentCreation",
+                                              comment: "This message is shown when" +
+                                                "there is an error creating the document")
+        case .cancelled:
+            return NSLocalizedStringPreferred("ginivision.analysis.error.cancelled",
+                                              comment: "This message is shown when" +
+                                            "the analysis was cancelled")
+        default:
+            return NSLocalizedString("ginivision.analysis.error.analysis",
+                                     comment: "This message is shown when" +
+                                    "there is an error analyzing the document")
+        }
+    }
+}
+
+/**
  Errors thrown validating a document (image or pdf).
  */
 @objc public enum DocumentValidationError: Int, GiniVisionError, Equatable {

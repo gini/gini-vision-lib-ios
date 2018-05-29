@@ -13,9 +13,10 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     var didTapAddButton: (() -> Void)?
     static let defaultPadding: CGFloat = 10
     
-    fileprivate static let contentSize = MultipageReviewPagesCollectionCell.size
     var trailingConstraint: NSLayoutConstraint?
-    
+    fileprivate var roundMaskHeightConstraint: NSLayoutConstraint?
+    fileprivate var roundMaskWidthConstraint: NSLayoutConstraint?
+
     fileprivate lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -61,10 +62,10 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     
     class func size(in collectionView: UICollectionView) -> CGSize {
         let padding = self.padding(in: collectionView)
-        let height = MultipageReviewPagesCollectionFooter.contentSize.height +
+        let height = MultipageReviewPagesCollectionFooter.contentSize(in: collectionView).height +
             padding.top +
             padding.bottom
-        let width = MultipageReviewPagesCollectionFooter.contentSize.width +
+        let width = MultipageReviewPagesCollectionFooter.contentSize(in: collectionView).width +
             padding.left +
             padding.right
         
@@ -73,12 +74,19 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     
     class func padding(in collectionView: UICollectionView? = nil) -> UIEdgeInsets {
         var rightPadding: CGFloat = defaultPadding
-        if let collection = collectionView {
-            rightPadding = ((collection.frame.width -
-                MultipageReviewPagesCollectionCell.size.width) / 2)
+        if let collectionView = collectionView {
+            rightPadding = ((collectionView.frame.width -
+                MultipageReviewPagesCollectionCell.size(in: collectionView).width) / 2)
         }
         
         return UIEdgeInsets(top: defaultPadding, left: defaultPadding, bottom: defaultPadding, right: rightPadding)
+    }
+    
+    func updateMaskConstraints(with collectionView: UICollectionView) {
+        roundMaskHeightConstraint?.constant = MultipageReviewPagesCollectionFooter
+            .contentSize(in: collectionView).height
+        roundMaskWidthConstraint?.constant = MultipageReviewPagesCollectionFooter
+            .contentSize(in: collectionView).width
     }
 }
 
@@ -88,7 +96,7 @@ extension MultipageReviewPagesCollectionFooter {
     
     @objc fileprivate func addImageButtonAction() {
         if #available(iOS 10.0, *) {
-            UISelectionFeedbackGenerator().selectionChanged()
+            UIImpactFeedbackGenerator().impactOccurred()
         }
         didTapAddButton?()
     }
@@ -111,33 +119,51 @@ extension MultipageReviewPagesCollectionFooter {
         roundMask.layer.addSublayer(innerShadow)
     }
     
+    fileprivate class func contentSize(in collectionView: UICollectionView) -> CGSize {
+        return MultipageReviewPagesCollectionCell.size(in: collectionView)
+    }
+    
     fileprivate func addConstraints() {
         // roundMask
-        Constraints.active(item: roundMask, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: MultipageReviewPagesCollectionFooter.contentSize.height)
-        Constraints.active(item: roundMask, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: MultipageReviewPagesCollectionFooter.contentSize.width)
-        Constraints.active(item: roundMask, attr: .centerX, relatedBy: .equal, to: self, attr: .centerX)
+        roundMaskHeightConstraint = NSLayoutConstraint(item: roundMask,
+                                                       attribute: .height,
+                                                       relatedBy: .equal,
+                                                       toItem: nil,
+                                                       attribute: .notAnAttribute,
+                                                       multiplier: 1.0,
+                                                       constant: 0)
+        roundMaskWidthConstraint = NSLayoutConstraint(item: roundMask,
+                                                       attribute: .width,
+                                                       relatedBy: .equal,
+                                                       toItem: nil,
+                                                       attribute: .notAnAttribute,
+                                                       multiplier: 1.0,
+                                                       constant: 0)
+        Constraints.active(constraint: roundMaskHeightConstraint!)
+        Constraints.active(constraint: roundMaskWidthConstraint!)
         Constraints.active(item: roundMask, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY)
         
         // addButton
         Constraints.active(item: addButton, attr: .centerX, relatedBy: .equal, to: roundMask, attr: .centerX)
         Constraints.active(item: addButton, attr: .centerY, relatedBy: .lessThanOrEqual, to: roundMask,
-                           attr: .centerY, priority: 999)
-        Constraints.active(item: addButton, attr: .height, relatedBy: .equal, to: nil,
+                           attr: .centerY, constant: -20, priority: 999)
+        Constraints.active(item: addButton, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
                            attr: .notAnAttribute, constant: 60)
+        Constraints.active(item: addButton, attr: .height, relatedBy: .greaterThanOrEqual, to: nil,
+                           attr: .notAnAttribute, constant: 20)
         Constraints.active(item: addButton, attr: .width, relatedBy: .equal, to: addButton, attr: .height)
         Constraints.active(item: addButton, attr: .top, relatedBy: .greaterThanOrEqual, to: roundMask,
-                           attr: .top, priority: 750)
+                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top, priority: 750)
         
         // addLabel
-        Constraints.active(item: addLabel, attr: .centerX, relatedBy: .equal, to: addButton, attr: .centerX)
         Constraints.active(item: addLabel, attr: .top, relatedBy: .equal, to: addButton, attr: .bottom,
                            constant: MultipageReviewPagesCollectionFooter.padding().top)
         Constraints.active(item: addLabel, attr: .bottom, relatedBy: .lessThanOrEqual, to: roundMask, attr: .bottom,
                            constant: -MultipageReviewPagesCollectionFooter.padding().bottom)
         Constraints.active(item: addLabel, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading,
                            constant: MultipageReviewPagesCollectionFooter.padding().left)
+        Constraints.active(item: addLabel, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing,
+                           constant: -MultipageReviewPagesCollectionFooter.padding().right, priority: 999)
         
         // Since it is not possible to add an inset to the footer, but only to the section
         // (header and footer are not part of the section), we add a right inset dynamically through a

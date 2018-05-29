@@ -25,14 +25,26 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         scrollView.delegate = self
         scrollView.minimumZoomScale = 1
         scrollView.maximumZoomScale = 5
-
+        
         return scrollView
+    }()
+    
+    lazy var errorView: NoticeView = {
+        let noticeView = NoticeView(text: "",
+                                    type: .error,
+                                    noticeAction: NoticeAction(title: "", action: {}))
+        noticeView.translatesAutoresizingMaskIntoConstraints = false
+
+        noticeView.hide(false, completion: nil)
+        return noticeView
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         zoomableScrollView.addSubview(documentImage)
         addSubview(zoomableScrollView)
+        addSubview(errorView)
+
         addConstraints()
         addDoubleTapGesture()
     }
@@ -44,6 +56,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     private func addConstraints() {
         Constraints.pin(view: documentImage, toSuperView: zoomableScrollView)
         Constraints.pin(view: zoomableScrollView, toSuperView: self)
+        Constraints.pin(view: errorView, toSuperView: self, positions: [.top, .left, .right])
         Constraints.center(view: documentImage, with: zoomableScrollView)
     }
     
@@ -60,6 +73,52 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         } else {
             zoomableScrollView.setZoomScale(1.0, animated: true)
         }
+    }
+    
+    func setUp(with documentRequest: DocumentRequest, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
+        documentImage.image = documentRequest.document.previewImage
+        
+        if let error = documentRequest.error {
+            updateErrorView(with: error, didTapErrorNoticeAction: action)
+            errorView.show(false)
+        } else {
+            errorView.hide(false, completion: nil)
+        }
+    }
+    
+    func updateErrorView(with error: Error,
+                         didTapErrorNoticeAction: @escaping (NoticeActionType) -> Void) {
+        let buttonTitle: String
+        let action: NoticeActionType
+        
+        switch error {
+        case is AnalysisError:
+            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retryAction",
+                                                     comment: "button title for retry action")
+            action = .retry
+        default:
+            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retakeAction",
+                                                     comment: "button title for retake action")
+            action = .retake
+        }
+        
+        let message: String
+        
+        switch error {
+        case let error as GiniVisionError:
+            message = error.message
+        case let error as CustomDocumentValidationError:
+            message = error.message
+        default:
+            message = DocumentValidationError.unknown.message
+        }
+        
+        errorView.textLabel.text = message
+        errorView.actionButton.setTitle(buttonTitle, for: .normal)
+        errorView.userAction = NoticeAction(title: buttonTitle) {
+            didTapErrorNoticeAction(action)
+        }
+        errorView.layoutIfNeeded()
     }
     
 }

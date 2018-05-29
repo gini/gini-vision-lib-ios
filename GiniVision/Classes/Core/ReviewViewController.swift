@@ -322,10 +322,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         Constraints.active(constraint: imageViewLeadingConstraint)
         
         // Top view
-        Constraints.active(item: topView, attr: .top, relatedBy: .equal, to: topLayoutGuide, attr: .bottom)
-        Constraints.active(item: topView, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
-        Constraints.active(item: topView, attr: .leading, relatedBy: .equal, to: view, attr: .leading)
-        Constraints.active(item: topView, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 35)
+        Constraints.pin(view: topView, toSuperView: view, positions: [.top, .left, .right])
         
         // Bottom view
         Constraints.active(item: bottomView, attr: .top, relatedBy: .equal, to: scrollView, attr: .bottom,
