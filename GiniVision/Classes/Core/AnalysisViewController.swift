@@ -93,6 +93,13 @@ import UIKit
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         return overlayView
     }()
+    fileprivate lazy var errorView: NoticeView = {
+        let errorView = NoticeView(text: "",
+                                   type: .error,
+                                   noticeAction: NoticeAction(title: "", action: {}))
+        errorView.translatesAutoresizingMaskIntoConstraints = false
+        return errorView
+    }()
     
     fileprivate let document: GiniVisionDocument
     fileprivate let giniConfiguration: GiniConfiguration
@@ -169,6 +176,8 @@ import UIKit
                 showCaptureSuggestions(giniConfiguration: giniConfiguration)
             }
         }
+        
+        addErrorView()
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -192,6 +201,16 @@ import UIKit
      */
     public func hideAnimation() {
         loadingIndicatorView.stopAnimating()
+    }
+    
+    public func showError(with message: String, action: @escaping () -> Void ) {
+        errorView.textLabel.text = message
+        errorView.userAction = NoticeAction(title: NoticeActionType.retry.title, action: action)
+        errorView.show()
+    }
+    
+    public func hideError(animated: Bool = false) {
+        errorView.hide(animated, completion: nil)
     }
     
     fileprivate func addImageView() {
@@ -254,6 +273,13 @@ import UIKit
                               attr: .centerY)
         }
     }
+    
+    fileprivate func addErrorView() {
+        view.addSubview(errorView)
+        
+        Constraints.pin(view: errorView, toSuperView: view, positions: [.left, .right, .top])
+    }
+    
     fileprivate func showPDFInformationView(withDocument document: GiniPDFDocument,
                                             giniConfiguration: GiniConfiguration) {
         let pdfView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
