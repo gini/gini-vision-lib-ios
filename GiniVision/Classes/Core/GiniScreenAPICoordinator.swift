@@ -204,7 +204,12 @@ extension GiniScreenAPICoordinator {
     @objc func showAnalysisScreen() {
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
         
-        self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
+        if analysisViewController == nil {
+            analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
+        } else {
+            analysisViewController?.updateDocument(with: documentRequests[0].document)
+        }
+        
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
@@ -228,7 +233,6 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             if toVC == cameraViewController {
                 documentRequests.removeAll()
             }
-            analysisViewController = nil
             visionDelegate?.didCancelAnalysis()
         }
         
