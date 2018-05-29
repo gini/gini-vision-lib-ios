@@ -22,7 +22,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        guard let partialDocumentInfo = partialDocumentInfo else {
+        guard let partialDocumentInfo = partialDocumentInfo, partialDocumentInfo.documentUrl != nil else {
             pendingAnalysisHandler = completion
             return
         }
@@ -58,15 +58,17 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
         createDocument(from: document,
                        fileName: fileName) { result in
             switch result {
-            case .success(let document):
-                self.partialDocumentInfo?.documentUrl = document.links.document
+            case .success(let createdDocument):
+                self.partialDocumentInfo?.documentUrl = createdDocument.links.document
                 
                 if let handler = self.pendingAnalysisHandler {
                     self.startAnalysis(completion: handler)
                     self.pendingAnalysisHandler = nil
                 }
+                
+                completion?(.success(createdDocument))
             case .failure(let error):
-                Log(message: "Partial document creation error: \(error)", event: .error)
+                completion?(.failure(error))
             }
         }
     }

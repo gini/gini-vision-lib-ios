@@ -284,15 +284,14 @@ extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
-            
-            if document.type != .image {
+            self.update(document, withError: error, isUploaded: false)
+
+            if document.type != .image || !self.giniConfiguration.multipageEnabled {
                 guard let error = error as? GiniVisionError else { return }
                 self.displayError(withMessage: error.message, andAction: {
                     self.analysisViewController?.hideError()
                     self.didCaptureAndValidate(document)
                 })
-            } else {
-                self.update(document, withError: error, isUploaded: false)
             }
         }
     }
