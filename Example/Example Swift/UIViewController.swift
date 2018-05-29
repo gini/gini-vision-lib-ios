@@ -48,7 +48,8 @@ extension UIViewController {
             }
         case let visionError as CustomAnalysisError:
             message = visionError.message
-            confirmActionTitle = NSLocalizedString("ginivision.analysis.error.actionTitle",
+            confirmActionTitle = nil
+            cancelActionTitle = NSLocalizedString("ginivision.analysis.error.actionTitle",
                                                    bundle: Bundle(for: GiniVision.self),
                                                    comment: "Retry analysis")
         default:
