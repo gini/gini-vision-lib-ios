@@ -75,11 +75,11 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         }
     }
     
-    func fill(with documentRequest: DocumentRequest, errorAction: @escaping (NoticeActionType) -> Void) {
+    func fill(with documentRequest: DocumentRequest, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
         documentImage.image = documentRequest.document.previewImage
         
         if let error = documentRequest.error {
-            updateErrorView(with: error, errorAction: errorAction)
+            updateErrorView(with: error, didTapErrorNoticeAction: action)
             errorView.show(false)
         } else {
             errorView.hide(false, completion: nil)
@@ -87,7 +87,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     }
     
     func updateErrorView(with error: Error,
-                         errorAction: @escaping (NoticeActionType) -> Void) {
+                         didTapErrorNoticeAction: @escaping (NoticeActionType) -> Void) {
         let buttonTitle: String
         let action: NoticeActionType
         
@@ -116,7 +116,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         errorView.textLabel.text = message
         errorView.actionButton.setTitle(buttonTitle, for: .normal)
         errorView.userAction = NoticeAction(title: buttonTitle) {
-            errorAction(action)
+            didTapErrorNoticeAction(action)
         }
         errorView.layoutIfNeeded()
     }
