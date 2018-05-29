@@ -86,9 +86,7 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .photoLibraryAccessDenied:
-            return NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
-                                              comment: "This message is shown when" +
-                "Photo library permission is denied")
+            return GiniConfiguration.shared.photoLibraryAccessDeniedMessageText
         case .maxFilesPickedCountExceeded:
             return NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
                                               comment: "Message text error shown in" +
