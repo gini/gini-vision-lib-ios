@@ -43,7 +43,7 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 </br>
 
 ##### 1. Navigation bar
-- Title &#8594;  `GiniConfiguration.navigationBarCameraTitle`
+- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.title*</span> localized string
 - Close button
 	 - Image &#8594; <span style="color:#009EDF">*navigationCameraClose*</span> image asset
 	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.close*</span> localized string
@@ -53,15 +53,15 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 
 ##### 2. Camera preview
 - Guides color &#8594;  `GiniConfiguration.cameraPreviewCornerGuidesColor`
+- Focus large image &#8594; <span style="color:#009EDF">*cameraFocusLarge*</span> image asset
+- Focus large small &#8594; <span style="color:#009EDF">*cameraFocusSmall*</span> image asset
 
 ##### 3. Camera buttons container
-- Title &#8594;  `GiniConfiguration.navigationBarCameraTitle`
-- Close button
-	 - Image &#8594; <span style="color:#009EDF">*navigationCameraClose*</span> image asset
-	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.close*</span> localized string
-- Help button
-	- Image &#8594; <span style="color:#009EDF">*navigationCameraHelp*</span> image asset
-	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.help*</span> localized string
+- Capture button
+	 - Image &#8594; <span style="color:#009EDF">*cameraCaptureButton*</span> image asset
+- Import button
+	- Image &#8594; <span style="color:#009EDF">*documentImportButton*</span> image asset
+- Captured images stack indicator color &#8594; `GiniConfiguration.imagesStackIndicatorLabelTextcolor`
 
 ##### 4. QR code popup
 <br>
