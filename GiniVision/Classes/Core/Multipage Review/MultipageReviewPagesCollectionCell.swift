@@ -15,18 +15,6 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
     let stateViewSize = CGSize(width: 40, height: 40)
     
-    class func size(in collection: UICollectionView) -> CGSize {
-        let collectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
-        let height = collection.frame.height -
-            collectionInset.top -
-            collectionInset.bottom +
-            shadowHeight +
-            shadowRadius
-        let width = height * 11 / 20
-        
-        return CGSize(width: width, height: height)
-    }
-    
     lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -227,5 +215,17 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         } else {
             stateView.update(to: .loading)
         }
+    }
+    
+    class func size(in collection: UICollectionView) -> CGSize {
+        let collectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+        let height = collection.frame.height -
+            collectionInset.top -
+            collectionInset.bottom +
+            shadowHeight +
+        shadowRadius
+        let width = height * 11 / 20
+        
+        return CGSize(width: width, height: height)
     }
 }
