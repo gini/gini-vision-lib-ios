@@ -15,8 +15,7 @@ public protocol MultipageReviewViewControllerDelegate: class {
     func multipageReview(_ controller: MultipageReviewViewController,
                          didDelete documentRequest: DocumentRequest)
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: NoticeActionType,
-                         for documentRequest: DocumentRequest)
+                         didTapRetryUploadFor documentRequest: DocumentRequest)
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController)
 }
 
@@ -439,29 +438,32 @@ extension MultipageReviewViewController {
         }
     }
     
-    public func deleteItem(at indexPath: IndexPath, completion: (() -> Void)? = nil) {
+    fileprivate func deleteItem(at indexPath: IndexPath) {
         let documentToDelete = documentRequests[indexPath.row]
         documentRequests.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
         
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
-        }, completion: { [weak self] _ in
-            guard let `self` = self else { return }
+        }, completion: { _ in
             if self.documentRequests.count > 0 {
                 if indexPath.row != self.documentRequests.count {
-                    var indexes = IndexPath.indexesBetween(indexPath,
-                                                           and: IndexPath(row: self.documentRequests.count,
-                                                                          section: 0))
-                    indexes.append(indexPath)
-                    self.pagesCollection.reloadItems(at: indexes)
+                    self.reloadPagesStarting(from: indexPath)
                 }
                 
                 self.selectItem(at: min(indexPath.row, self.documentRequests.count - 1))
             }
+            
             self.delegate?.multipageReview(self, didDelete: documentToDelete)
-            completion?()
         })
+    }
+    
+    private func reloadPagesStarting(from indexPath: IndexPath) {
+        var indexes = IndexPath.indexesBetween(indexPath,
+                                               and: IndexPath(row: documentRequests.count,
+                                                              section: 0))
+        indexes.append(indexPath)
+        pagesCollection.reloadItems(at: indexes)
     }
 }
 
@@ -480,7 +482,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                                      for: indexPath) as? MultipageReviewMainCollectionCell
             let documentRequest = documentRequests[indexPath.row]
             cell?.fill(with: documentRequest) { action in
-                self.delegate?.multipageReview(self, didSelect: action, for: documentRequest)
+                switch action {
+                case .retry:
+                    self.delegate?.multipageReview(self, didTapRetryUploadFor: documentRequest)
+                case .retake:
+                    self.delegate?.multipageReviewDidTapAddImage(self)
+                    self.deleteItem(at: indexPath)
+                }
             }
             
             return cell!

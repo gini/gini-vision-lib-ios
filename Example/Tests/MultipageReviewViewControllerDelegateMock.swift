@@ -11,8 +11,7 @@ import Foundation
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didSelect errorAction: NoticeActionType,
-                         for documentRequest: DocumentRequest) {
+                         didTapRetryUploadFor documentRequest: DocumentRequest) {
         
     }
     
