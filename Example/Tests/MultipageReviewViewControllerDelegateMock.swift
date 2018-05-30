@@ -19,17 +19,17 @@ final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewContro
         
     }
     
-    var updatedDocuments: [DocumentRequest] = []
+    var updatedDocuments: [GiniVisionPage] = []
 
-    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [GiniVisionPage]) {
         updatedDocuments = documentRequests
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequests: DocumentRequest) {
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequests: GiniVisionPage) {
         
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequests: DocumentRequest) {
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequests: GiniVisionPage) {
         
     }
 }
