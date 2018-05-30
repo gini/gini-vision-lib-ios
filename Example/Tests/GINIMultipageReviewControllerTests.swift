@@ -13,13 +13,13 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.shared
     lazy var multipageReviewViewController: MultipageReviewViewController = {
-        let vc = MultipageReviewViewController(documentRequests: self.imageDocumentRequests,
+        let vc = MultipageReviewViewController(pages: self.imageDocumentRequests,
                                                giniConfiguration: self.giniConfiguration)
         _ = vc.view
         return vc
     }()
     
-    lazy var imageDocumentRequests: [DocumentRequest] = [
+    lazy var imageDocumentRequests: [GiniVisionPage] = [
         self.loadImageDocumentRequest(withName: "invoice"),
         self.loadImageDocumentRequest(withName: "invoice2"),
         self.loadImageDocumentRequest(withName: "invoice3")
@@ -144,7 +144,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolBarTintColor() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePagesContainerAndToolBarColor = .black
-        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+        let multipageReviewViewController = MultipageReviewViewController(pages: [],
                                                                           giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(multipageReviewViewController.toolBar.barTintColor,
@@ -155,7 +155,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testPagesContainerBackgroundColor() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePagesContainerAndToolBarColor = .black
-        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+        let multipageReviewViewController = MultipageReviewViewController(pages: [],
                                                                           giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(multipageReviewViewController.pagesCollectionContainer.backgroundColor,
@@ -166,7 +166,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolbarItemsColor() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipageToolbarItemsColor = .black
-        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+        let multipageReviewViewController = MultipageReviewViewController(pages: [],
                                                                           giniConfiguration: giniConfiguration)
         
         _ = multipageReviewViewController.view
@@ -179,7 +179,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     }
     
     func testDatasourceOnDelete() {
-        let vc = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        let vc = MultipageReviewViewController(pages: imageDocumentRequests,
                                                giniConfiguration: giniConfiguration)
         _ = vc.view
         vc.view.setNeedsLayout()
@@ -198,7 +198,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let expect = expectation(for: NSPredicate(value: true), evaluatedWith: delegateMock.updatedDocuments.isNotEmpty, handler: nil)
         let currentIndexPath = IndexPath(row: 0, section: 0)
         let destinationIndexPath = IndexPath(row: 2, section: 0)
-        var updatedImageDocument: [DocumentRequest] = []
+        var updatedImageDocument: [GiniVisionPage] = []
         
         multipageReviewViewController.delegate = delegateMock
         multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
@@ -229,7 +229,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testDeleteButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
         
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
@@ -242,7 +242,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testDeleteButtonEnabledWhenToolTipIsNotShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
@@ -255,7 +255,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testRotateButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
 
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
@@ -268,7 +268,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testRotateButtonEnabledWhenToolTipIsNotShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         multipageReviewViewController.viewDidAppear(false)
@@ -281,7 +281,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolTipShouldAppearTheFirstTime() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
         
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
@@ -293,7 +293,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     func testToolTipShouldNotAppearWhenItWasShownBefore() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
-        multipageReviewViewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+        multipageReviewViewController = MultipageReviewViewController(pages: imageDocumentRequests,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
