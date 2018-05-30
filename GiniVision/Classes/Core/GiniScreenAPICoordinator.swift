@@ -39,7 +39,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     // Properties
     fileprivate(set) var giniConfiguration: GiniConfiguration
-    fileprivate(set) var documentRequests: [DocumentRequest] = []
+    fileprivate(set) var pages: [GiniVisionPage] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
     
@@ -92,15 +92,15 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
             }
             
             if !documents.containsDifferentTypes {
-                let documentRequests: [DocumentRequest] = documents.map { DocumentRequest(value: $0) }
-                self.addToDocuments(new: documentRequests)
+                let pages: [GiniVisionPage] = documents.map { GiniVisionPage(document: $0) }
+                self.addToDocuments(new: pages)
                 if !giniConfiguration.openWithEnabled {
                     fatalError("You are trying to import a file from other app when the Open With feature is not " +
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
                 
-                documentRequests.forEach { visionDelegate?.didCapture(document: $0.document, uploadDelegate: self) }
-                viewControllers = initialViewControllers(with: documentRequests)
+                pages.forEach { visionDelegate?.didCapture(document: $0.document, uploadDelegate: self) }
+                viewControllers = initialViewControllers(with: pages)
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
                     "For now it is only possible to import either images or one PDF")
@@ -115,20 +115,20 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                                              parent: self)
     }
     
-    private func initialViewControllers(with documentRequests: [DocumentRequest]) -> [UIViewController] {
-        if documentRequests.type == .image {
+    private func initialViewControllers(with pages: [GiniVisionPage]) -> [UIViewController] {
+        if pages.type == .image {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
                 self.cameraViewController?
-                    .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage } )
+                    .replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage } )
                 
                 self.multiPageReviewViewController =
-                    createMultipageReviewScreenContainer(with: documentRequests)
+                    createMultipageReviewScreenContainer(with: pages)
                 
                 return [self.cameraViewController!, self.multiPageReviewViewController]
             } else {
                 self.cameraViewController = self.createCameraViewController()
-                self.reviewViewController = self.createReviewScreen(withDocument: documentRequests[0].document)
+                self.reviewViewController = self.createReviewScreen(withDocument: pages[0].document)
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
@@ -141,47 +141,47 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
 // MARK: - Session documents
 
 extension GiniScreenAPICoordinator {
-    func addToDocuments(new documentRequests: [DocumentRequest]) {
-        self.documentRequests.append(contentsOf: documentRequests)
+    func addToDocuments(new pages: [GiniVisionPage]) {
+        self.pages.append(contentsOf: pages)
         
-        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            refreshMultipageReviewNextButton(with: self.documentRequests)
-            multiPageReviewViewController.updateCollections(with: self.documentRequests)
+        if giniConfiguration.multipageEnabled, pages.type == .image {
+            refreshMultipageReviewNextButton(with: self.pages)
+            multiPageReviewViewController.updateCollections(with: self.pages)
         }
     }
     
     func removeFromDocuments(document: GiniVisionDocument) {
-        documentRequests.remove(document)
+        pages.remove(document)
         
-        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            refreshMultipageReviewNextButton(with: documentRequests)
+        if giniConfiguration.multipageEnabled, pages.type == .image {
+            refreshMultipageReviewNextButton(with: pages)
         }
     }
     
     func updateDocument(for document: GiniVisionDocument) {
-        if let index = documentRequests.index(of: document) {
-            documentRequests[index].document = document
+        if let index = pages.index(of: document) {
+            pages[index].document = document
         }
     }
     
     func update(_ document: GiniVisionDocument, withError error: Error?, isUploaded: Bool) {
-        if let index = documentRequests.index(of: document) {
-            documentRequests[index].isUploaded = isUploaded
-            documentRequests[index].error = error
+        if let index = pages.index(of: document) {
+            pages[index].isUploaded = isUploaded
+            pages[index].error = error
         }
         
-        if giniConfiguration.multipageEnabled, documentRequests.type == .image {
-            refreshMultipageReviewNextButton(with: documentRequests)
-            multiPageReviewViewController.updateCollections(with: documentRequests)
+        if giniConfiguration.multipageEnabled, pages.type == .image {
+            refreshMultipageReviewNextButton(with: pages)
+            multiPageReviewViewController.updateCollections(with: pages)
         }
     }
     
-    func replaceDocuments(with documentRequests: [DocumentRequest]) {
-        self.documentRequests = documentRequests
+    func replaceDocuments(with pages: [GiniVisionPage]) {
+        self.pages = pages
     }
     
     func clearDocuments() {
-        documentRequests.removeAll()
+        pages.removeAll()
     }
 }
 
@@ -207,10 +207,10 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-        guard let firstDocument = documentRequests.first?.document else {
+        guard let firstDocument = pages.first?.document else {
             return
         }
-        visionDelegate?.didReview(documents: documentRequests.map { $0.document })
+        visionDelegate?.didReview(documents: pages.map { $0.document })
         analysisViewController = createAnalysisScreen(withDocument: firstDocument)
         
         if let (message, action) = analysisErrorAndAction {
@@ -238,7 +238,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             // Going directly from the analysis to the camera means that
             // the document is not an image and should be removed
             if toVC == cameraViewController {
-                documentRequests.removeAll()
+                pages.removeAll()
             }
             
             analysisViewController = nil
@@ -248,7 +248,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         if fromVC == reviewViewController && toVC == cameraViewController {
             // This can only happen when not using multipage
             reviewViewController = nil
-            if let firstDocument = documentRequests.first?.document {
+            if let firstDocument = pages.first?.document {
                 if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
                     didCancelReviewForDocument(firstDocument)
                 } else {
@@ -282,7 +282,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         multiPageTransition.operation = operation
         
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
-            cameraVC.replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage })
+            cameraVC.replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
             if let (image, frame) = multipageVC.visibleMainCollectionImage(from: screenAPINavigationController.view) {
                 multiPageTransition.popImage = image
                 multiPageTransition.popImageFrame = frame
