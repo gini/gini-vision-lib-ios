@@ -37,7 +37,7 @@ public extension Collection where Iterator.Element == GiniVisionDocument {
     }
 }
 
-public extension Array where Iterator.Element == DocumentRequest {
+public extension Array where Iterator.Element == GiniVisionPage {
     
     mutating func remove(_ document: GiniVisionDocument) {
         if let documentIndex = (self.index { $0.document.id == document.id }) {

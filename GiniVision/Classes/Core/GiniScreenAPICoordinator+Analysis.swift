@@ -83,7 +83,7 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     }
     
     func tryDisplayNoResultsScreen() -> Bool {
-        if let visionDocument = documentRequests.first?.document, visionDocument.type == .image {
+        if let visionDocument = pages.first?.document, visionDocument.type == .image {
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self else { return }
                 self.imageAnalysisNoResultsViewController = self.createImageAnalysisNoResultsScreen()
