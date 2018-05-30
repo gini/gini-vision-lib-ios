@@ -128,14 +128,23 @@ import UIKit
      - parameter animated: Defines whether scrolling should be animated.
      */
     public func scrollToNextPage(_ animated: Bool) {
-        var offset = scrollView.contentOffset
-        offset.x += scrollView.frame.width
         // Make sure there is no overflow and scrolling only happens from page to page
-        guard offset.x < scrollView.contentSize.width &&
-            offset.x.truncatingRemainder(dividingBy: scrollView.frame.width) == 0 else {
-            return
+        if let nextOffset = nextPageOffset(), nextOffset.x < scrollView.contentSize.width {
+            scrollView.setContentOffset(nextOffset, animated: animated)
         }
-        scrollView.setContentOffset(offset, animated: animated)
+    }
+    
+    public func nextPageOffset() -> CGPoint? {
+        let pageSize = contentView.frame.size.width / CGFloat(pages.count)
+
+        for index in 1..<pages.count {
+            let pageOffset = CGFloat(index) * pageSize
+            if scrollView.contentOffset.x < pageOffset {
+                return CGPoint(x: pageOffset, y: scrollView.contentOffset.y)
+            }
+        }
+        
+        return nil
     }
     
     /**

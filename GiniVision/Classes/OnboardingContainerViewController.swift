@@ -57,6 +57,8 @@ internal class OnboardingContainerViewController: UIViewController, ContainerVie
         pageControl.numberOfPages = pages.count
         pageControl.currentPageIndicatorTintColor = giniConfiguration.onboardingCurrentPageIndicatorColor
         pageControl.pageIndicatorTintColor = giniConfiguration.onboardingPageIndicatorColor
+        pageControl.isUserInteractionEnabled = false
+        pageControl.isAccessibilityElement = false
         
         // Configure continue button
         let continueButtonResources =
