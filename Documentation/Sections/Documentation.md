@@ -15,18 +15,22 @@ The Gini Vision Library can be integrated in two ways, either by using the *Scre
 
 On *iPhone*, the Gini Vision Library has been designed for portrait orientation. In the Screen API, orientation is automatically forced to portrait when being displayed. In case you use the Component API, you should limit the view controllers orientation hosting the Component API's views to portrait orientation. This is specifically true for the camera view.
 
-##Contents
+## Contents
 
 * [Installation](installation.html)
-* [Customization guide](customization-guide.html)
-* [Updating to 3.2](updating-to-32.html)
-* [Open with guide](open-with-guide.html)
-* [Import PDFs and Images guide](import-pdfs-and-images-guide.html)
-* [QR Code scanning guide](qr-code-scanning-guide.html)
+* [Integration](integration.html)
 * [Changelog](changelog.html)
 * [License](license.html)
+* Guides
+  - [Customization guide](customization-guide.html)
+  - [Import PDFs and Images guide](import-pdfs-and-images-guide.html)
+  - [Open with guide](open-with-guide.html)
+  - [QR Code scanning guide](qr-code-scanning-guide.html)
+* Migration guides
+  - [Updating to 4.0](updating-to-40.html)
+  - [Updating to 3.2](updating-to-32.html)
 
-##API
+## API
 
 * [Classes](Classes.html)
 * [Enums](Enums.html)
