@@ -3,32 +3,15 @@ Installation
 
 Gini Vision Library can either be installed by using CocoaPods or by manually dragging the required files to your project.
 
-**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file. For more information see the [Integration Guide](http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk) of the Gini iOS SDK.
-
-## Swift versions
-
-The Gini Vision Library is entirely (re-)written in **Swift 3**. **Swift 2.3** support can be found in a separate branch or the `2.3.3-beta` release. Please keep in mind that these versions are deprecated and will not receive any new features or bug fixes.
-
-The last **Swift 2.2** release is `2.0.3`.
-
-If you use CocoaPods you can specify a branch with:
-
-```ruby
-pod 'GiniVision', :git => 'https://github.com/gini/gini-vision-lib-ios.git', :branch => 'swift-2.3' # or use 'swift3'
-```
-
 ## CocoaPods
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
 
 ```bash
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required to build Gini Vision Library.
-
-
-To integrate Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
+To integrate the Gini Vision Library into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
 ```ruby
 source 'https://github.com/gini/gini-podspecs.git'
@@ -38,6 +21,15 @@ pod "GiniVision"
 ```
 
 **Note:** You need to add Gini's podspec repository as a source.
+
+In case that you want to use the networking module of the Gini Vision Library, which integrates the whole process of analysis for the **Screen API** (see the [Integratios guide]() for more info), you have to **add** one of these below `pod "GiniVision"`:
+```ruby
+pod "GiniVision/Networking"
+```
+or
+```ruby
+pod "GiniVision/Networking+Pinning"
+```
 
 Then run the following command:
 

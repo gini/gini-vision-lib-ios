@@ -21,7 +21,7 @@ Further documentation with installation, integration or customization guides can
 
 ## Example
 
-We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. To run the example projects, clone the repo and run `pod install` from the Example directory first.
+We are providing example apps for Swift and Objective-C. These apps demonstrate how to integrate the Gini Vision Library with the Screen API and Component API. To run the example project, clone the repo and run `pod install` from the Example directory first.
 To inject your API credentials into the Example app, just add to the Example directory the `Credentials.plist` file with the following format:
 
 <img border=1 src=credentials_plist_format.png/>
@@ -43,6 +43,6 @@ Gini GmbH, hello@gini.net
 
 ## License
 
-The Gini Vision Library for iOS is licensed under a Private License. See the LICENSE file for more info.
+The Gini Vision Library for iOS is licensed under a Private License. See [the license](http://developer.gini.net/gini-vision-lib-ios/docs/license.html) for more info.
 
 **Important:** Always make sure to ship all license notices and permissions with your application.
