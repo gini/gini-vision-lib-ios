@@ -15,9 +15,15 @@ DEPENDENCIES:
   - Gini-iOS-SDK
   - GiniVision (from `../`)
 
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Bolts
+  https://github.com/gini/gini-podspecs.git:
+    - Gini-iOS-SDK
+
 EXTERNAL SOURCES:
   GiniVision:
-    :path: ../
+    :path: "../"
 
 SPEC CHECKSUMS:
   Bolts: aac24961496d504aa56fc267cde95162a71bac39
@@ -26,4 +32,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 06f7834b2b47d77f0913939fdb40daff97ddd35b
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.2
