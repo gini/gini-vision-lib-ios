@@ -199,7 +199,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
     
-    func setUp(with documentRequest: DocumentRequest, at index: Int, giniConfiguration: GiniConfiguration) {
+    func setUp(with page: GiniVisionPage, at index: Int, giniConfiguration: GiniConfiguration) {
         if let image = page.document.previewImage {
             documentImage.contentMode = image.size.width > image.size.height ?
                 .scaleAspectFit :

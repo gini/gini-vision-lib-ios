@@ -548,7 +548,6 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
             cell?.setUp(with: pages[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
-
             return cell!
         }
     }
