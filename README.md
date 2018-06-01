@@ -17,7 +17,7 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
 
 ## Documentation
 
-Further documentation can be found in our [website](http://developer.gini.net/gini-vision-lib-ios/docs/)
+Further documentation with installation, integration or customization guides can be found in our [website](http://developer.gini.net/gini-vision-lib-ios/docs/).
 
 ## Example
 
