@@ -231,16 +231,13 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageIndicatorColor = .black
         giniConfiguration.multipagePageBackgroundColor = .red
-        let vc = MultipageReviewViewController(documentRequests: imageDocumentRequests,
-                                               giniConfiguration: giniConfiguration)
-        _ = vc.view
+        let viewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                                           giniConfiguration: giniConfiguration)
+        _ = viewController.view
         
-        let cell = multipageReviewViewController
+        let cell = viewController
             .collectionView(multipageReviewViewController.pagesCollection,
                             cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        cell?.fill(with: imageDocumentRequests[0],
-                   at: 0,
-                   giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell?.pageIndicatorLabel.textColor, giniConfiguration.multipagePageIndicatorColor,
                        "page cell indicator color should match the one specified in the configuration")
