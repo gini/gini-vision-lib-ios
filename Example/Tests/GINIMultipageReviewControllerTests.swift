@@ -249,6 +249,7 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
     
     func testDeleteButtonDisabledWhenToolTipIsShown() {
         ToolTipView.shouldShowReorderPagesButtonToolTip = true
+        
         multipageReviewViewController = MultipageReviewViewController(pages: imagePages,
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
