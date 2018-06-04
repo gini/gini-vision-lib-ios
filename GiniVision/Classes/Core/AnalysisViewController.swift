@@ -113,7 +113,7 @@ import UIKit
     }
     
     /**
-     Designated intitializer for the `AnalysisViewController`.
+     Convenience intitializer for the `AnalysisViewController`.
      
      - parameter document: Reviewed document ready for analysis.
      
