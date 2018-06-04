@@ -218,6 +218,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Enumerations.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/OpaqueViewStyle.html">OpaqueViewStyle</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -227,7 +235,8 @@
             <h1>OnboardingViewController</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">OnboardingViewController</span><span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">OnboardingViewController</span> <span class="p">:</span> <span class="kt">UIViewController</span></code></pre>
 
                 </div>
               </div>
@@ -243,14 +252,14 @@ it is also possible to add a custom page control and update the current page acc
 
 <p>Use the <code><a href="../Classes/OnboardingPage.html">OnboardingPage</a></code> class to quickly create custom onboarding pages in a nice consistent design.
 See below how easy it is to present an custom onboarding view controller.</p>
-<pre class="highlight plaintext"><code>let pages = [
-    OnboardingPage(image: myOnboardingImage1, text: "My Onboarding Page 1"),
-    OnboardingPage(image: myOnboardingImage2, text: "My Onboarding Page 2"),
-    OnboardingPage(image: myOnboardingImage3, text: "My Onboarding Page 3")
-    OnboardingPage(image: myOnboardingImage4, text: "My Onboarding Page 4")
-]
-let onboardingController = OnboardingViewController(pages: pages, scrollViewDelegate: self)
-presentViewController(onboardingController, animated: true, completion: nil)
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">pages</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="kt">OnboardingPage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">myOnboardingImage1</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="s">"My Onboarding Page 1"</span><span class="p">),</span>
+    <span class="kt">OnboardingPage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">myOnboardingImage2</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="s">"My Onboarding Page 2"</span><span class="p">),</span>
+    <span class="kt">OnboardingPage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">myOnboardingImage3</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="s">"My Onboarding Page 3"</span><span class="p">)</span>
+    <span class="kt">OnboardingPage</span><span class="p">(</span><span class="nv">image</span><span class="p">:</span> <span class="n">myOnboardingImage4</span><span class="p">,</span> <span class="nv">text</span><span class="p">:</span> <span class="s">"My Onboarding Page 4"</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="k">let</span> <span class="nv">onboardingController</span> <span class="o">=</span> <span class="kt">OnboardingViewController</span><span class="p">(</span><span class="nv">pages</span><span class="p">:</span> <span class="n">pages</span><span class="p">,</span> <span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+<span class="nf">presentViewController</span><span class="p">(</span><span class="n">onboardingController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
 </code></pre>
 
 <p><strong>Text resources for this screen</strong></p>
@@ -308,7 +317,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scrollView</span> <span class="o">=</span> <span class="kt">UIScrollView</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">scrollView</span><span class="p">:</span> <span class="kt">UIScrollView</span></code></pre>
 
                         </div>
                       </div>
@@ -335,7 +344,7 @@ presentViewController(onboardingController, animated: true, completion: nil)
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">pages</span> <span class="o">=</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">]()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">pages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -363,7 +372,7 @@ views which will be displayed in horizontal scroll view.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">pages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">],</span> <span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">pages</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIView</span><span class="p">],</span> <span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -427,7 +436,7 @@ of views as the onboarding pages.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">scrollViewDelegate</span><span class="p">:</span> <span class="kt">UIScrollViewDelegate</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -483,7 +492,7 @@ the functionality provided by the Gini Vision Library.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">required</span> <span class="nf">init</span><span class="p">?(</span><span class="n">coder</span> <span class="nv">aDecoder</span><span class="p">:</span> <span class="kt">NSCoder</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -510,7 +519,7 @@ the functionality provided by the Gini Vision Library.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">scrollToNextPage</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">scrollToNextPage</span><span class="p">(</span><span class="n">_</span> <span class="nv">animated</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -539,6 +548,33 @@ the functionality provided by the Gini Vision Library.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10GiniVision24OnboardingViewControllerC14nextPageOffsetSC7CGPointVSgyF"></a>
+                    <a name="//apple_ref/swift/Method/nextPageOffset()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision24OnboardingViewControllerC14nextPageOffsetSC7CGPointVSgyF">nextPageOffset()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">nextPageOffset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">CGPoint</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/c:@M@GiniVision@objc(cs)OnboardingViewController(im)centerToPage:"></a>
                     <a name="//apple_ref/swift/Method/centerTo(page:)" class="dashAnchor"></a>
                     <a class="token" href="#/c:@M@GiniVision@objc(cs)OnboardingViewController(im)centerToPage:">centerTo(page:)</a>
@@ -556,7 +592,7 @@ the functionality provided by the Gini Vision Library.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">centerTo</span><span class="p">(</span><span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">centerTo</span><span class="p">(</span><span class="nv">page</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -571,8 +607,8 @@ the functionality provided by the Gini Vision Library.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-03-08)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini</a>. All rights reserved. (Last updated: 2018-06-13)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
