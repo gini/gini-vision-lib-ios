@@ -557,15 +557,15 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
 extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
     
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest) {
-        if let index = documentRequests.index(of: documentRequest.document) {
-            documentRequests[index].error = nil
+                         didTapRetryUploadFor page: GiniVisionPage) {
+        if let index = pages.index(of: page.document) {
+            pages[index].error = nil
             
-            if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
-                self.refreshMultipageReview(with: self.documentRequests)
+            if self.giniConfiguration.multipageEnabled, self.pages.type == .image {
+                self.refreshMultipageReview(with: self.pages)
             }
             
-            upload(documentRequests: [documentRequests[index]])
+            upload(pages: [pages[index]])
         }
     }
     

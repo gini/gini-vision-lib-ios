@@ -95,7 +95,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        let capturedImageDocument = loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         (coordinator.multiPageReviewViewController.pages[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
@@ -108,7 +108,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        let capturedImageDocument = loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
@@ -119,7 +119,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testMultipageImageDocumentWhenSortingDocuments() {
-        let capturedImageDocument = [loadImageDocumentRequest(withName: "invoice"), loadImageDocumentRequest(withName: "invoice")]
+        let capturedImageDocument = [loadImagePage(withName: "invoice"), loadImagePage(withName: "invoice")]
         let firstItemId = capturedImageDocument.first?.document.id
         coordinator.addToDocuments(new: capturedImageDocument)
         
