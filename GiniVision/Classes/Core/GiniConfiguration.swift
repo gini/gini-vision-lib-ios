@@ -320,6 +320,11 @@ import UIKit
     @objc public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
+     Sets the text color of the item selected background check
+     */
+    @objc public var galleryPickerItemSelectedBackgroundCheckColor = Colors.Gini.blue
+    
+    /**
      Sets the title text in the navigation bar on the camera screen.
      
      - note: Screen API only.
@@ -327,6 +332,11 @@ import UIKit
     @objc public var navigationBarCameraTitle =
         NSLocalizedStringPreferred("ginivision.navigationbar.camera.title",
                                    comment: "Title in the navigation bar on the camera screen")
+    
+    /**
+     Sets the color of the captured images stack indicator label
+     */
+    @objc public var imagesStackIndicatorLabelTextcolor: UIColor = Colors.Gini.blue
     
     /**
      Sets the close button text in the navigation bar on the camera screen.
@@ -583,6 +593,28 @@ import UIKit
      Sets the color of the text appearing at the bottom of the review screen.
      */
     @objc public var reviewTextBottomColor = UIColor.white
+    
+    // MARK: Multipage options
+    
+    /**
+     Sets the color of the pages container and toolbar
+     */
+    @objc public var multipagePagesContainerAndToolBarColor = Colors.Gini.pearl
+    
+    /**
+     Sets the tint color of the toolbar items
+     */
+    @objc public var multipageToolbarItemsColor = Colors.Gini.blue
+    
+    /**
+     Sets the tint color of the page indicator
+     */
+    @objc public var multipagePageIndicatorColor = Colors.Gini.blue
+    
+    /**
+     Sets the tint color of the page background
+     */
+    @objc public var multipagePageBackgroundColor = UIColor.white
     
     // MARK: Analysis options
     

@@ -137,7 +137,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return label
     }()
     lazy var capturedImagesStackView: CapturedImagesStackView = {
-        let view = CapturedImagesStackView(frame: .zero)
+        let view = CapturedImagesStackView(giniConfiguration: giniConfiguration)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.didTapImageStackButton = { [weak self] in
@@ -279,7 +279,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func loadView() {
         super.loadView()
         edgesForExtendedLayout = []
-        view.backgroundColor = .black
+        view.backgroundColor = giniConfiguration.backgroundColor
         
         if let validCamera = camera {
             cameraState = .valid

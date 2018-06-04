@@ -21,6 +21,7 @@ final class CapturedImagesStackView: UIView {
         }
     }()
     var didTapImageStackButton: (() -> Void)?
+    fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let stackCountCircleSize = CGSize(width: 25, height: 25)
     fileprivate var imagesCount: Int = 0
     
@@ -45,10 +46,10 @@ final class CapturedImagesStackView: UIView {
         return view
     }()
     
-    fileprivate lazy var stackIndicatorLabel: UILabel = {
+    lazy var stackIndicatorLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Colors.Gini.blue
+        label.textColor = giniConfiguration.imagesStackIndicatorLabelTextcolor
         return label
     }()
     
@@ -77,8 +78,9 @@ final class CapturedImagesStackView: UIView {
         return label
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(giniConfiguration: GiniConfiguration = .shared) {
+        self.giniConfiguration = giniConfiguration
+        super.init(frame: .zero)
         addSubview(thumbnailStackBackgroundView)
         addSubview(thumbnailButton)
         addSubview(stackIndicatorCircleView)

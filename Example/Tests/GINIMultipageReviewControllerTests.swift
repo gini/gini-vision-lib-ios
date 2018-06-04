@@ -141,13 +141,46 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Fifth toolbar item should be the deleteButton")
     }
     
-    func testToolBarAndPagesCollectionContainerColors() {
-        XCTAssertEqual(multipageReviewViewController.toolBar.barTintColor, multipageReviewViewController.pagesCollectionContainer.backgroundColor,
-                       "toolbar and pages collection container background colors should match")
+    func testToolBarTintColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.multipagePagesContainerAndToolBarColor = .black
+        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+                                                                          giniConfiguration: giniConfiguration)
+        
+        XCTAssertEqual(multipageReviewViewController.toolBar.barTintColor,
+                       giniConfiguration.multipagePagesContainerAndToolBarColor,
+                       "toolbar tint color should match the one specified in the configuration")
+    }
+    
+    func testPagesContainerBackgroundColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.multipagePagesContainerAndToolBarColor = .black
+        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+                                                                          giniConfiguration: giniConfiguration)
+        
+        XCTAssertEqual(multipageReviewViewController.pagesCollectionContainer.backgroundColor,
+                       giniConfiguration.multipagePagesContainerAndToolBarColor,
+                       "pages container background color should match the one specified in the gini configuration")
+    }
+    
+    func testToolbarItemsColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.multipageToolbarItemsColor = .black
+        let multipageReviewViewController = MultipageReviewViewController(documentRequests: [],
+                                                                          giniConfiguration: giniConfiguration)
+        
+        _ = multipageReviewViewController.view
+        XCTAssertEqual((multipageReviewViewController.deleteButton.customView as? UIButton)?.tintColor,
+                       giniConfiguration.multipageToolbarItemsColor,
+                       "delete button tint color should match the one specified in the gini configuration")
+        XCTAssertEqual((multipageReviewViewController.rotateButton.customView as? UIButton)?.tintColor,
+                       giniConfiguration.multipageToolbarItemsColor,
+                       "rotate button tint color should match the one specified in the gini configuration")
     }
     
     func testDatasourceOnDelete() {
-        let vc = MultipageReviewViewController(documentRequests: imageDocumentRequests, giniConfiguration: giniConfiguration)
+        let vc = MultipageReviewViewController(documentRequests: imageDocumentRequests,
+                                               giniConfiguration: giniConfiguration)
         _ = vc.view
         vc.view.setNeedsLayout()
         vc.view.layoutIfNeeded()
@@ -191,7 +224,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Third cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
-        
     }
     
     func testDeleteButtonDisabledWhenToolTipIsShown() {

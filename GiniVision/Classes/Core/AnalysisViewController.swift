@@ -67,10 +67,10 @@ import UIKit
         indicatorView.startAnimating()
         return indicatorView
     }()
-    fileprivate var loadingIndicatorText: UILabel = {
+    fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
-        loadingText.text = GiniConfiguration.shared.analysisLoadingText
-        loadingText.font = GiniConfiguration.shared.customFont.regular.withSize(18)
+        loadingText.text = giniConfiguration.analysisLoadingText
+        loadingText.font = giniConfiguration.customFont.regular.withSize(18)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
         return loadingText
@@ -95,18 +95,32 @@ import UIKit
     }()
     
     fileprivate let document: GiniVisionDocument
+    fileprivate let giniConfiguration: GiniConfiguration
     var didShowAnalysis: (() -> Void)?
     
     /**
      Designated intitializer for the `AnalysisViewController`.
      
      - parameter document: Reviewed document ready for analysis.
+     - parameter giniConfiguration: `GiniConfiguration` instance.
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(document: GiniVisionDocument) {
+    public init(document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
         self.document = document
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    /**
+     Convenience intitializer for the `AnalysisViewController`.
+     
+     - parameter document: Reviewed document ready for analysis.
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
+    public convenience init(document: GiniVisionDocument) {
+        self.init(document: document, giniConfiguration: GiniConfiguration.shared)
     }
     
     /**
@@ -135,24 +149,24 @@ import UIKit
         super.loadView()
         imageView.image = document.previewImage
         edgesForExtendedLayout = []
-        view.backgroundColor = .black
+        view.backgroundColor = giniConfiguration.backgroundColor
         
         // Configure view hierachy
         addImageView()
         
         if let document = document as? GiniPDFDocument {
             addLoadingView(intoContainer: loadingIndicatorContainer)
-            loadingIndicatorView.color = GiniConfiguration.shared.analysisLoadingIndicatorColor
+            loadingIndicatorView.color = giniConfiguration.analysisLoadingIndicatorColor
             
             showPDFInformationView(withDocument: document,
-                                   giniConfiguration: GiniConfiguration.shared)
+                                   giniConfiguration: giniConfiguration)
         } else {
             addLoadingView()
             addLoadingText(below: loadingIndicatorView)
             addOverlay()
             
             if document.type == .image {
-                showCaptureSuggestions(giniConfiguration: GiniConfiguration.shared)
+                showCaptureSuggestions(giniConfiguration: giniConfiguration)
             }
         }
     }
