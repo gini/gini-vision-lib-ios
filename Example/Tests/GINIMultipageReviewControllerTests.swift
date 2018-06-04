@@ -224,26 +224,6 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
                        "Third cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
-        
-    }
-    
-    func testPageCellColors() {
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.multipagePageIndicatorColor = .black
-        giniConfiguration.multipagePageBackgroundColor = .red
-        let viewController = MultipageReviewViewController(documentRequests: imageDocumentRequests,
-                                                           giniConfiguration: giniConfiguration)
-        _ = viewController.view
-        
-        let cell = viewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        
-        XCTAssertEqual(cell?.pageIndicatorLabel.textColor, giniConfiguration.multipagePageIndicatorColor,
-                       "page cell indicator color should match the one specified in the configuration")
-        
-        XCTAssertEqual(cell?.bottomContainer.backgroundColor, giniConfiguration.multipagePageBackgroundColor,
-                       "page cell background color should match the one specified in the configuration")
     }
     
     func testDeleteButtonDisabledWhenToolTipIsShown() {
