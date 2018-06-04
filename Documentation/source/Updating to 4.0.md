@@ -25,4 +25,6 @@ more complexity to them. That is why now every screen of the Gini Vision Library
 #### Camera screen
 * To improve the navigation between screens, the file import pickers has been decoupled from the `CameraViewController` and they are now handled by a `DocumentPickerCoordinator`.
 In case that you want to use both pickers, you have to use the `CameraViewController.init(giniConfiguration:)` initializer and set the `CameraViewControllerDelegate` to get the selected picker in the `CameraViewControllerDelegate.camera(_:didSelect:)` method.
-* Now document validation should be handled outside of the `CameraViewController`. When capturing and validating a `GiniQRCodeDocument`, you can show the dialog afterwards with the `CameraViewController.showPopup(forQRDetected:didTapDone:)` method.
+* Now document validation should be handled outside of the `CameraViewController`. After capturing and validating a `GiniQRCodeDocument`, you can show the QR Code popup with the `CameraViewController.showPopup(forQRDetected:didTapDone:)` method.
+* To enable _Drag&Drop_ just call the `DocumentPickerCoordinator.setupDragAndDrop(in:)` method, passing the view that will handle the drop interaction (we recommend to pass the `CameraViewController.view`).
+* Since it has been introduce a custom image picker to support multiple selection, you can start caching the album images calling the `DocumentPickerCoordinator.startCaching()` method when creating the coordinator and only if the gallery access permission is granted before (`DocumentPickerCoordinator.isGalleryPermissionGranted`).
