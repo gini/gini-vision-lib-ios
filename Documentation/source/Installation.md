@@ -22,7 +22,7 @@ pod "GiniVision"
 
 **Note:** You need to add Gini's podspec repository as a source.
 
-In case that you want to use the networking module of the Gini Vision Library, which integrates the whole process of analysis for the **Screen API** (see the [Integratios guide]() for more info), you have to **add** one of these below `pod "GiniVision"`:
+In case that you want to use the networking module of the Gini Vision Library, which integrates the whole process of analysis for the **Screen API** (see the [Integration guide]() for more info), you have to **add** one of these below `pod "GiniVision"`:
 ```ruby
 pod "GiniVision/Networking"
 ```
