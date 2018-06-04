@@ -67,7 +67,7 @@ import UIKit
         indicatorView.startAnimating()
         return indicatorView
     }()
-    fileprivate var loadingIndicatorText: UILabel = {
+    fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
         loadingText.text = giniConfiguration.analysisLoadingText
         loadingText.font = giniConfiguration.customFont.regular.withSize(18)
