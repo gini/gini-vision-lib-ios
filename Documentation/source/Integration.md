@@ -47,3 +47,8 @@ let giniConfiguration = GiniConfiguration()
 .
 GiniVision.setConfiguration(giniConfiguration)
 ```
+
+The components that can be found in the library are:
+* **Camera**: The actual camera screen to capture the image of the document, to import a PDF or an image or to scan a QR Code.
+* **Review**: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction.
+* **Analysis**: Provides a UI for the analysis process of the document by showing the user capture tips when an image is analyzed or the document information when it is a PDF. In both cases an image preview of the document analyzed will be shown.
