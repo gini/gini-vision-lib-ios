@@ -11,8 +11,8 @@ In order to use the new Multipage feature, you have to update the [Gini iOS SDK]
 * And now every `BFTask` has a specific type for the result, `BFTask<ResultType>`. i.e: `BFTask<GINIDocument>`
 
 ### Only Screen API
-
 #### GiniVisionDelegate
+
 * `GiniVisionDelegate.didCapture(_:)` and `GiniVisionDelegate.didCapture(document:)` are replaced with `GiniVisionDelegate.didCapture(document:uploadDelegate:)`
 * `GiniVisionDelegate.didReview(_:withChanges:)` and `GiniVisionDelegate.didReview(document:withChanges:)` are replaced by `GiniVisionDelegate.didReview(documents:)`
 * `GiniVisionDelegate.didCancelReview()` is replaced by `GiniVisionDelegate.didCancelReview(for:)``
@@ -20,8 +20,9 @@ In order to use the new Multipage feature, you have to update the [Gini iOS SDK]
 ### Only Component API
 
 This version adds new screens and new features to old screens, adding
-more complexity to them. That is why now every screen of the Gini Vision Library has a `delegate` to handle every interaction with it from the outside, making the communication with it more extensible and clearer.
+more complexity to them. That is why now every screen of the Gini Vision Library has a `delegate` to handle every interaction from the outside, making the communication with it more extensible and clearer.
 
 #### Camera screen
-To improve the navigation between screens, the file import pickers has been decoupled from the `CameraViewController` and they are now handled by a `DocumentPickerCoordinator`.
+* To improve the navigation between screens, the file import pickers has been decoupled from the `CameraViewController` and they are now handled by a `DocumentPickerCoordinator`.
 In case that you want to use both pickers, you have to use the `CameraViewController.init(giniConfiguration:)` initializer and set the `CameraViewControllerDelegate` to get the selected picker in the `CameraViewControllerDelegate.camera(_:didSelect:)` method.
+* Now document validation should be handled outside of the `CameraViewController`. When capturing and validating a `GiniQRCodeDocument`, you can show the dialog afterwards with the `CameraViewController.showPopup(forQRDetected:didTapDone:)` method.
