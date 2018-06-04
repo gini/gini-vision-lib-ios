@@ -339,7 +339,7 @@ import UIKit
                                    comment: "Title in the navigation bar on the camera screen")
     
     /**
-     Sets the text color of the captured images stack indicator label
+     Sets the color of the captured images stack indicator label
      */
     @objc public var imagesStackIndicatorLabelTextcolor: UIColor = Colors.Gini.blue
     
