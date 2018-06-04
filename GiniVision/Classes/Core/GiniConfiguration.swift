@@ -174,7 +174,7 @@ import UIKit
     
     /**
      Sets the font of all notices. Notices are small pieces of information appearing underneath the navigation bar.
-     - Warning: Deprecated, use GiniConfiguration.customFont instead
+     - Warning: Deprecated, use the GiniConfiguration.customFont instead
 
      */
     @objc public var noticeFont = UIFontPreferred(.regular, andSize: 12)
@@ -188,7 +188,7 @@ import UIKit
     /**
      Sets the descriptional text when photo library access was denied, advising the
      user to authorize the photo library access in the settings application.
-     - Warning: Deprecated, use ginivision.camera.filepicker.photoLibraryAccessDenied localized string instead
+     - Warning: Deprecated, use the ginivision.camera.filepicker.photoLibraryAccessDenied localized string instead
 
      */
     @objc public var photoLibraryAccessDeniedMessageText =
@@ -214,7 +214,7 @@ import UIKit
     /**
      Sets the text for the accessibility label of the capture button which allows
      the user to capture an image of a document.
-     - Warning: Deprecated, use ginivision.camera.captureButton localized string instead
+     - Warning: Deprecated, use the ginivision.camera.captureButton localized string instead
 
      - note: Used exclusively for accessibility label.
      */
@@ -226,7 +226,7 @@ import UIKit
     /**
      Sets the descriptional text when camera access was denied, advising the user to
      authorize the camera in the settings application.
-     - Warning: Deprecated, use ginivision.camera.notAuthorized localized string instead
+     - Warning: Deprecated, use the ginivision.camera.notAuthorized localized string instead
 
      */
     @objc public var cameraNotAuthorizedText =
@@ -237,7 +237,7 @@ import UIKit
     /**
      Sets the font of the descriptional text when camera access was denied.
      
-     - Warning: Deprecated, use GiniConfiguration.customFont instead
+     - Warning: Deprecated, use the GiniConfiguration.customFont instead
      
      */
     @objc public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
@@ -249,7 +249,7 @@ import UIKit
     
     /**
      Sets the button title when camera access was denied, clicking the button will open the settings application.
-     - Warning: Deprecated, use ginivision.camera.notAuthorizedButton localized string instead
+     - Warning: Deprecated, use the ginivision.camera.notAuthorizedButton localized string instead
 
      */
     @objc public var cameraNotAuthorizedButtonTitle =
@@ -258,7 +258,7 @@ import UIKit
     
     /**
      Sets the font of the button title when camera access was denied.
-     - Warning: Deprecated, use GiniConfiguration.customFont localized string instead
+     - Warning: Deprecated, use the GiniConfiguration.customFont localized string instead
 
      */
     @objc public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
@@ -275,7 +275,7 @@ import UIKit
     
     /**
      Sets the message text of a general document validation error, shown in camera screen.
-     - Warning: Deprecated, use ginivision.camera.documentValidationError.general localized string instead
+     - Warning: Deprecated, use the ginivision.camera.documentValidationError.general localized string instead
 
      */
     @objc public var documentValidationErrorGeneral =
@@ -285,7 +285,7 @@ import UIKit
     
     /**
      Sets the message text of a document validation error dialog when a file size is higher than 10MB
-     - Warning: Deprecated, use ginivision.camera.documentValidationError.excedeedFileSize localized string instead
+     - Warning: Deprecated, use the ginivision.camera.documentValidationError.excedeedFileSize localized string instead
 
      */
     @objc public var documentValidationErrorExcedeedFileSize =
@@ -295,7 +295,7 @@ import UIKit
     
     /**
      Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
-     - Warning: Deprecated, use ginivision.camera.documentValidationError.tooManyPages localized string instead
+     - Warning: Deprecated, use the ginivision.camera.documentValidationError.tooManyPages localized string instead
 
      */
     @objc public var documentValidationErrorTooManyPages =
@@ -306,7 +306,7 @@ import UIKit
     /**
      Sets the message text of a document validation error dialog when a file has a
      wrong format (neither PDF, JPEG, GIF, TIFF or PNG)
-     - Warning: Deprecated, use ginivision.camera.documentValidationError.wrongFormat localized string instead
+     - Warning: Deprecated, use the ginivision.camera.documentValidationError.wrongFormat localized string instead
 
      */
     @objc public var documentValidationErrorWrongFormat =
@@ -341,7 +341,7 @@ import UIKit
     
     /**
      Sets the title text in the navigation bar on the camera screen.
-     - Warning: Deprecated, use ginivision.navigationbar.camera.title localized string instead
+     - Warning: Deprecated, use the ginivision.navigationbar.camera.title localized string instead
 
      - note: Screen API only.
      */
@@ -386,7 +386,7 @@ import UIKit
     // MARK: Onboarding options
     /**
      Sets the title text in the navigation bar on the onboarding screen.
-     - Warning: Deprecated, use ginivision.navigationbar.onboarding.title localized string instead
+     - Warning: Deprecated, use the ginivision.navigationbar.onboarding.title localized string instead
 
      - note: Screen API only.
      */
@@ -429,7 +429,7 @@ import UIKit
     
     /**
      Sets the text on the first onboarding page.
-     - Warning: Deprecated, use ginivision.onboarding.firstPage localized string instead
+     - Warning: Deprecated, use the ginivision.onboarding.firstPage localized string instead
 
      */
     @objc public var onboardingFirstPageText =
@@ -438,7 +438,7 @@ import UIKit
     
     /**
      Sets the text on the second onboarding page.
-     - Warning: Deprecated, use ginivision.onboarding.secondPage localized string instead
+     - Warning: Deprecated, use the ginivision.onboarding.secondPage localized string instead
 
      */
     @objc public var onboardingSecondPageText =
@@ -447,7 +447,7 @@ import UIKit
     
     /**
      Sets the text on the third onboarding page.
-     - Warning: Deprecated, use ginivision.onboarding.thirdPage localized string instead
+     - Warning: Deprecated, use the ginivision.onboarding.thirdPage localized string instead
 
      */
     @objc public var onboardingThirdPageText =
@@ -456,7 +456,7 @@ import UIKit
     
     /**
      Sets the text on the fourth onboarding page. (It is the first on iPad)
-     - Warning: Deprecated, use ginivision.onboarding.fourthPage localized string instead
+     - Warning: Deprecated, use the ginivision.onboarding.fourthPage localized string instead
 
      */
     @objc public var onboardingFourthPageText =
@@ -465,7 +465,7 @@ import UIKit
     
     /**
      Sets the text on the fifth onboarding page.
-     - Warning: Deprecated, use ginivision.onboarding.fifthPage localized string instead
+     - Warning: Deprecated, use the ginivision.onboarding.fifthPage localized string instead
 
      */
     @objc public var onboardingFifthPageText =
@@ -474,7 +474,7 @@ import UIKit
     
     /**
      Sets the font of the text for all onboarding pages.
-     - Warning: Deprecated, use GiniConfiguration.customFont instead
+     - Warning: Deprecated, use the GiniConfiguration.customFont instead
 
      */
     @objc public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
@@ -525,7 +525,7 @@ import UIKit
     // MARK: Review options
     /**
      Sets the title text in the navigation bar on the review screen.
-     - Warning: Deprecated, use ginivision.navigationbar.review.title localized string instead
+     - Warning: Deprecated, use the ginivision.navigationbar.review.title localized string instead
 
      - note: Screen API only.
      */
@@ -557,7 +557,7 @@ import UIKit
     /**
      Sets the text appearing at the top of the review screen which should ask the user if the
      whole document is in focus and has correct orientation.
-     - Warning: Deprecated, use ginivision.review.top localized string instead
+     - Warning: Deprecated, use the ginivision.review.top localized string instead
 
      */
     @objc public var reviewTextTop =
@@ -567,7 +567,7 @@ import UIKit
     
     /**
      The text at the top of the review screen is displayed as a notice and can not be set individually.
-     - Warning: Deprecated, use GiniConfiguration.customFont instead
+     - Warning: Deprecated, use the GiniConfiguration.customFont instead
 
      - seeAlso: `noticeFont`
      */
@@ -578,7 +578,7 @@ import UIKit
     /**
      Sets the text for the accessibility label of the rotate button which allows
      the user to rotate the docuent into reading direction.
-     - Warning: Deprecated, use ginivision.review.rotateButton localized string instead
+     - Warning: Deprecated, use the ginivision.review.rotateButton localized string instead
 
      - note: Used exclusively for accessibility label.
      */
@@ -589,7 +589,7 @@ import UIKit
     
     /**
      Sets the text for the accessibility label of the document image view.
-     - Warning: Deprecated, use ginivision.review.documentImageTitle localized string instead
+     - Warning: Deprecated, use the ginivision.review.documentImageTitle localized string instead
 
      - note: Used exclusively for accessibility label.
      */
@@ -608,7 +608,7 @@ import UIKit
     /**
      Sets the text appearing at the bottom of the review screen which should encourage
      the user to check sharpness by double-tapping the image.
-     - Warning: Deprecated, use ginivision.review.bottom localized string instead
+     - Warning: Deprecated, use the ginivision.review.bottom localized string instead
 
      */
     @objc public var reviewTextBottom =
@@ -657,7 +657,7 @@ import UIKit
     
     /**
      Sets the text of the loading indicator on the analysis screen to the specified text.
-     - Warning: Deprecated, use ginivision.analysis.loadingText localized string instead
+     - Warning: Deprecated, use the ginivision.analysis.loadingText localized string instead
 
      */
     @objc public var analysisLoadingText =
@@ -677,7 +677,7 @@ import UIKit
     
     /**
      Sets the text appearing at the top of the analysis screen indicating pdf number of pages
-     - Warning: Deprecated, use ginivision.analysis.pdfpages localized string instead
+     - Warning: Deprecated, use the ginivision.analysis.pdfpages localized string instead
 
      */
     @objc public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
@@ -689,7 +689,7 @@ import UIKit
     
     /**
      Sets the title text in the navigation bar on the analysis screen.
-     - Warning: Deprecated, use ginivision.navigationbar.analysis.title localized string instead
+     - Warning: Deprecated, use the ginivision.navigationbar.analysis.title localized string instead
 
      - note: Screen API only.
      */

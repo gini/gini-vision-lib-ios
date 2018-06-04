@@ -29,7 +29,7 @@ import AVFoundation
                       didCapture document: GiniVisionDocument)
     
     /**
-     Called when a user select a picker from the picker selector sheet.
+     Called when a user selects a picker from the picker selector sheet.
      
      - parameter viewController: `CameraViewController` where the documents were taken.
      - parameter documentPicker: `DocumentPickerType` selected in the sheet.
@@ -473,19 +473,19 @@ extension CameraViewController {
     }
     
     /**
-     Replaces captured images stack content with new images.
+     Replaces the captured images stack content with new images.
      
-     - parameter images: New images shown in the stack. (Last image will be shown on top)
+     - parameter images: New images to be shown in the stack. (Last image will be shown on top)
      */
     public func replaceCapturedStackImages(with images: [UIImage]) {
         capturedImagesStackView.replaceStackImages(with: images)
     }
     
     /**
-     Used to show QR code popup once it has been validated
+     Used to show the QR code popup once it has been validated
      
-     - parameter qrDocument: `GiniQRCodeDocument` validated.
-     - parameter didTapDone: Block executed when the user taps _Done_ button to proceed with the `GiniQRCodeDocument`.
+     - parameter qrDocument: A validated `GiniQRCodeDocument`.
+     - parameter didTapDone: Block executed when the user taps the _Done_ button to proceed with the `GiniQRCodeDocument`.
      */
     func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         DispatchQueue.main.async { [weak self] in
@@ -545,8 +545,8 @@ extension CameraViewController {
         }
         
         if GiniConfiguration.DEBUG {
-            // Retrieve image from default image view to make sure image
-            // was set and therefor the correct states were checked before.
+            // Retrieves the image from default image view to make sure the image
+            // was set and therefore the correct states were checked before.
             if let image = self.defaultImageView?.image,
                 let imageData = UIImageJPEGRepresentation(image, 0.2) {
                 self.cameraDidCapture(imageData: imageData, error: nil)
