@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.3.3 (2018-06-01)
+------------------
+
+-   Fixed issue with Next button when using VoiceOver in the Onboarding screen.
+
 3.3.2 (2018-03-08)
 ------------------
 
