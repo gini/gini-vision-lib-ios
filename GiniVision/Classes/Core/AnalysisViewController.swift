@@ -95,7 +95,22 @@ import UIKit
     }()
     
     fileprivate let document: GiniVisionDocument
+    fileprivate let giniConfiguration: GiniConfiguration
     var didShowAnalysis: (() -> Void)?
+    
+    /**
+     Designated intitializer for the `AnalysisViewController`.
+     
+     - parameter document: Reviewed document ready for analysis.
+     - parameter giniConfiguration: `GiniConfiguration` instance.
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
+    public init(document: GiniVisionDocument, giniConfiguration: GiniConfiguration) {
+        self.document = document
+        self.giniConfiguration = giniConfiguration
+        super.init(nibName: nil, bundle: nil)
+    }
     
     /**
      Designated intitializer for the `AnalysisViewController`.
@@ -104,9 +119,8 @@ import UIKit
      
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
-    public init(document: GiniVisionDocument) {
-        self.document = document
-        super.init(nibName: nil, bundle: nil)
+    public convenience init(document: GiniVisionDocument) {
+        self.init(document: document, giniConfiguration: GiniConfiguration.shared)
     }
     
     /**
@@ -135,7 +149,7 @@ import UIKit
         super.loadView()
         imageView.image = document.previewImage
         edgesForExtendedLayout = []
-        view.backgroundColor = GiniConfiguration.shared.backgroundColor
+        view.backgroundColor = giniConfiguration.backgroundColor
         
         // Configure view hierachy
         addImageView()
