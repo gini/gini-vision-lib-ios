@@ -88,7 +88,7 @@ public final class DocumentPickerCoordinator: NSObject {
     private(set) public var currentPickerViewController: UIViewController?
     
     /**
-     Indicated if the user granted access to the gallery before. Used to start caching images before showing the Gallery
+     Indicates if the user granted access to the gallery before. Used to start caching images before showing the Gallery
      picker.
      */
     public var isGalleryPermissionGranted: Bool {

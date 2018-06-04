@@ -9,7 +9,7 @@ import Foundation
 
 /**
  Document request processed by the _Gini Vision Library_.
- It holds a document, an error (if any) and if it has been uploaded
+ It holds a document, an error (if any) and whether or not it has been uploaded.
  */
 public struct DocumentRequest {
     public var document: GiniVisionDocument
