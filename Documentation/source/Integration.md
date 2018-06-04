@@ -38,10 +38,12 @@ present(viewController, animated: true, completion: nil)
 
 The Component API provides a custom `UIViewController` for each screen. This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.
 
-To also use the `GiniConfiguration` with the Component API just use the `setConfiguration()` method of the `GiniVision` class.
+To also use the `GiniConfiguration` with the Component API just use the `GiniVision.setConfiguration(_:)` as follows:
 
 ```swift
 let giniConfiguration = GiniConfiguration()
-giniConfiguration.backgroundColor = UIColor.white
+.
+.
+.
 GiniVision.setConfiguration(giniConfiguration)
 ```
