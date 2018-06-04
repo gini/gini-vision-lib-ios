@@ -49,7 +49,7 @@ public protocol MultipageReviewViewControllerDelegate: class {
      - parameter page: Page where the error action has been triggered
      */
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest)
+                         didTapRetryUploadFor page: GiniVisionPage)
     
     /**
      Called when a user taps on the add page button
@@ -489,7 +489,7 @@ extension MultipageReviewViewController {
     
     private func reloadPagesStarting(from indexPath: IndexPath) {
         var indexes = IndexPath.indexesBetween(indexPath,
-                                               and: IndexPath(row: documentRequests.count,
+                                               and: IndexPath(row: pages.count,
                                                               section: 0))
         indexes.append(indexPath)
         pagesCollection.reloadItems(at: indexes)
@@ -547,9 +547,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-
-            cell?.setUp(with: documentRequests[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
-
+            cell?.setUp(with: pages[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
             return cell!
         }
     }

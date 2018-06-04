@@ -61,9 +61,9 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest) {
-        update(documentRequest.document, withError: nil, isUploaded: false)
-        visionDelegate?.didCapture(document: documentRequest.document, uploadDelegate: self)
+                         didTapRetryUploadFor page: GiniVisionPage) {
+        update(page.document, withError: nil, isUploaded: false)
+        visionDelegate?.didCapture(document: page.document, uploadDelegate: self)
     }
     
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {

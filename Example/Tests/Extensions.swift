@@ -39,7 +39,7 @@ internal extension XCTestCase {
         return GiniVisionPage(document: builder.build()!)
     }
     
-    func loadImageDocumentRequest(withName name: String) -> GiniVisionPage {
+    func loadImagePage(withName name: String) -> GiniVisionPage {
         return self.loadDocumentRequest(withName: name, fileExtension: "jpg")
     }
     
