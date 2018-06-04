@@ -24,4 +24,4 @@ more complexity to them. That is why now every screen of the Gini Vision Library
 
 #### Camera screen
 To improve the navigation between screens, the file import pickers has been decoupled from the `CameraViewController` and they are now handled by a `DocumentPickerCoordinator`.
-In case that you want to use both pickers, you have to use the `CameraViewController.init(giniConfiguration:)` and set the `CameraViewControllerDelegate` to get the selected picker in the `CameraViewControllerDelegate.camera(_:didSelect:)` method.
+In case that you want to use both pickers, you have to use the `CameraViewController.init(giniConfiguration:)` initializer and set the `CameraViewControllerDelegate` to get the selected picker in the `CameraViewControllerDelegate.camera(_:didSelect:)` method.
