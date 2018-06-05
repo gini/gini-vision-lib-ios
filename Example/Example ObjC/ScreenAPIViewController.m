@@ -63,7 +63,7 @@ NSString *kClientDomain = @"client_domain";
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
-                                              giniConfiguration:giniConfiguration
+                                                  configuration:giniConfiguration
                                                 resultsDelegate:self];
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
@@ -71,23 +71,20 @@ NSString *kClientDomain = @"client_domain";
     // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
 }
 
-- (void)giniVision:(NSArray<id<GiniVisionDocument>> *)documents
- analysisDidCancel:(BOOL)analysisDidCancel {
+- (void)giniVisionDidCancelAnalysis {
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)giniVision:(NSArray<id<GiniVisionDocument>> *)documents
-analysisDidFinishWithNoResults:(BOOL)showingNoResultsScreen {
+- (void)giniVisionAnalysisDidFinishWithoutResults:(BOOL)showingNoResultsScreen {
     if(!showingNoResultsScreen){
         [self presentResultsWithSendFeedbackBlock:nil];
     }
 }
 
-- (void)giniVision:(NSArray<id<GiniVisionDocument>> *)documents
-analysisDidFinishWithResults:(NSDictionary<NSString *,GINIExtraction *> *)results
-      sendFeedback:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedback {
+- (void)giniVisionAnalysisDidFinishWith:(NSDictionary<NSString *,GINIExtraction *> *)results
+                      sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
     _result = results;
-    [self presentResultsWithSendFeedbackBlock:sendFeedback];
+    [self presentResultsWithSendFeedbackBlock:sendFeedbackBlock];
 }
 
 - (void)presentResultsWithSendFeedbackBlock:(SendFeedbackBlock)sendFeedbackBlock {

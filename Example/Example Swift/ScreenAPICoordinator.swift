@@ -28,7 +28,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocuments: [GiniVisionDocument]?
     var visionConfiguration: GiniConfiguration
-    var sendFeedbackBlock: (([String : GINIExtraction]) -> ())?
+    var sendFeedbackBlock: (([String: GINIExtraction]) -> Void)?
     
     init(configuration: GiniConfiguration,
          importedDocuments documents: [GiniVisionDocument]?,
@@ -42,7 +42,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     func start() {
         let viewController = GiniVision.viewController(withClient: client,
                                                        importedDocuments: visionDocuments,
-                                                       giniConfiguration: visionConfiguration,
+                                                       configuration: visionConfiguration,
                                                        resultsDelegate: self)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
@@ -99,19 +99,18 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 // MARK: - GiniVisionResultsDelegate
 
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
-    func giniVision(_ documents: [GiniVisionDocument],
-                    analysisDidFinishWithResults results: [String : GINIExtraction],
-                    sendFeedback: @escaping ([String : GINIExtraction]) -> Void) {
+    func giniVisionAnalysisDidFinish(with results: [String: Extraction],
+                                     sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
         showResultsScreen(results: results)
-        sendFeedbackBlock = sendFeedback
+        self.sendFeedbackBlock = sendFeedbackBlock
     }
     
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool) {
+    func giniVisionDidCancelAnalysis() {
         delegate?.screenAPI(coordinator: self, didFinish: ())
     }
     
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showedNoResultsScreen: Bool) {
-        if !showedNoResultsScreen {
+    func giniVisionAnalysisDidFinishWithoutResults(_ showingNoResultsScreen: Bool) {
+        if !showingNoResultsScreen {
             let customNoResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
                 .instantiateViewController(withIdentifier: "noResultScreen") as? NoResultViewController)!
             customNoResultsScreen.delegate = self

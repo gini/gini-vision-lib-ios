@@ -445,7 +445,6 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         case .explorer:
             documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
-        case .dragndrop: break
         }
     }
 }
@@ -486,7 +485,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
                     self.cameraScreen?.showErrorDialog(for: error,
                                                        positiveAction: positiveAction)
                 } else {
-                    coordinator.rootViewController?.showErrorDialog(for: error,
+                    coordinator.currentPickerViewController?.showErrorDialog(for: error,
                                                                     positiveAction: positiveAction)
                 }
             }

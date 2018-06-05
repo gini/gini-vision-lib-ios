@@ -51,7 +51,9 @@ final class CaptureSuggestionsView: UIView {
         suggestionTitle.textColor = .white
         suggestionTitle.font = font.withSize(16)
         suggestionTitle.numberOfLines = 1
-        suggestionTitle.text = "Um schneller Ergebnisse zu erhalten, bitte:"
+        suggestionTitle.text = NSLocalizedString("ginivision.analysis.suggestion.header",
+                                                 bundle: Bundle(for: GiniVision.self),
+                                                 comment: "Forth suggestion text for analysis screen")
         suggestionTitle.textAlignment = .center
         suggestionTitle.adjustsFontSizeToFitWidth = true
         suggestionTitle.minimumScaleFactor = 14/16

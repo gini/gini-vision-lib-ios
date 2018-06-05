@@ -17,7 +17,7 @@ extension PartialDocumentInfo: Comparable {
         return lhs.info.documentUrl == rhs.info.documentUrl
     }
     
-    public static func < (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
+    static func < (lhs: PartialDocumentInfo, rhs: PartialDocumentInfo) -> Bool {
         return lhs.order < rhs.order
     }
 }

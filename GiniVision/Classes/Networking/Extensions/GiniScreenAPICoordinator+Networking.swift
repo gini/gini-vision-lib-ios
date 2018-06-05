@@ -8,12 +8,30 @@
 import Foundation
 import Gini_iOS_SDK
 
+/**
+ The GiniVisionResultsDelegate protocol defines methods that allow you to handle the analysis result.
+ */
 @objc public protocol GiniVisionResultsDelegate: class {
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidCancel: Bool)
-    func giniVision(_ documents: [GiniVisionDocument],
-                    analysisDidFinishWithResults results: [String: Extraction],
-                    sendFeedback: @escaping ([String: Extraction]) -> Void)
-    func giniVision(_ documents: [GiniVisionDocument], analysisDidFinishWithNoResults showingNoResultsScreen: Bool)
+    /**
+     Called when the analysis finished with results
+     
+     - parameter results: Dictionary with all the extractions
+     - parameter sendFeedbackBlock: Block used to send feeback once the results have been corrected
+     */
+    func giniVisionAnalysisDidFinish(with results: [String: Extraction],
+                                     sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
+    
+    /**
+     Called when the analysis finished without results.
+     
+     - parameter showingNoResultsScreen: Indicated if the `ImageAnalysisNoResultsViewController` has been shown
+     */
+    func giniVisionAnalysisDidFinishWithoutResults(_ showingNoResultsScreen: Bool)
+    
+    /**
+     Called when the analysis was cancelled.
+     */
+    func giniVisionDidCancelAnalysis()
 }
 
 extension GiniScreenAPICoordinator {
@@ -81,15 +99,13 @@ extension GiniScreenAPICoordinator {
             guard let `self` = self else { return }
             if hasExtactions {
                 self.resultsDelegate?
-                    .giniVision(self.documentRequests.map {$0.document},
-                                analysisDidFinishWithResults: result) { [weak self] updatedExtractions in
+                    .giniVisionAnalysisDidFinish(with: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
                                     self.documentService?.sendFeedback(with: updatedExtractions)
                 }
             } else {
                 self.resultsDelegate?
-                    .giniVision(self.documentRequests.map {$0.document},
-                                analysisDidFinishWithNoResults: self.tryDisplayNoResultsScreen())
+                    .giniVisionAnalysisDidFinishWithoutResults( self.tryDisplayNoResultsScreen())
             }
         }
     }
@@ -117,8 +133,7 @@ extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCancelCapturing() {
-        resultsDelegate?.giniVision([], analysisDidCancel: true)
-        
+        resultsDelegate?.giniVisionDidCancelAnalysis()        
     }
     
     func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {
