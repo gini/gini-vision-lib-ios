@@ -525,7 +525,12 @@ extension CameraViewController {
                 case .notAuthorizedToUseDevice:
                     addNotAuthorizedView()
                 default:
-                    if GiniConfiguration.DEBUG { cameraState = .valid; addDefaultImage() }
+                    if GiniConfiguration.DEBUG {
+                        cameraState = .valid;
+                        #if targetEnvironment(simulator)
+                            addDefaultImage()
+                        #endif
+                    }
                 }
                 self?.failureBlock?(error)
             }
@@ -547,10 +552,12 @@ extension CameraViewController {
         if GiniConfiguration.DEBUG {
             // Retrieves the image from default image view to make sure the image
             // was set and therefore the correct states were checked before.
+            #if targetEnvironment(simulator)
             if let image = self.defaultImageView?.image,
                 let imageData = UIImageJPEGRepresentation(image, 0.2) {
                 self.cameraDidCapture(imageData: imageData, error: nil)
             }
+            #endif
         }
         
         camera.captureStillImage(completion: self.cameraDidCapture)
