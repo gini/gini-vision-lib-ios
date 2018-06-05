@@ -9,19 +9,19 @@ import UIKit
 import Gini_iOS_SDK
 import GiniVision
 
-final class MultipageDocumentsService: DocumentServiceProtocol {
+final class MultipageDocumentsService: ComponentAPIDocumentServiceProtocol {
     
     var giniSDK: GiniSDK
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
-    var pendingAnalysisHandler: AnalysisCompletion?
+    var pendingAnalysisHandler: ComponentAPIAnalysisCompletion?
 
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
     }
     
-    func startAnalysis(completion: @escaping AnalysisCompletion) {
+    func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion) {
         let partialDocumentsInfoSorted = partialDocuments
             .lazy
             .map { $0.value }
@@ -94,7 +94,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
     }
     
     func upload(_ document: GiniVisionDocument,
-                completion: UploadDocumentCompletion?) {
+                completion: ComponentAPIUploadDocumentCompletion?) {
         let cancellationTokenSource = BFCancellationTokenSource()
         let token = cancellationTokenSource.token
         self.partialDocuments[document.id] =

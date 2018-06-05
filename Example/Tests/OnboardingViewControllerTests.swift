@@ -6,13 +6,17 @@
 //  Copyright © 2017 Gini GmbH. All rights reserved.
 //
 
-
 import XCTest
 @testable import GiniVision
 
 final class OnboardingViewControllerTests: XCTestCase {
     
-    var vc = OnboardingViewController(scrollViewDelegate: nil)
+    var vc: OnboardingViewController!
+    
+    override func setUp() {
+        super.setUp()
+        vc = OnboardingViewController(scrollViewDelegate: nil)
+    }
     
     func testConvenientInitialization() {
         XCTAssertNotNil(vc, "view controller should not be nil")

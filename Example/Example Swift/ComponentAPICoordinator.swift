@@ -22,7 +22,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return self.componentAPITabBarController
     }
     
-    fileprivate var documentService: DocumentServiceProtocol?
+    fileprivate var documentService: ComponentAPIDocumentServiceProtocol?
     fileprivate var pages: [GiniVisionPage]
     // When there was an error uploading a document or analyzing it and the analysis screen
     // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
@@ -80,28 +80,13 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     init(pages: [GiniVisionPage],
          configuration: GiniConfiguration,
-         client: GiniClient) {
+         documentService: ComponentAPIDocumentServiceProtocol) {
         self.pages = pages
         self.giniConfiguration = configuration
+        self.documentService = documentService
         super.init()
         
-        setupDocumentService(client: client, giniConfiguration: configuration)
         GiniVision.setConfiguration(configuration)
-    }
-    
-    func setupDocumentService(client: GiniClient,
-                              giniConfiguration: GiniConfiguration) {
-        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
-                                                   clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain)
-        
-        if let sdk = builder?.build() {
-            if giniConfiguration.multipageEnabled {
-                documentService = MultipageDocumentsService(sdk: sdk)
-            } else {
-                documentService = SinglePageDocumentsService(sdk: sdk)
-            }
-        }
     }
     
     func start() {
@@ -325,7 +310,7 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure:
-                    guard let firstGiniVisionPage = self.pages.first else { return }
+                    guard let firstPage = self.pages.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
 
                     self.showErrorInAnalysisScreen(with: visionError.message) {
@@ -444,23 +429,26 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         validate([document]) { result in
             switch result {
-            case .success(let pages):
-                if let qrCodeDocument = document as? GiniQRCodeDocument {
+            case .success(let validatedPages):
+                switch document {
+                case let qrCodeDocument as GiniQRCodeDocument:
                     viewController.showPopup(forQRDetected: qrCodeDocument) {
                         self.pages.removeAll()
-                        self.pages.append(contentsOf: pages)
-                        self.upload(pages: pages)
+                        self.pages.append(contentsOf: validatedPages)
+                        self.upload(pages: validatedPages)
                         self.showNextScreenAfterPicking()
                     }
-                } else if let imageDocument = document as? GiniImageDocument {
-                    self.pages.append(contentsOf: pages)
-                    self.upload(pages: pages)
+                case let imageDocument as GiniImageDocument:
+                    self.pages.append(contentsOf: validatedPages)
+                    self.upload(pages: validatedPages)
                     
                     if self.pages.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
                         self.showNextScreenAfterPicking()
                     }
+                    
+                default: break
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
@@ -499,10 +487,10 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
         self.validate(documents) { result in
             switch result {
-            case .success(let pages):
+            case .success(let validatedPages):
                 coordinator.dismissCurrentPicker {
-                    self.pages.append(contentsOf: pages)
-                    self.upload(pages: pages)
+                    self.pages.append(contentsOf: validatedPages)
+                    self.upload(pages: validatedPages)
                     self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
@@ -615,7 +603,7 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 extension ComponentAPICoordinator {
     
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[GiniVisionPage]>) -> Void) {
+                              completion: @escaping (CompletionResult<[GiniVisionPage]>) -> Void) {
         guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return

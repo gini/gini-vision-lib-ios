@@ -1,5 +1,5 @@
 //
-//  DocumentServiceProtocol.swift
+//  ComponentAPIDocumentServiceProtocol.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 3/29/18.
@@ -21,30 +21,30 @@ enum CustomAnalysisError: GiniVisionError {
     }
 }
 
-enum Result<T> {
+enum CompletionResult<T> {
     case success(T)
     case failure(Error)
 }
 
-typealias UploadDocumentCompletion = (Result<GINIDocument>) -> Void
-typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
+typealias ComponentAPIUploadDocumentCompletion = (CompletionResult<GINIDocument>) -> Void
+typealias ComponentAPIAnalysisCompletion = (CompletionResult<[String: Extraction]>) -> Void
 
-protocol DocumentServiceProtocol: class {
+protocol ComponentAPIDocumentServiceProtocol: class {
     
     var giniSDK: GiniSDK { get }
     var compositeDocument: GINIDocument? { get set }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
     
     init(sdk: GiniSDK)
-    func startAnalysis(completion: @escaping AnalysisCompletion)
+    func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion)
     func cancelAnalysis()
     func delete(_ document: GiniVisionDocument)
     func upload(_ document: GiniVisionDocument,
-                completion: UploadDocumentCompletion?)
+                completion: ComponentAPIUploadDocumentCompletion?)
     func update(_ imageDocument: GiniImageDocument)
 }
 
-extension DocumentServiceProtocol {
+extension ComponentAPIDocumentServiceProtocol {
     
     var rotationDeltaKey: String { return "rotationDelta" }
     
@@ -57,7 +57,7 @@ extension DocumentServiceProtocol {
                         fileName: String,
                         docType: String = "",
                         cancellationToken: BFCancellationToken? = nil,
-                        completion: @escaping UploadDocumentCompletion) {
+                        completion: @escaping ComponentAPIUploadDocumentCompletion) {
         print("📝 Creating document...")
 
         giniSDK.sessionManager
@@ -107,7 +107,7 @@ extension DocumentServiceProtocol {
     }
     
     func fetchExtractions(for documents: [GINIPartialDocumentInfo],
-                          completion: @escaping AnalysisCompletion) {
+                          completion: @escaping ComponentAPIAnalysisCompletion) {
         print("🔎 Starting analysis...")
 
         analysisCancellationToken = BFCancellationTokenSource()
@@ -130,7 +130,7 @@ extension DocumentServiceProtocol {
         
     }
     
-    func handleAnalysisResults(completion: @escaping AnalysisCompletion)
+    func handleAnalysisResults(completion: @escaping ComponentAPIAnalysisCompletion)
         -> ((BFTask<AnyObject>) -> Any?) {
             return { task in
                 if task.isCancelled {
