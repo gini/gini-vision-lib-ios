@@ -1,5 +1,5 @@
 //
-//  GINIPDFDocumentTests.swift
+//  GiniPDFDocumentTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 9/14/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINIPDFDocumentTests: XCTestCase {
+final class GiniPDFDocumentTests: XCTestCase {
   
     lazy var pdfNonRotated = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")
     

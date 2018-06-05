@@ -1,5 +1,5 @@
 //
-//  GINIComponentAPICoordinatorTests.swift
+//  ComponentAPICoordinatorTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 11/13/17.
@@ -10,7 +10,7 @@ import XCTest
 @testable import Example_Swift
 @testable import GiniVision
 
-class GINIComponentAPICoordinatorTests: XCTestCase {
+final class ComponentAPICoordinatorTests: XCTestCase {
     
     var componentAPICoordinator: ComponentAPICoordinator?
     

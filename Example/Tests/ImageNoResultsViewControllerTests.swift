@@ -1,5 +1,5 @@
 //
-//  GINIImageAnalysisNoResultsViewControllerTests.swift
+//  ImageAnalysisNoResultsViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/16/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINIImageNoResultsViewControllerTests: XCTestCase {
+final class ImageNoResultsViewControllerTests: XCTestCase {
     
     let viewControllerTitle = "Title"
     lazy var viewController: ImageAnalysisNoResultsViewController =
