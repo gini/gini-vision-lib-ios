@@ -1,7 +1,16 @@
+//
+//  OnboardingViewControllerTests.swift
+//  GiniVision_Tests
+//
+//  Created by Enrique del Pozo Gómez on 10/5/17.
+//  Copyright © 2017 Gini GmbH. All rights reserved.
+//
+
+
 import XCTest
 @testable import GiniVision
 
-class OnboardingViewControllerTests: XCTestCase {
+final class OnboardingViewControllerTests: XCTestCase {
     
     var vc = OnboardingViewController(scrollViewDelegate: nil)
     

@@ -1,5 +1,5 @@
 //
-//  GINIMultipageReviewControllerTests.swift
+//  MultipageReviewViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 1/30/18.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINIMultipageReviewControllerTests: XCTestCase {
+final class MultipageReviewViewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.shared
     lazy var multipageReviewViewController: MultipageReviewViewController = {

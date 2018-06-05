@@ -1,5 +1,5 @@
 //
-//  GINIHelpMenuViewControllerTests.swift
+//  HelpMenuViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/18/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINIHelpMenuViewControllerTests: XCTestCase {
+final class HelpMenuViewControllerTests: XCTestCase {
     
     var helpMenuViewController: HelpMenuViewController =
         HelpMenuViewController(giniConfiguration: GiniConfiguration.shared)

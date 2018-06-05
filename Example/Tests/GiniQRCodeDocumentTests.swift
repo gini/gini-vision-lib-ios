@@ -1,5 +1,5 @@
 //
-//  GINIQRCodeDocumentTests.swift
+//  GiniQRCodeDocumentTests.swift
 //  GiniVision_Example
 //
 //  Created by Enrique del Pozo Gómez on 12/5/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINIQRCodeDocumentTests: XCTestCase {
+final class GiniQRCodeDocumentTests: XCTestCase {
     
     let giniConfiguration: GiniConfiguration = GiniConfiguration()
     

@@ -1,5 +1,5 @@
 //
-//  GINIOpenWithTutorialViewControllerTests.swift
+//  OpenWithTutorialViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/20/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINIOpenWithTutorialViewControllerTests: XCTestCase {
+final class OpenWithTutorialViewControllerTests: XCTestCase {
     
     let openWithTutorialViewController = OpenWithTutorialViewController()
     
