@@ -15,7 +15,7 @@ final class ReviewViewControllerTests: XCTestCase {
     var reviewViewControllerDelegateMock: ReviewViewControllerDelegateMock!
     
     func testDidReviewOnRotationWithDelegate() {
-        let document = loadImageDocument(withName: "invoice")
+        let document = GiniVisionTestsHelper.loadImageDocument(withName: "invoice")
         reviewViewController = ReviewViewController(document: document, giniConfiguration: GiniConfiguration())
         _ = reviewViewController.view
         
@@ -29,7 +29,7 @@ final class ReviewViewControllerTests: XCTestCase {
     }
     
     func testDidReviewOnRotationWithBlocks() {
-        let document = loadImageDocument(withName: "invoice")
+        let document = GiniVisionTestsHelper.loadImageDocument(withName: "invoice")
         let expect = expectation(description: "success block is triggered after rotate image")
         reviewViewController = ReviewViewController(document, successBlock: { _ in
             expect.fulfill()

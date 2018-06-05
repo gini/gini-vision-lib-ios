@@ -9,7 +9,7 @@ final class CameraViewControllerTests: XCTestCase {
     var screenAPICoordinator: GiniScreenAPICoordinator!
     let visionDelegate = GiniVisionDelegateMock()
     lazy var imageData: Data = {
-        let image = self.loadImage(withName: "invoice.jpg")
+        let image = GiniVisionTestsHelper.loadImage(withName: "invoice.jpg")
         let imageData = UIImageJPEGRepresentation(image!, 0.9)!
         return imageData
     }()
