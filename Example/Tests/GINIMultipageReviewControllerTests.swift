@@ -19,10 +19,10 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         return vc
     }()
     
-    lazy var imagePages: [GiniVisionPage] = [
-        self.loadImagePage(withName: "invoice"),
-        self.loadImagePage(withName: "invoice2"),
-        self.loadImagePage(withName: "invoice3")
+    var imagePages: [GiniVisionPage] = [
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice2"),
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice3")
     ]
     
     func testCollectionsItemsCount() {

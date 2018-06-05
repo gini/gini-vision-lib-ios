@@ -39,7 +39,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerCountAfterStartWithImages() {
-        let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice"),
+                              GiniVisionTestsHelper.loadImageDocument(withName: "invoice2")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -49,7 +50,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerTypesAfterStartWithImages() {
-        let capturedImages = [loadImageDocument(withName: "invoice"), loadImageDocument(withName: "invoice2")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice"),
+                              GiniVisionTestsHelper.loadImageDocument(withName: "invoice2")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -62,7 +64,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerCountAfterStartWithAPDF() {
-        let capturedPDFs = [loadPDFDocument(withName: "testPDF")]
+        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")]
 
         let rootViewController = coordinator.start(withDocuments: capturedPDFs)
         _ = rootViewController.view
@@ -72,7 +74,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerTypesAfterStartWithPDF() {
-        let capturedPDFs = [loadPDFDocument(withName: "testPDF")]
+        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")]
 
         let rootViewController = coordinator.start(withDocuments: capturedPDFs)
         _ = rootViewController.view
@@ -84,7 +86,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     
     func testNavControllerTypesAfterStartWithImageAndMultipageDisabled() {
         giniConfiguration.multipageEnabled = false
-        let capturedImages = [loadImageDocument(withName: "invoice")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -95,7 +97,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = loadImagePage(withName: "invoice")
+        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         (coordinator.multiPageReviewViewController.pages[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
@@ -108,7 +110,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = loadImagePage(withName: "invoice")
+        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
@@ -119,7 +121,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testMultipageImageDocumentWhenSortingDocuments() {
-        let capturedImageDocument = [loadImagePage(withName: "invoice"), loadImagePage(withName: "invoice")]
+        let capturedImageDocument = [GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+                                     GiniVisionTestsHelper.loadImagePage(withName: "invoice")]
         let firstItemId = capturedImageDocument.first?.document.id
         coordinator.addToDocuments(new: capturedImageDocument)
         
