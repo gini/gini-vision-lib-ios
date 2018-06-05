@@ -9,20 +9,20 @@ import Foundation
 import Gini_iOS_SDK
 import GiniVision
 
-final class SinglePageDocumentsService: DocumentServiceProtocol {
+final class SinglePageDocumentsService: ComponentAPIDocumentServiceProtocol {
     
     var compositeDocument: GINIDocument?
     var giniSDK: GiniSDK
     
     var partialDocumentInfo: GINIPartialDocumentInfo?
-    var pendingAnalysisHandler: AnalysisCompletion?
+    var pendingAnalysisHandler: ComponentAPIAnalysisCompletion?
     var analysisCancellationToken: BFCancellationTokenSource?
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
     }
     
-    func startAnalysis(completion: @escaping AnalysisCompletion) {
+    func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion) {
         guard let partialDocumentInfo = partialDocumentInfo, partialDocumentInfo.documentUrl != nil  else {
             pendingAnalysisHandler = completion
             return
@@ -75,7 +75,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func upload(_ document: GiniVisionDocument,
-                completion: UploadDocumentCompletion?) {
+                completion: ComponentAPIUploadDocumentCompletion?) {
         partialDocumentInfo = GINIPartialDocumentInfo(documentUrl: nil, rotationDelta: 0)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
         

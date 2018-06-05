@@ -9,17 +9,23 @@
 import XCTest
 @testable import Example_Swift
 @testable import GiniVision
+@testable import Gini_iOS_SDK
 
 final class ComponentAPICoordinatorTests: XCTestCase {
     
     var componentAPICoordinator: ComponentAPICoordinator?
+
+    var documentService: ComponentAPIDocumentServiceProtocol = {
+        let sdkBuilder = GINISDKBuilder.anonymousUser(withClientID: "",
+                                                      clientSecret: "",
+                                                      userEmailDomain: "")
+       return DocumentServiceMock(sdk: sdkBuilder!.build()!)
+    }()
     
     func testInitialization() {
         componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.rootViewController, "the root view controller should never be nil")
@@ -30,9 +36,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     func testInitializationWhenNoDocument() {
         componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -51,9 +55,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: document)],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -73,9 +75,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: pdfDocument)],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.analysisScreen,
