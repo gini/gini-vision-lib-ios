@@ -33,8 +33,6 @@
 		1F3F5A0720443AEA0037755F /* ImagePickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */; };
 		1F3F5A0B2044400F0037755F /* GalleryManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */; };
 		1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */; };
-		1F40FC0E20A9ECF5004B6BFA /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F9F321B1FED3BC200C7CFFE /* Credentials.plist */; };
-		1F40FC1220AB19BC004B6BFA /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F40FC1120AB19BC004B6BFA /* Credentials.plist */; };
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* GINISettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */; };
@@ -68,7 +66,6 @@
 		1F9411881FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */; };
 		1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */; };
 		1F9466C5203702E600F52B40 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9466C4203702E600F52B40 /* CredentialsManager.swift */; };
-		1F9F321C1FED3BC300C7CFFE /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F9F321B1FED3BC200C7CFFE /* Credentials.plist */; };
 		1FA85EFA1FD6B569005C0C24 /* GINIQRCodeDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA85EF81FD6B520005C0C24 /* GINIQRCodeDocumentTests.swift */; };
 		1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9620A3546E00A54452 /* CredentialsManager.m */; };
 		1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */; };
@@ -83,6 +80,8 @@
 		1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */; };
 		1FEED2921F6ABEC10068E8AB /* GINIPDFDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
+		1FF3A42120C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
+		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
 		1FFC9E6720512E04007D505D /* GiniScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */; };
 		1FFC9E6A20513388007D505D /* GiniVisionDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */; };
 		2C6F599D8B27A6A37706D1EA /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02ECA63474B5ED5FCF96CEA /* Pods_GiniVision_UITests.framework */; };
@@ -145,7 +144,6 @@
 		1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
 		1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryManagerMock.swift; sourceTree = "<group>"; };
 		1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
-		1F40FC1120AB19BC004B6BFA /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* GINISettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINISettingsViewControllerTests.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 		1F9411871FB9F4AE0019DECD /* GINIComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F9466C4203702E600F52B40 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
-		1F9F321B1FED3BC200C7CFFE /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1FA85EF81FD6B520005C0C24 /* GINIQRCodeDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIQRCodeDocumentTests.swift; sourceTree = "<group>"; };
 		1FAA2A9620A3546E00A54452 /* CredentialsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsManager.m; sourceTree = "<group>"; };
 		1FAA2A9820A3548D00A54452 /* CredentialsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsManager.h; sourceTree = "<group>"; };
@@ -198,6 +195,7 @@
 		1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated180.pdf"; sourceTree = "<group>"; };
 		1FEED2911F6ABEC10068E8AB /* GINIPDFDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GINIPDFDocumentTests.swift; sourceTree = "<group>"; };
 		1FEED2931F6AC0440068E8AB /* testPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF.pdf; sourceTree = "<group>"; };
+		1FF3A42020C6D20900081A32 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDelegateMock.swift; sourceTree = "<group>"; };
 		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 		1F9334FF20A334F2004BC50C /* Example ObjC */ = {
 			isa = PBXGroup;
 			children = (
-				1F40FC1120AB19BC004B6BFA /* Credentials.plist */,
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
 				1F93350120A334F2004BC50C /* AppDelegate.m */,
 				1F93350920A334F2004BC50C /* Assets.xcassets */,
@@ -405,8 +402,8 @@
 		607FACD31AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1FF3A42020C6D20900081A32 /* Credentials.plist */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
-				1F9F321B1FED3BC200C7CFFE /* Credentials.plist */,
 				0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */,
 				0A1D31121D12BB3600AC084C /* Localizable.strings */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
@@ -658,10 +655,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F40FC0E20A9ECF5004B6BFA /* Credentials.plist in Resources */,
 				1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */,
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
-				1F40FC1220AB19BC004B6BFA /* Credentials.plist in Resources */,
+				1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
 			);
@@ -671,10 +667,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1F9F321C1FED3BC300C7CFFE /* Credentials.plist in Resources */,
 				1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */,
 				1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */,
 				1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */,
+				1FF3A42120C6D20900081A32 /* Credentials.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
