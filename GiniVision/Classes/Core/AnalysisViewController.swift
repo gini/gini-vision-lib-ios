@@ -213,6 +213,10 @@ import UIKit
         errorView.hide(animated, completion: nil)
     }
     
+    public func updateDocument(with document: GiniVisionDocument) {
+        imageView.image = document.previewImage
+    }
+    
     fileprivate func addImageView() {
         self.view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
