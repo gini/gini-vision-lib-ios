@@ -155,8 +155,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                     }
                 }
             case .qrcode, .pdf:
-                screenAPINavigationController.pushViewController(analysisViewController,
-                                                                 animated: true)
+                showAnalysisScreen()
             }
         }
     }
@@ -289,7 +288,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
                 guard let error = error as? GiniVisionError else { return }
                 self.displayError(withMessage: error.message, andAction: { [weak self] in
                     guard let `self` = self else { return }
-                    self.analysisViewController.hideError()
+                    self.analysisViewController?.hideError()
                     self.didCaptureAndValidate(document)
                 })
             }

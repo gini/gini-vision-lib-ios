@@ -26,12 +26,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     }()
     
     // Screens
-    lazy var analysisViewController: AnalysisViewController = {
-        guard let document = documentRequests.first?.document else {
-            fatalError("You are trying to access the analysis screen when there are not documents")
-        }
-        return createAnalysisScreen(withDocument: document)
-    }()
+    var analysisViewController: AnalysisViewController?
     var cameraViewController: CameraViewController?
     var imageAnalysisNoResultsViewController: ImageAnalysisNoResultsViewController?
     var reviewViewController: ReviewViewController?
@@ -132,7 +127,8 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            return [self.analysisViewController]
+            self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
+            return [self.analysisViewController!]
         }
     }
 }
@@ -206,10 +202,19 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
+        guard let firstDocument = documentRequests.first?.document else {
+            return
+        }
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
-        analysisViewController.updateDocument(with: documentRequests[0].document)
+
+        // Check if analysis is already created, and in that case update with the first document
+        if analysisViewController == nil {
+            analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+        } else {
+            analysisViewController?.updateDocument(with: firstDocument)
+        }
         
-        self.screenAPINavigationController.pushViewController(analysisViewController, animated: true)
+        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
     @objc func backToCamera() {
