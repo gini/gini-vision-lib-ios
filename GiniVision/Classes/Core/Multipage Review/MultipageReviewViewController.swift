@@ -536,7 +536,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
             let documentRequest = documentRequests[indexPath.row]
-            cell?.setUp(with: documentRequest) { action in
+            cell?.setUp(with: documentRequest) { [weak self] action in
+                guard let `self` = self else { return }
                 switch action {
                 case .retry:
                     self.delegate?.multipageReview(self, didTapRetryUploadFor: documentRequest)
