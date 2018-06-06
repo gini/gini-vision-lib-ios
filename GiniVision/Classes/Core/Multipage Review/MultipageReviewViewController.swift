@@ -478,7 +478,8 @@ extension MultipageReviewViewController {
         let documentToDelete = documentRequests[indexPath.row]
         documentRequests.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
-        
+        delegate?.multipageReview(self, didDelete: documentToDelete)
+
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
         }, completion: { _ in
@@ -489,8 +490,6 @@ extension MultipageReviewViewController {
                 
                 self.selectItem(at: min(indexPath.row, self.documentRequests.count - 1))
             }
-            
-            self.delegate?.multipageReview(self, didDelete: documentToDelete)
         })
     }
     
@@ -542,8 +541,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 case .retry:
                     self.delegate?.multipageReview(self, didTapRetryUploadFor: documentRequest)
                 case .retake:
-                    self.delegate?.multipageReviewDidTapAddImage(self)
                     self.deleteItem(at: indexPath)
+                    self.delegate?.multipageReviewDidTapAddImage(self)
                 }
             }
             
