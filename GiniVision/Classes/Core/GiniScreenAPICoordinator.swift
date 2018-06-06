@@ -237,6 +237,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             if toVC == cameraViewController {
                 documentRequests.removeAll()
             }
+            
+            analysisViewController = nil
             visionDelegate?.didCancelAnalysis()
         }
         
