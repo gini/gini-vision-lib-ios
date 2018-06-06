@@ -21,6 +21,7 @@
 		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift */; };
+		1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
 		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
 		1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */; };
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
@@ -66,7 +67,6 @@
 		1F9411881FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */; };
 		1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */; };
 		1F9466C5203702E600F52B40 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9466C4203702E600F52B40 /* CredentialsManager.swift */; };
-
 		1FA85EFA1FD6B569005C0C24 /* GiniQRCodeDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA85EF81FD6B520005C0C24 /* GiniQRCodeDocumentTests.swift */; };
 		1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9620A3546E00A54452 /* CredentialsManager.m */; };
 		1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */; };
@@ -81,8 +81,8 @@
 		1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */; };
 		1FEED2921F6ABEC10068E8AB /* GiniPDFDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED2911F6ABEC10068E8AB /* GiniPDFDocumentTests.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
-		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
 		1FF3A41F20C6CB4B00081A32 /* DocumentServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */; };
+		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
 		1FFC9E6720512E04007D505D /* GiniScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */; };
 		1FFC9E6A20513388007D505D /* GiniVisionDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */; };
 		2C6F599D8B27A6A37706D1EA /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02ECA63474B5ED5FCF96CEA /* Pods_GiniVision_UITests.framework */; };
@@ -181,7 +181,6 @@
 		1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F9466C4203702E600F52B40 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
-
 		1FA85EF81FD6B520005C0C24 /* GiniQRCodeDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniQRCodeDocumentTests.swift; sourceTree = "<group>"; };
 		1FAA2A9620A3546E00A54452 /* CredentialsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsManager.m; sourceTree = "<group>"; };
 		1FAA2A9820A3548D00A54452 /* CredentialsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsManager.h; sourceTree = "<group>"; };
@@ -197,8 +196,8 @@
 		1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated180.pdf"; sourceTree = "<group>"; };
 		1FEED2911F6ABEC10068E8AB /* GiniPDFDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniPDFDocumentTests.swift; sourceTree = "<group>"; };
 		1FEED2931F6AC0440068E8AB /* testPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF.pdf; sourceTree = "<group>"; };
-		1FF3A42020C6D20900081A32 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentServiceMock.swift; sourceTree = "<group>"; };
+		1FF3A42020C6D20900081A32 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
 		1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDelegateMock.swift; sourceTree = "<group>"; };
 		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
@@ -679,10 +678,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */,
 				1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */,
 				1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */,
 				1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */,
-				1FF3A42120C6D20900081A32 /* Credentials.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
@@ -916,7 +915,6 @@
 				0A6A78A61E140F8500AEB328 /* OnboardingViewControllerTests.swift in Sources */,
 				1F6515AC2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift in Sources */,
 				1F8E41DE20A0526A00561769 /* CapturedImagesStackViewTests.swift in Sources */,
-				1FF3A41E20C6C9A200081A32 /* DocumentServiceMock.swift in Sources */,
 				1F8E6A7F20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift in Sources */,
 				0A6A78A81E1412E000AEB328 /* CameraViewControllerTests.swift in Sources */,
 				1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */,
