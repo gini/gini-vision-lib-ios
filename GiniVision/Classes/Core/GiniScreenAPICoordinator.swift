@@ -132,7 +132,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
+            self.analysisViewController = createAnalysisScreen(withDocument: pages[0].document)
             return [self.analysisViewController!]
         }
     }
