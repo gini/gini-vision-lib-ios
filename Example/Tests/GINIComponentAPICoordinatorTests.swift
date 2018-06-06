@@ -35,6 +35,8 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
                                                                              clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
+        XCTAssertNil(componentAPICoordinator?.analysisScreen,
+                     "analysis screen should be nil when no document is imported")
         XCTAssertNil(componentAPICoordinator?.reviewScreen,
                      "review screen should be nil when no document is imported")
         XCTAssertNotNil(componentAPICoordinator?.cameraScreen,
@@ -81,7 +83,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
         XCTAssertNil(componentAPICoordinator?.cameraScreen,
                      "camera screen should be nil when a pdfpdf is imported")
         
-        XCTAssertEqual(componentAPICoordinator?.analysisScreen.navigationItem.leftBarButtonItem?.title,
+        XCTAssertEqual(componentAPICoordinator?.analysisScreen?.navigationItem.leftBarButtonItem?.title,
                        "Schließen")
     }
     
