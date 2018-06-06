@@ -45,7 +45,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func delete(_ document: GiniVisionDocument) {
-        if let documentId = partialDocumentInfo?.documentUrl {
+        if let documentId = partialDocumentInfo?.documentId {
             deletePartialDocument(with: documentId)
         }
         cancelAnalysis()
@@ -61,7 +61,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    print("❌ Error deleting composite document with id:", id)
+                    print("❌ Error deleting partial document with id:", id)
                 } else {
                     print("🗑 Deleted partial document with id:", id)
                 }

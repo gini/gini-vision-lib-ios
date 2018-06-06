@@ -55,7 +55,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         if let index = partialDocuments.index(forKey: document.id) {
             if let partialDocumentId = partialDocuments[document.id]?
                 .info
-                .documentUrl {
+                .documentId {
                 deletePartialDocument(with: partialDocumentId)
             }
             partialDocuments.remove(at: index)
@@ -72,7 +72,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    print("❌ Error deleting composite document with id:", id)
+                    print("❌ Error deleting partial document with id:", id)
                 } else {
                     print("🗑 Deleted partial document with id:", id)
                 }

@@ -197,7 +197,7 @@ extension ComponentAPICoordinator {
                                                       action: #selector(closeComponentAPIFromResults))
         }
         
-        push(viewController: resultsScreen!, removingViewControllerOfType: AnalysisViewController.self)
+        push(viewController: resultsScreen!, removing: [reviewScreen, analysisScreen])
     }
     
     fileprivate func showNoResultsScreen() {
@@ -215,7 +215,7 @@ extension ComponentAPICoordinator {
             vc = genericNoResults!
         }
         
-        push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
+        push(viewController: vc, removing: [reviewScreen, analysisScreen])
         
     }
     
@@ -247,13 +247,16 @@ extension ComponentAPICoordinator {
         closeComponentAPI()
     }
     
-    fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
+    fileprivate func push<T: UIViewController>(viewController: UIViewController, removing viewControllers: [T?]) {
         var navigationStack = navigationController.viewControllers
+        let viewControllersToDelete = navigationStack.filter { return viewControllers.map { $0.self }.contains($0) }
         
-        if let deleteViewController = (navigationStack.compactMap { $0 as? T }.first) as? UIViewController,
-            let index = navigationStack.index(of: deleteViewController) {
-            navigationStack.remove(at: index)
+        viewControllersToDelete.forEach { viewControllerToDelete in
+            if let index = navigationStack.index(of: viewControllerToDelete) {
+                navigationStack.remove(at: index)
+            }
         }
+
         navigationStack.append(viewController)
         navigationController.setViewControllers(navigationStack, animated: true)
     }
