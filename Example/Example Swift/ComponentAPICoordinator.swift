@@ -249,7 +249,12 @@ extension ComponentAPICoordinator {
     
     fileprivate func push<T: UIViewController>(viewController: UIViewController, removing viewControllers: [T?]) {
         var navigationStack = navigationController.viewControllers
-        let viewControllersToDelete = navigationStack.filter { return viewControllers.map { $0.self }.contains($0) }
+        let viewControllersToDelete = navigationStack.filter {
+            return viewControllers
+                .lazy
+                .compactMap { $0 }
+                .contains($0)
+        }
         
         viewControllersToDelete.forEach { viewControllerToDelete in
             if let index = navigationStack.index(of: viewControllerToDelete) {
