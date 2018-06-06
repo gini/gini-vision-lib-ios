@@ -68,12 +68,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         return multipageReviewScreen
     }()
     
-    fileprivate(set) lazy var analysisScreen: AnalysisViewController = {
-        guard let document = documentRequests.first?.document else {
-            fatalError("You are trying to access the analysis screen when there are not documents")
-        }
-        return AnalysisViewController(document: document)
-    }()
+    fileprivate(set) var analysisScreen: AnalysisViewController?
     fileprivate(set) var cameraScreen: CameraViewController?
     fileprivate(set) var resultsScreen: ResultTableViewController?
     fileprivate(set) var reviewScreen: ReviewViewController?
@@ -176,11 +171,16 @@ extension ComponentAPICoordinator {
     @objc fileprivate func showAnalysisScreen() {
         guard let document = documentRequests.first?.document else { return }
         
-        startAnalysis()
-        analysisScreen.updateDocument(with: document)
-        addCloseButtonIfNeeded(onViewController: analysisScreen)
+        if analysisScreen == nil {
+            analysisScreen = AnalysisViewController(document: document)
+        } else {
+            analysisScreen?.updateDocument(with: document)
+        }
         
-        navigationController.pushViewController(analysisScreen, animated: true)
+        startAnalysis()
+        addCloseButtonIfNeeded(onViewController: analysisScreen!)
+        
+        navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
     fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
@@ -293,7 +293,7 @@ extension ComponentAPICoordinator {
                     
                     if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
                         guard let visionError = error as? GiniVisionError else { return }
-                        self.analysisScreen.showError(with: visionError.message, action: {
+                        self.analysisScreen?.showError(with: visionError.message, action: {
                             self.upload(documentRequest: documentRequest)
                         })
                     }
@@ -316,7 +316,7 @@ extension ComponentAPICoordinator {
                     self.handleAnalysis(with: extractions)
                 case .failure:
                     let visionError = CustomAnalysisError.analysisFailed
-                    self.analysisScreen.showError(with: visionError.message, action: {
+                    self.analysisScreen?.showError(with: visionError.message, action: {
                         self.startAnalysis()
                     })
                 }
@@ -393,6 +393,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
                 documentRequests.removeAll()
             }
             
+            analysisScreen = nil
             documentService?.cancelAnalysis()
         }
         
