@@ -213,7 +213,7 @@ import UIKit
     }
     
     /**
-     Hide the error view if any.
+     Hide the error view
      */
     public func hideError(animated: Bool = false) {
         errorView.hide(animated, completion: nil)

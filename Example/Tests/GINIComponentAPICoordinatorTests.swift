@@ -56,6 +56,8 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
                                                                              clientEmailDomain: ""))
         componentAPICoordinator?.start()
         
+        XCTAssertNil(componentAPICoordinator?.analysisScreen,
+                     "analysis screen should be nil when no document is imported")
         XCTAssertNotNil(componentAPICoordinator?.reviewScreen,
                         "review screen should not be nil when a image is imported")
         XCTAssertNil(componentAPICoordinator?.cameraScreen,
