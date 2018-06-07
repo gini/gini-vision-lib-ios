@@ -203,18 +203,20 @@ import UIKit
         loadingIndicatorView.stopAnimating()
     }
     
+    /**
+     Shows an error when there was an error with either during the analysis or uploading a document
+     */
     public func showError(with message: String, action: @escaping () -> Void ) {
         errorView.textLabel.text = message
         errorView.userAction = NoticeAction(title: NoticeActionType.retry.title, action: action)
         errorView.show()
     }
     
+    /**
+     Hide the error view if any.
+     */
     public func hideError(animated: Bool = false) {
         errorView.hide(animated, completion: nil)
-    }
-    
-    public func updateDocument(with document: GiniVisionDocument) {
-        imageView.image = document.previewImage
     }
     
     fileprivate func addImageView() {
