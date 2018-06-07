@@ -25,28 +25,25 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             switch result {
             case .success(let validatedDocuments):
                 let validatedDocument = validatedDocuments[0]
-                switch document {
-                case let qrCodeDocument as GiniQRCodeDocument:
+                if let qrCodeDocument = document as? GiniQRCodeDocument {
                     viewController.showPopup(forQRDetected: qrCodeDocument) {
                         self.clearDocuments()
                         self.addToDocuments(new: [validatedDocument])
                         self.didCaptureAndValidate(document)
                         self.showNextScreenAfterPicking(documentRequests: self.documentRequests)
                     }
-                case let imageDocument as GiniImageDocument:
+                } else if let imageDocument = document as? GiniImageDocument {
                     self.addToDocuments(new: [validatedDocument])
                     self.didCaptureAndValidate(document)
-                        
+                    
                     // In case that there is more than one image already captured, an animation is shown instead of
                     // going to next screen
                     if self.documentRequests.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
-                        return
                     } else {
                         self.showNextScreenAfterPicking(documentRequests: [validatedDocument])
                     }
-                default: break
-            }
+                }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
                     viewController.showErrorDialog(for: error) {

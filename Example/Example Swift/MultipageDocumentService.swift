@@ -30,7 +30,7 @@ final class MultipageDocumentsService: DocumentServiceProtocol {
         
         // When a PDF/QrCode document is imported the analysis screen is shown right away, and therefore the analysis
         // is triggered. There could be the case where the document hadn't been analyzed when this happens,
-        // that's why a reference to the completion block ahs to be kept. Once the document is uploaded,
+        // that's why a reference to the completion block has to be kept. Once the document is uploaded,
         // the completion block is called (see below).
         guard !partialDocumentsInfoSorted.isEmpty else {
             pendingAnalysisHandler = completion
