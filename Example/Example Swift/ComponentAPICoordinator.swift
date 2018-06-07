@@ -175,8 +175,6 @@ extension ComponentAPICoordinator {
             analysisScreen = AnalysisViewController(document: document)
         }
         
-        analysisScreen = AnalysisViewController(document: document)
-
         startAnalysis()
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
@@ -300,10 +298,9 @@ extension ComponentAPICoordinator {
                     self.documentRequests[index].error = error
                     
                     if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
-                        guard let visionError = error as? GiniVisionError,
-                        let firstDocumentRequest = self.documentRequests.first else { return }
-                        self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest) {
-                            self.upload(documentRequest: firstDocumentRequest)
+                        guard let visionError = error as? GiniVisionError else { return }
+                        self.showErrorInAnalysisScreen(with: visionError.message, for: documentRequest) {
+                            self.upload(documentRequest: documentRequest)
                         }
                     }
                 }
