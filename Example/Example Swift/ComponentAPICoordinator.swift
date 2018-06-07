@@ -302,7 +302,9 @@ extension ComponentAPICoordinator {
                     if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
                         guard let visionError = error as? GiniVisionError,
                         let firstDocumentRequest = self.documentRequests.first else { return }
-                        self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest)
+                        self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest) {
+                            self.upload(documentRequest: firstDocumentRequest)
+                        }
                     }
                 }
                 
@@ -325,7 +327,9 @@ extension ComponentAPICoordinator {
                     guard let firstDocumentRequest = self.documentRequests.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
 
-                    self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest)
+                    self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest) {
+                        self.startAnalysis()
+                    }
                 }
             }
         })
@@ -335,14 +339,14 @@ extension ComponentAPICoordinator {
         documentService?.delete(document)
     }
     
-    private func showErrorInAnalysisScreen(with message: String, for documentRequest: DocumentRequest) {
+    private func showErrorInAnalysisScreen(with message: String,
+                                           for documentRequest: DocumentRequest,
+                                           action: @escaping () -> Void) {
         if self.analysisScreen == nil {
             self.analysisScreen = AnalysisViewController(document: documentRequest.document)
         }
         
-        self.analysisScreen?.showError(with: message, action: {
-            self.upload(documentRequest: documentRequest)
-        })
+        self.analysisScreen?.showError(with: message, action: action)
     }
 }
 
