@@ -17,6 +17,7 @@ internal class Camera: NSObject {
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
+    var giniConfiguration: GiniConfiguration
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
                                                                      attributes: [])
     fileprivate let application: UIApplication
@@ -25,6 +26,7 @@ internal class Camera: NSObject {
          giniConfiguration: GiniConfiguration,
          completion: ((CameraError?) -> Void)) {
         self.application = application
+        self.giniConfiguration = giniConfiguration
         super.init()
         do {
             try setupSession()
@@ -179,9 +181,15 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
             metadataObj.type == AVMetadataObject.ObjectType.qr {
             let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue!)
-            DispatchQueue.main.async { [weak self] in
-                self?.didDetectQR?(qrDocument)
+            do {
+                try GiniVisionDocumentValidator.validate(qrDocument, withConfig: giniConfiguration)
+                DispatchQueue.main.async { [weak self] in
+                    self?.didDetectQR?(qrDocument)
+                }
+            } catch {
+                
             }
+
         }
     }
 }
