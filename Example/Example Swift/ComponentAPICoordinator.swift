@@ -23,7 +23,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }
     
     fileprivate var documentService: DocumentServiceProtocol?
-    fileprivate var documentRequests: [DocumentRequest]
+    fileprivate var pages: [GiniVisionPage]
     // When there was an error uploading a document or analyzing it and the analysis screen
     // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
     fileprivate var analysisErrorAndAction: (message: String, action: () -> Void)?
@@ -58,7 +58,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     }()
     
     fileprivate(set) lazy var multipageReviewScreen: MultipageReviewViewController = {
-        let multipageReviewScreen = MultipageReviewViewController(documentRequests: documentRequests,
+        let multipageReviewScreen = MultipageReviewViewController(pages: pages,
                                                                   giniConfiguration: giniConfiguration)
         multipageReviewScreen.delegate = self
         addCloseButtonIfNeeded(onViewController: multipageReviewScreen)
@@ -78,10 +78,10 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate(set) lazy var documentPickerCoordinator =
         DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
     
-    init(documentRequests: [DocumentRequest],
+    init(pages: [GiniVisionPage],
          configuration: GiniConfiguration,
          client: GiniClient) {
-        self.documentRequests = documentRequests
+        self.pages = pages
         self.giniConfiguration = configuration
         super.init()
         
@@ -108,17 +108,17 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         self.setupTabBar()
         self.navigationController.delegate = self
         
-        if documentRequests.isEmpty {
+        if pages.isEmpty {
             showCameraScreen()
         } else {
-            if documentRequests.type == .image {
+            if pages.type == .image {
                 if giniConfiguration.multipageEnabled {
                     showMultipageReviewScreen()
                 } else {
                     showReviewScreen()
                 }
                 
-                upload(documentRequests: documentRequests)
+                upload(pages: pages)
             } else {
                 showAnalysisScreen()
             }
@@ -158,7 +158,7 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func showReviewScreen() {
-        guard let document = documentRequests.first?.document else { return }
+        guard let document = pages.first?.document else { return }
         reviewScreen = ReviewViewController(document: document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
@@ -172,11 +172,11 @@ extension ComponentAPICoordinator {
     }
     
     @objc fileprivate func showAnalysisScreen() {
-        guard let document = documentRequests.first?.document else { return }
-        analysisScreen = AnalysisViewController(document: document)
-
+        guard let document = pages.first?.document else { return }
+        
+        analysisScreen = AnalysisViewController(document:document)
         if let (message, action) = analysisErrorAndAction {
-           showErrorInAnalysisScreen(with: message, action: action)
+            showErrorInAnalysisScreen(with: message, action: action)
         }
         
         startAnalysis()
@@ -204,7 +204,7 @@ extension ComponentAPICoordinator {
     
     fileprivate func showNoResultsScreen() {
         let vc: UIViewController
-        if documentRequests.type == .image {
+        if pages.type == .image {
             let imageAnalysisNoResultsViewController = ImageAnalysisNoResultsViewController()
             imageAnalysisNoResultsViewController.didTapBottomButton = { [unowned self] in
                 self.didTapRetry()
@@ -222,11 +222,11 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func showNextScreenAfterPicking() {
-        if let documentsType = documentRequests.type {
+        if let documentsType = pages.type {
             switch documentsType {
             case .image:                
                 if giniConfiguration.multipageEnabled {
-                    refreshMultipageReview(with: self.documentRequests)
+                    refreshMultipageReview(with: self.pages)
                     showMultipageReviewScreen()
                 } else {
                     showReviewScreen()
@@ -268,50 +268,50 @@ extension ComponentAPICoordinator {
         navigationController.setViewControllers(navigationStack, animated: true)
     }
     
-    fileprivate func refreshMultipageReview(with documentRequests: [DocumentRequest]) {
+    fileprivate func refreshMultipageReview(with pages: [GiniVisionPage]) {
         multipageReviewScreen.navigationItem
             .rightBarButtonItem?
-            .isEnabled = documentRequests
-                .reduce(true, { result, documentRequest in
-                    result && documentRequest.isUploaded
+            .isEnabled = pages
+                .reduce(true, { result, page in
+                    result && page.isUploaded
                 })
-        multipageReviewScreen.updateCollections(with: documentRequests)
+        multipageReviewScreen.updateCollections(with: pages)
     }
 }
 
 // MARK: - Networking
 
 extension ComponentAPICoordinator {
-    fileprivate func upload(documentRequests: [DocumentRequest]) {
-        documentRequests.forEach { documentRequest in
-            if documentRequest.error == nil {
-                self.upload(documentRequest: documentRequest)
+    fileprivate func upload(pages: [GiniVisionPage]) {
+        pages.forEach { page in
+            if page.error == nil {
+                self.upload(page: page)
             }
         }
     }
     
-    private func upload(documentRequest: DocumentRequest) {
-        self.documentService?.upload(documentRequest.document) { result in
+    private func upload(page: GiniVisionPage) {
+        self.documentService?.upload(page.document) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let `self` = self, let index = self.documentRequests
-                    .index(of: documentRequest.document) else { return }
+                guard let `self` = self, let index = self.pages
+                    .index(of: page.document) else { return }
                 switch result {
                 case .success:
-                    self.documentRequests[index].isUploaded = true
+                    self.pages[index].isUploaded = true
                 case .failure(let error):
-                    self.documentRequests[index].error = error
+                    self.pages[index].error = error
                     
-                    if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
+                    if self.pages.type != .image || !self.giniConfiguration.multipageEnabled {
                         guard let visionError = error as? GiniVisionError else { return }
                         self.showErrorInAnalysisScreen(with: visionError.message) {
-                            self.upload(documentRequest: documentRequest)
+                            self.upload(page: page)
                         }
                     }
                 }
                 
                 // When multipage mode is used and documents are images, you have to refresh the multipage review screen
-                if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
-                    self.refreshMultipageReview(with: self.documentRequests)
+                if self.giniConfiguration.multipageEnabled, self.pages.type == .image {
+                    self.refreshMultipageReview(with: self.pages)
                 }
             }
         }
@@ -325,7 +325,7 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure:
-                    guard let firstDocumentRequest = self.documentRequests.first else { return }
+                    guard let firstGiniVisionPage = self.pages.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
 
                     self.showErrorInAnalysisScreen(with: visionError.message) {
@@ -406,17 +406,17 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         
         if fromVC is ReviewViewController && operation == .pop {
             reviewScreen = nil
-            if let document = documentRequests.first?.document {
+            if let document = pages.first?.document {
                 documentService?.delete(document)
             }
-            documentRequests.removeAll()
+            pages.removeAll()
         }
         
         if fromVC is AnalysisViewController && operation == .pop {
             // Going directly from the analysis to the camera means that
             // the document is not an image and should be removed
             if toVC is CameraViewController {
-                documentRequests.removeAll()
+                pages.removeAll()
             }
             
             analysisScreen = nil
@@ -430,7 +430,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         if let cameraViewController = toVC as? CameraViewController,
             fromVC is MultipageReviewViewController {
             cameraViewController
-                .replaceCapturedStackImages(with: documentRequests.compactMap { $0.document.previewImage })
+                .replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
         }
         
         return nil
@@ -444,19 +444,19 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     func camera(_ viewController: CameraViewController, didCapture document: GiniVisionDocument) {
         validate([document]) { result in
             switch result {
-            case .success(let documentRequests):
+            case .success(let pages):
                 if let qrCodeDocument = document as? GiniQRCodeDocument {
                     viewController.showPopup(forQRDetected: qrCodeDocument) {
-                        self.documentRequests.removeAll()
-                        self.documentRequests.append(contentsOf: documentRequests)
-                        self.upload(documentRequests: documentRequests)
+                        self.pages.removeAll()
+                        self.pages.append(contentsOf: pages)
+                        self.upload(pages: pages)
                         self.showNextScreenAfterPicking()
                     }
                 } else if let imageDocument = document as? GiniImageDocument {
-                    self.documentRequests.append(contentsOf: documentRequests)
-                    self.upload(documentRequests: documentRequests)
+                    self.pages.append(contentsOf: pages)
+                    self.upload(pages: pages)
                     
-                    if self.documentRequests.count > 1 {
+                    if self.pages.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
                         self.showNextScreenAfterPicking()
@@ -486,7 +486,7 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         case .gallery:
             documentPickerCoordinator.showGalleryPicker(from: viewController)
         case .explorer:
-            documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
+            documentPickerCoordinator.isPDFSelectionAllowed = pages.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
         }
     }
@@ -499,10 +499,10 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
     func documentPicker(_ coordinator: DocumentPickerCoordinator, didPick documents: [GiniVisionDocument]) {
         self.validate(documents) { result in
             switch result {
-            case .success(let documentRequests):
+            case .success(let pages):
                 coordinator.dismissCurrentPicker {
-                    self.documentRequests.append(contentsOf: documentRequests)
-                    self.upload(documentRequests: documentRequests)
+                    self.pages.append(contentsOf: pages)
+                    self.upload(pages: pages)
                     self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
@@ -511,7 +511,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
                 if let error = error as? FilePickerError {
                     switch error {
                     case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
-                        if !self.documentRequests.isEmpty {
+                        if !self.pages.isEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
                                     self.showMultipageReviewScreen()
@@ -542,8 +542,8 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
 extension ComponentAPICoordinator: ReviewViewControllerDelegate {
     
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument) {
-        if let index = documentRequests.index(of: document) {
-            documentRequests[index].document = document
+        if let index = pages.index(of: document) {
+            pages[index].document = document
         }
         
         if let imageDocument = document as? GiniImageDocument {
@@ -569,29 +569,29 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
         }
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
-        self.documentRequests = documentRequests
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder pages: [GiniVisionPage]) {
+        self.pages = pages
         
         if let multipageDocumentService = documentService as? MultipageDocumentsService {
-            multipageDocumentService.sortDocuments(withSameOrderAs: self.documentRequests.map { $0.document })
+            multipageDocumentService.sortDocuments(withSameOrderAs: self.pages.map { $0.document })
         }
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequest: DocumentRequest) {
-        if let index = documentRequests.index(of: documentRequest.document) {
-            documentRequests[index].document = documentRequest.document
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate page: GiniVisionPage) {
+        if let index = pages.index(of: page.document) {
+            pages[index].document = page.document
         }
         
-        if let imageDocument = documentRequest.document as? GiniImageDocument {
+        if let imageDocument = page.document as? GiniImageDocument {
             documentService?.update(imageDocument)
         }
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequest: DocumentRequest) {
-        documentService?.delete(documentRequest.document)
-        documentRequests.remove(documentRequest.document)
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete page: GiniVisionPage) {
+        documentService?.delete(page.document)
+        pages.remove(page.document)
         
-        if documentRequests.isEmpty {
+        if pages.isEmpty {
             navigationController.popViewController(animated: true)
         }
     }
@@ -615,13 +615,13 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 extension ComponentAPICoordinator {
     
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[DocumentRequest]>) -> Void) {
-        guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
+                              completion: @escaping (Result<[GiniVisionPage]>) -> Void) {
+        guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
         
-        guard (documents.count + documentRequests.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+        guard (documents.count + pages.count) <= GiniVisionDocumentValidator.maxPagesCount else {
             completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
             return
         }
@@ -639,9 +639,9 @@ extension ComponentAPICoordinator {
     }
     
     private func validate(importedDocuments documents: [GiniVisionDocument],
-                          completion: @escaping ([DocumentRequest]) -> Void) {
+                          completion: @escaping ([GiniVisionPage]) -> Void) {
         DispatchQueue.global().async {
-            var documentRequests: [DocumentRequest] = []
+            var pages: [GiniVisionPage] = []
             documents.forEach { document in
                 var documentError: Error?
                 do {
@@ -651,11 +651,11 @@ extension ComponentAPICoordinator {
                     documentError = error
                 }
                 
-                documentRequests.append(DocumentRequest(value: document, error: documentError))
+                pages.append(GiniVisionPage(document: document, error: documentError))
             }
             
             DispatchQueue.main.async {
-                completion(documentRequests)
+                completion(pages)
             }
         }
     }
