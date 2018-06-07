@@ -207,11 +207,8 @@ extension GiniScreenAPICoordinator {
         }
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
 
-        // Check if analysis is already created, and in that case update with the first document
         if analysisViewController == nil {
             analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-        } else {
-            analysisViewController?.updateDocument(with: firstDocument)
         }
         
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)

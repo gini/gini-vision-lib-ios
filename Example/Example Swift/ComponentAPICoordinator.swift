@@ -173,10 +173,10 @@ extension ComponentAPICoordinator {
         
         if analysisScreen == nil {
             analysisScreen = AnalysisViewController(document: document)
-        } else {
-            analysisScreen?.updateDocument(with: document)
         }
         
+        analysisScreen = AnalysisViewController(document: document)
+
         startAnalysis()
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
@@ -300,10 +300,9 @@ extension ComponentAPICoordinator {
                     self.documentRequests[index].error = error
                     
                     if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
-                        guard let visionError = error as? GiniVisionError else { return }
-                        self.analysisScreen?.showError(with: visionError.message, action: {
-                            self.upload(documentRequest: documentRequest)
-                        })
+                        guard let visionError = error as? GiniVisionError,
+                        let firstDocumentRequest = self.documentRequests.first else { return }
+                        self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest)
                     }
                 }
                 
@@ -323,10 +322,10 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure:
+                    guard let firstDocumentRequest = self.documentRequests.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
-                    self.analysisScreen?.showError(with: visionError.message, action: {
-                        self.startAnalysis()
-                    })
+
+                    self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest)
                 }
             }
         })
@@ -334,6 +333,16 @@ extension ComponentAPICoordinator {
     
     fileprivate func delete(document: GiniVisionDocument) {
         documentService?.delete(document)
+    }
+    
+    private func showErrorInAnalysisScreen(with message: String, for documentRequest: DocumentRequest) {
+        if self.analysisScreen == nil {
+            self.analysisScreen = AnalysisViewController(document: documentRequest.document)
+        }
+        
+        self.analysisScreen?.showError(with: message, action: {
+            self.upload(documentRequest: documentRequest)
+        })
     }
 }
 

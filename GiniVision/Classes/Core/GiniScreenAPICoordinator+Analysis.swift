@@ -65,7 +65,14 @@ extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: AnalysisDelegate {
     func displayError(withMessage message: String?, andAction action: (() -> Void)?) {
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self, let message = message, let action = action else { return }
+            guard let `self` = self,
+                let message = message,
+                let action = action,
+                let firstDocument = self.documentRequests.first?.document else { return }
+            if self.analysisViewController == nil {
+                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
+            }
+            
             self.analysisViewController?.showError(with: message, action: action)
         }
     }
@@ -82,5 +89,5 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
             return true
         }
         return false
-    }
+    }    
 }
