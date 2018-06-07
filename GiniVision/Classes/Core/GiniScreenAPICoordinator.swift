@@ -234,34 +234,28 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if fromVC == analysisViewController && operation == .pop {
-            // Going directly from the analysis to the camera means that
-            // the document is not an image and should be removed
-            if toVC == cameraViewController {
-                pages.removeAll()
-            }
-            
+        if fromVC is AnalysisViewController && operation == .pop {
             analysisViewController = nil
             visionDelegate?.didCancelAnalysis()
         }
         
-        if fromVC == reviewViewController && toVC == cameraViewController {
+        if fromVC is ReviewViewController && operation == .pop {
             // This can only happen when not using multipage
             reviewViewController = nil
+            
             if let firstDocument = pages.first?.document {
-                if let didCancelReviewForDocument = visionDelegate?.didCancelReview(for:) {
-                    didCancelReviewForDocument(firstDocument)
-                } else {
-                    fatalError("GiniVisionDelegate.didCancelReview(for document: GiniVisionDocument)" +
-                        "should be implemented")
-                }
-                
-                clearDocuments()
+                visionDelegate?.didCancelReview(for: firstDocument)
             }
         }
         
-        let isFromCameraToMultipage = (toVC == multiPageReviewViewController && fromVC == cameraViewController)
-        let isFromMultipageToCamera = (fromVC == multiPageReviewViewController && toVC == cameraViewController)
+        if toVC == cameraViewController && (fromVC is ReviewViewController || fromVC is AnalysisViewController) {
+            // When going directly from the analysis or from the single page review screen to the camera the pages
+            // collection should be cleared, since the document processed in that cases is not going to be reused
+            clearDocuments()
+        }
+        
+        let isFromCameraToMultipage = (toVC is MultipageReviewViewController && fromVC is CameraViewController)
+        let isFromMultipageToCamera = (fromVC is MultipageReviewViewController && toVC is CameraViewController)
         
         if isFromCameraToMultipage || isFromMultipageToCamera {
             return multipageTransition(operation: operation, from: fromVC, to: toVC)
