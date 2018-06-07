@@ -409,15 +409,14 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             switch result {
             case .success(let documentRequests):
-                switch document {
-                case let qrCodeDocument as GiniQRCodeDocument:
+                if let qrCodeDocument = document as? GiniQRCodeDocument {
                     viewController.showPopup(forQRDetected: qrCodeDocument) {
                         self.documentRequests.removeAll()
                         self.documentRequests.append(contentsOf: documentRequests)
                         self.upload(documentRequests: documentRequests)
                         self.showNextScreenAfterPicking()
                     }
-                case let imageDocument as GiniImageDocument:
+                } else if let imageDocument = document as? GiniImageDocument {
                     self.documentRequests.append(contentsOf: documentRequests)
                     self.upload(documentRequests: documentRequests)
                     
@@ -426,8 +425,6 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
                     } else {
                         self.showNextScreenAfterPicking()
                     }
-                    
-                default: break
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
@@ -530,7 +527,6 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
             
             if self.giniConfiguration.multipageEnabled, self.documentRequests.type == .image {
                 self.refreshMultipageReview(with: self.documentRequests)
-
             }
             
             upload(documentRequests: [documentRequests[index]])
