@@ -526,7 +526,7 @@ extension CameraViewController {
                     addNotAuthorizedView()
                 default:
                     if GiniConfiguration.DEBUG {
-                        cameraState = .valid;
+                        cameraState = .valid
                         #if targetEnvironment(simulator)
                             addDefaultImage()
                         #endif
@@ -538,7 +538,9 @@ extension CameraViewController {
         self.camera?.didDetectQR = {[weak self] qrDocument in
             if self?.detectedQRCodeDocument != qrDocument {
                 self?.detectedQRCodeDocument = qrDocument
-                self?.didPick(qrDocument)
+                self?.showPopup(forQRDetected: qrDocument) {
+                    self?.didPick(qrDocument)
+                }
             }
         }
     }
