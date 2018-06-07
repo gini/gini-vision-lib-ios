@@ -56,8 +56,8 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documentRequests: [GiniVisionPage]) {
-        replaceDocuments(with: documentRequests)
+                         didReorder pages: [GiniVisionPage]) {
+        replaceDocuments(with: pages)
     }
     
     func multipageReview(_ viewController: MultipageReviewViewController,
