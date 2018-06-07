@@ -62,9 +62,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     
     class func size(in collectionView: UICollectionView) -> CGSize {
         let padding = self.padding(in: collectionView)
-        let height = MultipageReviewPagesCollectionFooter.contentSize(in: collectionView).height +
-            padding.top +
-            padding.bottom
+        let height = MultipageReviewPagesCollectionFooter.contentSize(in: collectionView).height
         let width = MultipageReviewPagesCollectionFooter.contentSize(in: collectionView).width +
             padding.left +
             padding.right
