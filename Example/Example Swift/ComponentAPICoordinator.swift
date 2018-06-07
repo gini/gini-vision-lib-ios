@@ -37,7 +37,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         navBarViewController.navigationBar.barTintColor = self.giniColor
         navBarViewController.navigationBar.tintColor = .white
         navBarViewController.view.backgroundColor = .black
-
+        
         return navBarViewController
     }()
     
@@ -74,7 +74,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var reviewScreen: ReviewViewController?
     fileprivate(set) lazy var documentPickerCoordinator =
         DocumentPickerCoordinator(giniConfiguration: giniConfiguration)
-
+    
     init(documentRequests: [DocumentRequest],
          configuration: GiniConfiguration,
          client: GiniClient) {
@@ -213,13 +213,13 @@ extension ComponentAPICoordinator {
         
         push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
         analysisScreen = nil
-
+        
     }
     
     fileprivate func showNextScreenAfterPicking() {
         if let documentsType = documentRequests.type {
             switch documentsType {
-            case .image:
+            case .image:                
                 if giniConfiguration.multipageEnabled {
                     refreshMultipageReview(with: self.documentRequests)
                     showMultipageReviewScreen()
@@ -354,7 +354,7 @@ extension ComponentAPICoordinator {
             closeComponentAPI()
             return
         }
-
+        
         navigationController.popToRootViewController(animated: true)
     }
 }
@@ -409,15 +409,22 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             switch result {
             case .success(let documentRequests):
-                self.documentRequests.append(contentsOf: documentRequests)
-                self.upload(documentRequests: documentRequests)
-                
-                if self.giniConfiguration.multipageEnabled, self.documentRequests.count > 1 {
-                    if let imageDocument = document as? GiniImageDocument {
-                        viewController.animateToControlsView(imageDocument: imageDocument)
+                if let qrCodeDocument = document as? GiniQRCodeDocument {
+                    viewController.showPopup(forQRDetected: qrCodeDocument) {
+                        self.documentRequests.removeAll()
+                        self.documentRequests.append(contentsOf: documentRequests)
+                        self.upload(documentRequests: documentRequests)
+                        self.showNextScreenAfterPicking()
                     }
-                } else {
-                    self.showNextScreenAfterPicking()
+                } else if let imageDocument = document as? GiniImageDocument {
+                    self.documentRequests.append(contentsOf: documentRequests)
+                    self.upload(documentRequests: documentRequests)
+                    
+                    if self.documentRequests.count > 1 {
+                        viewController.animateToControlsView(imageDocument: imageDocument)
+                    } else {
+                        self.showNextScreenAfterPicking()
+                    }
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
@@ -480,13 +487,13 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
                         break
                     }
                 }
-
+                
                 if coordinator.currentPickerDismissesAutomatically {
                     self.cameraScreen?.showErrorDialog(for: error,
                                                        positiveAction: positiveAction)
                 } else {
                     coordinator.currentPickerViewController?.showErrorDialog(for: error,
-                                                                    positiveAction: positiveAction)
+                                                                             positiveAction: positiveAction)
                 }
             }
             
@@ -607,7 +614,7 @@ extension ComponentAPICoordinator {
                 } catch let error {
                     documentError = error
                 }
-            
+                
                 documentRequests.append(DocumentRequest(value: document, error: documentError))
             }
             

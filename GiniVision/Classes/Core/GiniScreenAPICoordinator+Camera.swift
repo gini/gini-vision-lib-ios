@@ -25,18 +25,23 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             switch result {
             case .success(let validatedDocuments):
                 let validatedDocument = validatedDocuments[0]
-                self.addToDocuments(new: [validatedDocument])
-                self.didCaptureAndValidate(document)
-                
-                if let imageDocument = document as? GiniImageDocument {
+                if let qrCodeDocument = document as? GiniQRCodeDocument {
+                    viewController.showPopup(forQRDetected: qrCodeDocument) {
+                        self.clearDocuments()
+                        self.addToDocuments(new: [validatedDocument])
+                        self.didCaptureAndValidate(document)
+                        self.showNextScreenAfterPicking(documentRequests: self.documentRequests)
+                    }
+                } else if let imageDocument = document as? GiniImageDocument {
+                    self.addToDocuments(new: [validatedDocument])
+                    self.didCaptureAndValidate(document)
+                    
+                    // In case that there is more than one image already captured, an animation is shown instead of
+                    // going to next screen
                     if self.documentRequests.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
                         self.showNextScreenAfterPicking(documentRequests: [validatedDocument])
-                    }
-                } else if let qrDocument = document as? GiniQRCodeDocument {
-                    viewController.showPopup(forQRDetected: qrDocument) {
-                        self.showNextScreenAfterPicking(documentRequests: self.documentRequests)
                     }
                 }
             case .failure(let error):
@@ -133,7 +138,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         navigationController.modalPresentationStyle = .overCurrentContext
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
     }
-        
+    
     func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
         let visionDocuments = documentRequests.map { $0.document }
         if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
@@ -202,7 +207,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                                                                positiveAction: positiveAction)
                 } else {
                     coordinator.currentPickerViewController?.showErrorDialog(for: error,
-                                                                    positiveAction: positiveAction)
+                                                                             positiveAction: positiveAction)
                 }
             }
             

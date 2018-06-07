@@ -487,7 +487,7 @@ extension CameraViewController {
      - parameter qrDocument: A validated `GiniQRCodeDocument`.
      - parameter didTapDone: Block executed when the user taps the _Done_ button to proceed with the `GiniQRCodeDocument`.
      */
-    func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
+    public func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             
