@@ -50,6 +50,12 @@ final class DocumentsService: DocumentServiceProtocol {
         }
     }
     
+    func resetToInitialState() {
+        partialDocuments.removeAll()
+        analysisCancellationToken = nil
+        compositeDocument = nil
+    }
+    
     func update(imageDocument: GiniImageDocument) {
         partialDocuments[imageDocument.id]?.info.rotationDelta = Int32(imageDocument.rotationDelta)
     }

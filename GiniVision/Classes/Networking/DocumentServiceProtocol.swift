@@ -22,6 +22,7 @@ protocol DocumentServiceProtocol: class {
     init(sdk: GiniSDK)
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
+    func resetToInitialState()
     func sendFeedback(with: [String: Extraction])
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument])

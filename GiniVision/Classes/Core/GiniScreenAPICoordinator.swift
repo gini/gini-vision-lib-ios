@@ -260,6 +260,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             // When going directly from the analysis or from the single page review screen to the camera the pages
             // collection should be cleared, since the document processed in that cases is not going to be reused
             clearDocuments()
+            documentService?.resetToInitialState()
         }
         
         let isFromCameraToMultipage = (toVC is MultipageReviewViewController && fromVC is CameraViewController)

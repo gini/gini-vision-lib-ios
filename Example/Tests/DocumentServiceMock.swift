@@ -29,7 +29,11 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
         
     }
     
-    func sendFeedback(with: [String : Extraction]) {
+    func resetToInitialState() {
+        
+    }
+    
+    func sendFeedback(with: [String: Extraction]) {
         
     }
     
