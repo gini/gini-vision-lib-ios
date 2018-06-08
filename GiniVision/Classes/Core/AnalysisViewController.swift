@@ -204,7 +204,7 @@ import UIKit
     }
     
     /**
-     Shows an error when there was an error with either during the analysis or uploading a document
+     Shows an error when there was an error with either the analysis or document upload
      */
     public func showError(with message: String, action: @escaping () -> Void ) {
         errorView.textLabel.text = message
