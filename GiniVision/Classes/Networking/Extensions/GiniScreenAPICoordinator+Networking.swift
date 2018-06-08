@@ -91,7 +91,7 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func present(result: [String: Extraction]) {
+    func deliver(result: [String: Extraction], analysisDelegate: AnalysisDelegate) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
@@ -105,11 +105,10 @@ extension GiniScreenAPICoordinator {
                 }
             } else {
                 self.resultsDelegate?
-                    .giniVisionAnalysisDidFinishWithoutResults( self.tryDisplayNoResultsScreen())
+                    .giniVisionAnalysisDidFinishWithoutResults(analysisDelegate.tryDisplayNoResultsScreen())
             }
         }
     }
-    
 }
 
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
@@ -118,13 +117,22 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         resultsDelegate?.giniVisionDidCancelAnalysis()        
     }
     
+    func didCapture(document: GiniVisionDocument, analysisDelegate: AnalysisDelegate) {
+    
+    }
+    
     func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {        
-        documentService?.upload(document: document) { [weak uploadDelegate] result in
+        documentService?.upload(document: document) { [weak self, weak uploadDelegate] result in
+            guard let `self` = self, let uploadDelegate = uploadDelegate else { return }
             switch result {
             case .success:
-                uploadDelegate?.uploadDidComplete(for: document)
+                if document is GiniImageDocument && self.giniConfiguration.multipageEnabled {
+                    uploadDelegate.uploadDidComplete(for: document)
+                } else {
+                    
+                }
             case .failure(let error):
-                uploadDelegate?.uploadDidFail(for: document, with: error)
+                uploadDelegate.uploadDidFail(for: document, with: error)
             }
         }
     }
@@ -151,10 +159,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         documentService?.startAnalysis { result in
             switch result {
             case .success(let extractions):
-                self.present(result: extractions)
+                self.deliver(result: extractions, analysisDelegate: analysisDelegate)
             case .failure(let error):
                 guard let error = error as? GiniVisionError else { return }
-                self.displayError(withMessage: error.message, andAction: {
+                analysisDelegate.displayError(withMessage: error.message, andAction: {
                     self.didShowAnalysis(analysisDelegate)
                 })
             }
