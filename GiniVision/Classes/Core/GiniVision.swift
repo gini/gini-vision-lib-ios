@@ -8,6 +8,8 @@
 
 import UIKit
 
+public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
+
 /**
  Delegate to inform the reveiver about the current status of the Gini Vision Library.
  Makes use of callbacks for handling incoming data and to control view controller presentation.
@@ -20,11 +22,12 @@ import UIKit
      Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
      
      - parameter document: `GiniVisionDocument`
-     - parameter uploadDelegate: `UploadDelegate` used to tell the Gini Vision Library to update the pages upload state
+     - parameter networkDelegate: `GiniVisionNetworkDelegate` used to tell the Gini Vision
+                                   Library to upload the pages upload state
 
      */
     
-    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate)
+    func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate)
 
     /**
      Called when the user has taken a picture or imported a file (image or PDF) from camera roll or document explorer
@@ -33,7 +36,7 @@ import UIKit
      */
     
     @available(*, unavailable,
-    message: "Use didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) instead")
+    message: "Use didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) instead")
     func didCapture(document: GiniVisionDocument)
     
     /**
@@ -50,8 +53,11 @@ import UIKit
      It is used to add any optional parameters, like rotationDelta, when creating the composite document.
      
      - parameter documents: An array containing on or several reviewed `GiniVisionDocument`
+     - parameter networkDelegate: `GiniVisionNetworkDelegate` used to tell the Gini Vision Library that the documents
+                                   were reviewed and can be analyzed or uploaded.
+
      */
-    func didReview(documents: [GiniVisionDocument])
+    func didReview(documents: [GiniVisionDocument], networkDelegate: GiniVisionNetworkDelegate)
     
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
@@ -79,6 +85,11 @@ import UIKit
      
      - parameter analysisDelegate: The analysis delegate to send updates to.
      */
+    @available(*, unavailable,
+    message: """
+    This method is no longer needed since the analysis should start
+    always in the didReview(documents:networkDelegate:) method
+    """)
     @objc optional func didShowAnalysis(_ analysisDelegate: AnalysisDelegate)
     
     /**

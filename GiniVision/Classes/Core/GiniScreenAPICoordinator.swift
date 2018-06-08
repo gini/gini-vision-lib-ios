@@ -99,7 +99,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
                 
-                pages.forEach { visionDelegate?.didCapture(document: $0.document, uploadDelegate: self) }
+                pages.forEach { visionDelegate?.didCapture(document: $0.document, networkDelegate: self) }
                 viewControllers = initialViewControllers(with: pages)
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
@@ -210,7 +210,10 @@ extension GiniScreenAPICoordinator {
         guard let firstDocument = pages.first?.document else {
             return
         }
-        visionDelegate?.didReview(documents: pages.map { $0.document })
+        
+        if pages.type == .image {
+            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
+        }
         analysisViewController = createAnalysisScreen(withDocument: firstDocument)
         
         if let (message, action) = analysisErrorAndAction {

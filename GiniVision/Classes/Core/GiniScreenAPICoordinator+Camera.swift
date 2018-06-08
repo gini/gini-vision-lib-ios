@@ -97,7 +97,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     fileprivate func didCaptureAndValidate(_ document: GiniVisionDocument) {
-        visionDelegate?.didCapture(document: document, uploadDelegate: self)
+        visionDelegate?.didCapture(document: document, networkDelegate: self)
     }
     
     private func shouldShowOnBoarding() -> Bool {
