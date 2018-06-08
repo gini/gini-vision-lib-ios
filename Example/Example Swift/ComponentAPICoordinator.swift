@@ -159,7 +159,8 @@ extension ComponentAPICoordinator {
     @objc fileprivate func showAnalysisScreen() {
         guard let page = pages.first else { return }
         
-        analysisScreen = AnalysisViewController(document:document)
+        analysisScreen = AnalysisViewController(document: page.document)
+        
         if let (message, action) = analysisErrorAndAction {
             showErrorInAnalysisScreen(with: message, action: action)
         }
@@ -167,7 +168,7 @@ extension ComponentAPICoordinator {
         if pages.type == .image {
             // In multipage mode the analysis can be triggered once the documents have been uploaded.
             // However, in single mode, the analysis can be triggered right after capturing the image.
-            // That is why the document upload shuld be done here and start the analysis afterwards
+            // That is why the document upload should be done here and start the analysis afterwards
             if giniConfiguration.multipageEnabled {
                 self.startAnalysis()
             } else {
@@ -301,7 +302,7 @@ extension ComponentAPICoordinator {
             self.startAnalysis()
         }, didFail: { error in
             guard let error = error as? GiniVisionError else { return }
-            self.showErrorInAnalysisScreen(with: error.message, for: page) {
+            self.showErrorInAnalysisScreen(with: error.message) {
                 self.uploadAndStartAnalysis(for: page)
             }
         })
@@ -319,7 +320,7 @@ extension ComponentAPICoordinator {
             }
             upload(page: page,
                    didComplete: refreshMultipageScreen,
-                   didFail: {_ in refreshMultipageScreen()})
+                   didFail: { _ in refreshMultipageScreen()})
         }
         
     }

@@ -245,9 +245,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         }
         
         if fromVC is ReviewViewController && operation == .pop {
-            // This can only happen when not using multipage
-            reviewViewController = nil
-            
+            reviewViewController = nil            
             if let firstDocument = pages.first?.document {
                 visionDelegate?.didCancelReview(for: firstDocument)
             }

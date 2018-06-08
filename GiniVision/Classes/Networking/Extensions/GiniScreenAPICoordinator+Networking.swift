@@ -136,6 +136,19 @@ extension GiniScreenAPICoordinator {
             }
         }
     }
+    
+    fileprivate func uploadAndStartAnalysis(document: GiniVisionDocument,
+                                            networkDelegate: GiniVisionNetworkDelegate,
+                                            uploadDidFail: @escaping () -> Void) {
+        self.upload(document: document, didComplete: { _ in
+            self.startAnalysis(networkDelegate: networkDelegate)
+        }, didFail: { _, error in
+            let error = error as? GiniVisionError ?? AnalysisError.documentCreation
+            networkDelegate.displayError(withMessage: error.message, andAction: {
+                uploadDidFail()
+            })
+        })
+    }
 }
 
 // MARK: - GiniVisionDelegate
@@ -146,33 +159,19 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
-        var uploadDidComplete: (GiniVisionDocument) -> Void = { _ in }
-        var uploadDidFail: (GiniVisionDocument, Error) -> Void = { _, _ in }
-
         // When an non reviewable document or an image in multipage mode is captured,
         // it has to be uploaded right away.
         if giniConfiguration.multipageEnabled || !document.isReviewable {
             if !document.isReviewable {
-                // The analysis should start once it has been uploaded when the document is non reviewable
-                uploadDidComplete = { _ in
-                    self.startAnalysis(networkDelegate: networkDelegate)
-                }
-                // When the uplodad fails, the error should be shown in the analysis screen
-                uploadDidFail = { _, error in
-                    let error = error as? GiniVisionError ?? AnalysisError.documentCreation
-                    networkDelegate.displayError(withMessage: error.message, andAction: {
-                        self.didCapture(document: document, networkDelegate: networkDelegate)
-                    })
-                }
+                self.uploadAndStartAnalysis(document: document, networkDelegate: networkDelegate, uploadDidFail: {
+                    self.didCapture(document: document, networkDelegate: networkDelegate)
+                })
             } else if giniConfiguration.multipageEnabled {
                 // When multipage is enabled the document updload result should be communicated to the network delegate
-                uploadDidComplete = networkDelegate.uploadDidComplete
-                uploadDidFail = networkDelegate.uploadDidFail
-            }
-            
-            upload(document: document,
-                   didComplete: uploadDidComplete,
-                   didFail: uploadDidFail)
+                upload(document: document,
+                       didComplete: networkDelegate.uploadDidComplete,
+                       didFail: networkDelegate.uploadDidFail)
+            }            
         }
     }
     
@@ -194,13 +193,8 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         if giniConfiguration.multipageEnabled {
             self.startAnalysis(networkDelegate: networkDelegate)
         } else {
-            self.upload(document: documents[0], didComplete: { _ in
-                self.startAnalysis(networkDelegate: networkDelegate)
-            }, didFail: { _, error in
-                let error = error as? GiniVisionError ?? AnalysisError.documentCreation
-                networkDelegate.displayError(withMessage: error.message, andAction: {
-                    self.didReview(documents: documents, networkDelegate: networkDelegate)
-                })
+            self.uploadAndStartAnalysis(document: documents[0], networkDelegate: networkDelegate, uploadDidFail: {
+                self.didReview(documents: documents, networkDelegate: networkDelegate)
             })
         }
     }
