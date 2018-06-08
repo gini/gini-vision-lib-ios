@@ -125,6 +125,7 @@ public protocol GiniVisionError: Error {
                                             "the analysis was cancelled")
         default:
             return NSLocalizedString("ginivision.analysis.error.analysis",
+                                     bundle: Bundle(for: GiniVision.self),
                                      comment: "This message is shown when" +
                                     "there is an error analyzing the document")
         }
