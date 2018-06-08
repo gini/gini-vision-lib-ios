@@ -83,11 +83,7 @@ extension GiniScreenAPICoordinator {
                                                    userEmailDomain: client.clientEmailDomain)
         
         if let sdk = builder?.build() {
-            if giniConfiguration.multipageEnabled {
-                self.documentService = MultipageDocumentsService(sdk: sdk)
-            } else {
-                self.documentService = SinglePageDocumentsService(sdk: sdk)
-            }
+            self.documentService = DocumentsService(sdk: sdk)
         }
     }
     
@@ -111,62 +107,106 @@ extension GiniScreenAPICoordinator {
     }
 }
 
-extension GiniScreenAPICoordinator: GiniVisionDelegate {
-    
-    func didCancelCapturing() {
-        resultsDelegate?.giniVisionDidCancelAnalysis()        
-    }
-    
-    func didCapture(document: GiniVisionDocument, analysisDelegate: AnalysisDelegate) {
-    
-    }
-    
-    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {        
-        documentService?.upload(document: document) { [weak self, weak uploadDelegate] result in
-            guard let `self` = self, let uploadDelegate = uploadDelegate else { return }
+// MARK: - Networking methods
+
+extension GiniScreenAPICoordinator {
+    fileprivate func startAnalysis(networkDelegate: GiniVisionNetworkDelegate) {
+        self.documentService?.startAnalysis { result in
             switch result {
-            case .success:
-                if document is GiniImageDocument && self.giniConfiguration.multipageEnabled {
-                    uploadDelegate.uploadDidComplete(for: document)
-                } else {
-                    
-                }
+            case .success(let extractions):
+                self.deliver(result: extractions, analysisDelegate: networkDelegate)
             case .failure(let error):
-                uploadDelegate.uploadDidFail(for: document, with: error)
+                guard let error = error as? GiniVisionError else { return }
+                networkDelegate.displayError(withMessage: error.message, andAction: {
+                    self.startAnalysis(networkDelegate: networkDelegate)
+                })
             }
         }
     }
     
-    func didReview(documents: [GiniVisionDocument]) {
+    fileprivate func upload(document: GiniVisionDocument,
+                            didComplete: @escaping (GiniVisionDocument) -> Void,
+                            didFail: @escaping (GiniVisionDocument, Error) -> Void) {
+        documentService?.upload(document: document) { result in
+            switch result {
+            case .success:
+                didComplete(document)
+            case .failure(let error):
+                didFail(document, error)
+            }
+        }
+    }
+}
+
+// MARK: - GiniVisionDelegate
+
+extension GiniScreenAPICoordinator: GiniVisionDelegate {
+    func didCancelCapturing() {
+        resultsDelegate?.giniVisionDidCancelAnalysis()        
+    }
+    
+    func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
+        var uploadDidComplete: (GiniVisionDocument) -> Void = { _ in }
+        var uploadDidFail: (GiniVisionDocument, Error) -> Void = { _, _ in }
+
+        // When an non reviewable document or an image in multipage mode is captured,
+        // it has to be uploaded right away.
+        if giniConfiguration.multipageEnabled || !document.isReviewable {
+            if !document.isReviewable {
+                // The analysis should start once it has been uploaded when the document is non reviewable
+                uploadDidComplete = { _ in
+                    self.startAnalysis(networkDelegate: networkDelegate)
+                }
+                // When the uplodad fails, the error should be shown in the analysis screen
+                uploadDidFail = { _, error in
+                    guard let error = error as? GiniVisionError else { return }
+                    networkDelegate.displayError(withMessage: error.message, andAction: {
+                        self.didCapture(document: document, networkDelegate: networkDelegate)
+                    })
+                }
+            } else if giniConfiguration.multipageEnabled {
+                // When multipage is enabled the document updload result should be communicated to the network delegate
+                uploadDidComplete = networkDelegate.uploadDidComplete
+                uploadDidFail = networkDelegate.uploadDidFail
+            }
+            
+            upload(document: document,
+                   didComplete: uploadDidComplete,
+                   didFail: uploadDidFail)
+        }
+    }
+    
+    func didReview(documents: [GiniVisionDocument], networkDelegate: GiniVisionNetworkDelegate) {
         // It is necessary to check the order when using multipage before
         // creating the composite document
-        if let documentService = documentService as? MultipageDocumentsService {
-            documentService.sortDocuments(withSameOrderAs: documents)
+        if giniConfiguration.multipageEnabled {
+            documentService?.sortDocuments(withSameOrderAs: documents)
         }
         
         // And review the changes for each document recursively.
         for document in (documents.compactMap { $0 as? GiniImageDocument }) {
             documentService?.update(imageDocument: document)
         }
-
+        
+        // In multipage mode the analysis can be triggered once the documents have been uploaded.
+        // However, in single mode, the analysis can be triggered right after capturing the image.
+        // That is why the document upload shuld be done here and start the analysis afterwards
+        if giniConfiguration.multipageEnabled {
+            self.startAnalysis(networkDelegate: networkDelegate)
+        } else {
+            self.upload(document: documents[0], didComplete: { _ in
+                self.startAnalysis(networkDelegate: networkDelegate)
+            }, didFail: { _, error in
+                guard let error = error as? GiniVisionError else { return }
+                networkDelegate.displayError(withMessage: error.message, andAction: {
+                    self.didReview(documents: documents, networkDelegate: networkDelegate)
+                })
+            })
+        }
     }
     
     func didCancelReview(for document: GiniVisionDocument) {
         documentService?.remove(document: document)
-    }
-    
-    func didShowAnalysis(_ analysisDelegate: AnalysisDelegate) {        
-        documentService?.startAnalysis { result in
-            switch result {
-            case .success(let extractions):
-                self.deliver(result: extractions, analysisDelegate: analysisDelegate)
-            case .failure(let error):
-                guard let error = error as? GiniVisionError else { return }
-                analysisDelegate.displayError(withMessage: error.message, andAction: {
-                    self.didShowAnalysis(analysisDelegate)
-                })
-            }
-        }
     }
     
     func didCancelAnalysis() {

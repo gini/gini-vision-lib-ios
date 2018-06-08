@@ -10,11 +10,11 @@ import Foundation
 @testable import GiniVision
 
 final class GiniVisionDelegateMock: GiniVisionDelegate {
-    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {
+    func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
         
     }
     
-    func didReview(documents: [GiniVisionDocument]) {
+    func didReview(documents: [GiniVisionDocument], networkDelegate: GiniVisionNetworkDelegate) {
         
     }
     
@@ -29,8 +29,5 @@ final class GiniVisionDelegateMock: GiniVisionDelegate {
     func didCancelAnalysis() {
         
     }
-    
-
-    
     
 }
