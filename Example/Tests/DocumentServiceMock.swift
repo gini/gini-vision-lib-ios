@@ -25,19 +25,27 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
         
     }
     
-    func delete(_ document: GiniVisionDocument) {
+    func remove(document: GiniVisionDocument) {
         
     }
     
-    func update(_ imageDocument: GiniImageDocument) {
+    func sendFeedback(with: [String : Extraction]) {
         
     }
     
-    func startAnalysis(completion: @escaping ((CompletionResult<[String : Extraction]>) -> Void)) {
+    func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion) {
         
     }
     
-    func upload(_ document: GiniVisionDocument, completion: ((CompletionResult<GINIDocument>) -> Void)?) {
+    func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
+        
+    }
+    
+    func upload(document: GiniVisionDocument, completion: ComponentAPIUploadDocumentCompletion?) {
+        
+    }
+    
+    func update(imageDocument: GiniImageDocument) {
         
     }
 

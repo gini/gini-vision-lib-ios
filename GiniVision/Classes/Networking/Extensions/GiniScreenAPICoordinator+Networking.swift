@@ -116,7 +116,7 @@ extension GiniScreenAPICoordinator {
             case .success(let extractions):
                 self.deliver(result: extractions, analysisDelegate: networkDelegate)
             case .failure(let error):
-                guard let error = error as? GiniVisionError else { return }
+                let error = error as? GiniVisionError ?? AnalysisError.unknown
                 networkDelegate.displayError(withMessage: error.message, andAction: {
                     self.startAnalysis(networkDelegate: networkDelegate)
                 })
@@ -159,7 +159,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 }
                 // When the uplodad fails, the error should be shown in the analysis screen
                 uploadDidFail = { _, error in
-                    guard let error = error as? GiniVisionError else { return }
+                    let error = error as? GiniVisionError ?? AnalysisError.documentCreation
                     networkDelegate.displayError(withMessage: error.message, andAction: {
                         self.didCapture(document: document, networkDelegate: networkDelegate)
                     })
@@ -197,7 +197,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             self.upload(document: documents[0], didComplete: { _ in
                 self.startAnalysis(networkDelegate: networkDelegate)
             }, didFail: { _, error in
-                guard let error = error as? GiniVisionError else { return }
+                let error = error as? GiniVisionError ?? AnalysisError.documentCreation
                 networkDelegate.displayError(withMessage: error.message, andAction: {
                     self.didReview(documents: documents, networkDelegate: networkDelegate)
                 })

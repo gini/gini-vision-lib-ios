@@ -37,9 +37,8 @@
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */; };
-		1F59756120A0A21A0012196B /* MultipageDocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756020A0A21A0012196B /* MultipageDocumentService.swift */; };
+		1F59756120A0A21A0012196B /* ComponentAPIDocumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */; };
 		1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */; };
-		1F59756520A0A3C00012196B /* SinglePageDocumentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */; };
 		1F59756820A1C5C00012196B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756720A1C5C00012196B /* UIViewController.swift */; };
 		1F5F4A54209AF54C0037DB1A /* PageStateViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F4A52209AF5410037DB1A /* PageStateViewTests.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
@@ -148,9 +147,8 @@
 		1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerTests.swift; sourceTree = "<group>"; };
-		1F59756020A0A21A0012196B /* MultipageDocumentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageDocumentService.swift; sourceTree = "<group>"; };
+		1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPIDocumentsService.swift; sourceTree = "<group>"; };
 		1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialDocumentInfo.swift; sourceTree = "<group>"; };
-		1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePageDocumentService.swift; sourceTree = "<group>"; };
 		1F59756720A1C5C00012196B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		1F5F4A52209AF5410037DB1A /* PageStateViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageStateViewTests.swift; sourceTree = "<group>"; };
 		1F62FA341FA2207100CEA828 /* OpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
@@ -315,9 +313,8 @@
 				1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */,
 				1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */,
 				0AEACE091D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift */,
-				1F59756020A0A21A0012196B /* MultipageDocumentService.swift */,
+				1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */,
 				1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */,
-				1F59756420A0A3C00012196B /* SinglePageDocumentService.swift */,
 			);
 			name = "Component API";
 			sourceTree = "<group>";
@@ -877,8 +874,7 @@
 				1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */,
 				1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */,
 				1F59756820A1C5C00012196B /* UIViewController.swift in Sources */,
-				1F59756120A0A21A0012196B /* MultipageDocumentService.swift in Sources */,
-				1F59756520A0A3C00012196B /* SinglePageDocumentService.swift in Sources */,
+				1F59756120A0A21A0012196B /* ComponentAPIDocumentsService.swift in Sources */,
 				1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */,
 				1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */,
 				1F9466C5203702E600F52B40 /* CredentialsManager.swift in Sources */,

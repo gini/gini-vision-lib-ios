@@ -122,15 +122,8 @@ final class AppCoordinator: Coordinator {
         guard let sdk = builder?.build() else {
             fatalError("It wasn't possible to build a Gini API SDK ")
         }
-
-        let documentService: ComponentAPIDocumentServiceProtocol
-        if giniConfiguration.multipageEnabled {
-            documentService = MultipageDocumentsService(sdk: sdk)
-        } else {
-            documentService = SinglePageDocumentsService(sdk: sdk)
-        }
         
-        return documentService
+        return ComponentAPIDocumentsService(sdk: sdk)
     }
     
     fileprivate func showSettings() {
