@@ -417,9 +417,11 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
             }
         }
         
-        if fromVC is AnalysisViewController && operation == .pop {
+        if fromVC is AnalysisViewController {
             analysisScreen = nil
-            documentService?.cancelAnalysis()
+            if operation == .pop {
+                documentService?.cancelAnalysis()
+            }
         }
         
         if toVC is CameraViewController &&
