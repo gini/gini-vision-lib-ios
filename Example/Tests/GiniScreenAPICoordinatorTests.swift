@@ -95,31 +95,31 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        let capturedImageDocument = loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
-        (coordinator.multiPageReviewViewController.documentRequests[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
+        (coordinator.multiPageReviewViewController.pages[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didRotate: coordinator.multiPageReviewViewController.documentRequests[0])
+                                    didRotate: coordinator.multiPageReviewViewController.pages[0])
 
-        let imageDocument = coordinator.documentRequests[0].document as? GiniImageDocument
+        let imageDocument = coordinator.pages[0].document as? GiniImageDocument
         XCTAssertEqual(imageDocument?.rotationDelta, 90,
                        "the image document rotation delta should have been updated after rotation")
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = loadImageDocumentRequest(withName: "invoice")
+        let capturedImageDocument = loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
-                                    didDelete: coordinator.multiPageReviewViewController.documentRequests[0])
-        XCTAssertTrue(coordinator.documentRequests.isEmpty,
+                                    didDelete: coordinator.multiPageReviewViewController.pages[0])
+        XCTAssertTrue(coordinator.pages.isEmpty,
                       "vision documents collection should be empty after delete " +
             "the image in the multipage review view controller")
     }
     
     func testMultipageImageDocumentWhenSortingDocuments() {
-        let capturedImageDocument = [loadImageDocumentRequest(withName: "invoice"), loadImageDocumentRequest(withName: "invoice")]
+        let capturedImageDocument = [loadImagePage(withName: "invoice"), loadImagePage(withName: "invoice")]
         let firstItemId = capturedImageDocument.first?.document.id
         coordinator.addToDocuments(new: capturedImageDocument)
         
@@ -128,7 +128,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
 
         coordinator.multipageReview(coordinator.multiPageReviewViewController, didReorder: reorderedItems)
         
-        XCTAssertTrue(coordinator.documentRequests.last?.document.id == firstItemId, "last items should be the one moved")
+        XCTAssertTrue(coordinator.pages.last?.document.id == firstItemId, "last items should be the one moved")
         
     }
 }

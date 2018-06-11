@@ -41,38 +41,38 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
 
 extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didRotate documentRequest: DocumentRequest) {
-        updateDocument(for: documentRequest.document)
+                         didRotate page: GiniVisionPage) {
+        updateDocument(for: page.document)
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didDelete documentRequest: DocumentRequest) {
-        removeFromDocuments(document: documentRequest.document)
-        visionDelegate?.didCancelReview(for: documentRequest.document)
+                         didDelete page: GiniVisionPage) {
+        removeFromDocuments(document: page.document)
+        visionDelegate?.didCancelReview(for: page.document)
         
-        if documentRequests.isEmpty {
+        if pages.isEmpty {
             closeMultipageScreen()
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController,
-                         didReorder documentRequests: [DocumentRequest]) {
-        replaceDocuments(with: documentRequests)
+                         didReorder pages: [GiniVisionPage]) {
+        replaceDocuments(with: pages)
     }
     
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest) {
-        update(documentRequest.document, withError: nil, isUploaded: false)
-        visionDelegate?.didCapture(document: documentRequest.document, uploadDelegate: self)
+                         didTapRetryUploadFor page: GiniVisionPage) {
+        update(page.document, withError: nil, isUploaded: false)
+        visionDelegate?.didCapture(document: page.document, uploadDelegate: self)
     }
     
     func multipageReviewDidTapAddImage(_ controller: MultipageReviewViewController) {
         closeMultipageScreen()
     }
 
-    func createMultipageReviewScreenContainer(with documentRequests: [DocumentRequest])
+    func createMultipageReviewScreenContainer(with pages: [GiniVisionPage])
         -> MultipageReviewViewController {
-            let vc = MultipageReviewViewController(documentRequests: documentRequests,
+            let vc = MultipageReviewViewController(pages: pages,
                                                    giniConfiguration: giniConfiguration)
             vc.delegate = self
             vc.setupNavigationItem(usingResources: backButtonResource,
@@ -100,12 +100,12 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
         }
     }
     
-    func refreshMultipageReviewNextButton(with documentRequests: [DocumentRequest]) {
+    func refreshMultipageReviewNextButton(with pages: [GiniVisionPage]) {
         multiPageReviewViewController.navigationItem
             .rightBarButtonItem?
-            .isEnabled = documentRequests
-                .reduce(true, { result, documentRequest in
-                    result && documentRequest.isUploaded
+            .isEnabled = pages
+                .reduce(true, { result, page in
+                    result && page.isUploaded
                 })
     }
 }

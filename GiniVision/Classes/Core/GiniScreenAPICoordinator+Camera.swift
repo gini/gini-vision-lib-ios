@@ -30,7 +30,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                         self.clearDocuments()
                         self.addToDocuments(new: [validatedDocument])
                         self.didCaptureAndValidate(document)
-                        self.showNextScreenAfterPicking(documentRequests: self.documentRequests)
+                        self.showNextScreenAfterPicking(pages: self.pages)
                     }
                 } else if let imageDocument = document as? GiniImageDocument {
                     self.addToDocuments(new: [validatedDocument])
@@ -38,10 +38,10 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                     
                     // In case that there is more than one image already captured, an animation is shown instead of
                     // going to next screen
-                    if self.documentRequests.count > 1 {
+                    if self.pages.count > 1 {
                         viewController.animateToControlsView(imageDocument: imageDocument)
                     } else {
-                        self.showNextScreenAfterPicking(documentRequests: [validatedDocument])
+                        self.showNextScreenAfterPicking(pages: [validatedDocument])
                     }
                 }
             case .failure(let error):
@@ -59,7 +59,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         case .gallery:
             documentPickerCoordinator.showGalleryPicker(from: viewController)
         case .explorer:
-            documentPickerCoordinator.isPDFSelectionAllowed = documentRequests.isEmpty
+            documentPickerCoordinator.isPDFSelectionAllowed = pages.isEmpty
             documentPickerCoordinator.showDocumentPicker(from: viewController)
         }
     }
@@ -139,8 +139,8 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
     }
     
-    func showNextScreenAfterPicking(documentRequests: [DocumentRequest]) {
-        let visionDocuments = documentRequests.map { $0.document }
+    func showNextScreenAfterPicking(pages: [GiniVisionPage]) {
+        let visionDocuments = pages.map { $0.document }
         if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
             switch documentsType {
             case .image:
@@ -179,7 +179,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                             self.didCaptureAndValidate(validatedDocument.document)
                         }
                     }
-                    self.showNextScreenAfterPicking(documentRequests: validatedDocuments)
+                    self.showNextScreenAfterPicking(pages: validatedDocuments)
                 }
             case .failure(let error):
                 var positiveAction: (() -> Void)?
@@ -187,7 +187,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 if let error = error as? FilePickerError {
                     switch error {
                     case .maxFilesPickedCountExceeded, .mixedDocumentsUnsupported:
-                        if self.documentRequests.isNotEmpty {
+                        if self.pages.isNotEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
                                     self.showMultipageReview()
@@ -223,14 +223,14 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
 
 extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[DocumentRequest]>) -> Void) {
+                              completion: @escaping (Result<[GiniVisionPage]>) -> Void) {
         
-        guard !(documents + documentRequests.map {$0.document}).containsDifferentTypes else {
+        guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
         }
         
-        guard (documents.count + documentRequests.count) <= GiniVisionDocumentValidator.maxPagesCount else {
+        guard (documents.count + pages.count) <= GiniVisionDocumentValidator.maxPagesCount else {
             completion(.failure(FilePickerError.maxFilesPickedCountExceeded))
             return
         }
@@ -248,9 +248,9 @@ extension GiniScreenAPICoordinator {
     }
     
     private func validate(importedDocuments documents: [GiniVisionDocument],
-                          completion: @escaping ([DocumentRequest]) -> Void) {
+                          completion: @escaping ([GiniVisionPage]) -> Void) {
         DispatchQueue.global().async {
-            var documentRequests: [DocumentRequest] = []
+            var pages: [GiniVisionPage] = []
             documents.forEach { document in
                 var documentError: Error?
                 do {
@@ -259,11 +259,11 @@ extension GiniScreenAPICoordinator {
                 } catch let error {
                     documentError = error
                 }
-                documentRequests.append(DocumentRequest(value: document, error: documentError))
+                pages.append(GiniVisionPage(document: document, error: documentError))
             }
             
             DispatchQueue.main.async {
-                completion(documentRequests)
+                completion(pages)
             }
         }
     }

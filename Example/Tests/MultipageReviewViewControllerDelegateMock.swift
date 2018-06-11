@@ -11,7 +11,7 @@ import Foundation
 
 final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest) {
+                         didTapRetryUploadFor page: GiniVisionPage) {
         
     }
     
@@ -19,17 +19,17 @@ final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewContro
         
     }
     
-    var updatedDocuments: [DocumentRequest] = []
+    var updatedDocuments: [GiniVisionPage] = []
 
-    func multipageReview(_ controller: MultipageReviewViewController, didReorder documentRequests: [DocumentRequest]) {
-        updatedDocuments = documentRequests
+    func multipageReview(_ controller: MultipageReviewViewController, didReorder pages: [GiniVisionPage]) {
+        updatedDocuments = pages
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didDelete documentRequests: DocumentRequest) {
+    func multipageReview(_ controller: MultipageReviewViewController, didDelete pages: GiniVisionPage) {
         
     }
     
-    func multipageReview(_ controller: MultipageReviewViewController, didRotate documentRequests: DocumentRequest) {
+    func multipageReview(_ controller: MultipageReviewViewController, didRotate pages: GiniVisionPage) {
         
     }
 }

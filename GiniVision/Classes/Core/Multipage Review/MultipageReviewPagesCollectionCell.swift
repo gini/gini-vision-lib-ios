@@ -199,8 +199,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
     
-    func setUp(with documentRequest: DocumentRequest, at index: Int, giniConfiguration: GiniConfiguration) {
-        if let image = documentRequest.document.previewImage {
+    func setUp(with page: GiniVisionPage, at index: Int, giniConfiguration: GiniConfiguration) {
+        if let image = page.document.previewImage {
             documentImage.contentMode = image.size.width > image.size.height ?
                 .scaleAspectFit :
                 .scaleAspectFill
@@ -210,9 +210,9 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
         bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
         
-        if documentRequest.isUploaded {
+        if page.isUploaded {
             stateView.update(to: .succeeded)
-        } else if documentRequest.error != nil {
+        } else if page.error != nil {
             stateView.update(to: .failed)
         } else {
             stateView.update(to: .loading)

@@ -15,7 +15,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     var componentAPICoordinator: ComponentAPICoordinator?
     
     func testInitialization() {
-        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [],
+        componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
                                                           client: GiniClient(clientId: "",
                                                                              clientSecret: "",
@@ -28,7 +28,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenNoDocument() {
-        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [],
+        componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
                                                           client: GiniClient(clientId: "",
                                                                              clientSecret: "",
@@ -49,7 +49,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
         let builder = GiniVisionDocumentBuilder(data: UIImagePNGRepresentation(image!), documentSource: .external)
         let document = builder.build()!
         
-        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [DocumentRequest(value: document)],
+        componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: document)],
                                                           configuration: GiniConfiguration(),
                                                           client: GiniClient(clientId: "",
                                                                              clientSecret: "",
@@ -71,7 +71,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     func testInitializationWhenPDFImported() {
         let pdfDocument = loadPDFDocument(withName: "testPDF")
         
-        componentAPICoordinator = ComponentAPICoordinator(documentRequests: [DocumentRequest(value: pdfDocument)],
+        componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: pdfDocument)],
                                                           configuration: GiniConfiguration(),
                                                           client: GiniClient(clientId: "",
                                                                              clientSecret: "",

@@ -19,37 +19,37 @@ public protocol MultipageReviewViewControllerDelegate: class {
      Called when a user reorder the pages collection
      
      - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
-     - parameter documentRequests: Reordered pages collection
+     - parameter pages: Reordered pages collection
      */
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didReorder documentRequests: [DocumentRequest])
+                         didReorder pages: [GiniVisionPage])
     /**
      Called when a user rotates one of the pages.
      
      - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
-     - parameter documentRequests: `DocumentPickerType` selected in the sheet.
+     - parameter page: `GiniVisionPage` rotated.
      */
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didRotate documentRequest: DocumentRequest)
+                         didRotate page: GiniVisionPage)
     
     /**
      Called when a user deletes one of the pages.
      
      - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
-     - parameter documentRequest: Page deleted.
+     - parameter page: Page deleted.
      */
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didDelete documentRequest: DocumentRequest)
+                         didDelete page: GiniVisionPage)
     
     /**
      Called when a user taps on the error action when the errored page
      
      - parameter viewController: `MultipageReviewViewController` where the pages are reviewed.
      - parameter errorAction: `NoticeActionType` selected.
-     - parameter documentRequest: Document request where the error action has been triggered
+     - parameter page: Page where the error action has been triggered
      */
     func multipageReview(_ viewController: MultipageReviewViewController,
-                         didTapRetryUploadFor documentRequest: DocumentRequest)
+                         didTapRetryUploadFor page: GiniVisionPage)
     
     /**
      Called when a user taps on the add page button
@@ -67,7 +67,7 @@ public final class MultipageReviewViewController: UIViewController {
      */
     public weak var delegate: MultipageReviewViewControllerDelegate?
 
-    var documentRequests: [DocumentRequest] 
+    var pages: [GiniVisionPage]
     let giniConfiguration: GiniConfiguration
     
     // MARK: - UI initialization
@@ -197,8 +197,8 @@ public final class MultipageReviewViewController: UIViewController {
     
     // MARK: - Init
     
-    public init(documentRequests: [DocumentRequest], giniConfiguration: GiniConfiguration) {
-        self.documentRequests = documentRequests
+    public init(pages: [GiniVisionPage], giniConfiguration: GiniConfiguration) {
+        self.pages = pages
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
     }
@@ -242,7 +242,7 @@ extension MultipageReviewViewController {
         super.viewWillAppear(animated)
         selectLastItem()
         mainCollection.collectionViewLayout.invalidateLayout()
-        changeReorderTipVisibility(to: documentRequests.count < 2)
+        changeReorderTipVisibility(to: pages.count < 2)
     }
     
     override public func viewDidAppear(_ animated: Bool) {
@@ -280,11 +280,11 @@ extension MultipageReviewViewController {
     /**
      Updates the collections with the given pages.
      
-     - parameter documentRequests: Pages to be used in the collections.
+     - parameter pages: Pages to be used in the collections.
      */
     
-    public func updateCollections(with documentRequests: [DocumentRequest]) {
-        self.documentRequests = documentRequests
+    public func updateCollections(with pages: [GiniVisionPage]) {
+        self.pages = pages
         self.reloadCollections()
     }
     
@@ -298,7 +298,7 @@ extension MultipageReviewViewController {
     }
     
     func selectLastItem(animated: Bool = false) {
-        let lastPosition = self.documentRequests.count - 1
+        let lastPosition = self.pages.count - 1
         selectItem(at: lastPosition, animated: animated)
     }
     
@@ -345,7 +345,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = String(format: localizedTitle, arguments: [page, documentRequests.count])
+        title = String(format: localizedTitle, arguments: [page, pages.count])
     }
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {
@@ -468,34 +468,28 @@ extension MultipageReviewViewController {
 
 extension MultipageReviewViewController {
 
-    /**
-     Used to delete a page.
-     
-     - parameter indexPath: Page to delete index
-     - parameter completion: Completion block executed once the element is deleted
-     */
     fileprivate func deleteItem(at indexPath: IndexPath) {
-        let documentToDelete = documentRequests[indexPath.row]
-        documentRequests.remove(at: indexPath.row)
+        let pageToDelete = pages[indexPath.row]
+        pages.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
-        delegate?.multipageReview(self, didDelete: documentToDelete)
+        delegate?.multipageReview(self, didDelete: pageToDelete)
 
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
         }, completion: { _ in
-            if self.documentRequests.count > 0 {
-                if indexPath.row != self.documentRequests.count {
+            if self.pages.count > 0 {
+                if indexPath.row != self.pages.count {
                     self.reloadPagesStarting(from: indexPath)
                 }
                 
-                self.selectItem(at: min(indexPath.row, self.documentRequests.count - 1))
+                self.selectItem(at: min(indexPath.row, self.pages.count - 1))
             }
         })
     }
     
     private func reloadPagesStarting(from indexPath: IndexPath) {
         var indexes = IndexPath.indexesBetween(indexPath,
-                                               and: IndexPath(row: documentRequests.count,
+                                               and: IndexPath(row: pages.count,
                                                               section: 0))
         indexes.append(indexPath)
         pagesCollection.reloadItems(at: indexes)
@@ -503,14 +497,14 @@ extension MultipageReviewViewController {
 
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
-            guard let imageDocument = documentRequests[currentIndexPath.row].document as? GiniImageDocument else {
+            guard let imageDocument = pages[currentIndexPath.row].document as? GiniImageDocument else {
                 return
             }
             imageDocument.rotatePreviewImage90Degrees()
             mainCollection.reloadItems(at: [currentIndexPath])
             pagesCollection.reloadItems(at: [currentIndexPath])
             selectItem(at: currentIndexPath.row)
-            delegate?.multipageReview(self, didRotate: documentRequests[currentIndexPath.row])
+            delegate?.multipageReview(self, didRotate: pages[currentIndexPath.row])
         }
     }
     
@@ -526,7 +520,7 @@ extension MultipageReviewViewController {
 
 extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.documentRequests.count
+        return self.pages.count
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -535,12 +529,13 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            let documentRequest = documentRequests[indexPath.row]
-            cell?.setUp(with: documentRequest) { [weak self] action in
+            let page = pages[indexPath.row]
+            cell?.setUp(with: page) { [weak self] action in
                 guard let `self` = self else { return }
+
                 switch action {
                 case .retry:
-                    self.delegate?.multipageReview(self, didTapRetryUploadFor: documentRequest)
+                    self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
                 case .retake:
                     self.deleteItem(at: indexPath)
                     self.delegate?.multipageReviewDidTapAddImage(self)
@@ -552,8 +547,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-
-            cell?.setUp(with: documentRequests[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
+            cell?.setUp(with: pages[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
             return cell!
         }
     }
@@ -586,8 +580,8 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 indexes.append(destinationIndexPath)
             }
             
-            let elementMoved = documentRequests.remove(at: sourceIndexPath.row)
-            documentRequests.insert(elementMoved, at: destinationIndexPath.row)
+            let elementMoved = pages.remove(at: sourceIndexPath.row)
+            pages.insert(elementMoved, at: destinationIndexPath.row)
             self.mainCollection.reloadData()
             
             // This is needed because this method is called before the dragging animation finishes.
@@ -595,7 +589,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                 guard let `self` = self else { return }
                 self.pagesCollection.reloadItems(at: indexes)
                 self.selectItem(at: destinationIndexPath.row)
-                self.delegate?.multipageReview(self, didReorder: self.documentRequests)
+                self.delegate?.multipageReview(self, didReorder: self.pages)
             })
         }
     }
@@ -626,7 +620,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
-            if documentRequests.count > 1 {
+            if pages.count > 1 {
                 centerCollections(to: indexPath)
             }
             changeTitle(withPage: indexPath.row + 1)
