@@ -64,16 +64,21 @@ extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: AnalysisDelegate {
     func displayError(withMessage message: String?, andAction action: (() -> Void)?) {
-        DispatchQueue.main.async {
-            var noticeAction: NoticeAction?
-            if let action = action {
-                noticeAction = NoticeAction(title: NSLocalizedString("ginivision.analysis.error.actionTitle",
-                                                                     bundle: Bundle(for: GiniVision.self),
-                                                                     comment: "Action button title"),
-                                            action: action)
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self,
+                let message = message,
+                let action = action else { return }
+            
+            if let analysisViewController = self.analysisViewController {
+                analysisViewController.showError(with: message, action: { [weak self] in
+                    guard let `self` = self else { return }
+                    self.analysisErrorAndAction = nil
+                    action()
+                })
+            } else {
+                self.analysisErrorAndAction = (message, action)
             }
-            let notice = NoticeView(text: message ?? "", type: .error, noticeAction: noticeAction)
-            self.show(notice: notice)
+
         }
     }
     
@@ -89,20 +94,5 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
             return true
         }
         return false
-    }
-    
-    private func show(notice: NoticeView) {
-        let noticeView = analysisViewController?.view.subviews.compactMap { $0 as? NoticeView }.first
-        if let noticeView = noticeView {
-            noticeView.hide(completion: { [weak self] in
-                self?.show(notice: notice)
-            })
-        } else {
-            guard let analysisView = analysisViewController?.view else { return }
-
-            analysisView.addSubview(notice)
-            Constraints.pin(view: notice, toSuperView: analysisView, positions: [.top, .left, .right])
-            notice.show()
-        }
-    }
+    }    
 }

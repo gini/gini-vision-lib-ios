@@ -135,10 +135,11 @@ import UIKit
      - parameter configuration: The configuration to set.
      */
     @objc public class func setConfiguration(_ configuration: GiniConfiguration) {
+        GiniConfiguration.shared = configuration
+
         if configuration.debugModeOn {
             Log(message: "DEBUG mode is ON. Never make a release in DEBUG mode!", event: .warning)
         }
-        GiniConfiguration.shared = configuration
     }
     
     /**

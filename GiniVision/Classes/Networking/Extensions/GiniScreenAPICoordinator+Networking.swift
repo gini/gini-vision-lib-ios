@@ -110,24 +110,6 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func show(error: Error) {
-        let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
-        
-        // Display an error with a custom message and custom action on the analysis screen
-        displayError(withMessage: errorMessage, andAction: { [weak self] in
-            guard let `self` = self else { return }
-            
-            self.documentService?.startAnalysis { result in
-                switch result {
-                case .success(let extractions):
-                    self.present(result: extractions)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        })
-    }
-    
 }
 
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
@@ -136,22 +118,15 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         resultsDelegate?.giniVisionDidCancelAnalysis()        
     }
     
-    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {
-        var uploadDocumentCompletionHandler: UploadDocumentCompletion? = nil
-        
-        if giniConfiguration.multipageEnabled {
-            uploadDocumentCompletionHandler = { result in
-                switch result {
-                case .success:
-                    uploadDelegate.uploadDidComplete(for: document)
-                case .failure(let error): 
-                    uploadDelegate.uploadDidFail(for: document, with: error)
-                }
+    func didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) {        
+        documentService?.upload(document: document) { [weak uploadDelegate] result in
+            switch result {
+            case .success:
+                uploadDelegate?.uploadDidComplete(for: document)
+            case .failure(let error):
+                uploadDelegate?.uploadDidFail(for: document, with: error)
             }
         }
-        
-        documentService?.upload(document: document,
-                                completion: uploadDocumentCompletionHandler)
     }
     
     func didReview(documents: [GiniVisionDocument]) {
@@ -178,7 +153,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             case .success(let extractions):
                 self.present(result: extractions)
             case .failure(let error):
-                print(error)
+                guard let error = error as? GiniVisionError else { return }
+                self.displayError(withMessage: error.message, andAction: {
+                    self.didShowAnalysis(analysisDelegate)
+                })
             }
         }
     }

@@ -42,6 +42,11 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate(set) var documentRequests: [DocumentRequest] = []
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
+    
+    // When there was an error uploading a document or analyzing it and the analysis screen
+    // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
+    var analysisErrorAndAction: (message: String, action: () -> Void)?
+    
     // Resources
     fileprivate(set) lazy var backButtonResource =
         PreferredButtonResource(image: "navigationReviewBack",
@@ -127,7 +132,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                 return [self.cameraViewController!, self.reviewViewController!]
             }
         } else {
-            self.analysisViewController = self.createAnalysisScreen(withDocument: documentRequests[0].document)
+            self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
             return [self.analysisViewController!]
         }
     }
@@ -202,9 +207,16 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
+        guard let firstDocument = documentRequests.first?.document else {
+            return
+        }
         visionDelegate?.didReview(documents: documentRequests.map { $0.document })
+        analysisViewController = createAnalysisScreen(withDocument: firstDocument)
         
-        self.analysisViewController = createAnalysisScreen(withDocument: documentRequests[0].document)
+        if let (message, action) = analysisErrorAndAction {
+            displayError(withMessage: message, andAction: action)
+        }
+        
         self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
@@ -228,6 +240,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             if toVC == cameraViewController {
                 documentRequests.removeAll()
             }
+            
             analysisViewController = nil
             visionDelegate?.didCancelAnalysis()
         }

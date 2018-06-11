@@ -23,7 +23,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
-        guard let partialDocumentInfo = partialDocumentInfo else {
+        guard let partialDocumentInfo = partialDocumentInfo, partialDocumentInfo.documentUrl != nil  else {
             pendingAnalysisHandler = completion
             return
         }
@@ -45,7 +45,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
     }
     
     func delete(_ document: GiniVisionDocument) {
-        if let documentId = partialDocumentInfo?.documentUrl {
+        if let documentId = partialDocumentInfo?.documentId {
             deletePartialDocument(with: documentId)
         }
         cancelAnalysis()
@@ -61,7 +61,7 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    print("❌ Error deleting composite document with id:", id)
+                    print("❌ Error deleting partial document with id:", id)
                 } else {
                     print("🗑 Deleted partial document with id:", id)
                 }
@@ -87,9 +87,13 @@ final class SinglePageDocumentsService: DocumentServiceProtocol {
                             
                             if let handler = self.pendingAnalysisHandler {
                                 self.startAnalysis(completion: handler)
+                                self.pendingAnalysisHandler = nil
                             }
+                            
+                            completion?(.success(document))
                         case .failure(let error):
-                            print("❌ Partial document creation error: ", error)
+                            
+                            completion?(.failure(error))
                         }
         }
     }

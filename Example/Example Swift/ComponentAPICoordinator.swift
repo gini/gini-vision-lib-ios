@@ -24,6 +24,9 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate var documentService: DocumentServiceProtocol?
     fileprivate var documentRequests: [DocumentRequest]
+    // When there was an error uploading a document or analyzing it and the analysis screen
+    // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
+    fileprivate var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate let giniConfiguration: GiniConfiguration
@@ -170,9 +173,13 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func showAnalysisScreen() {
         guard let document = documentRequests.first?.document else { return }
+        analysisScreen = AnalysisViewController(document: document)
+
+        if let (message, action) = analysisErrorAndAction {
+           showErrorInAnalysisScreen(with: message, action: action)
+        }
         
         startAnalysis()
-        analysisScreen = AnalysisViewController(document: document)
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
         navigationController.pushViewController(analysisScreen!, animated: true)
@@ -192,8 +199,7 @@ extension ComponentAPICoordinator {
                                                       action: #selector(closeComponentAPIFromResults))
         }
         
-        push(viewController: resultsScreen!, removingViewControllerOfType: AnalysisViewController.self)
-        analysisScreen = nil
+        push(viewController: resultsScreen!, removing: [reviewScreen, analysisScreen])
     }
     
     fileprivate func showNoResultsScreen() {
@@ -211,8 +217,7 @@ extension ComponentAPICoordinator {
             vc = genericNoResults!
         }
         
-        push(viewController: vc, removingViewControllerOfType: AnalysisViewController.self)
-        analysisScreen = nil
+        push(viewController: vc, removing: [reviewScreen, analysisScreen])
         
     }
     
@@ -244,13 +249,21 @@ extension ComponentAPICoordinator {
         closeComponentAPI()
     }
     
-    fileprivate func push<T>(viewController: UIViewController, removingViewControllerOfType: T.Type) {
+    fileprivate func push<T: UIViewController>(viewController: UIViewController, removing viewControllers: [T?]) {
         var navigationStack = navigationController.viewControllers
-        
-        if let deleteViewController = (navigationStack.compactMap { $0 as? T }.first) as? UIViewController,
-            let index = navigationStack.index(of: deleteViewController) {
-            navigationStack.remove(at: index)
+        let viewControllersToDelete = navigationStack.filter {
+            return viewControllers
+                .lazy
+                .compactMap { $0 }
+                .contains($0)
         }
+        
+        viewControllersToDelete.forEach { viewControllerToDelete in
+            if let index = navigationStack.index(of: viewControllerToDelete) {
+                navigationStack.remove(at: index)
+            }
+        }
+
         navigationStack.append(viewController)
         navigationController.setViewControllers(navigationStack, animated: true)
     }
@@ -287,6 +300,13 @@ extension ComponentAPICoordinator {
                     self.documentRequests[index].isUploaded = true
                 case .failure(let error):
                     self.documentRequests[index].error = error
+                    
+                    if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
+                        guard let visionError = error as? GiniVisionError else { return }
+                        self.showErrorInAnalysisScreen(with: visionError.message) {
+                            self.upload(documentRequest: documentRequest)
+                        }
+                    }
                 }
                 
                 // When multipage mode is used and documents are images, you have to refresh the multipage review screen
@@ -305,10 +325,12 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure:
+                    guard let firstDocumentRequest = self.documentRequests.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
-                    self.analysisScreen?.showErrorDialog(for: visionError, positiveAction: {
+
+                    self.showErrorInAnalysisScreen(with: visionError.message) {
                         self.startAnalysis()
-                    })
+                    }
                 }
             }
         })
@@ -316,6 +338,20 @@ extension ComponentAPICoordinator {
     
     fileprivate func delete(document: GiniVisionDocument) {
         documentService?.delete(document)
+    }
+    
+    private func showErrorInAnalysisScreen(with message: String,
+                                           action: @escaping () -> Void) {
+        if let analysisScreen = analysisScreen {
+            self.analysisScreen?.showError(with: message) { [weak self] in
+                guard let `self` = self else { return }
+                self.analysisErrorAndAction = nil
+                action()
+            }
+        } else {
+            self.analysisErrorAndAction = (message, action)
+        }
+
     }
 }
 
