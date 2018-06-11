@@ -24,8 +24,8 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate var documentService: DocumentServiceProtocol?
     fileprivate var documentRequests: [DocumentRequest]
-    // When there was an error uploading a document or analyzing it and the analysis screen is not initialized yet,
-    // both the error message and action has to be saved to show in the analysis screen.
+    // When there was an error uploading a document or analyzing it and the analysis screen
+    // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
     fileprivate var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)

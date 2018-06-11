@@ -43,8 +43,8 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
     
-    // When there was an error uploading a document or analyzing it and the analysis screen is not initialized yet,
-    // both the error message and action has to be saved to show in the analysis screen.
+    // When there was an error uploading a document or analyzing it and the analysis screen
+    // had not been initialized yet, both the error message and action has to be saved to show in the analysis screen.
     var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     // Resources
