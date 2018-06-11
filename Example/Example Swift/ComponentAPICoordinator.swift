@@ -24,6 +24,9 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate var documentService: DocumentServiceProtocol?
     fileprivate var documentRequests: [DocumentRequest]
+    // When there was an error uploading a document or analyzing it and the analysis screen is not initialized yet,
+    // both the error message and action has to be saved to show in the analysis screen.
+    fileprivate var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     fileprivate let giniColor = UIColor(red: 0, green: (157/255), blue: (220/255), alpha: 1)
     fileprivate let giniConfiguration: GiniConfiguration
@@ -170,9 +173,10 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func showAnalysisScreen() {
         guard let document = documentRequests.first?.document else { return }
-        
-        if analysisScreen == nil {
-            analysisScreen = AnalysisViewController(document: document)
+        analysisScreen = AnalysisViewController(document: document)
+
+        if let (message, action) = analysisErrorAndAction {
+           showErrorInAnalysisScreen(with: message, action: action)
         }
         
         startAnalysis()
@@ -299,7 +303,7 @@ extension ComponentAPICoordinator {
                     
                     if self.documentRequests.type != .image || !self.giniConfiguration.multipageEnabled {
                         guard let visionError = error as? GiniVisionError else { return }
-                        self.showErrorInAnalysisScreen(with: visionError.message, for: documentRequest) {
+                        self.showErrorInAnalysisScreen(with: visionError.message) {
                             self.upload(documentRequest: documentRequest)
                         }
                     }
@@ -324,7 +328,7 @@ extension ComponentAPICoordinator {
                     guard let firstDocumentRequest = self.documentRequests.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
 
-                    self.showErrorInAnalysisScreen(with: visionError.message, for: firstDocumentRequest) {
+                    self.showErrorInAnalysisScreen(with: visionError.message) {
                         self.startAnalysis()
                     }
                 }
@@ -337,13 +341,17 @@ extension ComponentAPICoordinator {
     }
     
     private func showErrorInAnalysisScreen(with message: String,
-                                           for documentRequest: DocumentRequest,
                                            action: @escaping () -> Void) {
-        if self.analysisScreen == nil {
-            self.analysisScreen = AnalysisViewController(document: documentRequest.document)
+        if let analysisScreen = analysisScreen {
+            self.analysisScreen?.showError(with: message) { [weak self] in
+                guard let `self` = self else { return }
+                self.analysisErrorAndAction = nil
+                action()
+            }
+        } else {
+            self.analysisErrorAndAction = (message, action)
         }
-        
-        self.analysisScreen?.showError(with: message, action: action)
+
     }
 }
 

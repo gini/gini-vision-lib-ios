@@ -110,24 +110,6 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func show(error: Error) {
-        let errorMessage = "Es ist ein Fehler aufgetreten. Wiederholen"
-        
-        // Display an error with a custom message and custom action on the analysis screen
-        displayError(withMessage: errorMessage, andAction: { [weak self] in
-            guard let `self` = self else { return }
-            
-            self.documentService?.startAnalysis { result in
-                switch result {
-                case .success(let extractions):
-                    self.present(result: extractions)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        })
-    }
-    
 }
 
 extension GiniScreenAPICoordinator: GiniVisionDelegate {
