@@ -67,13 +67,18 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self,
                 let message = message,
-                let action = action,
-                let firstDocument = self.documentRequests.first?.document else { return }
-            if self.analysisViewController == nil {
-                self.analysisViewController = self.createAnalysisScreen(withDocument: firstDocument)
-            }
+                let action = action else { return }
             
-            self.analysisViewController?.showError(with: message, action: action)
+            if let analysisViewController = self.analysisViewController {
+                analysisViewController.showError(with: message, action: { [weak self] in
+                    guard let `self` = self else { return }
+                    self.analysisErrorAndAction = nil
+                    action()
+                })
+            } else {
+                self.analysisErrorAndAction = (message, action)
+            }
+
         }
     }
     
