@@ -12,9 +12,9 @@ public enum OpaqueViewStyle {
     case dimmed
 }
 
-final class OpaqueViewFactory {
+struct OpaqueViewFactory {
     
-    class func create(with style: OpaqueViewStyle) -> UIView {
+    static func create(with style: OpaqueViewStyle) -> UIView {
         switch style {
         case .blurred(let blurStyle):
             return UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
