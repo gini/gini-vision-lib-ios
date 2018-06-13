@@ -20,7 +20,7 @@ final class OpaqueViewFactoryTests: XCTestCase {
     }
     
     func testDarkStyle() {
-        let opaqueView = OpaqueViewFactory.create(with: .dark)
+        let opaqueView = OpaqueViewFactory.create(with: .dimmed)
         
         XCTAssertEqual(opaqueView.backgroundColor, UIColor.black.withAlphaComponent(0.8))
     }

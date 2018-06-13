@@ -9,7 +9,7 @@ import UIKit
 
 public enum OpaqueViewStyle {
     case blurred(style: UIBlurEffectStyle)
-    case dark
+    case dimmed
 }
 
 final class OpaqueViewFactory: UIView {
@@ -18,7 +18,7 @@ final class OpaqueViewFactory: UIView {
         switch style {
         case .blurred(let blurStyle):
             return UIVisualEffectView(effect: UIBlurEffect(style: blurStyle))
-        case .dark:
+        case .dimmed:
             let view = UIView()
             view.backgroundColor = UIColor.black.withAlphaComponent(0.8)
             return view

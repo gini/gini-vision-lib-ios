@@ -39,7 +39,7 @@ class CameraViewControllerTests: XCTestCase {
     func testOpaqueViewWhenToolTipIsShown() {
         ToolTipView.shouldShowFileImportToolTip = true
         GiniConfiguration.sharedConfiguration.fileImportSupportedTypes = .pdf_and_images
-        GiniConfiguration.sharedConfiguration.toolTipOpaqueBackgroundStyle = .dark
+        GiniConfiguration.sharedConfiguration.toolTipOpaqueBackgroundStyle = .dimmed
         
         // Disable onboarding on launch
         GiniConfiguration.sharedConfiguration.onboardingShowAtLaunch = false
