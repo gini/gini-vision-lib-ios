@@ -310,6 +310,11 @@ import UIKit
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
     
     /**
+     Sets the background style when the tooltip is shown
+     */
+    public var toolTipOpaqueBackgroundStyle: OpaqueViewStyle = .blurred(style: .dark)
+    
+    /**
      Sets the title text in the navigation bar on the camera screen.
      
      - note: Screen API only.
