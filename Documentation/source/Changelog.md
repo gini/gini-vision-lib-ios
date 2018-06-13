@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.3.4 (2018-06-13)
+------------------
+
+-   Added customizable opaque background view style when the tool tip is shown (via `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
+
 3.3.3 (2018-06-01)
 ------------------
 
