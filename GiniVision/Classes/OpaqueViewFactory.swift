@@ -12,7 +12,7 @@ public enum OpaqueViewStyle {
     case dimmed
 }
 
-final class OpaqueViewFactory: UIView {
+final class OpaqueViewFactory {
     
     class func create(with style: OpaqueViewStyle) -> UIView {
         switch style {
