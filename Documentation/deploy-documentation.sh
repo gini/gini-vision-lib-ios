@@ -8,6 +8,7 @@ cd Documentation/
 rm -rf gh-pages
 git clone -b gh-pages https://"$github_user":"$github_password"@github.com/gini/gini-vision-lib-ios.git gh-pages
 
+rm -rf gh-pages/*
 mkdir gh-pages/docs
 cp -R Api/. gh-pages/docs/
 
