@@ -102,7 +102,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.backgroundColor = .black
         return view
     }()
-    fileprivate var blurEffect: UIVisualEffectView?
+    var opaqueView: UIView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     var toolTipView: ToolTipView?
@@ -265,7 +265,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.toolTipView?.arrangeViews()
-        self.blurEffect?.frame = previewView.frame
+        self.opaqueView?.frame = previewView.frame
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -324,7 +324,7 @@ extension CameraViewController {
      */
     public func showFileImportTip() {
         self.toolTipView?.show {
-            self.blurEffect?.alpha = 1
+            self.opaqueView?.alpha = 1
             self.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
@@ -597,9 +597,9 @@ extension CameraViewController {
     }
     
     fileprivate func createFileImportTip(giniConfiguration: GiniConfiguration) {
-        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
-        blurEffect?.alpha = 0
-        self.view.addSubview(blurEffect!)
+        opaqueView = OpaqueViewFactory.create(with: giniConfiguration.toolTipOpaqueBackgroundStyle)
+        opaqueView?.alpha = 0
+        self.view.addSubview(opaqueView!)
         
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
                                                           bundle: Bundle(for: GiniVision.self),
@@ -614,7 +614,7 @@ extension CameraViewController {
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
-            self.blurEffect?.removeFromSuperview()
+            self.opaqueView?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
     }
