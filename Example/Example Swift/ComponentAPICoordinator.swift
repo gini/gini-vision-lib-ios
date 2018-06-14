@@ -234,7 +234,6 @@ extension ComponentAPICoordinator {
     }
     
     @objc fileprivate func closeComponentAPI() {
-        documentService?.cancelAnalysis()
         delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
