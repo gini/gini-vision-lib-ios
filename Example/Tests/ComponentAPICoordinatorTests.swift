@@ -15,12 +15,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     
     var componentAPICoordinator: ComponentAPICoordinator?
 
-    var documentService: ComponentAPIDocumentServiceProtocol = {
-        let sdkBuilder = GINISDKBuilder.anonymousUser(withClientID: "",
-                                                      clientSecret: "",
-                                                      userEmailDomain: "")
-       return DocumentServiceMock(sdk: sdkBuilder!.build()!)
-    }()
+    var documentService = DocumentServiceMock()
     
     func testInitialization() {
         componentAPICoordinator = ComponentAPICoordinator(pages: [],

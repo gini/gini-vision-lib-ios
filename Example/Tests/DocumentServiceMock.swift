@@ -42,3 +42,9 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
     }
 
 }
+
+extension DocumentServiceMock {
+    convenience init() {
+        self.init(sdk: GiniSDK())
+    }
+}
