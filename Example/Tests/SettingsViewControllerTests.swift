@@ -1,5 +1,5 @@
 //
-//  GINISettingsViewControllerTests.swift
+//  SettingsViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 11/16/17.
@@ -10,7 +10,7 @@ import XCTest
 @testable import Example_Swift
 @testable import GiniVision
 
-final class GINISettingsViewControllerTests: XCTestCase {
+final class SettingsViewControllerTests: XCTestCase {
     let settingsViewController = (UIStoryboard(name: "Main", bundle: nil)
         .instantiateViewController(withIdentifier: "settingsViewController") as? SettingsViewController)!
     

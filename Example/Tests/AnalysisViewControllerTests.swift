@@ -1,5 +1,5 @@
 //
-//  GINIAnalysisViewControllerTests.swift
+//  AnalysisViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/5/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-class GINIAnalysisViewControllerTests: XCTestCase {
+final class AnalysisViewControllerTests: XCTestCase {
     
     func testPDFPagesCountLocalizedString() {
         let key = "ginivision.analysis.pdfpages"

@@ -1,5 +1,5 @@
 //
-//  GINIComponentAPICoordinatorTests.swift
+//  ComponentAPICoordinatorTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 11/13/17.
@@ -9,17 +9,18 @@
 import XCTest
 @testable import Example_Swift
 @testable import GiniVision
+@testable import Gini_iOS_SDK
 
-class GINIComponentAPICoordinatorTests: XCTestCase {
+final class ComponentAPICoordinatorTests: XCTestCase {
     
     var componentAPICoordinator: ComponentAPICoordinator?
+
+    var documentService = DocumentServiceMock()
     
     func testInitialization() {
         componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.rootViewController, "the root view controller should never be nil")
@@ -30,9 +31,7 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     func testInitializationWhenNoDocument() {
         componentAPICoordinator = ComponentAPICoordinator(pages: [],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -45,15 +44,13 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenImageImported() {
-        let image = loadImage(withName: "tabBarIconHelp")
+        let image = GiniVisionTestsHelper.loadImage(withName: "tabBarIconHelp")
         let builder = GiniVisionDocumentBuilder(data: UIImagePNGRepresentation(image!), documentSource: .external)
         let document = builder.build()!
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: document)],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNil(componentAPICoordinator?.analysisScreen,
@@ -69,13 +66,11 @@ class GINIComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenPDFImported() {
-        let pdfDocument = loadPDFDocument(withName: "testPDF")
+        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: pdfDocument)],
                                                           configuration: GiniConfiguration(),
-                                                          client: GiniClient(clientId: "",
-                                                                             clientSecret: "",
-                                                                             clientEmailDomain: ""))
+                                                          documentService: documentService)
         componentAPICoordinator?.start()
         
         XCTAssertNotNil(componentAPICoordinator?.analysisScreen,

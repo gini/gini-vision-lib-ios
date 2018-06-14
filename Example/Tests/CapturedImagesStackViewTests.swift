@@ -27,7 +27,7 @@ final class CapturedImagesStackViewTests: XCTestCase {
     }
     
     func testCaptureStackVisibilityWhenOneImageCaptured() {
-        let images = [loadImage(withName: "invoice.jpg")!]
+        let images = [GiniVisionTestsHelper.loadImage(withName: "invoice.jpg")!]
         
         capturedImagesStackView.replaceStackImages(with: images)
         
@@ -39,8 +39,8 @@ final class CapturedImagesStackViewTests: XCTestCase {
     }
     
     func testCaptureStackVisibilityWhenTwoImageCaptured() {
-        let images = [loadImage(withName: "invoice.jpg")!,
-                      loadImage(withName: "invoice2.jpg")!]
+        let images = [GiniVisionTestsHelper.loadImage(withName: "invoice.jpg")!,
+                      GiniVisionTestsHelper.loadImage(withName: "invoice2.jpg")!]
         capturedImagesStackView.replaceStackImages(with: images)
 
         XCTAssertFalse(capturedImagesStackView.thumbnailStackBackgroundView.isHidden,
@@ -49,8 +49,8 @@ final class CapturedImagesStackViewTests: XCTestCase {
     }
     
     func testCaptureStackWhenTwoImageCaptured() {
-        let images = [loadImage(withName: "invoice.jpg")!,
-                      loadImage(withName: "invoice2.jpg")!]
+        let images = [GiniVisionTestsHelper.loadImage(withName: "invoice.jpg")!,
+                      GiniVisionTestsHelper.loadImage(withName: "invoice2.jpg")!]
         capturedImagesStackView.replaceStackImages(with: images)
 
         XCTAssertEqual(capturedImagesStackView.thumbnailButton.image(for: .normal), images[1],

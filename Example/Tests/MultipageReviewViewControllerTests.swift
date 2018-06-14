@@ -1,5 +1,5 @@
 //
-//  GINIMultipageReviewControllerTests.swift
+//  MultipageReviewViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 1/30/18.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINIMultipageReviewControllerTests: XCTestCase {
+final class MultipageReviewViewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.shared
     lazy var multipageReviewViewController: MultipageReviewViewController = {
@@ -19,10 +19,10 @@ final class GINIMultipageReviewControllerTests: XCTestCase {
         return vc
     }()
     
-    lazy var imagePages: [GiniVisionPage] = [
-        self.loadImagePage(withName: "invoice"),
-        self.loadImagePage(withName: "invoice2"),
-        self.loadImagePage(withName: "invoice3")
+    var imagePages: [GiniVisionPage] = [
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice2"),
+        GiniVisionTestsHelper.loadImagePage(withName: "invoice3")
     ]
     
     func testCollectionsItemsCount() {

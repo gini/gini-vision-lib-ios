@@ -1,5 +1,5 @@
 //
-//  GINIsupportedFormatsViewControllerTests.swift
+//  SupportedFormatsViewControllerTests.swift
 //  GiniVision_Tests
 //
 //  Created by Enrique del Pozo Gómez on 10/19/17.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import GiniVision
 
-final class GINISupportedFormatsViewControllerTests: XCTestCase {
+final class SupportedFormatsViewControllerTests: XCTestCase {
     
     var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
     let initialGiniConfiguration = GiniConfiguration.shared

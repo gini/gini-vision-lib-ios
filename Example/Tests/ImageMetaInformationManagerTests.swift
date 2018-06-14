@@ -1,8 +1,16 @@
+//
+//  ImageMetaInformationManagerTests.swift
+//  GiniVision_Tests
+//
+//  Created by Enrique del Pozo Gómez on 1/30/18.
+//  Copyright © 2018 Gini GmbH. All rights reserved.
+//
+
 import XCTest
 @testable import GiniVision
 import ImageIO
 
-class ImageMetaInformationManagerTests: XCTestCase {
+final class ImageMetaInformationManagerTests: XCTestCase {
     
     var invoiceData: Data {
         let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")

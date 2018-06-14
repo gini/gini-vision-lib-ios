@@ -18,7 +18,9 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         giniConfiguration.multipagePageIndicatorColor = .black
         giniConfiguration.multipagePageBackgroundColor = .red
 
-        cell.setUp(with: loadImagePage(withName: "invoice"), at: 0, giniConfiguration: giniConfiguration)
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+                   at: 0,
+                   giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell.pageIndicatorLabel.textColor, giniConfiguration.multipagePageIndicatorColor,
                        "page cell indicator color should match the one specified in the configuration")
@@ -28,8 +30,10 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageIndicatorColor = .black
         giniConfiguration.multipagePageBackgroundColor = .red
-        
-        cell.setUp(with: loadImagePage(withName: "invoice"), at: 0, giniConfiguration: giniConfiguration)
+
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+                   at: 0,
+                   giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell.bottomContainer.backgroundColor, giniConfiguration.multipagePageBackgroundColor,
                        "page cell background color should match the one specified in the configuration")

@@ -63,7 +63,7 @@ final class GalleryCoordinatorTests: XCTestCase {
                 let expect = self.expectation(for: NSPredicate(value: true),
                                               evaluatedWith: delegate.didOpenImages,
                                               handler: nil)
-                self.wait(for: [expect], timeout: 2)
+                self.wait(for: [expect], timeout: 1)
                 XCTAssertTrue(delegate.didOpenImages,
                               "gallery images picked should be processed after tapping open images button")
                 XCTAssertEqual(delegate.openedImageDocuments.count, 2,
@@ -114,7 +114,9 @@ final class GalleryCoordinatorTests: XCTestCase {
         }
     }
     
-    fileprivate func selectImage(at index: IndexPath, in album: Album, handler: @escaping ((ImagePickerViewController) -> Void)) {
+    fileprivate func selectImage(at index: IndexPath,
+                                 in album: Album,
+                                 handler: @escaping ((ImagePickerViewController) -> Void)) {
         let imagePicker = ImagePickerViewController(album: album,
                                                     galleryManager: galleryManager,
                                                     giniConfiguration: GiniConfiguration.shared)
@@ -122,11 +124,7 @@ final class GalleryCoordinatorTests: XCTestCase {
                                 didSelectAsset: album.assets[index.row],
                                 at: index)
 
-        _ = expectation(for: NSPredicate(format: "count != 0"),
-                        evaluatedWith: coordinator.selectedImageDocuments, handler: nil)
-        waitForExpectations(timeout: 1) { _ in
-            handler(imagePicker)
-        }
+        handler(imagePicker)
     }
     
 }

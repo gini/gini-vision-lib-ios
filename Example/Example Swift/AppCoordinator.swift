@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import GiniVision
+import Gini_iOS_SDK
 
 final class AppCoordinator: Coordinator {
     
@@ -106,12 +107,30 @@ final class AppCoordinator: Coordinator {
     fileprivate func showComponentAPI(with pages: [GiniVisionPage]? = nil) {
         let componentAPICoordinator = ComponentAPICoordinator(pages: pages ?? [],
                                                               configuration: giniConfiguration,
-                                                              client: client)
+                                                              documentService: componentAPIDocumentService())
         componentAPICoordinator.delegate = self
         componentAPICoordinator.start()
         add(childCoordinator: componentAPICoordinator)
         
         rootViewController.present(componentAPICoordinator.rootViewController, animated: true, completion: nil)
+    }
+    
+    fileprivate func componentAPIDocumentService() -> ComponentAPIDocumentServiceProtocol {
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        guard let sdk = builder?.build() else {
+            fatalError("It wasn't possible to build a Gini API SDK ")
+        }
+
+        let documentService: ComponentAPIDocumentServiceProtocol
+        if giniConfiguration.multipageEnabled {
+            documentService = MultipageDocumentsService(sdk: sdk)
+        } else {
+            documentService = SinglePageDocumentsService(sdk: sdk)
+        }
+        
+        return documentService
     }
     
     fileprivate func showSettings() {
