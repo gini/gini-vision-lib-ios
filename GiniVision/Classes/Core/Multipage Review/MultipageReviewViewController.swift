@@ -309,15 +309,28 @@ extension MultipageReviewViewController {
     
     private func reloadCollections() {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
+        let indexPaths: [IndexPath] = pages.lazy.enumerated().map { IndexPath(row: $0.offset, section: 0)}
         
-        self.mainCollection.reloadData()
-        self.pagesCollection.reloadData()
+        let dispatchGroup = DispatchGroup()
+        reload(pagesCollection, with: indexPaths, in: dispatchGroup)
+        reload(mainCollection, with: indexPaths, in: dispatchGroup)
         
-        if let currentSelectedItem = currentSelectedItem {
-            self.selectItem(at: currentSelectedItem.row, animated: false)
-        } else {
-            self.selectLastItem(animated: false)
-        }
+        dispatchGroup.notify(queue: .main, execute: {
+            if let currentSelectedItem = currentSelectedItem {
+                self.selectItem(at: currentSelectedItem.row, animated: false)
+            } else {
+                self.selectLastItem(animated: false)
+            }
+        })
+    }
+    
+    private func reload(_ collection: UICollectionView, with items: [IndexPath], in dispatchGroup: DispatchGroup) {
+        collection.performBatchUpdates({
+            dispatchGroup.enter()
+            collection.reloadItems(at: items)
+        }, completion: { _ in
+            dispatchGroup.leave()
+        })
     }
     
 }
