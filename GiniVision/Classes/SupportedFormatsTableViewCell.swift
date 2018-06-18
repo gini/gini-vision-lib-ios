@@ -42,12 +42,12 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
     }
     
     private func addConstraints() {
-        Contraints.active(item: imageBackgroundView, attr: .centerX, relatedBy: .equal, to: imageView!, attr: .centerX)
-        Contraints.active(item: imageBackgroundView, attr: .centerY, relatedBy: .equal, to: imageView!, attr: .centerY)
+        Constraints.active(item: imageBackgroundView, attr: .centerX, relatedBy: .equal, to: imageView!, attr: .centerX)
+        Constraints.active(item: imageBackgroundView, attr: .centerY, relatedBy: .equal, to: imageView!, attr: .centerY)
         
-        Contraints.active(item: imageBackgroundView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: imageBackgroundView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 22)
-        Contraints.active(item: imageBackgroundView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+        Constraints.active(item: imageBackgroundView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                           constant: 22)
     }
 }

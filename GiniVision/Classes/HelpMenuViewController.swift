@@ -10,12 +10,27 @@ import UIKit
 
 /**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
- use the open with feature and which formats are supported by Gini Vision Library.
+ use the _Open with_ feature and which formats are supported by the Gini Vision Library.
+ 
+ **Text resources for this screen**
+ 
+ * `ginivision.navigationbar.help.backToCamera`
+ * `ginivision.navigationbar.help.backToMenu`
+
+ - note: Setting `ginivision.navigationbar.help.backToCamera` and `ginivision.navigationbar.help.backToMenu`
+ explicitly to the empty string in your localized strings will make `HelpMenuViewController`
+ revert to the default iOS back button.
+ 
+ **Image resources for this screen**
+ 
+ * `navigationReviewBack`
+ * `arrowBack`
  
  */
 
 final public class HelpMenuViewController: UITableViewController {
     
+    let giniConfiguration: GiniConfiguration
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     lazy var items: [(text: String, id: Int)] = {
@@ -26,7 +41,7 @@ final public class HelpMenuViewController: UITableViewController {
                                comment: "help menu third item text"), 3)
         ]
         
-        if GiniConfiguration.sharedConfiguration.openWithEnabled {
+        if self.giniConfiguration.openWithEnabled {
             items.insert((NSLocalizedStringPreferred("ginivision.helpmenu.secondItem",
                                             comment: "help menu second item text"), 2), at: 1)
         }
@@ -34,12 +49,27 @@ final public class HelpMenuViewController: UITableViewController {
         return items
     }()
     
-    public init() {
-        super.init(style: .plain)
+    // Button resources
+    fileprivate lazy var backToCameraButtonResource =
+        PreferredButtonResource(image: "navigationReviewBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the " +
+                                         "back button on the help menu screen",
+                                configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
+    
+    fileprivate lazy var backToMenuButtonResource =
+        PreferredButtonResource(image: "arrowBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the back button on the help screen",
+                                configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
+    
+    public init(giniConfiguration: GiniConfiguration = GiniConfiguration.sharedConfiguration) {
+        self.giniConfiguration = giniConfiguration
+        super.init(nibName: nil, bundle: nil)
     }
     
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(showOpenWithTutorial:) has not been implemented")
+        fatalError("init(giniConfiguration:) has not been implemented")
     }
     
     override public func viewDidLoad() {
@@ -51,14 +81,64 @@ final public class HelpMenuViewController: UITableViewController {
         tableView.rowHeight = tableRowHeight
         tableView.backgroundColor = Colors.Gini.pearl
         
-        // On iOS is .automatic by default and it the transition to this view controller looks weird.
+        // In iOS it is .automatic by default, having an initial animation when the view is loaded.
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
+        setupNavigationItem(usingResources: backToCameraButtonResource,
+                            selector: #selector(back),
+                            position: .left,
+                            target: self)
     }
     
-    // MARK: - Table view data source
+    func back() {
+        navigationController?.popViewController(animated: true)
+    }
     
+    func viewController(forRowWithId id: Int) -> UIViewController? {
+        let viewController: UIViewController
+        switch id {
+        case 1:
+            let title = NSLocalizedStringPreferred("ginivision.noresults.title",
+                                          comment: "navigation title shown on no results tips, " +
+                                                   "when the screen is shown through the help menu")
+            let topViewText = NSLocalizedStringPreferred("ginivision.noresults.warningHelpMenu",
+                                          comment: "warning text shown on no results tips, " +
+                                                   "when the screen is shown through the help menu")
+            let vc = ImageAnalysisNoResultsViewController(title: title,
+                                                          subHeaderText: nil,
+                                                          topViewText: topViewText,
+                                                          topViewIcon: nil)
+            vc.didTapBottomButton = {
+                if let cameraViewController = (self.navigationController?
+                    .viewControllers
+                    .flatMap { $0 as? CameraViewController })?
+                    .first {
+                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
+                }
+            }
+            viewController = vc
+        case 2:
+            viewController = OpenWithTutorialViewController()
+        case 3:
+            viewController = SupportedFormatsViewController(style: .plain)
+        default:
+            return nil
+        }
+        
+        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
+                                           selector: #selector(back),
+                                           position: .left,
+                                           target: self)
+        
+        return viewController
+    }
+    
+}
+
+// MARK: - UITableViewDataSource
+
+extension HelpMenuViewController {
     override public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -80,37 +160,6 @@ final public class HelpMenuViewController: UITableViewController {
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let viewController = viewController(forRowWithId: items[indexPath.row].id) {
             navigationController?.pushViewController(viewController, animated: true)
-        }
-    }
-    
-    func viewController(forRowWithId id: Int) -> UIViewController? {
-        switch id {
-        case 1:
-            let title = NSLocalizedStringPreferred("ginivision.noresults.title",
-                                          comment: "navigation title shown on no results tips, " +
-                                                   "when the screen is shown through the help menu")
-            let topViewText = NSLocalizedStringPreferred("ginivision.noresults.warningHelpMenu",
-                                                comment: "warning text shown on no results tips, " +
-                                                         "when the screen is shown through the help menu")
-            let vc = ImageAnalysisNoResultsViewController(title: title,
-                                                          subHeaderText: nil,
-                                                          topViewText: topViewText,
-                                                          topViewIcon: nil)
-            vc.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?
-                    .viewControllers
-                    .flatMap { $0 as? CameraViewController })?
-                    .first {
-                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
-                }
-            }
-            return vc
-        case 2:
-            return OpenWithTutorialViewController()
-        case 3:
-            return SupportedFormatsViewController(style: .plain)
-        default:
-            return nil
         }
     }
     

@@ -91,26 +91,3 @@ struct PreferredButtonResource {
         return (textSource == .custom && imageSource != .custom)
     }
 }
-
-// MARK: - Navigation items
-
-internal extension UIViewController {
-    
-    // Setup the leftNavigationItem property of a UIViewController. It will create an UIBarButtonItem
-    // for it and add it to the navigation bar.
-    // Note that if the preferred title of the resource is the empty string, the leftNavigationItem
-    // will not be set so the default back button is shown
-    func setupLeftNavigationItem(usingResources preferredResources: PreferredButtonResource, selector: Selector) {
-        let buttonText = preferredResources.preferredText
-        if buttonText != nil && !buttonText!.isEmpty {
-            let navButton = GiniBarButtonItem(
-                image: preferredResources.preferredImage,
-                title: buttonText,
-                style: .plain,
-                target: self,
-                action: selector
-            )
-            self.navigationItem.setLeftBarButton(navButton, animated: false)
-        }
-    }
-}

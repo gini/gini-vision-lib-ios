@@ -1,6 +1,23 @@
 Changelog
 =========
 
+3.3.4 (2018-06-13)
+------------------
+
+-   Added customizable opaque background view style when the tool tip is shown (via `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
+
+3.3.3 (2018-06-01)
+------------------
+
+-   Fixed issue with Next button when using VoiceOver in the Onboarding screen.
+
+3.3.2 (2018-03-08)
+------------------
+
+-   Fixed issue with status bar when both Gallery and document picker were shown.
+-   Fixed back arrows in help screens, matching the one shown in the Review screen.
+-   Fixed issue when using debug mode in the simulator and trying to capture the default image.
+
 3.3.1 (2018-01-24)
 ------------------
 

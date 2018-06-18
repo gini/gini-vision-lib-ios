@@ -188,6 +188,15 @@ import UIKit
      */
     public var qrCodeScanningEnabled = false
     
+    /**
+     Indicates the status bar style in the Gini Vision Library.
+     
+     - note: If `UIViewControllerBasedStatusBarAppearance` is set to `false` in the `Info.plist`,
+     it may not work in future versions of iOS since the `UIApplication.setStatusBarStyle` method was
+     deprecated on iOS 9.0
+     */
+    public var statusBarStyle = UIStatusBarStyle.lightContent
+    
     // MARK: Camera options
     
     /**
@@ -299,6 +308,11 @@ import UIKit
      Sets the text color of the new file import button hint
      */
     public var fileImportToolTipCloseButtonColor = Colors.Gini.grey
+    
+    /**
+     Sets the background style when the tooltip is shown
+     */
+    public var toolTipOpaqueBackgroundStyle: OpaqueViewStyle = .blurred(style: .dark)
     
     /**
      Sets the title text in the navigation bar on the camera screen.
@@ -603,6 +617,18 @@ import UIKit
      Sets the back button text in the navigation bar on the analysis screen.
      */
     public var navigationBarAnalysisTitleBackButton = ""
+    
+    // MARK: Help screens
+    
+    /**
+     Sets the back button text in the navigation bar on the help menu screen.
+     */
+    public var navigationBarHelpMenuTitleBackToCameraButton = ""
+    
+    /**
+     Sets the back button text in the navigation bar on the help screen.
+     */
+    public var navigationBarHelpScreenTitleBackToMenuButton = ""
     
     // MARK: Supported formats
     

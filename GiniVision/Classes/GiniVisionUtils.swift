@@ -105,7 +105,7 @@ internal enum FontWeight {
     }
 }
 
-internal class Contraints {
+internal class Constraints {
     
     class func active(item view1: Any,
                       attr attr1: NSLayoutAttribute,
@@ -159,4 +159,14 @@ internal struct Colors {
             alpha: CGFloat(1.0)
         )
     }
+}
+
+/**
+    Set the status bar style when ViewControllerBasedStatusBarAppearance is disabled.
+    If it is enabled it will not have effect.
+ */
+
+internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
+                                application: UIApplication = UIApplication.shared) {
+    application.setStatusBarStyle(statusBarStyle, animated: true)
 }

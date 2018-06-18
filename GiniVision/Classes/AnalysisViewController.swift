@@ -182,33 +182,33 @@ import UIKit
         self.view.addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.topLayoutGuide, attr: .bottom,
+        Constraints.active(item: imageView, attr: .top, relatedBy: .equal, to: self.topLayoutGuide, attr: .bottom,
                           priority: 999)
-        Contraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top,
+        Constraints.active(item: imageView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide, attr: .top,
                           priority: 999)
-        Contraints.active(item: imageView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-        Contraints.active(item: imageView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+        Constraints.active(item: imageView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+        Constraints.active(item: imageView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
     }
     
     fileprivate func addOverlay() {
         self.view.insertSubview(overlayView, aboveSubview: imageView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: overlayView, attr: .top, relatedBy: .equal, to: imageView, attr: .top)
-        Contraints.active(item: overlayView, attr: .trailing, relatedBy: .equal, to: imageView, attr: .trailing)
-        Contraints.active(item: overlayView, attr: .bottom, relatedBy: .equal, to: imageView, attr: .bottom)
-        Contraints.active(item: overlayView, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
+        Constraints.active(item: overlayView, attr: .top, relatedBy: .equal, to: imageView, attr: .top)
+        Constraints.active(item: overlayView, attr: .trailing, relatedBy: .equal, to: imageView, attr: .trailing)
+        Constraints.active(item: overlayView, attr: .bottom, relatedBy: .equal, to: imageView, attr: .bottom)
+        Constraints.active(item: overlayView, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
     }
     
     fileprivate func addLoadingText(below: UIView) {
         self.view.addSubview(loadingIndicatorText)
         loadingIndicatorText.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: loadingIndicatorText, attr: .trailing, relatedBy: .equal, to: imageView,
+        Constraints.active(item: loadingIndicatorText, attr: .trailing, relatedBy: .equal, to: imageView,
                           attr: .trailing)
-        Contraints.active(item: loadingIndicatorText, attr: .top, relatedBy: .equal, to: below, attr: .bottom,
+        Constraints.active(item: loadingIndicatorText, attr: .top, relatedBy: .equal, to: below, attr: .bottom,
                           constant: 16)
-        Contraints.active(item: loadingIndicatorText, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
+        Constraints.active(item: loadingIndicatorText, attr: .leading, relatedBy: .equal, to: imageView, attr: .leading)
     }
     
     fileprivate func addLoadingView(intoContainer container: UIView? = nil) {
@@ -219,22 +219,22 @@ import UIKit
             self.view.addSubview(container)
             container.addSubview(loadingIndicatorView)
             
-            Contraints.active(item: container, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
-            Contraints.active(item: container, attr: .centerY, relatedBy: .equal, to: self.view, attr: .centerY)
-            Contraints.active(item: container, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+            Constraints.active(item: container, attr: .centerX, relatedBy: .equal, to: self.view, attr: .centerX)
+            Constraints.active(item: container, attr: .centerY, relatedBy: .equal, to: self.view, attr: .centerY)
+            Constraints.active(item: container, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                               constant: AnalysisViewController.loadingIndicatorContainerHeight)
-            Contraints.active(item: container, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+            Constraints.active(item: container, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                               constant: AnalysisViewController.loadingIndicatorContainerHeight)
-            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: container,
+            Constraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: container,
                               attr: .centerX, constant: 1.5)
-            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: container,
+            Constraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: container,
                               attr: .centerY, constant: 1.5)
             
         } else {
             self.view.addSubview(loadingIndicatorView)
-            Contraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: self.view,
+            Constraints.active(item: loadingIndicatorView, attr: .centerX, relatedBy: .equal, to: self.view,
                               attr: .centerX)
-            Contraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: self.view,
+            Constraints.active(item: loadingIndicatorView, attr: .centerY, relatedBy: .equal, to: self.view,
                               attr: .centerY)
         }
     }

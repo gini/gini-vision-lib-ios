@@ -102,7 +102,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.backgroundColor = .black
         return view
     }()
-    fileprivate var blurEffect: UIVisualEffectView?
+    var opaqueView: UIView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     var toolTipView: ToolTipView?
@@ -247,7 +247,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      */
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        setStatusBarStyle(to: GiniConfiguration.sharedConfiguration.statusBarStyle)
         camera?.start()
     }
     
@@ -265,7 +265,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.toolTipView?.arrangeViews()
-        self.blurEffect?.frame = previewView.frame
+        self.opaqueView?.frame = previewView.frame
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -324,7 +324,7 @@ extension CameraViewController {
      */
     public func showFileImportTip() {
         self.toolTipView?.show {
-            self.blurEffect?.alpha = 1
+            self.opaqueView?.alpha = 1
             self.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
@@ -369,17 +369,19 @@ extension CameraViewController {
     
     @objc fileprivate func captureImage(_ sender: AnyObject) {
         guard let camera = camera else {
-            if GiniConfiguration.DEBUG {
-                // Retrieve image from default image view to make sure image
-                // was set and therefor the correct states were checked before.
-                if let image = self.defaultImageView?.image,
-                    let imageData = UIImageJPEGRepresentation(image, 0.2) {
-                    let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
-                    self.successBlock?(imageDocument)
-                }
-            }
             return print("GiniVision: No camera initialized.")
         }
+        
+        if GiniConfiguration.DEBUG {
+            // Retrieve image from default image view to make sure image
+            // was set and therefor the correct states were checked before.
+            if let image = self.defaultImageView?.image,
+                let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                let imageDocument = GiniImageDocument(data: imageData, imageSource: .camera)
+                self.successBlock?(imageDocument)
+            }
+        }
+        
         camera.captureStillImage {[weak self] imageData, error in
             guard let imageData = imageData,
                 error == nil else {
@@ -595,9 +597,9 @@ extension CameraViewController {
     }
     
     fileprivate func createFileImportTip(giniConfiguration: GiniConfiguration) {
-        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffectStyle.light))
-        blurEffect?.alpha = 0
-        self.view.addSubview(blurEffect!)
+        opaqueView = OpaqueViewFactory.create(with: giniConfiguration.toolTipOpaqueBackgroundStyle)
+        opaqueView?.alpha = 0
+        self.view.addSubview(opaqueView!)
         
         toolTipView = ToolTipView(text: NSLocalizedStringPreferred("ginivision.camera.fileImportTip",
                                                           comment: "tooltip text indicating new file import feature"),
@@ -611,7 +613,7 @@ extension CameraViewController {
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
-            self.blurEffect?.removeFromSuperview()
+            self.opaqueView?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
     }
@@ -660,16 +662,16 @@ extension CameraViewController {
         previewView.translatesAutoresizingMaskIntoConstraints = false
         
         if UIDevice.current.isIpad {
-            Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Contraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Contraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading,
+            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Constraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
+            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading,
                               priority: 750)
         } else {
             // lower priority constraints - will make the preview "want" to get bigger
-            Contraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Contraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Contraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
         }
     }
     
@@ -677,37 +679,37 @@ extension CameraViewController {
         controlsView.translatesAutoresizingMaskIntoConstraints = false
         
         if UIDevice.current.isIpad {
-            Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing,
+            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
+            Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
+            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing,
                               priority: 750)
         } else {
-            Contraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
-            Contraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
+            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
+            Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
                               attr: .top)
-            Contraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
-            Contraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
+            Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
         }
     }
     
     fileprivate func addControlsViewButtonsConstraints() {
         captureButton.translatesAutoresizingMaskIntoConstraints = false
         
-        Contraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 70)
-        Contraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 70)
+        Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 70)
+        Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 70)
         
         if UIDevice.current.isIpad {
-            Contraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
-            Contraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
+            Constraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing, constant: -16)
-            Contraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading,
+            Constraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading,
                               constant: 16, priority: 750)
         } else {
-            Contraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
-            Contraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top,
+            Constraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
+            Constraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top,
                               constant: 16)
-            Contraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom,
+            Constraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: controlsView, attr: .bottom,
                               constant: -16, priority: 750)
         }
     }
@@ -715,18 +717,18 @@ extension CameraViewController {
     fileprivate func addImportButtonConstraints() {
         importFileButton.translatesAutoresizingMaskIntoConstraints = false
         if UIDevice.current.isIpad {
-            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: controlsView,
                               attr: .trailing)
-            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
-            Contraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: importFileButton, attr: .top, relatedBy: .equal, to: captureButton,
                               attr: .bottom, constant: 60)
         } else {
-            Contraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: importFileButton, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
-            Contraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
+            Constraints.active(item: importFileButton, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
-            Contraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: importFileButton, attr: .trailing, relatedBy: .equal, to: captureButton,
                               attr: .leading, priority: 750)
         }
     }
@@ -742,10 +744,10 @@ extension CameraViewController {
         super.view.addSubview(view)
         
         view.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
-        Contraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
-        Contraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
-        Contraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
+        Constraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
+        Constraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
+        Constraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
+        Constraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
         
         // Hide camera UI
         hideCameraOverlay()
@@ -761,9 +763,9 @@ extension CameraViewController {
         previewView.addSubview(defaultImageView)
         
         defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        Contraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
-        Contraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
-        Contraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
-        Contraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
+        Constraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
+        Constraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
+        Constraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
+        Constraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
 }
