@@ -23,26 +23,17 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             loadingView.removeFromSuperview()
             switch result {
-            case .success(let validatedDocuments):
-                let validatedDocument = validatedDocuments[0]
-                if let qrCodeDocument = document as? GiniQRCodeDocument {
-                    viewController.showPopup(forQRDetected: qrCodeDocument) {
-                        self.clearDocuments()
-                        self.addToDocuments(new: [validatedDocument])
-                        self.didCaptureAndValidate(document)
-                        self.showNextScreenAfterPicking(pages: self.pages)
-                    }
-                } else if let imageDocument = document as? GiniImageDocument {
-                    self.addToDocuments(new: [validatedDocument])
-                    self.didCaptureAndValidate(document)
-                    
-                    // In case that there is more than one image already captured, an animation is shown instead of
-                    // going to next screen
-                    if self.pages.count > 1 {
-                        viewController.animateToControlsView(imageDocument: imageDocument)
-                    } else {
-                        self.showNextScreenAfterPicking(pages: [validatedDocument])
-                    }
+            case .success(let validatedPages):
+                let validatedPage = validatedPages[0]
+                self.addToDocuments(new: [validatedPage])
+                self.didCaptureAndValidate(document)
+                
+                // In case that there is more than one image already captured, an animation is shown instead of
+                // going to next screen
+                if let imageDocument = document as? GiniImageDocument, self.pages.count > 1 {
+                    viewController.animateToControlsView(imageDocument: imageDocument)
+                } else {
+                    self.showNextScreenAfterPicking(pages: [validatedPage])
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {

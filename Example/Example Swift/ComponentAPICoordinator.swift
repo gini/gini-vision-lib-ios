@@ -394,26 +394,24 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
             if let document = pages.first?.document {
                 documentService?.delete(document)
             }
-            pages.removeAll()
         }
         
         if fromVC is AnalysisViewController && operation == .pop {
-            // Going directly from the analysis to the camera means that
-            // the document is not an image and should be removed
-            if toVC is CameraViewController {
-                pages.removeAll()
-            }
-            
             analysisScreen = nil
             documentService?.cancelAnalysis()
+        }
+        
+        if toVC is CameraViewController && (fromVC is ReviewViewController || fromVC is AnalysisViewController) {
+            // When going directly from the analysis or from the single page review screen to the camera the pages
+            // collection should be cleared, since the document processed in that cases is not going to be reused
+            pages.removeAll()
         }
         
         if let resultsScreen = fromVC as? ResultTableViewController {
             documentService?.sendFeedback(with: resultsScreen.result)
         }
         
-        if let cameraViewController = toVC as? CameraViewController,
-            fromVC is MultipageReviewViewController {
+        if let cameraViewController = toVC as? CameraViewController, fromVC is MultipageReviewViewController {
             cameraViewController
                 .replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
         }
@@ -430,25 +428,15 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             switch result {
             case .success(let validatedPages):
-                switch document {
-                case let qrCodeDocument as GiniQRCodeDocument:
-                    viewController.showPopup(forQRDetected: qrCodeDocument) {
-                        self.pages.removeAll()
-                        self.pages.append(contentsOf: validatedPages)
-                        self.upload(pages: validatedPages)
-                        self.showNextScreenAfterPicking()
-                    }
-                case let imageDocument as GiniImageDocument:
-                    self.pages.append(contentsOf: validatedPages)
-                    self.upload(pages: validatedPages)
-                    
-                    if self.pages.count > 1 {
-                        viewController.animateToControlsView(imageDocument: imageDocument)
-                    } else {
-                        self.showNextScreenAfterPicking()
-                    }
-                    
-                default: break
+                self.pages.append(contentsOf: validatedPages)
+                self.upload(pages: validatedPages)
+
+                // In case that there is more than one image already captured, an animation is shown instead of
+                // going to next screen
+                if let imageDocument = document as? GiniImageDocument, self.pages.count > 1 {
+                    viewController.animateToControlsView(imageDocument: imageDocument)
+                } else {
+                    self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
                 if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
