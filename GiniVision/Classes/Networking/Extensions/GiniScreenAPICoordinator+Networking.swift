@@ -98,10 +98,12 @@ extension GiniScreenAPICoordinator {
                     .giniVisionAnalysisDidFinish(with: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
                                     self.documentService?.sendFeedback(with: updatedExtractions)
+                                    self.documentService?.resetToInitialState()
                 }
             } else {
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWithoutResults(analysisDelegate.tryDisplayNoResultsScreen())
+                self.documentService?.resetToInitialState()
             }
         }
     }
@@ -205,6 +207,10 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     
     func didCancelAnalysis() {
         // Cancel analysis process to avoid unnecessary network calls.
-        documentService?.cancelAnalysis()
+        if pages.type == .image {
+            documentService?.cancelAnalysis()
+        } else {
+            documentService?.resetToInitialState()
+        }
     }
 }

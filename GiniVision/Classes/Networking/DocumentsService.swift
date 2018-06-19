@@ -61,13 +61,14 @@ final class DocumentsService: DocumentServiceProtocol {
     }
     
     func sendFeedback(with updatedExtractions: [String: Extraction]) {
+        guard let compositeDocument = self.compositeDocument else { return }
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: sessionBlock())
             .continueOnSuccessWith(block: { _ in
                 return self.giniSDK
                     .documentTaskManager?
-                    .update(self.compositeDocument,
+                    .update(compositeDocument,
                             updatedExtractions: updatedExtractions,
                             cancellationToken: nil)
             })
