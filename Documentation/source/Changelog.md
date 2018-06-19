@@ -1,6 +1,14 @@
 Changelog
 =========
 
+4.0.0-beta.2 (2018-06-19)
+------------------
+
+-   Fixed issue with analysis
+-   Fixed tests performance
+-   Fixed issue with QR code scanning
+-   Added customization guide
+
 4.0.0-beta.1 (2018-05-15)
 ------------------
 
