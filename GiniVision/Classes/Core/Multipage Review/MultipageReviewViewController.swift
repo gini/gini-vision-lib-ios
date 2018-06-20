@@ -499,6 +499,7 @@ extension MultipageReviewViewController {
                 }
                 
                 self.selectItem(at: min(indexPath.row, self.pages.count - 1))
+                self.deleteButton.isEnabled = true
             }
             self.deleteButton.isEnabled = true
         })
