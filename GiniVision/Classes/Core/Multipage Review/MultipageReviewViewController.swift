@@ -488,6 +488,7 @@ extension MultipageReviewViewController {
         pages.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
         delegate?.multipageReview(self, didDelete: pageToDelete)
+        deleteButton.isEnabled = false
 
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
@@ -499,6 +500,7 @@ extension MultipageReviewViewController {
                 
                 self.selectItem(at: min(indexPath.row, self.pages.count - 1))
             }
+            self.deleteButton.isEnabled = true
         })
     }
     
