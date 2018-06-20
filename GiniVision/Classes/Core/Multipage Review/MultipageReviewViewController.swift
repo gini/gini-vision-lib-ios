@@ -283,9 +283,9 @@ extension MultipageReviewViewController {
      - parameter pages: Pages to be used in the collections.
      */
     
-    public func updateCollections(with pages: [GiniVisionPage]) {
+    public func updateCollections(with pages: [GiniVisionPage], animated: Bool = false) {
         self.pages = pages
-        self.reloadCollections()
+        self.reloadCollections(animated: animated)
     }
     
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
@@ -307,13 +307,12 @@ extension MultipageReviewViewController {
         pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     }
     
-    private func reloadCollections() {
+    private func reloadCollections(animated: Bool = false) {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
-        let indexPaths: [IndexPath] = pages.lazy.enumerated().map { IndexPath(row: $0.offset, section: 0)}
         
         let dispatchGroup = DispatchGroup()
-        reload(pagesCollection, with: indexPaths, in: dispatchGroup)
-        reload(mainCollection, with: indexPaths, in: dispatchGroup)
+        reload(pagesCollection, section: 0, in: dispatchGroup, animated: animated)
+        reload(mainCollection, section: 0, in: dispatchGroup, animated: animated)
         
         dispatchGroup.notify(queue: .main, execute: {
             if let currentSelectedItem = currentSelectedItem {
@@ -324,10 +323,13 @@ extension MultipageReviewViewController {
         })
     }
     
-    private func reload(_ collection: UICollectionView, with items: [IndexPath], in dispatchGroup: DispatchGroup) {
-        collection.performBatchUpdates({
+    private func reload(_ collection: UICollectionView,
+                        section: Int,
+                        in dispatchGroup: DispatchGroup,
+                        animated: Bool = false) {
+        collection.performBatchUpdates(animated: animated, updates: {
             dispatchGroup.enter()
-            collection.reloadItems(at: items)
+            collection.reloadSections(IndexSet(integer: 0))
         }, completion: { _ in
             dispatchGroup.leave()
         })
