@@ -190,7 +190,7 @@ extension ComponentAPIDocumentsService {
     
     fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                                       completion: @escaping ComponentAPIAnalysisCompletion) {
-        print("🔎 Starting analysis...")
+        print(" 📑 Creating composite document...")
         
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
@@ -203,8 +203,13 @@ extension ComponentAPIDocumentsService {
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
+                    print("🔎 Starting analysis...")
+
                     self.compositeDocument = document
-                    return self.giniSDK.documentTaskManager.getExtractionsFor(document)
+                    return self.giniSDK
+                        .documentTaskManager
+                        .getExtractionsFor(document,
+                                           cancellationToken: self.analysisCancellationToken?.token)
                 }
                 return BFTask<AnyObject>(error: AnalysisError.documentCreation)
             }
@@ -217,7 +222,7 @@ extension ComponentAPIDocumentsService {
             return { task in
                 if task.isCancelled {
                     print("❌ Cancelled analysis process")
-                    completion(.failure(AnalysisError.documentCreation))
+                    completion(.failure(AnalysisError.cancelled))
                     
                     return BFTask<AnyObject>.cancelled()
                 }

@@ -118,7 +118,9 @@ extension GiniScreenAPICoordinator {
             case .success(let extractions):
                 self.deliver(result: extractions, analysisDelegate: networkDelegate)
             case .failure(let error):
-                let error = error as? GiniVisionError ?? AnalysisError.unknown
+                let error = error as? AnalysisError ?? AnalysisError.unknown
+                guard error != .cancelled else { return }
+                
                 networkDelegate.displayError(withMessage: error.message, andAction: {
                     self.startAnalysis(networkDelegate: networkDelegate)
                 })
