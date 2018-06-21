@@ -192,7 +192,7 @@ extension DocumentsService {
     
     fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                                       completion: @escaping AnalysisCompletion) {
-        Log(message: "Creating composite document...", event: " 📑")
+        Log(message: "Creating composite document...", event: "📑")
 
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"

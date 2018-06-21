@@ -469,7 +469,8 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
                     self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
-                if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
+                if let error = error as? FilePickerError,
+                    (error == .maxFilesPickedCountExceeded || error == .mixedDocumentsUnsupported) {
                     viewController.showErrorDialog(for: error) {
                         self.showMultipageReviewScreen()
                     }
