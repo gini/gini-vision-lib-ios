@@ -103,7 +103,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
                     showReviewScreen()
                 }
                 
-                upload(pages: pages)
+                pages.forEach { process(captured: $0)}
             } else {
                 showAnalysisScreen()
             }
@@ -157,14 +157,25 @@ extension ComponentAPICoordinator {
     }
     
     @objc fileprivate func showAnalysisScreen() {
-        guard let document = pages.first?.document else { return }
+        guard let page = pages.first else { return }
         
-        analysisScreen = AnalysisViewController(document:document)
+        analysisScreen = AnalysisViewController(document: page.document)
+        
         if let (message, action) = analysisErrorAndAction {
             showErrorInAnalysisScreen(with: message, action: action)
         }
         
-        startAnalysis()
+        if pages.type == .image {
+            // In multipage mode the analysis can be triggered once the documents have been uploaded.
+            // However, in single mode, the analysis can be triggered right after capturing the image.
+            // That is why the document upload should be done here and start the analysis afterwards
+            if giniConfiguration.multipageEnabled {
+                self.startAnalysis()
+            } else {
+                self.uploadAndStartAnalysis(for: page)
+            }
+        }
+        
         addCloseButtonIfNeeded(onViewController: analysisScreen!)
         
         navigationController.pushViewController(analysisScreen!, animated: true)
@@ -223,7 +234,6 @@ extension ComponentAPICoordinator {
     }
     
     @objc fileprivate func closeComponentAPI() {
-        documentService?.cancelAnalysis()
         delegate?.componentAPI(coordinator: self, didFinish: ())
     }
     
@@ -248,7 +258,7 @@ extension ComponentAPICoordinator {
                 navigationStack.remove(at: index)
             }
         }
-
+        
         navigationStack.append(viewController)
         navigationController.setViewControllers(navigationStack, animated: true)
     }
@@ -267,39 +277,51 @@ extension ComponentAPICoordinator {
 // MARK: - Networking
 
 extension ComponentAPICoordinator {
-    fileprivate func upload(pages: [GiniVisionPage]) {
-        pages.forEach { page in
-            if page.error == nil {
-                self.upload(page: page)
-            }
-        }
-    }
-    
-    private func upload(page: GiniVisionPage) {
-        self.documentService?.upload(page.document) { result in
+    fileprivate func upload(page: GiniVisionPage,
+                            didComplete: @escaping () -> Void,
+                            didFail: @escaping ( Error) -> Void) {
+        self.documentService?.upload(document: page.document) { result in
             DispatchQueue.main.async { [weak self] in
                 guard let `self` = self, let index = self.pages
                     .index(of: page.document) else { return }
                 switch result {
                 case .success:
                     self.pages[index].isUploaded = true
+                    didComplete()
                 case .failure(let error):
                     self.pages[index].error = error
-                    
-                    if self.pages.type != .image || !self.giniConfiguration.multipageEnabled {
-                        guard let visionError = error as? GiniVisionError else { return }
-                        self.showErrorInAnalysisScreen(with: visionError.message) {
-                            self.upload(page: page)
-                        }
-                    }
+                    didFail(error)
                 }
-                
+            }
+        }
+    }
+    
+    fileprivate func uploadAndStartAnalysis(for page: GiniVisionPage) {
+        self.upload(page: page, didComplete: {
+            self.startAnalysis()
+        }, didFail: { error in
+            guard let error = error as? GiniVisionError else { return }
+            self.showErrorInAnalysisScreen(with: error.message) {
+                self.uploadAndStartAnalysis(for: page)
+            }
+        })
+    }
+    
+    private func process(captured page: GiniVisionPage) {
+        if !page.document.isReviewable {
+            uploadAndStartAnalysis(for: page)
+        } else if giniConfiguration.multipageEnabled {
+            let refreshMultipageScreen = {
                 // When multipage mode is used and documents are images, you have to refresh the multipage review screen
                 if self.giniConfiguration.multipageEnabled, self.pages.type == .image {
                     self.refreshMultipageReview(with: self.pages)
                 }
             }
+            upload(page: page,
+                   didComplete: refreshMultipageScreen,
+                   didFail: { _ in refreshMultipageScreen()})
         }
+        
     }
     
     fileprivate func startAnalysis() {
@@ -312,7 +334,6 @@ extension ComponentAPICoordinator {
                 case .failure:
                     guard let firstPage = self.pages.first else { return }
                     let visionError = CustomAnalysisError.analysisFailed
-
                     self.showErrorInAnalysisScreen(with: visionError.message) {
                         self.startAnalysis()
                     }
@@ -322,7 +343,7 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func delete(document: GiniVisionDocument) {
-        documentService?.delete(document)
+        documentService?.remove(document: document)
     }
     
     private func showErrorInAnalysisScreen(with message: String,
@@ -392,23 +413,30 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         if fromVC is ReviewViewController && operation == .pop {
             reviewScreen = nil
             if let document = pages.first?.document {
-                documentService?.delete(document)
+                documentService?.remove(document: document)
             }
         }
         
-        if fromVC is AnalysisViewController && operation == .pop {
+        if fromVC is AnalysisViewController {
             analysisScreen = nil
-            documentService?.cancelAnalysis()
+            if operation == .pop {
+                documentService?.cancelAnalysis()
+            }
         }
         
-        if toVC is CameraViewController && (fromVC is ReviewViewController || fromVC is AnalysisViewController) {
+        if toVC is CameraViewController &&
+            (fromVC is ReviewViewController ||
+             fromVC is AnalysisViewController ||
+             fromVC is ImageAnalysisNoResultsViewController) {
             // When going directly from the analysis or from the single page review screen to the camera the pages
             // collection should be cleared, since the document processed in that cases is not going to be reused
             pages.removeAll()
+            documentService?.resetToInitialState()
         }
         
         if let resultsScreen = fromVC as? ResultTableViewController {
             documentService?.sendFeedback(with: resultsScreen.result)
+            closeComponentAPI()
         }
         
         if let cameraViewController = toVC as? CameraViewController, fromVC is MultipageReviewViewController {
@@ -428,9 +456,10 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
         validate([document]) { result in
             switch result {
             case .success(let validatedPages):
+                guard let validatedPage = validatedPages.first else { return }
                 self.pages.append(contentsOf: validatedPages)
-                self.upload(pages: validatedPages)
-
+                self.process(captured: validatedPage)
+                
                 // In case that there is more than one image already captured, an animation is shown instead of
                 // going to next screen
                 if let imageDocument = document as? GiniImageDocument, self.pages.count > 1 {
@@ -478,7 +507,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
             case .success(let validatedPages):
                 coordinator.dismissCurrentPicker {
                     self.pages.append(contentsOf: validatedPages)
-                    self.upload(pages: validatedPages)
+                    self.pages.forEach { self.process(captured: $0)}
                     self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
@@ -490,7 +519,11 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
                         if !self.pages.isEmpty {
                             positiveAction = {
                                 coordinator.dismissCurrentPicker {
-                                    self.showMultipageReviewScreen()
+                                    if self.giniConfiguration.multipageEnabled {
+                                        self.showMultipageReviewScreen()
+                                    } else {
+                                        self.showReviewScreen()
+                                    }
                                 }
                             }
                         }
@@ -523,7 +556,7 @@ extension ComponentAPICoordinator: ReviewViewControllerDelegate {
         }
         
         if let imageDocument = document as? GiniImageDocument {
-            documentService?.update(imageDocument)
+            documentService?.update(imageDocument: imageDocument)
         }
     }
 }
@@ -541,15 +574,15 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
                 self.refreshMultipageReview(with: self.pages)
             }
             
-            upload(pages: [pages[index]])
+            self.pages.forEach { self.process(captured: $0)}
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didReorder pages: [GiniVisionPage]) {
         self.pages = pages
         
-        if let multipageDocumentService = documentService as? MultipageDocumentsService {
-            multipageDocumentService.sortDocuments(withSameOrderAs: self.pages.map { $0.document })
+        if giniConfiguration.multipageEnabled {
+            documentService?.sortDocuments(withSameOrderAs: self.pages.map { $0.document })
         }
     }
     
@@ -559,12 +592,12 @@ extension ComponentAPICoordinator: MultipageReviewViewControllerDelegate {
         }
         
         if let imageDocument = page.document as? GiniImageDocument {
-            documentService?.update(imageDocument)
+            documentService?.update(imageDocument: imageDocument)
         }
     }
     
     func multipageReview(_ controller: MultipageReviewViewController, didDelete page: GiniVisionPage) {
-        documentService?.delete(page.document)
+        documentService?.remove(document: page.document)
         pages.remove(page.document)
         
         if pages.isEmpty {

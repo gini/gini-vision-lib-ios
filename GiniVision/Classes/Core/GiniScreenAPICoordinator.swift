@@ -99,7 +99,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                         "enabled. To enable it just set `openWithEnabled` to `true` in the `GiniConfiguration`")
                 }
                 
-                pages.forEach { visionDelegate?.didCapture(document: $0.document, uploadDelegate: self) }
+                pages.forEach { visionDelegate?.didCapture(document: $0.document, networkDelegate: self) }
                 viewControllers = initialViewControllers(with: pages)
             } else {
                 fatalError("You are trying to import both PDF and images at the same time. " +
@@ -210,7 +210,10 @@ extension GiniScreenAPICoordinator {
         guard let firstDocument = pages.first?.document else {
             return
         }
-        visionDelegate?.didReview(documents: pages.map { $0.document })
+        
+        if pages.type == .image {
+            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
+        }
         analysisViewController = createAnalysisScreen(withDocument: firstDocument)
         
         if let (message, action) = analysisErrorAndAction {
@@ -234,24 +237,28 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                               animationControllerFor operation: UINavigationControllerOperation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        if fromVC is AnalysisViewController && operation == .pop {
+        if fromVC is AnalysisViewController {
             analysisViewController = nil
-            visionDelegate?.didCancelAnalysis()
+            if operation == .pop {
+                visionDelegate?.didCancelAnalysis()
+            }
         }
         
         if fromVC is ReviewViewController && operation == .pop {
-            // This can only happen when not using multipage
-            reviewViewController = nil
-            
+            reviewViewController = nil            
             if let firstDocument = pages.first?.document {
                 visionDelegate?.didCancelReview(for: firstDocument)
             }
         }
         
-        if toVC is CameraViewController && (fromVC is ReviewViewController || fromVC is AnalysisViewController) {
+        if toVC is CameraViewController &&
+            (fromVC is ReviewViewController ||
+             fromVC is AnalysisViewController ||
+             fromVC is ImageAnalysisNoResultsViewController) {
             // When going directly from the analysis or from the single page review screen to the camera the pages
             // collection should be cleared, since the document processed in that cases is not going to be reused
             clearDocuments()
+            documentService?.resetToInitialState()
         }
         
         let isFromCameraToMultipage = (toVC is MultipageReviewViewController && fromVC is CameraViewController)
