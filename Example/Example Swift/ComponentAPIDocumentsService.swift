@@ -82,7 +82,6 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
                 }
                 
                 print("🚀 Feedback sent with \(updatedExtractions.count) extractions")
-                
                 return nil
             })
     }
