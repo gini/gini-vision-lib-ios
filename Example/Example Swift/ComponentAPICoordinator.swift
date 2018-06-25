@@ -331,10 +331,11 @@ extension ComponentAPICoordinator {
                 switch result {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
-                case .failure:
-                    guard let firstPage = self.pages.first else { return }
-                    let visionError = CustomAnalysisError.analysisFailed
-                    self.showErrorInAnalysisScreen(with: visionError.message) {
+                case .failure(let error):
+                    let error = error as? AnalysisError ?? AnalysisError.unknown
+                    guard error != .cancelled else { return }
+
+                    self.showErrorInAnalysisScreen(with: error.message) {
                         self.startAnalysis()
                     }
                 }
@@ -468,7 +469,8 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
                     self.showNextScreenAfterPicking()
                 }
             case .failure(let error):
-                if let error = error as? FilePickerError, error == .maxFilesPickedCountExceeded {
+                if let error = error as? FilePickerError,
+                    (error == .maxFilesPickedCountExceeded || error == .mixedDocumentsUnsupported) {
                     viewController.showErrorDialog(for: error) {
                         self.showMultipageReviewScreen()
                     }

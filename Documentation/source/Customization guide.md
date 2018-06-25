@@ -55,6 +55,7 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 - Guides color &#8594;  `GiniConfiguration.cameraPreviewCornerGuidesColor`
 - Focus large image &#8594; <span style="color:#009EDF">*cameraFocusLarge*</span> image asset
 - Focus large small &#8594; <span style="color:#009EDF">*cameraFocusSmall*</span> image asset
+- Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.toolTipOpaqueBackgroundStyle`
 
 ##### 3. Camera buttons container
 - Capture button
@@ -112,11 +113,14 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 	- Image &#8594; <span style="color:#009EDF">*navigationReviewContinue*</span> image asset
 	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.continue*</span> localized string
 
-##### 2. Page item
+##### 2. Main collection
+- Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.toolTipOpaqueBackgroundStyle`
+
+##### 3. Page item
 - Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor`
 - Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor`
 
-##### 3. Bottom container
+##### 4. Bottom container
 - Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor`
 - Rotation button image &#8594;  <span style="color:#009EDF">*rotateImageIcon*</span> image asset
 - Delete button image &#8594;  <span style="color:#009EDF">*trashIcon*</span> image asset
@@ -132,8 +136,12 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 	 - Image &#8594; <span style="color:#009EDF">*navigationAnalysisBack*</span> image asset
 	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.analysis.back*</span> localized string
 
-##### 2. Loading view
-- Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor`
+##### 2. PDF Information view
+- Text color &#8594; `GiniConfiguration.analysisPDFInformationTextColor`
+- Background color &#8594; `GiniConfiguration.analysisPDFInformationBackgroundColor`
+
+##### 3. Loading view
+- Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
 - Text &#8594; <span style="color:#009EDF">*ginivision.analysis.loadingText*</span> localized string
 
 ## Supported formats screen

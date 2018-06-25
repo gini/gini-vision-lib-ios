@@ -283,9 +283,9 @@ extension MultipageReviewViewController {
      - parameter pages: Pages to be used in the collections.
      */
     
-    public func updateCollections(with pages: [GiniVisionPage]) {
+    public func updateCollections(with pages: [GiniVisionPage], animated: Bool = false) {
         self.pages = pages
-        self.reloadCollections()
+        self.reloadCollections(animated: animated)
     }
     
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
@@ -307,17 +307,32 @@ extension MultipageReviewViewController {
         pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     }
     
-    private func reloadCollections() {
+    private func reloadCollections(animated: Bool = false) {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
         
-        self.mainCollection.reloadData()
-        self.pagesCollection.reloadData()
+        let dispatchGroup = DispatchGroup()
+        reload(pagesCollection, section: 0, in: dispatchGroup, animated: animated)
+        reload(mainCollection, section: 0, in: dispatchGroup, animated: animated)
         
-        if let currentSelectedItem = currentSelectedItem {
-            self.selectItem(at: currentSelectedItem.row, animated: false)
-        } else {
-            self.selectLastItem(animated: false)
-        }
+        dispatchGroup.notify(queue: .main, execute: {
+            if let currentSelectedItem = currentSelectedItem {
+                self.selectItem(at: currentSelectedItem.row, animated: false)
+            } else {
+                self.selectLastItem(animated: false)
+            }
+        })
+    }
+    
+    private func reload(_ collection: UICollectionView,
+                        section: Int,
+                        in dispatchGroup: DispatchGroup,
+                        animated: Bool = false) {
+        collection.performBatchUpdates(animated: animated, updates: {
+            dispatchGroup.enter()
+            collection.reloadSections(IndexSet(integer: 0))
+        }, completion: { _ in
+            dispatchGroup.leave()
+        })
     }
     
 }
@@ -473,6 +488,7 @@ extension MultipageReviewViewController {
         pages.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
         delegate?.multipageReview(self, didDelete: pageToDelete)
+        deleteButton.isEnabled = false
 
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
@@ -484,6 +500,7 @@ extension MultipageReviewViewController {
                 
                 self.selectItem(at: min(indexPath.row, self.pages.count - 1))
             }
+            self.deleteButton.isEnabled = true
         })
     }
     

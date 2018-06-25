@@ -61,13 +61,14 @@ final class DocumentsService: DocumentServiceProtocol {
     }
     
     func sendFeedback(with updatedExtractions: [String: Extraction]) {
+        guard let compositeDocument = self.compositeDocument else { return }
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: sessionBlock())
             .continueOnSuccessWith(block: { _ in
                 return self.giniSDK
                     .documentTaskManager?
-                    .update(self.compositeDocument,
+                    .update(compositeDocument,
                             updatedExtractions: updatedExtractions,
                             cancellationToken: nil)
             })
@@ -118,10 +119,10 @@ final class DocumentsService: DocumentServiceProtocol {
 
 extension DocumentsService {
     fileprivate func createDocument(from document: GiniVisionDocument,
-                        fileName: String,
-                        docType: String = "",
-                        cancellationToken: BFCancellationToken? = nil,
-                        completion: @escaping UploadDocumentCompletion) {
+                                    fileName: String,
+                                    docType: String = "",
+                                    cancellationToken: BFCancellationToken? = nil,
+                                    completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
         
         giniSDK.sessionManager
@@ -190,9 +191,9 @@ extension DocumentsService {
     }
     
     fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
-                          completion: @escaping AnalysisCompletion) {
-        Log(message: "Starting analysis...", event: "🔎")
-        
+                                      completion: @escaping AnalysisCompletion) {
+        Log(message: "Creating composite document...", event: "📑")
+
         analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
@@ -204,8 +205,12 @@ extension DocumentsService {
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
+                    Log(message: "Starting analysis...", event: "🔎")
+
                     self.compositeDocument = document
-                    return self.giniSDK.documentTaskManager.getExtractionsFor(document)
+                    return self.giniSDK
+                        .documentTaskManager
+                        .getExtractionsFor(document, cancellationToken: self.analysisCancellationToken?.token)
                 }
                 return BFTask<AnyObject>(error: AnalysisError.documentCreation)
             }
@@ -218,7 +223,7 @@ extension DocumentsService {
             return { task in
                 if task.isCancelled {
                     Log(message: "Cancelled analysis process", event: .error)
-                    completion(.failure(AnalysisError.documentCreation))
+                    completion(.failure(AnalysisError.cancelled))
                     
                     return BFTask<AnyObject>.cancelled()
                 }
