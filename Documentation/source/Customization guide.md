@@ -136,9 +136,9 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 	 - Image &#8594; <span style="color:#009EDF">*navigationAnalysisBack*</span> image asset
 	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.analysis.back*</span> localized string
 
-##### 3. PDF Information view
+##### 2. PDF Information view
 - Text color &#8594; `GiniConfiguration.analysisPDFInformationTextColor`
-- Text color &#8594; `GiniConfiguration.analysisPDFInformationBackgroundColor`
+- Background color &#8594; `GiniConfiguration.analysisPDFInformationBackgroundColor`
 
 ##### 3. Loading view
 - Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
