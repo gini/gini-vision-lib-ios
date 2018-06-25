@@ -79,6 +79,7 @@
             "FilePickerError",
             "GiniVisionDocumentType",
             "NoticeActionType",
+            "OpaqueViewStyle",
             "ReviewError"
          ]
       },
@@ -120,6 +121,7 @@
             "CameraScreenFailureBlock",
             "CameraScreenSuccessBlock",
             "Extraction",
+            "GiniVisionNetworkDelegate",
             "NoticeAction",
             "ReviewErrorBlock",
             "ReviewSuccessBlock",
