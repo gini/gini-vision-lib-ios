@@ -179,7 +179,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     }()
     
     var opaqueView: UIView?
-    fileprivate var blurEffect: UIVisualEffectView?
+    var toolTipView: ToolTipView?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
