@@ -4,9 +4,9 @@ Changelog
 4.0.0-beta.2 (2018-06-19)
 ------------------
 
--   Fixed issue with analysis
--   Fixed tests performance
--   Fixed issue with QR code scanning
+-   Fixe an issue with errors not shown in the analysis screen
+-   Fixed tests taking too long to complete
+-   Fixed an issue where QR codes were scanned twice
 -   Added customization guide
 
 4.0.0-beta.1 (2018-05-15)
