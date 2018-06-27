@@ -10,7 +10,7 @@ Besides, when using the Component API, the `MultipageReviewViewController` compo
 
 ### Networking implementation
 The Screen API now offers the option to include all the networking logic, only being necessary to provide a `GiniVisionResultsDelegate` when initializing the Screen API in order to get the analysis results.
-If you want to migrate your Screen API implementation to this one, just remove your current implementation of the `GiniVisionDelegate` and implement the `GiniVisionResultsDelegate`. You have had to add the `Networking` or `Networking+Pinning` subspec in your `Podfile` before, as pointed out in the [Integration guide](integration.html).
+If you want to migrate your Screen API implementation to this one, just remove your current implementation of the `GiniVisionDelegate` and implement the `GiniVisionResultsDelegate`. You need to add the `Networking` or `Networking+Pinning` subspec in your `Podfile` before, as pointed out in the [Integration guide](integration.html).
 
 ### Custom photos gallery
 A custom photos gallery picker has been designed, which unlike the native `UIImagePickerController` allows to select multiple photos at the same time, to start caching before showing it (no delays when showing the first time) and some additional customization. It is used within the `DocumentPickerCoordinator`.
@@ -31,7 +31,7 @@ In order to use the new Multi-page feature, you have to update the [Gini iOS SDK
 ### Screen API only
 #### GiniVisionDelegate
 
-* `GiniVisionDelegate.didCapture(_:)` and `GiniVisionDelegate.didCapture(document:)` are replaced with `GiniVisionDelegate.didCapture(document:networkDelegate:)`.
+* `GiniVisionDelegate.didCapture(_:)` and `GiniVisionDelegate.didCapture(document:)` are replaced by `GiniVisionDelegate.didCapture(document:networkDelegate:)`.
 * `GiniVisionDelegate.didReview(_:withChanges:)` and `GiniVisionDelegate.didReview(document:withChanges:)` are replaced by `GiniVisionDelegate.didReview(documents:networkDelegate:)`.
 * `GiniVisionDelegate.didCancelReview()` is replaced by `GiniVisionDelegate.didCancelReview(for:)`.
 * `GiniVisionDelegate.didShowAnalysis(_:)` is not used anymore.
