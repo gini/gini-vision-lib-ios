@@ -480,14 +480,8 @@ extension CameraViewController {
     public func replaceCapturedStackImages(with images: [UIImage]) {
         capturedImagesStackView.replaceStackImages(with: images)
     }
-    
-    /**
-     Used to show the QR code popup once it has been validated
-     
-     - parameter qrDocument: A validated `GiniQRCodeDocument`.
-     - parameter didTapDone: Block executed when the user taps the _Done_ button to proceed with the `GiniQRCodeDocument`.
-     */
-    public func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
+
+    fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             

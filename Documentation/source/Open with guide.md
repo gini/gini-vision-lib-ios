@@ -74,20 +74,25 @@ In order to determine that the file opened is valid (correct size, correct type 
 
 
 ```swift
-func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+func application(_ app: UIApplication,
+                 open url: URL,
+                 options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
 
         // 1. Read data imported from url
         let data = try? Data(contentsOf: url)
 
         // 2. Build the document
-        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .appName(name: sourceApplication))
+        let documentSource = DocumentSource.appName(name: sourceApplication)
+        let documentBuilder = GiniVisionDocumentBuilder(data: data,
+                                                        documentSource: documentSource)
         documentBuilder.importMethod = .openWith
         let document = documentBuilder.build()
 
-        // 3. Validate document        
+        // 3. Validate document
         do {
-            try document?.validate()
-            // Use the document
+            try GiniVision.validate(document,
+                                    withConfig: giniConfiguration)
+            // Load the GiniVision with the validated document
 
         } catch {
         	// Show an error ponting out that the document is invalid

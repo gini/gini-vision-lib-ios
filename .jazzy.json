@@ -22,17 +22,24 @@
          "name":"Documentation",
          "children":[
            "Installation",
-           "Customization guide",
-           "Open with guide",
-           "Import PDFs and images guide",
-           "QR Code scanning guide",
+           "Integration",
            "Changelog",
            "License"
          ]
       },
       {
+         "name":"Guides",
+         "children":[
+           "Customization guide",
+           "Open with guide",
+           "Import PDFs and images guide",
+           "QR Code scanning guide"
+         ]
+      },
+      {
          "name":"Migration guides",
          "children":[
+           "Updating to 4.0",
            "Updating to 3.2"
          ]
       },
@@ -43,14 +50,18 @@
             "CameraViewController",
             "CustomDocumentValidationError",
             "CustomDocumentValidationResult",
+            "DocumentPickerCoordinator",
+            "GiniClient",
             "GiniConfiguration",
             "GiniImageDocument",
             "GiniPDFDocument",
             "GiniQRCodeDocument",
             "GiniVision",
             "GiniVisionDocumentBuilder",
+            "GiniVisionDocumentValidator",
             "HelpMenuViewController",
             "ImageAnalysisNoResultsViewController",
+            "MultipageReviewViewController",
             "OnboardingPage",
             "OnboardingViewController",
             "ReviewViewController"
@@ -59,28 +70,47 @@
       {
          "name":"Enums",
          "children":[
+            "AnalysisError",
             "CameraError",
             "DocumentImportMethod",
+            "DocumentPickerType",
             "DocumentSource",
             "DocumentValidationError",
             "FilePickerError",
             "GiniVisionDocumentType",
+            "NoticeActionType",
+            "OpaqueViewStyle",
             "ReviewError"
+         ]
+      },
+      {
+         "name":"Extensions",
+         "children":[
+            "Array",
+            "Collection"
          ]
       },
       {
          "name":"Protocols",
          "children":[
             "AnalysisDelegate",
+            "CameraViewControllerDelegate",
+            "DocumentPickerCoordinatorDelegate",
+            "GiniLogger",
             "GiniVisionDelegate",
             "GiniVisionDocument",
-            "GiniVisionError"
+            "GiniVisionError",
+            "GiniVisionResultsDelegate",
+            "MultipageReviewViewControllerDelegate",
+            "ReviewViewControllerDelegate",
+            "UploadDelegate"
          ]
       },
       {
 	       "name":"Structs",
 	       "children":[
-	         "GiniVisionFont"
+	         "GiniVisionFont",
+           "GiniVisionPage"
 	       ]
       },
       {
@@ -90,6 +120,8 @@
             "CameraSuccessBlock",
             "CameraScreenFailureBlock",
             "CameraScreenSuccessBlock",
+            "Extraction",
+            "GiniVisionNetworkDelegate",
             "NoticeAction",
             "ReviewErrorBlock",
             "ReviewSuccessBlock",
