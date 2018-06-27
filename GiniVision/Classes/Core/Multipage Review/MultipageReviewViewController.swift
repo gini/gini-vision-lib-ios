@@ -153,9 +153,12 @@ public final class MultipageReviewViewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                             target: self,
                                             action: nil)
-        var items = [self.rotateButton,
+        var items = [flexibleSpace,
+                     self.rotateButton,
                      flexibleSpace,
-                     self.deleteButton]
+                     flexibleSpace,
+                     self.deleteButton,
+                     flexibleSpace]
         
         toolBar.setItems(items, animated: false)
         
