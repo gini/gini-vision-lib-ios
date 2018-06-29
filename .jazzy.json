@@ -3,9 +3,9 @@
       "-workspace",
       "Example/GiniVision.xcworkspace",
       "-scheme",
-      "GiniVision"
+      "Example Swift"
    ],
-   "author":"Gini",
+   "author":"Gini GmbH",
    "author_url":"https://gini.net",
    "module":"GiniVision",
    "readme":"Documentation/Sections/Documentation.md",
