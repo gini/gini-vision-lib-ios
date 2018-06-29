@@ -652,6 +652,12 @@ import UIKit
      Sets the tint color of the page background
      */
     @objc public var multipagePageBackgroundColor = UIColor.white
+
+    /**
+     Sets the background style when the tooltip is shown in the multipage screen
+     */
+    public var multipageToolTipOpaqueBackgroundStyle: OpaqueViewStyle = .blurred(style: .light)
+    
     
     // MARK: Analysis options
     

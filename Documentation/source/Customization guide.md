@@ -114,7 +114,7 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.continue*</span> localized string
 
 ##### 2. Main collection
-- Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.toolTipOpaqueBackgroundStyle`
+- Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.multipageToolTipOpaqueBackgroundStyle`
 
 ##### 3. Page item
 - Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor`
