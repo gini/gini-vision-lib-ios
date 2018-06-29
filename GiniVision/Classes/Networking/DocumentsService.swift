@@ -17,6 +17,7 @@ final class DocumentsService: DocumentServiceProtocol {
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
+        _ = self.getSession()
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
@@ -64,7 +65,7 @@ final class DocumentsService: DocumentServiceProtocol {
         guard let compositeDocument = self.compositeDocument else { return }
         giniSDK.sessionManager
             .getSession()
-            .continueWith(block: sessionBlock())
+            .continueWith(block: getSession())
             .continueOnSuccessWith(block: { _ in
                 return self.giniSDK
                     .documentTaskManager?
@@ -127,7 +128,7 @@ extension DocumentsService {
         
         giniSDK.sessionManager
             .getSession()
-            .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
+            .continueWith(block: getSession(with: cancellationToken))
             .continueOnSuccessWith(block: { [weak self] _ in
                 return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
                                                                                from: document.data,
@@ -153,7 +154,7 @@ extension DocumentsService {
     fileprivate func deleteCompositeDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
-            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueWith(block: getSession(with: nil))
             .continueOnSuccessWith(block: { [weak self] _ in
                 self?.giniSDK.documentTaskManager.deleteCompositeDocument(withId: id,
                                                                           cancellationToken: nil)
@@ -173,7 +174,7 @@ extension DocumentsService {
     fileprivate func deletePartialDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
-            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueWith(block: getSession(with: nil))
             .continueOnSuccessWith(block: { [weak self] _ in
                 self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
                                                                         cancellationToken: nil)
@@ -249,7 +250,7 @@ extension DocumentsService {
             }
     }
     
-    fileprivate func sessionBlock(cancellationToken token: BFCancellationToken? = nil)
+    fileprivate func getSession(with token: BFCancellationToken? = nil)
         -> ((BFTask<AnyObject>) -> Any?) {
             return {
                 [weak self] task in
