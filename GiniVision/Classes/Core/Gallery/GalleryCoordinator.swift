@@ -19,7 +19,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     weak var delegate: GalleryCoordinatorDelegate?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let galleryManager: GalleryManagerProtocol
-    fileprivate(set) var selectedImageDocuments: [String: GiniImageDocument] = [:]
+    fileprivate(set) var selectedImageDocuments: [(assetId: String, imageDocument: GiniImageDocument)] = []
     fileprivate var currentImagePickerViewController: ImagePickerViewController?
     
     var isGalleryPermissionGranted: Bool {
@@ -114,13 +114,13 @@ final class GalleryCoordinator: NSObject, Coordinator {
     // MARK: - Bar button actions
     
     @objc fileprivate func cancelAction() {
-        selectedImageDocuments = [:]
+        selectedImageDocuments = []
         delegate?.gallery(self, didCancel: ())
     }
     
     @objc fileprivate func openImages() {
         DispatchQueue.main.async {
-            let imageDocuments: [GiniImageDocument] = self.selectedImageDocuments.map { $0.value }
+            let imageDocuments: [GiniImageDocument] = self.selectedImageDocuments.map { $0.imageDocument }
             self.resetToInitialState()
             self.delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
         }
@@ -223,8 +223,9 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didDeselectAsset asset: Asset,
                      at index: IndexPath) {
-        if let documentIndex = selectedImageDocuments.index(forKey: asset.identifier) {
+        if let documentIndex = selectedImageDocuments.index(where: { $0.assetId == asset.identifier }) {
             viewController.deselectCell(at: index)
+            
             selectedImageDocuments.remove(at: documentIndex)
         }
         
@@ -247,9 +248,11 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                                               imageSource: .external,
                                               imageImportMethod: .picker,
                                               deviceOrientation: nil)
-        self.selectedImageDocuments[asset.identifier] = imageDocument
         
-        if !self.giniConfiguration.multipageEnabled {
+        selectedImageDocuments.append((assetId: asset.identifier,
+                                       imageDocument: imageDocument))
+        
+        if !giniConfiguration.multipageEnabled {
             openImages()
         }
     }
