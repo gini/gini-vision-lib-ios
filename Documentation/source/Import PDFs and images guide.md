@@ -26,12 +26,19 @@ giniConfiguration.customDocumentValidations = { document in
 	}
 }
 ```
+#### Only Component API
+
+Additionaly - when using the Component API - you have to use the `DocumentPickerCoordinator` to present both the Photo Gallery and the File Explorer and to handle all the interaction with them.
+To enable _Drag&Drop_, just call the `DocumentPickerCoordinator.setupDragAndDrop(in:)` method, passing the view that will handle the drop interaction (we recommend to pass the `CameraViewController.view`).
+
+Also, with the addition of a custom image picker to support multiple selection, you can start caching the album images by calling the `DocumentPickerCoordinator.startCaching()` method when creating the coordinator, but only if the gallery access permission is granted before (`DocumentPickerCoordinator.isGalleryPermissionGranted`).
+
 
 Import images from camera roll
 ----------------------
 
 To enable your app to import images from **Photo Gallery** and also support **iOS 10** you need to specify the `NSPhotoLibraryUsageDescription ` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when accessing the **Photo Gallery**.
- 
+
 Import images and PDFs from other apps
 ------------------------------------
 
