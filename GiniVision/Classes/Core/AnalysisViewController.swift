@@ -37,19 +37,6 @@ import UIKit
  The `AnalysisViewController` provides a custom analysis screen which shows the upload and analysis activity.
  The user should have the option of canceling the process by navigating back to the review screen.
  
- **Text resources for this screen**
- 
- * `ginivision.navigationbar.analysis.back` (Screen API only.)
- 
- - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your
- localized strings will make `AnalysisViewController` revert to the default iOS back button.
- 
- **Image resources for this screen**
- 
- * `navigationAnalysisBack` (Screen API only.)
- 
- Resources listed also contain resources for the container view controller. These are marked with _Screen API only_.
- 
  - note: Component API only.
  */
 @objc public final class AnalysisViewController: UIViewController {
@@ -189,9 +176,6 @@ import UIKit
     // MARK: Toggle animation
     /**
      Displays a loading activity indicator. Should be called when document analysis is started.
-     
-     - note: To change the color of the loading animation use `analysisLoadingIndicatorColor`
-     on the `GiniConfiguration` class.
      */
     public func showAnimation() {
         loadingIndicatorView.startAnimating()

@@ -89,29 +89,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 /**
  The `CameraViewController` provides a custom camera screen which enables the user to take a
  photo of a document to be analyzed. The user can focus the camera manually if the auto focus does not work.
- 
- **Text resources for this screen**
- 
- * `ginivision.navigationbar.camera.title` (Screen API only.)
- * `ginivision.navigationbar.camera.close` (Screen API only.)
- * `ginivision.navigationbar.camera.help` (Screen API only.)
- * `ginivision.camera.captureButton`
- * `ginivision.camera.notAuthorized`
- * `ginivision.camera.notAuthorizedButton`
- * `ginivision.camera.filepicker.photoLibraryAccessDenied`
- 
- **Image resources for this screen**
- 
- * `cameraCaptureButton`
- * `cameraFocusLarge`
- * `cameraFocusSmall`
- * `cameraNotAuthorizedIcon`
- * `documentImportButton`
- * `navigationCameraClose` (Screen API only.)
- * `navigationCameraHelp` (Screen API only.)
- 
- Resources listed also contain resources for the container view controller. These are marked with _Screen API only_.
- 
+  
  - note: Component API only.
  */
 //swiftlint:disable file_length

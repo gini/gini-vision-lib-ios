@@ -12,20 +12,6 @@ import UIKit
 /**
  The `ImageAnalysisNoResultsViewController` provides a custom no results screen which shows some capture
  suggestions when there is no results when analysing an image.
- 
- **Text resources for this screen**
- 
- * `ginivision.noresults.warning`
- 
- - note: Setting `ginivision.navigationbar.analysis.back` explicitly to the empty string in your localized
-         strings will make `AnalysisViewController` revert to the default iOS back button.
- 
- **Image resources for this screen**
- 
- * `captureSuggestion1`
- * `captureSuggestion2`
- * `captureSuggestion3`
- * `captureSuggestion4`
  */
 
 public final class ImageAnalysisNoResultsViewController: UIViewController {

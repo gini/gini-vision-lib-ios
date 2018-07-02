@@ -55,27 +55,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
  uploaded to Gini’s backend immediately after having been taken as it is safe to assume that
  in most cases the photo is good enough to be processed further.
  
- **Text resources for this screen**
- 
- * `ginivision.navigationbar.review.title` (Screen API only.)
- * `ginivision.navigationbar.review.back` (Screen API only.)
- * `ginivision.navigationbar.review.close` (Screen API only.)
- * `ginivision.navigationbar.review.continue` (Screen API only.)
- * `ginivision.review.top`
- * `ginivision.review.rotateButton`
- * `ginivision.review.bottom`
- 
- - note: Setting `ginivision.navigationbar.review.back` explicitly to the empty string in your
- localized strings will make `ReviewViewController` revert to the default iOS back button.
- 
- **Image resources for this screen**
- 
- * `reviewRotateButton`
- * `navigationReviewBack` (Screen API only.)
- * `navigationReviewContinue` (Screen API only.)
- 
- Resources listed also contain resources for the container view controller. They are marked with _Screen API only_.
- 
  - note: Component API only.
  */
 @objc public final class ReviewViewController: UIViewController {

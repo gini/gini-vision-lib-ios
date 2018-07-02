@@ -10,22 +10,7 @@ import UIKit
 
 /**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
- use the _Open with_ feature and which formats are supported by the Gini Vision Library.
- 
- **Text resources for this screen**
- 
- * `ginivision.navigationbar.help.backToCamera`
- * `ginivision.navigationbar.help.backToMenu`
-
- - note: Setting `ginivision.navigationbar.help.backToCamera` and `ginivision.navigationbar.help.backToMenu`
- explicitly to the empty string in your localized strings will make `HelpMenuViewController`
- revert to the default iOS back button.
- 
- **Image resources for this screen**
- 
- * `navigationReviewBack`
- * `arrowBack`
- 
+ use the _Open with_ feature and which formats are supported by the Gini Vision Library. 
  */
 
 final public class HelpMenuViewController: UITableViewController {
