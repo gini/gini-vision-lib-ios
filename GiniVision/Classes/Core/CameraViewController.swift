@@ -101,6 +101,22 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      */
     public weak var delegate: CameraViewControllerDelegate?
     
+    var opaqueView: UIView?
+    var toolTipView: ToolTipView?
+    let giniConfiguration: GiniConfiguration
+    fileprivate var camera: Camera?
+    fileprivate var cameraState = CameraState.notValid
+    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
+    fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
+    fileprivate var defaultImageView: UIImageView?
+    fileprivate var focusIndicatorImageView: UIImageView?
+    fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
+        .portrait: .portrait,
+        .landscapeRight: .landscapeRight,
+        .landscapeLeft: .landscapeLeft,
+        .portraitUpsideDown: .portraitUpsideDown
+    ]
+    
     fileprivate enum CameraState {
         case valid, notValid
     }
@@ -114,6 +130,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.accessibilityLabel = self.giniConfiguration.cameraCaptureButtonTitle
         return button
     }()
+    
     lazy var importFileButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -121,6 +138,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
         return button
     }()
+    
     lazy var importFileSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +149,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         label.textColor = .white
         return label
     }()
+    
     lazy var capturedImagesStackView: CapturedImagesStackView = {
         let view = CapturedImagesStackView(giniConfiguration: giniConfiguration)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -141,6 +160,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
         return view
     }()
+    
     lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
         previewView.translatesAutoresizingMaskIntoConstraints = false
@@ -149,30 +169,13 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         previewView.addGestureRecognizer(tapGesture)
         return previewView
     }()
+    
     lazy var controlsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .black
         return view
     }()
-    
-    var opaqueView: UIView?
-    var toolTipView: ToolTipView?
-    fileprivate var defaultImageView: UIImageView?
-    fileprivate var focusIndicatorImageView: UIImageView?
-    fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
-        .portrait: .portrait,
-        .landscapeRight: .landscapeRight,
-        .landscapeLeft: .landscapeLeft,
-        .portraitUpsideDown: .portraitUpsideDown
-    ]
-    
-    // Properties
-    let giniConfiguration: GiniConfiguration
-    fileprivate var camera: Camera?
-    fileprivate var cameraState = CameraState.notValid
-    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
-    fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     
     // Images
     fileprivate var defaultImage: UIImage? {

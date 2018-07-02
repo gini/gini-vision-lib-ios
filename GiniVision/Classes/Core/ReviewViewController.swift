@@ -75,6 +75,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
         return scrollView
     }()
+    
     fileprivate var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,11 +83,13 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         imageView.accessibilityLabel = GiniConfiguration.shared.reviewDocumentImageTitle
         return imageView
     }()
+    
     fileprivate var topView: UIView = {
         let topView = NoticeView(text: GiniConfiguration.shared.reviewTextTop)
         topView.translatesAutoresizingMaskIntoConstraints = false
        return topView
     }()
+    
     fileprivate var bottomView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -95,6 +98,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
             .withAlphaComponent(0.8)
         return view
     }()
+    
     lazy var rotateButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -103,6 +107,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
         return button
     }()
+    
     fileprivate var bottomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

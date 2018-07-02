@@ -16,6 +16,7 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
         suggestionImage.contentMode = .scaleAspectFit
         return suggestionImage
     }()
+    
     var suggestionText: UILabel = {
         let suggestionText = UILabel()
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +26,7 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
         suggestionText.minimumScaleFactor = 10 / 14
         return suggestionText
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(suggestionImage)

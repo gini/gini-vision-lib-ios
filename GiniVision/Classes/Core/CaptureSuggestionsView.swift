@@ -25,7 +25,6 @@ final class CaptureSuggestionsView: UIView {
     fileprivate var bottomConstraint: NSLayoutConstraint = NSLayoutConstraint()
     fileprivate let repeatInterval: TimeInterval = 5
     fileprivate let superViewBottomLayout: UILayoutSupport
-    
     fileprivate let suggestionIconImage = UIImage(named: "analysisSuggestionsIcon",
                                                   in: Bundle(for: GiniVision.self),
                                                   compatibleWith: nil)

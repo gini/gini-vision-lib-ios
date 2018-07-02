@@ -21,6 +21,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
+    
     lazy var bottomButton: UIButton = {
         let bottomButton = UIButton()
         bottomButton.translatesAutoresizingMaskIntoConstraints = false

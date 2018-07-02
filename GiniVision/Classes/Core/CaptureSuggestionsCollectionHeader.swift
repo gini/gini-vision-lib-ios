@@ -42,12 +42,14 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         container.translatesAutoresizingMaskIntoConstraints = false
         return container
     }()
+    
     lazy var topViewContainerBottomLine: UIView = {
         let line = UIView()
         line.translatesAutoresizingMaskIntoConstraints = false
         line.backgroundColor = .lightGray
         return line
     }()
+    
     lazy var topViewIcon: UIImageView = {
         let icon = UIImageView()
         icon.translatesAutoresizingMaskIntoConstraints = false
@@ -55,6 +57,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         icon.tintColor = GiniConfiguration.shared.noResultsWarningContainerIconColor
         return icon
     }()
+    
     lazy var topViewText: UILabel = {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +65,7 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         text.font = UIFont.boldSystemFont(ofSize: 14)
         return text
     }()
+    
     lazy var subHeaderTitle: UILabel = {
         let subHeaderTitle = UILabel()
         subHeaderTitle.translatesAutoresizingMaskIntoConstraints = false

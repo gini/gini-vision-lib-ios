@@ -41,12 +41,18 @@ import UIKit
  */
 @objc public final class AnalysisViewController: UIViewController {
     
+    var didShowAnalysis: (() -> Void)?
+    fileprivate let document: GiniVisionDocument
+    fileprivate let giniConfiguration: GiniConfiguration
+    fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
+    
     // User interface
     fileprivate var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+    
     fileprivate var loadingIndicatorView: UIActivityIndicatorView = {
         let indicatorView = UIActivityIndicatorView()
         indicatorView.hidesWhenStopped = true
@@ -54,6 +60,7 @@ import UIKit
         indicatorView.startAnimating()
         return indicatorView
     }()
+    
     fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
         loadingText.text = giniConfiguration.analysisLoadingText
@@ -62,7 +69,7 @@ import UIKit
         loadingText.textColor = .white
         return loadingText
     }()
-    fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
+    
     fileprivate lazy var loadingIndicatorContainer: UIView = {
         let size = CGSize(width: AnalysisViewController.loadingIndicatorContainerHeight,
                           height: AnalysisViewController.loadingIndicatorContainerHeight)
@@ -76,11 +83,13 @@ import UIKit
         loadingIndicatorContainer.layer.shadowColor = UIColor.black.cgColor
         return loadingIndicatorContainer
     }()
+    
     fileprivate lazy var overlayView: UIView = {
         let overlayView = UIView()
         overlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         return overlayView
     }()
+    
     fileprivate lazy var errorView: NoticeView = {
         let errorView = NoticeView(text: "",
                                    type: .error,
@@ -88,10 +97,6 @@ import UIKit
         errorView.translatesAutoresizingMaskIntoConstraints = false
         return errorView
     }()
-    
-    fileprivate let document: GiniVisionDocument
-    fileprivate let giniConfiguration: GiniConfiguration
-    var didShowAnalysis: (() -> Void)?
     
     /**
      Designated intitializer for the `AnalysisViewController`.

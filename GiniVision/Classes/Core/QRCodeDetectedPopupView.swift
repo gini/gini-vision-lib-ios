@@ -15,12 +15,14 @@ final class QRCodeDetectedPopupView: UIView {
     let imageSize: CGSize = CGSize(width: 35, height: 35)
     let hiddingDelay: TimeInterval = 10.0
     var bottomConstraint: NSLayoutConstraint?
-    
+    var didTapDone: (() -> Void) = {}
+
     lazy var qrImage: UIImageView = {
         let imageView = UIImageView(image: UIImageNamedPreferred(named: "toolTipCloseButton"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
     lazy var qrText: UILabel = {
         let message = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.message",
                                       comment: "Proceed button title")
@@ -32,6 +34,7 @@ final class QRCodeDetectedPopupView: UIView {
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
+    
     lazy var proceedButton: UIButton = {
         let title = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.buttonTitle",
                                       comment: "Proceed button title")
@@ -41,7 +44,6 @@ final class QRCodeDetectedPopupView: UIView {
         button.addTarget(self, action: #selector(self.didTapDoneAction), for: .touchUpInside)
         return button
     }()
-    var didTapDone: (() -> Void) = {}
     
     init(parent: UIView, refView: UIView, document: GiniQRCodeDocument, giniConfiguration: GiniConfiguration) {
         super.init(frame: .zero)
