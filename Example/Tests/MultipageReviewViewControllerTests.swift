@@ -9,6 +9,7 @@
 import XCTest
 @testable import GiniVision
 
+//swiftlint:disable type_body_length
 final class MultipageReviewViewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.shared
