@@ -133,7 +133,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     
     func showNextScreenAfterPicking(pages: [GiniVisionPage]) {
         let visionDocuments = pages.map { $0.document }
-        if let firstDocument = visionDocuments.first, let documentsType = visionDocuments.type {
+        if let documentsType = visionDocuments.type {
             switch documentsType {
             case .image:
                 if let imageDocuments = visionDocuments as? [GiniImageDocument],

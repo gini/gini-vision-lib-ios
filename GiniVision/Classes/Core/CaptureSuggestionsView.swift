@@ -87,7 +87,6 @@ final class CaptureSuggestionsView: UIView {
         fatalError("You should use init() initializer")
     }
     
-    //swiftlint:disable function_body_length
     fileprivate func addConstraints() {
         guard let superview = superview else { return }
         

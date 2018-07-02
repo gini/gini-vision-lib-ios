@@ -35,12 +35,12 @@ final class AlbumsPickerViewControllerTests: XCTestCase {
     
     func testCollectionCellType() {
         XCTAssertNotNil(vc.tableView(vc.albumsTableView,
-                                     cellForRowAt: IndexPath(row:0, section:0)) as? AlbumsPickerTableViewCell,
+                                     cellForRowAt: IndexPath(row: 0, section: 0)) as? AlbumsPickerTableViewCell,
                         "cell type should match UITableViewCell")
     }
     
     func testTableCellHeight() {
-        XCTAssertEqual(vc.tableView(vc.albumsTableView, heightForRowAt: IndexPath(row: 1, section:0)),
+        XCTAssertEqual(vc.tableView(vc.albumsTableView, heightForRowAt: IndexPath(row: 1, section: 0)),
                        AlbumsPickerTableViewCell.height,
                        "table view cell heght should match AlbumsPickerTableViewCell height")
     }
@@ -77,5 +77,4 @@ final class AlbumsPickerViewControllerTests: XCTestCase {
 
     }
     
-
 }

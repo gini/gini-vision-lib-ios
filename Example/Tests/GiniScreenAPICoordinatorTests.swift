@@ -13,13 +13,13 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     
     var coordinator: GiniScreenAPICoordinator!
     let giniConfiguration = GiniConfiguration()
-    let delegate = GiniVisionDelegateMock()
+    let delegateMock = GiniVisionDelegateMock()
     
     override func setUp() {
         super.setUp()
         giniConfiguration.openWithEnabled = true
         giniConfiguration.multipageEnabled = true
-        coordinator = GiniScreenAPICoordinator(withDelegate: delegate, giniConfiguration: giniConfiguration)
+        coordinator = GiniScreenAPICoordinator(withDelegate: delegateMock, giniConfiguration: giniConfiguration)
     }
     
     func testNavControllerCountAfterStartWithoutDocuments() {
@@ -100,7 +100,10 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(withName: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
-        (coordinator.multiPageReviewViewController.pages[0].document as? GiniImageDocument)?.rotatePreviewImage90Degrees()
+        (coordinator.multiPageReviewViewController
+            .pages[0]
+            .document as? GiniImageDocument)?
+            .rotatePreviewImage90Degrees()
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
                                     didRotate: coordinator.multiPageReviewViewController.pages[0])
 

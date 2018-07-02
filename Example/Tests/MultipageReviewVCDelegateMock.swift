@@ -9,7 +9,7 @@
 import Foundation
 @testable import GiniVision
 
-final class MultipageReviewViewControllerDelegateMock: MultipageReviewViewControllerDelegate {
+final class MultipageReviewVCDelegateMock: MultipageReviewViewControllerDelegate {
     func multipageReview(_ viewController: MultipageReviewViewController,
                          didTapRetryUploadFor page: GiniVisionPage) {
         

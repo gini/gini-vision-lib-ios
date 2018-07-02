@@ -39,7 +39,8 @@ final class ImagePickerViewControllerTests: XCTestCase {
     
     func testCollectionCellType() {
         XCTAssertNotNil(vc.collectionView(vc.collectionView,
-                                          cellForItemAt: IndexPath(row:0, section:0)) as? ImagePickerCollectionViewCell,
+                                          cellForItemAt: IndexPath(row: 0,
+                                                                   section: 0)) as? ImagePickerCollectionViewCell,
                         "cell type should match GiniImagePickerCollectionViewCell")
     }
 

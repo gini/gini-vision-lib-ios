@@ -117,11 +117,12 @@ extension ComponentAPICoordinator {
     fileprivate func showCameraScreen() {
         cameraScreen = CameraViewController(giniConfiguration: giniConfiguration)
         cameraScreen?.delegate = self
-        cameraScreen?.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
-                                                                                                  comment: "close button text"),
-                                                                         style: .plain,
-                                                                         target: self,
-                                                                         action: #selector(closeComponentAPI))
+        cameraScreen?.navigationItem
+            .leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
+                                                                          comment: "close button text"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(closeComponentAPI))
         
         if giniConfiguration.fileImportSupportedTypes != .none {
             documentPickerCoordinator.delegate = self
@@ -147,11 +148,12 @@ extension ComponentAPICoordinator {
         reviewScreen = ReviewViewController(document: document, giniConfiguration: giniConfiguration)
         reviewScreen?.delegate = self
         addCloseButtonIfNeeded(onViewController: reviewScreen!)
-        reviewScreen?.navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("next",
-                                                                                                   comment: "close button text"),
-                                                                          style: .plain,
-                                                                          target: self,
-                                                                          action: #selector(showAnalysisScreen))
+        reviewScreen?.navigationItem
+            .rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("next",
+                                                                           comment: "close button text"),
+                                                  style: .plain,
+                                                  target: self,
+                                                  action: #selector(showAnalysisScreen))
         
         navigationController.pushViewController(reviewScreen!, animated: true)
     }
@@ -349,7 +351,7 @@ extension ComponentAPICoordinator {
     
     private func showErrorInAnalysisScreen(with message: String,
                                            action: @escaping () -> Void) {
-        if let analysisScreen = analysisScreen {
+        if analysisScreen != nil {
             self.analysisScreen?.showError(with: message) { [weak self] in
                 guard let `self` = self else { return }
                 self.analysisErrorAndAction = nil
@@ -371,7 +373,9 @@ extension ComponentAPICoordinator {
                                                     comment: "new document tab title")
         let helpTabTitle = NSLocalizedString("help",
                                              comment: "new document tab title")
-        let navTabBarItem = UITabBarItem(title: newDocumentTabTitle, image: UIImage(named: "tabBarIconNewDocument"), tag: 0)
+        let navTabBarItem = UITabBarItem(title: newDocumentTabTitle,
+                                         image: UIImage(named: "tabBarIconNewDocument"),
+                                         tag: 0)
         let helpTabBarItem = UITabBarItem(title: helpTabTitle, image: UIImage(named: "tabBarIconHelp"), tag: 1)
         
         self.navigationController.tabBarItem = navTabBarItem
@@ -384,11 +388,12 @@ extension ComponentAPICoordinator {
     
     fileprivate func addCloseButtonIfNeeded(onViewController viewController: UIViewController) {
         if navigationController.viewControllers.isEmpty {
-            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
-                                                                                                       comment: "close button text"),
-                                                                              style: .plain,
-                                                                              target: self,
-                                                                              action: #selector(closeComponentAPI))
+            viewController.navigationItem.leftBarButtonItem =
+                UIBarButtonItem(title: NSLocalizedString("close",
+                                                         comment: "close button text"),
+                                style: .plain,
+                                target: self,
+                                action: #selector(closeComponentAPI))
         }
     }
     

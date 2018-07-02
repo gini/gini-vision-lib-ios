@@ -123,7 +123,7 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
             if giniConfiguration.multipageEnabled {
                 self.cameraViewController = self.createCameraViewController()
                 self.cameraViewController?
-                    .replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage } )
+                    .replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
                 
                 self.multiPageReviewViewController =
                     createMultipageReviewScreenContainer(with: pages)
@@ -205,7 +205,8 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showHelpMenuScreen() {
-        self.screenAPINavigationController.pushViewController(HelpMenuViewController(giniConfiguration: giniConfiguration),
+        let helpMenuViewController = HelpMenuViewController(giniConfiguration: giniConfiguration)
+        self.screenAPINavigationController.pushViewController(helpMenuViewController,
                                                               animated: true)
     }
     

@@ -610,8 +610,9 @@ extension CameraViewController {
                       exposeWithMode: .autoExpose,
                       atDevicePoint: devicePoint,
                       monitorSubjectAreaChange: true)
-        let imageView = createFocusIndicator(withImage: cameraFocusSmall,
-                                             atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
+        let imageView =
+            createFocusIndicator(withImage: cameraFocusSmall,
+                                 atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
         showFocusIndicator(imageView)
     }
     
@@ -624,8 +625,9 @@ extension CameraViewController {
                       atDevicePoint: devicePoint,
                       monitorSubjectAreaChange: false)
         
-        let imageView = createFocusIndicator(withImage: cameraFocusLarge,
-                                             atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
+        let imageView =
+            createFocusIndicator(withImage: cameraFocusLarge,
+                                 atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
         showFocusIndicator(imageView)
     }
     

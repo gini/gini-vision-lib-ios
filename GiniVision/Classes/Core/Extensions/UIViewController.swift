@@ -39,8 +39,9 @@ extension UIViewController {
         let message: String
         var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
                                                                    comment: "cancel button title")
-        var confirmActionTitle: String? = NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
-                                                                     comment: "pick another file button title")
+        var confirmActionTitle: String? =
+            NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
+                                       comment: "pick another file button title")
         
         switch error {
         case let validationError as DocumentValidationError:
@@ -56,8 +57,9 @@ extension UIViewController {
             case .photoLibraryAccessDenied:
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
                                                                comment: "cancel button title")
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
-                                                                comment: "cancel button title")
+                confirmActionTitle =
+                    NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
+                                               comment: "cancel button title")
             case .mixedDocumentsUnsupported:
                 cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
                                                                comment: "cancel button text for popup")

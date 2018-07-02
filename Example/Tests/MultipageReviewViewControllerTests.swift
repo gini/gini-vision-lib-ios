@@ -34,12 +34,15 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testMainCollectionCellContent() {
-        let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
-        let secondCell = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
-                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewMainCollectionCell
-        let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
-                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewMainCollectionCell
+        let firstCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.mainCollection,
+                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
+        let secondCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.mainCollection,
+                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewMainCollectionCell
+        let thirdCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.mainCollection,
+                            cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewMainCollectionCell
         XCTAssertEqual(firstCell?.documentImage.image, imagePages[0].document.previewImage,
                        "First cell image should match the one passed in the initializer")
         XCTAssertEqual(secondCell?.documentImage.image, imagePages[1].document.previewImage,
@@ -50,8 +53,9 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testMainCollectionCellContentMode() {
-        let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
+        let firstCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.mainCollection,
+                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
         XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
                        "Main collection cells image content mode should match the one passed in the initializer")
     }
@@ -70,21 +74,25 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testMainCollectionInsets() {
-        let collectionInsets = multipageReviewViewController.collectionView(multipageReviewViewController.mainCollection,
-                                                 layout: multipageReviewViewController.mainCollection.collectionViewLayout,
-                                                 insetForSectionAt: 0)
+        let collectionInsets = multipageReviewViewController
+            .collectionView(multipageReviewViewController.mainCollection,
+                            layout: multipageReviewViewController.mainCollection.collectionViewLayout,
+                            insetForSectionAt: 0)
         
         XCTAssertEqual(collectionInsets, .zero,
                        "Main collection insets should be zero")
     }
     
     func testPagesCollectionCellContent() {
-        let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        let secondCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
-        let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
+        let firstCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
+        let secondCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
+        let thirdCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         XCTAssertEqual(firstCell?.documentImage.image, imagePages[0].document.previewImage,
                        "First cell image should match the one passed in the initializer")
         XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
@@ -100,8 +108,9 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testPagesCollectionCellContentMode() {
-        let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
+        let firstCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
         XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFill,
                        "Pages collection cells image content mode should match the one passed in the initializer")
     }
@@ -122,9 +131,10 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testPagesCollectionInsets() {
-        let collectionInsets = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                                 layout: multipageReviewViewController.pagesCollection.collectionViewLayout,
-                                                 insetForSectionAt: 0)
+        let collectionInsets = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            layout: multipageReviewViewController.pagesCollection.collectionViewLayout,
+                            insetForSectionAt: 0)
         
         XCTAssertEqual(collectionInsets, multipageReviewViewController.pagesCollectionInsets,
                        "Main collection insets should be zero")
@@ -194,23 +204,30 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testCellReloadedOnReordering() {
-        let delegateMock = MultipageReviewViewControllerDelegateMock()
-        let expect = expectation(for: NSPredicate(value: true), evaluatedWith: delegateMock.updatedDocuments.isNotEmpty, handler: nil)
+        let delegateMock = MultipageReviewVCDelegateMock()
+        let expect = expectation(for: NSPredicate(value: true),
+                                 evaluatedWith: delegateMock.updatedDocuments.isNotEmpty,
+                                 handler: nil)
         let currentIndexPath = IndexPath(row: 0, section: 0)
         let destinationIndexPath = IndexPath(row: 2, section: 0)
         var updatedImageDocument: [GiniVisionPage] = []
         
         multipageReviewViewController.delegate = delegateMock
-        multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection, moveItemAt: currentIndexPath, to: destinationIndexPath)
+        multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
+                                                     moveItemAt: currentIndexPath,
+                                                     to: destinationIndexPath)
         
         wait(for: [expect], timeout: 1)
         updatedImageDocument = delegateMock.updatedDocuments
-        let firstCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                          cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        let secondCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                           cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
-        let thirdCell = multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                          cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
+        let firstCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
+        let secondCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
+        let thirdCell = multipageReviewViewController
+            .collectionView(multipageReviewViewController.pagesCollection,
+                            cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
         
         XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].document.previewImage,
                        "Second cell image should match the one passed in the initializer")

@@ -124,8 +124,8 @@ import UIKit
      - note: Screen API only.
      */
     @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
-        .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ?? UIFontPreferred(.bold,
-                                                                                                               andSize: 16)
+        .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ??
+        UIFontPreferred(.bold, andSize: 16)
     
     /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to
@@ -657,7 +657,6 @@ import UIKit
      Sets the background style when the tooltip is shown in the multipage screen
      */
     public var multipageToolTipOpaqueBackgroundStyle: OpaqueViewStyle = .blurred(style: .light)
-    
     
     // MARK: Analysis options
     

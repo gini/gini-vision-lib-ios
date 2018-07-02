@@ -47,7 +47,7 @@
 		1F62FA3C1FA2207800CEA828 /* SupportedFormatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA361FA2207200CEA828 /* SupportedFormatsViewControllerTests.swift */; };
 		1F6515AC2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6515AB2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift */; };
 		1F66D9892020A3180093771C /* MultipageReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66D9882020A3180093771C /* MultipageReviewViewControllerTests.swift */; };
-		1F79630A2068DF5C005CB2CA /* MultipageReviewViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7963082068DEA8005CB2CA /* MultipageReviewViewControllerDelegateMock.swift */; };
+		1F79630A2068DF5C005CB2CA /* MultipageReviewVCDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */; };
 		1F8E41DE20A0526A00561769 /* CapturedImagesStackViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */; };
 		1F8E41DF20A0721200561769 /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
 		1F8E41E020A0721B00561769 /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
@@ -156,7 +156,7 @@
 		1F62FA361FA2207200CEA828 /* SupportedFormatsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedFormatsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F6515AB2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentValidatorTests.swift; sourceTree = "<group>"; };
 		1F66D9882020A3180093771C /* MultipageReviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewViewControllerTests.swift; sourceTree = "<group>"; };
-		1F7963082068DEA8005CB2CA /* MultipageReviewViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewViewControllerDelegateMock.swift; sourceTree = "<group>"; };
+		1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewVCDelegateMock.swift; sourceTree = "<group>"; };
 		1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedImagesStackViewTests.swift; sourceTree = "<group>"; };
 		1F8E6A7E20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewPagesCollectionCellTests.swift; sourceTree = "<group>"; };
 		1F8FAC412020AA1C00F586EF /* invoice2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice2.jpg; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 				1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */,
 				1FC4A29920C690FE00D70627 /* GiniVisionTestsHelper.swift */,
 				1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */,
-				1F7963082068DEA8005CB2CA /* MultipageReviewViewControllerDelegateMock.swift */,
+				1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */,
 				1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */,
 			);
 			name = Helpers;
@@ -916,7 +916,7 @@
 				1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */,
 				1F62FA3C1FA2207800CEA828 /* SupportedFormatsViewControllerTests.swift in Sources */,
 				1FC4A29A20C690FE00D70627 /* GiniVisionTestsHelper.swift in Sources */,
-				1F79630A2068DF5C005CB2CA /* MultipageReviewViewControllerDelegateMock.swift in Sources */,
+				1F79630A2068DF5C005CB2CA /* MultipageReviewVCDelegateMock.swift in Sources */,
 				1F3B5EAA2049542F0052204A /* GalleryCoordinatorTests.swift in Sources */,
 				1F66D9892020A3180093771C /* MultipageReviewViewControllerTests.swift in Sources */,
 				1F62FA3A1FA2207800CEA828 /* ImageNoResultsViewControllerTests.swift in Sources */,
