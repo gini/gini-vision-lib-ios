@@ -8,9 +8,9 @@
 
 import AVFoundation
 
-internal extension AVCaptureVideoOrientation {
+extension AVCaptureVideoOrientation {
     
-    internal init(_ interface: UIInterfaceOrientation) {
+    init(_ interface: UIInterfaceOrientation) {
         switch interface {
         case .portraitUpsideDown: self = .portraitUpsideDown
         case .landscapeLeft: self = .landscapeLeft
@@ -19,7 +19,7 @@ internal extension AVCaptureVideoOrientation {
         }
     }
     
-    internal init?(_ device: UIDeviceOrientation?) {
+    init?(_ device: UIDeviceOrientation?) {
         guard let orientation = device else { return nil }
         switch orientation {
         case .portrait: self = .portrait

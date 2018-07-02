@@ -15,7 +15,7 @@ import UIKit
  
  - returns: Image if found with name.
  */
-internal func UIImageNamedPreferred(named name: String) -> UIImage? {
+func UIImageNamedPreferred(named name: String) -> UIImage? {
     if let clientImage = UIImage(named: name) {
         return clientImage
     }
@@ -31,7 +31,7 @@ internal func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
+func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
     let format: String
     
@@ -58,7 +58,7 @@ internal func NSLocalizedStringPreferred(_ key: String, comment: String, args: C
  
  - returns: Always a font with the correct weight.
  */
-internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UIFont {
+func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UIFont {
     if #available(iOS 8.2, *) {
         return UIFont.systemFont(ofSize: size, weight: UIFont.Weight(rawValue: weight.cgFloatValue))
     } else {
@@ -68,7 +68,7 @@ internal func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UI
     }
 }
 
-internal struct AnimationDuration {
+struct AnimationDuration {
     static var slow = 1.0
     static var medium = 0.6
     static var fast = 0.3
@@ -79,7 +79,7 @@ enum Result<T> {
     case failure(Error)
 }
 
-internal enum FontWeight {
+enum FontWeight {
     case thin, light, regular, bold
     
     var stringValue: String {
@@ -110,7 +110,7 @@ internal enum FontWeight {
     }
 }
 
-internal class Constraints {
+class Constraints {
     
     enum Position {
         case top, bottom, right, left
@@ -171,7 +171,7 @@ internal class Constraints {
     
 }
 
-internal struct Colors {
+struct Colors {
     
     struct Gini {
         
@@ -203,8 +203,8 @@ internal struct Colors {
     If it is enabled it will not have effect.
  */
 
-internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
-                                application: UIApplication = UIApplication.shared) {
+func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
+                       application: UIApplication = UIApplication.shared) {
     application.setStatusBarStyle(statusBarStyle, animated: true)
 }
 
@@ -212,7 +212,7 @@ internal func setStatusBarStyle(to statusBarStyle: UIStatusBarStyle,
     Measure the time spent executing a block
  */
 
-internal func measure(block: () -> Void) {
+func measure(block: () -> Void) {
     let start = Date()
     block()
     let elaspsedTime = Date().timeIntervalSince(start)

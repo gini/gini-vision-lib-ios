@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class CameraNotAuthorizedView: UIView {
+final class CameraNotAuthorizedView: UIView {
     
     // User interface
     fileprivate var label = UILabel()

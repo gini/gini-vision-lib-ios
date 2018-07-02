@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal class GiniBarButtonItem: UIBarButtonItem {
+final class GiniBarButtonItem: UIBarButtonItem {
     
     init(image: UIImage?, title: String?, style: UIBarButtonItemStyle, target: AnyObject?, action: Selector) {
         super.init()

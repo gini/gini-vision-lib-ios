@@ -35,7 +35,7 @@ struct NoticeAction {
     let action: () -> Void
 }
 
-internal enum NoticeType {
+enum NoticeType {
     case information, error
 }
 

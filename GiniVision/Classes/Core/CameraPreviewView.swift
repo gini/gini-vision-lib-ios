@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-internal class CameraPreviewView: UIView {
+final class CameraPreviewView: UIView {
     
     let frameColor = UIColor(white: 0.0, alpha: 0.7)
     let guideLineLength: CGFloat = 50.0

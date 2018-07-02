@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Analysis Screen
 
-internal extension GiniScreenAPICoordinator {
+extension GiniScreenAPICoordinator {
     func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
         let viewController = AnalysisViewController(document: document)
         viewController.view.backgroundColor = giniConfiguration.backgroundColor

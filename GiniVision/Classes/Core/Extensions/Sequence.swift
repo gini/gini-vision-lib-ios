@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension Sequence {
+extension Sequence {
     func shuffled() -> [Iterator.Element] {
         var result = Array(self)
         result.shuffle()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal extension UIApplication {
+extension UIApplication {
     func openAppSettings() {
         guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
         if self.canOpenURL(settingsUrl) {

@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal protocol ContainerViewController {
+protocol ContainerViewController: class {
     
     var containerView: UIView { get }
     var contentController: UIViewController { get }
@@ -17,7 +17,7 @@ internal protocol ContainerViewController {
     
 }
 
-internal extension ContainerViewController where Self: UIViewController {
+extension ContainerViewController where Self: UIViewController {
     
     func displayContent(_ controller: UIViewController) {
         self.addChildViewController(controller)

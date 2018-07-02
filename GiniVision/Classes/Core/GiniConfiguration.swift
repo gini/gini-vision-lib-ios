@@ -28,12 +28,12 @@ import UIKit
     /**
      Singleton to make configuration internally accessible in all classes of the Gini Vision Library.
      */
-    internal static var shared = GiniConfiguration()
+    static var shared = GiniConfiguration()
     
     /**
      Shorthand check if debug mode is turned on.
      */
-    internal static var DEBUG: Bool {
+    static var DEBUG: Bool {
         return shared.debugModeOn
     }
     

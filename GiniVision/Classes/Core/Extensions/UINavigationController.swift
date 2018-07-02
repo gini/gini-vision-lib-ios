@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension UINavigationController {
+extension UINavigationController {
     func applyStyle(withConfiguration configuration: GiniConfiguration) {
         self.navigationBar.isTranslucent = false
         self.navigationBar.barTintColor = configuration.navigationBarTintColor

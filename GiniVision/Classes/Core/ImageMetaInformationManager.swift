@@ -69,7 +69,7 @@ public enum DocumentSource: Equatable {
 }
 
 // swiftlint:disable file_length
-internal class ImageMetaInformationManager {
+final class ImageMetaInformationManager {
     
     fileprivate let cfRequiredExifKeys = [
         kCGImagePropertyExifLensMake,
@@ -331,7 +331,7 @@ internal class ImageMetaInformationManager {
     
 }
 
-internal extension NSMutableDictionary {
+extension NSMutableDictionary {
     
     fileprivate var cfExifKeys: [CFString] {
         return [

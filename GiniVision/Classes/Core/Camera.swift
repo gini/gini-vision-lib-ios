@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-internal class Camera: NSObject {
+final class Camera: NSObject {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()

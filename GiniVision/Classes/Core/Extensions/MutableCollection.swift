@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension MutableCollection {
+extension MutableCollection {
     mutating func shuffle() {
         let c = count
         guard c > 1 else { return }

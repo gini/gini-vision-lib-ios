@@ -11,14 +11,14 @@ import UIKit
 /**
  Block that will be executed when the onboarding was dismissed.
  */
-internal typealias OnboardingContainerCompletionBlock = () -> Void
+typealias OnboardingContainerCompletionBlock = () -> Void
 
 /**
  Container class for `OnboardingViewController`.
  
  - note: Should be embedded in a navigation controller.
  */
-internal class OnboardingContainerViewController: UIViewController, ContainerViewController {
+final class OnboardingContainerViewController: UIViewController, ContainerViewController {
     
     let giniConfiguration: GiniConfiguration
     fileprivate let backgroundAlpha: CGFloat = 0.25

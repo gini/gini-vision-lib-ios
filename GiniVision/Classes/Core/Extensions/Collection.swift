@@ -14,7 +14,7 @@ extension Collection {
     }
 }
 
-internal extension Collection where Iterator.Element == CFString {
+extension Collection where Iterator.Element == CFString {
     
     var strings: [ String ] {
         return self.map { $0 as String }

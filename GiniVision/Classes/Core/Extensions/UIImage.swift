@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension UIImage {
+extension UIImage {
     convenience init?(qrData data: Data) {
         let filter = CIFilter(name: "CIQRCodeGenerator")
         
