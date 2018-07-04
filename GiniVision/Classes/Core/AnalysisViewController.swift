@@ -131,7 +131,7 @@ import UIKit
      - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
      */
     
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use init(document: giniConfiguration:) instead")
     public convenience init(_ imageData: Data) {
         self.init(document: GiniImageDocument(data: imageData, imageSource: .external))
     }

@@ -222,7 +222,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use init(giniConfiguration:) initializer instead")
     public convenience init(successBlock: @escaping CameraScreenSuccessBlock,
                             failureBlock: @escaping CameraScreenFailureBlock) {
         self.init(giniConfiguration: GiniConfiguration.shared)
@@ -242,7 +242,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      - returns: A view controller instance allowing the user to take a picture.
      */
     
-    @available(*, deprecated)
+    @available(*, deprecated, message: "Use init(giniConfiguration:) initializer instead")
     public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
         self.init(successBlock: { data in
             success(data.data)
