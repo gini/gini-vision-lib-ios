@@ -121,4 +121,17 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(headerSize.height, 0, "header size should be 0 on landscape mode")
         
     }
+    
+    func testItemsWhenDragAndDropTipNotAppear() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.shouldShowDragAndDropTutorial = false
+        let openWithTutorialViewController = OpenWithTutorialViewController(giniConfiguration: giniConfiguration)
+        
+        _ = openWithTutorialViewController.view
+        let collectionSection0ItemsCount = openWithTutorialViewController
+            .collectionView(openWithTutorialViewController.collectionView!, numberOfItemsInSection: 0)
+        
+        XCTAssertEqual(2, collectionSection0ItemsCount,
+                       "the items count in section 0 should be 2")
+    }
 }
