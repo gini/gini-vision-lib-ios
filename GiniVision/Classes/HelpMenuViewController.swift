@@ -35,17 +35,14 @@ final public class HelpMenuViewController: UITableViewController {
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     lazy var items: [(text: String, id: Int)] = {
         var items = [
-            (NSLocalizedString("ginivision.helpmenu.firstItem",
-                               bundle: Bundle(for: GiniVision.self),
+            (NSLocalizedStringPreferred("ginivision.helpmenu.firstItem",
                                comment: "help menu first item text"), 1),
-            (NSLocalizedString("ginivision.helpmenu.thirdItem",
-                               bundle: Bundle(for: GiniVision.self),
+            (NSLocalizedStringPreferred("ginivision.helpmenu.thirdItem",
                                comment: "help menu third item text"), 3)
         ]
         
         if self.giniConfiguration.openWithEnabled {
-            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
-                                            bundle: Bundle(for: GiniVision.self),
+            items.insert((NSLocalizedStringPreferred("ginivision.helpmenu.secondItem",
                                             comment: "help menu second item text"), 2), at: 1)
         }
         
@@ -77,8 +74,7 @@ final public class HelpMenuViewController: UITableViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = NSLocalizedString("ginivision.helpmenu.title",
-                                  bundle: Bundle(for: GiniVision.self),
+        title = NSLocalizedStringPreferred("ginivision.helpmenu.title",
                                   comment: "help menu view controller title")
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
@@ -103,14 +99,12 @@ final public class HelpMenuViewController: UITableViewController {
         let viewController: UIViewController
         switch id {
         case 1:
-            let title = NSLocalizedString("ginivision.noresults.title",
-                                          bundle: Bundle(for: GiniVision.self),
+            let title = NSLocalizedStringPreferred("ginivision.noresults.title",
                                           comment: "navigation title shown on no results tips, " +
-                "when the screen is shown through the help menu")
-            let topViewText = NSLocalizedString("ginivision.noresults.warningHelpMenu",
-                                                bundle: Bundle(for: GiniVision.self),
-                                                comment: "warning text shown on no results tips, " +
-                "when the screen is shown through the help menu")
+                                                   "when the screen is shown through the help menu")
+            let topViewText = NSLocalizedStringPreferred("ginivision.noresults.warningHelpMenu",
+                                          comment: "warning text shown on no results tips, " +
+                                                   "when the screen is shown through the help menu")
             let vc = ImageAnalysisNoResultsViewController(title: title,
                                                           subHeaderText: nil,
                                                           topViewText: topViewText,
