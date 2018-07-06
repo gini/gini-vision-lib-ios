@@ -17,7 +17,7 @@ final class DocumentsService: DocumentServiceProtocol {
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
-        _ = self.getSession()
+        self.getSession()
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
@@ -250,6 +250,7 @@ extension DocumentsService {
             }
     }
     
+    @discardableResult
     fileprivate func getSession(with token: BFCancellationToken? = nil)
         -> ((BFTask<AnyObject>) -> Any?) {
             return {

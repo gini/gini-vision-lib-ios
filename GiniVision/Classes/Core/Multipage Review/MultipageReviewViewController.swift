@@ -395,9 +395,10 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func createReorderPagesTip() {
-        opaqueView = OpaqueViewFactory.create(with: giniConfiguration.multipageToolTipOpaqueBackgroundStyle)
-        opaqueView?.alpha = 0
-        self.view.addSubview(opaqueView!)
+        let opaqueView = OpaqueViewFactory.create(with: giniConfiguration.multipageToolTipOpaqueBackgroundStyle)
+        opaqueView.alpha = 0
+        self.opaqueView = opaqueView
+        self.view.addSubview(opaqueView)
         
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderContainerTooltipMessage",
                                                           bundle: Bundle(for: GiniVision.self),
