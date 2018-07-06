@@ -1,6 +1,11 @@
 Changelog
 =========
 
+3.3.5 (2018-07-06)
+------------------
+
+-   Added flag for Drag&Drop step in "Open with" tutorial (via `GiniConfiguration.shouldShowDragAndDropTutorial` property).
+
 3.3.4 (2018-06-13)
 ------------------
 
