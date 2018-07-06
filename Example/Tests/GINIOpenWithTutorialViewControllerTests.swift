@@ -125,13 +125,13 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
     func testItemsWhenDragAndDropTipDoesNotAppear() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.shouldShowDragAndDropTutorial = false
-        let openWithTutorialViewController = OpenWithTutorialViewController(giniConfiguration: giniConfiguration)
         
-        _ = openWithTutorialViewController.view
-        let collectionSection0ItemsCount = openWithTutorialViewController
-            .collectionView(openWithTutorialViewController.collectionView!, numberOfItemsInSection: 0)
-        openWithTutorialViewController.items
-        XCTAssertEqual(2, collectionSection0ItemsCount,
-                       "the items count in section 0 should be 2")
+        let openWithTutorialViewController = OpenWithTutorialViewController(giniConfiguration: giniConfiguration)
+        let dragAndDropStepImage = UIImage(named: "openWithTutorialStep3",
+                                         in: Bundle(for: GiniVision.self),
+                                         compatibleWith: nil)
+        
+        XCTAssertFalse(openWithTutorialViewController.items.map { $0.image }.contains(dragAndDropStepImage),
+                      "open with items should not contain drag and drop image")
     }
 }
