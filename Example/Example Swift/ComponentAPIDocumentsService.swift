@@ -203,7 +203,7 @@ extension ComponentAPIDocumentsService {
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
-                    print("🔎 Starting analysis...")
+                    print("🔎 Starting analysis for composite document with id \(document.documentId ?? "")")
 
                     self.compositeDocument = document
                     return self.giniSDK

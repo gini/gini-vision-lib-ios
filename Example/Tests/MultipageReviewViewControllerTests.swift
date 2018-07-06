@@ -135,9 +135,9 @@ final class MultipageReviewViewControllerTests: XCTestCase {
             assertionFailure("MultipageReviewViewController toolbar items are nil")
             return
         }
-        XCTAssertEqual(items[0], self.multipageReviewViewController.rotateButton,
+        XCTAssertEqual(items[1], self.multipageReviewViewController.rotateButton,
                        "First toolbar item should be the rotateButton")
-        XCTAssertEqual(items[2], self.multipageReviewViewController.deleteButton,
+        XCTAssertEqual(items[4], self.multipageReviewViewController.deleteButton,
                        "Fifth toolbar item should be the deleteButton")
     }
     

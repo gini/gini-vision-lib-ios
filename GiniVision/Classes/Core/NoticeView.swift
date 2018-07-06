@@ -132,7 +132,7 @@ final class NoticeView: UIView {
         // Text label
         Constraints.active(item: textLabel, attr: .top, relatedBy: .equal, to: self, attr: .top, constant: 16)
         Constraints.active(item: textLabel, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom, constant: -16)
-        Constraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20)
+        Constraints.active(item: textLabel, attr: .leading, relatedBy: .equal, to: self, attr: .leading, constant: 20, priority: 999)
         
         if userAction != nil {
             Constraints.active(item: actionButton, attr: .leading, relatedBy: .equal, to: textLabel, attr: .trailing,

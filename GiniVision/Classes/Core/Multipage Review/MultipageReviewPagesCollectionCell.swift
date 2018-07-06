@@ -121,7 +121,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         Constraints.active(item: roundMask, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing)
         Constraints.active(item: roundMask, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
                           constant: -(MultipageReviewPagesCollectionCell.shadowHeight +
-                            MultipageReviewPagesCollectionCell.shadowRadius))
+                            MultipageReviewPagesCollectionCell.shadowRadius), priority: 999)
         
         // pageIndicator
         Constraints.active(item: pageIndicatorLabel, attr: .centerX, relatedBy: .equal, to: pageIndicatorCircle,
@@ -160,7 +160,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         
         // draggableIcon
         Constraints.active(item: draggableIcon, attr: .top, relatedBy: .equal, to: bottomContainer, attr: .top,
-                          constant: 12)
+                           constant: 12, priority: 999)
         Constraints.active(item: draggableIcon, attr: .bottom, relatedBy: .equal, to: bottomContainer, attr: .bottom,
                           constant: -12)
         Constraints.active(item: draggableIcon, attr: .leading, relatedBy: .greaterThanOrEqual, to: pageIndicatorCircle,
@@ -184,7 +184,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                            attr: .bottom)
         
         // bottomContainer
-        Constraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom)
+        Constraints.active(item: bottomContainer, attr: .bottom, relatedBy: .equal, to: roundMask, attr: .bottom, priority: 999)
         Constraints.active(item: bottomContainer, attr: .leading, relatedBy: .equal, to: roundMask, attr: .leading)
         Constraints.active(item: bottomContainer, attr: .trailing, relatedBy: .equal, to: roundMask, attr: .trailing)
         Constraints.active(item: bottomContainer, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,

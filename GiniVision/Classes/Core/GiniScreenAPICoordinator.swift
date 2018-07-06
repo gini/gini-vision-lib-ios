@@ -85,6 +85,9 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
     
     func start(withDocuments documents: [GiniVisionDocument]?) -> UIViewController {
         let viewControllers: [UIViewController]
+        // When using the network plugin, the token must be requested once the screen API is launched
+        documentService?.start()
+        
         if let documents = documents, !documents.isEmpty {
             if documents.count > 1, !giniConfiguration.multipageEnabled {
                 fatalError("You are trying to import several files from other app when the Multipage feature is not " +

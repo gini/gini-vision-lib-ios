@@ -250,6 +250,10 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .compactMap(self.createDocument)
         
         delegate?.documentPicker(self, didPick: documents)
+    }    
+    
+    public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        self.documentPicker(controller, didPickDocumentsAt: [url])
     }
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {

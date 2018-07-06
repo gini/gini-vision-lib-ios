@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import os
 
 enum LogEvent: String {
     case error = "❌"
@@ -43,12 +44,16 @@ func Log(message: String,
 final class DefaultLogger: GiniLogger {
     
     func log(message: String) {
-        let message = "[ GiniVision ] \(message)"
-        
-        // When having the `OS_ACTIVITY_MODE` disabled, NSLog messages are not printed
-        if ProcessInfo.processInfo.environment["OS_ACTIVITY_MODE"] == "disable" {
-            print(message)
+        let prefix = "[ GiniVision ]"
+
+        if #available(iOS 10.0, *) {
+            // When having the `OS_ACTIVITY_MODE` disabled, NSLog messages are not printed
+            if ProcessInfo.processInfo.environment["OS_ACTIVITY_MODE"] == "disable" {
+                print(prefix, message)
+            }
+            os_log("%@ %@", prefix, message)
+        } else {
+            NSLog("\(prefix) \(message)")
         }
-        NSLog(message)
     }
 }

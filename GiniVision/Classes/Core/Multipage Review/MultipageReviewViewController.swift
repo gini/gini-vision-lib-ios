@@ -153,9 +153,12 @@ public final class MultipageReviewViewController: UIViewController {
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
                                             target: self,
                                             action: nil)
-        var items = [self.rotateButton,
+        var items = [flexibleSpace,
+                     self.rotateButton,
                      flexibleSpace,
-                     self.deleteButton]
+                     flexibleSpace,
+                     self.deleteButton,
+                     flexibleSpace]
         
         toolBar.setItems(items, animated: false)
         
@@ -163,7 +166,7 @@ public final class MultipageReviewViewController: UIViewController {
     }()
     
     var toolTipView: ToolTipView?
-    fileprivate var blurEffect: UIVisualEffectView?
+    fileprivate var opaqueView: UIView?
     
     let localizedTitle = NSLocalizedString("ginivision.multipagereview.title",
                                            bundle: Bundle(for: GiniVision.self),
@@ -250,7 +253,7 @@ extension MultipageReviewViewController {
         showToolbar()
         
         toolTipView?.show {
-            self.blurEffect?.alpha = 1
+            self.opaqueView?.alpha = 1
             self.deleteButton.isEnabled = false
             self.rotateButton.isEnabled = false
             self.navigationItem.rightBarButtonItem?.isEnabled = false
@@ -261,7 +264,7 @@ extension MultipageReviewViewController {
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         toolTipView?.arrangeViews()
-        blurEffect?.frame = self.mainCollection.frame
+        opaqueView?.frame = self.mainCollection.frame
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -392,9 +395,10 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func createReorderPagesTip() {
-        blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blurEffect?.alpha = 0
-        self.view.addSubview(blurEffect!)
+        let opaqueView = OpaqueViewFactory.create(with: giniConfiguration.multipageToolTipOpaqueBackgroundStyle)
+        opaqueView.alpha = 0
+        self.opaqueView = opaqueView
+        self.view.addSubview(opaqueView)
         
         toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderContainerTooltipMessage",
                                                           bundle: Bundle(for: GiniVision.self),
@@ -407,7 +411,7 @@ extension MultipageReviewViewController {
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
-            self.blurEffect?.removeFromSuperview()
+            self.opaqueView?.removeFromSuperview()
             self.deleteButton.isEnabled = true
             self.rotateButton.isEnabled = true
             self.navigationItem.rightBarButtonItem?.isEnabled = true
