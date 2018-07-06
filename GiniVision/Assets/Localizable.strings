@@ -26,7 +26,7 @@
 "ginivision.camera.notAuthorizedButton" = "Zugriff erlauben";
 "ginivision.camera.captureFailed" = "Bilderfassung fehlgeschlagen";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
-"ginivision.camera.filepicker.mixedDocumentsUnsupported" = "Leider ist es nur möglich einen Dateityp gleichzeitig auszuwählen";
+"ginivision.camera.filepicker.mixedDocumentsUnsupported" = "Es ist nur möglich einen Dateityp gleichzeitig auszuwählen.";
 "ginivision.camera.filepicker.errorPopup.cancelButton" = "Abbrechen";
 "ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
 "ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Zugriff erteilen";
@@ -36,7 +36,7 @@
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 "ginivision.camera.fileImportTip" = "Es können jetzt auch ganz einfach Dateien hochgeladen werden.";
 "ginivision.camera.fileImportButtonLabel" = "Importieren";
-"ginivision.camera.capturedImagesStackLabel" = "Erfasste";
+"ginivision.camera.capturedImagesStackLabel" = "Erfasste Dokumente";
 "ginivision.camera.qrCodeDetectedPopup.message" = "QR verwenden?";
 "ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Hier geht’s weiter.";
 "ginivision.camera.mixedarrayspopup.cancel" = "Abbrechen";
@@ -66,8 +66,8 @@
 "ginivision.analysis.suggestion.4" = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.analysis.suggestion.5" = "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren";
 "ginivision.analysis.error.actionTitle" = "Wiederholen";
-"ginivision.analysis.error.documentCreation" = "Beim Hochladen des Dokuments ist ein Fehler aufgetreten";
-"ginivision.analysis.error.analysis" = "Beim Analysieren des Dokuments ist ein Fehler aufgetreten";
+"ginivision.analysis.error.documentCreation" = "Beim Hochladen des Dokuments ist ein Fehler aufgetreten.";
+"ginivision.analysis.error.analysis" = "Beim Analysieren des Dokuments ist ein Fehler aufgetreten.";
 "ginivision.analysis.error.cancelled" = "Die Analyse wurde abgebrochen";
 
 "ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";
@@ -103,7 +103,7 @@
 "ginivision.albums.title" = "Alben";
 "ginivision.imagepicker.openbutton" = "Öffnen";
 
-"ginivision.multipagereview.reorderContainerTooltipMessage" = "Die Seiten müssen in der richtigen Reihenfolge sein. Hier können Sie sie sortieren";
+"ginivision.multipagereview.reorderContainerTooltipMessage" = "Die Seiten müssen in der richtigen Reihenfolge sein. Hier können Sie sie sortieren.";
 "ginivision.multipagereview.addButtonLabel" = "Seiten hinzufügen";
 "ginivision.multipagereview.dragAndDropTip" = "Drag & Drop zum Sortieren";
 "ginivision.multipagereview.title" = "%d von %d";
