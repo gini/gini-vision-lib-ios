@@ -121,4 +121,17 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         XCTAssertEqual(headerSize.height, 0, "header size should be 0 on landscape mode")
         
     }
+    
+    func testItemsWhenDragAndDropTipDoesNotAppear() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.shouldShowDragAndDropTutorial = false
+        
+        let openWithTutorialViewController = OpenWithTutorialViewController(giniConfiguration: giniConfiguration)
+        let dragAndDropStepImage = UIImage(named: "openWithTutorialStep3",
+                                         in: Bundle(for: GiniVision.self),
+                                         compatibleWith: nil)
+        
+        XCTAssertFalse(openWithTutorialViewController.items.map { $0.image }.contains(dragAndDropStepImage),
+                      "open with items should not contain drag and drop image")
+    }
 }
