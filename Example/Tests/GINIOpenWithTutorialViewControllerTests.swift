@@ -122,7 +122,7 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         
     }
     
-    func testItemsWhenDragAndDropTipNotAppear() {
+    func testItemsWhenDragAndDropTipDoesNotAppear() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.shouldShowDragAndDropTutorial = false
         let openWithTutorialViewController = OpenWithTutorialViewController(giniConfiguration: giniConfiguration)
@@ -130,7 +130,7 @@ class GINIOpenWithTutorialViewControllerTests: XCTestCase {
         _ = openWithTutorialViewController.view
         let collectionSection0ItemsCount = openWithTutorialViewController
             .collectionView(openWithTutorialViewController.collectionView!, numberOfItemsInSection: 0)
-        
+        openWithTutorialViewController.items
         XCTAssertEqual(2, collectionSection0ItemsCount,
                        "the items count in section 0 should be 2")
     }

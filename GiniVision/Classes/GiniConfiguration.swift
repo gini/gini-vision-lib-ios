@@ -669,7 +669,7 @@ import UIKit
     public var noResultsWarningContainerIconColor = Colors.Gini.rose
     
     /**
-     Sets if the Drag&Drop step should be shown in the open with tutorial list
+     Sets if the Drag&Drop step should be shown in the "Open with" tutorial list
      */
     public var shouldShowDragAndDropTutorial = true
 }
