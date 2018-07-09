@@ -667,4 +667,9 @@ import UIKit
      Sets the color of the warning container background to the specified color
      */
     public var noResultsWarningContainerIconColor = Colors.Gini.rose
+    
+    /**
+     Sets if the Drag&Drop step should be shown in the "Open with" tutorial
+     */
+    public var shouldShowDragAndDropTutorial = true
 }
