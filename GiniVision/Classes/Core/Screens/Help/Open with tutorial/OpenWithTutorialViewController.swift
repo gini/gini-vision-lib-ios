@@ -14,32 +14,41 @@ final class OpenWithTutorialViewController: UICollectionViewController {
     let openWithTutorialCollectionCellIdentifier = "openWithTutorialCollectionCellIdentifier"
     let openWithTutorialCollectionHeaderIdentifier = "openWithTutorialCollectionHeaderIdentifier"
     
+    let giniConfiguration: GiniConfiguration
     var appName: String {
-        return GiniConfiguration.shared.openWithAppNameForTexts
+        return giniConfiguration.openWithAppNameForTexts
     }
     
-    lazy var items: [OpenWithTutorialStep] = [
-        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title",
-                                    comment: "first step title for open with tutorial"),
-         NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle",
-                                    comment: "first step subtitle for open with tutorial"),
-         UIImageNamedPreferred(named: "openWithTutorialStep1")),
-        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.title",
-                                    comment: "second step title for open with tutorial"),
-         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle",
-                                                   comment: "second step subtitle for open with tutorial"),
-                self.appName,
-                self.appName),
-            UIImageNamedPreferred(named: "openWithTutorialStep2")),
-        (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.title",
-                                    comment: "third step title for open with tutorial"),
-         String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle",
-                                                   comment: "third step subtitle for open with tutorial"),
-                self.appName,
-                self.appName,
-                self.appName),
-            UIImageNamedPreferred(named: "openWithTutorialStep3"))
-    ]
+    lazy var items: [OpenWithTutorialStep] = {
+        var items = [
+            (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.title",
+                                        comment: "first step title for open with tutorial"),
+             NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step1.subTitle",
+                                        comment: "first step subtitle for open with tutorial"),
+             UIImageNamedPreferred(named: "openWithTutorialStep1")),
+            (NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.title",
+                                        comment: "second step title for open with tutorial"),
+             String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step2.subTitle",
+                                                       comment: "second step subtitle for open with tutorial"),
+                    self.appName,
+                    self.appName),
+             UIImageNamedPreferred(named: "openWithTutorialStep2"))
+        ]
+        
+        if self.giniConfiguration.shouldShowDragAndDropTutorial {
+            items.append((NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.title",
+                                                     comment: "third step title for open with tutorial"),
+                          String(format: NSLocalizedStringPreferred("ginivision.help.openWithTutorial.step3.subTitle",
+                                                                    comment: "third step subtitle for open with tutorial"),
+                                 self.appName,
+                                 self.appName,
+                                 self.appName),
+                          UIImageNamedPreferred(named: "openWithTutorialStep3")))
+        }
+        
+        return items
+    }()
+    
     
     lazy var headerTitle: String = {
         let localizedString = NSLocalizedStringPreferred("ginivision.help.openWithTutorial.collectionHeader",
@@ -51,7 +60,8 @@ final class OpenWithTutorialViewController: UICollectionViewController {
         return (self.collectionView?.collectionViewLayout as? OpenWithTutorialCollectionFlowLayout)!
     }
     
-    init() {
+    init(giniConfiguration: GiniConfiguration = .shared) {
+        self.giniConfiguration = giniConfiguration
         super.init(collectionViewLayout: OpenWithTutorialCollectionFlowLayout())
     }
     

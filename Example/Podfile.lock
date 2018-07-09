@@ -5,21 +5,21 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Gini-iOS-SDK (1.0.0-beta.1):
-    - Gini-iOS-SDK/Core (= 1.0.0-beta.1)
-  - Gini-iOS-SDK/Core (1.0.0-beta.1):
+  - Gini-iOS-SDK (1.0.0):
+    - Gini-iOS-SDK/Core (= 1.0.0)
+  - Gini-iOS-SDK/Core (1.0.0):
     - Bolts (~> 1.9)
-  - Gini-iOS-SDK/Pinning (1.0.0-beta.1):
+  - Gini-iOS-SDK/Pinning (1.0.0):
     - Bolts (~> 1.9)
     - TrustKit (~> 1.5)
-  - GiniVision (4.0.0-beta.2):
-    - GiniVision/Core (= 4.0.0-beta.2)
-  - GiniVision/Core (4.0.0-beta.2)
-  - GiniVision/Networking (4.0.0-beta.2):
-    - Gini-iOS-SDK (~> 1.0.0-beta)
+  - GiniVision (4.0.0):
+    - GiniVision/Core (= 4.0.0)
+  - GiniVision/Core (4.0.0)
+  - GiniVision/Networking (4.0.0):
+    - Gini-iOS-SDK (~> 1.0)
     - GiniVision/Core
-  - "GiniVision/Networking+Pinning (4.0.0-beta.2)":
-    - Gini-iOS-SDK/Pinning (~> 1.0.0-beta)
+  - "GiniVision/Networking+Pinning (4.0.0)":
+    - Gini-iOS-SDK/Pinning (~> 1.0)
     - GiniVision/Networking
   - TrustKit (1.5.3)
 
@@ -42,13 +42,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Gini-iOS-SDK:
-    :commit: 58e2ae387dac23f77b94aafc13f575fd9bf7408c
+    :commit: 8d38b9ce5b8b2dbda4f3cc179af7d6ee2909d182
     :git: "git@github.com:gini/gini-sdk-ios.git"
 
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Gini-iOS-SDK: 92f35b4bc3b4802f97676db9fe235c6e5a194765
-  GiniVision: c9a9761be8ce632e5b5639fe39507516a105af6c
+  Gini-iOS-SDK: c014ca2b0f45016bdb52cee5285ff59370a94a86
+  GiniVision: 91a25c7e1ff1375c80dbb14dbacad44929d3c7a7
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
 PODFILE CHECKSUM: a9df58e1ac1ededbc6aa30420814178803250bcc

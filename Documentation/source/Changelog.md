@@ -1,25 +1,23 @@
 Changelog
 =========
 
-4.0.0-beta.2 (2018-06-19)
-------------------
-
--   Fixe an issue with errors not shown in the analysis screen
--   Fixed tests taking too long to complete
--   Fixed an issue where QR codes were scanned twice
--   Added customization guide
-
-4.0.0-beta.1 (2018-05-15)
+4.0.0 (2018-07-09)
 ------------------
 
 -   Added multipage mode
 -   Added network plugin
 -   Minor UX/UI improvements
+-   Added customization guide
+
+3.3.5 (2018-07-06)
+------------------
+
+-   Added a flag for the Drag&Drop step in "Open with" tutorial (via the `GiniConfiguration.shouldShowDragAndDropTutorial` property).
 
 3.3.4 (2018-06-13)
 ------------------
 
--   Added customizable opaque background view style when the tool tip is shown (via `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
+-   Added customizable opaque background view style when the tool tip is shown (via the `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
 
 3.3.3 (2018-06-01)
 ------------------
