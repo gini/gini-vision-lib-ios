@@ -1,10 +1,15 @@
 Changelog
 =========
 
+3.3.5 (2018-07-06)
+------------------
+
+-   Added a flag for the Drag&Drop step in "Open with" tutorial (via the `GiniConfiguration.shouldShowDragAndDropTutorial` property).
+
 3.3.4 (2018-06-13)
 ------------------
 
--   Added customizable opaque background view style when the tool tip is shown (via `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
+-   Added customizable opaque background view style when the tool tip is shown (via the `GiniConfiguration.toolTipOpaqueBackgroundStyle` property).
 
 3.3.3 (2018-06-01)
 ------------------
