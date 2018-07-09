@@ -1,6 +1,14 @@
 Changelog
 =========
 
+4.0.0 (2018-07-09)
+------------------
+
+-   Added multipage mode
+-   Added network plugin
+-   Minor UX/UI improvements
+-   Added customization guide
+
 3.3.5 (2018-07-06)
 ------------------
 

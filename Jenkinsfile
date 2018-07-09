@@ -12,25 +12,25 @@ pipeline {
       }
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
-        sh '/usr/local/bin/pod repo update'
-        sh '/usr/local/bin/pod install --project-directory=Example/'
-        sh '/usr/local/bin/pod install --project-directory=ExampleObjC/'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
+        lock('refs/remotes/origin/master') {
+          sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
+        }
       }
     }
     stage('Build ObjC') {
       steps {
-        sh 'xcodebuild -workspace ExampleObjC/GiniVisionExampleObjC.xcworkspace -scheme "GiniVisionExampleObjC" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 6\''
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 6\''
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests'
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests'
       }
     }
     stage('Documentation') {
@@ -78,7 +78,7 @@ pipeline {
         }
       }
       steps {
-        sh '/usr/local/bin/pod lib lint --allow-warnings'
+        sh '/usr/local/bin/pod lib lint --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
   }
