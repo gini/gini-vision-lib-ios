@@ -12,25 +12,25 @@ pipeline {
       }
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
-        sh '/usr/local/bin/pod repo update'
-        sh '/usr/local/bin/pod install --project-directory=Example/'
-        sh '/usr/local/bin/pod install --project-directory=ExampleObjC/'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
+        lock('refs/remotes/origin/master') {
+          sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
+        }
       }
     }
     stage('Build ObjC') {
       steps {
-        sh 'xcodebuild -workspace ExampleObjC/GiniVisionExampleObjC.xcworkspace -scheme "GiniVisionExampleObjC" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 6\''
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 6\''
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision_Example" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests'
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 6\' -skip-testing:GiniVision_UITests'
       }
     }
     stage('Documentation') {
@@ -57,7 +57,7 @@ pipeline {
         sh 'rm -rf build'
         sh 'mkdir build'
         sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme GiniVision_Example -configuration Release archive -archivePath build/GiniVision.xcarchive'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration Release archive -archivePath build/GiniVision.xcarchive'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
         step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/GiniVision_Example.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
 
@@ -78,7 +78,7 @@ pipeline {
         }
       }
       steps {
-        sh '/usr/local/bin/pod lib lint --allow-warnings'
+        sh '/usr/local/bin/pod lib lint --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
   }

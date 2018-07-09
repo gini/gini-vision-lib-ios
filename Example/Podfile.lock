@@ -1,35 +1,56 @@
 PODS:
-  - Bolts (1.1.5):
-    - Bolts/AppLinks (= 1.1.5)
-    - Bolts/Tasks (= 1.1.5)
-  - Bolts/AppLinks (1.1.5):
+  - Bolts (1.9.0):
+    - Bolts/AppLinks (= 1.9.0)
+    - Bolts/Tasks (= 1.9.0)
+  - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.1.5)
-  - Gini-iOS-SDK (0.6.0):
-    - Gini-iOS-SDK/Core (= 0.6.0)
-  - Gini-iOS-SDK/Core (0.6.0):
-    - Bolts (~> 1.1.5)
-  - GiniVision (3.3.4)
+  - Bolts/Tasks (1.9.0)
+  - Gini-iOS-SDK (1.0.0):
+    - Gini-iOS-SDK/Core (= 1.0.0)
+  - Gini-iOS-SDK/Core (1.0.0):
+    - Bolts (~> 1.9)
+  - Gini-iOS-SDK/Pinning (1.0.0):
+    - Bolts (~> 1.9)
+    - TrustKit (~> 1.5)
+  - GiniVision (4.0.0):
+    - GiniVision/Core (= 4.0.0)
+  - GiniVision/Core (4.0.0)
+  - GiniVision/Networking (4.0.0):
+    - Gini-iOS-SDK (~> 1.0)
+    - GiniVision/Core
+  - "GiniVision/Networking+Pinning (4.0.0)":
+    - Gini-iOS-SDK/Pinning (~> 1.0)
+    - GiniVision/Networking
+  - TrustKit (1.5.3)
 
 DEPENDENCIES:
-  - Gini-iOS-SDK
+  - "Gini-iOS-SDK (from `git@github.com:gini/gini-sdk-ios.git`, branch `develop`)"
   - GiniVision (from `../`)
+  - "GiniVision/Networking+Pinning (from `../`)"
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bolts
-  https://github.com/gini/gini-podspecs.git:
-    - Gini-iOS-SDK
+    - TrustKit
 
 EXTERNAL SOURCES:
+  Gini-iOS-SDK:
+    :branch: develop
+    :git: "git@github.com:gini/gini-sdk-ios.git"
   GiniVision:
     :path: "../"
 
-SPEC CHECKSUMS:
-  Bolts: aac24961496d504aa56fc267cde95162a71bac39
-  Gini-iOS-SDK: 75c35076dbbdeff5b7ac8c90b8cbd63274dbc209
-  GiniVision: 2a07124cb1c4be8717a274732f950d51ce03bdac
+CHECKOUT OPTIONS:
+  Gini-iOS-SDK:
+    :commit: 8d38b9ce5b8b2dbda4f3cc179af7d6ee2909d182
+    :git: "git@github.com:gini/gini-sdk-ios.git"
 
-PODFILE CHECKSUM: 06f7834b2b47d77f0913939fdb40daff97ddd35b
+SPEC CHECKSUMS:
+  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Gini-iOS-SDK: c014ca2b0f45016bdb52cee5285ff59370a94a86
+  GiniVision: 91a25c7e1ff1375c80dbb14dbacad44929d3c7a7
+  TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
+
+PODFILE CHECKSUM: a9df58e1ac1ededbc6aa30420814178803250bcc
 
 COCOAPODS: 1.5.3
