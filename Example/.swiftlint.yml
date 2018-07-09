@@ -1,5 +1,7 @@
 included:
   - ../GiniVision
+  - Example Swift
+  - Tests/
 
 excluded:
   - Pods/
@@ -16,6 +18,9 @@ force_try:
 line_length:
 - 120 # warning
 - 600 # error
+function_body_length:
+- 50 # warning
+- 60 # error
 
 identifier_name: warning
 shorthand_operator: warning
