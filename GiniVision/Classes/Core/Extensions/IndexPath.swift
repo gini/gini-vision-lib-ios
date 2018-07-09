@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension IndexPath {
+extension IndexPath {
     static func indexesBetween(_ first: IndexPath, and second: IndexPath, inSection section: Int = 0) -> [IndexPath] {
         var indexes: [IndexPath] = []
         let maxInt: Int = Swift.max(first.row, second.row)

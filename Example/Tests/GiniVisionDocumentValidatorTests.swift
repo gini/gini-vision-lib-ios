@@ -21,7 +21,7 @@ final class GiniVisionDocumentValidatorTests: XCTestCase {
         XCTAssertThrowsError(try GiniVisionDocumentValidator.validate(pdfDocument,
                                                                       withConfig: giniConfiguration),
                              "Files with a size lower than 10MB should be valid") { error in
-                                XCTAssert(error as? DocumentValidationError == DocumentValidationError.exceededMaxFileSize,
+                                XCTAssert(error as? DocumentValidationError == .exceededMaxFileSize,
                                           "should indicate that max file size has been exceeded")
         }
     }
@@ -34,7 +34,7 @@ final class GiniVisionDocumentValidatorTests: XCTestCase {
         XCTAssertThrowsError(try GiniVisionDocumentValidator.validate(pdfDocument,
                                                                       withConfig: giniConfiguration),
                              "Files with a size greater than 10MB should not be valid") { error in
-                                XCTAssert(error as? DocumentValidationError != DocumentValidationError.exceededMaxFileSize,
+                                XCTAssert(error as? DocumentValidationError != .exceededMaxFileSize,
                                           "should indicate that max file size has been exceeded")
         }
     }

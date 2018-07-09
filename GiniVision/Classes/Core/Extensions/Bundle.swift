@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal extension Bundle {
+extension Bundle {
     var appName: String {
         return self.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String ?? ""
     }

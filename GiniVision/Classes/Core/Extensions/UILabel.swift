@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension UILabel {
+extension UILabel {
     
     func textHeight(forWidth width: CGFloat) -> CGFloat {
         guard let text = self.text else {

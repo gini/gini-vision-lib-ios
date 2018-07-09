@@ -32,7 +32,8 @@ final class PageStateViewTests: XCTestCase {
                                in: Bundle(for: GiniVision.self),
                                compatibleWith: nil),
                        "icon image should match successfullUploadIcon asset")
-        XCTAssertFalse(statusView.loadingIndicator.isAnimating, "loading indicator should not be animating when loading")
+        XCTAssertFalse(statusView.loadingIndicator.isAnimating,
+                       "loading indicator should not be animating when loading")
     }
     
     func testFailureState() {
@@ -43,7 +44,8 @@ final class PageStateViewTests: XCTestCase {
                                in: Bundle(for: GiniVision.self),
                                compatibleWith: nil),
                        "icon image should match failureUploadIcon asset")
-        XCTAssertFalse(statusView.loadingIndicator.isAnimating, "loading indicator should not be animating when loading")
+        XCTAssertFalse(statusView.loadingIndicator.isAnimating,
+                       "loading indicator should not be animating when loading")
     }
     
 }

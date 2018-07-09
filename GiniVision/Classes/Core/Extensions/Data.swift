@@ -8,7 +8,7 @@
 
 import MobileCoreServices
 
-internal extension Data {
+extension Data {
     private static let mimeTypeSignatures: [UInt8: String] = [
         0xFF: "image/jpeg",
         0x89: "image/png",

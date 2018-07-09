@@ -19,7 +19,7 @@ final class DocumentsService: DocumentServiceProtocol {
         self.giniSDK = sdk
     }
     
-    func start(){
+    func start() {
         self.giniSDK.sessionManager.logIn()
     }
     
@@ -209,7 +209,8 @@ extension DocumentsService {
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
-                    Log(message: "Starting analysis for composite document with id \(document.documentId ?? "")", event: "🔎")
+                    Log(message: "Starting analysis for composite document with id \(document.documentId ?? "")",
+                        event: "🔎")
 
                     self.compositeDocument = document
                     return self.giniSDK

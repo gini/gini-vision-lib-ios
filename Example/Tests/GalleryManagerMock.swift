@@ -51,7 +51,7 @@ final class GalleryManagerMock: GalleryManagerProtocol {
 
 extension Asset {
     init(identifier: String) {
-        self.value = PHAsset()
+        self.init(value: PHAsset())
         self.identifier = identifier
     }
 }

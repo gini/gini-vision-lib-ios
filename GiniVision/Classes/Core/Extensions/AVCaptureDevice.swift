@@ -8,7 +8,7 @@
 
 import AVFoundation
 
-internal extension AVCaptureDevice {
+extension AVCaptureDevice {
     
     func setFlashModeSecurely(_ mode: AVCaptureDevice.FlashMode) {
         guard hasFlash && isFlashModeSupported(mode) else { return }

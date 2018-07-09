@@ -207,8 +207,8 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
      - returns: A presentable view controller.
      */
     @objc public class func viewController(withDelegate delegate: GiniVisionDelegate,
-                                     withConfiguration configuration: GiniConfiguration,
-                                     importedDocument: GiniVisionDocument? = nil) -> UIViewController {
+                                           withConfiguration configuration: GiniConfiguration,
+                                           importedDocument: GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
         return viewController(withDelegate: delegate, importedDocument: importedDocument)
     }
@@ -227,7 +227,8 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
      - Throws: `DocumentValidationError` if there was an error during the validation.
      
      */
-    @objc public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
+    @objc public class func validate(_ document: GiniVisionDocument,
+                                     withConfig giniConfiguration: GiniConfiguration) throws {
         try GiniVisionDocumentValidator.validate(document, withConfig: giniConfiguration)
     }
 }
