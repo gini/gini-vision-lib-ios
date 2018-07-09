@@ -17,9 +17,6 @@ final class DocumentsService: DocumentServiceProtocol {
     
     init(sdk: GiniSDK) {
         self.giniSDK = sdk
-    }
-    
-    func start() {
         self.giniSDK.sessionManager.logIn()
     }
     
