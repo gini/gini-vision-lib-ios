@@ -16,7 +16,6 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
     func testPageIndicatorLabel() {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageIndicatorColor = .black
-        giniConfiguration.multipagePageBackgroundColor = .red
 
         cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
                    at: 0,
@@ -28,7 +27,6 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
     
     func testPageBottomContainerColor() {
         let giniConfiguration = GiniConfiguration()
-        giniConfiguration.multipagePageIndicatorColor = .black
         giniConfiguration.multipagePageBackgroundColor = .red
 
         cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
@@ -36,6 +34,30 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
                    giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell.bottomContainer.backgroundColor, giniConfiguration.multipagePageBackgroundColor,
+                       "page cell background color should match the one specified in the configuration")
+    }
+    
+    func testPageSelectedIndicatorColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.multipagePageSelectedIndicatorColor = .red
+        
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+                   at: 0,
+                   giniConfiguration: giniConfiguration)
+        
+        XCTAssertEqual(cell.pageSelectedLine.backgroundColor, giniConfiguration.multipagePageSelectedIndicatorColor,
+                       "page cell background color should match the one specified in the configuration")
+    }
+    
+    func testPageDraggableIconColor() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.multipageDraggableIconColor = .red
+        
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+                   at: 0,
+                   giniConfiguration: giniConfiguration)
+        
+        XCTAssertEqual(cell.pageSelectedLine.backgroundColor, giniConfiguration.multipagePageSelectedIndicatorColor,
                        "page cell background color should match the one specified in the configuration")
     }
     

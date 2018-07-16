@@ -649,9 +649,19 @@ import UIKit
     @objc public var multipagePageIndicatorColor = Colors.Gini.blue
     
     /**
+     Sets the background color of the page selected indicator
+     */
+    @objc public var multipagePageSelectedIndicatorColor = Colors.Gini.blue
+    
+    /**
      Sets the tint color of the page background
      */
     @objc public var multipagePageBackgroundColor = UIColor.white
+    
+    /**
+     Sets the tint color of the draggable icon 
+     */
+    @objc public var multipageDraggableIconColor = Colors.Gini.veryLightGray
 
     /**
      Sets the background style when the tooltip is shown in the multipage screen
