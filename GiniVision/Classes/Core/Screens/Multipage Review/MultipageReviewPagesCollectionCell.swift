@@ -49,7 +49,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
     lazy var draggableIcon: UIImageView = {
         let image = UIImage(named: "draggablePageIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
-        let imageView = UIImageView(image: image)
+        let imageView = UIImageView(image: image?.withRenderingMode(.alwaysTemplate))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -209,6 +209,8 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         }
         pageIndicatorLabel.text = "\(index + 1)"
         pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
+        pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
+        draggableIcon.tintColor = giniConfiguration.multipageDraggableIconColor
         bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
         
         if page.isUploaded {
