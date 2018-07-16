@@ -1,6 +1,6 @@
 #!/bin/bash
 
-infoPlist="Example/GiniVision/Info.plist"
+infoPlist="Example/Example Swift/Info.plist"
 hockey_api_key=$1
 hockey_app_id=$2
 
