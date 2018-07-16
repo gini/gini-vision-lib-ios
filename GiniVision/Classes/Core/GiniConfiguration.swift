@@ -659,7 +659,7 @@ import UIKit
     @objc public var multipagePageBackgroundColor = UIColor.white
     
     /**
-     Sets the tint color of the draggable icon 
+     Sets the tint color of the draggable icon in the page collection cell
      */
     @objc public var multipageDraggableIconColor = Colors.Gini.veryLightGray
 

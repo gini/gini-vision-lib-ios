@@ -57,7 +57,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
                    at: 0,
                    giniConfiguration: giniConfiguration)
         
-        XCTAssertEqual(cell.pageSelectedLine.backgroundColor, giniConfiguration.multipagePageSelectedIndicatorColor,
+        XCTAssertEqual(cell.draggableIcon.tintColor, giniConfiguration.multipageDraggableIconColor,
                        "page draggable icon tint color should match the one specified in the configuration")
     }
     

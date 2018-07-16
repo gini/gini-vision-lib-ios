@@ -119,6 +119,8 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 ##### 3. Page item
 - Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor`
 - Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor`
+- Page selected indicator color &#8594; `GiniConfiguration.multipagePageSelectedIndicatorColor`
+- Page draggable icon tint color &#8594; `GiniConfiguration.multipageDraggableIconColor`
 
 ##### 4. Bottom container
 - Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor`
