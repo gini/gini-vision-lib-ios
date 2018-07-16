@@ -46,7 +46,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
                    giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell.pageSelectedLine.backgroundColor, giniConfiguration.multipagePageSelectedIndicatorColor,
-                       "page cell background color should match the one specified in the configuration")
+                       "selected line indicator background color should match the one specified in the configuration")
     }
     
     func testPageDraggableIconColor() {
@@ -58,7 +58,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
                    giniConfiguration: giniConfiguration)
         
         XCTAssertEqual(cell.pageSelectedLine.backgroundColor, giniConfiguration.multipagePageSelectedIndicatorColor,
-                       "page cell background color should match the one specified in the configuration")
+                       "page draggable icon tint color should match the one specified in the configuration")
     }
     
 }
