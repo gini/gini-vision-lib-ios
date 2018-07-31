@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CameraStrings: Localizable {
+enum CameraStrings: LocalizableStringResource {
     
     case captureButton, captureFailedMessage, capturedImagesStackSubtitleLabel, errorPopupCancelButton,
     errorPopupGrantAccessButton, errorPopupPickAnotherFileButton, errorPopupReviewPagesButton,

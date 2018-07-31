@@ -10,7 +10,7 @@ import UIKit
 
 typealias LocalizationEntry = (value: String, description: String)
 
-protocol Localizable {
+protocol LocalizableStringResource {
     var tableName: String { get }
     var tableEntry: LocalizationEntry { get }
     var customizable: Bool { get }
@@ -18,7 +18,7 @@ protocol Localizable {
 
 }
 
-extension Localizable {
+extension LocalizableStringResource {
     var localized: String {
         let key = "ginivision.\(tableName).\(tableEntry.value)"
         if self.customizable {

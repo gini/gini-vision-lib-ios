@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AnalysisStrings: Localizable {
+enum AnalysisStrings: LocalizableStringResource {
     
     case analysisErrorMessage, documentCreationErrorMessage, cancelledMessage, loadingText, pdfPages(count: Int),
     suggestion1Text, suggestion2Text, suggestion3Text, suggestion4Text, suggestion5Text, suggestionHeader

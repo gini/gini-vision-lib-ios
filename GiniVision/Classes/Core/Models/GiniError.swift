@@ -53,9 +53,7 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .unknown:
-            return NSLocalizedStringPreferred("ginivision.review.unknownError",
-                                              comment: "This message is shown when" +
-                                                       "Photo library permission is denied")
+            return .localized(resource: ReviewStrings.unknownErrorMessage)
         }
     }
 }

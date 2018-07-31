@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OnboardingStrings: Localizable {
+enum OnboardingStrings: LocalizableStringResource {
     
     case onboardingFirstPageText, onboardingSecondPageText, onboardingThirdPageText, onboardingFourthPageText,
     onboardingFifthPageText

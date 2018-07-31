@@ -538,10 +538,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.review.top localized string instead
 
      */
-    @objc public var reviewTextTop =
-        NSLocalizedStringPreferred("ginivision.review.top",
-                                   comment: "Text at the top of the review screen asking the user if " +
-                                            "the full document is sharp and in the correct orientation")
+    @objc public var reviewTextTop: String = .localized(resource: ReviewStrings.topText)
     
     /**
      The text at the top of the review screen is displayed as a notice and can not be set individually.
@@ -560,10 +557,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var reviewRotateButtonTitle =
-        NSLocalizedStringPreferred("ginivision.review.rotateButton",
-                                   comment: "Title for rotate button in review screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var reviewRotateButtonTitle: String = .localized(resource: ReviewStrings.rotateButton)
     
     /**
      Sets the text for the accessibility label of the document image view.
@@ -571,10 +565,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var reviewDocumentImageTitle =
-        NSLocalizedStringPreferred("ginivision.review.documentImageTitle",
-                                   comment: "Title for document image in review screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var reviewDocumentImageTitle: String = .localized(resource: ReviewStrings.documentImageTitle)
     
     /**
      Sets the background color of the bottom section on the review screen containing the rotation button.
@@ -589,11 +580,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.review.bottom localized string instead
 
      */
-    @objc public var reviewTextBottom =
-        NSLocalizedStringPreferred("ginivision.review.bottom",
-                                   comment: "Text at the bottom of the review screen encouraging the " +
-                                            "user to check sharpness by double-tapping the image")
-    
+    @objc public var reviewTextBottom: String = .localized(resource: ReviewStrings.bottomText)
     /**
      Sets the font of the text appearing at the bottom of the review screen.
      */
