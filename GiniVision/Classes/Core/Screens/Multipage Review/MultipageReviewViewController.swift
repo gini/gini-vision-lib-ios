@@ -114,9 +114,7 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var pagesCollectionBottomTipLabel: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = NSLocalizedString("ginivision.multipagereview.dragAndDropTip",
-                                          bundle: Bundle(for: GiniVision.self),
-                                          comment: "drag and drop tip shown below pages collection")
+        textView.text = .localized(resource: MultipageReviewStrings.dragAndDropTipMessage)
         textView.font = textView.font?.withSize(11)
         textView.isScrollEnabled = false
         textView.isUserInteractionEnabled = false
@@ -168,9 +166,7 @@ public final class MultipageReviewViewController: UIViewController {
     var toolTipView: ToolTipView?
     fileprivate var opaqueView: UIView?
     
-    let localizedTitle = NSLocalizedString("ginivision.multipagereview.title",
-                                           bundle: Bundle(for: GiniVision.self),
-                                           comment: "title with the page indicator")
+    let localizedTitle: String = .localized(resource: MultipageReviewStrings.titleMessage(page: 0, pagesCount: 0))
     
     lazy var rotateButton: UIBarButtonItem = {
         return barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
@@ -400,9 +396,7 @@ extension MultipageReviewViewController {
         self.opaqueView = opaqueView
         self.view.addSubview(opaqueView)
         
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.multipagereview.reorderContainerTooltipMessage",
-                                                          bundle: Bundle(for: GiniVision.self),
-                                                          comment: "reorder button tooltip message"),
+        toolTipView = ToolTipView(text: .localized(resource: MultipageReviewStrings.reorderContainerTooltipMessage),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: pagesCollectionContainer,
                                   superView: view,

@@ -93,12 +93,10 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         
         switch error {
         case is AnalysisError:
-            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retryAction",
-                                                     comment: "button title for retry action")
+            buttonTitle = .localized(resource: MultipageReviewStrings.retryActionButton)
             action = .retry
         default:
-            buttonTitle = NSLocalizedStringPreferred("ginivision.multipagereview.error.retakeAction",
-                                                     comment: "button title for retake action")
+            buttonTitle = .localized(resource: MultipageReviewStrings.retakeActionButton)
             action = .retake
         }
         

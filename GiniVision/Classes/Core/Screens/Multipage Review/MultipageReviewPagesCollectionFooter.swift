@@ -36,9 +36,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     fileprivate lazy var addLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = NSLocalizedString("ginivision.multipagereview.addButtonLabel",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "label shown below add button")
+        label.text = .localized(resource: MultipageReviewStrings.addButtonLabel)
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.numberOfLines = 0
