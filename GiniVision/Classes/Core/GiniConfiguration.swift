@@ -333,9 +333,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarCameraTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.camera.title",
-                                   comment: "Title in the navigation bar on the camera screen")
+    @objc public var navigationBarCameraTitle: String = .localized(resource: NavigationBarStrings.cameraTitle)
     
     /**
      Sets the color of the captured images stack indicator label
@@ -378,9 +376,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarOnboardingTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.title",
-                                   comment: "Title in the navigation bar on the onboarding screen")
+    @objc public var navigationBarOnboardingTitle: String = .localized(resource: NavigationBarStrings.onboardingTitle)
     
     /**
      Sets the continue button text in the navigation bar on the onboarding screen.
@@ -507,9 +503,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarReviewTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.review.title",
-                                   comment: "Title in the navigation bar on the review screen")
+    @objc public var navigationBarReviewTitle: String = .localized(resource: NavigationBarStrings.reviewTitle)
     
     /**
      Sets the back button text in the navigation bar on the review screen.
@@ -667,9 +661,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarAnalysisTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title",
-                                   comment: "Title in the navigation bar on the analysis screen")
+    @objc public var navigationBarAnalysisTitle: String = .localized(resource: NavigationBarStrings.analysisTitle)
     
     /**
      Sets the back button text in the navigation bar on the analysis screen.
