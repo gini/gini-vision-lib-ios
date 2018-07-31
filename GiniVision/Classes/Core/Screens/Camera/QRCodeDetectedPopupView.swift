@@ -35,7 +35,7 @@ final class QRCodeDetectedPopupView: UIView {
     }()
     
     lazy var proceedButton: UIButton = {
-        let title: String = .localized(resource: CameraStrings.qrCodeDetectedPopupButtonTitle)
+        let title: String = .localized(resource: CameraStrings.qrCodeDetectedPopupButton)
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, for: .normal)

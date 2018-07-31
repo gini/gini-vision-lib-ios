@@ -191,9 +191,8 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.filepicker.photoLibraryAccessDenied localized string instead
 
      */
-    @objc public var photoLibraryAccessDeniedMessageText =
-        NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
-                                   comment: "This message is shown when Photo library permission is denied")
+    @objc public var photoLibraryAccessDeniedMessageText: String =
+        .localized(resource: CameraStrings.photoLibraryAccessDeniedMessage)
     
     /**
      Indicates whether the QR Code scanning feature is enabled or not.
@@ -218,10 +217,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var cameraCaptureButtonTitle =
-        NSLocalizedStringPreferred("ginivision.camera.captureButton",
-                                   comment: "Title for capture button in camera screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var cameraCaptureButtonTitle: String = .localized(resource: CameraStrings.captureButton)
     
     /**
      Sets the descriptional text when camera access was denied, advising the user to
@@ -229,10 +225,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.notAuthorized localized string instead
 
      */
-    @objc public var cameraNotAuthorizedText =
-        NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
-                                   comment: "Description text when the camera is not authorized " +
-                                            "and the user is advised to change that in the settings app")
+    @objc public var cameraNotAuthorizedText: String = .localized(resource: CameraStrings.notAuthorizedMessage)
     
     /**
      Sets the font of the descriptional text when camera access was denied.
@@ -252,9 +245,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.notAuthorizedButton localized string instead
 
      */
-    @objc public var cameraNotAuthorizedButtonTitle =
-        NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton",
-                                   comment: "Button title to open the settings app")
+    @objc public var cameraNotAuthorizedButtonTitle: String = .localized(resource: CameraStrings.notAuthorizedButton)
     
     /**
      Sets the font of the button title when camera access was denied.
@@ -278,30 +269,24 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.general localized string instead
 
      */
-    @objc public var documentValidationErrorGeneral =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general",
-                                   comment: "Message text of a general document validation " +
-                                            "error shown in camera screen")
+    @objc public var documentValidationErrorGeneral: String =
+        .localized(resource: CameraStrings.documentValidationGeneralErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a file size is higher than 10MB
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.excedeedFileSize localized string instead
 
      */
-    @objc public var documentValidationErrorExcedeedFileSize =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize",
-                                   comment: "Message text error shown in camera screen when a file " +
-                                            "size is higher than 10MB")
+    @objc public var documentValidationErrorExcedeedFileSize: String =
+        .localized(resource: CameraStrings.exceededFileSizeErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.tooManyPages localized string instead
 
      */
-    @objc public var documentValidationErrorTooManyPages =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
-                                   comment: "Message text error shown in camera screen when a pdf " +
-                                            "length is higher than 10 pages")
+    @objc public var documentValidationErrorTooManyPages: String =
+        .localized(resource: CameraStrings.tooManyPagesErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a file has a
@@ -309,10 +294,8 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.wrongFormat localized string instead
 
      */
-    @objc public var documentValidationErrorWrongFormat =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat",
-                                   comment: "Message text error shown in camera screen when a file " +
-                                            "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
+    @objc public var documentValidationErrorWrongFormat: String =
+        .localized(resource: CameraStrings.wrongFormatErrorMessage)
     /**
      Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
      

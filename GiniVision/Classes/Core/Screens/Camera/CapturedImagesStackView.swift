@@ -68,9 +68,7 @@ final class CapturedImagesStackView: UIView {
     fileprivate lazy var capturedImagesStackSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = NSLocalizedString("ginivision.camera.capturedImagesStackLabel",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "label shown below images stack")
+        label.text = .localized(resource: CameraStrings.capturedImagesStackSubtitleLabel)
         label.textAlignment = .center
         label.textColor = .white
         label.font = label.font.withSize(12)

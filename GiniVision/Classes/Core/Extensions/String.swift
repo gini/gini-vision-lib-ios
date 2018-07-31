@@ -15,4 +15,8 @@ extension String {
         })
         return lines
     }
+    
+    static func localized<T: Localizable>(resource: T) -> String {
+        return resource.localized
+    }
 }

@@ -693,7 +693,7 @@ extension CameraViewController {
         opaqueView?.alpha = 0
         self.view.addSubview(opaqueView!)
 
-        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTip),
+        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: importFileButton,
                                   superView: self.view,
