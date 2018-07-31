@@ -19,19 +19,13 @@ final public class HelpMenuViewController: UITableViewController {
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     lazy var items: [(text: String, id: Int)] = {
-        var items = [
-            (NSLocalizedString("ginivision.helpmenu.firstItem",
-                               bundle: Bundle(for: GiniVision.self),
-                               comment: "help menu first item text"), 1),
-            (NSLocalizedString("ginivision.helpmenu.thirdItem",
-                               bundle: Bundle(for: GiniVision.self),
-                               comment: "help menu third item text"), 3)
+        var items: [(text: String, id: Int)] = [
+            (.localized(resource: HelpStrings.menuFirstItemText), 1),
+            (.localized(resource: HelpStrings.menuThirdItemText), 3)
         ]
         
         if self.giniConfiguration.openWithEnabled {
-            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
-                                            bundle: Bundle(for: GiniVision.self),
-                                            comment: "help menu second item text"), 2), at: 1)
+            items.insert((.localized(resource: HelpStrings.menuSecondItemText), 2), at: 1)
         }
         
         return items
@@ -62,9 +56,7 @@ final public class HelpMenuViewController: UITableViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        title = NSLocalizedString("ginivision.helpmenu.title",
-                                  bundle: Bundle(for: GiniVision.self),
-                                  comment: "help menu view controller title")
+        title = .localized(resource: HelpStrings.menuTitle)
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
         tableView.rowHeight = tableRowHeight

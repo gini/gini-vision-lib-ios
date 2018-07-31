@@ -95,10 +95,10 @@
 "ginivision.supportedFormats.section.2.item.1" = "Handschrift";
 "ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirmen";
 
-"ginivision.helpmenu.title" = "Hilfe";
-"ginivision.helpmenu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
-"ginivision.helpmenu.secondItem" = "Dokumente aus anderen Apps öffnen";
-"ginivision.helpmenu.thirdItem" = "Unterstützte Formate";
+"ginivision.help.menu.title" = "Hilfe";
+"ginivision.help.menu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
+"ginivision.help.menu.secondItem" = "Dokumente aus anderen Apps öffnen";
+"ginivision.help.menu.thirdItem" = "Unterstützte Formate";
 
 "ginivision.albums.title" = "Alben";
 "ginivision.imagepicker.openbutton" = "Öffnen";

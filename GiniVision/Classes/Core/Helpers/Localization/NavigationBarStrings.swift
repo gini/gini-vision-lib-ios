@@ -36,5 +36,4 @@ enum NavigationBarStrings: LocalizableStringResource {
         return nil
     }
     
-    
 }
