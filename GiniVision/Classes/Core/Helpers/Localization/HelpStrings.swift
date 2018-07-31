@@ -12,7 +12,9 @@ enum HelpStrings: LocalizableStringResource {
     case menuTitle, menuFirstItemText, menuSecondItemText, menuThirdItemText, openWithTutorialTitle,
     openWithTutorialCollectionHeader, openWithTutorialStep1Title, openWithTutorialStep1Subtitle,
     openWithTutorialStep2Title, openWithTutorialStep2Subtitle,
-    openWithTutorialStep3Title, openWithTutorialStep3Subtitle
+    openWithTutorialStep3Title, openWithTutorialStep3Subtitle, supportedFormatsTitle, supportedFormatsSection1Title,
+    supportedFormatsSection1Item1Text, supportedFormatsSection1Item2Text, supportedFormatsSection1Item3Text,
+    supportedFormatsSection2Title, supportedFormatsSection2Item1Text, supportedFormatsSection2Item2Text
     
     var tableName: String {
         return "help"
@@ -44,15 +46,33 @@ enum HelpStrings: LocalizableStringResource {
             return ("openWithTutorial.step3.title", "third step title for open with tutorial")
         case .openWithTutorialStep3Subtitle:
             return ("openWithTutorial.step3.subTitle", "third step subtitle for open with tutorial")
+        case .supportedFormatsTitle:
+            return ("supportedFormats.title", "supported and unsupported formats screen title")
+        case .supportedFormatsSection1Title:
+            return ("supportedFormats.section.1.title", "title for supported formats section")
+        case .supportedFormatsSection1Item1Text:
+            return ("supportedFormats.section.1.item.1", "message for first item on supported formats section")
+        case .supportedFormatsSection1Item2Text:
+            return ("supportedFormats.section.1.item.2", "message for second item on supported formats section")
+        case .supportedFormatsSection1Item3Text:
+            return ("supportedFormats.section.1.item.3", "message for third item on supported formats section")
+        case .supportedFormatsSection2Title:
+            return ("supportedFormats.section.2.title", "title for supported formats section")
+        case .supportedFormatsSection2Item1Text:
+            return ("supportedFormats.section.2.item.1", "message for first item on supported formats section")
+        case .supportedFormatsSection2Item2Text:
+            return ("supportedFormats.section.2.item.2", "message for second item on supported formats section")
         }
     }
     
     var customizable: Bool {
         switch self {
-        case .menuTitle, .menuFirstItemText, .menuSecondItemText, .menuThirdItemText, .openWithTutorialTitle:
-            return false
-        default:
+        case .openWithTutorialCollectionHeader, .openWithTutorialStep1Title, .openWithTutorialStep1Subtitle,
+             .openWithTutorialStep2Title, .openWithTutorialStep2Subtitle, .openWithTutorialStep3Title,
+             .openWithTutorialStep3Subtitle:
             return true
+        default:
+            return false
         }
     }
     
