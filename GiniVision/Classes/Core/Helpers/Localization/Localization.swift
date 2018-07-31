@@ -11,17 +11,20 @@ import UIKit
 typealias LocalizationEntry = (value: String, description: String)
 
 protocol Localizable {
-    var customizable: Bool { get }
-    var tableEntry: LocalizationEntry { get }
     var tableName: String { get }
+    var tableEntry: LocalizationEntry { get }
+    var customizable: Bool { get }
+    var args: CVarArg? { get }
+
 }
 
 extension Localizable {
     var localized: String {
-        let key = "\(tableName).\(tableEntry.value)"
+        let key = "ginivision.\(tableName).\(tableEntry.value)"
         if self.customizable {
             return NSLocalizedStringPreferred(key,
-                                              comment: tableEntry.description)
+                                              comment: tableEntry.description,
+                                              args: args)
         } else {
             return NSLocalizedString(key,
                                      bundle: Bundle(for: GiniVision.self),

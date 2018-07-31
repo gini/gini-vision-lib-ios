@@ -420,45 +420,35 @@ import UIKit
      - Warning: Deprecated, use the ginivision.onboarding.firstPage localized string instead
 
      */
-    @objc public var onboardingFirstPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.firstPage",
-                                   comment: "Text on the first page of the onboarding screen")
+    @objc public var onboardingFirstPageText: String = .localized(resource: OnboardingStrings.onboardingFirstPageText)
     
     /**
      Sets the text on the second onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.secondPage localized string instead
 
      */
-    @objc public var onboardingSecondPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.secondPage",
-                                   comment: "Text on the second page of the onboarding screen")
+    @objc public var onboardingSecondPageText: String = .localized(resource: OnboardingStrings.onboardingSecondPageText)
     
     /**
      Sets the text on the third onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.thirdPage localized string instead
 
      */
-    @objc public var onboardingThirdPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.thirdPage",
-                                   comment: "Text on the third page of the onboarding screen")
+    @objc public var onboardingThirdPageText: String = .localized(resource: OnboardingStrings.onboardingThirdPageText)
     
     /**
      Sets the text on the fourth onboarding page. (It is the first on iPad)
      - Warning: Deprecated, use the ginivision.onboarding.fourthPage localized string instead
 
      */
-    @objc public var onboardingFourthPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.fourthPage",
-                                   comment: "Text on the fourth page of the onboarding screen")
+    @objc public var onboardingFourthPageText: String = .localized(resource: OnboardingStrings.onboardingFourthPageText)
     
     /**
      Sets the text on the fifth onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.fifthPage localized string instead
 
      */
-    @objc public var onboardingFifthPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.fifthPage",
-                                   comment: "Text on the fifth page of the onboarding screen")
+    @objc public var onboardingFifthPageText: String = .localized(resource: OnboardingStrings.onboardingFifthPageText)
     
     /**
      Sets the font of the text for all onboarding pages.
@@ -663,10 +653,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.analysis.loadingText localized string instead
 
      */
-    @objc public var analysisLoadingText =
-        NSLocalizedStringPreferred("ginivision.analysis.loadingText",
-                                   comment: "Text appearing at the center of the analysis screen " +
-                                            "indicating that the document is being analysed")
+    @objc public var analysisLoadingText: String = .localized(resource: AnalysisStrings.loadingText)
     
     /**
      Sets the color of the PDF information view on the analysis screen to the specified color.
@@ -684,10 +671,7 @@ import UIKit
 
      */
     @objc public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
-        return NSLocalizedStringPreferred("ginivision.analysis.pdfpages",
-                                          comment: "Text appearing at the top of the analysis " +
-                                                    "screen indicating pdf number of pages",
-                                          args: count)
+        return .localized(resource: AnalysisStrings.pdfPages(count: count))
     }
     
     /**

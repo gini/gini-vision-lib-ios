@@ -17,16 +17,7 @@ enum CameraStrings: Localizable {
     tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage
     
     var tableName: String {
-        return "ginivision.camera"
-    }
-    
-    var customizable: Bool {
-        switch self {
-        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel:
-            return false
-        default:
-            return true
-        }
+        return "camera"
     }
     
     var tableEntry: LocalizationEntry {
@@ -86,5 +77,18 @@ enum CameraStrings: Localizable {
                 "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
             
         }
+    }
+    
+    var customizable: Bool {
+        switch self {
+        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    var args: CVarArg? {
+        return nil
     }
 }

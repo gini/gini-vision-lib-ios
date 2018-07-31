@@ -104,18 +104,11 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .documentCreation:
-            return NSLocalizedStringPreferred("ginivision.analysis.error.documentCreation",
-                                              comment: "This message is shown when" +
-                                                "there is an error creating the document")
+            return .localized(resource: AnalysisStrings.documentCreationErrorMessage)
         case .cancelled:
-            return NSLocalizedStringPreferred("ginivision.analysis.error.cancelled",
-                                              comment: "This message is shown when" +
-                                            "the analysis was cancelled")
+            return .localized(resource: AnalysisStrings.cancelledMessage)
         default:
-            return NSLocalizedString("ginivision.analysis.error.analysis",
-                                     bundle: Bundle(for: GiniVision.self),
-                                     comment: "This message is shown when" +
-                                    "there is an error analyzing the document")
+            return .localized(resource: AnalysisStrings.analysisErrorMessage)
         }
     }
 }
