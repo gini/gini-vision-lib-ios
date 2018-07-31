@@ -24,8 +24,7 @@ final class QRCodeDetectedPopupView: UIView {
     }()
     
     lazy var qrText: UILabel = {
-        let message = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.message",
-                                      comment: "Proceed button title")
+        let message: String = .localized(resource: CameraStrings.qrCodeDetectedPopupMessage)
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = message
@@ -36,8 +35,7 @@ final class QRCodeDetectedPopupView: UIView {
     }()
     
     lazy var proceedButton: UIButton = {
-        let title = NSLocalizedStringPreferred("ginivision.camera.qrCodeDetectedPopup.buttonTitle",
-                                      comment: "Proceed button title")
+        let title: String = .localized(resource: CameraStrings.qrCodeDetectedPopupButtonTitle)
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle(title, for: .normal)
