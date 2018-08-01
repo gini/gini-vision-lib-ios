@@ -44,7 +44,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         (UIImageNamedPreferred(named: "captureSuggestion4"),
          .localized(resource: AnalysisStrings.suggestion4Text)),
         (UIImageNamedPreferred(named: "captureSuggestion5"),
-         .localized(resource: AnalysisStrings.suggestion5Text)),
+         .localized(resource: AnalysisStrings.suggestion5Text))
     ]
     
     fileprivate var subHeaderTitle: String?

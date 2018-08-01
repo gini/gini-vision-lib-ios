@@ -80,14 +80,8 @@ final public class HelpMenuViewController: UITableViewController {
         let viewController: UIViewController
         switch id {
         case 1:
-            let title = NSLocalizedString("ginivision.noresults.title",
-                                          bundle: Bundle(for: GiniVision.self),
-                                          comment: "navigation title shown on no results tips, " +
-                "when the screen is shown through the help menu")
-            let topViewText = NSLocalizedString("ginivision.noresults.warningHelpMenu",
-                                                bundle: Bundle(for: GiniVision.self),
-                                                comment: "warning text shown on no results tips, " +
-                "when the screen is shown through the help menu")
+            let title: String = .localized(resource: ImageAnalysisNoResultsStrings.titleText)
+            let topViewText: String = .localized(resource: ImageAnalysisNoResultsStrings.warningHelpMenuText)
             let vc = ImageAnalysisNoResultsViewController(title: title,
                                                           subHeaderText: nil,
                                                           topViewText: topViewText,
