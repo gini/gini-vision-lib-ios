@@ -17,7 +17,8 @@ protocol LocalizableStringResource {
 }
 
 extension LocalizableStringResource {
-    var localized: String {
+
+    var localizedFormat: String {
         let key = "ginivision.\(tableName).\(tableEntry.value)"
         if self.customizable {
             return NSLocalizedStringPreferredFormat(key,

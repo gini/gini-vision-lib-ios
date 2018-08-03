@@ -32,7 +32,11 @@ enum OnboardingStrings: LocalizableStringResource {
     }
     
     var customizable: Bool {
-        return true
+        switch self {
+        case .onboardingFirstPageText, .onboardingSecondPageText, .onboardingThirdPageText, .onboardingFourthPageText,
+             .onboardingFifthPageText:
+            return true
+        }
     }
     
 }

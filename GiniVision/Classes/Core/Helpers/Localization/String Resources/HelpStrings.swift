@@ -71,7 +71,10 @@ enum HelpStrings: LocalizableStringResource {
              .openWithTutorialStep2Title, .openWithTutorialStep2Subtitle, .openWithTutorialStep3Title,
              .openWithTutorialStep3Subtitle:
             return true
-        default:
+        case .menuTitle, .menuFirstItemText, .menuSecondItemText, .menuThirdItemText, .openWithTutorialTitle,
+             .supportedFormatsTitle, .supportedFormatsSection1Title, .supportedFormatsSection1Item1Text,
+             .supportedFormatsSection1Item2Text, .supportedFormatsSection1Item3Text, .supportedFormatsSection2Title,
+             .supportedFormatsSection2Item1Text, .supportedFormatsSection2Item2Text:
             return false
         }
     }

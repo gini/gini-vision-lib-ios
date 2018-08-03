@@ -42,15 +42,15 @@ enum AnalysisStrings: LocalizableStringResource {
             return ("suggestion.5", "Fifth suggestion text for analysis screen")
         case .suggestionHeader:
             return ("suggestion.header", "Fourth suggestion text for analysis screen")
-
         }
     }
     
     var customizable: Bool {
         switch self {
-        case .loadingText, .pdfPages, .cancelledMessage, .documentCreationErrorMessage:
+        case .cancelledMessage, .documentCreationErrorMessage, .loadingText, .pdfPages:
             return true
-        default:
+        case .analysisErrorMessage, .suggestion1Text, .suggestion2Text, .suggestion3Text, .suggestion4Text,
+             .suggestion5Text, .suggestionHeader:
             return false
         }
     }

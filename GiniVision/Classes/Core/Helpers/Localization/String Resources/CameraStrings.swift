@@ -75,16 +75,20 @@ enum CameraStrings: LocalizableStringResource {
             return ("documentValidationError.wrongFormat",
                 "Message text error shown in camera screen when a file " +
                 "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
-            
         }
     }
     
     var customizable: Bool {
         switch self {
+        case .captureButton, .captureFailedMessage, .errorPopupCancelButton,
+             .errorPopupGrantAccessButton, .errorPopupPickAnotherFileButton, .errorPopupReviewPagesButton,
+             .exceededFileSizeErrorMessage, .documentValidationGeneralErrorMessage,
+             .mixedArraysPopupCancelButton, .mixedArraysPopupUsePhotosButton, .mixedDocumentsErrorMessage,
+             .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
+             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage:
+            return true
         case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel:
             return false
-        default:
-            return true
         }
     }
 }

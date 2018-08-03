@@ -17,12 +17,10 @@ extension String {
     }
     
     static func localized<T: LocalizableStringResource>(resource: T, args: CVarArg...) -> String {
-        let format = resource.localized
-        
         if args.isEmpty {
-            return format
+            return resource.localizedFormat
         } else {
-            return String(format: format, arguments: args)
+            return String(format: resource.localizedFormat, arguments: args)
         }
     }
 }

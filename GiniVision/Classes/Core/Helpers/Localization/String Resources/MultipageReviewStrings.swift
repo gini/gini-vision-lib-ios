@@ -37,7 +37,7 @@ enum MultipageReviewStrings: LocalizableStringResource {
         switch self {
         case .retakeActionButton, .retryActionButton:
             return true
-        default:
+        case .addButtonLabel, .dragAndDropTipMessage, .reorderContainerTooltipMessage, .titleMessage:
             return false
         }
     }

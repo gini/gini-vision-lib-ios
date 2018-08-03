@@ -17,7 +17,6 @@ public enum ImageAnalysisNoResultsStrings: LocalizableStringResource {
     
     var tableEntry: LocalizationEntry {
         switch self {
-            
         case .collectionHeaderText:
             return ("collection.header", "no results suggestions collection header title")
         case .goToCameraButton:
@@ -34,7 +33,10 @@ public enum ImageAnalysisNoResultsStrings: LocalizableStringResource {
     }
     
     var customizable: Bool {
-        return false
+        switch self {
+        case .collectionHeaderText, .goToCameraButton, .titleText, .warningText, .warningHelpMenuText:
+            return false
+        }
     }
     
 }
