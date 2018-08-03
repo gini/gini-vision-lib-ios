@@ -165,9 +165,7 @@ public final class MultipageReviewViewController: UIViewController {
     
     var toolTipView: ToolTipView?
     fileprivate var opaqueView: UIView?
-    
-    let localizedTitle: String = .localized(resource: MultipageReviewStrings.titleMessage(page: 0, pagesCount: 0))
-    
+        
     lazy var rotateButton: UIBarButtonItem = {
         return barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                              insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
@@ -359,7 +357,7 @@ extension MultipageReviewViewController {
     }
     
     fileprivate func changeTitle(withPage page: Int) {
-        title = String(format: localizedTitle, arguments: [page, pages.count])
+        title = .localized(resource: MultipageReviewStrings.titleMessage, args: page, pages.count)
     }
     
     fileprivate func changeReorderTipVisibility(to hidden: Bool) {

@@ -10,7 +10,7 @@ import Foundation
 enum MultipageReviewStrings: LocalizableStringResource {
     
     case addButtonLabel, dragAndDropTipMessage, reorderContainerTooltipMessage, retakeActionButton, retryActionButton,
-    titleMessage(page: Int, pagesCount: Int)
+    titleMessage
     
     var tableName: String {
         return "multipagereview"
@@ -43,12 +43,7 @@ enum MultipageReviewStrings: LocalizableStringResource {
     }
     
     var args: CVarArg? {
-        switch self {
-        case .titleMessage(let page, let pagesCount):
-            return [page, pagesCount]
-        default:
-            return nil
-        }
+        return nil
     }
     
 }

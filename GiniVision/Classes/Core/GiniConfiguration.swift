@@ -652,7 +652,7 @@ import UIKit
 
      */
     @objc public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
-        return .localized(resource: AnalysisStrings.pdfPages(count: count))
+        return .localized(resource: AnalysisStrings.pdfPages, args: count)
     }
     
     /**

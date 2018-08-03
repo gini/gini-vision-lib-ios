@@ -25,7 +25,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
              .localized(resource: HelpStrings.openWithTutorialStep1Subtitle),
              UIImageNamedPreferred(named: "openWithTutorialStep1")),
             (.localized(resource: HelpStrings.openWithTutorialStep2Title),
-             String(format: .localized(resource: HelpStrings.openWithTutorialStep2Subtitle),
+             .localized(resource: HelpStrings.openWithTutorialStep2Subtitle, args:
                     appName,
                     appName),
              UIImageNamedPreferred(named: "openWithTutorialStep2"))
@@ -33,7 +33,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
         
         if self.giniConfiguration.shouldShowDragAndDropTutorial {
             items.append((.localized(resource: HelpStrings.openWithTutorialStep3Title),
-                          String(format: .localized(resource: HelpStrings.openWithTutorialStep3Subtitle),
+                          .localized(resource: HelpStrings.openWithTutorialStep3Subtitle, args:
                                  appName,
                                  appName,
                                  appName),
@@ -44,7 +44,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
     }()
     
     lazy var headerTitle: String = {
-        return String(format: .localized(resource: HelpStrings.openWithTutorialCollectionHeader), appName)
+        return .localized(resource: HelpStrings.openWithTutorialCollectionHeader, args: appName)
     }()
     
     fileprivate var stepsCollectionLayout: OpenWithTutorialCollectionFlowLayout {

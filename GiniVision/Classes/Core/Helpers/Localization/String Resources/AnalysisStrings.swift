@@ -9,7 +9,7 @@ import Foundation
 
 enum AnalysisStrings: LocalizableStringResource {
     
-    case analysisErrorMessage, documentCreationErrorMessage, cancelledMessage, loadingText, pdfPages(count: Int),
+    case analysisErrorMessage, documentCreationErrorMessage, cancelledMessage, loadingText, pdfPages,
     suggestion1Text, suggestion2Text, suggestion3Text, suggestion4Text, suggestion5Text, suggestionHeader
     
     var tableName: String {
@@ -56,11 +56,6 @@ enum AnalysisStrings: LocalizableStringResource {
     }
     
     var args: CVarArg? {
-        switch self {
-        case .pdfPages(let count):
-            return count
-        default:
-            return nil
-        }
+        return nil
     }
 }
