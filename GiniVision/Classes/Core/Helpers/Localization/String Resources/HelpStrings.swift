@@ -76,8 +76,4 @@ enum HelpStrings: LocalizableStringResource {
         }
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }

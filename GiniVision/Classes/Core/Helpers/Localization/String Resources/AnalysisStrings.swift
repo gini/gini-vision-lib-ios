@@ -54,8 +54,4 @@ enum AnalysisStrings: LocalizableStringResource {
             return false
         }
     }
-    
-    var args: CVarArg? {
-        return nil
-    }
 }

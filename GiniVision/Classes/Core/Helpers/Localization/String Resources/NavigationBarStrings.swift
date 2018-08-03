@@ -32,8 +32,4 @@ enum NavigationBarStrings: LocalizableStringResource {
         return true
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }

@@ -14,17 +14,14 @@ protocol LocalizableStringResource {
     var tableName: String { get }
     var tableEntry: LocalizationEntry { get }
     var customizable: Bool { get }
-    var args: CVarArg? { get }
-
 }
 
 extension LocalizableStringResource {
     var localized: String {
         let key = "ginivision.\(tableName).\(tableEntry.value)"
         if self.customizable {
-            return NSLocalizedStringPreferred(key,
-                                              comment: tableEntry.description,
-                                              args: args)
+            return NSLocalizedStringPreferredFormat(key,
+                                                    comment: tableEntry.description)
         } else {
             return NSLocalizedString(key,
                                      bundle: Bundle(for: GiniVision.self),

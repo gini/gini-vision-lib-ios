@@ -87,8 +87,4 @@ enum CameraStrings: LocalizableStringResource {
             return true
         }
     }
-    
-    var args: CVarArg? {
-        return nil
-    }
 }

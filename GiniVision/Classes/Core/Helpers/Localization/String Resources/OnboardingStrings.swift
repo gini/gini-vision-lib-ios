@@ -35,8 +35,4 @@ enum OnboardingStrings: LocalizableStringResource {
         return true
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }

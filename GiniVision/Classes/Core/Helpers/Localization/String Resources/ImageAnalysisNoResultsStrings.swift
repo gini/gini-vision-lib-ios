@@ -37,8 +37,4 @@ public enum ImageAnalysisNoResultsStrings: LocalizableStringResource {
         return false
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }

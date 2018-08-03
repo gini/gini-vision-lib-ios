@@ -38,8 +38,4 @@ enum GalleryStrings: LocalizableStringResource {
         }
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }

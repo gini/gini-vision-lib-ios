@@ -42,8 +42,4 @@ enum MultipageReviewStrings: LocalizableStringResource {
         }
     }
     
-    var args: CVarArg? {
-        return nil
-    }
-    
 }
