@@ -13,10 +13,10 @@ final class AnalysisViewControllerTests: XCTestCase {
     
     func testPDFPagesCountLocalizedString() {
         let key = "ginivision.analysis.pdfpages"
-        let localizedString = NSLocalizedStringPreferred(key,
+        let localizedStringFormat = NSLocalizedStringPreferredFormat(key,
                                                          comment: "Text appearing at the top of the " +
-                                                                  "analysis screen indicating pdf number of pages",
-                                                         args: 2)
+                                                                  "analysis screen indicating pdf number of pages")
+        let localizedString = String(format: localizedStringFormat, arguments: [2])
 
         XCTAssertNotEqual(key, localizedString)
     }
