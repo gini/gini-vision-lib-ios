@@ -86,19 +86,19 @@
 "ginivision.noresults.title" = "Tipps für Fotos";
 "ginivision.noresults.warningHelpMenu" = "Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:";
 
-"ginivision.supportedFormats.title" = "Unterstützte Formate";
-"ginivision.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";
-"ginivision.supportedFormats.section.1.item.1" = "Computer-erstellte Überweisungsträger und Rechnungen";
-"ginivision.supportedFormats.section.1.item.2" = "Einseitige Bilder im jpg, png, gif oder tiff Format";
-"ginivision.supportedFormats.section.1.item.3" = "PDF Dokumente von bis zu 10 Seiten";
-"ginivision.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
-"ginivision.supportedFormats.section.2.item.1" = "Handschrift";
-"ginivision.supportedFormats.section.2.item.2" = "Fotos von Bildschirmen";
+"ginivision.help.supportedFormats.title" = "Unterstützte Formate";
+"ginivision.help.supportedFormats.section.1.title" = "Folgende Formate werden unterstützt:";
+"ginivision.help.supportedFormats.section.1.item.1" = "Computer-erstellte Überweisungsträger und Rechnungen";
+"ginivision.help.supportedFormats.section.1.item.2" = "Einseitige Bilder im jpg, png, gif oder tiff Format";
+"ginivision.help.supportedFormats.section.1.item.3" = "PDF Dokumente von bis zu 10 Seiten";
+"ginivision.help.supportedFormats.section.2.title" = "Was nicht analysiert wird:";
+"ginivision.help.supportedFormats.section.2.item.1" = "Handschrift";
+"ginivision.help.supportedFormats.section.2.item.2" = "Fotos von Bildschirmen";
 
-"ginivision.helpmenu.title" = "Hilfe";
-"ginivision.helpmenu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
-"ginivision.helpmenu.secondItem" = "Dokumente aus anderen Apps öffnen";
-"ginivision.helpmenu.thirdItem" = "Unterstützte Formate";
+"ginivision.help.menu.title" = "Hilfe";
+"ginivision.help.menu.firstItem" = "Tipps für beste Ergebnisse aus Fotos";
+"ginivision.help.menu.secondItem" = "Dokumente aus anderen Apps öffnen";
+"ginivision.help.menu.thirdItem" = "Unterstützte Formate";
 
 "ginivision.albums.title" = "Alben";
 "ginivision.imagepicker.openbutton" = "Öffnen";

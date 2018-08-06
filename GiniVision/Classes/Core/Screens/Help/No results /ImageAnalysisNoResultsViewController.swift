@@ -36,20 +36,15 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     var captureSuggestions: [(image: UIImage?, text: String)] = [
         (UIImageNamedPreferred(named: "captureSuggestion1"),
-         NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self),
-                           comment: "First suggestion for analysis screen")),
+         .localized(resource: AnalysisStrings.suggestion1Text)),
         (UIImageNamedPreferred(named: "captureSuggestion2"),
-         NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self),
-                           comment: "Second suggestion for analysis screen")),
+         .localized(resource: AnalysisStrings.suggestion2Text)),
         (UIImageNamedPreferred(named: "captureSuggestion3"),
-         NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self),
-                           comment: "Third suggestion for analysis screen")),
+         .localized(resource: AnalysisStrings.suggestion3Text)),
         (UIImageNamedPreferred(named: "captureSuggestion4"),
-         NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self),
-                           comment: "Forth suggestion for analysis screen")),
+         .localized(resource: AnalysisStrings.suggestion4Text)),
         (UIImageNamedPreferred(named: "captureSuggestion5"),
-         NSLocalizedString("ginivision.analysis.suggestion.5", bundle: Bundle(for: GiniVision.self),
-                           comment: "Fifth suggestion for analysis screen"))
+         .localized(resource: AnalysisStrings.suggestion5Text))
     ]
     
     fileprivate var subHeaderTitle: String?

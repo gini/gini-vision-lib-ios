@@ -31,21 +31,13 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .captureFailed:
-            return NSLocalizedStringPreferred("ginivision.camera.captureFailed",
-                                              comment: "This message is shown when" +
-                                                       "the camera access was denied")
+            return .localized(resource: CameraStrings.captureFailedMessage)
         case .noInputDevice:
-            return NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
-                                              comment: "This message is shown when" +
-                                                       "the camera access was denied")
+            return .localized(resource: CameraStrings.notAuthorizedMessage)
         case .notAuthorizedToUseDevice:
-            return NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
-                                              comment: "This message is shown when" +
-                                                       "the camera access was denied")
+            return .localized(resource: CameraStrings.notAuthorizedMessage)
         case .unknown:
-            return NSLocalizedStringPreferred("ginivision.camera.unknownError",
-                                              comment: "This message is shown when" +
-                                                       "there is an unknown error in the camera")
+            return .localized(resource: CameraStrings.unknownErrorMessage)
         }
     }
 }
@@ -61,9 +53,7 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .unknown:
-            return NSLocalizedStringPreferred("ginivision.review.unknownError",
-                                              comment: "This message is shown when" +
-                                                       "Photo library permission is denied")
+            return .localized(resource: ReviewStrings.unknownErrorMessage)
         }
     }
 }
@@ -88,14 +78,10 @@ public protocol GiniVisionError: Error {
         case .photoLibraryAccessDenied:
             return GiniConfiguration.shared.photoLibraryAccessDeniedMessageText
         case .maxFilesPickedCountExceeded:
-            return NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
-                                              comment: "Message text error shown in" +
-                                                "camera screen when a pdf " +
-                "length is higher than 10 pages")
+            return .localized(resource: CameraStrings.tooManyPagesErrorMessage)
         case .mixedDocumentsUnsupported:
-            return NSLocalizedStringPreferred("ginivision.camera.filepicker.mixedDocumentsUnsupported",
-                                              comment: "Message text error when a more than one file " +
-                "type is selected")
+            return .localized(resource: CameraStrings.mixedDocumentsErrorMessage)
+
         }
     }
 }
@@ -116,18 +102,11 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .documentCreation:
-            return NSLocalizedStringPreferred("ginivision.analysis.error.documentCreation",
-                                              comment: "This message is shown when" +
-                                                "there is an error creating the document")
+            return .localized(resource: AnalysisStrings.documentCreationErrorMessage)
         case .cancelled:
-            return NSLocalizedStringPreferred("ginivision.analysis.error.cancelled",
-                                              comment: "This message is shown when" +
-                                            "the analysis was cancelled")
+            return .localized(resource: AnalysisStrings.cancelledMessage)
         default:
-            return NSLocalizedString("ginivision.analysis.error.analysis",
-                                     bundle: Bundle(for: GiniVision.self),
-                                     comment: "This message is shown when" +
-                                    "there is an error analyzing the document")
+            return .localized(resource: AnalysisStrings.analysisErrorMessage)
         }
     }
 }

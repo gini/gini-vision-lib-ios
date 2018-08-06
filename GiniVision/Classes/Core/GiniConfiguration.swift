@@ -191,9 +191,8 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.filepicker.photoLibraryAccessDenied localized string instead
 
      */
-    @objc public var photoLibraryAccessDeniedMessageText =
-        NSLocalizedStringPreferred("ginivision.camera.filepicker.photoLibraryAccessDenied",
-                                   comment: "This message is shown when Photo library permission is denied")
+    @objc public var photoLibraryAccessDeniedMessageText: String =
+        .localized(resource: CameraStrings.photoLibraryAccessDeniedMessage)
     
     /**
      Indicates whether the QR Code scanning feature is enabled or not.
@@ -218,10 +217,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var cameraCaptureButtonTitle =
-        NSLocalizedStringPreferred("ginivision.camera.captureButton",
-                                   comment: "Title for capture button in camera screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var cameraCaptureButtonTitle: String = .localized(resource: CameraStrings.captureButton)
     
     /**
      Sets the descriptional text when camera access was denied, advising the user to
@@ -229,10 +225,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.notAuthorized localized string instead
 
      */
-    @objc public var cameraNotAuthorizedText =
-        NSLocalizedStringPreferred("ginivision.camera.notAuthorized",
-                                   comment: "Description text when the camera is not authorized " +
-                                            "and the user is advised to change that in the settings app")
+    @objc public var cameraNotAuthorizedText: String = .localized(resource: CameraStrings.notAuthorizedMessage)
     
     /**
      Sets the font of the descriptional text when camera access was denied.
@@ -252,9 +245,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.notAuthorizedButton localized string instead
 
      */
-    @objc public var cameraNotAuthorizedButtonTitle =
-        NSLocalizedStringPreferred("ginivision.camera.notAuthorizedButton",
-                                   comment: "Button title to open the settings app")
+    @objc public var cameraNotAuthorizedButtonTitle: String = .localized(resource: CameraStrings.notAuthorizedButton)
     
     /**
      Sets the font of the button title when camera access was denied.
@@ -278,30 +269,24 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.general localized string instead
 
      */
-    @objc public var documentValidationErrorGeneral =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.general",
-                                   comment: "Message text of a general document validation " +
-                                            "error shown in camera screen")
+    @objc public var documentValidationErrorGeneral: String =
+        .localized(resource: CameraStrings.documentValidationGeneralErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a file size is higher than 10MB
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.excedeedFileSize localized string instead
 
      */
-    @objc public var documentValidationErrorExcedeedFileSize =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.excedeedFileSize",
-                                   comment: "Message text error shown in camera screen when a file " +
-                                            "size is higher than 10MB")
+    @objc public var documentValidationErrorExcedeedFileSize: String =
+        .localized(resource: CameraStrings.exceededFileSizeErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a pdf length is higher than 10 pages
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.tooManyPages localized string instead
 
      */
-    @objc public var documentValidationErrorTooManyPages =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.tooManyPages",
-                                   comment: "Message text error shown in camera screen when a pdf " +
-                                            "length is higher than 10 pages")
+    @objc public var documentValidationErrorTooManyPages: String =
+        .localized(resource: CameraStrings.tooManyPagesErrorMessage)
     
     /**
      Sets the message text of a document validation error dialog when a file has a
@@ -309,10 +294,8 @@ import UIKit
      - Warning: Deprecated, use the ginivision.camera.documentValidationError.wrongFormat localized string instead
 
      */
-    @objc public var documentValidationErrorWrongFormat =
-        NSLocalizedStringPreferred("ginivision.camera.documentValidationError.wrongFormat",
-                                   comment: "Message text error shown in camera screen when a file " +
-                                            "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
+    @objc public var documentValidationErrorWrongFormat: String =
+        .localized(resource: CameraStrings.wrongFormatErrorMessage)
     /**
      Set the types supported by the file import feature. `GiniVisionImportFileTypes.none` by default
      
@@ -350,9 +333,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarCameraTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.camera.title",
-                                   comment: "Title in the navigation bar on the camera screen")
+    @objc public var navigationBarCameraTitle: String = .localized(resource: NavigationBarStrings.cameraTitle)
     
     /**
      Sets the color of the captured images stack indicator label
@@ -395,9 +376,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarOnboardingTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.onboarding.title",
-                                   comment: "Title in the navigation bar on the onboarding screen")
+    @objc public var navigationBarOnboardingTitle: String = .localized(resource: NavigationBarStrings.onboardingTitle)
     
     /**
      Sets the continue button text in the navigation bar on the onboarding screen.
@@ -437,45 +416,35 @@ import UIKit
      - Warning: Deprecated, use the ginivision.onboarding.firstPage localized string instead
 
      */
-    @objc public var onboardingFirstPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.firstPage",
-                                   comment: "Text on the first page of the onboarding screen")
+    @objc public var onboardingFirstPageText: String = .localized(resource: OnboardingStrings.onboardingFirstPageText)
     
     /**
      Sets the text on the second onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.secondPage localized string instead
 
      */
-    @objc public var onboardingSecondPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.secondPage",
-                                   comment: "Text on the second page of the onboarding screen")
+    @objc public var onboardingSecondPageText: String = .localized(resource: OnboardingStrings.onboardingSecondPageText)
     
     /**
      Sets the text on the third onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.thirdPage localized string instead
 
      */
-    @objc public var onboardingThirdPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.thirdPage",
-                                   comment: "Text on the third page of the onboarding screen")
+    @objc public var onboardingThirdPageText: String = .localized(resource: OnboardingStrings.onboardingThirdPageText)
     
     /**
      Sets the text on the fourth onboarding page. (It is the first on iPad)
      - Warning: Deprecated, use the ginivision.onboarding.fourthPage localized string instead
 
      */
-    @objc public var onboardingFourthPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.fourthPage",
-                                   comment: "Text on the fourth page of the onboarding screen")
+    @objc public var onboardingFourthPageText: String = .localized(resource: OnboardingStrings.onboardingFourthPageText)
     
     /**
      Sets the text on the fifth onboarding page.
      - Warning: Deprecated, use the ginivision.onboarding.fifthPage localized string instead
 
      */
-    @objc public var onboardingFifthPageText =
-        NSLocalizedStringPreferred("ginivision.onboarding.fifthPage",
-                                   comment: "Text on the fifth page of the onboarding screen")
+    @objc public var onboardingFifthPageText: String = .localized(resource: OnboardingStrings.onboardingFifthPageText)
     
     /**
      Sets the font of the text for all onboarding pages.
@@ -534,9 +503,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarReviewTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.review.title",
-                                   comment: "Title in the navigation bar on the review screen")
+    @objc public var navigationBarReviewTitle: String = .localized(resource: NavigationBarStrings.reviewTitle)
     
     /**
      Sets the back button text in the navigation bar on the review screen.
@@ -565,10 +532,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.review.top localized string instead
 
      */
-    @objc public var reviewTextTop =
-        NSLocalizedStringPreferred("ginivision.review.top",
-                                   comment: "Text at the top of the review screen asking the user if " +
-                                            "the full document is sharp and in the correct orientation")
+    @objc public var reviewTextTop: String = .localized(resource: ReviewStrings.topText)
     
     /**
      The text at the top of the review screen is displayed as a notice and can not be set individually.
@@ -587,10 +551,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var reviewRotateButtonTitle =
-        NSLocalizedStringPreferred("ginivision.review.rotateButton",
-                                   comment: "Title for rotate button in review screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var reviewRotateButtonTitle: String = .localized(resource: ReviewStrings.rotateButton)
     
     /**
      Sets the text for the accessibility label of the document image view.
@@ -598,10 +559,7 @@ import UIKit
 
      - note: Used exclusively for accessibility label.
      */
-    @objc public var reviewDocumentImageTitle =
-        NSLocalizedStringPreferred("ginivision.review.documentImageTitle",
-                                   comment: "Title for document image in review screen will be " +
-                                            "used exclusively for accessibility label")
+    @objc public var reviewDocumentImageTitle: String = .localized(resource: ReviewStrings.documentImageTitle)
     
     /**
      Sets the background color of the bottom section on the review screen containing the rotation button.
@@ -616,11 +574,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.review.bottom localized string instead
 
      */
-    @objc public var reviewTextBottom =
-        NSLocalizedStringPreferred("ginivision.review.bottom",
-                                   comment: "Text at the bottom of the review screen encouraging the " +
-                                            "user to check sharpness by double-tapping the image")
-    
+    @objc public var reviewTextBottom: String = .localized(resource: ReviewStrings.bottomText)
     /**
      Sets the font of the text appearing at the bottom of the review screen.
      */
@@ -680,10 +634,7 @@ import UIKit
      - Warning: Deprecated, use the ginivision.analysis.loadingText localized string instead
 
      */
-    @objc public var analysisLoadingText =
-        NSLocalizedStringPreferred("ginivision.analysis.loadingText",
-                                   comment: "Text appearing at the center of the analysis screen " +
-                                            "indicating that the document is being analysed")
+    @objc public var analysisLoadingText: String = .localized(resource: AnalysisStrings.loadingText)
     
     /**
      Sets the color of the PDF information view on the analysis screen to the specified color.
@@ -701,10 +652,7 @@ import UIKit
 
      */
     @objc public func analysisPDFNumberOfPages(pagesCount count: Int) -> String {
-        return NSLocalizedStringPreferred("ginivision.analysis.pdfpages",
-                                          comment: "Text appearing at the top of the analysis " +
-                                                    "screen indicating pdf number of pages",
-                                          args: count)
+        return .localized(resource: AnalysisStrings.pdfPages, args: count)
     }
     
     /**
@@ -713,9 +661,7 @@ import UIKit
 
      - note: Screen API only.
      */
-    @objc public var navigationBarAnalysisTitle =
-        NSLocalizedStringPreferred("ginivision.navigationbar.analysis.title",
-                                   comment: "Title in the navigation bar on the analysis screen")
+    @objc public var navigationBarAnalysisTitle: String = .localized(resource: NavigationBarStrings.analysisTitle)
     
     /**
      Sets the back button text in the navigation bar on the analysis screen.
