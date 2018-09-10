@@ -133,7 +133,7 @@
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		607FACE51AFB9204008FA782 /* Example_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Example_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		60EC94F8BBE625F0B72757CB /* Pods-Example Swift.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example Swift.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift.in house.xcconfig"; sourceTree = "<group>"; };
 		61A701C67CE3082AB0EC8673 /* Pods-Example Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift.release.xcconfig"; sourceTree = "<group>"; };
@@ -302,7 +302,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* Example Swift.app */,
-				607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */,
+				607FACE51AFB9204008FA782 /* Example_Tests.xctest */,
 				0A3B96521D478BF700BFEF05 /* GiniVision_UITests.xctest */,
 				1F9334FE20A334F2004BC50C /* Example ObjC.app */,
 			);
@@ -456,9 +456,9 @@
 			productReference = 607FACD01AFB9204008FA782 /* Example Swift.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* GiniVision_Tests */ = {
+		607FACE41AFB9204008FA782 /* Example_Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Tests" */;
+			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Example_Tests" */;
 			buildPhases = (
 				F53D195B30CB9BB8D2A46491 /* [CP] Check Pods Manifest.lock */,
 				607FACE11AFB9204008FA782 /* Sources */,
@@ -470,9 +470,9 @@
 			dependencies = (
 				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
 			);
-			name = GiniVision_Tests;
+			name = Example_Tests;
 			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */;
+			productReference = 607FACE51AFB9204008FA782 /* Example_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -532,7 +532,7 @@
 			targets = (
 				607FACCF1AFB9204008FA782 /* Example Swift */,
 				1F9334FD20A334F2004BC50C /* Example ObjC */,
-				607FACE41AFB9204008FA782 /* GiniVision_Tests */,
+				607FACE41AFB9204008FA782 /* Example_Tests */,
 				0A3B96511D478BF700BFEF05 /* GiniVision_UITests */,
 			);
 		};
@@ -1284,7 +1284,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "GiniVision_Tests" */ = {
+		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "Example_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				607FACF31AFB9204008FA782 /* Debug */,

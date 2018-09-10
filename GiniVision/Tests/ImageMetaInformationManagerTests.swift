@@ -13,7 +13,7 @@ import ImageIO
 final class ImageMetaInformationManagerTests: XCTestCase {
     
     var invoiceData: Data {
-        return GiniVisionTestsHelper.loadFile(with: "invoice", fileExtension: "jpg")!
+        return GiniVisionTestsHelper.fileData(named: "invoice", fileExtension: "jpg")!
     }
     var manager: ImageMetaInformationManager {
         return ImageMetaInformationManager(imageData: invoiceData, imageSource: .camera)

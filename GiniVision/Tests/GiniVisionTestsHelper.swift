@@ -12,52 +12,51 @@ import UIKit
 
 final class GiniVisionTestsHelper {
     
-    class func loadFile(with name: String, fileExtension: String) -> Data? {
-        let path = Bundle(for: GiniVisionTestsHelper.self).url(forResource: name, withExtension: fileExtension)
-        return try? Data(contentsOf: path!)
+    class func fileData(named name: String, fileExtension: String) -> Data? {
+        return try? Data(contentsOf: urlFromFile(named: name, fileExtension: fileExtension)!)
     }
     
-    class func loadImage(with name: String, fileExtension: String = "jpg") -> UIImage? {
+    class func loadImage(named name: String, fileExtension: String = "jpg") -> UIImage? {
         return UIImage(named: name,
                        in: Bundle(for: GiniVisionTestsHelper.self),
-                       compatibleWith: nil) ?? loadImageFromResources(with: name, fileExtension: fileExtension)
+                       compatibleWith: nil) ?? loadImageFromResources(named: name, fileExtension: fileExtension)
     }
     
-    fileprivate class func loadImageFromResources(with name: String, fileExtension: String = "jpg") -> UIImage? {
-        guard let path = Bundle(for: GiniVisionTestsHelper.self)
-            .url(forResource: name, withExtension: fileExtension)?.path else { return nil}
+    fileprivate class func loadImageFromResources(named name: String, fileExtension: String = "jpg") -> UIImage? {
+        guard let path = urlFromFile(named: name, fileExtension: fileExtension)?.path else { return nil}
         
         return UIImage(contentsOfFile: path)
     }
     
-    class func loadPDFDocument(withName name: String) -> GiniPDFDocument {
-        let path = Bundle(for: GiniVisionTestsHelper.self).url(forResource: name, withExtension: "pdf")
-        let data = try? Data(contentsOf: path!)
+    class func loadPDFDocument(named name: String) -> GiniPDFDocument {
+        let data = fileData(named: name, fileExtension: "pdf")!
         let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         return (builder.build() as? GiniPDFDocument)!
     }
     
-    class func loadImageDocument(withName name: String, fileExtension: String = "jpg") -> GiniImageDocument {
-        let path = Bundle(for: GiniVisionTestsHelper.self).url(forResource: name, withExtension: fileExtension)
-        let data = try? Data(contentsOf: path!)
+    class func loadImageDocument(named name: String, fileExtension: String = "jpg") -> GiniImageDocument {
+        let data = fileData(named: name, fileExtension: fileExtension)!
         let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         return (builder.build() as? GiniImageDocument)!
     }
     
-    class private func loadPage(withName name: String,
-                                fileExtension ext: String) -> GiniVisionPage {
-        let path = Bundle(for: GiniVisionTestsHelper.self).url(forResource: name, withExtension: ext)
-        let data = try? Data(contentsOf: path!)
+    class private func loadPage(named name: String,
+                                fileExtension: String) -> GiniVisionPage {
+        let data = fileData(named: name, fileExtension: fileExtension)!
         let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         return GiniVisionPage(document: builder.build()!)
     }
     
-    class func loadImagePage(withName name: String, fileExtension: String = "jpg") -> GiniVisionPage {
-        return self.loadPage(withName: name, fileExtension: fileExtension)
+    class func loadImagePage(named name: String, fileExtension: String = "jpg") -> GiniVisionPage {
+        return self.loadPage(named: name, fileExtension: fileExtension)
     }
     
-    class func loadPDFPage(withName name: String) -> GiniVisionPage {
-        return self.loadPage(withName: name, fileExtension: "pdf")
+    class func loadPDFPage(named name: String) -> GiniVisionPage {
+        return self.loadPage(named: name, fileExtension: "pdf")
         
+    }
+    
+    fileprivate class func urlFromFile(named name: String, fileExtension: String) -> URL? {
+        return Bundle(for: GiniVisionTestsHelper.self).url(forResource: name, withExtension: fileExtension)
     }
 }
