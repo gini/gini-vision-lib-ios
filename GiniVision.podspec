@@ -13,6 +13,7 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.homepage         = 'https://www.gini.net/en/developer/'
   s.license          = { :type => 'Private', :file => 'LICENSE' }
   s.author           = { 'Gini GmbH' => 'hello@gini.net' }
+  s.frameworks       = 'AVFoundation', 'CoreMotion', 'Photos'
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/gini'
   s.swift_version    = '4.1'
@@ -36,5 +37,10 @@ The Gini Vision Library for iOS provides functionality to capture documents with
     pinning.dependency "Gini-iOS-SDK/Pinning", "~> 1.0"
   end
 
-  s.frameworks = 'AVFoundation', 'CoreMotion', 'Photos'
+  s.test_spec 'Tests' do |test_spec|
+    test_spec.source_files = 'GiniVision/Tests/*.swift'
+    test_spec.resources = 'GiniVision/Tests/Assets/*'
+    test_spec.requires_app_host = true
+  end
+
 end

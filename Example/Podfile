@@ -6,7 +6,7 @@ use_frameworks!
 
 def project_pods
     pod 'Gini-iOS-SDK', :git => 'git@github.com:gini/gini-sdk-ios.git', :branch => 'develop'
-    pod 'GiniVision', :path => '../'
+    pod 'GiniVision', :path => '../', :testspecs => ['Tests'] 
     pod 'GiniVision/Networking+Pinning', :path => '../'
 end
 
