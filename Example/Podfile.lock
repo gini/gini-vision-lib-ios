@@ -44,7 +44,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Gini-iOS-SDK:
-    :commit: 8d38b9ce5b8b2dbda4f3cc179af7d6ee2909d182
+    :commit: c2e7003d10aaa6cace9d18a34190bb898ad2cf38
     :git: "git@github.com:gini/gini-sdk-ios.git"
 
 SPEC CHECKSUMS:
