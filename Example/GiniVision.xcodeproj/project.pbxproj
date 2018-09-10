@@ -10,50 +10,24 @@
 		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
 		0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */; };
 		0A3FEE4E1D58C4C4002A3735 /* GINIReviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */; };
-		0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
-		0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */; };
-		0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 0A4C62AA1D4F535500A15FFA /* invoice.jpg */; };
 		0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */; };
-		0A6A78A61E140F8500AEB328 /* OnboardingViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A51E140F8500AEB328 /* OnboardingViewControllerTests.swift */; };
-		0A6A78A81E1412E000AEB328 /* CameraViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6A78A71E1412E000AEB328 /* CameraViewControllerTests.swift */; };
 		0A82FAD21D59D78300D84632 /* GINIAnalysisUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */; };
 		0AAE6D4A1D6B6BC500EE9EDD /* NoResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */; };
 		0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */; };
 		0AEACE0A1D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEACE091D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift */; };
 		1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
-		1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */; };
 		1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */; };
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
 		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
-		1F3B5EA520494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */; };
-		1F3B5EA8204952500052204A /* ImagePickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */; };
-		1F3B5EAA2049542F0052204A /* GalleryCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */; };
-		1F3B5EAC2049554A0052204A /* GalleryCoordinatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */; };
-		1F3F5A0720443AEA0037755F /* ImagePickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */; };
-		1F3F5A0B2044400F0037755F /* GalleryManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */; };
-		1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */; };
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */; };
 		1F59756120A0A21A0012196B /* ComponentAPIDocumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */; };
 		1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */; };
 		1F59756820A1C5C00012196B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756720A1C5C00012196B /* UIViewController.swift */; };
-		1F5F4A54209AF54C0037DB1A /* PageStateViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F4A52209AF5410037DB1A /* PageStateViewTests.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
-		1F62FA3A1FA2207800CEA828 /* ImageNoResultsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA351FA2207200CEA828 /* ImageNoResultsViewControllerTests.swift */; };
-		1F62FA3B1FA2207800CEA828 /* OpenWithTutorialViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA341FA2207100CEA828 /* OpenWithTutorialViewControllerTests.swift */; };
-		1F62FA3C1FA2207800CEA828 /* SupportedFormatsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F62FA361FA2207200CEA828 /* SupportedFormatsViewControllerTests.swift */; };
-		1F6515AC2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6515AB2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift */; };
-		1F66D9892020A3180093771C /* MultipageReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F66D9882020A3180093771C /* MultipageReviewViewControllerTests.swift */; };
-		1F79630A2068DF5C005CB2CA /* MultipageReviewVCDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */; };
-		1F8E41DE20A0526A00561769 /* CapturedImagesStackViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */; };
-		1F8E41DF20A0721200561769 /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
-		1F8E41E020A0721B00561769 /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
-		1F8E6A7F20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8E6A7E20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift */; };
-		1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC412020AA1C00F586EF /* invoice2.jpg */; };
-		1F8FAC442020AA6200F586EF /* invoice3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1F8FAC432020AA6200F586EF /* invoice3.jpg */; };
 		1F93350220A334F2004BC50C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350120A334F2004BC50C /* AppDelegate.m */; };
 		1F93350820A334F2004BC50C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350620A334F2004BC50C /* Main.storyboard */; };
 		1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350920A334F2004BC50C /* Assets.xcassets */; };
@@ -66,24 +40,11 @@
 		1F9411881FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */; };
 		1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */; };
 		1F9466C5203702E600F52B40 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9466C4203702E600F52B40 /* CredentialsManager.swift */; };
-		1FA85EFA1FD6B569005C0C24 /* GiniQRCodeDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA85EF81FD6B520005C0C24 /* GiniQRCodeDocumentTests.swift */; };
 		1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9620A3546E00A54452 /* CredentialsManager.m */; };
-		1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */; };
-		1FAA2AB120A5D31000A54452 /* ReviewViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */; };
-		1FAC24DA1F97A39000861F60 /* HelpMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FAC24D91F97A39000861F60 /* HelpMenuViewControllerTests.swift */; };
-		1FB0C66C1F866B9F00AFE9F9 /* AnalysisViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB0C66B1F866B9F00AFE9F9 /* AnalysisViewControllerTests.swift */; };
-		1FC4A29A20C690FE00D70627 /* GiniVisionTestsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC4A29920C690FE00D70627 /* GiniVisionTestsHelper.swift */; };
-		1FDFFAFF20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */; };
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
-		1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */; };
-		1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */; };
-		1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */; };
-		1FEED2921F6ABEC10068E8AB /* GiniPDFDocumentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEED2911F6ABEC10068E8AB /* GiniPDFDocumentTests.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
 		1FF3A41F20C6CB4B00081A32 /* DocumentServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */; };
 		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
-		1FFC9E6720512E04007D505D /* GiniScreenAPICoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */; };
-		1FFC9E6A20513388007D505D /* GiniVisionDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */; };
 		2C6F599D8B27A6A37706D1EA /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C02ECA63474B5ED5FCF96CEA /* Pods_GiniVision_UITests.framework */; };
 		419916D85C637C50AAB47532 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B00B4CEC80722D85C7693C1D /* Pods_Example_ObjC.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -91,7 +52,6 @@
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* ImageMetaInformationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* ImageMetaInformationManagerTests.swift */; };
 		857088AA1E934FD1AFB73F21 /* Pods_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A19430D10455AB34493D5919 /* Pods_Example_Swift.framework */; };
 		9889A1A053FAF0C55227AE0D /* Pods_GiniVision_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D84ABA0EC19897FA6833F761 /* Pods_GiniVision_Tests.framework */; };
 /* End PBXBuildFile section */
@@ -121,46 +81,24 @@
 		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
 		0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIReviewUITests.swift; path = UITests/GINIReviewUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINICameraUITests.swift; path = UITests/GINICameraUITests.swift; sourceTree = SOURCE_ROOT; };
-		0A4C62AA1D4F535500A15FFA /* invoice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice.jpg; sourceTree = "<group>"; };
 		0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GiniVision_Example.entitlements; sourceTree = SOURCE_ROOT; };
 		0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		0A6A78A51E140F8500AEB328 /* OnboardingViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerTests.swift; sourceTree = "<group>"; };
-		0A6A78A71E1412E000AEB328 /* CameraViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewControllerTests.swift; sourceTree = "<group>"; };
 		0A82FAD11D59D78300D84632 /* GINIAnalysisUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIAnalysisUITests.swift; path = UITests/GINIAnalysisUITests.swift; sourceTree = SOURCE_ROOT; };
 		0AAE6D491D6B6BC500EE9EDD /* NoResultViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoResultViewController.swift; sourceTree = "<group>"; };
 		0AAE6D4B1D6B6C0B00EE9EDD /* ResultTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultTableViewController.swift; sourceTree = "<group>"; };
 		0AEACE091D6385F700052120 /* ComponentAPIDocumentServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIDocumentServiceProtocol.swift; sourceTree = "<group>"; };
 		0E30FF133638A1E33E023726 /* Pods_GiniVision_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GiniVision_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.debug.xcconfig"; sourceTree = "<group>"; };
-		1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF2Pages.pdf; sourceTree = "<group>"; };
 		1F2E1A9C1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComponentAPIOnboardingViewController.swift; sourceTree = "<group>"; };
 		1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA01FB58EC900E1022A /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinator.swift; sourceTree = "<group>"; };
-		1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
-		1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
-		1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorTests.swift; sourceTree = "<group>"; };
-		1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorDelegateMock.swift; sourceTree = "<group>"; };
-		1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewControllerTests.swift; sourceTree = "<group>"; };
-		1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryManagerMock.swift; sourceTree = "<group>"; };
-		1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
 		1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootNavigationController.swift; sourceTree = "<group>"; };
 		1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewControllerTests.swift; sourceTree = "<group>"; };
 		1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPIDocumentsService.swift; sourceTree = "<group>"; };
 		1F59756220A0A24A0012196B /* PartialDocumentInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialDocumentInfo.swift; sourceTree = "<group>"; };
 		1F59756720A1C5C00012196B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
-		1F5F4A52209AF5410037DB1A /* PageStateViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageStateViewTests.swift; sourceTree = "<group>"; };
-		1F62FA341FA2207100CEA828 /* OpenWithTutorialViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWithTutorialViewControllerTests.swift; sourceTree = "<group>"; };
-		1F62FA351FA2207200CEA828 /* ImageNoResultsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNoResultsViewControllerTests.swift; sourceTree = "<group>"; };
-		1F62FA361FA2207200CEA828 /* SupportedFormatsViewControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportedFormatsViewControllerTests.swift; sourceTree = "<group>"; };
-		1F6515AB2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDocumentValidatorTests.swift; sourceTree = "<group>"; };
-		1F66D9882020A3180093771C /* MultipageReviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewViewControllerTests.swift; sourceTree = "<group>"; };
-		1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewVCDelegateMock.swift; sourceTree = "<group>"; };
-		1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedImagesStackViewTests.swift; sourceTree = "<group>"; };
-		1F8E6A7E20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipageReviewPagesCollectionCellTests.swift; sourceTree = "<group>"; };
-		1F8FAC412020AA1C00F586EF /* invoice2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice2.jpg; sourceTree = "<group>"; };
-		1F8FAC432020AA6200F586EF /* invoice3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = invoice3.jpg; sourceTree = "<group>"; };
 		1F9334FE20A334F2004BC50C /* Example ObjC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Example ObjC.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F93350020A334F2004BC50C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1F93350120A334F2004BC50C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -179,25 +117,12 @@
 		1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
 		1F9466C4203702E600F52B40 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
-		1FA85EF81FD6B520005C0C24 /* GiniQRCodeDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniQRCodeDocumentTests.swift; sourceTree = "<group>"; };
 		1FAA2A9620A3546E00A54452 /* CredentialsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CredentialsManager.m; sourceTree = "<group>"; };
 		1FAA2A9820A3548D00A54452 /* CredentialsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CredentialsManager.h; sourceTree = "<group>"; };
-		1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewControllerTests.swift; sourceTree = "<group>"; };
-		1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewViewControllerDelegateMock.swift; sourceTree = "<group>"; };
-		1FAC24D91F97A39000861F60 /* HelpMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpMenuViewControllerTests.swift; sourceTree = "<group>"; };
-		1FB0C66B1F866B9F00AFE9F9 /* AnalysisViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewControllerTests.swift; sourceTree = "<group>"; };
-		1FC4A29920C690FE00D70627 /* GiniVisionTestsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionTestsHelper.swift; sourceTree = "<group>"; };
-		1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCellTests.swift; sourceTree = "<group>"; };
 		1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPICoordinator.swift; sourceTree = "<group>"; };
-		1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated90.pdf"; sourceTree = "<group>"; };
-		1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated270.pdf"; sourceTree = "<group>"; };
-		1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "testPDF-rotated180.pdf"; sourceTree = "<group>"; };
-		1FEED2911F6ABEC10068E8AB /* GiniPDFDocumentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniPDFDocumentTests.swift; sourceTree = "<group>"; };
 		1FEED2931F6AC0440068E8AB /* testPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF.pdf; sourceTree = "<group>"; };
 		1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentServiceMock.swift; sourceTree = "<group>"; };
 		1FF3A42020C6D20900081A32 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
-		1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniScreenAPICoordinatorTests.swift; sourceTree = "<group>"; };
-		1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiniVisionDelegateMock.swift; sourceTree = "<group>"; };
 		20C11219DD668F0EB599E7EC /* Pods-GiniVision_Example.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Example.in house.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Example/Pods-GiniVision_Example.in house.xcconfig"; sourceTree = "<group>"; };
 		28FA9DC48A643D78D00DB131 /* Pods-GiniVision_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_Tests/Pods-GiniVision_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -210,7 +135,6 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* GiniVision_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GiniVision_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* ImageMetaInformationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMetaInformationManagerTests.swift; sourceTree = "<group>"; };
 		60EC94F8BBE625F0B72757CB /* Pods-Example Swift.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example Swift.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift.in house.xcconfig"; sourceTree = "<group>"; };
 		61A701C67CE3082AB0EC8673 /* Pods-Example Swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example Swift.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift.release.xcconfig"; sourceTree = "<group>"; };
 		64CB6962E71E0CCADA45059C /* Pods-Example ObjC.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example ObjC.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example ObjC/Pods-Example ObjC.in house.xcconfig"; sourceTree = "<group>"; };
@@ -354,15 +278,7 @@
 		1FF3A41B20C6B9F300081A32 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				1F3B5EA420494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift */,
 				1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */,
-				1F3B5EAB2049554A0052204A /* GalleryCoordinatorDelegateMock.swift */,
-				1F3F5A0A2044400F0037755F /* GalleryManagerMock.swift */,
-				1FFC9E6820513317007D505D /* GiniVisionDelegateMock.swift */,
-				1FC4A29920C690FE00D70627 /* GiniVisionTestsHelper.swift */,
-				1F3B5EA620494FEB0052204A /* ImagePickerViewControllerDelegateMock.swift */,
-				1F7963082068DEA8005CB2CA /* MultipageReviewVCDelegateMock.swift */,
-				1FAA2AB020A5D31000A54452 /* ReviewViewControllerDelegateMock.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -429,30 +345,9 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				1F3F5A10204461720037755F /* AlbumsPickerViewControllerTests.swift */,
-				1FB0C66B1F866B9F00AFE9F9 /* AnalysisViewControllerTests.swift */,
-				0A6A78A71E1412E000AEB328 /* CameraViewControllerTests.swift */,
-				1F8E41DD20A0526A00561769 /* CapturedImagesStackViewTests.swift */,
 				1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */,
-				1F3B5EA92049542F0052204A /* GalleryCoordinatorTests.swift */,
-				1FEED2911F6ABEC10068E8AB /* GiniPDFDocumentTests.swift */,
-				1FA85EF81FD6B520005C0C24 /* GiniQRCodeDocumentTests.swift */,
-				1FFC9E6620512E04007D505D /* GiniScreenAPICoordinatorTests.swift */,
-				1F6515AB2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift */,
-				1FAC24D91F97A39000861F60 /* HelpMenuViewControllerTests.swift */,
-				607FACEB1AFB9204008FA782 /* ImageMetaInformationManagerTests.swift */,
-				1F62FA351FA2207200CEA828 /* ImageNoResultsViewControllerTests.swift */,
-				1FDFFAFE20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift */,
-				1F3F5A0620443AEA0037755F /* ImagePickerViewControllerTests.swift */,
-				1F8E6A7E20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift */,
-				1F66D9882020A3180093771C /* MultipageReviewViewControllerTests.swift */,
-				0A6A78A51E140F8500AEB328 /* OnboardingViewControllerTests.swift */,
-				1F62FA341FA2207100CEA828 /* OpenWithTutorialViewControllerTests.swift */,
-				1F5F4A52209AF5410037DB1A /* PageStateViewTests.swift */,
-				1FAA2AAE20A5D29E00A54452 /* ReviewViewControllerTests.swift */,
 				1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */,
 				1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */,
-				1F62FA361FA2207200CEA828 /* SupportedFormatsViewControllerTests.swift */,
 				1FF3A41B20C6B9F300081A32 /* Helpers */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -462,14 +357,7 @@
 		607FACE91AFB9204008FA782 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0A4C62AA1D4F535500A15FFA /* invoice.jpg */,
-				1F8FAC412020AA1C00F586EF /* invoice2.jpg */,
-				1F8FAC432020AA6200F586EF /* invoice3.jpg */,
-				1FEED2891F6ABEA40068E8AB /* testPDF-rotated90.pdf */,
-				1FEED28B1F6ABEA40068E8AB /* testPDF-rotated180.pdf */,
-				1FEED28A1F6ABEA40068E8AB /* testPDF-rotated270.pdf */,
 				1FEED2931F6AC0440068E8AB /* testPDF.pdf */,
-				1F2A7D331F6F9F910028C127 /* testPDF2Pages.pdf */,
 				607FACEA1AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -593,7 +481,7 @@
 		607FACC81AFB9204008FA782 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
+				LastSwiftUpdateCheck = 0940;
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Gini GmbH";
 				TargetAttributes = {
@@ -655,7 +543,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A4760611D4F5453003F8B6A /* invoice.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,19 +563,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */,
-				1FEED28D1F6ABEA40068E8AB /* testPDF-rotated90.pdf in Resources */,
-				1F2A7D341F6F9F910028C127 /* testPDF2Pages.pdf in Resources */,
-				1FEED28E1F6ABEA40068E8AB /* testPDF-rotated270.pdf in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
-				1F8FAC422020AA1C00F586EF /* invoice2.jpg in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
-				1FEED28F1F6ABEA40068E8AB /* testPDF-rotated180.pdf in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
-				1F8FAC442020AA6200F586EF /* invoice3.jpg in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */,
 				0A5DDCA61D9E6A5300EBDDCD /* Settings.bundle in Resources */,
-				0A4760601D4F5452003F8B6A /* invoice.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,10 +576,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0A4C62AC1D4F535A00A15FFA /* invoice.jpg in Resources */,
 				1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */,
-				1F8E41E020A0721B00561769 /* invoice2.jpg in Resources */,
-				1F8E41DF20A0721200561769 /* invoice3.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,36 +774,7 @@
 			files = (
 				1F9411881FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift in Sources */,
 				1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */,
-				1FB0C66C1F866B9F00AFE9F9 /* AnalysisViewControllerTests.swift in Sources */,
-				1FDFFAFF20B6AD3C006EB4F5 /* ImagePickerCollectionViewCellTests.swift in Sources */,
-				1F3B5EAC2049554A0052204A /* GalleryCoordinatorDelegateMock.swift in Sources */,
-				1FEED2921F6ABEC10068E8AB /* GiniPDFDocumentTests.swift in Sources */,
-				1F3F5A11204461720037755F /* AlbumsPickerViewControllerTests.swift in Sources */,
-				1FFC9E6720512E04007D505D /* GiniScreenAPICoordinatorTests.swift in Sources */,
-				1F62FA3B1FA2207800CEA828 /* OpenWithTutorialViewControllerTests.swift in Sources */,
-				1FA85EFA1FD6B569005C0C24 /* GiniQRCodeDocumentTests.swift in Sources */,
-				1F3B5EA520494A1D0052204A /* AlbumsPickerViewControllerDelegateMock.swift in Sources */,
-				1FFC9E6A20513388007D505D /* GiniVisionDelegateMock.swift in Sources */,
-				1F5F4A54209AF54C0037DB1A /* PageStateViewTests.swift in Sources */,
-				0A6A78A61E140F8500AEB328 /* OnboardingViewControllerTests.swift in Sources */,
-				1F6515AC2080CC44004502B0 /* GiniVisionDocumentValidatorTests.swift in Sources */,
-				1F8E41DE20A0526A00561769 /* CapturedImagesStackViewTests.swift in Sources */,
-				1F8E6A7F20C5617000415DCC /* MultipageReviewPagesCollectionCellTests.swift in Sources */,
-				0A6A78A81E1412E000AEB328 /* CameraViewControllerTests.swift in Sources */,
-				1FAA2AAF20A5D29E00A54452 /* ReviewViewControllerTests.swift in Sources */,
-				1F62FA3C1FA2207800CEA828 /* SupportedFormatsViewControllerTests.swift in Sources */,
-				1FC4A29A20C690FE00D70627 /* GiniVisionTestsHelper.swift in Sources */,
-				1F79630A2068DF5C005CB2CA /* MultipageReviewVCDelegateMock.swift in Sources */,
-				1F3B5EAA2049542F0052204A /* GalleryCoordinatorTests.swift in Sources */,
-				1F66D9892020A3180093771C /* MultipageReviewViewControllerTests.swift in Sources */,
-				1F62FA3A1FA2207800CEA828 /* ImageNoResultsViewControllerTests.swift in Sources */,
-				607FACEC1AFB9204008FA782 /* ImageMetaInformationManagerTests.swift in Sources */,
 				1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */,
-				1F3B5EA8204952500052204A /* ImagePickerViewControllerDelegateMock.swift in Sources */,
-				1F3F5A0720443AEA0037755F /* ImagePickerViewControllerTests.swift in Sources */,
-				1FAA2AB120A5D31000A54452 /* ReviewViewControllerDelegateMock.swift in Sources */,
-				1FAC24DA1F97A39000861F60 /* HelpMenuViewControllerTests.swift in Sources */,
-				1F3F5A0B2044400F0037755F /* GalleryManagerMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
