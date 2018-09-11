@@ -53,7 +53,6 @@ final class GiniVisionTestsHelper {
     
     class func loadPDFPage(named name: String) -> GiniVisionPage {
         return self.loadPage(named: name, fileExtension: "pdf")
-        
     }
     
     fileprivate class func urlFromFile(named name: String, fileExtension: String) -> URL? {
