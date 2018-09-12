@@ -16,10 +16,10 @@ final class GiniVisionTestsHelper {
         return try? Data(contentsOf: urlFromFile(named: name, fileExtension: fileExtension)!)
     }
     
-    class func loadImage(named name: String, fileExtension: String = "jpg") -> UIImage? {
+    class func loadImage(named name: String, fileExtension: String = "jpg") -> UIImage {
         return UIImage(named: name,
                        in: Bundle(for: GiniVisionTestsHelper.self),
-                       compatibleWith: nil) ?? loadImageFromResources(named: name, fileExtension: fileExtension)
+                       compatibleWith: nil) ?? loadImageFromResources(named: name, fileExtension: fileExtension)!
     }
     
     fileprivate class func loadImageFromResources(named name: String, fileExtension: String = "jpg") -> UIImage? {
