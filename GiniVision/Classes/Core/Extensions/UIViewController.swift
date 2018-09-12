@@ -37,11 +37,8 @@ extension UIViewController {
     
     func showErrorDialog(for error: Error, positiveAction: (() -> Void)?) {
         let message: String
-        var cancelActionTitle: String = NSLocalizedStringPreferred("ginivision.camera.errorPopup.cancelButton",
-                                                                   comment: "cancel button title")
-        var confirmActionTitle: String? =
-            NSLocalizedStringPreferred("ginivision.camera.errorPopup.pickanotherfileButton",
-                                       comment: "pick another file button title")
+        var cancelActionTitle: String = .localized(resource: CameraStrings.errorPopupCancelButton)
+        var confirmActionTitle: String? = .localized(resource: CameraStrings.errorPopupPickAnotherFileButton)
         
         switch error {
         case let validationError as DocumentValidationError:
@@ -52,19 +49,12 @@ extension UIViewController {
             message = pickerError.message
             switch pickerError {
             case .maxFilesPickedCountExceeded:
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.errorPopup.reviewPages",
-                                                                comment: "review pages button title")
+                confirmActionTitle = .localized(resource: CameraStrings.errorPopupReviewPagesButton)
             case .photoLibraryAccessDenied:
-                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.cancelButton",
-                                                               comment: "cancel button title")
-                confirmActionTitle =
-                    NSLocalizedStringPreferred("ginivision.camera.filepicker.errorPopup.grantAccessButton",
-                                               comment: "cancel button title")
+                confirmActionTitle = .localized(resource: CameraStrings.errorPopupGrantAccessButton)
             case .mixedDocumentsUnsupported:
-                cancelActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.cancel",
-                                                               comment: "cancel button text for popup")
-                confirmActionTitle = NSLocalizedStringPreferred("ginivision.camera.mixedarrayspopup.usePhotos",
-                                                                comment: "use photos button text in popup")
+                cancelActionTitle = .localized(resource: CameraStrings.mixedArraysPopupCancelButton)
+                confirmActionTitle = .localized(resource: CameraStrings.mixedArraysPopupUsePhotosButton)
             }
         default:
             message = DocumentValidationError.unknown.message

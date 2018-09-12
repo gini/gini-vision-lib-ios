@@ -15,4 +15,12 @@ extension String {
         })
         return lines
     }
+    
+    static func localized<T: LocalizableStringResource>(resource: T, args: CVarArg...) -> String {
+        if args.isEmpty {
+            return resource.localizedFormat
+        } else {
+            return String(format: resource.localizedFormat, arguments: args)
+        }
+    }
 }

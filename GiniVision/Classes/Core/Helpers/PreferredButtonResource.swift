@@ -80,7 +80,7 @@ struct PreferredButtonResource {
         }
         if let text = localizedTextKey,
             let comment = localizedTextComment {
-            return NSLocalizedStringPreferred(text, comment: comment)
+            return NSLocalizedStringPreferredFormat(text, comment: comment)
         }
         return ""
     }

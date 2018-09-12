@@ -49,8 +49,7 @@ final class AlbumsPickerViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        title = NSLocalizedStringPreferred("ginivision.albums.title",
-                                           comment: "title for the albums picker view controller")
+        title = .localized(resource: GalleryStrings.albumsTitle)
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }

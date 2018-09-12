@@ -44,7 +44,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenImageImported() {
-        let image = GiniVisionTestsHelper.loadImage(withName: "tabBarIconHelp")
+        let image = UIImage(named: "tabBarIconHelp")
         let builder = GiniVisionDocumentBuilder(data: UIImagePNGRepresentation(image!), documentSource: .external)
         let document = builder.build()!
         
@@ -66,7 +66,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     }
     
     func testInitializationWhenPDFImported() {
-        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")
+        let pdfDocument = loadPDFDocument(withName: "testPDF")
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: pdfDocument)],
                                                           configuration: GiniConfiguration(),
@@ -82,6 +82,13 @@ final class ComponentAPICoordinatorTests: XCTestCase {
         
         XCTAssertEqual(componentAPICoordinator?.analysisScreen?.navigationItem.leftBarButtonItem?.title,
                        "Schließen")
+    }
+    
+    fileprivate func loadPDFDocument(withName name: String) -> GiniPDFDocument {
+        let path = Bundle.main.url(forResource: name, withExtension: "pdf")
+        let data = try? Data(contentsOf: path!)
+        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
+        return (builder.build() as? GiniPDFDocument)!
     }
     
 }

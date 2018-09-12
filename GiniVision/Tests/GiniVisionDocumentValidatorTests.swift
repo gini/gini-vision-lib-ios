@@ -40,8 +40,8 @@ final class GiniVisionDocumentValidatorTests: XCTestCase {
     }
     
     func testImageValidation() {
-        let image = GiniVisionTestsHelper.loadImage(withName: "tabBarIconHelp")
-        let imageDocument = GiniImageDocument(data: UIImagePNGRepresentation(image!)!, imageSource: .camera)
+        let image = GiniVisionTestsHelper.loadImage(named: "invoice")
+        let imageDocument = GiniImageDocument(data: UIImageJPEGRepresentation(image, 0.2)!, imageSource: .camera)
         
         XCTAssertNoThrow(try GiniVisionDocumentValidator.validate(imageDocument,
                                                                   withConfig: giniConfiguration),

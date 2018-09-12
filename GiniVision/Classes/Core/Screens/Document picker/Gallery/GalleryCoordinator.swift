@@ -67,9 +67,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
         let currentFont = button.titleLabel?.font
         let fontSize = currentFont?.pointSize ?? 18
         let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: fontSize)]
-        let openLocalizedString = NSLocalizedString("ginivision.imagepicker.openbutton",
-                                                    bundle: Bundle(for: GiniVision.self), 
-                                                    comment: "Open button title")
+        let openLocalizedString: String = .localized(resource: GalleryStrings.imagePickerOpenButton)
         let attributedString = NSMutableAttributedString(string: openLocalizedString,
                                                          attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)

@@ -20,48 +20,31 @@ final class SupportedFormatsViewController: UITableViewController {
     let sectionHeight: CGFloat = 70
     lazy var sections: [SupportedFormatCollectionSection] = {
         var sections: [SupportedFormatCollectionSection] =  [
-            (NSLocalizedString("ginivision.supportedFormats.section.1.title",
-                               bundle: Bundle(for: GiniVision.self),
-                               comment: "title for supported formats section"),
-             [NSLocalizedString("ginivision.supportedFormats.section.1.item.1",
-                                bundle: Bundle(for: GiniVision.self),
-                                comment: "message for first item on supported formats section")],
+            (.localized(resource: HelpStrings.supportedFormatsSection1Title),
+             [.localized(resource: HelpStrings.supportedFormatsSection1Item1Text)],
              UIImage(named: "supportedFormatsIcon",
                      in: Bundle(for: GiniVision.self),
                      compatibleWith: nil),
              GiniConfiguration.shared.supportedFormatsIconColor),
-            (NSLocalizedString("ginivision.supportedFormats.section.2.title",
-                               bundle: Bundle(for: GiniVision.self),
-                               comment: "title for unsupported formats section"),
-             [NSLocalizedString("ginivision.supportedFormats.section.2.item.1",
-                                bundle: Bundle(for: GiniVision.self),
-                                comment: "message for first item on unsupported formats section"),
-              NSLocalizedString("ginivision.supportedFormats.section.2.item.2",
-                                bundle: Bundle(for: GiniVision.self),
-                                comment: "message for second item on unsupported formats section")],
+            (.localized(resource: HelpStrings.supportedFormatsSection2Title),
+             [.localized(resource: HelpStrings.supportedFormatsSection2Item1Text),
+              .localized(resource: HelpStrings.supportedFormatsSection2Item2Text)],
              UIImage(named: "nonSupportedFormatsIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil),
              GiniConfiguration.shared.nonSupportedFormatsIconColor)
         ]
         
         if GiniConfiguration.shared.fileImportSupportedTypes != .none {
             if GiniConfiguration.shared.fileImportSupportedTypes == .pdf_and_images {
-                sections[0].items.append(NSLocalizedString("ginivision.supportedFormats.section.1.item.2",
-                                                           bundle: Bundle(for: GiniVision.self),
-                                                           comment: "message for second item on " +
-                                                                    "supported formats section"))
+                sections[0].items.append(.localized(resource: HelpStrings.supportedFormatsSection1Item2Text))
             }
-            sections[0].items.append(NSLocalizedString("ginivision.supportedFormats.section.1.item.3",
-                                                       bundle: Bundle(for: GiniVision.self),
-                                                       comment: "message for third item on supported formats section"))
+            sections[0].items.append(.localized(resource: HelpStrings.supportedFormatsSection1Item3Text))
         }
         return sections
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = NSLocalizedString("ginivision.supportedFormats.title",
-                                  bundle: Bundle(for: GiniVision.self),
-                                  comment: "supported and unsupported formats screen title")
+        title = .localized(resource: HelpStrings.supportedFormatsTitle)
         tableView.register(SupportedFormatsTableViewCell.self, forCellReuseIdentifier: supportedFormatsCellIdentifier)
         tableView.rowHeight = rowHeight
         tableView.tableFooterView = UIView()

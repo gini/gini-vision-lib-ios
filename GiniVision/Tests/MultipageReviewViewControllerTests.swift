@@ -21,9 +21,9 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }()
     
     var imagePages: [GiniVisionPage] = [
-        GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
-        GiniVisionTestsHelper.loadImagePage(withName: "invoice2"),
-        GiniVisionTestsHelper.loadImagePage(withName: "invoice3")
+        GiniVisionTestsHelper.loadImagePage(named: "invoice"),
+        GiniVisionTestsHelper.loadImagePage(named: "invoice2"),
+        GiniVisionTestsHelper.loadImagePage(named: "invoice3")
     ]
     
     func testCollectionsItemsCount() {

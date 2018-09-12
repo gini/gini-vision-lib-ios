@@ -36,9 +36,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
     fileprivate lazy var addLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = NSLocalizedString("ginivision.multipagereview.addButtonLabel",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "label shown below add button")
+        label.text = .localized(resource: MultipageReviewStrings.addButtonLabel)
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.numberOfLines = 0
@@ -143,15 +141,13 @@ extension MultipageReviewPagesCollectionFooter {
         
         // addButton
         Constraints.active(item: addButton, attr: .centerX, relatedBy: .equal, to: roundMask, attr: .centerX)
-        Constraints.active(item: addButton, attr: .centerY, relatedBy: .lessThanOrEqual, to: roundMask,
-                           attr: .centerY, constant: -20, priority: 999)
-        Constraints.active(item: addButton, attr: .height, relatedBy: .lessThanOrEqual, to: nil,
-                           attr: .notAnAttribute, constant: 60)
-        Constraints.active(item: addButton, attr: .height, relatedBy: .greaterThanOrEqual, to: nil,
-                           attr: .notAnAttribute, constant: 20)
+        Constraints.active(item: addButton, attr: .centerY, relatedBy: .equal, to: roundMask,
+                           attr: .centerY, constant: -20)
+        Constraints.active(item: addButton, attr: .height, relatedBy: .equal, to: nil,
+                           attr: .notAnAttribute, constant: 60, priority: 999)
         Constraints.active(item: addButton, attr: .width, relatedBy: .equal, to: addButton, attr: .height)
         Constraints.active(item: addButton, attr: .top, relatedBy: .greaterThanOrEqual, to: roundMask,
-                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top, priority: 750)
+                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top)
         
         // addLabel
         Constraints.active(item: addLabel, attr: .top, relatedBy: .equal, to: addButton, attr: .bottom,

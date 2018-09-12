@@ -15,31 +15,17 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
     let initialGiniConfiguration = GiniConfiguration.shared
     
     var sections: [SupportedFormatCollectionSection] = [
-        (NSLocalizedString("ginivision.supportedFormats.section.1.title",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "title for supported formats section"),
-         [NSLocalizedString("ginivision.supportedFormats.section.1.item.1",
-                            bundle: Bundle(for: GiniVision.self),
-                            comment: "message for first item on supported formats section"),
-          NSLocalizedString("ginivision.supportedFormats.section.1.item.2",
-                            bundle: Bundle(for: GiniVision.self),
-                            comment: "message for second item on supported formats section"),
-          NSLocalizedString("ginivision.supportedFormats.section.1.item.3",
-                            bundle: Bundle(for: GiniVision.self),
-                            comment: "message for third item on supported formats section")],
+        (.localized(resource: HelpStrings.supportedFormatsSection1Title),
+         [.localized(resource: HelpStrings.supportedFormatsSection1Item1Text),
+          .localized(resource: HelpStrings.supportedFormatsSection1Item2Text),
+          .localized(resource: HelpStrings.supportedFormatsSection1Item3Text)],
          UIImage(named: "supportedFormatsIcon",
                  in: Bundle(for: GiniVision.self),
                  compatibleWith: nil),
          GiniConfiguration.shared.supportedFormatsIconColor),
-        (NSLocalizedString("ginivision.supportedFormats.section.2.title",
-                           bundle: Bundle(for: GiniVision.self),
-                           comment: "title for unsupported formats section"),
-         [NSLocalizedString("ginivision.supportedFormats.section.2.item.1",
-                            bundle: Bundle(for: GiniVision.self),
-                            comment: "message for first item on unsupported formats section"),
-          NSLocalizedString("ginivision.supportedFormats.section.2.item.2",
-                            bundle: Bundle(for: GiniVision.self),
-                            comment: "message for second item on unsupported formats section")],
+        (.localized(resource: HelpStrings.supportedFormatsSection2Title),
+         [.localized(resource: HelpStrings.supportedFormatsSection2Item1Text),
+          .localized(resource: HelpStrings.supportedFormatsSection2Item2Text)],
          UIImage(named: "nonSupportedFormatsIcon",
                  in: Bundle(for: GiniVision.self),
                  compatibleWith: nil),
@@ -55,7 +41,7 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
         let sectionsCount = sections.count
         let tableSectionsCount = supportedFormatsViewController
             .numberOfSections(in: supportedFormatsViewController.tableView)
-        
+
         XCTAssertEqual(sectionsCount, tableSectionsCount,
                        "sections count and table sections count should be always equal")
     }

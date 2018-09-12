@@ -29,14 +29,11 @@ final class CaptureSuggestionsView: UIView {
                                                   in: Bundle(for: GiniVision.self),
                                                   compatibleWith: nil)
     fileprivate var suggestionTexts: [String] = [
-        NSLocalizedString("ginivision.analysis.suggestion.1", bundle: Bundle(for: GiniVision.self),
-                          comment: "First suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.2", bundle: Bundle(for: GiniVision.self),
-                          comment: "Second suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.3", bundle: Bundle(for: GiniVision.self),
-                          comment: "Third suggestion text for analysis screen"),
-        NSLocalizedString("ginivision.analysis.suggestion.4", bundle: Bundle(for: GiniVision.self),
-                          comment: "Forth suggestion text for analysis screen")]
+        .localized(resource: AnalysisStrings.suggestion1Text),
+        .localized(resource: AnalysisStrings.suggestion2Text),
+        .localized(resource: AnalysisStrings.suggestion3Text),
+        .localized(resource: AnalysisStrings.suggestion4Text)
+    ]
     
     init(superView: UIView, bottomLayout: UILayoutSupport, font: UIFont) {
         suggestionContainer = UIView()
@@ -50,9 +47,7 @@ final class CaptureSuggestionsView: UIView {
         suggestionTitle.textColor = .white
         suggestionTitle.font = font.withSize(16)
         suggestionTitle.numberOfLines = 1
-        suggestionTitle.text = NSLocalizedString("ginivision.analysis.suggestion.header",
-                                                 bundle: Bundle(for: GiniVision.self),
-                                                 comment: "Forth suggestion text for analysis screen")
+        suggestionTitle.text = .localized(resource: AnalysisStrings.suggestionHeader)
         suggestionTitle.textAlignment = .center
         suggestionTitle.adjustsFontSizeToFitWidth = true
         suggestionTitle.minimumScaleFactor = 14/16

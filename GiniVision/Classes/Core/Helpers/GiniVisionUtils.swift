@@ -31,7 +31,7 @@ func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? = nil) -> String {
+func NSLocalizedStringPreferredFormat(_ key: String, comment: String) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
     let format: String
     
@@ -42,11 +42,7 @@ func NSLocalizedStringPreferred(_ key: String, comment: String, args: CVarArg? =
         format = NSLocalizedString(key, bundle: bundle, comment: comment)
     }
     
-    if let args = args {
-        return String.localizedStringWithFormat(format, args)
-    } else {
-        return format
-    }
+    return format
 }
 
 /**

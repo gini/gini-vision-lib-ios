@@ -13,8 +13,7 @@ import ImageIO
 final class ImageMetaInformationManagerTests: XCTestCase {
     
     var invoiceData: Data {
-        let path = Bundle.main.url(forResource: "invoice", withExtension: "jpg")
-        return (try? Data(contentsOf: path!))!
+        return GiniVisionTestsHelper.fileData(named: "invoice", fileExtension: "jpg")!
     }
     var manager: ImageMetaInformationManager {
         return ImageMetaInformationManager(imageData: invoiceData, imageSource: .camera)

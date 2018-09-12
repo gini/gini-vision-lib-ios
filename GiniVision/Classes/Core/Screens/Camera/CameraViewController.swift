@@ -142,9 +142,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var importFileSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = NSLocalizedString("ginivision.camera.fileImportButtonLabel",
-                                       bundle: Bundle(for: GiniVision.self),
-                                       comment: "label shown below import button")
+        label.text = .localized(resource: CameraStrings.importFileButtonLabel)
         label.font = label.font.withSize(12)
         label.textColor = .white
         return label
@@ -292,11 +290,11 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         
         previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
         controlsView.addSubview(captureButton)
-        
+
         if giniConfiguration.multipageEnabled {
             controlsView.addSubview(capturedImagesStackView)
         }
-        
+
         addConstraints()
     }
     
@@ -694,10 +692,8 @@ extension CameraViewController {
         opaqueView = OpaqueViewFactory.create(with: giniConfiguration.toolTipOpaqueBackgroundStyle)
         opaqueView?.alpha = 0
         self.view.addSubview(opaqueView!)
-        
-        toolTipView = ToolTipView(text: NSLocalizedString("ginivision.camera.fileImportTip",
-                                                          bundle: Bundle(for: GiniVision.self),
-                                                          comment: "tooltip text indicating new file import feature"),
+
+        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: importFileButton,
                                   superView: self.view,
