@@ -17,7 +17,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageIndicatorColor = .black
 
-        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(named: "invoice"),
                    at: 0,
                    giniConfiguration: giniConfiguration)
         
@@ -29,7 +29,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageBackgroundColor = .red
 
-        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(named: "invoice"),
                    at: 0,
                    giniConfiguration: giniConfiguration)
         
@@ -41,7 +41,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipagePageSelectedIndicatorColor = .red
         
-        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(named: "invoice"),
                    at: 0,
                    giniConfiguration: giniConfiguration)
         
@@ -53,7 +53,7 @@ final class MultipageReviewPagesCollectionCellTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.multipageDraggableIconColor = .red
         
-        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
+        cell.setUp(with: GiniVisionTestsHelper.loadImagePage(named: "invoice"),
                    at: 0,
                    giniConfiguration: giniConfiguration)
         

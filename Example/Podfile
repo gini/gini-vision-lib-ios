@@ -6,15 +6,15 @@ use_frameworks!
 
 def project_pods
     pod 'Gini-iOS-SDK', :git => 'git@github.com:gini/gini-sdk-ios.git', :branch => 'develop'
-    pod 'GiniVision', :path => '../'
+    pod 'GiniVision', :path => '../', :testspecs => ['Tests']
     pod 'GiniVision/Networking+Pinning', :path => '../'
 end
 
 target 'Example Swift' do
 
-    project_pods	
+    project_pods
 
-    target 'GiniVision_Tests' do
+    target 'Example_Tests' do
         inherit! :search_paths
     end
 

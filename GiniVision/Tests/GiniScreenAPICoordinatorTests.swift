@@ -39,8 +39,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerCountAfterStartWithImages() {
-        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice"),
-                              GiniVisionTestsHelper.loadImageDocument(withName: "invoice2")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(named: "invoice"),
+                              GiniVisionTestsHelper.loadImageDocument(named: "invoice2")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -50,8 +50,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerTypesAfterStartWithImages() {
-        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice"),
-                              GiniVisionTestsHelper.loadImageDocument(withName: "invoice2")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(named: "invoice"),
+                              GiniVisionTestsHelper.loadImageDocument(named: "invoice2")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -64,7 +64,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerCountAfterStartWithAPDF() {
-        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")]
+        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(named: "testPDF")]
 
         let rootViewController = coordinator.start(withDocuments: capturedPDFs)
         _ = rootViewController.view
@@ -74,7 +74,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testNavControllerTypesAfterStartWithPDF() {
-        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")]
+        let capturedPDFs = [GiniVisionTestsHelper.loadPDFDocument(named: "testPDF")]
 
         let rootViewController = coordinator.start(withDocuments: capturedPDFs)
         _ = rootViewController.view
@@ -86,7 +86,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     
     func testNavControllerTypesAfterStartWithImageAndMultipageDisabled() {
         giniConfiguration.multipageEnabled = false
-        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(withName: "invoice")]
+        let capturedImages = [GiniVisionTestsHelper.loadImageDocument(named: "invoice")]
 
         let rootViewController = coordinator.start(withDocuments: capturedImages)
         _ = rootViewController.view
@@ -97,7 +97,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRotateImageInMultipage() {
-        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(withName: "invoice")
+        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(named: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         (coordinator.multiPageReviewViewController
@@ -113,7 +113,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testDocumentCollectionAfterRemoveImageInMultipage() {
-        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(withName: "invoice")
+        let capturedImageDocument = GiniVisionTestsHelper.loadImagePage(named: "invoice")
         coordinator.addToDocuments(new: [capturedImageDocument])
         
         coordinator.multipageReview(coordinator.multiPageReviewViewController,
@@ -124,8 +124,8 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
     }
     
     func testMultipageImageDocumentWhenSortingDocuments() {
-        let capturedImageDocument = [GiniVisionTestsHelper.loadImagePage(withName: "invoice"),
-                                     GiniVisionTestsHelper.loadImagePage(withName: "invoice")]
+        let capturedImageDocument = [GiniVisionTestsHelper.loadImagePage(named: "invoice"),
+                                     GiniVisionTestsHelper.loadImagePage(named: "invoice")]
         let firstItemId = capturedImageDocument.first?.document.id
         coordinator.addToDocuments(new: capturedImageDocument)
         

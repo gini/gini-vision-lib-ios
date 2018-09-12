@@ -11,10 +11,10 @@ import XCTest
 
 final class GiniPDFDocumentTests: XCTestCase {
   
-    lazy var pdfNonRotated = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF")
+    lazy var pdfNonRotated = GiniVisionTestsHelper.loadPDFDocument(named: "testPDF")
     
     func testNumberPages() {
-        let pdf2Pages = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF2Pages")
+        let pdf2Pages = GiniVisionTestsHelper.loadPDFDocument(named: "testPDF2Pages")
         
         let numberOfPagesPDF1 = pdfNonRotated.numberPages
         let numberOfPagesPDF2 = pdf2Pages.numberPages
@@ -33,7 +33,7 @@ final class GiniPDFDocumentTests: XCTestCase {
     }
     
     func testPDFRotated90() {
-        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF-rotated90")
+        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(named: "testPDF-rotated90")
         
         let imageSize = pdfDocument.previewImage!.size
         
@@ -43,7 +43,7 @@ final class GiniPDFDocumentTests: XCTestCase {
     }
     
     func testPDFRotated180() {
-        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF-rotated180")
+        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(named: "testPDF-rotated180")
         
         let imageSize = pdfDocument.previewImage!.size
         
@@ -53,7 +53,7 @@ final class GiniPDFDocumentTests: XCTestCase {
     }
     
     func testPDFRotated270() {
-        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(withName: "testPDF-rotated270")
+        let pdfDocument = GiniVisionTestsHelper.loadPDFDocument(named: "testPDF-rotated270")
         
         let imageSize = pdfDocument.previewImage!.size
         
