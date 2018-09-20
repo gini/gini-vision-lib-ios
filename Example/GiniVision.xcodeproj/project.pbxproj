@@ -21,6 +21,7 @@
 		1F2E1A9F1FB58E2200E1022A /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1A9E1FB58E2200E1022A /* AppCoordinator.swift */; };
 		1F2E1AA11FB58EC900E1022A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA01FB58EC900E1022A /* Coordinator.swift */; };
 		1F2E1AA31FB5AD5D00E1022A /* ScreenAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */; };
+		1F4ABF8E2153A2EE00020A3B /* DocumentServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */; };
 		1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */; };
 		1F578E111FBD7C7D00C17F62 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E101FBD7C7D00C17F62 /* SettingsViewController.swift */; };
 		1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */; };
@@ -43,7 +44,6 @@
 		1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FAA2A9620A3546E00A54452 /* CredentialsManager.m */; };
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
-		1FF3A41F20C6CB4B00081A32 /* DocumentServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */; };
 		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */; };
@@ -747,7 +747,6 @@
 				0AAE6D4C1D6B6C0B00EE9EDD /* ResultTableViewController.swift in Sources */,
 				1F2E1A9D1FB4855000E1022A /* ComponentAPIOnboardingViewController.swift in Sources */,
 				1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */,
-				1FF3A41F20C6CB4B00081A32 /* DocumentServiceMock.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -758,6 +757,7 @@
 			files = (
 				1F9411881FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift in Sources */,
 				1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */,
+				1F4ABF8E2153A2EE00020A3B /* DocumentServiceMock.swift in Sources */,
 				1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
