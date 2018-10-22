@@ -69,7 +69,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
 
 extension ScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationControllerOperation,
+                              animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         // Since the NoResultViewController and ResultTableViewController are in the navigation stack,

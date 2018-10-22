@@ -32,7 +32,7 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
         self.register(CaptureSuggestionsCollectionCell.self,
                       forCellWithReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier)
         self.register(CaptureSuggestionsCollectionHeader.self,
-                      forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                       withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier)
         
         self.showsVerticalScrollIndicator = false

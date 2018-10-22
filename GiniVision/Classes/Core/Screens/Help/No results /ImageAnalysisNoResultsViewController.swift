@@ -187,7 +187,7 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
                                at indexPath: IndexPath) -> UICollectionReusableView {
         let identifier = CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier
         let header = (collectionView
-            .dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader,
+            .dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader,
                                               withReuseIdentifier: identifier,
                                               for: indexPath) as? CaptureSuggestionsCollectionHeader)!
         header.subHeaderTitle.text = self.subHeaderTitle

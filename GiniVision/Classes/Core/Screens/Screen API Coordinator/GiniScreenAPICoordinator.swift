@@ -236,7 +236,7 @@ extension GiniScreenAPICoordinator {
 
 extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationControllerOperation,
+                              animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if fromVC is AnalysisViewController {
@@ -272,7 +272,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         return nil
     }
     
-    private func multipageTransition(operation: UINavigationControllerOperation,
+    private func multipageTransition(operation: UINavigationController.Operation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let stackView = cameraViewController?.capturedImagesStackView else {

@@ -177,7 +177,7 @@ extension CaptureSuggestionsView {
         
         updatePosition(withState: state)
 
-        UIView.animate(withDuration: 0.5, delay: delay, options: [UIViewAnimationOptions.curveEaseInOut], animations: {
+        UIView.animate(withDuration: 0.5, delay: delay, options: [UIView.AnimationOptions.curveEaseInOut], animations: {
             self.layoutIfNeeded()
         }, completion: {[weak self] _ in
             guard let `self` = self else { return }

@@ -75,7 +75,7 @@ final class HelpMenuViewControllerTests: XCTestCase {
         let indexPath = IndexPath(row: 0, section: 0)
         let itemText = helpMenuViewController.items[indexPath.row].text
         let cellBackgroundColor = UIColor.white
-        let cellAccesoryType = UITableViewCellAccessoryType.disclosureIndicator
+        let cellAccesoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         let cell = helpMenuViewController.tableView(helpMenuViewController.tableView, cellForRowAt: indexPath)
         

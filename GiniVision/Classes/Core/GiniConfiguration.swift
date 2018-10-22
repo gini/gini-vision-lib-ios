@@ -123,8 +123,8 @@ import UIKit
      
      - note: Screen API only.
      */
-    @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
-        .titleTextAttributes(for: .normal)?[NSAttributedStringKey.font.rawValue] as? UIFont ??
+    @objc public var navigationBarItemFont = convertFromOptionalNSAttributedStringKeyDictionary(UIBarButtonItem.appearance()
+        .titleTextAttributes(for: .normal))?[NSAttributedString.Key.font.rawValue] as? UIFont ??
         UIFontPreferred(.bold, andSize: 16)
     
     /**
@@ -135,7 +135,7 @@ import UIKit
      */
     @objc public var navigationBarTitleColor = UINavigationBar
         .appearance()
-        .titleTextAttributes?[NSAttributedStringKey.foregroundColor] as? UIColor ?? .white
+        .titleTextAttributes?[NSAttributedString.Key.foregroundColor] as? UIColor ?? .white
     
     /**
      Sets the title font in the navigation bar in all screens of the Gini Vision Library to
@@ -145,7 +145,7 @@ import UIKit
      */
     @objc public var navigationBarTitleFont = UINavigationBar
         .appearance()
-        .titleTextAttributes?[NSAttributedStringKey.font] as? UIFont ?? UIFontPreferred(.regular,
+        .titleTextAttributes?[NSAttributedString.Key.font] as? UIFont ?? UIFontPreferred(.regular,
                                                                                  andSize: 16)
     
     /**
@@ -722,4 +722,10 @@ import UIKit
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }

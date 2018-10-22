@@ -71,7 +71,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
         self.collectionView!.register(OpenWithTutorialCollectionCell.self,
                                       forCellWithReuseIdentifier: openWithTutorialCollectionCellIdentifier)
         self.collectionView!.register(OpenWithTutorialCollectionHeader.self,
-                                      forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                                      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                       withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier)
         
         stepsCollectionLayout.minimumLineSpacing = 1

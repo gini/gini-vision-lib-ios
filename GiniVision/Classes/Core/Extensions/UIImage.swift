@@ -27,8 +27,8 @@ extension UIImage {
         return UIImage(cgImage: cgImage, scale: 1.0, orientation: rotatedOrientation)
     }
     
-    fileprivate func nextImageOrientationClockwise(_ orientation: UIImageOrientation) -> UIImageOrientation {
-        var nextOrientation: UIImageOrientation!
+    fileprivate func nextImageOrientationClockwise(_ orientation: UIImage.Orientation) -> UIImage.Orientation {
+        var nextOrientation: UIImage.Orientation!
         switch orientation {
         case .up, .upMirrored:
             nextOrientation = .right
