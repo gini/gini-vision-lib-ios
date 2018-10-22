@@ -62,7 +62,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
         let button = UIButton(type: UIButtonType.custom)
         button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
         button.frame.size = CGSize(width: 50, height: 20)
-        button.titleLabel?.textColor = .white
+        button.titleLabel?.textColor = giniConfiguration.navigationBarItemTintColor
         
         let currentFont = button.titleLabel?.font
         let fontSize = currentFont?.pointSize ?? 18
