@@ -10,7 +10,7 @@ import UIKit
 
 extension UIApplication {
     func openAppSettings() {
-        guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else { return }
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
         if self.canOpenURL(settingsUrl) {
             self.openURL(settingsUrl)
         }

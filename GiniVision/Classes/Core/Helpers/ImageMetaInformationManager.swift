@@ -150,14 +150,14 @@ final class ImageMetaInformationManager {
         return nil
     }
     
-    func rotate(degrees: Int, imageOrientation: UIImageOrientation) {
+    func rotate(degrees: Int, imageOrientation: UIImage.Orientation) {
         update(imageOrientation: imageOrientation)
         let information = metaInformation as? NSMutableDictionary
         information?.set(metaInformation: userComment(rotationDegrees: degrees) as AnyObject?,
                          forKey: kCGImagePropertyExifUserComment as String)
     }
     
-    func update(imageOrientation orientation: UIImageOrientation) {
+    func update(imageOrientation orientation: UIImage.Orientation) {
         var information = metaInformation ?? MetaInformation()
         information = update(getExifOrientationFromUIImageOrientation(orientation), onMetaInformation: information)
         metaInformation = information
@@ -298,7 +298,7 @@ final class ImageMetaInformationManager {
         return code
     }
     
-    fileprivate func getExifOrientationFromUIImageOrientation(_ orientation: UIImageOrientation) -> Int {
+    fileprivate func getExifOrientationFromUIImageOrientation(_ orientation: UIImage.Orientation) -> Int {
         let number: Int
         switch orientation {
         case .up:

@@ -59,14 +59,14 @@ final class GalleryCoordinator: NSObject, Coordinator {
                                                              action: #selector(cancelAction))
     
     lazy var openImagesButton: UIBarButtonItem = {
-        let button = UIButton(type: UIButtonType.custom)
+        let button = UIButton(type: UIButton.ButtonType.custom)
         button.addTarget(self, action: #selector(openImages), for: .touchUpInside)
         button.frame.size = CGSize(width: 50, height: 20)
         button.titleLabel?.textColor = giniConfiguration.navigationBarItemTintColor
         
         let currentFont = button.titleLabel?.font
         let fontSize = currentFont?.pointSize ?? 18
-        let attributes = [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: fontSize)]
+        let attributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: fontSize)]
         let openLocalizedString: String = .localized(resource: GalleryStrings.imagePickerOpenButton)
         let attributedString = NSMutableAttributedString(string: openLocalizedString,
                                                          attributes: attributes)
@@ -167,7 +167,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
 
 extension GalleryCoordinator: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController,
-                              animationControllerFor operation: UINavigationControllerOperation,
+                              animationControllerFor operation: UINavigationController.Operation,
                               from fromVC: UIViewController,
                               to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if let imagePicker = fromVC as? ImagePickerViewController {
@@ -238,7 +238,7 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
         // Some pictures have a wrong bytes structure and are not processed as images.
         if !data.isImage {
             if let image = UIImage(data: data),
-                let imageData = UIImageJPEGRepresentation(image, 1.0) {
+                let imageData = image.jpegData(compressionQuality: 1.0) {
                 data = imageData
             }
         }

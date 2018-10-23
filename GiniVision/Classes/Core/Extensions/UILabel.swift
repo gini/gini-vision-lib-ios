@@ -18,7 +18,7 @@ extension UILabel {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         return text.boundingRect(with: maxSize,
                                  options: .usesLineFragmentOrigin,
-                                 attributes: [NSAttributedStringKey.font: font],
+                                 attributes: [NSAttributedString.Key.font: font],
                                  context: nil).size.height
     }
 }

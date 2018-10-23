@@ -41,7 +41,7 @@ final class GiniVisionDocumentValidatorTests: XCTestCase {
     
     func testImageValidation() {
         let image = GiniVisionTestsHelper.loadImage(named: "invoice")
-        let imageDocument = GiniImageDocument(data: UIImageJPEGRepresentation(image, 0.2)!, imageSource: .camera)
+        let imageDocument = GiniImageDocument(data: image.jpegData(compressionQuality: 0.2)!, imageSource: .camera)
         
         XCTAssertNoThrow(try GiniVisionDocumentValidator.validate(imageDocument,
                                                                   withConfig: giniConfiguration),

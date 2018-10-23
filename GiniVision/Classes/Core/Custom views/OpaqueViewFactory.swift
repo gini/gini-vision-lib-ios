@@ -8,7 +8,7 @@
 import UIKit
 
 public enum OpaqueViewStyle {
-    case blurred(style: UIBlurEffectStyle)
+    case blurred(style: UIBlurEffect.Style)
     case dimmed
 }
 

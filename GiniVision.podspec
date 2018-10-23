@@ -16,7 +16,7 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.frameworks       = 'AVFoundation', 'CoreMotion', 'Photos'
   s.source           = { :git => 'https://github.com/gini/gini-vision-lib-ios.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/gini'
-  s.swift_version    = '4.1'
+  s.swift_version    = '4.2'
   s.ios.deployment_target = '9.0'
   s.default_subspec = 'Core'
 
