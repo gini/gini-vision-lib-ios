@@ -123,8 +123,8 @@ import UIKit
      
      - note: Screen API only.
      */
-    @objc public var navigationBarItemFont = convertFromOptionalNSAttributedStringKeyDictionary(UIBarButtonItem.appearance()
-        .titleTextAttributes(for: .normal))?[NSAttributedString.Key.font.rawValue] as? UIFont ??
+    @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
+        .titleTextAttributes(for: .normal).dictionary?[NSAttributedString.Key.font.rawValue] as? UIFont ??
         UIFontPreferred(.bold, andSize: 16)
     
     /**
@@ -722,10 +722,4 @@ import UIKit
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true
-}
-
-// Helper function inserted by Swift 4.2 migrator.
-fileprivate func convertFromOptionalNSAttributedStringKeyDictionary(_ input: [NSAttributedString.Key: Any]?) -> [String: Any]? {
-	guard let input = input else { return nil }
-	return Dictionary(uniqueKeysWithValues: input.map {key, value in (key.rawValue, value)})
 }
