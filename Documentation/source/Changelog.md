@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.0.2 (2018-10-23)
+------------------
+
+-   Fixed issue with _Open_ button text color in `ImagePickerViewController`
+-   Fixed issue with the _Podfile_ in the Example app
+
 4.0.1 (2018-09-12)
 ------------------
 
