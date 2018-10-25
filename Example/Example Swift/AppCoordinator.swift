@@ -50,6 +50,8 @@ final class AppCoordinator: Coordinator {
     
     private lazy var client: GiniClient = CredentialsManager.fetchClientFromBundle()
     private var documentMetadata: GINIDocumentMetadata?
+    private let documentMetadataBranchId = "GVLExampleIOS"
+    private let documentMetadataAppFlowKey = "AppFlow"
 
     init(window: UIWindow) {
         self.window = window
@@ -95,7 +97,7 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showScreenAPI(with pages: [GiniVisionPage]? = nil) {
-        documentMetadata = GINIDocumentMetadata(branchId: "GVLExampliiiiIOS")
+        documentMetadata = GINIDocumentMetadata(headers: [documentMetadataAppFlowKey: "ScreenAPI"])
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
                                                         importedDocuments: pages?.map { $0.document },
                                                         client: client,
@@ -126,7 +128,8 @@ final class AppCoordinator: Coordinator {
             fatalError("It wasn't possible to build a Gini API SDK ")
         }
         
-        documentMetadata = GINIDocumentMetadata(branchId: "GVLExampliiiiIOS")
+        documentMetadata = GINIDocumentMetadata(branchId: documentMetadataBranchId,
+                                                additionalHeaders: [documentMetadataAppFlowKey: "ComponentAPI"])
         return ComponentAPIDocumentsService(sdk: sdk, documentMetadata: documentMetadata)
     }
     
