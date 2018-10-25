@@ -30,10 +30,3 @@ protocol DocumentServiceProtocol: class {
                 completion: UploadDocumentCompletion?)
     func update(imageDocument: GiniImageDocument)
 }
-
-extension DocumentServiceProtocol {
-    
-    init(sdk: GiniSDK) {
-        self.init(sdk: sdk, metadata: nil)
-    }
-}

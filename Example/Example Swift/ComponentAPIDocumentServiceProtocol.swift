@@ -35,7 +35,7 @@ protocol ComponentAPIDocumentServiceProtocol: class {
     var compositeDocument: GINIDocument? { get set }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
     
-    init(sdk: GiniSDK)
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?)
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
     func resetToInitialState()
