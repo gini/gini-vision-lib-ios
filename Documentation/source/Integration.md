@@ -11,13 +11,14 @@ The Screen API provides a custom `UIViewController` object, which can be present
 The Screen API, in turn, offers two different ways of implementation:
 
 #### UI with Networking (Recommended)
-Using this method you don't need to care about handling the analysis process with the [Gini API SDK](https://github.com/gini/gini-sdk-ios), you only need to provide your API credentials and a delegate to get the analysis results. Optionally - if you want to use _Certificate pinning_ - you can provide your public key pinning configuration (see [TrustKit repo](https://github.com/datatheorem/TrustKit) for more information).
+Using this method you don't need to care about handling the analysis process with the [Gini API SDK](https://github.com/gini/gini-sdk-ios), you only need to provide your API credentials and a delegate to get the analysis results. Optionally - if you want to use _Certificate pinning_ - you can provide your public key pinning configuration (see [TrustKit repo](https://github.com/datatheorem/TrustKit) for more information), and - if you want to provide metadata for the upload process - you can specify it as follows:
 
 ```swift
 let viewController = GiniVision.viewController(withClient: client,
                                                configuration: giniConfiguration,
                                                resultsDelegate: self,
-                                               publicKeyPinningConfig: pinningConfig)
+                                               publicKeyPinningConfig: pinningConfig,
+                                               documentMetadata: documentMetadata)
 
 present(viewController, animated: true, completion:nil)
 ```
