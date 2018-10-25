@@ -14,8 +14,10 @@ final class DocumentsService: DocumentServiceProtocol {
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
+    var metadata: GINIDocumentMetadata?
     
-    init(sdk: GiniSDK) {
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?) {
+        self.metadata = metadata
         self.giniSDK = sdk
         self.giniSDK.sessionManager.logIn()
     }
@@ -133,6 +135,7 @@ extension DocumentsService {
                 return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
                                                                                from: document.data,
                                                                                docType: docType,
+                                                                               metadata: self?.metadata,
                                                                                cancellationToken: cancellationToken)
             }).continueWith(block: { task in
                 if let createdDocument = task.result as? GINIDocument {
@@ -203,6 +206,7 @@ extension DocumentsService {
             .createCompositeDocument(withPartialDocumentsInfo: documents,
                                      fileName: fileName,
                                      docType: "",
+                                     metadata: metadata,
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {

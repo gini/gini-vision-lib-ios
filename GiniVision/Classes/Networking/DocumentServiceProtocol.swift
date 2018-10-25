@@ -19,7 +19,7 @@ protocol DocumentServiceProtocol: class {
     var compositeDocument: GINIDocument? { get set }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
 
-    init(sdk: GiniSDK)
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?)
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
     func resetToInitialState()
@@ -29,4 +29,11 @@ protocol DocumentServiceProtocol: class {
     func upload(document: GiniVisionDocument,
                 completion: UploadDocumentCompletion?)
     func update(imageDocument: GiniImageDocument)
+}
+
+extension DocumentServiceProtocol {
+    
+    init(sdk: GiniSDK) {
+        self.init(sdk: sdk, metadata: nil)
+    }
 }
