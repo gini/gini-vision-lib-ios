@@ -685,9 +685,9 @@ If there is an error retrieving the version the returned value will be an empty 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:"></a>
-                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:">viewController(withClient:importedDocuments:configuration:resultsDelegate:)</a>
+                    <a name="/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:documentMetadata:"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:documentMetadata:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:documentMetadata:">viewController(withClient:importedDocuments:configuration:resultsDelegate:documentMetadata:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -713,7 +713,8 @@ all screens and transitions out of the box, including the networking.</p>
 <span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withClient</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniClient.html">GiniClient</a></span><span class="p">,</span>
                                  <span class="nv">importedDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                  <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
-                                 <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+                                 <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">documentMetadata</span><span class="p">:</span> <span class="kt">GINIDocumentMetadata</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -787,9 +788,9 @@ There should be either images or one PDF, and they should be validated before ca
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:"></a>
-                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:">viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:)</a>
+                    <a name="/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@CM@GiniVision@objc(cs)GiniVision(cm)viewControllerWithClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:">viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -816,7 +817,8 @@ all screens and transitions out of the box, including the networking.</p>
                                  <span class="nv">importedDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                  <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
                                  <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a></span><span class="p">,</span>
-                                 <span class="nv">publicKeyPinningConfig</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+                                 <span class="nv">publicKeyPinningConfig</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span>
+                                 <span class="nv">documentMetadata</span><span class="p">:</span> <span class="kt">GINIDocumentMetadata</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
 
                         </div>
                       </div>
@@ -903,7 +905,7 @@ There should be either images or one PDF, and they should be validated before ca
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2018-10-23)</p>
+      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2018-10-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
