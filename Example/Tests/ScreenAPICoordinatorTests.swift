@@ -20,7 +20,8 @@ final class ScreenAPICoordinatorTests: XCTestCase {
     func testInitialization() {
         screenAPICoordinator = ScreenAPICoordinator(configuration: GiniConfiguration(),
                                                     importedDocuments: nil,
-                                                    client: client)
+                                                    client: client,
+                                                    documentMetadata: nil)
         screenAPICoordinator?.start()
         
         XCTAssertNotNil(screenAPICoordinator?.rootViewController,

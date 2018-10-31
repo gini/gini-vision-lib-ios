@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Gini_iOS_SDK
 
 extension GiniVision {
     /**
@@ -26,11 +27,13 @@ extension GiniVision {
     @objc public class func viewController(withClient client: GiniClient,
                                            importedDocuments: [GiniVisionDocument]? = nil,
                                            configuration: GiniConfiguration,
-                                           resultsDelegate: GiniVisionResultsDelegate) -> UIViewController {
+                                           resultsDelegate: GiniVisionResultsDelegate,
+                                           documentMetadata: GINIDocumentMetadata? = nil) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
-                                                         giniConfiguration: configuration)
+                                                         giniConfiguration: configuration,
+                                                         documentMetadata: documentMetadata)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     

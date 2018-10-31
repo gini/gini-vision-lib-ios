@@ -12,7 +12,8 @@ extension GiniScreenAPICoordinator {
     convenience init(client: GiniClient,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
-                     publicKeyPinningConfig: [String: Any]) {
+                     publicKeyPinningConfig: [String: Any],
+                     documentMetadata: GINIDocumentMetadata?) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
@@ -23,7 +24,7 @@ extension GiniScreenAPICoordinator {
                                                    userEmailDomain: client.clientEmailDomain,
                                                    publicKeyPinningConfig: publicKeyPinningConfig)
         if let sdk = builder?.build() {
-            self.documentService = DocumentsService(sdk: sdk)
+            self.documentService = DocumentsService(sdk: sdk, metadata: documentMetadata)
         }
     }
 }

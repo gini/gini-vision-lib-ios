@@ -25,6 +25,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     var screenAPIViewController: UINavigationController!
     
     let client: GiniClient
+    let documentMetadata: GINIDocumentMetadata?
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocuments: [GiniVisionDocument]?
     var visionConfiguration: GiniConfiguration
@@ -32,10 +33,12 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     
     init(configuration: GiniConfiguration,
          importedDocuments documents: [GiniVisionDocument]?,
-         client: GiniClient) {
+         client: GiniClient,
+         documentMetadata: GINIDocumentMetadata?) {
         self.visionConfiguration = configuration
         self.visionDocuments = documents
         self.client = client
+        self.documentMetadata = documentMetadata
         super.init()
     }
     
@@ -43,7 +46,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         let viewController = GiniVision.viewController(withClient: client,
                                                        importedDocuments: visionDocuments,
                                                        configuration: visionConfiguration,
-                                                       resultsDelegate: self)
+                                                       resultsDelegate: self,
+                                                       documentMetadata: documentMetadata)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
         screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor

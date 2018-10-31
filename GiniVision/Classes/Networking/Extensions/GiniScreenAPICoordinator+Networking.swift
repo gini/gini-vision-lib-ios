@@ -72,7 +72,8 @@ extension GiniScreenAPICoordinator {
     
     convenience init(client: GiniClient,
                      resultsDelegate: GiniVisionResultsDelegate,
-                     giniConfiguration: GiniConfiguration) {
+                     giniConfiguration: GiniConfiguration,
+                     documentMetadata: GINIDocumentMetadata?) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
@@ -83,7 +84,7 @@ extension GiniScreenAPICoordinator {
                                                    userEmailDomain: client.clientEmailDomain)
         
         if let sdk = builder?.build() {
-            self.documentService = DocumentsService(sdk: sdk)
+            self.documentService = DocumentsService(sdk: sdk, metadata: documentMetadata)
         }
     }
     
