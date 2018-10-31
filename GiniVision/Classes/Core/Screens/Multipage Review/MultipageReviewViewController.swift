@@ -136,7 +136,7 @@ public final class MultipageReviewViewController: UIViewController {
         collection.register(MultipageReviewPagesCollectionCell.self,
                             forCellWithReuseIdentifier: MultipageReviewPagesCollectionCell.identifier)
         collection.register(MultipageReviewPagesCollectionFooter.self,
-                            forSupplementaryViewOfKind: UICollectionElementKindSectionFooter,
+                            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
                             withReuseIdentifier: MultipageReviewPagesCollectionFooter.identifier)
         return collection
     }()

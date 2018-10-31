@@ -529,7 +529,7 @@ extension CameraViewController {
             // was set and therefore the correct states were checked before.
             #if targetEnvironment(simulator)
             if let image = self.defaultImageView?.image,
-                let imageData = UIImageJPEGRepresentation(image, 0.2) {
+                let imageData = image.jpegData(compressionQuality: 0.2) {
                 self.cameraDidCapture(imageData: imageData, error: nil)
             }
             #endif
@@ -647,7 +647,7 @@ extension CameraViewController {
     }
     
     func addValidationLoadingView() -> UIView {
-        let loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let loadingIndicator = UIActivityIndicatorView(style: .whiteLarge)
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         blurredView.alpha = 0
         blurredView.autoresizingMask = [.flexibleTopMargin, .flexibleBottomMargin]

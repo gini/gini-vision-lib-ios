@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Gini_iOS_SDK
 
 extension GiniVision {
     /**
@@ -29,12 +30,14 @@ extension GiniVision {
                                            importedDocuments: [GiniVisionDocument]? = nil,
                                            configuration: GiniConfiguration,
                                            resultsDelegate: GiniVisionResultsDelegate,
-                                           publicKeyPinningConfig: [String: Any]) -> UIViewController {
+                                           publicKeyPinningConfig: [String: Any],
+                                           documentMetadata: GINIDocumentMetadata? = nil) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
                                                          giniConfiguration: configuration,
-                                                         publicKeyPinningConfig: publicKeyPinningConfig)
+                                                         publicKeyPinningConfig: publicKeyPinningConfig,
+                                                         documentMetadata: documentMetadata)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     

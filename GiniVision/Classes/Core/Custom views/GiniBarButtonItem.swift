@@ -10,7 +10,7 @@ import UIKit
 
 final class GiniBarButtonItem: UIBarButtonItem {
     
-    init(image: UIImage?, title: String?, style: UIBarButtonItemStyle, target: AnyObject?, action: Selector) {
+    init(image: UIImage?, title: String?, style: UIBarButtonItem.Style, target: AnyObject?, action: Selector) {
         super.init()
         self.style = style
         self.target = target
@@ -27,7 +27,7 @@ final class GiniBarButtonItem: UIBarButtonItem {
         self.accessibilityLabel = title
         
         let font = GiniConfiguration.shared.navigationBarItemFont
-        let attributes: [NSAttributedStringKey: Any] = [NSAttributedStringKey.font: font]
+        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
         setTitleTextAttributes(attributes, for: .normal)
     }
     

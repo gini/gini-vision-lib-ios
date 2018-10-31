@@ -20,10 +20,10 @@ protocol ContainerViewController: class {
 extension ContainerViewController where Self: UIViewController {
     
     func displayContent(_ controller: UIViewController) {
-        self.addChildViewController(controller)
+        self.addChild(controller)
         controller.view.frame = self.containerView.bounds
         self.containerView.addSubview(controller.view)
-        controller.didMove(toParentViewController: self)
+        controller.didMove(toParent: self)
     }
     
 }

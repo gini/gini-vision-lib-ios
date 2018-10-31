@@ -48,10 +48,10 @@ final class ContainerNavigationController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        addChildViewController(rootViewController)
+        addChild(rootViewController)
         view.addSubview(rootViewController.view)
-        rootViewController.willMove(toParentViewController: self)
-        rootViewController.didMove(toParentViewController: self)
+        rootViewController.willMove(toParent: self)
+        rootViewController.didMove(toParent: self)
     }
     
     override func viewDidLayoutSubviews() {

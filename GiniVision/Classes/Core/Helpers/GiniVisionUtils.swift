@@ -113,10 +113,10 @@ class Constraints {
     }
     
     class func active(item view1: Any,
-                      attr attr1: NSLayoutAttribute,
-                      relatedBy relation: NSLayoutRelation,
+                      attr attr1: NSLayoutConstraint.Attribute,
+                      relatedBy relation: NSLayoutConstraint.Relation,
                       to view2: Any?,
-                      attr attr2: NSLayoutAttribute,
+                      attr attr2: NSLayoutConstraint.Attribute,
                       multiplier: CGFloat = 1.0,
                       constant: CGFloat = 0,
                       priority: Float = 1000,

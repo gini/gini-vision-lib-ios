@@ -45,7 +45,7 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     
     func testInitializationWhenImageImported() {
         let image = UIImage(named: "tabBarIconHelp")
-        let builder = GiniVisionDocumentBuilder(data: UIImagePNGRepresentation(image!), documentSource: .external)
+        let builder = GiniVisionDocumentBuilder(data: image!.pngData(), documentSource: .external)
         let document = builder.build()!
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: document)],

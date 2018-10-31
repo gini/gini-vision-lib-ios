@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.1.0 (2018-10-31)
+------------------
+
+-   Added the possibility to add metadata information when uploading documents
+    if using the Networking module
+
 4.0.2 (2018-10-23)
 ------------------
 

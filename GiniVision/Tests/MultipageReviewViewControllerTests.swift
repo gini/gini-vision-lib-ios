@@ -57,7 +57,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
         let firstCell = multipageReviewViewController
             .collectionView(multipageReviewViewController.mainCollection,
                             cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFit,
+        XCTAssertEqual(firstCell?.documentImage.contentMode, UIView.ContentMode.scaleAspectFit,
                        "Main collection cells image content mode should match the one passed in the initializer")
     }
     
@@ -112,7 +112,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
         let firstCell = multipageReviewViewController
             .collectionView(multipageReviewViewController.pagesCollection,
                             cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.contentMode, UIViewContentMode.scaleAspectFill,
+        XCTAssertEqual(firstCell?.documentImage.contentMode, UIView.ContentMode.scaleAspectFill,
                        "Pages collection cells image content mode should match the one passed in the initializer")
     }
     

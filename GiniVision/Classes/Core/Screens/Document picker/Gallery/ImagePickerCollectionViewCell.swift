@@ -13,7 +13,7 @@ final class ImagePickerCollectionViewCell: UICollectionViewCell {
     let selectedCircleSize = CGSize(width: 25, height: 25)
     
     lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        let indicator = UIActivityIndicatorView(style: .gray)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.alpha = 0
         return indicator

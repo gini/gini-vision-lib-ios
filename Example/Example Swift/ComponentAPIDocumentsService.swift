@@ -15,9 +15,11 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     var partialDocuments: [String: PartialDocumentInfo] = [:]
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
+    var documentMetadata: GINIDocumentMetadata?
     
-    init(sdk: GiniSDK) {
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?) {
         self.giniSDK = sdk
+        self.documentMetadata = documentMetadata
     }
     
     func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion) {
@@ -130,6 +132,7 @@ extension ComponentAPIDocumentsService {
                 return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
                                                                                from: document.data,
                                                                                docType: docType,
+                                                                               metadata: self?.documentMetadata,
                                                                                cancellationToken: cancellationToken)
             }).continueWith(block: { task in
                 if let createdDocument = task.result as? GINIDocument {
@@ -200,6 +203,7 @@ extension ComponentAPIDocumentsService {
             .createCompositeDocument(withPartialDocumentsInfo: documents,
                                      fileName: fileName,
                                      docType: "",
+                                     metadata: documentMetadata,
                                      cancellationToken: analysisCancellationToken?.token)
             .continueOnSuccessWith { task in
                 if let document = task.result as? GINIDocument {
