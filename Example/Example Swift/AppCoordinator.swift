@@ -97,7 +97,8 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showScreenAPI(with pages: [GiniVisionPage]? = nil) {
-        documentMetadata = GINIDocumentMetadata(headers: [documentMetadataAppFlowKey: "ScreenAPI"])
+        documentMetadata = GINIDocumentMetadata(branchId: documentMetadataBranchId,
+                                                additionalHeaders: [documentMetadataAppFlowKey: "ScreenAPI"])
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
                                                         importedDocuments: pages?.map { $0.document },
                                                         client: client,

@@ -17,8 +17,8 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
     var compositeDocument: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
     
-    init(sdk: GiniSDK) {
-        giniSDK = sdk
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?) {
+        self.giniSDK = sdk
     }
     
     func cancelAnalysis() {
@@ -57,6 +57,6 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
 
 extension DocumentServiceMock {
     convenience init() {
-        self.init(sdk: GiniSDK())
+        self.init(sdk: GiniSDK(), documentMetadata: nil)
     }
 }
