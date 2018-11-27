@@ -19,6 +19,7 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
 
 * [Installation](installation.html)
 * [Integration](integration.html)
+* [Integration in Xamarin Project](integration-in-xamarin-project.html)
 * [Changelog](changelog.html)
 * [License](license.html)
 * Guides

@@ -23,6 +23,7 @@
          "children":[
            "Installation",
            "Integration",
+           "Integration in Xamarin Project",
            "Changelog",
            "License"
          ]
@@ -78,6 +79,7 @@
             "DocumentValidationError",
             "FilePickerError",
             "GiniVisionDocumentType",
+            "ImageAnalysisNoResultsStrings",
             "NoticeActionType",
             "OpaqueViewStyle",
             "ReviewError"
