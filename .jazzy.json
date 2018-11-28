@@ -23,7 +23,7 @@
          "children":[
            "Installation",
            "Integration",
-           "Integration in Xamarin Project",
+           "Integration in a Xamarin Project",
            "Changelog",
            "License"
          ]
