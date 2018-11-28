@@ -11,7 +11,7 @@ Requirements
 1. Creating the fat libraries and the binding files
 ----------------------
 
-After cloning the **Xamapod** tool and installing all its dependencies, run the following command:
+After cloning the **Xamapod** tool repository and installing all its dependencies, run the following command:
 ```bash
 sh build.sh -p GiniVision -s Networking -l https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git
 ```
