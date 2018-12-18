@@ -72,6 +72,7 @@ final class CapturedImagesStackView: UIView {
         label.textAlignment = .center
         label.textColor = .white
         label.font = label.font.withSize(12)
+        label.numberOfLines = 0
 
         return label
     }()
