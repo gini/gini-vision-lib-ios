@@ -76,7 +76,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
     }
     
     func setUp(with page: GiniVisionPage, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
-        documentImage.image = page.document.previewImage
+        documentImage.image = page.thumbnails[.big]
         
         if let error = page.error {
             updateErrorView(with: error, didTapErrorNoticeAction: action)
