@@ -243,17 +243,19 @@ extension GiniScreenAPICoordinator {
                           completion: @escaping ([GiniVisionPage]) -> Void) {
         DispatchQueue.global().async {
             var pages: [GiniVisionPage] = []
-            documents.forEach { document in
-                var documentError: Error?
-                do {
-                    try GiniVisionDocumentValidator.validate(document,
-                                                             withConfig: self.giniConfiguration)
-                } catch let error {
-                    documentError = error
+            measure {
+                documents.forEach { document in
+                    var documentError: Error?
+                    do {
+                        try GiniVisionDocumentValidator.validate(document,
+                                                                 withConfig: self.giniConfiguration)
+                    } catch let error {
+                        documentError = error
+                    }
+                    pages.append(GiniVisionPage(document: document, error: documentError))
                 }
-                pages.append(GiniVisionPage(document: document, error: documentError))
             }
-            
+
             DispatchQueue.main.async {
                 completion(pages)
             }

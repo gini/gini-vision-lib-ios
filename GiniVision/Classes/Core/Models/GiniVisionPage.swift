@@ -26,9 +26,7 @@ public struct GiniVisionPage {
         self.error = error
         self.isUploaded = isUploaded
         
-        measure {
-            self.thumbnails = self.thumbnails(from: document.data)
-        }
+        thumbnails = thumbnails(from: document.data)
     }
     
     private func thumbnails(from data: Data, screen: UIScreen = .main) -> [ThumbnailType: UIImage] {
@@ -43,7 +41,7 @@ public struct GiniVisionPage {
             thumbnails[.small] = UIImage.downsample(from: data, to: targetSize, scale: 1/4)
         } else {
             thumbnails[.big] = UIImage(data: data)
-            thumbnails[.small] = UIImage.downsample(from: data, to: imageSize, scale: 1/4 )
+            thumbnails[.small] = UIImage.downsample(from: data, to: imageSize, scale: 1/4)
         }
         
         return thumbnails
