@@ -243,19 +243,17 @@ extension GiniScreenAPICoordinator {
                           completion: @escaping ([GiniVisionPage]) -> Void) {
         DispatchQueue.global().async {
             var pages: [GiniVisionPage] = []
-            measure {
-                documents.forEach { document in
-                    var documentError: Error?
-                    do {
-                        try GiniVisionDocumentValidator.validate(document,
-                                                                 withConfig: self.giniConfiguration)
-                    } catch let error {
-                        documentError = error
-                    }
-                    pages.append(GiniVisionPage(document: document, error: documentError))
+            documents.forEach { document in
+                var documentError: Error?
+                do {
+                    try GiniVisionDocumentValidator.validate(document,
+                                                             withConfig: self.giniConfiguration)
+                } catch let error {
+                    documentError = error
                 }
+                pages.append(GiniVisionPage(document: document, error: documentError))
             }
-
+            
             DispatchQueue.main.async {
                 completion(pages)
             }
@@ -277,7 +275,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             self.update(document, withError: error, isUploaded: false)
-
+            
             if document.type != .image || !self.giniConfiguration.multipageEnabled {
                 guard let error = error as? GiniVisionError else { return }
                 self.displayError(withMessage: error.message, andAction: { [weak self] in
