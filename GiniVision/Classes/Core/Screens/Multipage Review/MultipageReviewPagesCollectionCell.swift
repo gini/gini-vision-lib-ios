@@ -200,13 +200,17 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
     
-    func setUp(with page: GiniVisionPage, at index: Int, giniConfiguration: GiniConfiguration) {
-        if let image = page.thumbnails[.small] {
+    func setUp(with page: GiniVisionPage,
+               thumbnail: UIImage?,
+               at index: Int,
+               giniConfiguration: GiniConfiguration) {
+        if let image = thumbnail {
             documentImage.contentMode = image.size.width > image.size.height ?
                 .scaleAspectFit :
                 .scaleAspectFill
             documentImage.image = image
         }
+        
         pageIndicatorLabel.text = "\(index + 1)"
         pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
         pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor

@@ -66,9 +66,25 @@ public final class MultipageReviewViewController: UIViewController {
      The object that acts as the delegate of the multipage review view controller.
      */
     public weak var delegate: MultipageReviewViewControllerDelegate?
-
-    var pages: [GiniVisionPage]
-    let giniConfiguration: GiniConfiguration
+    
+    fileprivate var pages: [GiniVisionPage]
+    fileprivate var currentSelectedItemPosition: Int = 0
+    fileprivate let giniConfiguration: GiniConfiguration
+    fileprivate let thumbnailsQueue = DispatchQueue(label: "Thumbnails queue")
+    fileprivate var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
+    
+    enum ThumbnailType {
+        case big, small
+        
+        var scale: CGFloat {
+            switch self {
+            case .big:
+                return 1.0
+            case .small:
+                return 1/4
+            }
+        }
+    }
     
     // MARK: - UI initialization
     
@@ -165,7 +181,7 @@ public final class MultipageReviewViewController: UIViewController {
     
     var toolTipView: ToolTipView?
     fileprivate var opaqueView: UIView?
-        
+    
     lazy var rotateButton: UIBarButtonItem = {
         return barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                              insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
@@ -237,7 +253,8 @@ extension MultipageReviewViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        selectLastItem()
+        guard self.pages.count > 0 else { return }
+        selectItem(at: (self.pages.count - 1), animated: animated)
         mainCollection.collectionViewLayout.invalidateLayout()
         changeReorderTipVisibility(to: pages.count < 2)
     }
@@ -281,8 +298,41 @@ extension MultipageReviewViewController {
      */
     
     public func updateCollections(with pages: [GiniVisionPage], animated: Bool = false) {
-        self.pages = pages
-        self.reloadCollections(animated: animated)
+        let diff = self.pages.diffIndexes(with: pages)
+        
+        let updatedIndexPaths = diff.updated.map { IndexPath(row: $0, section: 0) }
+        let removedIndexPaths = diff.removed.map { IndexPath(row: $0, section: 0) }
+        let insertedIndexPaths = diff.inserted.map { IndexPath(row: $0, section: 0) }
+        
+        reload(pagesCollection,
+               pages: pages,
+               indexPaths: (updatedIndexPaths, removedIndexPaths, insertedIndexPaths),
+               animated: true) { [weak self] _ in
+                guard let self = self else { return }
+                print("Select at:", self.currentSelectedItemPosition)
+                self.selectItem(at: self.currentSelectedItemPosition)
+        }
+
+        mainCollection.reloadData()
+    }
+    
+    private func reload(_ collection: UICollectionView,
+                        pages: [GiniVisionPage],
+                        indexPaths: (updated: [IndexPath], removed: [IndexPath], inserted: [IndexPath]),
+                        animated: Bool, completion: @escaping (Bool) -> Void) {
+        // When the collection has not been loaded before, the data should be reloaded
+        guard collection.numberOfItems(inSection: 0) > 0 else {
+            self.pages = pages
+            collection.reloadData()
+            return
+        }
+        
+        collection.performBatchUpdates(animated: animated, updates: {
+            self.pages = pages
+            collection.reloadItems(at: indexPaths.updated)
+            collection.deleteItems(at: indexPaths.removed)
+            collection.insertItems(at: indexPaths.inserted)
+        }, completion: completion)
     }
     
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
@@ -290,13 +340,9 @@ extension MultipageReviewViewController {
         self.pagesCollection.selectItem(at: indexPath,
                                         animated: animated,
                                         scrollPosition: .centeredHorizontally)
+        currentSelectedItemPosition = position
         centerCollections(to: indexPath, animated: animated)
         changeTitle(withPage: position + 1)
-    }
-    
-    func selectLastItem(animated: Bool = false) {
-        let lastPosition = self.pages.count - 1
-        selectItem(at: lastPosition, animated: animated)
     }
     
     fileprivate func centerCollections(to indexPath: IndexPath, animated: Bool = true) {
@@ -304,31 +350,23 @@ extension MultipageReviewViewController {
         pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     }
     
-    private func reloadCollections(animated: Bool = false) {
+    private func reloadCollections(animated: Bool = false,
+                                   pages: [GiniVisionPage],
+                                   diff: DiffResultsIndexes) {
         let currentSelectedItem = pagesCollection.indexPathsForSelectedItems?.first
+        let updatedIndexPaths = diff.updated.map { IndexPath(row: $0, section: 0) }
+        let removedIndexPaths = diff.removed.map { IndexPath(row: $0, section: 0) }
+        let insertedIndexPaths = diff.inserted.map { IndexPath(row: $0, section: 0) }
         
-        let dispatchGroup = DispatchGroup()
-        reload(pagesCollection, section: 0, in: dispatchGroup, animated: animated)
-        reload(mainCollection, section: 0, in: dispatchGroup, animated: animated)
-        
-        dispatchGroup.notify(queue: .main, execute: {
-            if let currentSelectedItem = currentSelectedItem {
-                self.selectItem(at: currentSelectedItem.row, animated: false)
-            } else {
-                self.selectLastItem(animated: false)
-            }
-        })
-    }
-    
-    private func reload(_ collection: UICollectionView,
-                        section: Int,
-                        in dispatchGroup: DispatchGroup,
-                        animated: Bool = false) {
-        collection.performBatchUpdates(animated: animated, updates: {
-            dispatchGroup.enter()
-            collection.reloadSections(IndexSet(integer: 0))
+        pagesCollection.performBatchUpdates(animated: animated, updates: {
+            self.pages = pages
+
+            self.pagesCollection.deleteItems(at: removedIndexPaths)
+            self.pagesCollection.reloadItems(at: updatedIndexPaths)
+            self.pagesCollection.insertItems(at: insertedIndexPaths)
         }, completion: { _ in
-            dispatchGroup.leave()
+            let position = currentSelectedItem?.row ?? (self.pages.count - 1)
+            self.selectItem(at: position, animated: false)
         })
     }
     
@@ -478,14 +516,14 @@ extension MultipageReviewViewController {
 // MARK: - Toolbar actions
 
 extension MultipageReviewViewController {
-
+    
     fileprivate func deleteItem(at indexPath: IndexPath) {
         let pageToDelete = pages[indexPath.row]
         pages.remove(at: indexPath.row)
         mainCollection.deleteItems(at: [indexPath])
         delegate?.multipageReview(self, didDelete: pageToDelete)
         deleteButton.isEnabled = false
-
+        
         pagesCollection.performBatchUpdates({
             self.pagesCollection.deleteItems(at: [indexPath])
         }, completion: { _ in
@@ -507,7 +545,7 @@ extension MultipageReviewViewController {
         indexes.append(indexPath)
         pagesCollection.reloadItems(at: indexes)
     }
-
+    
     @objc fileprivate func rotateImageButtonAction() {
         if let currentIndexPath = visibleCell(in: self.mainCollection) {
             guard let imageDocument = pages[currentIndexPath.row].document as? GiniImageDocument else {
@@ -538,30 +576,65 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let page = pages[indexPath.row]
+        
         if collectionView == mainCollection {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewMainCollectionCell
-            let page = pages[indexPath.row]
-            cell?.setUp(with: page) { [weak self] action in
-                guard let `self` = self else { return }
-
-                switch action {
-                case .retry:
-                    self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
-                case .retake:
-                    self.deleteItem(at: indexPath)
-                    self.delegate?.multipageReviewDidTapAddImage(self)
+            let setup: (GiniVisionPage, UIImage?) -> Void = { [weak cell] page, image in
+                cell?.setUp(with: page, thumbnail: image) { [weak self] action in
+                    guard let `self` = self else { return }
+                    switch action {
+                    case .retry:
+                        self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
+                    case .retake:
+                        self.deleteItem(at: indexPath)
+                        self.delegate?.multipageReviewDidTapAddImage(self)
+                    }
                 }
             }
             
+            cellSetup(setup, page: page, in: collectionView, at: indexPath, thumbnailType: .big)
             return cell!
         } else {
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            cell?.setUp(with: pages[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
+            
+            let setup: (GiniVisionPage, UIImage?) -> Void = { [weak cell] page, image in
+                cell?.setUp(with: page,
+                            thumbnail: image,
+                            at: indexPath.row,
+                            giniConfiguration: self.giniConfiguration)
+            }
+            
+            cellSetup(setup, page: page, in: collectionView, at: indexPath, thumbnailType: .small)
+            
             return cell!
+        }
+    }
+    
+    private func cellSetup(_ setup: (GiniVisionPage, UIImage?) -> Void,
+                           page: GiniVisionPage,
+                           in collectionView: UICollectionView,
+                           at indexPath: IndexPath,
+                           thumbnailType type: ThumbnailType) {
+        if let thumbnail = self.thumbnails[page.document.id, default: [:]][type] {
+            setup(page, thumbnail)
+        } else {
+            setup(page, nil)
+            
+            thumbnailsQueue.async {
+                let thumbnail = UIImage.downsample(from: page.document.data,
+                                                   to: self.targetThumbnailSize(from: page.document.data),
+                                                   scale: type.scale)
+                self.thumbnails[page.document.id, default: [:]][type] = thumbnail
+                
+                DispatchQueue.main.async {
+                    collectionView.reloadItems(at: [indexPath])
+                }
+            }
         }
     }
     
@@ -637,6 +710,7 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
                 centerCollections(to: indexPath)
             }
             changeTitle(withPage: indexPath.row + 1)
+            currentSelectedItemPosition = indexPath.row
         }
     }
     
@@ -680,6 +754,18 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         
         return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
                       size: CGSize(width: imageWidth, height: imageView.frame.size.height))
+    }
+    
+    fileprivate func targetThumbnailSize(from imageData: Data, screen: UIScreen = .main) -> CGSize {
+        let imageSize = UIImage(data: imageData)?.size ?? .zero
+        
+        if imageSize.width > (screen.bounds.size.width * 2) {
+            let maxWidth = screen.bounds.size.width * 2
+            return CGSize(width: maxWidth, height: imageSize.height * maxWidth / imageSize.width)
+        } else {
+            return imageSize
+        }
+        
     }
     
 }
