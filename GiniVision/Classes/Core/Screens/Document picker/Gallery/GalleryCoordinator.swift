@@ -99,7 +99,11 @@ final class GalleryCoordinator: NSObject, Coordinator {
     }
     
     func dismissGallery(completion: (() -> Void)? = nil) {
-        rootViewController.dismiss(animated: true, completion: completion)
+        rootViewController.dismiss(animated: true) { [weak self] in
+            completion?()
+            self?.galleryNavigator.popToRootViewController(animated: false)
+            self?.currentImagePickerViewController = nil
+        }
         resetToInitialState()
     }
     
@@ -119,7 +123,6 @@ final class GalleryCoordinator: NSObject, Coordinator {
     @objc fileprivate func openImages() {
         DispatchQueue.main.async {
             let imageDocuments: [GiniImageDocument] = self.selectedImageDocuments.map { $0.imageDocument }
-            self.resetToInitialState()
             self.delegate?.gallery(self, didSelectImageDocuments: imageDocuments)
         }
     }

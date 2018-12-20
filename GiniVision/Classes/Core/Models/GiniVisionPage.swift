@@ -25,7 +25,9 @@ public struct GiniVisionPage {
         self.document = document
         self.error = error
         self.isUploaded = isUploaded
-        
+    }
+    
+    public mutating func generateThumbnails() {
         thumbnails = thumbnails(from: document.data)
     }
     
