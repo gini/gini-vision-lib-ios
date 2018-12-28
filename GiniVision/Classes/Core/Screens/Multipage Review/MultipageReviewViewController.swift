@@ -70,21 +70,11 @@ public final class MultipageReviewViewController: UIViewController {
     fileprivate var pages: [GiniVisionPage]
     fileprivate var currentSelectedItemPosition: Int = 0
     fileprivate let giniConfiguration: GiniConfiguration
-    fileprivate let thumbnailsQueue = DispatchQueue(label: "Thumbnails queue")
-    fileprivate var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
-    
-    enum ThumbnailType {
-        case big, small
-        
-        var scale: CGFloat {
-            switch self {
-            case .big:
-                return 1.0
-            case .small:
-                return 1/4
-            }
-        }
-    }
+    fileprivate lazy var adapter: MultipageReviewCollectionsAdapter = {
+        let adapter = MultipageReviewCollectionsAdapter()
+        adapter.delegate = self
+        return adapter
+    }()
     
     // MARK: - UI initialization
     
@@ -312,7 +302,7 @@ extension MultipageReviewViewController {
                 print("Select at:", self.currentSelectedItemPosition)
                 self.selectItem(at: self.currentSelectedItemPosition)
         }
-
+        
         mainCollection.reloadData()
     }
     
@@ -360,7 +350,7 @@ extension MultipageReviewViewController {
         
         pagesCollection.performBatchUpdates(animated: animated, updates: {
             self.pages = pages
-
+            
             self.pagesCollection.deleteItems(at: removedIndexPaths)
             self.pagesCollection.reloadItems(at: updatedIndexPaths)
             self.pagesCollection.insertItems(at: insertedIndexPaths)
@@ -570,6 +560,7 @@ extension MultipageReviewViewController {
 // MARK: UICollectionViewDataSource
 
 extension MultipageReviewViewController: UICollectionViewDataSource {
+    
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.pages.count
     }
@@ -577,65 +568,19 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let page = pages[indexPath.row]
+        let isSelected = self.currentSelectedItemPosition == indexPath.row
+        let collection: MultipageReviewCollectionsAdapter.MultipageCollectionType
         
         if collectionView == mainCollection {
-            let cell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
-                                     for: indexPath) as? MultipageReviewMainCollectionCell
-            let setup: (GiniVisionPage, UIImage?) -> Void = { [weak cell] page, image in
-                cell?.setUp(with: page, thumbnail: image) { [weak self] action in
-                    guard let `self` = self else { return }
-                    switch action {
-                    case .retry:
-                        self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
-                    case .retake:
-                        self.deleteItem(at: indexPath)
-                        self.delegate?.multipageReviewDidTapAddImage(self)
-                    }
-                }
-            }
-            
-            cellSetup(setup, page: page, in: collectionView, at: indexPath, thumbnailType: .big)
-            return cell!
+            collection = .main(mainCollection, didFailUpload(page: page, indexPath: indexPath))
         } else {
-            let cell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
-                                     for: indexPath) as? MultipageReviewPagesCollectionCell
-            
-            let setup: (GiniVisionPage, UIImage?) -> Void = { [weak cell] page, image in
-                cell?.setUp(with: page,
-                            thumbnail: image,
-                            at: indexPath.row,
-                            giniConfiguration: self.giniConfiguration)
-            }
-            
-            cellSetup(setup, page: page, in: collectionView, at: indexPath, thumbnailType: .small)
-            
-            return cell!
+            collection = .pages(pagesCollection)
         }
-    }
-    
-    private func cellSetup(_ setup: (GiniVisionPage, UIImage?) -> Void,
-                           page: GiniVisionPage,
-                           in collectionView: UICollectionView,
-                           at indexPath: IndexPath,
-                           thumbnailType type: ThumbnailType) {
-        if let thumbnail = self.thumbnails[page.document.id, default: [:]][type] {
-            setup(page, thumbnail)
-        } else {
-            setup(page, nil)
-            
-            thumbnailsQueue.async {
-                let thumbnail = UIImage.downsample(from: page.document.data,
-                                                   to: self.targetThumbnailSize(from: page.document.data),
-                                                   scale: type.scale)
-                self.thumbnails[page.document.id, default: [:]][type] = thumbnail
-                
-                DispatchQueue.main.async {
-                    collectionView.reloadItems(at: [indexPath])
-                }
-            }
-        }
+
+        return adapter.cell(for: page,
+                            in: collection,
+                            isSelected: isSelected,
+                            at: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -680,6 +625,29 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
         }
     }
     
+    private func didFailUpload(page: GiniVisionPage, indexPath: IndexPath) -> ((NoticeActionType) -> Void) {
+        return {[weak self] action in
+            guard let `self` = self else { return }
+            switch action {
+            case .retry:
+                self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
+            case .retake:
+                self.deleteItem(at: indexPath)
+                self.delegate?.multipageReviewDidTapAddImage(self)
+            }
+        }
+    }
+    
+}
+
+// MARK: - MultipageReviewCollectionsAdapterDelegate
+
+extension MultipageReviewViewController: MultipageReviewCollectionsAdapterDelegate  {
+    func multipage(_ reviewCollectionsAdapter: MultipageReviewCollectionsAdapter,
+                   needReload collectionView: UICollectionView,
+                   at indexPath: IndexPath) {
+        collectionView.reloadItems(at: [indexPath])
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout
@@ -754,18 +722,6 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
         
         return CGRect(origin: CGPoint(x: imageOriginX, y: origin.y),
                       size: CGSize(width: imageWidth, height: imageView.frame.size.height))
-    }
-    
-    fileprivate func targetThumbnailSize(from imageData: Data, screen: UIScreen = .main) -> CGSize {
-        let imageSize = UIImage(data: imageData)?.size ?? .zero
-        
-        if imageSize.width > (screen.bounds.size.width * 2) {
-            let maxWidth = screen.bounds.size.width * 2
-            return CGSize(width: maxWidth, height: imageSize.height * maxWidth / imageSize.width)
-        } else {
-            return imageSize
-        }
-        
     }
     
 }
