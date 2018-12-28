@@ -53,15 +53,18 @@ final class MultipageReviewCollectionsAdapter {
                                      for: indexPath) as? MultipageReviewMainCollectionCell
             setUp(cell: cell!,
                   with: page,
-                  in: collectionView,
-                  at: indexPath,
+                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .big, in: collectionView, at: indexPath),
                   didTapErrorNotice: errorAction)
             return cell!
         case .pages(let collectionView):
             let cell = collectionView
                 .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
                                      for: indexPath) as? MultipageReviewPagesCollectionCell
-            setUp(cell: cell!, with: page, in: collectionView, at: indexPath, selected: isSelected)
+            setUp(cell: cell!,
+                  with: page,
+                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .small, in: collectionView, at: indexPath),
+                  pageIndex: indexPath.row,
+                  selected: isSelected)
             return cell!
         }
         
@@ -76,8 +79,8 @@ fileprivate extension MultipageReviewCollectionsAdapter {
     
     func setUp(cell: MultipageReviewPagesCollectionCell,
                with page: GiniVisionPage,
-               in collectionView: UICollectionView,
-               at indexPath: IndexPath,
+               fetchThumbnailTrigger: @autoclosure () -> Void,
+               pageIndex: Int,
                selected: Bool) {
         // Thumbnail set
         if let thumbnail = self.thumbnails[page.document.id, default: [:]][.small] {
@@ -87,10 +90,10 @@ fileprivate extension MultipageReviewCollectionsAdapter {
             cell.documentImage.image = thumbnail
         } else {
             cell.documentImage.image = nil
-            fetchThumbnailImage(for: page, of: .small, in: collectionView, at: indexPath)
+            fetchThumbnailTrigger()
         }
         
-        cell.pageIndicatorLabel.text = "\(indexPath.row + 1)"
+        cell.pageIndicatorLabel.text = "\(pageIndex + 1)"
         cell.pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
         cell.pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
         cell.draggableIcon.tintColor = giniConfiguration.multipageDraggableIconColor
@@ -112,15 +115,14 @@ fileprivate extension MultipageReviewCollectionsAdapter {
     
     func setUp(cell: MultipageReviewMainCollectionCell,
                with page: GiniVisionPage,
-               in collectionView: UICollectionView,
-               at indexPath: IndexPath,
+               fetchThumbnailTrigger: @autoclosure () -> Void,
                didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
         // Thumbnail set
         if let thumbnail = self.thumbnails[page.document.id, default: [:]][.big] {
             cell.documentImage.image = thumbnail
         } else {
             cell.documentImage.image = nil
-            fetchThumbnailImage(for: page, of: .big, in: collectionView, at: indexPath)
+            fetchThumbnailTrigger()
         }
                 
         if let error = page.error {
@@ -132,8 +134,8 @@ fileprivate extension MultipageReviewCollectionsAdapter {
     }
     
     func setUpErrorView(in cell: MultipageReviewMainCollectionCell,
-                         with error: Error,
-                         didTapErrorNoticeAction: @escaping (NoticeActionType) -> Void) {
+                        with error: Error,
+                        didTapErrorNoticeAction: @escaping (NoticeActionType) -> Void) {
         let buttonTitle: String
         let action: NoticeActionType
         
