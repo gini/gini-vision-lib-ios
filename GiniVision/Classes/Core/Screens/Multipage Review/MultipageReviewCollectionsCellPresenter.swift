@@ -16,9 +16,9 @@ protocol MultipageReviewCollectionCellPresenterDelegate: class {
 final class MultipageReviewCollectionCellPresenter {
     
     weak var delegate: MultipageReviewCollectionCellPresenterDelegate?
+    var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let thumbnailsQueue = DispatchQueue(label: "Thumbnails queue")
-    fileprivate var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
     
     enum MultipageCollectionCellType {
         case main(MultipageReviewMainCollectionCell, (NoticeActionType) -> Void)

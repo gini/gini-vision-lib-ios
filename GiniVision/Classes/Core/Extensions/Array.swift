@@ -12,7 +12,11 @@ typealias DiffResultsIndexes = (updated: [Int], removed: [Int], inserted: [Int])
 
 extension Array where Element: Diffable {
     func diff(with second: [Element]) -> DiffResults<Element> {
-        let combinations = compactMap { firstElement in (firstElement, second.first { secondElement in firstElement.primaryKey == secondElement.primaryKey }) }
+        let combinations = compactMap { firstElement in
+            (firstElement, second.first { secondElement in
+                firstElement.primaryKey == secondElement.primaryKey
+            })
+        }
         let common = combinations.filter { $0.1 != nil }.compactMap { $0.0 }
         let removed = combinations.filter { $0.1 == nil }.compactMap { ($0.0) }
         let inserted = second.filter { secondElement in !common.contains { $0.primaryKey == secondElement.primaryKey } }
@@ -38,17 +42,6 @@ extension Array where Element: Diffable {
         }
         return (updated: updatedIndexes, removed: removedIndexes, inserted: insertedIndexes)
     }
-
-//    func indexes(of elements: [Element]) -> [Int] {
-//        var indexes: [Int] = []
-//        elements.forEach { element in
-//            if let index = index(of: element) {
-//                indexes.append(index)
-//            }
-//        }
-//
-//        return indexes
-//    }
 }
 
 public protocol Diffable {

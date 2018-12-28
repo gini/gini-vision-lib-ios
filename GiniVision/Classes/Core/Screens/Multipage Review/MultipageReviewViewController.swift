@@ -67,7 +67,7 @@ public final class MultipageReviewViewController: UIViewController {
      */
     public weak var delegate: MultipageReviewViewControllerDelegate?
     
-    fileprivate var pages: [GiniVisionPage]
+    var pages: [GiniVisionPage]
     fileprivate var currentSelectedItemPosition: Int = 0
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate lazy var presenter: MultipageReviewCollectionCellPresenter = {
