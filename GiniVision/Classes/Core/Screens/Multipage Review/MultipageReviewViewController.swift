@@ -212,6 +212,7 @@ public final class MultipageReviewViewController: UIViewController {
 }
 
 // MARK: - UIViewController
+
 extension MultipageReviewViewController {
     override public func loadView() {
         super.loadView()
@@ -231,10 +232,8 @@ extension MultipageReviewViewController {
         automaticallyAdjustsScrollViewInsets = false
         edgesForExtendedLayout = []
         
-        if #available(iOS 9.0, *) {
-            longPressGesture.delaysTouchesBegan = true
-            pagesCollection.addGestureRecognizer(longPressGesture)
-        }
+        longPressGesture.delaysTouchesBegan = true
+        pagesCollection.addGestureRecognizer(longPressGesture)
         
         if ToolTipView.shouldShowReorderPagesButtonToolTip {
             createReorderPagesTip()
@@ -270,7 +269,7 @@ extension MultipageReviewViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             
@@ -329,11 +328,6 @@ extension MultipageReviewViewController {
                                    scrollPosition: .centeredHorizontally)
         
         collectionView(pagesCollection, didSelectItemAt: indexPath)
-    }
-    
-    fileprivate func centerCollections(to indexPath: IndexPath, animated: Bool = true) {
-        mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-        pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: animated)
     }
     
 }
@@ -406,7 +400,7 @@ extension MultipageReviewViewController {
                                   distanceToRefView: .zero)
         
         toolTipView?.willDismiss = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.opaqueView?.removeFromSuperview()
             self.deleteButton.isEnabled = true
             self.rotateButton.isEnabled = true
@@ -537,25 +531,28 @@ extension MultipageReviewViewController {
 extension MultipageReviewViewController: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.pages.count
+        return pages.count
     }
     
     public func collectionView(_ collectionView: UICollectionView,
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let page = pages[indexPath.row]
         let isSelected = self.currentSelectedItemPosition == indexPath.row
-        let collection: MultipageReviewCollectionCellPresenter.MultipageCollectionType
+        let collectionCell: MultipageReviewCollectionCellPresenter.MultipageCollectionCellType
         
         if collectionView == mainCollection {
-            collection = .main(mainCollection, didFailUpload(page: page, indexPath: indexPath))
+            let cell = mainCollection
+                .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
+                                     for: indexPath) as? MultipageReviewMainCollectionCell
+            collectionCell = .main(cell!, didFailUpload(page: page, indexPath: indexPath))
         } else {
-            collection = .pages(pagesCollection)
+            let cell = pagesCollection
+                .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
+                                     for: indexPath) as? MultipageReviewPagesCollectionCell
+            collectionCell = .pages(cell!)
         }
 
-        return presenter.cell(for: page,
-                            in: collection,
-                            isSelected: isSelected,
-                            at: indexPath)
+        return presenter.setUp(collectionCell, with: page, isSelected: isSelected, at: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView,
@@ -568,9 +565,10 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
         footer?.updateMaskConstraints(with: collectionView)
         footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
         footer?.didTapAddButton = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.delegate?.multipageReviewDidTapAddImage(self)
         }
+        
         return footer!
     }
     
@@ -595,7 +593,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
             
             // This is needed because this method is called before the dragging animation finishes.
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.pagesCollection.reloadData()               
                 self.selectItem(at: destinationIndexPath.row)
                 self.delegate?.multipageReview(self, didReorder: self.pages)
@@ -605,7 +603,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
     
     private func didFailUpload(page: GiniVisionPage, indexPath: IndexPath) -> ((NoticeActionType) -> Void) {
         return {[weak self] action in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             switch action {
             case .retry:
                 self.delegate?.multipageReview(self, didTapRetryUploadFor: page)
@@ -622,7 +620,18 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
 
 extension MultipageReviewViewController: MultipageReviewCollectionCellPresenterDelegate {
     func multipage(_ reviewCollectionCellPresenter: MultipageReviewCollectionCellPresenter,
-                   needReload collectionView: UICollectionView,
+                   didUpdate cell: MultipageReviewCollectionCellPresenter.MultipageCollectionCellType,
+                   at indexPath: IndexPath) {
+        switch cell {
+        case .main:
+            mainCollection.reloadItems(at: [indexPath])
+        case .pages:
+            pagesCollection.reloadItems(at: [indexPath])
+        }
+    }
+    
+    func multipage(_ reviewCollectionCellPresenter: MultipageReviewCollectionCellPresenter,
+                   didUpdateElementIn collectionView: UICollectionView,
                    at indexPath: IndexPath) {
         collectionView.reloadItems(at: [indexPath])
     }
@@ -653,7 +662,8 @@ extension MultipageReviewViewController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == pagesCollection {
             if pages.count > 1 {
-                centerCollections(to: indexPath)
+                mainCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+                pagesCollection.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
             changeTitle(withPage: indexPath.row + 1)
             currentSelectedItemPosition = indexPath.row

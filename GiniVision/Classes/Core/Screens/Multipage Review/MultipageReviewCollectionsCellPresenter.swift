@@ -9,7 +9,7 @@ import Foundation
 
 protocol MultipageReviewCollectionCellPresenterDelegate: class {
     func multipage(_ reviewCollectionCellPresenter: MultipageReviewCollectionCellPresenter,
-                   needReload collectionView: UICollectionView,
+                   didUpdate cell: MultipageReviewCollectionCellPresenter.MultipageCollectionCellType,
                    at indexPath: IndexPath)
 }
 
@@ -20,8 +20,9 @@ final class MultipageReviewCollectionCellPresenter {
     fileprivate let thumbnailsQueue = DispatchQueue(label: "Thumbnails queue")
     fileprivate var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
     
-    enum MultipageCollectionType {
-        case main(UICollectionView, (NoticeActionType) -> Void), pages(UICollectionView)
+    enum MultipageCollectionCellType {
+        case main(MultipageReviewMainCollectionCell, (NoticeActionType) -> Void)
+        case pages(MultipageReviewPagesCollectionCell)
     }
     
     enum ThumbnailType {
@@ -41,33 +42,29 @@ final class MultipageReviewCollectionCellPresenter {
         self.giniConfiguration = giniConfiguration
     }
     
-    func cell(for page: GiniVisionPage,
-              in collection: MultipageCollectionType,
-              isSelected: Bool,
-              at indexPath: IndexPath) -> UICollectionViewCell {
+    func setUp(_ cell: MultipageCollectionCellType,
+               with page: GiniVisionPage,
+               isSelected: Bool,
+               at indexPath: IndexPath) -> UICollectionViewCell {
         
-        switch collection {
-        case .main(let collectionView, let errorAction):
-            let cell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: MultipageReviewMainCollectionCell.identifier,
-                                     for: indexPath) as? MultipageReviewMainCollectionCell
-            setUp(cell: cell!,
+        let collectionCell: UICollectionViewCell
+        switch cell {
+        case .main(let mainCell, let errorAction):
+            setUp(cell: mainCell,
                   with: page,
-                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .big, in: collectionView, at: indexPath),
+                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .big, in: cell, at: indexPath),
                   didTapErrorNotice: errorAction)
-            return cell!
-        case .pages(let collectionView):
-            let cell = collectionView
-                .dequeueReusableCell(withReuseIdentifier: MultipageReviewPagesCollectionCell.identifier,
-                                     for: indexPath) as? MultipageReviewPagesCollectionCell
-            setUp(cell: cell!,
+            collectionCell = mainCell
+        case .pages(let pageCell):
+            setUp(cell: pageCell,
                   with: page,
-                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .small, in: collectionView, at: indexPath),
+                  fetchThumbnailTrigger: fetchThumbnailImage(for: page, of: .small, in: cell, at: indexPath),
                   pageIndex: indexPath.row,
                   selected: isSelected)
-            return cell!
+            collectionCell = pageCell
         }
         
+        return collectionCell
     }
     
     func rotateThumbnails(for page: GiniVisionPage) {
@@ -183,7 +180,7 @@ fileprivate extension MultipageReviewCollectionCellPresenter {
 fileprivate extension MultipageReviewCollectionCellPresenter {
     func fetchThumbnailImage(for page: GiniVisionPage,
                              of type: ThumbnailType,
-                             in collectionView: UICollectionView,
+                             in cell: MultipageCollectionCellType,
                              at indexPath: IndexPath) {
         thumbnailsQueue.async { [weak self] in
             guard let self = self else { return }
@@ -193,7 +190,7 @@ fileprivate extension MultipageReviewCollectionCellPresenter {
             self.thumbnails[page.document.id, default: [:]][type] = thumbnail
             
             DispatchQueue.main.async {
-                self.delegate?.multipage(self, needReload: collectionView, at: indexPath)
+                self.delegate?.multipage(self, didUpdate: cell, at: indexPath)
             }
         }
     }
