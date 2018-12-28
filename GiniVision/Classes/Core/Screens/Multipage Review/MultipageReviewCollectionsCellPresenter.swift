@@ -1,5 +1,5 @@
 //
-//  MultipageReviewCollectionsAdapter.swift
+//  MultipageReviewCollectionCellPresenter.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 12/28/18.
@@ -7,15 +7,15 @@
 
 import Foundation
 
-protocol MultipageReviewCollectionsAdapterDelegate: class {
-    func multipage(_ reviewCollectionsAdapter: MultipageReviewCollectionsAdapter,
+protocol MultipageReviewCollectionCellPresenterDelegate: class {
+    func multipage(_ reviewCollectionCellPresenter: MultipageReviewCollectionCellPresenter,
                    needReload collectionView: UICollectionView,
                    at indexPath: IndexPath)
 }
 
-final class MultipageReviewCollectionsAdapter {
+final class MultipageReviewCollectionCellPresenter {
     
-    weak var delegate: MultipageReviewCollectionsAdapterDelegate?
+    weak var delegate: MultipageReviewCollectionCellPresenterDelegate?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let thumbnailsQueue = DispatchQueue(label: "Thumbnails queue")
     fileprivate var thumbnails: [String: [ThumbnailType: UIImage]] = [:]
@@ -69,11 +69,21 @@ final class MultipageReviewCollectionsAdapter {
         }
         
     }
+    
+    func rotateThumbnails(for page: GiniVisionPage) {
+        if let smallRotatedImage = thumbnails[page.document.id]?[.small]?.rotated90Degrees() {
+            thumbnails[page.document.id]![.small] = smallRotatedImage
+        }
+        
+        if let bigRotatedImage = thumbnails[page.document.id]?[.big]?.rotated90Degrees() {
+            thumbnails[page.document.id]![.big] = bigRotatedImage
+        }
+    }
 }
 
 // MARK: - Cells setup
 
-fileprivate extension MultipageReviewCollectionsAdapter {
+fileprivate extension MultipageReviewCollectionCellPresenter {
     
     // MARK: - MultipageReviewPagesCollectionCell
     
@@ -100,7 +110,7 @@ fileprivate extension MultipageReviewCollectionsAdapter {
         cell.bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
         
         // Every time the cell is dequeued, its `isSelected` state is set to default, false.
-        cell.pageSelectedLine.alpha = selected ? 1 : 0
+        cell.isSelected = selected
         
         if page.isUploaded {
             cell.stateView.update(to: .succeeded)
@@ -170,7 +180,7 @@ fileprivate extension MultipageReviewCollectionsAdapter {
 
 // MARK: - Thumbnails
 
-fileprivate extension MultipageReviewCollectionsAdapter {
+fileprivate extension MultipageReviewCollectionCellPresenter {
     func fetchThumbnailImage(for page: GiniVisionPage,
                              of type: ThumbnailType,
                              in collectionView: UICollectionView,
