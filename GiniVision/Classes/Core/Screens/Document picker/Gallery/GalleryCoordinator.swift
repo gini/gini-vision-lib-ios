@@ -26,7 +26,6 @@ final class GalleryCoordinator: NSObject, Coordinator {
                 .setRightBarButton(selectedImageDocuments.isEmpty ? cancelButton : openImagesButton, animated: true)
         }
     }
-    fileprivate var currentImagePickerViewController: ImagePickerViewController?
     
     var isGalleryPermissionGranted: Bool {
         return PHPhotoLibrary.authorizationStatus() == .authorized
@@ -38,26 +37,28 @@ final class GalleryCoordinator: NSObject, Coordinator {
         return containerNavigationController
     }
     
-    lazy var containerNavigationController: ContainerNavigationController = {
+    lazy fileprivate(set) var containerNavigationController: ContainerNavigationController = {
         let container = ContainerNavigationController(rootViewController: self.galleryNavigator,
                                                       giniConfiguration: self.giniConfiguration)
         return container
     }()
     
-    lazy var galleryNavigator: UINavigationController = {
+    lazy fileprivate(set) var galleryNavigator: UINavigationController = {
         let navController = UINavigationController(rootViewController: self.albumsController)
         navController.applyStyle(withConfiguration: self.giniConfiguration)
         navController.delegate = self
         return navController
     }()
     
-    lazy var albumsController: AlbumsPickerViewController = {
+    lazy fileprivate(set) var albumsController: AlbumsPickerViewController = {
         let albumsPickerVC = AlbumsPickerViewController(galleryManager: self.galleryManager)
         albumsPickerVC.delegate = self
         albumsPickerVC.navigationItem.rightBarButtonItem = self.cancelButton
         return albumsPickerVC
     }()
     
+    fileprivate(set) var currentImagePickerViewController: ImagePickerViewController?
+
     // MARK: - Navigation bar buttons
     
     lazy var cancelButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,
