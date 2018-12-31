@@ -19,7 +19,13 @@ final class GalleryCoordinator: NSObject, Coordinator {
     weak var delegate: GalleryCoordinatorDelegate?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let galleryManager: GalleryManagerProtocol
-    fileprivate(set) var selectedImageDocuments: [(assetId: String, imageDocument: GiniImageDocument)] = []
+    fileprivate(set) var selectedImageDocuments: [(assetId: String, imageDocument: GiniImageDocument)] = [] {
+        didSet {
+            currentImagePickerViewController?
+                .navigationItem
+                .setRightBarButton(selectedImageDocuments.isEmpty ? cancelButton : openImagesButton, animated: true)
+        }
+    }
     fileprivate var currentImagePickerViewController: ImagePickerViewController?
     
     var isGalleryPermissionGranted: Bool {
@@ -101,7 +107,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     func dismissGallery(completion: (() -> Void)? = nil) {
         rootViewController.dismiss(animated: true) { [weak self] in
             completion?()
-            self?.galleryNavigator.popToRootViewController(animated: false)
+            self?.galleryNavigator.popViewController(animated: false)
             self?.currentImagePickerViewController = nil
         }
         resetToInitialState()
@@ -110,7 +116,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
     private func resetToInitialState() {
         self.selectedImageDocuments.removeAll()
         self.currentImagePickerViewController?.deselectAllCells()
-        self.currentImagePickerViewController?.navigationItem.setRightBarButton(cancelButton, animated: true)
+        self.currentImagePickerViewController?.navigationItem.setRightBarButton(cancelButton, animated: false)
     }
     
     // MARK: - Bar button actions
@@ -197,22 +203,19 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didSelectAsset asset: Asset,
                      at index: IndexPath) {
-        if selectedImageDocuments.isEmpty {
-            viewController.navigationItem.setRightBarButton(openImagesButton, animated: true)
-        }
-        
-        galleryManager.fetchImageData(from: asset) { [weak self] data in
+        viewController.addToDownloadingItems(index: index)
+        galleryManager.fetchImageData(from: asset) { [weak self, weak viewController] data in
             guard let `self` = self else { return }
             if let data = data {
-                viewController.selectCell(at: index)
+                viewController?.removeFromDownloadingItems(index: index)
+                viewController?.selectCell(at: index)
                 self.addSelected(asset, withData: data)
             } else {
-                viewController.addToDownloadingItems(index: index)
                 self.galleryManager.fetchRemoteImageData(from: asset) { [weak self] data in
                     guard let `self` = self else { return }
                     if let data = data {
-                        viewController.removeFromDownloadingItems(index: index)
-                        viewController.selectCell(at: index)
+                        viewController?.removeFromDownloadingItems(index: index)
+                        viewController?.selectCell(at: index)
                         self.addSelected(asset, withData: data)
                     }
                 }
@@ -228,10 +231,6 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
             viewController.deselectCell(at: index)
             
             selectedImageDocuments.remove(at: documentIndex)
-        }
-        
-        if selectedImageDocuments.isEmpty {
-            viewController.navigationItem.setRightBarButton(cancelButton, animated: true)
         }
     }
     
