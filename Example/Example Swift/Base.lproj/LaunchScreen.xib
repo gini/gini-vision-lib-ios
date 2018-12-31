@@ -15,14 +15,14 @@
             <rect key="frame" x="0.0" y="0.0" width="812" height="375"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Example app" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bJ-3J-UXM">
-                    <rect key="frame" x="345.66666666666669" y="148.66666666666666" width="121" height="24"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Example" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0bJ-3J-UXM">
+                    <rect key="frame" x="365.66666666666669" y="148.66666666666666" width="81" height="24"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                     <color key="textColor" white="0.16608697203196346" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gvl_logo" translatesAutoresizingMaskIntoConstraints="NO" id="X7M-EP-lcv">
-                    <rect key="frame" x="318" y="20" width="176" height="112.66666666666669"/>
+                    <rect key="frame" x="318" y="20.000000000000007" width="176" height="112.66666666666669"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="X7M-EP-lcv" secondAttribute="height" multiplier="25:16" id="aMk-9k-dMq"/>
                     </constraints>
