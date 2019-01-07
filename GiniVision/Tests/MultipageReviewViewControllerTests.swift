@@ -9,7 +9,6 @@
 import XCTest
 @testable import GiniVision
 
-//swiftlint:disable type_body_length
 final class MultipageReviewViewControllerTests: XCTestCase {
     
     let giniConfiguration = GiniConfiguration.shared
@@ -32,33 +31,6 @@ final class MultipageReviewViewControllerTests: XCTestCase {
         
         XCTAssertEqual(multipageReviewViewController.pagesCollection.numberOfItems(inSection: 0), 3,
                        "pages collection items count should be 3")
-    }
-    
-    func testMainCollectionCellContent() {
-        let firstCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.mainCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
-        let secondCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.mainCollection,
-                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewMainCollectionCell
-        let thirdCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.mainCollection,
-                            cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewMainCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.image, imagePages[0].document.previewImage,
-                       "First cell image should match the one passed in the initializer")
-        XCTAssertEqual(secondCell?.documentImage.image, imagePages[1].document.previewImage,
-                       "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(thirdCell?.documentImage.image, imagePages[2].document.previewImage,
-                       "Third cell image should match the one passed in the initializer")
-
-    }
-    
-    func testMainCollectionCellContentMode() {
-        let firstCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.mainCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewMainCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.contentMode, UIView.ContentMode.scaleAspectFit,
-                       "Main collection cells image content mode should match the one passed in the initializer")
     }
     
     func testMainCollectionCellSize() {
@@ -84,7 +56,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
                        "Main collection insets should be zero")
     }
     
-    func testPagesCollectionCellContent() {
+    func testPagesCollectionCellsIndex() {
         let firstCell = multipageReviewViewController
             .collectionView(multipageReviewViewController.pagesCollection,
                             cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
@@ -94,26 +66,12 @@ final class MultipageReviewViewControllerTests: XCTestCase {
         let thirdCell = multipageReviewViewController
             .collectionView(multipageReviewViewController.pagesCollection,
                             cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.image, imagePages[0].document.previewImage,
-                       "First cell image should match the one passed in the initializer")
         XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
                        "First cell indicator should match its position")
-        XCTAssertEqual(secondCell?.documentImage.image, imagePages[1].document.previewImage,
-                       "Second cell image should match the one passed in the initializer")
         XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
                        "Second cell indicator should match its position")
-        XCTAssertEqual(thirdCell?.documentImage.image, imagePages[2].document.previewImage,
-                       "Third cell image should match the one passed in the initializer")
         XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
                        "Third cell indicator should match its position")
-    }
-    
-    func testPagesCollectionCellContentMode() {
-        let firstCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        XCTAssertEqual(firstCell?.documentImage.contentMode, UIView.ContentMode.scaleAspectFill,
-                       "Pages collection cells image content mode should match the one passed in the initializer")
     }
     
     func testPagesCollectionCellSize() {
@@ -202,67 +160,6 @@ final class MultipageReviewViewControllerTests: XCTestCase {
                        "main collection items count should be 2")
         XCTAssertEqual(vc.pagesCollection.numberOfItems(inSection: 0), 2,
                        "pages collection items count should be 2")
-    }
-    
-    func testCellReloadedOnReordering() {
-        let delegateMock = MultipageReviewVCDelegateMock()
-        let expect = expectation(for: NSPredicate(value: true),
-                                 evaluatedWith: delegateMock.updatedDocuments.isNotEmpty,
-                                 handler: nil)
-        let currentIndexPath = IndexPath(row: 0, section: 0)
-        let destinationIndexPath = IndexPath(row: 2, section: 0)
-        var updatedImageDocument: [GiniVisionPage] = []
-        
-        multipageReviewViewController.delegate = delegateMock
-        multipageReviewViewController.collectionView(multipageReviewViewController.pagesCollection,
-                                                     moveItemAt: currentIndexPath,
-                                                     to: destinationIndexPath)
-        
-        wait(for: [expect], timeout: 1)
-        updatedImageDocument = delegateMock.updatedDocuments
-        let firstCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        let secondCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 1, section: 0)) as? MultipageReviewPagesCollectionCell
-        let thirdCell = multipageReviewViewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 2, section: 0)) as? MultipageReviewPagesCollectionCell
-        
-        XCTAssertEqual(firstCell?.documentImage.image, updatedImageDocument[0].document.previewImage,
-                       "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(firstCell?.pageIndicatorLabel.text, "1",
-                       "First cell indicator should match its position")
-        XCTAssertEqual(secondCell?.documentImage.image, updatedImageDocument[1].document.previewImage,
-                       "Second cell image should match the one passed in the initializer")
-        XCTAssertEqual(secondCell?.pageIndicatorLabel.text, "2",
-                       "Second cell indicator should match its position")
-        XCTAssertEqual(thirdCell?.documentImage.image, updatedImageDocument[2].document.previewImage,
-                       "Third cell image should match the one passed in the initializer")
-        XCTAssertEqual(thirdCell?.pageIndicatorLabel.text, "3",
-                       "Third cell indicator should match its position")
-        
-    }
-    
-    func testPageCellColors() {
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.multipagePageIndicatorColor = .black
-        giniConfiguration.multipagePageBackgroundColor = .red
-        
-        let viewController = MultipageReviewViewController(pages: imagePages,
-                                                           giniConfiguration: giniConfiguration)
-        _ = viewController.view
-        
-        let cell = viewController
-            .collectionView(multipageReviewViewController.pagesCollection,
-                            cellForItemAt: IndexPath(row: 0, section: 0)) as? MultipageReviewPagesCollectionCell
-        
-        XCTAssertEqual(cell?.pageIndicatorLabel.textColor, giniConfiguration.multipagePageIndicatorColor,
-                       "page cell indicator color should match the one specified in the configuration")
-        
-        XCTAssertEqual(cell?.bottomContainer.backgroundColor, giniConfiguration.multipagePageBackgroundColor,
-                       "page cell background color should match the one specified in the configuration")
     }
     
     func testDeleteButtonDisabledWhenToolTipIsShown() {
