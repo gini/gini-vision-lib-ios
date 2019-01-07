@@ -79,15 +79,19 @@ final class ImagePickerViewController: UIViewController {
     
     // MARK: - Others
     
-    func addToDownloadingItems(index: IndexPath) {
+    func addToDownloadingItems(index: IndexPath, needsReloading: Bool = true) {
         indexesForAssetsBeingDownloaded.append(index)
-        collectionView.reloadItems(at: [index])
+        if needsReloading {
+            collectionView.reloadItems(at: [index])
+        }
     }
     
-    func removeFromDownloadingItems(index: IndexPath) {
+    func removeFromDownloadingItems(index: IndexPath, needsReloading: Bool = false) {
         if let assetIndex = indexesForAssetsBeingDownloaded.index(of: index) {
             indexesForAssetsBeingDownloaded.remove(at: assetIndex)
-            collectionView.reloadItems(at: [index])
+            if needsReloading {
+                collectionView.reloadItems(at: [index])
+            }
         }
     }
     
