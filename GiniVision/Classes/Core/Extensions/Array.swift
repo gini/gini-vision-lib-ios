@@ -22,7 +22,7 @@ extension Array where Element: Diffable {
         let inserted = second.filter { secondElement in !common.contains { $0.primaryKey == secondElement.primaryKey } }
         let updated = compactMap { firstElement in
             second.first { secondElement in
-                firstElement.primaryKey == secondElement.primaryKey && !firstElement.isEqual(to: secondElement)
+                firstElement.primaryKey == secondElement.primaryKey && !firstElement.isUpdated(to: secondElement)
             }
         }
         
@@ -47,5 +47,5 @@ extension Array where Element: Diffable {
 public protocol Diffable {
     var primaryKey: String { get }
     
-    func isEqual(to element: Self) -> Bool
+    func isUpdated(to element: Self) -> Bool
 }

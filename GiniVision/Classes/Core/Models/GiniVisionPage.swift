@@ -26,7 +26,7 @@ public struct GiniVisionPage: Diffable {
         self.isUploaded = isUploaded
     }
     
-    public func isEqual(to element: GiniVisionPage) -> Bool {
+    public func isUpdated(to element: GiniVisionPage) -> Bool {
         return error?.localizedDescription == element.error?.localizedDescription &&
             isUploaded == element.isUploaded
     }
