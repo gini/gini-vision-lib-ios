@@ -13,7 +13,8 @@ extension GiniScreenAPICoordinator {
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
                      publicKeyPinningConfig: [String: Any],
-                     documentMetadata: GINIDocumentMetadata?) {
+                     documentMetadata: GINIDocumentMetadata?,
+                     api: GINIAPIType) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
@@ -22,9 +23,15 @@ extension GiniScreenAPICoordinator {
         let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
                                                    clientSecret: client.clientSecret,
                                                    userEmailDomain: client.clientEmailDomain,
-                                                   publicKeyPinningConfig: publicKeyPinningConfig)
-        if let sdk = builder?.build() {
-            self.documentService = DocumentsService(sdk: sdk, metadata: documentMetadata)
+                                                   publicKeyPinningConfig: publicKeyPinningConfig,
+                                                   api: api)
+        guard let sdk = builder?.build() else {
+            fatalError("There was a problem build the GINISDK")
         }
+        
+        self.documentService = documentService(with: sdk,
+                                               documentMetadata: documentMetadata,
+                                               giniConfiguration: giniConfiguration,
+                                               for: api)
     }
 }

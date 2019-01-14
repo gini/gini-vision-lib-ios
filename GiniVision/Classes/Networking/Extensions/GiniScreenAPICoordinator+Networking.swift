@@ -73,7 +73,8 @@ extension GiniScreenAPICoordinator {
     convenience init(client: GiniClient,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
-                     documentMetadata: GINIDocumentMetadata?) {
+                     documentMetadata: GINIDocumentMetadata?,
+                     api: GINIAPIType) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
@@ -81,10 +82,31 @@ extension GiniScreenAPICoordinator {
         
         let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
                                                    clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain)
+                                                   userEmailDomain: client.clientEmailDomain,
+                                                   api: api)
         
-        if let sdk = builder?.build() {
-            self.documentService = DocumentsService(sdk: sdk, metadata: documentMetadata)
+        guard let sdk = builder?.build() else {
+            fatalError("There was a problem build the GINISDK")
+        }
+        
+        self.documentService = documentService(with: sdk,
+                                               documentMetadata: documentMetadata,
+                                               giniConfiguration: giniConfiguration,
+                                               for: api)
+    }
+    
+    func documentService(with sdk: GiniSDK,
+                         documentMetadata: GINIDocumentMetadata?,
+                         giniConfiguration: GiniConfiguration,
+                         for api: GINIAPIType) -> DocumentServiceProtocol {
+        switch api {
+        case .default:
+            return DocumentService(sdk: sdk, metadata: documentMetadata)
+        case .accounting:
+            if giniConfiguration.multipageEnabled {
+                preconditionFailure("The accounting API does not support multipage")
+            }
+            return AccountingDocumentService(sdk: sdk, metadata: documentMetadata)
         }
     }
     
