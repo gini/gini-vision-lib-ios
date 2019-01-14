@@ -26,7 +26,7 @@ extension GiniScreenAPICoordinator {
                                                    publicKeyPinningConfig: publicKeyPinningConfig,
                                                    api: api)
         guard let sdk = builder?.build() else {
-            fatalError("There was a problem build the GINISDK")
+            fatalError("There was a problem building the GINISDK")
         }
         
         self.documentService = documentService(with: sdk,
