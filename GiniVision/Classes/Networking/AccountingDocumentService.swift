@@ -71,11 +71,11 @@ final class AccountingDocumentService: DocumentServiceProtocol {
 // MARK: Fileprivate
 
 fileprivate extension AccountingDocumentService {
-    fileprivate func createDocument(from document: GiniVisionDocument,
-                                    fileName: String,
-                                    docType: String = "",
-                                    cancellationToken: BFCancellationToken? = nil,
-                                    completion: @escaping UploadDocumentCompletion) {
+    func createDocument(from document: GiniVisionDocument,
+                        fileName: String,
+                        docType: String = "",
+                        cancellationToken: BFCancellationToken? = nil,
+                        completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
         
         giniSDK.sessionManager
@@ -124,7 +124,7 @@ fileprivate extension AccountingDocumentService {
             })
     }
     
-    fileprivate func fetchExtractions(completion: @escaping AnalysisCompletion) {
+    func fetchExtractions(completion: @escaping AnalysisCompletion) {
         Log(message: "Starting analysis for document with id \(document?.documentId ?? "")",
             event: "🔎")
         analysisCancellationToken = BFCancellationTokenSource()

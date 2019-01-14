@@ -92,12 +92,12 @@ final class DocumentService: DocumentServiceProtocol {
 
 // MARK: - File private methods
 
-extension DocumentService {
-    fileprivate func createDocument(from document: GiniVisionDocument,
-                                    fileName: String,
-                                    docType: String = "",
-                                    cancellationToken: BFCancellationToken? = nil,
-                                    completion: @escaping UploadDocumentCompletion) {
+fileprivate extension DocumentService {
+    func createDocument(from document: GiniVisionDocument,
+                        fileName: String,
+                        docType: String = "",
+                        cancellationToken: BFCancellationToken? = nil,
+                        completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
         
         giniSDK.sessionManager
@@ -126,7 +126,7 @@ extension DocumentService {
             })
     }
     
-    fileprivate func deleteCompositeDocument(withId id: String) {
+    func deleteCompositeDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: getSession(with: nil))
@@ -146,7 +146,7 @@ extension DocumentService {
         
     }
     
-    fileprivate func deletePartialDocument(withId id: String) {
+    func deletePartialDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: getSession(with: nil))
@@ -166,8 +166,8 @@ extension DocumentService {
         
     }
     
-    fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
-                                      completion: @escaping AnalysisCompletion) {
+    func fetchExtractions(for documents: [GINIPartialDocumentInfo],
+                          completion: @escaping AnalysisCompletion) {
         Log(message: "Creating composite document...", event: "📑")
 
         analysisCancellationToken = BFCancellationTokenSource()
