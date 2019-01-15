@@ -1,5 +1,5 @@
 //
-//  DocumentsService.swift
+//  DocumentService.swift
 //  GiniVision
 //
 //  Created by Enrique del Pozo Gómez on 2/14/18.
@@ -8,11 +8,11 @@
 import UIKit
 import Gini_iOS_SDK
 
-final class DocumentsService: DocumentServiceProtocol {
+final class DocumentService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
     var partialDocuments: [String: PartialDocumentInfo] = [:]
-    var compositeDocument: GINIDocument?
+    var document: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
     var metadata: GINIDocumentMetadata?
     
@@ -33,13 +33,13 @@ final class DocumentsService: DocumentServiceProtocol {
     }
     
     func cancelAnalysis() {
-        if let compositeDocument = compositeDocument {
+        if let compositeDocument = document {
             deleteCompositeDocument(withId: compositeDocument.documentId)
         }
         
         analysisCancellationToken?.cancel()
         analysisCancellationToken = nil
-        compositeDocument = nil
+        document = nil
     }
     
     func remove(document: GiniVisionDocument) {
@@ -56,39 +56,11 @@ final class DocumentsService: DocumentServiceProtocol {
     func resetToInitialState() {
         partialDocuments.removeAll()
         analysisCancellationToken = nil
-        compositeDocument = nil
+        document = nil
     }
     
     func update(imageDocument: GiniImageDocument) {
         partialDocuments[imageDocument.id]?.info.rotationDelta = Int32(imageDocument.rotationDelta)
-    }
-    
-    func sendFeedback(with updatedExtractions: [String: Extraction]) {
-        guard let compositeDocument = self.compositeDocument else { return }
-        giniSDK.sessionManager
-            .getSession()
-            .continueWith(block: getSession())
-            .continueOnSuccessWith(block: { _ in
-                return self.giniSDK
-                    .documentTaskManager?
-                    .update(compositeDocument,
-                            updatedExtractions: updatedExtractions,
-                            cancellationToken: nil)
-            })
-            .continueWith(block: { (task: BFTask?) in
-                if let error = task?.error {
-                    let id = self.compositeDocument?.documentId ?? ""
-                    let message = "Error sending feedback for document with id: \(id) error: \(error)"
-                    Log(message: message, event: .error)
-                    
-                    return nil
-                }
-                
-                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
-                    event: "🚀")
-                
-                return nil
-            })
     }
     
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
@@ -120,12 +92,12 @@ final class DocumentsService: DocumentServiceProtocol {
 
 // MARK: - File private methods
 
-extension DocumentsService {
-    fileprivate func createDocument(from document: GiniVisionDocument,
-                                    fileName: String,
-                                    docType: String = "",
-                                    cancellationToken: BFCancellationToken? = nil,
-                                    completion: @escaping UploadDocumentCompletion) {
+fileprivate extension DocumentService {
+    func createDocument(from document: GiniVisionDocument,
+                        fileName: String,
+                        docType: String = "",
+                        cancellationToken: BFCancellationToken? = nil,
+                        completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
         
         giniSDK.sessionManager
@@ -154,7 +126,7 @@ extension DocumentsService {
             })
     }
     
-    fileprivate func deleteCompositeDocument(withId id: String) {
+    func deleteCompositeDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: getSession(with: nil))
@@ -174,7 +146,7 @@ extension DocumentsService {
         
     }
     
-    fileprivate func deletePartialDocument(withId id: String) {
+    func deletePartialDocument(withId id: String) {
         giniSDK.sessionManager
             .getSession()
             .continueWith(block: getSession(with: nil))
@@ -194,8 +166,8 @@ extension DocumentsService {
         
     }
     
-    fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
-                                      completion: @escaping AnalysisCompletion) {
+    func fetchExtractions(for documents: [GINIPartialDocumentInfo],
+                          completion: @escaping AnalysisCompletion) {
         Log(message: "Creating composite document...", event: "📑")
 
         analysisCancellationToken = BFCancellationTokenSource()
@@ -213,7 +185,7 @@ extension DocumentsService {
                     Log(message: "Starting analysis for composite document with id \(document.documentId ?? "")",
                         event: "🔎")
 
-                    self.compositeDocument = document
+                    self.document = document
                     return self.giniSDK
                         .documentTaskManager
                         .getExtractionsFor(document, cancellationToken: self.analysisCancellationToken?.token)
@@ -222,49 +194,5 @@ extension DocumentsService {
             }
             .continueWith(block: handleAnalysisResults(completion: completion))
         
-    }
-    
-    fileprivate func handleAnalysisResults(completion: @escaping AnalysisCompletion)
-        -> ((BFTask<AnyObject>) -> Any?) {
-            return { task in
-                if task.isCancelled {
-                    Log(message: "Cancelled analysis process", event: .error)
-                    completion(.failure(AnalysisError.cancelled))
-                    
-                    return BFTask<AnyObject>.cancelled()
-                }
-                
-                let finishedString = "Finished analysis process with"
-                
-                if let error = task.error {
-                    Log(message: "\(finishedString) this error: \(error)", event: .error)
-                    
-                    completion(.failure(error))
-                } else if let result = task.result as? [String: Extraction] {
-                    Log(message: "\(finishedString) no errors", event: .success)
-                    
-                    completion(.success(result))
-                } else {
-                    let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
-                    Log(message: "\(finishedString) this error: \(error)", event: .error)
-                    
-                    completion(.failure(AnalysisError.unknown))
-                }
-                
-                return nil
-            }
-    }
-    
-    fileprivate func getSession(with token: BFCancellationToken? = nil)
-        -> ((BFTask<AnyObject>) -> Any?) {
-            return {
-                [weak self] task in
-                guard let `self` = self else { return nil }
-                
-                if task.error != nil {
-                    return self.giniSDK.sessionManager.logIn()
-                }
-                return task.result
-            }
     }
 }

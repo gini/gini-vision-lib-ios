@@ -63,9 +63,10 @@ NSString *kClientDomain = @"client_domain";
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
-                                            configuration:giniConfiguration
+                                                  configuration:giniConfiguration
                                                 resultsDelegate:self
-                                               documentMetadata: nil];
+                                               documentMetadata:nil
+                                                            api:GINIAPITypeDefault];
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
     
