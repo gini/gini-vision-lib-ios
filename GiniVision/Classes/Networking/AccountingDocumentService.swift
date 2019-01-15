@@ -46,7 +46,7 @@ final class AccountingDocumentService: DocumentServiceProtocol {
     }
     
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
-        // No need to sort documents
+        // No need to sort documents since there is only one
     }
     
     func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
@@ -63,7 +63,7 @@ final class AccountingDocumentService: DocumentServiceProtocol {
     }
     
     func update(imageDocument: GiniImageDocument) {
-        // Nothing must be updated
+        // Nothing must be updated.
     }
     
 }
@@ -91,6 +91,7 @@ fileprivate extension AccountingDocumentService {
                 if let createdDocument = task.result as? GINIDocument {
                     Log(message: "Created document with id: \(createdDocument.documentId ?? "") " +
                         "for vision document \(document.id)", event: "📄")
+                    
                     self.document = createdDocument
                     completion(.success(createdDocument))
                 } else if task.isCancelled {
@@ -118,6 +119,7 @@ fileprivate extension AccountingDocumentService {
                         event: .error)
                 } else {
                     Log(message: "Deleted composite document with id: \(document.documentId ?? "")", event: "🗑")
+                    self.document = nil
                 }
                 
                 return nil
