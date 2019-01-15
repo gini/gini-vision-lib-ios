@@ -131,7 +131,7 @@ final class GiniScreenAPICoordinatorTests: XCTestCase {
         
         var reorderedItems = capturedImageDocument
         reorderedItems.swapAt(0, 1)
-
+        
         coordinator.multipageReview(coordinator.multiPageReviewViewController, didReorder: reorderedItems)
         
         XCTAssertTrue(coordinator.pages.last?.document.id == firstItemId, "last items should be the one moved")

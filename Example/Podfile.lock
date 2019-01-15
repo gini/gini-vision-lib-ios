@@ -5,11 +5,11 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Gini-iOS-SDK (1.1.0):
-    - Gini-iOS-SDK/Core (= 1.1.0)
-  - Gini-iOS-SDK/Core (1.1.0):
+  - Gini-iOS-SDK (1.2.0-beta.1):
+    - Gini-iOS-SDK/Core (= 1.2.0-beta.1)
+  - Gini-iOS-SDK/Core (1.2.0-beta.1):
     - Bolts (~> 1.9)
-  - Gini-iOS-SDK/Pinning (1.1.0):
+  - Gini-iOS-SDK/Pinning (1.2.0-beta.1):
     - Bolts (~> 1.9)
     - TrustKit (~> 1.5)
   - GiniVision (4.1.0):
@@ -25,7 +25,7 @@ PODS:
   - TrustKit (1.5.3)
 
 DEPENDENCIES:
-  - Gini-iOS-SDK
+  - "Gini-iOS-SDK (from `git@github.com:gini/gini-sdk-ios.git`, tag `1.2.0-beta.1`)"
   - GiniVision (from `../`)
   - "GiniVision/Networking+Pinning (from `../`)"
   - GiniVision/Tests (from `../`)
@@ -34,19 +34,25 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Bolts
     - TrustKit
-  https://github.com/gini/gini-podspecs.git:
-    - Gini-iOS-SDK
 
 EXTERNAL SOURCES:
+  Gini-iOS-SDK:
+    :git: "git@github.com:gini/gini-sdk-ios.git"
+    :tag: 1.2.0-beta.1
   GiniVision:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  Gini-iOS-SDK:
+    :git: "git@github.com:gini/gini-sdk-ios.git"
+    :tag: 1.2.0-beta.1
+
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Gini-iOS-SDK: 6201faff254c70c20305f11f3ccda0f534d35537
+  Gini-iOS-SDK: 622b55298cf253e32a79245e2c49f77c5349703b
   GiniVision: 9ab2dc19460a049960e45c94ce834dc709ed3759
   TrustKit: b2bd5cb6a69cb17a95af87af327ecaa93c8da4bd
 
-PODFILE CHECKSUM: 232227d09f64ac089d4c08e7784f6f7152b29e42
+PODFILE CHECKSUM: 03ca577c25ec5cfdca74b545ffd6e102be55657a
 
 COCOAPODS: 1.5.3
