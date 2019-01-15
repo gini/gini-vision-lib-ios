@@ -115,10 +115,10 @@ fileprivate extension AccountingDocumentService {
             })
             .continueWith(block: { task in
                 if task.isCancelled || task.error != nil {
-                    Log(message: "Error deleting composite document with id: \(document.documentId ?? "")",
+                    Log(message: "Error deleting document with id: \(document.documentId ?? "")",
                         event: .error)
                 } else {
-                    Log(message: "Deleted composite document with id: \(document.documentId ?? "")", event: "🗑")
+                    Log(message: "Deleted document with id: \(document.documentId ?? "")", event: "🗑")
                     self.document = nil
                 }
                 
