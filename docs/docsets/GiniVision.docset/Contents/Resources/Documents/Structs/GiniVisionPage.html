@@ -300,6 +300,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Diffable.html">Diffable</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -309,7 +317,7 @@
             <h1>GiniVisionPage</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GiniVisionPage</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">GiniVisionPage</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/Diffable.html">Diffable</a></span></code></pre>
 
                 </div>
               </div>
@@ -407,6 +415,33 @@ It holds a document, an error (if any) and if it has been uploaded</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10GiniVision0aB4PageV10primaryKeySSvp"></a>
+                    <a name="//apple_ref/swift/Property/primaryKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision0aB4PageV10primaryKeySSvp">primaryKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">primaryKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10GiniVision0aB4PageV8document5error10isUploadedAcA0aB8Document_p_s5Error_pSgSbtcfc"></a>
                     <a name="//apple_ref/swift/Method/init(document:error:isUploaded:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10GiniVision0aB4PageV8document5error10isUploadedAcA0aB8Document_p_s5Error_pSgSbtcfc">init(document:error:isUploaded:)</a>
@@ -431,6 +466,33 @@ It holds a document, an error (if any) and if it has been uploaded</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVision0aB4PageV9isUpdated2toSbAC_tF"></a>
+                    <a name="//apple_ref/swift/Method/isUpdated(to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision0aB4PageV9isUpdated2toSbAC_tF">isUpdated(to:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">isUpdated</span><span class="p">(</span><span class="n">to</span> <span class="nv">element</span><span class="p">:</span> <span class="kt">GiniVisionPage</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -439,7 +501,7 @@ It holds a document, an error (if any) and if it has been uploaded</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2018-11-28)</p>
+      <p>&copy; 2019 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2019-01-16)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

@@ -299,6 +299,14 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Diffable.html">Diffable</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -320,17 +328,18 @@ The Screen API, in turn, offers two different ways of implementation:</p>
 <p>Using this method you don&rsquo;t need to care about handling the analysis process with the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a>, you only need to provide your API credentials and a delegate to get the analysis results.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withClient</span><span class="p">:</span> <span class="n">client</span><span class="p">,</span>
                                                <span class="nv">configuration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">,</span>
-                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">)</span>
+                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="n">resultsDelegate</span><span class="p">)</span>
 
 <span class="nf">present</span><span class="p">(</span><span class="n">viewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
 </code></pre>
 
-<p>Additionally if you want to use <em>Certificate pinning</em> or you want to provide metadata for the upload process you can pass both your public key pinning configuration (see <a href="https://github.com/datatheorem/TrustKit">TrustKit repo</a> for more information) and the metadata information as follows:</p>
+<p>Optionally if you want to use <em>Certificate pinning</em>, provide metadata for the upload process or use the <a href="https://accounting-api.gini.net/documentation/">Accounting API</a>, you can pass both your public key pinning configuration (see <a href="https://github.com/datatheorem/TrustKit">TrustKit repo</a> for more information), the metadata information and the <em>API type</em> (the <a href="http://developer.gini.net/gini-api/html/index.html">Gini API</a> is used by default) as follows:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withClient</span><span class="p">:</span> <span class="n">client</span><span class="p">,</span>
                                                <span class="nv">configuration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">,</span>
-                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span>
+                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="n">resultsDelegate</span><span class="p">,</span>
                                                <span class="nv">publicKeyPinningConfig</span><span class="p">:</span> <span class="n">pinningConfig</span><span class="p">,</span>
-                                               <span class="nv">documentMetadata</span><span class="p">:</span> <span class="n">documentMetadata</span><span class="p">)</span>
+                                               <span class="nv">documentMetadata</span><span class="p">:</span> <span class="n">documentMetadata</span><span class="p">,</span>
+                                               <span class="nv">api</span><span class="p">:</span> <span class="o">.</span><span class="n">accounting</span><span class="p">)</span>
 
 <span class="nf">present</span><span class="p">(</span><span class="n">viewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
 </code></pre>
@@ -374,7 +383,7 @@ The Screen API, in turn, offers two different ways of implementation:</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2018 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2018-11-28)</p>
+      <p>&copy; 2019 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2019-01-16)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
