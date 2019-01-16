@@ -146,7 +146,7 @@
 		B61EB811A8C45FEA2ECA7917 /* Pods-Example_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EB92C15B9A53B0CB41B54CE4 /* Pods-Example_Tests.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.in house.xcconfig"; sourceTree = "<group>"; };
-		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; };
+		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FDD84915880AC0748A55810C /* Pods-GiniVision_UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
