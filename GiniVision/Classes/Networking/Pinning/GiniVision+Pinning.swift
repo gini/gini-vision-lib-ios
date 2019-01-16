@@ -31,13 +31,15 @@ extension GiniVision {
                                            configuration: GiniConfiguration,
                                            resultsDelegate: GiniVisionResultsDelegate,
                                            publicKeyPinningConfig: [String: Any],
-                                           documentMetadata: GINIDocumentMetadata? = nil) -> UIViewController {
+                                           documentMetadata: GINIDocumentMetadata? = nil,
+                                           api: GINIAPIType = .default) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
                                                          giniConfiguration: configuration,
                                                          publicKeyPinningConfig: publicKeyPinningConfig,
-                                                         documentMetadata: documentMetadata)
+                                                         documentMetadata: documentMetadata,
+                                                         api: api)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     

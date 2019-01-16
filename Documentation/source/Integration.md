@@ -16,19 +16,20 @@ Using this method you don't need to care about handling the analysis process wit
 ```swift
 let viewController = GiniVision.viewController(withClient: client,
                                                configuration: giniConfiguration,
-                                               resultsDelegate: self)
+                                               resultsDelegate: resultsDelegate)
 
 present(viewController, animated: true, completion:nil)
 ```
 
-Additionally if you want to use _Certificate pinning_ or you want to provide metadata for the upload process you can pass both your public key pinning configuration (see [TrustKit repo](https://github.com/datatheorem/TrustKit) for more information) and the metadata information as follows:
+Optionally if you want to use _Certificate pinning_, provide metadata for the upload process or use the [Accounting API](https://accounting-api.gini.net/documentation/), you can pass both your public key pinning configuration (see [TrustKit repo](https://github.com/datatheorem/TrustKit) for more information), the metadata information and the _API type_ (the [Gini API](http://developer.gini.net/gini-api/html/index.html) is used by default) as follows:
 
 ```swift
 let viewController = GiniVision.viewController(withClient: client,
                                                configuration: giniConfiguration,
-                                               resultsDelegate: self,
+                                               resultsDelegate: resultsDelegate,
                                                publicKeyPinningConfig: pinningConfig,
-                                               documentMetadata: documentMetadata)
+                                               documentMetadata: documentMetadata,
+                                               api: .accounting)
 
 present(viewController, animated: true, completion:nil)
 ```

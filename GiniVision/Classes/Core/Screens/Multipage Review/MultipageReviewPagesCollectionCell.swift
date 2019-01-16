@@ -200,28 +200,6 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
     }
     
-    func setUp(with page: GiniVisionPage, at index: Int, giniConfiguration: GiniConfiguration) {
-        if let image = page.document.previewImage {
-            documentImage.contentMode = image.size.width > image.size.height ?
-                .scaleAspectFit :
-                .scaleAspectFill
-            documentImage.image = image
-        }
-        pageIndicatorLabel.text = "\(index + 1)"
-        pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
-        pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
-        draggableIcon.tintColor = giniConfiguration.multipageDraggableIconColor
-        bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
-        
-        if page.isUploaded {
-            stateView.update(to: .succeeded)
-        } else if page.error != nil {
-            stateView.update(to: .failed)
-        } else {
-            stateView.update(to: .loading)
-        }
-    }
-    
     class func size(in collection: UICollectionView) -> CGSize {
         let collectionInset = UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
         let height = collection.frame.height -

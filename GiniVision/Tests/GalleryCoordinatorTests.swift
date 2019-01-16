@@ -117,9 +117,9 @@ final class GalleryCoordinatorTests: XCTestCase {
     fileprivate func selectImage(at index: IndexPath,
                                  in album: Album,
                                  handler: @escaping ((ImagePickerViewController) -> Void)) {
-        let imagePicker = ImagePickerViewController(album: album,
-                                                    galleryManager: galleryManager,
-                                                    giniConfiguration: GiniConfiguration.shared)
+        coordinator.albumsPicker(coordinator.albumsController, didSelectAlbum: album)
+        let imagePicker = coordinator.currentImagePickerViewController!
+
         coordinator.imagePicker(imagePicker,
                                 didSelectAsset: album.assets[index.row],
                                 at: index)

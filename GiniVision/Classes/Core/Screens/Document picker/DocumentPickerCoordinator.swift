@@ -232,8 +232,7 @@ extension DocumentPickerCoordinator {
 extension DocumentPickerCoordinator: GalleryCoordinatorDelegate {
     func gallery(_ coordinator: GalleryCoordinator,
                  didSelectImageDocuments imageDocuments: [GiniImageDocument]) {
-        delegate?.documentPicker(self,
-                                 didPick: imageDocuments)
+        delegate?.documentPicker(self, didPick: imageDocuments)
     }
     
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void) {

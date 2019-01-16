@@ -74,51 +74,7 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
             zoomableScrollView.setZoomScale(1.0, animated: true)
         }
     }
-    
-    func setUp(with page: GiniVisionPage, didTapErrorNotice action: @escaping (NoticeActionType) -> Void) {
-        documentImage.image = page.document.previewImage
         
-        if let error = page.error {
-            updateErrorView(with: error, didTapErrorNoticeAction: action)
-            errorView.show(false)
-        } else {
-            errorView.hide(false, completion: nil)
-        }
-    }
-    
-    func updateErrorView(with error: Error,
-                         didTapErrorNoticeAction: @escaping (NoticeActionType) -> Void) {
-        let buttonTitle: String
-        let action: NoticeActionType
-        
-        switch error {
-        case is AnalysisError:
-            buttonTitle = .localized(resource: MultipageReviewStrings.retryActionButton)
-            action = .retry
-        default:
-            buttonTitle = .localized(resource: MultipageReviewStrings.retakeActionButton)
-            action = .retake
-        }
-        
-        let message: String
-        
-        switch error {
-        case let error as GiniVisionError:
-            message = error.message
-        case let error as CustomDocumentValidationError:
-            message = error.message
-        default:
-            message = DocumentValidationError.unknown.message
-        }
-        
-        errorView.textLabel.text = message
-        errorView.actionButton.setTitle(buttonTitle, for: .normal)
-        errorView.userAction = NoticeAction(title: buttonTitle) {
-            didTapErrorNoticeAction(action)
-        }
-        errorView.layoutIfNeeded()
-    }
-    
 }
 
 // MARK: - UIScrollViewDelegate

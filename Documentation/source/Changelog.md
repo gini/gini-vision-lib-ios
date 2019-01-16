@@ -1,6 +1,15 @@
 Changelog
 =========
 
+4.2.0 (2019-01-16)
+------------------
+
+-   Added the possibility to use the accounting API
+    if using the Networking module
+-   Improved memory management when using the multipage feature
+-   Improved performance when fetching images from gallery
+-   Fixed issue with button state in gallery
+
 4.1.0 (2018-10-31)
 ------------------
 

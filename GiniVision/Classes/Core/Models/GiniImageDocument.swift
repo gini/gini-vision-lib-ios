@@ -55,6 +55,7 @@ final public class GiniImageDocument: NSObject, GiniVisionDocument {
         } else {
             self.data = data
         }
+        
     }
     
     func rotatePreviewImage90Degrees() {

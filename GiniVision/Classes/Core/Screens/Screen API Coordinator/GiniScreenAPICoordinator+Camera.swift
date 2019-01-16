@@ -275,7 +275,7 @@ extension GiniScreenAPICoordinator: UploadDelegate {
         DispatchQueue.main.async { [weak self] in
             guard let `self` = self else { return }
             self.update(document, withError: error, isUploaded: false)
-
+            
             if document.type != .image || !self.giniConfiguration.multipageEnabled {
                 guard let error = error as? GiniVisionError else { return }
                 self.displayError(withMessage: error.message, andAction: { [weak self] in

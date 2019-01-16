@@ -32,7 +32,7 @@ final class SelectAPIViewController: UIViewController {
     @IBOutlet weak var metaInformationButton: UIButton!
     
     weak var delegate: SelectAPIViewControllerDelegate?
-    
+        
     var clientId: String?
     
     // MARK: View life cycle
