@@ -171,9 +171,13 @@ extension GiniScreenAPICoordinator {
             self.startAnalysis(networkDelegate: networkDelegate)
         }, didFail: { _, error in
             let error = error as? GiniVisionError ?? AnalysisError.documentCreation
-            networkDelegate.displayError(withMessage: error.message, andAction: {
-                uploadDidFail()
-            })
+            
+            guard let analysisError = error as? AnalysisError, case analysisError = AnalysisError.cancelled else {
+                networkDelegate.displayError(withMessage: error.message, andAction: {
+                    uploadDidFail()
+                })
+                return
+            }
         })
     }
 }
