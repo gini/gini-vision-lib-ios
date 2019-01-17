@@ -34,7 +34,11 @@ let viewController = GiniVision.viewController(withClient: client,
 present(viewController, animated: true, completion:nil)
 ```
 
-**Note** The document metadata for the upload process is intended to be used for reporting.
+
+> ⚠️  **Important**
+> - The document metadata for the upload process is intended to be used for reporting.
+> - The multipage is supported only by the `.default` api, not the `.accounting` api. The `GiniConfiguration.multipageEnabled` property must not be `true` if you use the `.accounting` api.
+
 
 #### Only UI
 

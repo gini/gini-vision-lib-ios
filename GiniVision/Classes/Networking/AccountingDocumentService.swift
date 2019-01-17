@@ -51,8 +51,11 @@ final class AccountingDocumentService: DocumentServiceProtocol {
     
     func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
         let fileName = "Document-\(NSDate().timeIntervalSince1970)"
+        analysisCancellationToken = BFCancellationTokenSource()
         
-        createDocument(from: document, fileName: fileName) { result in
+        createDocument(from: document,
+                       fileName: fileName,
+                       cancellationToken: analysisCancellationToken?.token) { result in
             switch result {
             case .success(let createdDocument):
                 completion?(.success(createdDocument))
@@ -85,7 +88,8 @@ fileprivate extension AccountingDocumentService {
                 return self?.giniSDK.documentTaskManager.createDocument(withFilename: fileName,
                                                                         from: document.data,
                                                                         docType: docType,
-                                                                        metadata: self?.metadata)
+                                                                        metadata: self?.metadata,
+                                                                        cancellationToken: cancellationToken)
             }).continueWith(block: { [weak self] task in
                 guard let self = self else { return nil }
                 if let createdDocument = task.result as? GINIDocument {
@@ -129,7 +133,9 @@ fileprivate extension AccountingDocumentService {
     func fetchExtractions(completion: @escaping AnalysisCompletion) {
         Log(message: "Starting analysis for document with id \(document?.documentId ?? "")",
             event: "🔎")
-        analysisCancellationToken = BFCancellationTokenSource()
+        if analysisCancellationToken == nil {
+            analysisCancellationToken = BFCancellationTokenSource()
+        }
         
         giniSDK
             .documentTaskManager
