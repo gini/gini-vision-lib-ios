@@ -76,11 +76,15 @@ import UIKit
      Sets the font used in the GiniVision library by default.
      */
     
-    @objc public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFontPreferred(.regular, andSize: 14),
-                                                                bold: UIFontPreferred(.bold, andSize: 14),
-                                                                light: UIFontPreferred(.light, andSize: 14),
-                                                                thin: UIFontPreferred(.thin, andSize: 14),
-                                                                isEnabled: false)
+    @objc public lazy var customFont: GiniVisionFont = GiniVisionFont(regular: UIFont.systemFont(ofSize: 14,
+                                                                                                 weight: .regular),
+                                                                      bold: UIFont.systemFont(ofSize: 14,
+                                                                                              weight: .bold),
+                                                                      light: UIFont.systemFont(ofSize: 14,
+                                                                                               weight: .light),
+                                                                      thin: UIFont.systemFont(ofSize: 14,
+                                                                                              weight: .thin),
+                                                                      isEnabled: false)
     
     /**
      Can be turned on during development to unlock extra information and to save captured images to camera roll.
@@ -125,7 +129,7 @@ import UIKit
      */
     @objc public var navigationBarItemFont = UIBarButtonItem.appearance()
         .titleTextAttributes(for: .normal).dictionary?[NSAttributedString.Key.font.rawValue] as? UIFont ??
-        UIFontPreferred(.bold, andSize: 16)
+        UIFont.systemFont(ofSize: 16, weight: .bold)
     
     /**
      Sets the title color in the navigation bar in all screens of the Gini Vision Library to
@@ -145,8 +149,7 @@ import UIKit
      */
     @objc public var navigationBarTitleFont = UINavigationBar
         .appearance()
-        .titleTextAttributes?[NSAttributedString.Key.font] as? UIFont ?? UIFontPreferred(.regular,
-                                                                                 andSize: 16)
+        .titleTextAttributes?[NSAttributedString.Key.font] as? UIFont ?? UIFont.systemFont(ofSize: 16, weight: .regular)
     
     /**
      Sets the background color of an informal notice. Notices are small pieces of
@@ -177,7 +180,7 @@ import UIKit
      - Warning: Deprecated, use the GiniConfiguration.customFont instead
 
      */
-    @objc public var noticeFont = UIFontPreferred(.regular, andSize: 12)
+    @objc public var noticeFont = UIFont.systemFont(ofSize: 12, weight: .regular)
     
     /**
      Indicates whether the open with feature is enabled or not. In case of `true`,
@@ -233,7 +236,7 @@ import UIKit
      - Warning: Deprecated, use the GiniConfiguration.customFont instead
      
      */
-    @objc public var cameraNotAuthorizedTextFont = UIFontPreferred(.thin, andSize: 20)
+    @objc public var cameraNotAuthorizedTextFont = UIFont.systemFont(ofSize: 20, weight: .thin)
     
     /**
      Sets the text color of the descriptional text when camera access was denied.
@@ -252,7 +255,7 @@ import UIKit
      - Warning: Deprecated, use the GiniConfiguration.customFont localized string instead
 
      */
-    @objc public var cameraNotAuthorizedButtonFont = UIFontPreferred(.regular, andSize: 20)
+    @objc public var cameraNotAuthorizedButtonFont = UIFont.systemFont(ofSize: 20, weight: .regular)
     
     /**
      Sets the text color of the button title when camera access was denied.
@@ -451,7 +454,7 @@ import UIKit
      - Warning: Deprecated, use the GiniConfiguration.customFont instead
 
      */
-    @objc public var onboardingTextFont = UIFontPreferred(.thin, andSize: 28)
+    @objc public var onboardingTextFont = UIFont.systemFont(ofSize: 28, weight: .thin)
     
     /**
      Sets the color ot the text for all onboarding pages.
@@ -578,7 +581,7 @@ import UIKit
     /**
      Sets the font of the text appearing at the bottom of the review screen.
      */
-    @objc public var reviewTextBottomFont = UIFontPreferred(.thin, andSize: 12)
+    @objc public var reviewTextBottomFont = UIFont.systemFont(ofSize: 12, weight: .thin)
     
     /**
      Sets the color of the text appearing at the bottom of the review screen.

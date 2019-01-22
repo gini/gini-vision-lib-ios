@@ -45,25 +45,6 @@ func NSLocalizedStringPreferredFormat(_ key: String, comment: String) -> String 
     return format
 }
 
-/**
- Returns a font object not dependend on the os version used. 
- Needed because `systemFontOfSize:weight:` is not available prior to iOS 8.2.
- 
- - parameter weight: The weight of the font.
- - parameter size:   The size of the font.
- 
- - returns: Always a font with the correct weight.
- */
-func UIFontPreferred(_ weight: FontWeight, andSize size: CGFloat) -> UIFont {
-    if #available(iOS 8.2, *) {
-        return UIFont.systemFont(ofSize: size, weight: UIFont.Weight(rawValue: weight.cgFloatValue))
-    } else {
-        let fontName = weight == .regular ? "HelveticaNeue" : "HelveticaNeue-\(weight.stringValue)"
-        let font = UIFont(name: fontName, size: size)
-        return  font ?? UIFont.systemFont(ofSize: size)
-    }
-}
-
 struct AnimationDuration {
     static var slow = 1.0
     static var medium = 0.6
@@ -73,37 +54,6 @@ struct AnimationDuration {
 enum Result<T> {
     case success(T)
     case failure(Error)
-}
-
-enum FontWeight {
-    case thin, light, regular, bold
-    
-    var stringValue: String {
-        switch self {
-        case .thin:
-            return "Thin"
-        case .light:
-            return "Light"
-        case .regular:
-            return "Regular"
-        case .bold:
-            return "Bold"
-        }
-    }
-    
-    @available(iOS 8.2, *)
-    var cgFloatValue: CGFloat {
-        switch self {
-        case .thin:
-            return UIFont.Weight.thin.rawValue
-        case .light:
-            return UIFont.Weight.light.rawValue
-        case .regular:
-            return UIFont.Weight.regular.rawValue
-        case .bold:
-            return UIFont.Weight.bold.rawValue
-        }
-    }
 }
 
 class Constraints {
