@@ -35,7 +35,7 @@ func NSLocalizedStringPreferredFormat(_ key: String, comment: String) -> String 
     let clientString = NSLocalizedString(key, comment: comment)
     let format: String
     
-    if clientString != key {
+    if clientString.lowercased() != key.lowercased() {
         format = clientString
     } else {
         let bundle = Bundle(for: GiniVision.self)
