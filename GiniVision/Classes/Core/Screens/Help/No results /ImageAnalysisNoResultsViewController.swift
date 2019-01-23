@@ -213,10 +213,10 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
                                               withReuseIdentifier: identifier,
                                               for: indexPath) as? CaptureSuggestionsCollectionHeader)!
         header.subHeaderTitle.text = self.subHeaderTitle
-        header.subHeaderTitle.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
+        header.subHeaderTitle.font = giniConfiguration.customFont.with(.bold, size: 14, style: .body)
         header.topViewIcon.image = self.topViewIcon
         header.topViewText.text = self.topViewText
-        header.topViewText.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
+        header.topViewText.font = giniConfiguration.customFont.with(.bold, size: 14, style: .body)
         header.shouldShowTopViewIcon = topViewIcon != nil
         header.shouldShowSubHeader = subHeaderTitle != nil
         return header
