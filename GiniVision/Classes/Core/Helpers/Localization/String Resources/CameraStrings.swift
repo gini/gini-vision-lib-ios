@@ -77,20 +77,15 @@ enum CameraStrings: LocalizableStringResource {
                 "Message text error shown in camera screen when a file " +
                 "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
         case .popupTitleImportPDF:
-            return ("popupTitleImportPDF", "This message is shown when" +
-                "there is an unknown error in the camera")
-        case .popupOptionFiles:
-            return ("popupOptionFiles", "This message is shown when" +
-                "there is an unknown error in the camera")
-        case .popupCancel:
-            return ("popupCancel", "This message is shown when" +
-                "there is an unknown error in the camera")
-        case .popupOptionPhotos:
-            return ("popupOptionPhotos", "This message is shown when" +
-                "there is an unknown error in the camera")
+            return ("popupTitleImportPDF", "File picker popup title for only PDFs")
         case .popupTitleImportPDForPhotos:
-            return ("popupTitleImportPDForPhotos", "This message is shown when" +
-                "there is an unknown error in the camera")
+            return ("popupTitleImportPDForPhotos", "File picker popup title for photos and PDFs")
+        case .popupOptionFiles:
+            return ("popupOptionFiles", "File picker popup file option")
+        case .popupOptionPhotos:
+            return ("popupOptionPhotos", "File picker popup photos option")
+        case .popupCancel:
+            return ("popupCancel", "File picker popup cancel option")
         }
     }
     

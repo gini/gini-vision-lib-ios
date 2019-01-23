@@ -281,7 +281,8 @@ import UIKit
     
     fileprivate func showPDFInformationView(withDocument document: GiniPDFDocument,
                                             giniConfiguration: GiniConfiguration) {
-        let pdfView = PDFInformationView(title: document.pdfTitle ?? "PDF Dokument",
+        let title: String = document.pdfTitle ?? .localized(resource: AnalysisStrings.defaultPdfDokumentTitle)
+        let pdfView = PDFInformationView(title: title,
                                          subtitle: giniConfiguration
                                             .analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                          textColor: giniConfiguration.analysisPDFInformationTextColor,

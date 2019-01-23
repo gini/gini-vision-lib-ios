@@ -74,6 +74,7 @@
 "ginivision.analysis.error.documentCreation" = "An error occurred while uploading the document.";
 "ginivision.analysis.error.analysis" = "An error occurred while parsing the document.";
 "ginivision.analysis.error.cancelled" = "The analysis was cancelled";
+"ginivision.analysis.defaultPdfDokumentTitle" = "PDF Document";
 
 "ginivision.help.openWithTutorial.title" = "Open documents from other apps";
 

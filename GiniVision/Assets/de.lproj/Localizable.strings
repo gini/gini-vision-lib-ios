@@ -74,6 +74,7 @@
 "ginivision.analysis.error.documentCreation" = "Beim Hochladen des Dokuments ist ein Fehler aufgetreten.";
 "ginivision.analysis.error.analysis" = "Beim Analysieren des Dokuments ist ein Fehler aufgetreten.";
 "ginivision.analysis.error.cancelled" = "Die Analyse wurde abgebrochen";
+"ginivision.analysis.defaultPdfDokumentTitle" = "PDF Dokument";
 
 "ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";
 
