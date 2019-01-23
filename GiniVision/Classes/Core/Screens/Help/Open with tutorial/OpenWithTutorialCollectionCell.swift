@@ -18,6 +18,9 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     let titleToSubtitleDistance: CGFloat = 20
     let subtitleToImageDistance: CGFloat = 40
     
+    static let maxTitleFontSize: CGFloat = UIDevice.current.isIpad ? 18 : 14
+    static let maxSubtitleFontSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
+    
     lazy var stepIndicator: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,8 +42,6 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        let textSize: CGFloat = UIDevice.current.isIpad ? 18 : 14
-        label.font = label.font.withSize(textSize)
         
         return label
     }()
@@ -50,8 +51,6 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lightGray
-        let textSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
-        label.font = label.font.withSize(textSize)
         
         return label
     }()
@@ -167,10 +166,16 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         return layoutAttributes
     }
     
-    public func fillWith(item: OpenWithTutorialStep, at position: Int) {
+    public func fillWith(item: OpenWithTutorialStep, at position: Int, giniConfiguration: GiniConfiguration) {
         stepIndicator.text = String(describing: position + 1)
         stepTitle.text = item.title
+        stepTitle.font = giniConfiguration.customFont.with(.regular,
+                                                           size: OpenWithTutorialCollectionCell.maxTitleFontSize,
+                                                           style: .headline)
         stepSubTitle.text = item.subtitle
+        stepSubTitle.font = giniConfiguration.customFont.with(.regular,
+                                                              size: OpenWithTutorialCollectionCell.maxSubtitleFontSize,
+                                                              style: .headline)
         stepImage.image = item.image
     }
 }

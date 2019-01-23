@@ -564,6 +564,7 @@ extension MultipageReviewViewController: UICollectionViewDataSource {
                                               for: indexPath) as? MultipageReviewPagesCollectionFooter
         footer?.updateMaskConstraints(with: collectionView)
         footer?.trailingConstraint?.constant = -MultipageReviewPagesCollectionFooter.padding(in: collectionView).right
+        footer?.addLabel.font = giniConfiguration.customFont.with(.bold, size: 12, style: .footnote)
         footer?.didTapAddButton = { [weak self] in
             guard let self = self else { return }
             self.delegate?.multipageReviewDidTapAddImage(self)

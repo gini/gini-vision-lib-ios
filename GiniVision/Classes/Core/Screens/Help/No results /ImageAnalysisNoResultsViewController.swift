@@ -15,7 +15,7 @@ import UIKit
  */
 
 public final class ImageAnalysisNoResultsViewController: UIViewController {
-
+    
     lazy var suggestionsCollectionView: CaptureSuggestionsCollectionView = {
         let collection = CaptureSuggestionsCollectionView()
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +26,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         let bottomButton = UIButton()
         bottomButton.translatesAutoresizingMaskIntoConstraints = false
         bottomButton.setTitle(self.bottomButtonText, for: .normal)
+        bottomButton.titleLabel?.font = giniConfiguration.customFont.with(.bold, size: 14, style: .caption1)
         bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
         bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
         bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
@@ -52,26 +53,46 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     fileprivate var topViewIcon: UIImage?
     fileprivate var bottomButtonText: String?
     fileprivate var bottomButtonIconImage: UIImage?
+    fileprivate var giniConfiguration: GiniConfiguration
     
     public var didTapBottomButton: (() -> Void) = { }
     
-    public init(title: String? = nil,
-                subHeaderText: String? = NSLocalizedString("ginivision.noresults.collection.header",
-                                                           bundle: Bundle(for: GiniVision.self),
-                                                           comment: "no results suggestions collection header title"),
-                topViewText: String = NSLocalizedString("ginivision.noresults.warning",
-                                                        bundle: Bundle(for: GiniVision.self),
-                                                        comment: "Warning text that indicates that there was any " +
-                                                                 "result for this photo analysis"),
-                topViewIcon: UIImage? = UIImage(named: "warningNoResults",
-                                                in: Bundle(for: GiniVision.self),
-                                                compatibleWith: nil)?.withRenderingMode(.alwaysTemplate),
-                bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera",
-                                                              bundle: Bundle(for: GiniVision.self),
-                                                              comment: "bottom button title (go to camera button)"),
-                bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon",
-                                                     in: Bundle(for: GiniVision.self),
-                                                     compatibleWith: nil)) {
+    public convenience init(title: String? = nil,
+                            subHeaderText: String? = NSLocalizedString("ginivision.noresults.collection.header",
+                                                                       bundle: Bundle(for: GiniVision.self),
+                                                                       comment: "no results suggestions collection " +
+                                                                                "header title"),
+                            topViewText: String = NSLocalizedString("ginivision.noresults.warning",
+                                                                    bundle: Bundle(for: GiniVision.self),
+                                                                    comment: "Warning text that indicates that there " +
+                                                                             "was any result for this photo analysis"),
+                            topViewIcon: UIImage? = UIImage(named: "warningNoResults",
+                                                            in: Bundle(for: GiniVision.self),
+                                                            compatibleWith: nil)?.withRenderingMode(.alwaysTemplate),
+                            bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera",
+                                                                          bundle: Bundle(for: GiniVision.self),
+                                                                          comment: "bottom button title (go to camera" +
+                                                                                   " button)"),
+                            bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon",
+                                                                 in: Bundle(for: GiniVision.self),
+                                                                 compatibleWith: nil)) {
+        self.init(title: title,
+                  subHeaderText: subHeaderText,
+                  topViewText: topViewText,
+                  topViewIcon: topViewIcon,
+                  bottomButtonText: bottomButtonText,
+                  bottomButtonIcon: bottomButtonIcon,
+                  giniConfiguration: .shared)
+    }
+    
+    init(title: String? = nil,
+         subHeaderText: String?,
+         topViewText: String,
+         topViewIcon: UIImage?,
+         bottomButtonText: String?,
+         bottomButtonIcon: UIImage?,
+         giniConfiguration: GiniConfiguration = .shared) {
+        self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
         self.title = title
         self.subHeaderTitle = subHeaderText
@@ -113,30 +134,30 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         // Collection View
         Constraints.active(item: suggestionsCollectionView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
         Constraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: suggestionsCollectionView,
-                          attr: .leading)
+                           attr: .leading)
         Constraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: suggestionsCollectionView,
-                          attr: .trailing)
+                           attr: .trailing)
         
         // Button
         if bottomButtonText != nil {
             Constraints.active(item: self.bottomLayoutGuide, attr: .top, relatedBy: .equal, to: bottomButton,
-                              attr: .bottom, constant: 20)
+                               attr: .bottom, constant: 20)
             Constraints.active(item: self.view, attr: .leading, relatedBy: .equal, to: bottomButton, attr: .leading,
-                              constant: -20, priority: 999)
+                               constant: -20, priority: 999)
             Constraints.active(item: self.view, attr: .trailing, relatedBy: .equal, to: bottomButton, attr: .trailing,
-                              constant: 20, priority: 999)
+                               constant: 20, priority: 999)
             Constraints.active(item: self.view, attr: .centerX, relatedBy: .equal, to: bottomButton, attr: .centerX)
             Constraints.active(item: bottomButton, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                              constant: 60)
+                               constant: 60)
             Constraints.active(item: bottomButton, attr: .width, relatedBy: .lessThanOrEqual, to: nil,
-                              attr: .notAnAttribute, constant: 375)
+                               attr: .notAnAttribute, constant: 375)
             Constraints.active(item: bottomButton, attr: .top, relatedBy: .equal, to: suggestionsCollectionView,
-                              attr: .bottom, constant: 0, priority: 999)
+                               attr: .bottom, constant: 0, priority: 999)
         } else {
             Constraints.active(item: self.view, attr: .bottom, relatedBy: .equal, to: suggestionsCollectionView,
-                              attr: .bottom, constant: 0, priority: 999)
+                               attr: .bottom, constant: 0, priority: 999)
         }
-
+        
     }
     
     // MARK: Button action
@@ -156,8 +177,9 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
                                cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier = CaptureSuggestionsCollectionView.captureSuggestionsCellIdentifier
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
-                                                      for: indexPath) as? CaptureSuggestionsCollectionCell)!
+                                                       for: indexPath) as? CaptureSuggestionsCollectionCell)!
         cell.suggestionText.text = self.captureSuggestions[indexPath.row].text
+        cell.suggestionText.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
         cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
         return cell
     }
@@ -191,8 +213,10 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
                                               withReuseIdentifier: identifier,
                                               for: indexPath) as? CaptureSuggestionsCollectionHeader)!
         header.subHeaderTitle.text = self.subHeaderTitle
+        header.subHeaderTitle.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
         header.topViewIcon.image = self.topViewIcon
         header.topViewText.text = self.topViewText
+        header.topViewText.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
         header.shouldShowTopViewIcon = topViewIcon != nil
         header.shouldShowSubHeader = subHeaderTitle != nil
         return header
