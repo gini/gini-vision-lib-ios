@@ -45,6 +45,11 @@
 "ginivision.camera.errorPopup.pickanotherfileButton" = "Andere Datei wählen";
 "ginivision.camera.errorPopup.reviewPages" = "Seitenübersicht";
 "ginivision.camera.unknownError" = "Auf dem Kamerabildschirm ist ein unbekannter Fehler aufgetreten";
+"ginivision.camera.popupTitleImportPDF" = "PDF importieren";
+"ginivision.camera.popupOptionPhotos" = "Fotos";
+"ginivision.camera.popupOptionFiles" = "Dokumente";
+"ginivision.camera.popupTitleImportPDForPhotos" = "Fotos oder PDF importieren";
+"ginivision.camera.popupCancel" = "Abbrechen";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";
