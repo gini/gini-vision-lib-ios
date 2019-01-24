@@ -116,3 +116,7 @@
 "ginivision.multipagereview.title" = "%d of %d";
 "ginivision.multipagereview.error.retakeAction" = "Retake";
 "ginivision.multipagereview.error.retryAction" = "Retry";
+
+"ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1_en";
+"ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2_en";
+"ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3_en";
