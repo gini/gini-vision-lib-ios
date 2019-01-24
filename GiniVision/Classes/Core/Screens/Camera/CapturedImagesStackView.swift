@@ -71,7 +71,7 @@ final class CapturedImagesStackView: UIView {
         label.text = .localized(resource: CameraStrings.capturedImagesStackSubtitleLabel)
         label.textAlignment = .center
         label.textColor = .white
-        label.font = giniConfiguration.customFont.with(.regular, size: 12, style: .footnote)
+        label.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .footnote)
         label.numberOfLines = 0
 
         return label

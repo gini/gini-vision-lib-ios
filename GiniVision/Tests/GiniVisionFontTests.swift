@@ -24,28 +24,28 @@ final class GiniVisionFontTests: XCTestCase {
     func testRegularDynamicFontGeneration() {
         let dynamicFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: font.regular)
         
-        XCTAssertEqual(dynamicFont, font.with(.regular, size: 14, style: .body))
+        XCTAssertEqual(dynamicFont, font.with(weight: .regular, size: 14, style: .body))
     }
     
     @available(iOS 11.0, *)
     func testBoldDynamicFontGeneration() {
         let dynamicFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: font.bold)
         
-        XCTAssertEqual(dynamicFont, font.with(.bold, size: 14, style: .body))
+        XCTAssertEqual(dynamicFont, font.with(weight: .bold, size: 14, style: .body))
     }
     
     @available(iOS 11.0, *)
     func testThinDynamicFontGeneration() {
         let dynamicFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: font.thin)
         
-        XCTAssertEqual(dynamicFont, font.with(.thin, size: 14, style: .body))
+        XCTAssertEqual(dynamicFont, font.with(weight: .thin, size: 14, style: .body))
     }
     
     @available(iOS 11.0, *)
     func testLightDynamicFontGeneration() {
         let dynamicFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: font.light)
         
-        XCTAssertEqual(dynamicFont, font.with(.light, size: 14, style: .body))
+        XCTAssertEqual(dynamicFont, font.with(weight: .light, size: 14, style: .body))
     }
     
 }

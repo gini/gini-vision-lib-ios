@@ -26,7 +26,7 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         let bottomButton = UIButton()
         bottomButton.translatesAutoresizingMaskIntoConstraints = false
         bottomButton.setTitle(self.bottomButtonText, for: .normal)
-        bottomButton.titleLabel?.font = giniConfiguration.customFont.with(.bold, size: 14, style: .caption1)
+        bottomButton.titleLabel?.font = giniConfiguration.customFont.with(weight: .bold, size: 14, style: .caption1)
         bottomButton.setTitleColor(UIColor.white.withAlphaComponent(0.5), for: .highlighted)
         bottomButton.setImage(self.bottomButtonIconImage, for: .normal)
         bottomButton.addTarget(self, action: #selector(didTapBottomButtonAction), for: .touchUpInside)
@@ -179,7 +179,7 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDataSource {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
                                                        for: indexPath) as? CaptureSuggestionsCollectionCell)!
         cell.suggestionText.text = self.captureSuggestions[indexPath.row].text
-        cell.suggestionText.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
+        cell.suggestionText.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.suggestionImage.image = self.captureSuggestions[indexPath.row].image
         return cell
     }
@@ -213,10 +213,10 @@ extension ImageAnalysisNoResultsViewController: UICollectionViewDelegateFlowLayo
                                               withReuseIdentifier: identifier,
                                               for: indexPath) as? CaptureSuggestionsCollectionHeader)!
         header.subHeaderTitle.text = self.subHeaderTitle
-        header.subHeaderTitle.font = giniConfiguration.customFont.with(.bold, size: 14, style: .body)
+        header.subHeaderTitle.font = giniConfiguration.customFont.with(weight: .bold, size: 14, style: .body)
         header.topViewIcon.image = self.topViewIcon
         header.topViewText.text = self.topViewText
-        header.topViewText.font = giniConfiguration.customFont.with(.bold, size: 14, style: .body)
+        header.topViewText.font = giniConfiguration.customFont.with(weight: .bold, size: 14, style: .body)
         header.shouldShowTopViewIcon = topViewIcon != nil
         header.shouldShowSubHeader = subHeaderTitle != nil
         return header

@@ -44,7 +44,7 @@ import UIKit
         textLabel.textColor = GiniConfiguration.shared.onboardingTextColor
         textLabel.textAlignment = .center
         textLabel.font = GiniConfiguration.shared.customFont.isEnabled ?
-            GiniConfiguration.shared.customFont.with(.thin, size: 28, style: .title1) :
+            GiniConfiguration.shared.customFont.with(weight: .thin, size: 28, style: .title1) :
             GiniConfiguration.shared.onboardingTextFont
         
         // Configure view hierachy

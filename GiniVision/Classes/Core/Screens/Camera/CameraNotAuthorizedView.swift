@@ -34,7 +34,7 @@ final class CameraNotAuthorizedView: UIView {
         label.textColor = giniConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .center
         label.font = giniConfiguration.customFont.isEnabled ?
-            giniConfiguration.customFont.with(.thin, size: 20, style: .title2) :
+            giniConfiguration.customFont.with(weight: .thin, size: 20, style: .title2) :
             giniConfiguration.cameraNotAuthorizedTextFont
             
         // Configure button
@@ -43,7 +43,7 @@ final class CameraNotAuthorizedView: UIView {
         button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8),
                              for: .highlighted)
         button.titleLabel?.font = giniConfiguration.customFont.isEnabled ?
-            giniConfiguration.customFont.with(.regular, size: 20, style: .caption1) :
+            giniConfiguration.customFont.with(weight: .regular, size: 20, style: .caption1) :
             giniConfiguration.cameraNotAuthorizedButtonFont
 
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)

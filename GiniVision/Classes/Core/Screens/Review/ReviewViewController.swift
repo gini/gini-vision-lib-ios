@@ -118,7 +118,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
         label.font = giniConfiguration.customFont.isEnabled ?
-            giniConfiguration.customFont.with(.thin, size: 12, style: .footnote) :
+            giniConfiguration.customFont.with(weight: .thin, size: 12, style: .footnote) :
             giniConfiguration.reviewTextBottomFont
         return label
     }()

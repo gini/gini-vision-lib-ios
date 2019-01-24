@@ -86,7 +86,7 @@ final class SupportedFormatsViewController: UITableViewController {
         let cell = (tableView.dequeueReusableCell(withIdentifier: supportedFormatsCellIdentifier,
                                                  for: indexPath) as? SupportedFormatsTableViewCell)!
         cell.textLabel?.text = item
-        cell.textLabel?.font = giniConfiguration.customFont.with(.regular, size: 14, style: .body)
+        cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.imageView?.image = section.itemsImage
         cell.imageBackgroundView.backgroundColor = section.itemsImageBackgroundColor
 

@@ -35,7 +35,7 @@ public class GiniVisionFont: NSObject {
         self.isEnabled = isEnabled
     }
     
-    public func with(_ weight: UIFont.Weight, size: CGFloat, style: UIFont.TextStyle) -> UIFont {
+    public func with(weight: UIFont.Weight, size: CGFloat, style: UIFont.TextStyle) -> UIFont {
         if #available(iOS 11.0, *) {
             return UIFontMetrics(forTextStyle: style).scaledFont(for: font(for: weight).withSize(size))
         } else {

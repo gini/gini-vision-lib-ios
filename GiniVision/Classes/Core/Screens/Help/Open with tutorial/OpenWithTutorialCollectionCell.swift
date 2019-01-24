@@ -169,11 +169,11 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     public func fillWith(item: OpenWithTutorialStep, at position: Int, giniConfiguration: GiniConfiguration) {
         stepIndicator.text = String(describing: position + 1)
         stepTitle.text = item.title
-        stepTitle.font = giniConfiguration.customFont.with(.regular,
+        stepTitle.font = giniConfiguration.customFont.with(weight: .regular,
                                                            size: OpenWithTutorialCollectionCell.maxTitleFontSize,
                                                            style: .headline)
         stepSubTitle.text = item.subtitle
-        stepSubTitle.font = giniConfiguration.customFont.with(.regular,
+        stepSubTitle.font = giniConfiguration.customFont.with(weight: .regular,
                                                               size: OpenWithTutorialCollectionCell.maxSubtitleFontSize,
                                                               style: .headline)
         stepImage.image = item.image
