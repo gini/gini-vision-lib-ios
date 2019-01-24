@@ -9,7 +9,7 @@
 "ginivision.navigationbar.camera.title"        = "Photograph document";
 "ginivision.navigationbar.onboarding.title"    = "Instructions";
 "ginivision.navigationbar.review.title"        = "Check photo quality";
-"ginivision.navigationbar.analysis.title"      = "Etwas Geduld, analysiere Foto";
+"ginivision.navigationbar.analysis.title"      = "Be patient, analysing photo";
 "ginivision.navigationbar.camera.close"        = "Close";
 "ginivision.navigationbar.camera.help"         = "Help";
 "ginivision.navigationbar.onboarding.continue" = "Next";
@@ -26,7 +26,7 @@
 "ginivision.camera.notAuthorizedButton" = "Grant permission";
 "ginivision.camera.captureFailed" = "Image capture failed";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Permission to access your photos gallery is required to analyse saved photos";
-"ginivision.camera.filepicker.mixedDocumentsUnsupported" = "It is only possible to select a file type at the same time.";
+"ginivision.camera.filepicker.mixedDocumentsUnsupported" = "It is only possible to select one file type at the same time.";
 "ginivision.camera.filepicker.errorPopup.cancelButton" = "Cancel";
 "ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
 "ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Grant permission";
@@ -36,7 +36,7 @@
 "ginivision.camera.documentValidationError.wrongFormat" = "Only files of the formats jpg, png, gif or pdf can be analysed";
 "ginivision.camera.fileImportTip" = "Now documents can be conveniently uploaded for analysis.";
 "ginivision.camera.fileImportButtonLabel" = "Import";
-"ginivision.camera.capturedImagesStackLabel" = "Erfasste Dokumente";
+"ginivision.camera.capturedImagesStackLabel" = "Captured documents";
 "ginivision.camera.qrCodeDetectedPopup.message" = "Use QR code?";
 "ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Continue";
 "ginivision.camera.mixedarrayspopup.cancel" = "Cancel";
@@ -59,7 +59,7 @@
 
 "ginivision.review.top"                = "Is the document complete, in focus and in the correct orientation?";
 "ginivision.review.bottom"             = "Double-tap to check the focus";
-"ginivision.review.rotateButton"       = "Dokument drehen";
+"ginivision.review.rotateButton"       = "Rotate document";
 "ginivision.review.documentImageTitle" = "Document";
 "ginivision.review.unknownError"       = "An unknown error has occurred on the review screen";
 
