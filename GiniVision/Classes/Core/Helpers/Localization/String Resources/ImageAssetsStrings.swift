@@ -26,7 +26,11 @@ public enum ImageAssetsStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         return true
+    }
+    
+    var fallbackTableEntry: String {
+        return ""
     }
 }
