@@ -1,0 +1,45 @@
+
+/* Class = "UINavigationItem"; title = "Ihre Überweisung"; ObjectID = "4i1-9k-bvm"; */
+"4i1-9k-bvm.title" = "Ihre Überweisung";
+
+/* Class = "UIButton"; normalTitle = "← Swipe →"; ObjectID = "Cwx-FE-vrt"; */
+"Cwx-FE-vrt.normalTitle" = "← Swipe →";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "DZy-LP-mJr"; */
+"DZy-LP-mJr.text" = "Title";
+
+/* Class = "UIButton"; normalTitle = "Close"; ObjectID = "Dxk-7z-DGh"; */
+"Dxk-7z-DGh.normalTitle" = "Close";
+
+/* Class = "UILabel"; text = "Das Dokument muss in Leserichtung übertragen werden. Verwenden Sie das Symbol um das Dokument in die richtige Position zu bringen.\n"; ObjectID = "EJu-ez-xha"; */
+"EJu-ez-xha.text" = "Das Dokument muss in Leserichtung übertragen werden. Verwenden Sie das Symbol um das Dokument in die richtige Position zu bringen.\n";
+
+/* Class = "UILabel"; text = "Es konnten keine Daten ausgelesen werden."; ObjectID = "GV5-n6-YJy"; */
+"GV5-n6-YJy.text" = "Es konnten keine Daten ausgelesen werden.";
+
+/* Class = "UIBarButtonItem"; title = "Continue"; ObjectID = "Qhm-u8-pts"; */
+"Qhm-u8-pts.title" = "Continue";
+
+/* Class = "UIButton"; disabledTitle = "Bankkonto verknüpfen"; ObjectID = "TMF-Vc-bwN"; */
+"TMF-Vc-bwN.disabledTitle" = "Bankkonto verknüpfen";
+
+/* Class = "UIButton"; normalTitle = "Foto erneut aufnehmen"; ObjectID = "TMF-Vc-bwN"; */
+"TMF-Vc-bwN.normalTitle" = "Foto erneut aufnehmen";
+
+/* Class = "UIButton"; normalTitle = "Screen API"; ObjectID = "ZRI-6l-yQl"; */
+"ZRI-6l-yQl.normalTitle" = "Screen API";
+
+/* Class = "UITabBarItem"; title = "New Document"; ObjectID = "ajC-bx-ktX"; */
+"ajC-bx-ktX.title" = "New Document";
+
+/* Class = "UIButton"; normalTitle = "Try again"; ObjectID = "lLb-fl-gmQ"; */
+"lLb-fl-gmQ.normalTitle" = "Try again";
+
+/* Class = "UITabBarItem"; title = "Help"; ObjectID = "rpN-Vy-EOC"; */
+"rpN-Vy-EOC.title" = "Help";
+
+/* Class = "UILabel"; text = "Bitte beachten Sie:"; ObjectID = "xR3-Pr-BVQ"; */
+"xR3-Pr-BVQ.text" = "Bitte beachten Sie:";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "xfW-YK-PSE"; */
+"xfW-YK-PSE.text" = "Subtitle";
