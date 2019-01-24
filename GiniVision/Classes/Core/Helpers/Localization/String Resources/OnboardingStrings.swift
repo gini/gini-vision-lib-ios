@@ -31,11 +31,18 @@ enum OnboardingStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .onboardingFirstPageText, .onboardingSecondPageText, .onboardingThirdPageText, .onboardingFourthPageText,
              .onboardingFifthPageText:
             return true
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
         }
     }
     

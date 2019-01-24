@@ -48,7 +48,7 @@ enum AnalysisStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .cancelledMessage, .documentCreationErrorMessage, .loadingText, .pdfPages, .defaultPdfDokumentTitle,
              .suggestion1Text, .suggestion2Text, .suggestion3Text, .suggestion4Text, .suggestion5Text,
@@ -56,6 +56,13 @@ enum AnalysisStrings: LocalizableStringResource {
             return true
         case .analysisErrorMessage:
             return false
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
         }
     }
 }

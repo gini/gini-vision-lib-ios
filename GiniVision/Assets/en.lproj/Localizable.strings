@@ -43,6 +43,7 @@
 "ginivision.camera.mixedarrayspopup.usePhotos" = "Use photos";
 "ginivision.camera.errorPopup.cancelButton" = "Cancel";
 "ginivision.camera.errorPopup.pickanotherfileButton" = "Pick another file";
+"ginivision.camera.errorPopup.pickAnotherFileButton" = "Pick another file";
 "ginivision.camera.errorPopup.reviewPages" = "Review pages";
 "ginivision.camera.unknownError" = "An unknown error has occurred on the camera screen";
 "ginivision.camera.popupTitleImportPDF" = "Import PDF";

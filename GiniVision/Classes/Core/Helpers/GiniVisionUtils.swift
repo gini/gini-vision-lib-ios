@@ -31,15 +31,26 @@ func UIImageNamedPreferred(named name: String) -> UIImage? {
  
  - returns: String resource for the given key.
  */
-func NSLocalizedStringPreferredFormat(_ key: String, comment: String) -> String {
+func NSLocalizedStringPreferredFormat(_ key: String,
+                                      fallbackKey: String = "",
+                                      comment: String,
+                                      isCustomizable: Bool = true) -> String {
     let clientString = NSLocalizedString(key, comment: comment)
+    let fallbackClientString = NSLocalizedString(fallbackKey, comment: comment)
     let format: String
     
-    if clientString.lowercased() != key.lowercased() {
+    if (clientString.lowercased() != key.lowercased() || fallbackClientString.lowercased() != fallbackKey.lowercased())
+        && isCustomizable {
         format = clientString
     } else {
         let bundle = Bundle(for: GiniVision.self)
-        format = NSLocalizedString(key, bundle: bundle, comment: comment)
+        var defaultFormat = NSLocalizedString(key, bundle: bundle, comment: comment)
+        
+        if defaultFormat.lowercased() == key.lowercased() {
+            defaultFormat = NSLocalizedString(fallbackKey, bundle: bundle, comment: comment)
+        }
+        
+        format = defaultFormat
     }
     
     return format

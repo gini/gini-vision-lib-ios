@@ -35,7 +35,7 @@ enum CameraStrings: LocalizableStringResource {
         case .errorPopupGrantAccessButton:
             return ("filepicker.errorPopup.grantAccessButton", "grant access button title")
         case .errorPopupPickAnotherFileButton:
-            return ("errorPopup.pickanotherfileButton", "pick another file button title")
+            return ("errorPopup.pickAnotherFileButton", "pick another file button title")
         case .errorPopupReviewPagesButton:
             return ("errorPopup.reviewPages", "review pages button title")
         case .exceededFileSizeErrorMessage:
@@ -89,7 +89,7 @@ enum CameraStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .captureButton, .captureFailedMessage, .errorPopupCancelButton,
              .errorPopupGrantAccessButton, .errorPopupPickAnotherFileButton, .errorPopupReviewPagesButton,
@@ -101,6 +101,15 @@ enum CameraStrings: LocalizableStringResource {
         case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel, .popupTitleImportPDF,
              .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:
             return false
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        case .errorPopupPickAnotherFileButton:
+            return "errorPopup.pickanotherfileButton"
+        default:
+            return ""
         }
     }
 }
