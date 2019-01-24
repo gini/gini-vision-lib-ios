@@ -43,8 +43,14 @@
 "ginivision.camera.mixedarrayspopup.usePhotos" = "Benutze Photos";
 "ginivision.camera.errorPopup.cancelButton" = "Abbrechen";
 "ginivision.camera.errorPopup.pickanotherfileButton" = "Andere Datei wählen";
+"ginivision.camera.errorPopup.pickAnotherFileButton" = "Andere Datei wählen";
 "ginivision.camera.errorPopup.reviewPages" = "Seitenübersicht";
 "ginivision.camera.unknownError" = "Auf dem Kamerabildschirm ist ein unbekannter Fehler aufgetreten";
+"ginivision.camera.popupTitleImportPDF" = "PDF importieren";
+"ginivision.camera.popupOptionPhotos" = "Fotos";
+"ginivision.camera.popupOptionFiles" = "Dokumente";
+"ginivision.camera.popupTitleImportPDForPhotos" = "Fotos oder PDF importieren";
+"ginivision.camera.popupCancel" = "Abbrechen";
 
 "ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";
@@ -69,6 +75,7 @@
 "ginivision.analysis.error.documentCreation" = "Beim Hochladen des Dokuments ist ein Fehler aufgetreten.";
 "ginivision.analysis.error.analysis" = "Beim Analysieren des Dokuments ist ein Fehler aufgetreten.";
 "ginivision.analysis.error.cancelled" = "Die Analyse wurde abgebrochen";
+"ginivision.analysis.defaultPdfDokumentTitle" = "PDF Dokument";
 
 "ginivision.help.openWithTutorial.title" = "Dokumente aus anderen Apps öffnen";
 

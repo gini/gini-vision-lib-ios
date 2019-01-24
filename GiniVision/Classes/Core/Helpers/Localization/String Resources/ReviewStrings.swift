@@ -34,10 +34,17 @@ enum ReviewStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .bottomText, .documentImageTitle, .rotateButton, .topText, .unknownErrorMessage:
             return true
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
         }
     }
     

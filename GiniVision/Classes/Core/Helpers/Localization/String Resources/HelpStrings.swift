@@ -65,7 +65,7 @@ enum HelpStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .openWithTutorialCollectionHeader, .openWithTutorialStep1Title, .openWithTutorialStep1Subtitle,
              .openWithTutorialStep2Title, .openWithTutorialStep2Subtitle, .openWithTutorialStep3Title,
@@ -76,6 +76,13 @@ enum HelpStrings: LocalizableStringResource {
              .supportedFormatsSection1Item2Text, .supportedFormatsSection1Item3Text, .supportedFormatsSection2Title,
              .supportedFormatsSection2Item1Text, .supportedFormatsSection2Item2Text:
             return false
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
         }
     }
     

@@ -667,20 +667,23 @@ extension CameraViewController {
         toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        var alertViewControllerMessage = "PDF importieren"
+        var alertViewControllerMessage: String = .localized(resource: CameraStrings.popupTitleImportPDF)
         
         if giniConfiguration.fileImportSupportedTypes == .pdf_and_images {
-            alertViewController.addAction(UIAlertAction(title: "Fotos", style: .default) { [unowned self] _ in
+            alertViewController.addAction(UIAlertAction(title: .localized(resource: CameraStrings.popupOptionPhotos),
+                                                        style: .default) { [unowned self] _ in
                 self.delegate?.camera(self, didSelect: .gallery)
             })
-            alertViewControllerMessage = "Fotos oder PDF importieren"
+            alertViewControllerMessage = .localized(resource: CameraStrings.popupTitleImportPDForPhotos)
         }
         
-        alertViewController.addAction(UIAlertAction(title: "Dokumente", style: .default) { [unowned self] _ in
+        alertViewController.addAction(UIAlertAction(title: .localized(resource: CameraStrings.popupOptionFiles),
+                                                    style: .default) { [unowned self] _ in
             self.delegate?.camera(self, didSelect: .explorer)
         })
         
-        alertViewController.addAction(UIAlertAction(title: "Abbrechen", style: .cancel, handler: nil))
+        alertViewController.addAction(UIAlertAction(title: .localized(resource: CameraStrings.popupCancel),
+                                                    style: .cancel, handler: nil))
         
         alertViewController.message = alertViewControllerMessage
         alertViewController.popoverPresentationController?.sourceView = importFileButton

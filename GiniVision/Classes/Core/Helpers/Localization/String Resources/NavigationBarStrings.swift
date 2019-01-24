@@ -28,11 +28,17 @@ enum NavigationBarStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .analysisTitle, .cameraTitle, .onboardingTitle, .reviewTitle:
             return true
         }
     }
     
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
+        }
+    }
 }

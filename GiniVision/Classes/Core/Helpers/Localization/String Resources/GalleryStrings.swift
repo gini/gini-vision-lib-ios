@@ -29,7 +29,7 @@ enum GalleryStrings: LocalizableStringResource {
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .albumsTitle:
             return true
@@ -38,4 +38,10 @@ enum GalleryStrings: LocalizableStringResource {
         }
     }
     
+    var fallbackTableEntry: String {
+        switch self {
+        default:
+            return ""
+        }
+    }
 }
