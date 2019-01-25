@@ -45,7 +45,7 @@ final class CaptureSuggestionsView: UIView {
         suggestionIcon.contentMode = .scaleAspectFit
         
         suggestionTitle.textColor = .white
-        suggestionTitle.font = font.withSize(16)
+        suggestionTitle.font = font
         suggestionTitle.numberOfLines = 1
         suggestionTitle.text = .localized(resource: AnalysisStrings.suggestionHeader)
         suggestionTitle.textAlignment = .center
@@ -53,7 +53,7 @@ final class CaptureSuggestionsView: UIView {
         suggestionTitle.minimumScaleFactor = 14/16
         
         suggestionText.textColor = .white
-        suggestionText.font = font.withSize(16)
+        suggestionText.font = font
         suggestionText.numberOfLines = 0
         suggestionTexts.shuffle()
         suggestionText.text = suggestionTexts.first!

@@ -64,7 +64,7 @@ import UIKit
     fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
         loadingText.text = giniConfiguration.analysisLoadingText
-        loadingText.font = giniConfiguration.customFont.regular.withSize(18)
+        loadingText.font = giniConfiguration.customFont.with(weight: .regular, size: 18, style: .body)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
         return loadingText
@@ -286,7 +286,7 @@ import UIKit
                                          subtitle: giniConfiguration
                                             .analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                          textColor: giniConfiguration.analysisPDFInformationTextColor,
-                                         textFont: giniConfiguration.customFont.regular.withSize(16),
+                                         textFont: giniConfiguration.customFont.with(weight: .regular, size: 16, style: .body),
                                          backgroundColor: giniConfiguration.analysisPDFInformationBackgroundColor,
                                          superView: self.view,
                                          viewBelow: self.imageView)
@@ -297,7 +297,9 @@ import UIKit
     fileprivate func showCaptureSuggestions(giniConfiguration: GiniConfiguration) {
         let captureSuggestions = CaptureSuggestionsView(superView: self.view,
                                                         bottomLayout: bottomLayoutGuide,
-                                                        font: giniConfiguration.customFont.regular.withSize(14))
+                                                        font: giniConfiguration.customFont.with(weight: .regular,
+                                                                                                size: 16,
+                                                                                                style: .body))
         captureSuggestions.start()
     }
 }

@@ -74,7 +74,7 @@ final class ToolTipView: UIView {
         superView.addSubview(self)
         alpha = 0
         
-        let font = giniConfiguration.customFont.regular.withSize(14)
+        let font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         self.textSize = size(forText: text, withFont: font)
         self.addTipContainer(backgroundColor: giniConfiguration.fileImportToolTipBackgroundColor)
         self.addTextLabel(withText: text, textColor: giniConfiguration.fileImportToolTipTextColor, font: font)

@@ -112,7 +112,7 @@ final class OpenWithTutorialViewController: UICollectionViewController {
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: openWithTutorialCollectionCellIdentifier,
                                                       for: indexPath) as? OpenWithTutorialCollectionCell)!
-        cell.fillWith(item: items[indexPath.row], at: indexPath.row)
+        cell.fillWith(item: items[indexPath.row], at: indexPath.row, giniConfiguration: giniConfiguration)
         
         return cell
     }
@@ -124,6 +124,9 @@ final class OpenWithTutorialViewController: UICollectionViewController {
             .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier,
                                               for: indexPath) as? OpenWithTutorialCollectionHeader)!
+        header.headerTitle.font = giniConfiguration.customFont.with(weight: .regular,
+                                                                    size: OpenWithTutorialCollectionHeader.maxHeaderFontSize,
+                                                                    style: .body)
         header.headerTitle.text = headerTitle
         return header
     }

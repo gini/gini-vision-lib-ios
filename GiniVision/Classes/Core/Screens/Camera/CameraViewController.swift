@@ -143,7 +143,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = .localized(resource: CameraStrings.importFileButtonLabel)
-        label.font = label.font.withSize(12)
+        label.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .footnote)
         label.textColor = .white
         return label
     }()

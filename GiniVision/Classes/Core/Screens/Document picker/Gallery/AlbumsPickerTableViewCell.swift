@@ -103,8 +103,8 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
     func setUp(with album: Album, giniConfiguration: GiniConfiguration, galleryManager: GalleryManagerProtocol) {
         albumTitleLabel.text = album.title
         albumSubTitleLabel.text = "\(album.count)"
-        albumTitleLabel.font = giniConfiguration.customFont.regular.withSize(16)
-        albumSubTitleLabel.font = giniConfiguration.customFont.regular.withSize(12)
+        albumTitleLabel.font = giniConfiguration.customFont.with(weight: .regular, size: 16, style: .headline)
+        albumSubTitleLabel.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .subheadline)
         
         let asset = album.assets[album.assets.count - 1]
         galleryManager.fetchImage(from: asset,

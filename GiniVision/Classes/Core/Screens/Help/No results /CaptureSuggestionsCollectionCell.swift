@@ -22,7 +22,6 @@ final class CaptureSuggestionsCollectionCell: UICollectionViewCell {
         suggestionText.translatesAutoresizingMaskIntoConstraints = false
         suggestionText.numberOfLines = 0
         suggestionText.adjustsFontSizeToFitWidth = true
-        suggestionText.font = GiniConfiguration.shared.customFont.regular.withSize(14)
         suggestionText.minimumScaleFactor = 10 / 14
         return suggestionText
     }()

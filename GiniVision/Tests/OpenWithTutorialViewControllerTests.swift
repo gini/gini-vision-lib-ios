@@ -18,13 +18,13 @@ final class OpenWithTutorialViewControllerTests: XCTestCase {
                                     comment: "first step title for open with tutorial"),
          NSLocalizedStringPreferredFormat("ginivision.help.openWithTutorial.step1.subTitle",
                                     comment: "first step subtitle for open with tutorial"),
-         UIImageNamedPreferred(named: "openWithTutorialStep1")),
+         UIImageNamedPreferred(named: .localized(resource: ImageAssetsStrings.openWithTutorialStep1))),
         (NSLocalizedStringPreferredFormat("ginivision.help.openWithTutorial.step2.title",
                                     comment: "second step title for open with tutorial"),
          String(format: NSLocalizedStringPreferredFormat("ginivision.help.openWithTutorial.step2.subTitle",
                                                    comment: "second step subtitle for open with tutorial"),
                 self.openWithTutorialViewController.appName, self.openWithTutorialViewController.appName),
-         UIImageNamedPreferred(named: "openWithTutorialStep2")),
+         UIImageNamedPreferred(named: .localized(resource: ImageAssetsStrings.openWithTutorialStep2))),
         (NSLocalizedStringPreferredFormat("ginivision.help.openWithTutorial.step3.title",
                                     comment: "third step title for open with tutorial"),
          String(format: NSLocalizedStringPreferredFormat("ginivision.help.openWithTutorial.step3.subTitle",
@@ -32,7 +32,7 @@ final class OpenWithTutorialViewControllerTests: XCTestCase {
                 self.openWithTutorialViewController.appName,
                 self.openWithTutorialViewController.appName,
                 self.openWithTutorialViewController.appName),
-         UIImageNamedPreferred(named: "openWithTutorialStep3"))
+         UIImageNamedPreferred(named: .localized(resource: ImageAssetsStrings.openWithTutorialStep3)))
     ]
     
     override func setUp() {

@@ -108,18 +108,18 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return button
     }()
     
-    fileprivate var bottomLabel: UILabel = {
+    fileprivate lazy var bottomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = GiniConfiguration.shared.reviewTextBottom
+        label.text = giniConfiguration.reviewTextBottom
         label.numberOfLines = 0
-        label.textColor = GiniConfiguration.shared.reviewTextBottomColor
+        label.textColor = giniConfiguration.reviewTextBottomColor
         label.textAlignment = .right
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.7
-        label.font = GiniConfiguration.shared.customFont.isEnabled ?
-            GiniConfiguration.shared.customFont.thin.withSize(12) :
-            GiniConfiguration.shared.reviewTextBottomFont
+        label.font = giniConfiguration.customFont.isEnabled ?
+            giniConfiguration.customFont.with(weight: .thin, size: 12, style: .footnote) :
+            giniConfiguration.reviewTextBottomFont
         return label
     }()
     
