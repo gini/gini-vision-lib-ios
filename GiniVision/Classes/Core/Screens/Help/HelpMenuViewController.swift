@@ -98,7 +98,7 @@ final public class HelpMenuViewController: UITableViewController {
         case 2:
             viewController = OpenWithTutorialViewController()
         case 3:
-            viewController = SupportedFormatsViewController(style: .plain)
+            viewController = SupportedFormatsViewController()
         default:
             return nil
         }
@@ -127,7 +127,7 @@ extension HelpMenuViewController {
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
         cell.textLabel?.text = items[indexPath.row].0
-        cell.textLabel?.font = cell.textLabel?.font.withSize(14)
+        cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .white
         

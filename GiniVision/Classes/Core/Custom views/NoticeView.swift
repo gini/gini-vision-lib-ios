@@ -49,7 +49,7 @@ final class NoticeView: UIView {
         label.minimumScaleFactor = 12 / 14
         label.setContentCompressionResistancePriority(UILayoutPriority.defaultLow, for: .horizontal)
         label.font = self.giniConfiguration.customFont.isEnabled ?
-            self.giniConfiguration.customFont.regular.withSize(14) :
+            self.giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body) :
             self.giniConfiguration.noticeFont
         return label
     }()
@@ -60,7 +60,7 @@ final class NoticeView: UIView {
         button.setContentCompressionResistancePriority(UILayoutPriority.defaultHigh, for: .horizontal)
 
         button.titleLabel?.textColor = self.giniConfiguration.noticeErrorTextColor
-        button.titleLabel?.font =  self.giniConfiguration.customFont.bold.withSize(16)
+        button.titleLabel?.font =  self.giniConfiguration.customFont.with(weight: .regular, size: 16, style: .caption1)
         button.addTarget(self, action: #selector(self.didTapActionButton), for: .touchUpInside)
         return button
     }()

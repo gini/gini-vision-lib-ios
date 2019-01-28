@@ -14,7 +14,8 @@ enum CameraStrings: LocalizableStringResource {
     exceededFileSizeErrorMessage, documentValidationGeneralErrorMessage, fileImportTipLabel, importFileButtonLabel,
     mixedArraysPopupCancelButton, mixedArraysPopupUsePhotosButton, mixedDocumentsErrorMessage, notAuthorizedButton,
     notAuthorizedMessage, photoLibraryAccessDeniedMessage, qrCodeDetectedPopupMessage, qrCodeDetectedPopupButton,
-    tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage
+    tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage, popupTitleImportPDF, popupOptionPhotos,
+    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel
     
     var tableName: String {
         return "camera"
@@ -34,7 +35,7 @@ enum CameraStrings: LocalizableStringResource {
         case .errorPopupGrantAccessButton:
             return ("filepicker.errorPopup.grantAccessButton", "grant access button title")
         case .errorPopupPickAnotherFileButton:
-            return ("errorPopup.pickanotherfileButton", "pick another file button title")
+            return ("errorPopup.pickAnotherFileButton", "pick another file button title")
         case .errorPopupReviewPagesButton:
             return ("errorPopup.reviewPages", "review pages button title")
         case .exceededFileSizeErrorMessage:
@@ -75,10 +76,20 @@ enum CameraStrings: LocalizableStringResource {
             return ("documentValidationError.wrongFormat",
                 "Message text error shown in camera screen when a file " +
                 "has a wrong format (neither PDF, JPEG, GIF, TIFF or PNG)")
+        case .popupTitleImportPDF:
+            return ("popupTitleImportPDF", "File picker popup title for only PDFs")
+        case .popupTitleImportPDForPhotos:
+            return ("popupTitleImportPDForPhotos", "File picker popup title for photos and PDFs")
+        case .popupOptionFiles:
+            return ("popupOptionFiles", "File picker popup file option")
+        case .popupOptionPhotos:
+            return ("popupOptionPhotos", "File picker popup photos option")
+        case .popupCancel:
+            return ("popupCancel", "File picker popup cancel option")
         }
     }
     
-    var customizable: Bool {
+    var isCustomizable: Bool {
         switch self {
         case .captureButton, .captureFailedMessage, .errorPopupCancelButton,
              .errorPopupGrantAccessButton, .errorPopupPickAnotherFileButton, .errorPopupReviewPagesButton,
@@ -87,8 +98,18 @@ enum CameraStrings: LocalizableStringResource {
              .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
              .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage:
             return true
-        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel:
+        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel, .popupTitleImportPDF,
+             .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:
             return false
+        }
+    }
+    
+    var fallbackTableEntry: String {
+        switch self {
+        case .errorPopupPickAnotherFileButton:
+            return "errorPopup.pickanotherfileButton"
+        default:
+            return ""
         }
     }
 }

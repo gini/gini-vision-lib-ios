@@ -11,7 +11,7 @@ import XCTest
 
 final class SupportedFormatsViewControllerTests: XCTestCase {
     
-    var supportedFormatsViewController = SupportedFormatsViewController(style: .plain)
+    var supportedFormatsViewController = SupportedFormatsViewController()
     let initialGiniConfiguration = GiniConfiguration.shared
     
     var sections: [SupportedFormatCollectionSection] = [

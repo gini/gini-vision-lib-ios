@@ -24,7 +24,6 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
         super.draw(rect)
         
         if let textLabel = textLabel {
-            textLabel.font = textLabel.font.withSize(14)
             textLabel.numberOfLines = 0
             let textOrigin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width,
                                      y: textLabel.frame.origin.y)

@@ -62,7 +62,6 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         let text = UILabel()
         text.translatesAutoresizingMaskIntoConstraints = false
         text.numberOfLines = 0
-        text.font = UIFont.boldSystemFont(ofSize: 14)
         return text
     }()
     
@@ -70,7 +69,6 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
         let subHeaderTitle = UILabel()
         subHeaderTitle.translatesAutoresizingMaskIntoConstraints = false
         subHeaderTitle.numberOfLines = 0
-        subHeaderTitle.font = UIFont.boldSystemFont(ofSize: 14)
         return subHeaderTitle
     }()
     

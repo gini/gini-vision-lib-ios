@@ -19,15 +19,15 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
         return view
     }()
     
+    static let maxHeaderFontSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
+    
     lazy var headerTitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textColor = .black
-        let textSize: CGFloat = UIDevice.current.isIpad ? 16 : 14
-        label.font = label.font.withSize(textSize)
         label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 12 / textSize
+        label.minimumScaleFactor = 12 / OpenWithTutorialCollectionHeader.maxHeaderFontSize
         return label
     }()
     

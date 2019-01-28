@@ -25,6 +25,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
         view.layer.masksToBounds = true
         return view
     }()
+    
     fileprivate lazy var addButton: UIButton = {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -33,12 +34,12 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
         button.addTarget(self, action: #selector(addImageButtonAction), for: .touchUpInside)
         return button
     }()
-    fileprivate lazy var addLabel: UILabel = {
+    
+    lazy var addLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = .localized(resource: MultipageReviewStrings.addButtonLabel)
         label.textAlignment = .center
-        label.font = UIFont.boldSystemFont(ofSize: 12)
         label.numberOfLines = 0
         label.textColor = .white
         return label

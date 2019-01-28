@@ -1,0 +1,122 @@
+/* 
+  Localizable.strings
+  GiniVision
+
+  Created by Peter Pult on 08/06/16.
+  Copyright © 2016 Gini. All rights reserved.
+*/
+
+"ginivision.navigationbar.camera.title"        = "Photograph document";
+"ginivision.navigationbar.onboarding.title"    = "Instructions";
+"ginivision.navigationbar.review.title"        = "Check photo quality";
+"ginivision.navigationbar.analysis.title"      = "Be patient, analysing photo";
+"ginivision.navigationbar.camera.close"        = "Close";
+"ginivision.navigationbar.camera.help"         = "Help";
+"ginivision.navigationbar.onboarding.continue" = "Next";
+"ginivision.navigationbar.review.back"         = "Back";
+"ginivision.navigationbar.review.close"        = "Close";
+"ginivision.navigationbar.review.continue"     = "Next";
+"ginivision.navigationbar.analysis.back"       = "Cancel";
+"ginivision.navigationbar.help.backToCamera"   = "Back";
+"ginivision.navigationbar.help.backToMenu"     = "Back";
+
+
+"ginivision.camera.captureButton" = "Capture";
+"ginivision.camera.notAuthorized" = "Permission to access the camera is required to analyse photos";
+"ginivision.camera.notAuthorizedButton" = "Grant permission";
+"ginivision.camera.captureFailed" = "Image capture failed";
+"ginivision.camera.filepicker.photoLibraryAccessDenied" = "Permission to access your photos gallery is required to analyse saved photos";
+"ginivision.camera.filepicker.mixedDocumentsUnsupported" = "It is only possible to select one file type at the same time.";
+"ginivision.camera.filepicker.errorPopup.cancelButton" = "Cancel";
+"ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
+"ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Grant permission";
+"ginivision.camera.documentValidationError.general" = "Unfortunately, this file can not be edited";
+"ginivision.camera.documentValidationError.excedeedFileSize" = "Unfortunately, this file is too big";
+"ginivision.camera.documentValidationError.tooManyPages" = "The document can only have a maximum of 10 pages.";
+"ginivision.camera.documentValidationError.wrongFormat" = "Only files of the formats jpg, png, gif or pdf can be analysed";
+"ginivision.camera.fileImportTip" = "Now documents can be conveniently uploaded for analysis.";
+"ginivision.camera.fileImportButtonLabel" = "Import";
+"ginivision.camera.capturedImagesStackLabel" = "Captured documents";
+"ginivision.camera.qrCodeDetectedPopup.message" = "Use QR code?";
+"ginivision.camera.qrCodeDetectedPopup.buttonTitle" = "Continue";
+"ginivision.camera.mixedarrayspopup.cancel" = "Cancel";
+"ginivision.camera.mixedarrayspopup.usePhotos" = "Use photos";
+"ginivision.camera.errorPopup.cancelButton" = "Cancel";
+"ginivision.camera.errorPopup.pickanotherfileButton" = "Pick another file";
+"ginivision.camera.errorPopup.pickAnotherFileButton" = "Pick another file";
+"ginivision.camera.errorPopup.reviewPages" = "Review pages";
+"ginivision.camera.unknownError" = "An unknown error has occurred on the camera screen";
+"ginivision.camera.popupTitleImportPDF" = "Import PDF";
+"ginivision.camera.popupOptionPhotos" = "Gallery";
+"ginivision.camera.popupOptionFiles" = "Documents";
+"ginivision.camera.popupTitleImportPDForPhotos" = "Import Photos or PDF files";
+"ginivision.camera.popupCancel" = "Cancel";
+
+"ginivision.onboarding.firstPage"  = "Capture the entire page within the frame shown on the camera screen";
+"ginivision.onboarding.secondPage" = "Flatten the page";
+"ginivision.onboarding.thirdPage"  = "Hold device parallel over the page";
+"ginivision.onboarding.fourthPage" = "Ensure good lighting when photographing the invoice or remittance slip";
+"ginivision.onboarding.fifthPage"  = "It's now possible to analyse an invoice with multiple pages!";
+
+"ginivision.review.top"                = "Is the document complete, in focus and in the correct orientation?";
+"ginivision.review.bottom"             = "Double-tap to check the focus";
+"ginivision.review.rotateButton"       = "Rotate document";
+"ginivision.review.documentImageTitle" = "Document";
+"ginivision.review.unknownError"       = "An unknown error has occurred on the review screen";
+
+"ginivision.analysis.loadingText" = "Document is being analysed";
+"ginivision.analysis.suggestion.header" = "For faster results, please:";
+"ginivision.analysis.suggestion.1" = "Ensure good lighting";
+"ginivision.analysis.suggestion.2" = "Flatten the page";
+"ginivision.analysis.suggestion.3" = "Hold device parallel over the page";
+"ginivision.analysis.suggestion.4" = "Capture the entire page within the frame shown on the camera screen";
+"ginivision.analysis.suggestion.5" = "It's now possible to analyse an invoice with multiple pages";
+"ginivision.analysis.error.actionTitle" = "Retry";
+"ginivision.analysis.error.documentCreation" = "An error occurred while uploading the document.";
+"ginivision.analysis.error.analysis" = "An error occurred while parsing the document.";
+"ginivision.analysis.error.cancelled" = "The analysis was cancelled";
+"ginivision.analysis.defaultPdfDokumentTitle" = "PDF Document";
+
+"ginivision.help.openWithTutorial.title" = "Open documents from other apps";
+
+"ginivision.help.openWithTutorial.collectionHeader" = "Paying digital invoices has now become even more convenient. Send a PDF invoice directly to %@. The document will automatically be analysed for payment transfer.";
+"ginivision.help.openWithTutorial.step1.title" = "Please select an invoice";
+"ginivision.help.openWithTutorial.step1.subTitle" = "To do so, please select a PDF invoice from within your email app, PDF viewer or other app on your smartphone.";
+"ginivision.help.openWithTutorial.step2.title" = "Select the send function";
+"ginivision.help.openWithTutorial.step2.subTitle" = "To redirect the file to %@, use the \"Share\" function, represented as a square with the arrow pointing up, and choose \"Open in ...\" or \"Share File\". Please select %@ from the list to start the analysis and transfer process.";
+"ginivision.help.openWithTutorial.step3.title" = "On iPad you can also use \"Drag-and-drop\"";
+"ginivision.help.openWithTutorial.step3.subTitle" = "If your iPad is running iOS 11 or newer, you can conveniently drag-and-drop PDFs from the iOS Files app to %@ to start a payment. To do this, open %@ and open the Files app as a second app on the screen. Select the desired invoice file in the Files app and drag this over to %@.";
+
+"ginivision.noresults.warning" = "No information could be extracted. Please take a new photo.";
+"ginivision.noresults.collection.header" = "Tips for best results:";
+"ginivision.noresults.gotocamera" = "Back to the camera";
+"ginivision.noresults.title" = "Tips for photos";
+"ginivision.noresults.warningHelpMenu" = "For best extraction results, please apply the following tips for photos:";
+
+"ginivision.help.supportedFormats.title" = "Supported formats";
+"ginivision.help.supportedFormats.section.1.title" = "The following formats are supported:";
+"ginivision.help.supportedFormats.section.1.item.1" = "Computer-generated invoices and remittance slips";
+"ginivision.help.supportedFormats.section.1.item.2" = "1-sided photos of format jpeg, png or gif";
+"ginivision.help.supportedFormats.section.1.item.3" = "PDF documents of up to 10 pages";
+"ginivision.help.supportedFormats.section.2.title" = "What is not supported:";
+"ginivision.help.supportedFormats.section.2.item.1" = "Handwriting";
+"ginivision.help.supportedFormats.section.2.item.2" = "Photos of monitors or screens";
+
+"ginivision.help.menu.title" = "Help";
+"ginivision.help.menu.firstItem" = "Tips for best results from photos";
+"ginivision.help.menu.secondItem" = "Open document from other apps";
+"ginivision.help.menu.thirdItem" = "Supported formats";
+
+"ginivision.albums.title" = "Albums";
+"ginivision.imagepicker.openbutton" = "Open";
+
+"ginivision.multipagereview.reorderContainerTooltipMessage" = "The pages must be in the right order. You can sort them here.";
+"ginivision.multipagereview.addButtonLabel" = "Add a page";
+"ginivision.multipagereview.dragAndDropTip" = "Drag & Drop to sort";
+"ginivision.multipagereview.title" = "%d of %d";
+"ginivision.multipagereview.error.retakeAction" = "Retake";
+"ginivision.multipagereview.error.retryAction" = "Retry";
+
+"ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1_en";
+"ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2_en";
+"ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3_en";

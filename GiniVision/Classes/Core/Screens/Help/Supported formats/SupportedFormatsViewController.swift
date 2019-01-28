@@ -18,6 +18,7 @@ final class SupportedFormatsViewController: UITableViewController {
     let supportedFormatsCellIdentifier = "SupportedFormatsCellIdentifier"
     let rowHeight: CGFloat = 70
     let sectionHeight: CGFloat = 70
+    fileprivate let giniConfiguration: GiniConfiguration
     lazy var sections: [SupportedFormatCollectionSection] = {
         var sections: [SupportedFormatCollectionSection] =  [
             (.localized(resource: HelpStrings.supportedFormatsSection1Title),
@@ -41,7 +42,16 @@ final class SupportedFormatsViewController: UITableViewController {
         }
         return sections
     }()
-
+    
+    init(giniConfiguration: GiniConfiguration = .shared) {
+        self.giniConfiguration = giniConfiguration
+        super.init(style: .plain)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = .localized(resource: HelpStrings.supportedFormatsTitle)
@@ -76,6 +86,7 @@ final class SupportedFormatsViewController: UITableViewController {
         let cell = (tableView.dequeueReusableCell(withIdentifier: supportedFormatsCellIdentifier,
                                                  for: indexPath) as? SupportedFormatsTableViewCell)!
         cell.textLabel?.text = item
+        cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.imageView?.image = section.itemsImage
         cell.imageBackgroundView.backgroundColor = section.itemsImageBackgroundColor
 
