@@ -4,7 +4,7 @@ Changelog
 4.3.0 (2019-01-28)
 ------------------
 
--   Added English support.
+-   Added English support
 -   Added Dynamic font support for iOS > 10.0
 
 4.2.0 (2019-01-16)
