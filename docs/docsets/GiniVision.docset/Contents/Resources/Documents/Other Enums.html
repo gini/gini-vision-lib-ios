@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Typealiases  Reference</title>
+    <title>Other Enumerations  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Section/Typealiases" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Section/Other Enumerations" class="dashAnchor"></a>
 
-    <a title="Typealiases  Reference"></a>
+    <a title="Other Enumerations  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -45,7 +45,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      Typealiases  Reference
+      Other Enumerations  Reference
     </p>
 
     <div class="content-wrapper">
@@ -322,8 +322,9 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>Typealiases</h1>
-            
+            <h1>Other Enumerations</h1>
+            <p>The following enumerations are available globally.</p>
+
           </div>
         </section>
 
@@ -334,146 +335,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision16CameraErrorBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/CameraErrorBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision16CameraErrorBlocka">CameraErrorBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed if an error occurs on the camera. It contains a camera specific error.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available(*, deprecated)</span>
-<span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/CameraError.html">CameraError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision18CameraSuccessBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/CameraSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision18CameraSuccessBlocka">CameraSuccessBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed when the camera successfully takes a picture.
-It contains the JPEG representation of the image including meta information about the image.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available(*, deprecated)</span>
-<span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision24CameraScreenFailureBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/CameraScreenFailureBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision24CameraScreenFailureBlocka">CameraScreenFailureBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed if an error occurs on the camera screen.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenFailureBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionError.html">GiniVisionError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision24CameraScreenSuccessBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/CameraScreenSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision24CameraScreenSuccessBlocka">CameraScreenSuccessBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed when the camera screen successfully takes a picture or pick a document/picture.
-It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
-It also contains if the document has been imported from camera-roll/document-explorer or from the camera.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">CameraScreenSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">document</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision10Extractiona"></a>
-                    <a name="//apple_ref/swift/Alias/Extraction" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision10Extractiona">Extraction</a>
+                    <a name="/s:10GiniVision18ImageAssetsStringsO"></a>
+                    <a name="//apple_ref/swift/Enum/ImageAssetsStrings" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision18ImageAssetsStringsO">ImageAssetsStrings</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -483,178 +347,13 @@ It also contains if the document has been imported from camera-roll/document-exp
                       <div class="abstract">
                         <p>Undocumented</p>
 
+                        <a href="Enums/ImageAssetsStrings.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Extraction</span> <span class="o">=</span> <span class="kt">GINIExtraction</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision0aB15NetworkDelegatea"></a>
-                    <a name="//apple_ref/swift/Alias/GiniVisionNetworkDelegate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision0aB15NetworkDelegatea">GiniVisionNetworkDelegate</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">GiniVisionNetworkDelegate</span> <span class="o">=</span> <span class="kt"><a href="Protocols/AnalysisDelegate.html">AnalysisDelegate</a></span> <span class="o">&amp;</span> <span class="kt"><a href="Protocols/UploadDelegate.html">UploadDelegate</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision16ReviewErrorBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/ReviewErrorBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision16ReviewErrorBlocka">ReviewErrorBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed when an error occurs on the review screen. It contains a review specific error.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewErrorBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Enums/ReviewError.html">ReviewError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision18ReviewSuccessBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/ReviewSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision18ReviewSuccessBlocka">ReviewSuccessBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed each time the user rotates a picture. It contains the
-JPEG representation of the image including meta information about the rotated image.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">imageData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision24ReviewScreenFailureBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/ReviewScreenFailureBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision24ReviewScreenFailureBlocka">ReviewScreenFailureBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed if an error occurs on the review screen.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewScreenFailureBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionError.html">GiniVisionError</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision24ReviewScreenSuccessBlocka"></a>
-                    <a name="//apple_ref/swift/Alias/ReviewScreenSuccessBlock" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision24ReviewScreenSuccessBlocka">ReviewScreenSuccessBlock</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Block that will be executed each time the user rotates a picture. It contains the
-JPEG representation of the image including meta information about the rotated image.
-In the case of a PDF, it should proceed to analysis screen once it has been validated.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Component API only.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">ReviewScreenSuccessBlock</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span> <span class="nv">document</span><span class="p">:</span> <span class="kt"><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ImageAssetsStrings</span> <span class="p">:</span> <span class="kt">LocalizableStringResource</span></code></pre>
 
                         </div>
                       </div>

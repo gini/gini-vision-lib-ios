@@ -301,6 +301,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Enumerations.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ImageAssetsStrings.html">ImageAssetsStrings</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Other Protocols.html">Other Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -378,23 +386,25 @@ suggestions when there is no results when analysing an image.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-            <span class="nv">subHeaderText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.collection.header"</span><span class="p">,</span>
-                                                       <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
-                                                       <span class="nv">comment</span><span class="p">:</span> <span class="s">"no results suggestions collection header title"</span><span class="p">),</span>
-            <span class="nv">topViewText</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.warning"</span><span class="p">,</span>
-                                                    <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
-                                                    <span class="nv">comment</span><span class="p">:</span> <span class="s">"Warning text that indicates that there was any "</span> <span class="o">+</span>
-                                                             <span class="s">"result for this photo analysis"</span><span class="p">),</span>
-            <span class="nv">topViewIcon</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"warningNoResults"</span><span class="p">,</span>
-                                            <span class="nv">in</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
-                                            <span class="nv">compatibleWith</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)?</span><span class="o">.</span><span class="nf">withRenderingMode</span><span class="p">(</span><span class="o">.</span><span class="n">alwaysTemplate</span><span class="p">),</span>
-            <span class="nv">bottomButtonText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.gotocamera"</span><span class="p">,</span>
-                                                          <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
-                                                          <span class="nv">comment</span><span class="p">:</span> <span class="s">"bottom button title (go to camera button)"</span><span class="p">),</span>
-            <span class="nv">bottomButtonIcon</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"cameraIcon"</span><span class="p">,</span>
-                                                 <span class="nv">in</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
-                                                 <span class="nv">compatibleWith</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">title</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">subHeaderText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.collection.header"</span><span class="p">,</span>
+                                                                   <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                                                   <span class="nv">comment</span><span class="p">:</span> <span class="s">"no results suggestions collection "</span> <span class="o">+</span>
+                                                                            <span class="s">"header title"</span><span class="p">),</span>
+                        <span class="nv">topViewText</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.warning"</span><span class="p">,</span>
+                                                                <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                                                <span class="nv">comment</span><span class="p">:</span> <span class="s">"Warning text that indicates that there "</span> <span class="o">+</span>
+                                                                         <span class="s">"was any result for this photo analysis"</span><span class="p">),</span>
+                        <span class="nv">topViewIcon</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"warningNoResults"</span><span class="p">,</span>
+                                                        <span class="nv">in</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                                        <span class="nv">compatibleWith</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)?</span><span class="o">.</span><span class="nf">withRenderingMode</span><span class="p">(</span><span class="o">.</span><span class="n">alwaysTemplate</span><span class="p">),</span>
+                        <span class="nv">bottomButtonText</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kt">NSLocalizedString</span><span class="p">(</span><span class="s">"ginivision.noresults.gotocamera"</span><span class="p">,</span>
+                                                                      <span class="nv">bundle</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                                                      <span class="nv">comment</span><span class="p">:</span> <span class="s">"bottom button title (go to camera"</span> <span class="o">+</span>
+                                                                               <span class="s">" button)"</span><span class="p">),</span>
+                        <span class="nv">bottomButtonIcon</span><span class="p">:</span> <span class="kt">UIImage</span><span class="p">?</span> <span class="o">=</span> <span class="kt">UIImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="s">"cameraIcon"</span><span class="p">,</span>
+                                                             <span class="nv">in</span><span class="p">:</span> <span class="kt">Bundle</span><span class="p">(</span><span class="nv">for</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniVision.html">GiniVision</a></span><span class="o">.</span><span class="k">self</span><span class="p">),</span>
+                                                             <span class="nv">compatibleWith</span><span class="p">:</span> <span class="kc">nil</span><span class="p">))</span></code></pre>
 
                         </div>
                       </div>
@@ -681,7 +691,7 @@ suggestions when there is no results when analysing an image.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2019 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2019-01-18)</p>
+      <p>&copy; 2019 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2019-01-28)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
