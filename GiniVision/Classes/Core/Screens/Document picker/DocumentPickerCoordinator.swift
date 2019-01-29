@@ -224,15 +224,15 @@ public final class DocumentPickerCoordinator: NSObject {
 
 // MARK: - Fileprivate methods
 
-extension DocumentPickerCoordinator {
-    fileprivate func createDocument(fromData data: Data) -> GiniVisionDocument? {
+fileprivate extension DocumentPickerCoordinator {
+    func createDocument(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
         
         return documentBuilder.build()
     }
     
-    fileprivate func data(fromUrl url: URL) -> Data? {
+    func data(fromUrl url: URL) -> Data? {
         do {
             _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
@@ -246,7 +246,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func saveCurrentAppAppearance() {
+    func saveCurrentAppAppearance() {
         update(navigationBarAppearance, with: UINavigationBar.appearance())
         update(searchBarAppearance, with: UISearchBar.appearance())
         update(barButtonItemAppearance, with: UIBarButtonItem.appearance())
@@ -255,7 +255,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func applyDefaultAppAppearance() {
+    func applyDefaultAppAppearance() {
         update(UINavigationBar.appearance(), with: nil)
         update(UISearchBar.appearance(), with: nil)
         update(UIBarButtonItem.appearance(), with: nil)
@@ -264,7 +264,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func restoreAppApperance() {
+    func restoreAppApperance() {
         update(UINavigationBar.appearance(), with: navigationBarAppearance)
         update(UISearchBar.appearance(), with: searchBarAppearance)
         update(UIBarButtonItem.appearance(), with: barButtonItemAppearance)
@@ -274,7 +274,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func update(_ currentNavigationBar: UINavigationBar, with navigationBar: UINavigationBar?) {
+    func update(_ currentNavigationBar: UINavigationBar, with navigationBar: UINavigationBar?) {
         currentNavigationBar.barTintColor = navigationBar?.barTintColor
         currentNavigationBar.tintColor = navigationBar?.tintColor
         currentNavigationBar.backgroundColor = navigationBar?.backgroundColor
@@ -285,7 +285,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func update(_ currentSearchBar: UISearchBar, with searchBar: UISearchBar?) {
+    func update(_ currentSearchBar: UISearchBar, with searchBar: UISearchBar?) {
         currentSearchBar.backgroundColor = searchBar?.backgroundColor
         currentSearchBar.barTintColor = searchBar?.barTintColor
         currentSearchBar.tintColor = searchBar?.tintColor
@@ -294,7 +294,7 @@ extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    fileprivate func update(_ currentBarButtonItem: UIBarButtonItem, with barButtonItem: UIBarButtonItem?) {
+    func update(_ currentBarButtonItem: UIBarButtonItem, with barButtonItem: UIBarButtonItem?) {
         currentBarButtonItem.setTitleTextAttributes(barButtonItem?.titleTextAttributes(for: .normal),
                                                     for: .normal)
         currentBarButtonItem.setTitleTextAttributes(barButtonItem?.titleTextAttributes(for: .highlighted),
