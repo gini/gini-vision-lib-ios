@@ -97,9 +97,11 @@ public final class DocumentPickerCoordinator: NSObject {
     
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
+    
     fileprivate lazy var navigationBarAppearance: UINavigationBar = .init()
     fileprivate lazy var searchBarAppearance: UISearchBar = .init()
     fileprivate lazy var barButtonItemAppearance: UIBarButtonItem = .init()
+    fileprivate lazy var barButtonItemAppearanceInSearchBar: UIBarButtonItem = .init()
     
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
@@ -182,7 +184,13 @@ public final class DocumentPickerCoordinator: NSObject {
             saveCurrentAppAppearance()
             applyDefaultAppAppearance()
             
-            UINavigationBar.appearance().tintColor = giniConfiguration.documentPickerNavigationBarTintColor
+            if let tintColor = giniConfiguration.documentPickerNavigationBarTintColor {
+                UINavigationBar.appearance().tintColor = tintColor
+                UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+                    .setTitleTextAttributes([.foregroundColor: tintColor],
+                                            for: .normal)
+            }
+
         }
         
         // This is needed since the UIDocumentPickerViewController on iPad is presented over the current view controller
@@ -242,6 +250,8 @@ extension DocumentPickerCoordinator {
         update(navigationBarAppearance, with: UINavigationBar.appearance())
         update(searchBarAppearance, with: UISearchBar.appearance())
         update(barButtonItemAppearance, with: UIBarButtonItem.appearance())
+        update(barButtonItemAppearanceInSearchBar,
+               with: UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]))
     }
     
     @available(iOS 11.0, *)
@@ -249,6 +259,8 @@ extension DocumentPickerCoordinator {
         update(UINavigationBar.appearance(), with: nil)
         update(UISearchBar.appearance(), with: nil)
         update(UIBarButtonItem.appearance(), with: nil)
+        update(UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]),
+               with: nil)
     }
     
     @available(iOS 11.0, *)
@@ -256,6 +268,9 @@ extension DocumentPickerCoordinator {
         update(UINavigationBar.appearance(), with: navigationBarAppearance)
         update(UISearchBar.appearance(), with: searchBarAppearance)
         update(UIBarButtonItem.appearance(), with: barButtonItemAppearance)
+        update(UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]),
+               with: barButtonItemAppearance)
+
     }
     
     @available(iOS 11.0, *)
