@@ -152,6 +152,13 @@ import UIKit
         .titleTextAttributes?[NSAttributedString.Key.font] as? UIFont ?? UIFont.systemFont(ofSize: 16, weight: .regular)
     
     /**
+     Sets the tint color of the UIDocumentPickerViewController navigation bar.
+     
+     - note: Only iOS >= 11.0
+     */
+    @objc public var documentPickerNavigationBarTintColor: UIColor?
+    
+    /**
      Sets the background color of an informal notice. Notices are small pieces of
      information appearing underneath the navigation bar.
      */
