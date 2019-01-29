@@ -98,6 +98,11 @@ public final class DocumentPickerCoordinator: NSObject {
     let galleryCoordinator: GalleryCoordinator
     let giniConfiguration: GiniConfiguration
     
+    fileprivate lazy var navigationBarAppearance: UINavigationBar = .init()
+    fileprivate lazy var searchBarAppearance: UISearchBar = .init()
+    fileprivate lazy var barButtonItemAppearance: UIBarButtonItem = .init()
+    fileprivate lazy var barButtonItemAppearanceInSearchBar: UIBarButtonItem = .init()
+    
     fileprivate var acceptedDocumentTypes: [String] {
         switch giniConfiguration.fileImportSupportedTypes {
         case .pdf_and_images:
@@ -172,6 +177,20 @@ public final class DocumentPickerCoordinator: NSObject {
         
         if #available(iOS 11.0, *) {
             documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled
+            
+            // Starting with iOS 11.0, the UIDocumentPickerViewController navigation bar almost can't be customized,
+            // only being possible to customize the tint color. To avoid issues with custom UIAppearance styles,
+            // this is reset to default, saving the current state in order to restore it during dismissal.
+            saveCurrentNavBarAppearance()
+            applyDefaultNavBarAppearance()
+            
+            if let tintColor = giniConfiguration.documentPickerNavigationBarTintColor {
+                UINavigationBar.appearance().tintColor = tintColor
+                UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self])
+                    .setTitleTextAttributes([.foregroundColor: tintColor],
+                                            for: .normal)
+            }
+
         }
         
         // This is needed since the UIDocumentPickerViewController on iPad is presented over the current view controller
@@ -203,17 +222,17 @@ public final class DocumentPickerCoordinator: NSObject {
     }
 }
 
-// MARK: - Private methods
+// MARK: - Fileprivate methods
 
-extension DocumentPickerCoordinator {
-    fileprivate func createDocument(fromData data: Data) -> GiniVisionDocument? {
+fileprivate extension DocumentPickerCoordinator {
+    func createDocument(fromData data: Data) -> GiniVisionDocument? {
         let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
         documentBuilder.importMethod = .picker
         
         return documentBuilder.build()
     }
     
-    fileprivate func data(fromUrl url: URL) -> Data? {
+    func data(fromUrl url: URL) -> Data? {
         do {
             _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
@@ -224,6 +243,64 @@ extension DocumentPickerCoordinator {
         }
         
         return nil
+    }
+    
+    @available(iOS 11.0, *)
+    func saveCurrentNavBarAppearance() {
+        update(navigationBarAppearance, with: UINavigationBar.appearance())
+        update(searchBarAppearance, with: UISearchBar.appearance())
+        update(barButtonItemAppearance, with: UIBarButtonItem.appearance())
+        update(barButtonItemAppearanceInSearchBar,
+               with: UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]))
+    }
+    
+    @available(iOS 11.0, *)
+    func applyDefaultNavBarAppearance() {
+        update(UINavigationBar.appearance(), with: nil)
+        update(UISearchBar.appearance(), with: nil)
+        update(UIBarButtonItem.appearance(), with: nil)
+        update(UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]),
+               with: nil)
+    }
+    
+    @available(iOS 11.0, *)
+    func restoreSavedNavBarAppearance() {
+        update(UINavigationBar.appearance(), with: navigationBarAppearance)
+        update(UISearchBar.appearance(), with: searchBarAppearance)
+        update(UIBarButtonItem.appearance(), with: barButtonItemAppearance)
+        update(UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]),
+               with: barButtonItemAppearance)
+
+    }
+    
+    @available(iOS 11.0, *)
+    func update(_ currentNavigationBar: UINavigationBar, with navigationBar: UINavigationBar?) {
+        currentNavigationBar.barTintColor = navigationBar?.barTintColor
+        currentNavigationBar.tintColor = navigationBar?.tintColor
+        currentNavigationBar.backgroundColor = navigationBar?.backgroundColor
+        currentNavigationBar.isTranslucent = navigationBar?.isTranslucent ?? true
+        currentNavigationBar.barStyle = navigationBar?.barStyle ?? .default
+        currentNavigationBar.shadowImage = navigationBar?.shadowImage
+        currentNavigationBar.setBackgroundImage(navigationBar?.backIndicatorImage, for: .default)
+    }
+    
+    @available(iOS 11.0, *)
+    func update(_ currentSearchBar: UISearchBar, with searchBar: UISearchBar?) {
+        currentSearchBar.backgroundColor = searchBar?.backgroundColor
+        currentSearchBar.barTintColor = searchBar?.barTintColor
+        currentSearchBar.tintColor = searchBar?.tintColor
+        currentSearchBar.searchBarStyle = searchBar?.searchBarStyle ?? .default
+        currentSearchBar.setImage(searchBar?.image(for: .search, state: .normal), for: .search, state: .normal)
+    }
+    
+    @available(iOS 11.0, *)
+    func update(_ currentBarButtonItem: UIBarButtonItem, with barButtonItem: UIBarButtonItem?) {
+        currentBarButtonItem.setTitleTextAttributes(barButtonItem?.titleTextAttributes(for: .normal),
+                                                    for: .normal)
+        currentBarButtonItem.setTitleTextAttributes(barButtonItem?.titleTextAttributes(for: .highlighted),
+                                                    for: .highlighted)
+        currentBarButtonItem.setTitleTextAttributes(barButtonItem?.titleTextAttributes(for: .selected),
+                                                    for: .selected)
     }
 }
 
@@ -248,6 +325,10 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .compactMap(self.data)
             .compactMap(self.createDocument)
         
+        if #available(iOS 11.0, *) {
+            restoreSavedNavBarAppearance()
+        }
+        
         delegate?.documentPicker(self, didPick: documents)
     }    
     
@@ -256,6 +337,10 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
     }
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+        if #available(iOS 11.0, *) {
+            restoreSavedNavBarAppearance()
+        }
+        
         controller.dismiss(animated: false, completion: nil)
     }
 }
