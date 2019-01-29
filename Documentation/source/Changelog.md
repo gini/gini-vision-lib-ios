@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.3.1 (2019-01-29)
+------------------
+
+-   Added customizable tint color for navigation bar in Document explorer
+
 4.3.0 (2019-01-28)
 ------------------
 
