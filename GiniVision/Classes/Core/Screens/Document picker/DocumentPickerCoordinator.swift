@@ -178,11 +178,11 @@ public final class DocumentPickerCoordinator: NSObject {
         if #available(iOS 11.0, *) {
             documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled
             
-            // Starting on iOS 11.0, the UIDocumentPickerViewController navigation bar can't almost be customized,
-            // being only possible to customize the tint color. To avoid issues with custom UIAppearance styles,
-            // this is reset to default, saving the current state for further restoring when dismissing.
-            saveCurrentAppAppearance()
-            applyDefaultAppAppearance()
+            // Starting with iOS 11.0, the UIDocumentPickerViewController navigation bar almost can't be customized,
+            // only being possible to customize the tint color. To avoid issues with custom UIAppearance styles,
+            // this is reset to default, saving the current state in order to restore it during dismissal.
+            saveCurrentNavBarAppearance()
+            applyDefaultNavBarAppearance()
             
             if let tintColor = giniConfiguration.documentPickerNavigationBarTintColor {
                 UINavigationBar.appearance().tintColor = tintColor
@@ -246,7 +246,7 @@ fileprivate extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    func saveCurrentAppAppearance() {
+    func saveCurrentNavBarAppearance() {
         update(navigationBarAppearance, with: UINavigationBar.appearance())
         update(searchBarAppearance, with: UISearchBar.appearance())
         update(barButtonItemAppearance, with: UIBarButtonItem.appearance())
@@ -255,7 +255,7 @@ fileprivate extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    func applyDefaultAppAppearance() {
+    func applyDefaultNavBarAppearance() {
         update(UINavigationBar.appearance(), with: nil)
         update(UISearchBar.appearance(), with: nil)
         update(UIBarButtonItem.appearance(), with: nil)
@@ -264,7 +264,7 @@ fileprivate extension DocumentPickerCoordinator {
     }
     
     @available(iOS 11.0, *)
-    func restoreAppApperance() {
+    func restoreSavedNavBarAppearance() {
         update(UINavigationBar.appearance(), with: navigationBarAppearance)
         update(UISearchBar.appearance(), with: searchBarAppearance)
         update(UIBarButtonItem.appearance(), with: barButtonItemAppearance)
@@ -326,7 +326,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .compactMap(self.createDocument)
         
         if #available(iOS 11.0, *) {
-            restoreAppApperance()
+            restoreSavedNavBarAppearance()
         }
         
         delegate?.documentPicker(self, didPick: documents)
@@ -338,7 +338,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         if #available(iOS 11.0, *) {
-            restoreAppApperance()
+            restoreSavedNavBarAppearance()
         }
         
         controller.dismiss(animated: false, completion: nil)
