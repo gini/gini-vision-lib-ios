@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.3.2 (2019-02-04)
+------------------
+
+-   Fixed issue with non exposed ObjC members.
+
 4.3.1 (2019-01-29)
 ------------------
 

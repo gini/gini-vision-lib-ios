@@ -33,7 +33,7 @@ import UIKit
 
  - note: Component API only.
  */
-@objc public final class OnboardingViewController: UIViewController {
+@objcMembers public final class OnboardingViewController: UIViewController {
     
     weak var scrollViewDelegate: UIScrollViewDelegate?
     

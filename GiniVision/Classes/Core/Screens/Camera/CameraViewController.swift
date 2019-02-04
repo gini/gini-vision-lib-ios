@@ -94,7 +94,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
  */
 //swiftlint:disable file_length
 
-@objc public final class CameraViewController: UIViewController {
+@objcMembers public final class CameraViewController: UIViewController {
     
     /**
      The object that acts as the delegate of the camera view controller.

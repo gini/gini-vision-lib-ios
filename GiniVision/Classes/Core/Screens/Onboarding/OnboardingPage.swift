@@ -15,7 +15,7 @@ import UIKit
  - note: The text length should not exceed 50 characters, depending on the font used,
          and should preferably stretch out over three lines.
  */
-@objc public final class OnboardingPage: UIView {
+@objcMembers public final class OnboardingPage: UIView {
     
     fileprivate var contentView = UIView()
     fileprivate var imageView = UIImageView()
