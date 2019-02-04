@@ -57,7 +57,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
  
  - note: Component API only.
  */
-@objc public final class ReviewViewController: UIViewController {
+@objcMembers public final class ReviewViewController: UIViewController {
     
     /**
      The object that acts as the delegate of the review view controller.

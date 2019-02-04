@@ -39,7 +39,7 @@ import UIKit
  
  - note: Component API only.
  */
-@objc public final class AnalysisViewController: UIViewController {
+@objcMembers public final class AnalysisViewController: UIViewController {
     
     var didShowAnalysis: (() -> Void)?
     fileprivate let document: GiniVisionDocument
