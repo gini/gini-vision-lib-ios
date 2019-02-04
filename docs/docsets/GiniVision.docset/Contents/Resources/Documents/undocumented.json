@@ -828,42 +828,42 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 246,
+      "line": 323,
       "symbol": "DocumentPickerCoordinator.documentPicker(_:didPickDocumentsAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 254,
+      "line": 335,
       "symbol": "DocumentPickerCoordinator.documentPicker(_:didPickDocumentAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 258,
+      "line": 339,
       "symbol": "DocumentPickerCoordinator.documentPickerWasCancelled(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 267,
+      "line": 352,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:canHandle:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 284,
+      "line": 369,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:sessionDidUpdate:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 289,
+      "line": 374,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:performDrop:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
