@@ -7,6 +7,7 @@
 
 import Foundation
 import Gini_iOS_SDK
+import Bolts
 
 final class AccountingDocumentService: DocumentServiceProtocol {
     var giniSDK: GiniSDK

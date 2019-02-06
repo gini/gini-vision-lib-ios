@@ -11,6 +11,7 @@ import Foundation
 @testable import GiniVision
 @testable import Example_Swift
 
+
 final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
 
     var giniSDK: GiniSDK
