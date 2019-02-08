@@ -124,9 +124,10 @@ final class OpenWithTutorialViewController: UICollectionViewController {
             .dequeueReusableSupplementaryView(ofKind: kind,
                                               withReuseIdentifier: openWithTutorialCollectionHeaderIdentifier,
                                               for: indexPath) as? OpenWithTutorialCollectionHeader)!
-        header.headerTitle.font = giniConfiguration.customFont.with(weight: .regular,
-                                                                    size: OpenWithTutorialCollectionHeader.maxHeaderFontSize,
-                                                                    style: .body)
+        header.headerTitle.font = giniConfiguration
+            .customFont.with(weight: .regular,
+                             size: OpenWithTutorialCollectionHeader.maxHeaderFontSize,
+                             style: .body)
         header.headerTitle.text = headerTitle
         return header
     }

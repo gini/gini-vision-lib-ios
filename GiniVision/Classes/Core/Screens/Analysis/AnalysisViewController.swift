@@ -286,7 +286,9 @@ import UIKit
                                          subtitle: giniConfiguration
                                             .analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                          textColor: giniConfiguration.analysisPDFInformationTextColor,
-                                         textFont: giniConfiguration.customFont.with(weight: .regular, size: 16, style: .body),
+                                         textFont: giniConfiguration.customFont.with(weight: .regular,
+                                                                                     size: 16,
+                                                                                     style: .body),
                                          backgroundColor: giniConfiguration.analysisPDFInformationBackgroundColor,
                                          superView: self.view,
                                          viewBelow: self.imageView)

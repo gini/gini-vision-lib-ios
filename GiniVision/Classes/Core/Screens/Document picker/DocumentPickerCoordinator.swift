@@ -60,6 +60,7 @@ public protocol DocumentPickerCoordinatorDelegate: class {
  - note: Component API only.
  */
 
+//swiftlint:disable file_length
 public final class DocumentPickerCoordinator: NSObject {
     
     /**
