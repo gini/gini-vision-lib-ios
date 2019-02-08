@@ -9,7 +9,6 @@ import UIKit
 import Gini_iOS_SDK
 import Bolts
 
-
 final class DocumentService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK

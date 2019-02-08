@@ -577,7 +577,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Example Swift/Pods-Example Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Gini-iOS-SDK/Gini_iOS_SDK.framework",
 				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
@@ -592,7 +592,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Example Swift/Pods-Example Swift-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example Swift/Pods-Example Swift-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		1FE5C1321FD582370086AA08 /* Swiftlint */ = {
@@ -633,7 +633,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Example ObjC/Pods-Example ObjC-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Example ObjC/Pods-Example ObjC-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Gini-iOS-SDK/Gini_iOS_SDK.framework",
 				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
@@ -648,7 +648,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Example ObjC/Pods-Example ObjC-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example ObjC/Pods-Example ObjC-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		74CB0615257AB7AEF338996D /* [CP] Check Pods Manifest.lock */ = {
