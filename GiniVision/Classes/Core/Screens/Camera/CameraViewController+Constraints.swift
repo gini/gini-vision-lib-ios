@@ -21,16 +21,23 @@ extension CameraViewController {
     
     fileprivate func addPreviewViewConstraints() {
         if UIDevice.current.isIpad {
-            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Constraints.active(item: previewView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: controlsView, attr: .leading,
+            Constraints.active(item: cameraPreviewViewController.view, attr: .top, relatedBy: .equal,
+                               to: self.view, attr: .top)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .bottom, relatedBy: .equal,
+                               to: self.view, attr: .bottom)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .leading, relatedBy: .equal,
+                               to: self.view, attr: .leading)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .trailing, relatedBy: .equal,
+                               to: controlsView, attr: .leading,
                               priority: 750)
         } else {
             // lower priority constraints - will make the preview "want" to get bigger
-            Constraints.active(item: previewView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
-            Constraints.active(item: previewView, attr: .leading, relatedBy: .equal, to: self.view, attr: .leading)
-            Constraints.active(item: previewView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .top, relatedBy: .equal,
+                               to: self.view, attr: .top)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .leading, relatedBy: .equal,
+                               to: self.view, attr: .leading)
+            Constraints.active(item: cameraPreviewViewController.view, attr: .trailing, relatedBy: .equal,
+                               to: self.view, attr: .trailing)
         }
     }
     
@@ -39,10 +46,11 @@ extension CameraViewController {
             Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
             Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
             Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
-            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal, to: previewView, attr: .trailing,
-                              priority: 750)
+            Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal,
+                               to: cameraPreviewViewController.view, attr: .trailing, priority: 750)
         } else {
-            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: previewView, attr: .bottom)
+            Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: cameraPreviewViewController.view,
+                               attr: .bottom)
             Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
                               attr: .top)
             Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
