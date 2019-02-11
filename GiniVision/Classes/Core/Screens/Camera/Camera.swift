@@ -12,22 +12,11 @@ import Photos
 
 final class Camera: NSObject {
     
-    var deviceFrameRate: Float32 {
-        guard let device = self.videoDeviceInput?.device else { return 0.0 }
-
-        return Float32(device.activeVideoMaxFrameDuration.timescale)
-    }
-    
-    var frameRateInSeconds: Float32 {
-        return self.deviceFrameRate * 15000.0
-    }
-    
     // Session management
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
     var stillImageOutput: AVCaptureStillImageOutput?
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
-    var didCaptureImageBuffer: ((CVImageBuffer) -> Void)?
     var giniConfiguration: GiniConfiguration
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
                                                                      attributes: [])
@@ -163,35 +152,20 @@ final class Camera: NSObject {
     
     func setupQRScanningOutput() {
         self.session.beginConfiguration()
-        
         let qrOutput = AVCaptureMetadataOutput()
         
         if self.session.canAddOutput(qrOutput) {
             self.session.addOutput(qrOutput)
-            
             qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
-            qrOutput.metadataObjectTypes = [.qr]
+            
+            if qrOutput.availableMetadataObjectTypes.contains(.qr) {
+                qrOutput.metadataObjectTypes = [.qr]
+            }
         } else {
             Log(message: "Could not add metadata output to the session", event: .error)
         }
         
         self.session.commitConfiguration()
-    }
-    
-    func setupVideoOutput() {
-        self.session.beginConfiguration()
-
-        let videoOutput = AVCaptureVideoDataOutput()
-        
-        if self.session.canAddOutput(videoOutput) {
-            self.session.addOutput(videoOutput)
-            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "Video-output-queue"))
-        } else {
-            Log(message: "Could not add video output to the session", event: .error)
-        }
-        
-        self.session.commitConfiguration()
-
     }
 }
 
@@ -218,19 +192,6 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
             }
             
         }
-    }
-}
-
-// MARK: AVCaptureVideoDataOutputSampleBufferDelegate
-
-extension Camera: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_ output: AVCaptureOutput,
-                       didOutput sampleBuffer: CMSampleBuffer,
-                       from connection: AVCaptureConnection) {
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
-        didCaptureImageBuffer?(pixelBuffer)
-
-        usleep(useconds_t(frameRateInSeconds))
     }
 }
 

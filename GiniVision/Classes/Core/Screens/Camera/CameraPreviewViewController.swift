@@ -17,12 +17,10 @@ final class CameraPreviewViewController: UIViewController {
     
     weak var delegate: CameraPreviewViewControllerDelegate?
     
-    var documentDetector: DocumentDetectorProtocol?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
     fileprivate var camera: Camera?
     fileprivate var cameraState = CameraState.notValid
-    fileprivate var documentDetectedInfo: DetectedDocumentInfo?
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
@@ -147,21 +145,13 @@ final class CameraPreviewViewController: UIViewController {
                 }
             }
         }
-        
+                
         if giniConfiguration.qrCodeScanningEnabled {
             camera?.setupQRScanningOutput()
             camera?.didDetectQR = { [weak self] qrDocument in
                 guard let `self` = self else { return }
                 self.delegate?.cameraPreview(viewController: self, didDetect: qrDocument)
             }
-        }
-        
-        if #available(iOS 11.0, *) {
-            documentDetector = DocumentDetector()
-            documentDetector?.delegate = self
-            
-            camera?.setupVideoOutput()
-            camera?.didCaptureImageBuffer = documentDetector?.detectDocument
         }
         
     }
@@ -184,12 +174,10 @@ final class CameraPreviewViewController: UIViewController {
         }
         
         camera.captureStillImage(completion: { data, error in
-            if let polyRect = self.documentDetectedInfo?.polyRect,
-                let data = data,
-                let image = UIImage(data: data)?.withFixedOrientation(),
-                let rotatedAndCropped = image.orientedAndCropped(polyRect: polyRect),
-                let croppedData = rotatedAndCropped.jpegData(compressionQuality: 0.9) {
-                completion(croppedData, error)
+            if let data = data,
+                let image = UIImage(data: data),
+                let imageData = image.jpegData(compressionQuality: 0.9) {
+                completion(imageData, error)
             } else {
                 completion(data, error)
             }
@@ -301,68 +289,4 @@ extension CameraPreviewViewController {
         showFocusIndicator(imageView)
     }
     
-}
-
-@available(iOS 11.0, *)
-extension CameraPreviewViewController: DocumentDetectorDelegate {
-    func documentDetector(_ documentDetector: DocumentDetector, didDetect documentsInfo: [DetectedDocumentInfo]) {
-        self.previewView.subviews.forEach { if $0 is RectangleView { $0.removeFromSuperview() } }
-        self.documentDetectedInfo = nil
-        
-        if let documentInfo = documentsInfo.first {
-            self.drawRectangle(polyRect: documentInfo.polyRect)
-            self.documentDetectedInfo = documentInfo
-        }
-    }
-    
-    private func drawRectangle(polyRect: PolyRect) {
-        let xCoord = polyRect.minX * previewView.frame.size.width
-        let yCoord = polyRect.minY * previewView.frame.size.height
-        let width = polyRect.width * previewView.frame.size.width + 4
-        let height = polyRect.height * previewView.frame.size.height + 4
-
-        let rectangleView = RectangleView(polyRect: polyRect, refRect: previewView.frame)
-
-        rectangleView.frame = CGRect(x: xCoord.rounded(),
-                                     y: yCoord.rounded(),
-                                     width: width.rounded(),
-                                     height: height.rounded())
-
-        let newRatio = width / height
-        let threshold = newRatio * 0.25
-        if (newRatio < self.previewView.ratio - threshold) ||  (newRatio > self.previewView.ratio + threshold) {
-            self.previewView.ratio = width / height
-            self.previewView.layoutIfNeeded()
-        }
-
-        previewView.addSubview(rectangleView)
-        rectangleView.setNeedsDisplay()
-    }
-    
-//    func drawWordBox(box: VNTextObservation) {
-//        guard let boxes = box.characterBoxes else {return}
-//        var xMin: CGFloat = 9999.0
-//        var xMax: CGFloat = 0.0
-//        var yMin: CGFloat = 9999.0
-//        var yMax: CGFloat = 0.0
-//        
-//        for char in boxes {
-//            if char.bottomLeft.x < xMin {xMin = char.bottomLeft.x}
-//            if char.bottomRight.x > xMax {xMax = char.bottomRight.x}
-//            if char.bottomRight.y < yMin {yMin = char.bottomRight.y}
-//            if char.topRight.y > yMax {yMax = char.topRight.y}
-//        }
-//        
-//        let xCoord = xMin * previewView.frame.size.width
-//        let yCoord = (1 - yMax) * previewView.frame.size.height
-//        let width = (xMax - xMin) * previewView.frame.size.width
-//        let height = (yMax - yMin) * previewView.frame.size.height
-//        
-//        let layer = TextLayer()
-//        layer.frame = CGRect(x: xCoord, y: yCoord, width: width, height: height)
-//        layer.borderWidth = 2.0
-//        layer.borderColor = UIColor.green.cgColor
-//        
-//        previewView.layer.addSublayer(layer)
-//    }
 }
