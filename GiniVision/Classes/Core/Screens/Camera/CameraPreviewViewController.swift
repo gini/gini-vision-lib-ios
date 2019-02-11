@@ -163,7 +163,7 @@ final class CameraPreviewViewController: UIViewController {
         camera.captureStillImage(completion: { data, error in
             if let data = data,
                 let image = UIImage(data: data),
-                let imageData = image.jpegData(compressionQuality: 0.9) {
+                let imageData = image.jpegData(compressionQuality: 1.0) {
                 completion(imageData, error)
             } else {
                 completion(data, error)
