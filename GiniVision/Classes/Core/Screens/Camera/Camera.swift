@@ -23,11 +23,13 @@ final class Camera: NSObject {
     fileprivate let application: UIApplication
     
     init(application: UIApplication = UIApplication.shared,
-         giniConfiguration: GiniConfiguration,
-         completion: ((CameraError?) -> Void)) {
+         giniConfiguration: GiniConfiguration) {
         self.application = application
         self.giniConfiguration = giniConfiguration
         super.init()
+    }
+    
+    func setup(completion: ((CameraError?) -> Void)) {
         do {
             try setupSession()
             
@@ -42,7 +44,6 @@ final class Camera: NSObject {
         }
     }
     
-    // MARK: Public methods
     func start() {
         sessionQueue.async {
             self.session.startRunning()
@@ -107,48 +108,6 @@ final class Camera: NSObject {
     }
     
     // MARK: Private methods
-    fileprivate func setupSession() throws {
-        var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(for: .video).filter {
-                $0.position == .back
-            }
-            guard let device = devices.first else { return nil }
-            return device
-        }
-        
-        do {
-            guard let videoDevice = videoDevice else { throw CameraError.unknown }
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-        } catch let error as NSError {
-            if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
-                throw CameraError.notAuthorizedToUseDevice
-            } else {
-                throw CameraError.unknown
-            }
-        }
-    }
-    
-    fileprivate func setupInput() {
-        // Specify that we are capturing a photo, this will reset the format to be 4:3
-        self.session.sessionPreset = .photo
-        if self.session.canAddInput(self.videoDeviceInput!) {
-            self.session.addInput(self.videoDeviceInput!)
-        } else {
-            Log(message: "Could not add video device input to the session", event: .error)
-        }
-    }
-    
-    fileprivate func setupPhotoCaptureOutput() {
-        let output = AVCaptureStillImageOutput()
-        
-        if self.session.canAddOutput(output) {
-            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-            self.session.addOutput(output)
-            self.stillImageOutput = output
-        } else {
-            Log(message: "Could not add still image output to the session", event: .error)
-        }
-    }
     
     func setupQRScanningOutput() {
         self.session.beginConfiguration()
@@ -169,7 +128,54 @@ final class Camera: NSObject {
     }
 }
 
-// MARK: AVCaptureMetadataOutputObjectsDelegate
+// MARK: - Fileprivate
+
+fileprivate extension Camera {
+    func setupSession() throws {
+        var videoDevice: AVCaptureDevice? {
+            let devices = AVCaptureDevice.devices(for: .video).filter {
+                $0.position == .back
+            }
+            guard let device = devices.first else { return nil }
+            return device
+        }
+        
+        do {
+            guard let videoDevice = videoDevice else { throw CameraError.unknown }
+            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
+        } catch let error as NSError {
+            if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
+                throw CameraError.notAuthorizedToUseDevice
+            } else {
+                throw CameraError.unknown
+            }
+        }
+    }
+    
+    func setupInput() {
+        // Specify that we are capturing a photo, this will reset the format to be 4:3
+        self.session.sessionPreset = .photo
+        if self.session.canAddInput(self.videoDeviceInput!) {
+            self.session.addInput(self.videoDeviceInput!)
+        } else {
+            Log(message: "Could not add video device input to the session", event: .error)
+        }
+    }
+    
+    func setupPhotoCaptureOutput() {
+        let output = AVCaptureStillImageOutput()
+        
+        if self.session.canAddOutput(output) {
+            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
+            self.session.addOutput(output)
+            self.stillImageOutput = output
+        } else {
+            Log(message: "Could not add still image output to the session", event: .error)
+        }
+    }
+}
+
+// MARK: - AVCaptureMetadataOutputObjectsDelegate
 
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,

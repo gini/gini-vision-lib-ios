@@ -19,8 +19,7 @@ final class CameraPreviewViewController: UIViewController {
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
-    fileprivate var camera: Camera?
-    fileprivate var cameraState = CameraState.notValid
+    fileprivate var camera: Camera
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
@@ -41,10 +40,6 @@ final class CameraPreviewViewController: UIViewController {
     fileprivate var defaultImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
     }
-    
-    fileprivate enum CameraState {
-        case valid, notValid
-    }
 
     lazy var previewView: CameraPreviewView = {
         let previewView = CameraPreviewView()
@@ -57,9 +52,9 @@ final class CameraPreviewViewController: UIViewController {
     
     init(giniConfiguration: GiniConfiguration = .shared) {
         self.giniConfiguration = giniConfiguration
+        self.camera = Camera(giniConfiguration: giniConfiguration)
         super.init(nibName: nil, bundle: nil)
         
-        setupCamera(giniConfiguration: giniConfiguration)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,15 +68,14 @@ final class CameraPreviewViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        setupCamera(giniConfiguration: giniConfiguration)
+
+        previewView.session = camera.session
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(subjectAreaDidChange),
+                                               name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange,
+                                               object: camera.videoDeviceInput?.device)
         
-        if let validCamera = camera {
-            cameraState = .valid
-            previewView.session = validCamera.session
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(subjectAreaDidChange),
-                                                   name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange,
-                                                   object: camera?.videoDeviceInput?.device)
-        }
         previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
         
         view.insertSubview(previewView, at: 0)
@@ -91,18 +85,17 @@ final class CameraPreviewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         updatePreviewViewOrientation() // Video orientation should be updated once the view has been loaded
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        camera?.start()
+        camera.start()
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        camera?.stop()
+        camera.stop()
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -130,14 +123,13 @@ final class CameraPreviewViewController: UIViewController {
     }
     
     fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
-        camera = Camera(giniConfiguration: giniConfiguration) { error in
+        camera.setup { error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
                     addNotAuthorizedView()
                 default:
                     if GiniConfiguration.DEBUG {
-                        cameraState = .valid
                         #if targetEnvironment(simulator)
                         addDefaultImage()
                         #endif
@@ -147,8 +139,8 @@ final class CameraPreviewViewController: UIViewController {
         }
                 
         if giniConfiguration.qrCodeScanningEnabled {
-            camera?.setupQRScanningOutput()
-            camera?.didDetectQR = { [weak self] qrDocument in
+            camera.setupQRScanningOutput()
+            camera.didDetectQR = { [weak self] qrDocument in
                 guard let `self` = self else { return }
                 self.delegate?.cameraPreview(self, didDetect: qrDocument)
             }
@@ -157,11 +149,6 @@ final class CameraPreviewViewController: UIViewController {
     }
     
     func captureImage(completion: @escaping (Data?, CameraError?) -> Void) {
-        guard let camera = camera else {
-            Log(message: "No camera initialized", event: .warning)
-            return
-        }
-        
         if GiniConfiguration.DEBUG {
             // Retrieves the image from default image view to make sure the image
             // was set and therefore the correct states were checked before.
@@ -185,7 +172,6 @@ final class CameraPreviewViewController: UIViewController {
     }
     
     func showCameraOverlay() {
-        guard cameraState == .valid else { return }
         previewView.guidesLayer?.isHidden = false
         previewView.frameLayer?.isHidden = false
     }
@@ -239,10 +225,10 @@ extension CameraPreviewViewController {
     @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
         guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
         let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: sender.location(in: sender.view))
-        camera?.focus(withMode: .autoFocus,
-                      exposeWithMode: .autoExpose,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: true)
+        camera.focus(withMode: .autoFocus,
+                     exposeWithMode: .autoExpose,
+                     atDevicePoint: devicePoint,
+                     monitorSubjectAreaChange: true)
         let imageView =
             createFocusIndicator(withImage: cameraFocusSmall,
                                  atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
@@ -257,7 +243,6 @@ extension CameraPreviewViewController {
     }
     
     fileprivate func showFocusIndicator(_ imageView: FocusIndicator?) {
-        guard cameraState == .valid else { return }
         guard let imageView = imageView else { return }
         for subView in self.previewView.subviews {
             if let focusIndicator = subView as? FocusIndicator {
@@ -278,10 +263,10 @@ extension CameraPreviewViewController {
         guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
         let devicePoint = CGPoint(x: 0.5, y: 0.5)
         
-        camera?.focus(withMode: .continuousAutoFocus,
-                      exposeWithMode: .continuousAutoExposure,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: false)
+        camera.focus(withMode: .continuousAutoFocus,
+                     exposeWithMode: .continuousAutoExposure,
+                     atDevicePoint: devicePoint,
+                     monitorSubjectAreaChange: false)
         
         let imageView =
             createFocusIndicator(withImage: cameraFocusLarge,
