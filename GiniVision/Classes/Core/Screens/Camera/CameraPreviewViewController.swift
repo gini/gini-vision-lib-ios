@@ -102,11 +102,7 @@ final class CameraPreviewViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let `self` = self else {
-                return
-            }
-            
-            self.updatePreviewViewOrientation()
+            self?.updatePreviewViewOrientation()
         })
     }
     
