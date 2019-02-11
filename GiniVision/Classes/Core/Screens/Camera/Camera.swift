@@ -10,7 +10,23 @@ import UIKit
 import AVFoundation
 import Photos
 
-final class Camera: NSObject {
+protocol CameraProtocol: class {
+    var session: AVCaptureSession { get }
+    var videoDeviceInput: AVCaptureDeviceInput? { get }
+    var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }
+    
+    func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void)
+    func focus(withMode mode: AVCaptureDevice.FocusMode,
+               exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
+               atDevicePoint point: CGPoint,
+               monitorSubjectAreaChange: Bool)
+    func setup(completion: ((CameraError?) -> Void))
+    func setupQRScanningOutput()
+    func start()
+    func stop()
+}
+
+final class Camera: NSObject, CameraProtocol {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()

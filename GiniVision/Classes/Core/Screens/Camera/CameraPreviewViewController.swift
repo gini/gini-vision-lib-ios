@@ -19,7 +19,7 @@ final class CameraPreviewViewController: UIViewController {
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
-    fileprivate var camera: Camera
+    fileprivate var camera: CameraProtocol
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
@@ -50,9 +50,10 @@ final class CameraPreviewViewController: UIViewController {
         return previewView
     }()
     
-    init(giniConfiguration: GiniConfiguration = .shared) {
+    init(giniConfiguration: GiniConfiguration = .shared,
+         camera: CameraProtocol = Camera(giniConfiguration: .shared)) {
         self.giniConfiguration = giniConfiguration
-        self.camera = Camera(giniConfiguration: giniConfiguration)
+        self.camera = camera
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -125,7 +126,7 @@ final class CameraPreviewViewController: UIViewController {
                 case .notAuthorizedToUseDevice:
                     addNotAuthorizedView()
                 default:
-                    if GiniConfiguration.DEBUG {
+                    if giniConfiguration.debugModeOn {
                         #if targetEnvironment(simulator)
                         addDefaultImage()
                         #endif
@@ -145,7 +146,7 @@ final class CameraPreviewViewController: UIViewController {
     }
     
     func captureImage(completion: @escaping (Data?, CameraError?) -> Void) {
-        if GiniConfiguration.DEBUG {
+        if giniConfiguration.debugModeOn {
             // Retrieves the image from default image view to make sure the image
             // was set and therefore the correct states were checked before.
             #if targetEnvironment(simulator)
@@ -153,6 +154,7 @@ final class CameraPreviewViewController: UIViewController {
                 let imageData = image.jpegData(compressionQuality: 0.2) {
                 completion(imageData, nil)
             }
+            return
             #endif
         }
         

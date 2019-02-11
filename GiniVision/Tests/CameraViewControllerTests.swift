@@ -70,7 +70,7 @@ final class CameraViewControllerTests: XCTestCase {
         GiniConfiguration.shared.onboardingShowAtLaunch = false
         GiniConfiguration.shared.onboardingShowAtFirstLaunch = false
         
-        cameraViewController = CameraViewController(successBlock: { _ in }, failureBlock: { _ in })
+        cameraViewController = CameraViewController.init(giniConfiguration: GiniConfiguration.shared)
         _ = cameraViewController.view
         
         XCTAssertEqual(cameraViewController.opaqueView?.backgroundColor, UIColor.black.withAlphaComponent(0.8))
