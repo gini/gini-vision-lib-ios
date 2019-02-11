@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 
 protocol CameraPreviewViewControllerDelegate: class {
-    func cameraPreview(viewController: CameraPreviewViewController,
+    func cameraPreview(_ viewController: CameraPreviewViewController,
                        didDetect qrCodeDocument: GiniQRCodeDocument)
 }
 
@@ -150,7 +150,7 @@ final class CameraPreviewViewController: UIViewController {
             camera?.setupQRScanningOutput()
             camera?.didDetectQR = { [weak self] qrDocument in
                 guard let `self` = self else { return }
-                self.delegate?.cameraPreview(viewController: self, didDetect: qrDocument)
+                self.delegate?.cameraPreview(self, didDetect: qrDocument)
             }
         }
         

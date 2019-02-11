@@ -469,12 +469,14 @@ extension CameraViewController {
     }
 }
 
+// MARK: - CameraPreviewViewControllerDelegate
+
 extension CameraViewController: CameraPreviewViewControllerDelegate {
-    func cameraPreview(viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
+    func cameraPreview(_ viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
         if detectedQRCodeDocument != qrCodeDocument {
             detectedQRCodeDocument = qrCodeDocument
             showPopup(forQRDetected: qrCodeDocument) { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.didPick(qrCodeDocument)
             }
         }
