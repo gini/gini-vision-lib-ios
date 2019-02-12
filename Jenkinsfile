@@ -31,7 +31,7 @@ pipeline {
     stage('Unit tests') {
       steps {
         sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 6\'
-      }
+        }
     }
     stage('Documentation') {
       when {
