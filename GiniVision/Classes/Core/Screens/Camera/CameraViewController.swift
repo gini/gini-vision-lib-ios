@@ -104,23 +104,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     var opaqueView: UIView?
     var toolTipView: ToolTipView?
     let giniConfiguration: GiniConfiguration
-    fileprivate var camera: Camera?
-    fileprivate var cameraState = CameraState.notValid
-    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
-    fileprivate var defaultImageView: UIImageView?
-    fileprivate var focusIndicatorImageView: UIImageView?
-    fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
-        .portrait: .portrait,
-        .landscapeRight: .landscapeRight,
-        .landscapeLeft: .landscapeLeft,
-        .portraitUpsideDown: .portraitUpsideDown
-    ]
-    
-    fileprivate enum CameraState {
-        case valid, notValid
-    }
-    
+    fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
+  
     // User interface
     lazy var captureButton: UIButton = {
         let button = UIButton()
@@ -159,15 +145,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return view
     }()
     
-    lazy var previewView: CameraPreviewView = {
-        let previewView = CameraPreviewView()
-        previewView.translatesAutoresizingMaskIntoConstraints = false
-        (previewView.layer as? AVCaptureVideoPreviewLayer)?.videoGravity = .resizeAspectFill
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(focusAndExposeTap))
-        previewView.addGestureRecognizer(tapGesture)
-        return previewView
-    }()
-    
     lazy var controlsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -175,18 +152,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return view
     }()
     
+    lazy var cameraPreviewViewController: CameraPreviewViewController = {
+        let cameraPreviewViewController = CameraPreviewViewController()
+        cameraPreviewViewController.delegate = self
+        return cameraPreviewViewController
+    }()
+    
     // Images
-    fileprivate var defaultImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraDefaultDocumentImage")
-    }
     fileprivate var cameraCaptureButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
-    }
-    fileprivate var cameraFocusSmall: UIImage? {
-        return UIImageNamedPreferred(named: "cameraFocusSmall")
-    }
-    fileprivate var cameraFocusLarge: UIImage? {
-        return UIImageNamedPreferred(named: "cameraFocusLarge")
     }
     fileprivate var documentImportButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "documentImportButton")
@@ -208,7 +182,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
-        self.setupCamera(giniConfiguration: self.giniConfiguration)
     }
     
     /**
@@ -258,10 +231,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     fileprivate func didPick(_ document: GiniVisionDocument) {
         if let delegate = delegate {
             delegate.camera(self, didCapture: document)
@@ -275,20 +244,13 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         edgesForExtendedLayout = []
         view.backgroundColor = giniConfiguration.backgroundColor
         
-        if let validCamera = camera {
-            cameraState = .valid
-            previewView.session = validCamera.session
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(subjectAreaDidChange),
-                                                   name: NSNotification.Name.AVCaptureDeviceSubjectAreaDidChange,
-                                                   object: camera?.videoDeviceInput?.device)
-        }
-        
         // `previewView` must be added at 0 because otherwise NotAuthorizedView button won't ever be touchable
-        view.insertSubview(previewView, at: 0)
-        view.insertSubview(controlsView, aboveSubview: previewView)
+        addChild(cameraPreviewViewController)
+        view.addSubview(cameraPreviewViewController.view)
+        cameraPreviewViewController.didMove(toParent: self)
         
-        previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
+        view.insertSubview(controlsView, aboveSubview: cameraPreviewViewController.view)
+        
         controlsView.addSubview(captureButton)
 
         if giniConfiguration.multipageEnabled {
@@ -300,8 +262,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
-        updatePreviewViewOrientation() // Video orientation should be updated once the view has been loaded
         
         if giniConfiguration.fileImportSupportedTypes != .none {
             enableFileImport()
@@ -317,7 +277,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
-        camera?.start()
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -325,16 +284,10 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         delegate?.cameraDidAppear(self)        
     }
     
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        camera?.stop()
-    }
-    
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         self.toolTipView?.arrangeViews()
-        self.opaqueView?.frame = previewView.frame
+        self.opaqueView?.frame = cameraPreviewViewController.view.frame
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -345,9 +298,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
                 return 
             }
             
-            self.updatePreviewViewOrientation()
             self.toolTipView?.arrangeViews()
-            
         })
     }
 }
@@ -360,7 +311,6 @@ extension CameraViewController {
      Show the capture button. Should be called when onboarding is dismissed.
      */
     public func showCaptureButton() {
-        guard cameraState == .valid else { return }
         controlsView.alpha = 1
     }
     
@@ -375,17 +325,14 @@ extension CameraViewController {
      Show the camera overlay. Should be called when onboarding is dismissed.
      */
     public func showCameraOverlay() {
-        guard cameraState == .valid else { return }
-        previewView.guidesLayer?.isHidden = false
-        previewView.frameLayer?.isHidden = false
+        cameraPreviewViewController.showCameraOverlay()
     }
     
     /**
      Hide the camera overlay. Should be called when onboarding is presented.
      */
     public func hideCameraOverlay() {
-        previewView.guidesLayer?.isHidden = true
-        previewView.frameLayer?.isHidden = true
+        cameraPreviewViewController.hideCameraOverlay()
     }
     
     /**
@@ -430,8 +377,8 @@ extension CameraViewController {
             UIView.animateKeyframes(withDuration: AnimationDuration.medium, delay: 0.6, animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
                     let thumbnailSize = self.capturedImagesStackView.thumbnailSize
-                    let scaleRatioY = thumbnailSize.height / self.previewView.frame.height
-                    let scaleRatioX = thumbnailSize.width / self.previewView.frame.width
+                    let scaleRatioY = thumbnailSize.height / self.cameraPreviewViewController.view.frame.height
+                    let scaleRatioX = thumbnailSize.width / self.cameraPreviewViewController.view.frame.width
                     
                     previewImageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
                     previewImageView.center = self.capturedImagesStackView
@@ -465,7 +412,7 @@ extension CameraViewController {
             guard let `self` = self else { return }
             
             let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
-                                                         refView: self.previewView,
+                                                         refView: self.cameraPreviewViewController.view,
                                                          document: qrDocument,
                                                          giniConfiguration: self.giniConfiguration)
             newQRCodePopup.didTapDone = { [weak self] in
@@ -491,63 +438,8 @@ extension CameraViewController {
         }
     }
     
-    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
-        self.camera = Camera(giniConfiguration: giniConfiguration) {[weak self] error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if GiniConfiguration.DEBUG {
-                        cameraState = .valid
-                        #if targetEnvironment(simulator)
-                            addDefaultImage()
-                        #endif
-                    }
-                }
-                self?.failureBlock?(error)
-            }
-        }
-        self.camera?.didDetectQR = {[weak self] qrDocument in
-            if self?.detectedQRCodeDocument != qrDocument {
-                self?.detectedQRCodeDocument = qrDocument
-                self?.showPopup(forQRDetected: qrDocument) {
-                    self?.didPick(qrDocument)
-                }
-            }
-        }
-    }
-    
     @objc fileprivate func captureImage(_ sender: AnyObject) {
-        guard let camera = camera else {
-            Log(message: "No camera initialized", event: .warning)
-            return
-        }
-        
-        if GiniConfiguration.DEBUG {
-            // Retrieves the image from default image view to make sure the image
-            // was set and therefore the correct states were checked before.
-            #if targetEnvironment(simulator)
-            if let image = self.defaultImageView?.image,
-                let imageData = image.jpegData(compressionQuality: 0.2) {
-                self.cameraDidCapture(imageData: imageData, error: nil)
-            }
-            #endif
-        }
-        
-        camera.captureStillImage(completion: self.cameraDidCapture)
-    }
-    
-    fileprivate func updatePreviewViewOrientation() {
-        let orientation: AVCaptureVideoOrientation
-        if UIDevice.current.isIpad {
-            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        } else {
-            orientation = .portrait
-        }
-        
-        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-        previewLayer?.connection?.videoOrientation = orientation
+        cameraPreviewViewController.captureImage(completion: cameraDidCapture)
     }
     
     private func cameraDidCapture(imageData: Data?, error: CameraError?) {
@@ -564,9 +456,9 @@ extension CameraViewController {
     }
     
     private func previewCapturedImageView(with image: UIImage) -> UIImageView {
-        let imageFrame = previewView.frame
+        let imageFrame = cameraPreviewViewController.view.frame
         let imageView = UIImageView(frame: imageFrame)
-        imageView.center = previewView.center
+        imageView.center = cameraPreviewViewController.view.center
         imageView.image = image
         imageView.layer.shadowColor = UIColor.black.cgColor
         imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
@@ -577,62 +469,17 @@ extension CameraViewController {
     }
 }
 
-// MARK: - Focus handling
+// MARK: - CameraPreviewViewControllerDelegate
 
-extension CameraViewController {
-    fileprivate typealias FocusIndicator = UIImageView
-    
-    @objc fileprivate func focusAndExposeTap(_ sender: UITapGestureRecognizer) {
-        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-        let devicePoint = previewLayer.captureDevicePointConverted(fromLayerPoint: sender.location(in: sender.view))
-        camera?.focus(withMode: .autoFocus,
-                      exposeWithMode: .autoExpose,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: true)
-        let imageView =
-            createFocusIndicator(withImage: cameraFocusSmall,
-                                 atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
-        showFocusIndicator(imageView)
-    }
-    
-    @objc fileprivate func subjectAreaDidChange(_ notification: Notification) {
-        guard let previewLayer = previewView.layer as? AVCaptureVideoPreviewLayer else { return }
-        let devicePoint = CGPoint(x: 0.5, y: 0.5)
-        
-        camera?.focus(withMode: .continuousAutoFocus,
-                      exposeWithMode: .continuousAutoExposure,
-                      atDevicePoint: devicePoint,
-                      monitorSubjectAreaChange: false)
-        
-        let imageView =
-            createFocusIndicator(withImage: cameraFocusLarge,
-                                 atPoint: previewLayer.layerPointConverted(fromCaptureDevicePoint: devicePoint))
-        showFocusIndicator(imageView)
-    }
-    
-    fileprivate func createFocusIndicator(withImage image: UIImage?, atPoint point: CGPoint) -> FocusIndicator? {
-        guard let image = image else { return nil }
-        let imageView = UIImageView(image: image)
-        imageView.center = point
-        return imageView
-    }
-    
-    fileprivate func showFocusIndicator(_ imageView: FocusIndicator?) {
-        guard cameraState == .valid else { return }
-        guard let imageView = imageView else { return }
-        for subView in self.previewView.subviews {
-            if let focusIndicator = subView as? FocusIndicator {
-                focusIndicator.removeFromSuperview()
+extension CameraViewController: CameraPreviewViewControllerDelegate {
+    func cameraPreview(_ viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
+        if detectedQRCodeDocument != qrCodeDocument {
+            detectedQRCodeDocument = qrCodeDocument
+            showPopup(forQRDetected: qrCodeDocument) { [weak self] in
+                guard let self = self else { return }
+                self.didPick(qrCodeDocument)
             }
         }
-        self.previewView.addSubview(imageView)
-        UIView.animate(withDuration: 1.5,
-                       animations: {
-                        imageView.alpha = 0.0
-        },
-                       completion: { _ in
-                        imageView.removeFromSuperview()
-        })
     }
 }
 
@@ -708,41 +555,5 @@ extension CameraViewController {
             self.opaqueView?.removeFromSuperview()
             self.captureButton.isEnabled = true
         }
-    }
-}
-
-// MARK: - Default and not authorized views
-
-extension CameraViewController {
-    fileprivate func addNotAuthorizedView() {
-        
-        // Add not authorized view
-        let view = CameraNotAuthorizedView()
-        super.view.addSubview(view)
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: view, attr: .width, relatedBy: .equal, to: super.view, attr: .width)
-        Constraints.active(item: view, attr: .height, relatedBy: .equal, to: super.view, attr: .height)
-        Constraints.active(item: view, attr: .centerX, relatedBy: .equal, to: super.view, attr: .centerX)
-        Constraints.active(item: view, attr: .centerY, relatedBy: .equal, to: super.view, attr: .centerY)
-        
-        // Hide camera UI
-        hideCameraOverlay()
-        hideCaptureButton()
-    }
-    
-    /// Adds a default image to the canvas when no camera is available (DEBUG mode only)
-    fileprivate func addDefaultImage() {
-        defaultImageView = UIImageView(image: defaultImage)
-        guard let defaultImageView = defaultImageView else { return }
-        
-        defaultImageView.contentMode = .scaleAspectFit
-        previewView.addSubview(defaultImageView)
-        
-        defaultImageView.translatesAutoresizingMaskIntoConstraints = false
-        Constraints.active(item: defaultImageView, attr: .width, relatedBy: .equal, to: previewView, attr: .width)
-        Constraints.active(item: defaultImageView, attr: .height, relatedBy: .equal, to: previewView, attr: .height)
-        Constraints.active(item: defaultImageView, attr: .centerX, relatedBy: .equal, to: previewView, attr: .centerX)
-        Constraints.active(item: defaultImageView, attr: .centerY, relatedBy: .equal, to: previewView, attr: .centerY)
     }
 }

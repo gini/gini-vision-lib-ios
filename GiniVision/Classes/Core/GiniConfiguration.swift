@@ -31,13 +31,6 @@ import UIKit
     static var shared = GiniConfiguration()
     
     /**
-     Shorthand check if debug mode is turned on.
-     */
-    static var DEBUG: Bool {
-        return shared.debugModeOn
-    }
-    
-    /**
      Supported document types by Gini Vision library.
     */
     
