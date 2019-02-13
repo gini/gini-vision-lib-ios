@@ -102,15 +102,7 @@ final class HelpMenuViewControllerTests: XCTestCase {
         
         XCTAssertEqual(tableRowHeight, helpMenuViewController.tableRowHeight, "table row height should match")
     }
-    
-    func testNoViewControllerForUnknownID() {
-        let unknownID = -1
         
-        let viewController = helpMenuViewController.viewController(forRowWithId: unknownID)
-        
-        XCTAssertNil(viewController, "should be nil since none viewController on the tableview has that ID")
-    }
-    
     func testLeftNavBarItem() {
         XCTAssertNotNil(helpMenuViewController.navigationItem.leftBarButtonItem,
                         "left navigation item should not be nil")
