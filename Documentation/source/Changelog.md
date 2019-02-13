@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.4.0 (2019-02-13)
+------------------
+
+-   Fixed issue with latest versions of Cocoapods.
+-   Added flag for Supported formats screen (`GiniConfiguration.shouldShowSupportedFormatsScreen`)
+
 4.3.2 (2019-02-04)
 ------------------
 
