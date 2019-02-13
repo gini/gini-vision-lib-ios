@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CustomDocumentValidationError Class Reference</title>
+    <title>HelpMenuViewControllerDelegate Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/CustomDocumentValidationError" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/HelpMenuViewControllerDelegate" class="dashAnchor"></a>
 
-    <a title="CustomDocumentValidationError Class Reference"></a>
+    <a title="HelpMenuViewControllerDelegate Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -45,7 +45,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
       <img class="carat" src="../img/carat.png" />
-      CustomDocumentValidationError Class Reference
+      HelpMenuViewControllerDelegate Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -328,15 +328,19 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>CustomDocumentValidationError</h1>
+            <h1>HelpMenuViewControllerDelegate</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">@objc</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="kt">CustomDocumentValidationError</span> <span class="p">:</span> <span class="kt">NSError</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">HelpMenuViewControllerDelegate</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
               </div>
-            <p>Errors thrown when running a custom validation.</p>
+            <p>The <code>HelpMenuViewControllerDelegate</code> protocol defines methods that allow you to handle table item selection actions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Component API only.
+
+</div>
 
           </div>
         </section>
@@ -348,9 +352,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision29CustomDocumentValidationErrorC7messageACSS_tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(message:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision29CustomDocumentValidationErrorC7messageACSS_tcfc">init(message:)</a>
+                    <a name="/s:10GiniVision30HelpMenuViewControllerDelegateP4help_9didSelectyAA0cdeF0C_AG4ItemOtF"></a>
+                    <a name="//apple_ref/swift/Method/help(_:didSelect:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision30HelpMenuViewControllerDelegateP4help_9didSelectyAA0cdeF0C_AG4ItemOtF">help(_:didSelect:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -365,34 +369,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision29CustomDocumentValidationErrorC7messageSSvp"></a>
-                    <a name="//apple_ref/swift/Property/message" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision29CustomDocumentValidationErrorC7messageSSvp">message</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">message</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">help</span><span class="p">(</span><span class="n">_</span> <span class="nv">menuViewController</span><span class="p">:</span> <span class="kt"><a href="../Classes/HelpMenuViewController.html">HelpMenuViewController</a></span><span class="p">,</span> <span class="n">didSelect</span> <span class="nv">item</span><span class="p">:</span> <span class="kt"><a href="../Classes/HelpMenuViewController.html">HelpMenuViewController</a></span><span class="o">.</span><span class="kt">Item</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
