@@ -171,15 +171,15 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 - Step 1
 	- Title &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step1.title*</span> localized string
 	- Subtitle &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step1.subtitle*</span> localized string
-	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep1*</span> image asset
+	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep1* (German) and *openWithTutorialStep1_en* (English)</span> image assets
 - Step 2
 	- Title &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step2.title*</span> localized string
 	- Subtitle &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step2.subtitle*</span> localized string
-	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep2*</span> image asset
+	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep2* (German) and *openWithTutorialStep2_en* (English)</span> image assets
 - Step 3
 	- Title &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step3.title*</span> localized string
 	- Subtitle &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.step3.subtitle*</span> localized string
-	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep3*</span> image asset
+	- Image &#8594; <span style="color:#009EDF">*openWithTutorialStep3* (German) and *openWithTutorialStep3_en* (English)</span> image assets
 
 ## Capturing tips screen
 

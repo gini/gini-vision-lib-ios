@@ -31,13 +31,6 @@ import UIKit
     static var shared = GiniConfiguration()
     
     /**
-     Shorthand check if debug mode is turned on.
-     */
-    static var DEBUG: Bool {
-        return shared.debugModeOn
-    }
-    
-    /**
      Supported document types by Gini Vision library.
     */
     
@@ -689,6 +682,12 @@ import UIKit
      Sets the back button text in the navigation bar on the help screen.
      */
     @objc public var navigationBarHelpScreenTitleBackToMenuButton = ""
+    
+    /**
+     Indicates whether the supported format screens should be shown. In case of `false`,
+     the option won't be shown in the Help menu.
+     */
+    @objc public var shouldShowSupportedFormatsScreen = true
     
     // MARK: Supported formats
     

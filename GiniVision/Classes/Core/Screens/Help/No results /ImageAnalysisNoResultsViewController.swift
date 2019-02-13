@@ -35,18 +35,24 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         return bottomButton
     }()
     
-    var captureSuggestions: [(image: UIImage?, text: String)] = [
-        (UIImageNamedPreferred(named: "captureSuggestion1"),
-         .localized(resource: AnalysisStrings.suggestion1Text)),
-        (UIImageNamedPreferred(named: "captureSuggestion2"),
-         .localized(resource: AnalysisStrings.suggestion2Text)),
-        (UIImageNamedPreferred(named: "captureSuggestion3"),
-         .localized(resource: AnalysisStrings.suggestion3Text)),
-        (UIImageNamedPreferred(named: "captureSuggestion4"),
-         .localized(resource: AnalysisStrings.suggestion4Text)),
-        (UIImageNamedPreferred(named: "captureSuggestion5"),
-         .localized(resource: AnalysisStrings.suggestion5Text))
-    ]
+    lazy var captureSuggestions: [(image: UIImage?, text: String)] = {
+        var suggestions: [(image: UIImage?, text: String)] = [
+            (UIImageNamedPreferred(named: "captureSuggestion1"),
+             .localized(resource: AnalysisStrings.suggestion1Text)),
+            (UIImageNamedPreferred(named: "captureSuggestion2"),
+             .localized(resource: AnalysisStrings.suggestion2Text)),
+            (UIImageNamedPreferred(named: "captureSuggestion3"),
+             .localized(resource: AnalysisStrings.suggestion3Text)),
+            (UIImageNamedPreferred(named: "captureSuggestion4"),
+             .localized(resource: AnalysisStrings.suggestion4Text))
+        ]
+        
+        if giniConfiguration.multipageEnabled {
+            suggestions.append((UIImageNamedPreferred(named: "captureSuggestion5"),
+                                .localized(resource: AnalysisStrings.suggestion5Text)))
+        }
+        return suggestions
+    }()
     
     fileprivate var subHeaderTitle: String?
     fileprivate var topViewText: String?
@@ -61,18 +67,18 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
                             subHeaderText: String? = NSLocalizedString("ginivision.noresults.collection.header",
                                                                        bundle: Bundle(for: GiniVision.self),
                                                                        comment: "no results suggestions collection " +
-                                                                                "header title"),
+        "header title"),
                             topViewText: String = NSLocalizedString("ginivision.noresults.warning",
                                                                     bundle: Bundle(for: GiniVision.self),
                                                                     comment: "Warning text that indicates that there " +
-                                                                             "was any result for this photo analysis"),
+        "was any result for this photo analysis"),
                             topViewIcon: UIImage? = UIImage(named: "warningNoResults",
                                                             in: Bundle(for: GiniVision.self),
                                                             compatibleWith: nil)?.withRenderingMode(.alwaysTemplate),
                             bottomButtonText: String? = NSLocalizedString("ginivision.noresults.gotocamera",
                                                                           bundle: Bundle(for: GiniVision.self),
                                                                           comment: "bottom button title (go to camera" +
-                                                                                   " button)"),
+        " button)"),
                             bottomButtonIcon: UIImage? = UIImage(named: "cameraIcon",
                                                                  in: Bundle(for: GiniVision.self),
                                                                  compatibleWith: nil)) {

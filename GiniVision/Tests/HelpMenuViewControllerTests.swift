@@ -18,18 +18,20 @@ final class HelpMenuViewControllerTests: XCTestCase {
             (NSLocalizedString("ginivision.helpmenu.firstItem",
                                bundle: Bundle(for: GiniVision.self),
                                comment: "help menu first item text"),
-             1),
-            (NSLocalizedString("ginivision.helpmenu.thirdItem",
-                               bundle: Bundle(for: GiniVision.self),
-                               comment: "help menu third item text"),
-             3)
+             1)
         ]
         
+        if GiniConfiguration.shared.shouldShowSupportedFormatsScreen {
+            items.append((NSLocalizedString("ginivision.helpmenu.thirdItem",
+                               bundle: Bundle(for: GiniVision.self),
+                               comment: "help menu third item text"), 3))
+            
+        }
+        
         if GiniConfiguration.shared.openWithEnabled {
-            items.insert((NSLocalizedString("ginivision.helpmenu.secondItem",
+            items.append((NSLocalizedString("ginivision.helpmenu.secondItem",
                                             bundle: Bundle(for: GiniVision.self),
-                                            comment: "help menu second item text"), 2), 
-                         at: 1)
+                                            comment: "help menu second item text"), 2))
         }
         
         return items
@@ -52,7 +54,6 @@ final class HelpMenuViewControllerTests: XCTestCase {
         _ = helpMenuViewController.view
         
         let itemsCount = items.count
-        
         let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
         
         XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
@@ -65,15 +66,26 @@ final class HelpMenuViewControllerTests: XCTestCase {
         _ = helpMenuViewController.view
         
         let itemsCount = items.count
-        
         let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
         
         XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
-    }    
+    }
+    
+    func testItemsCountSupportedFormatScreenDisabled() {
+        GiniConfiguration.shared.shouldShowSupportedFormatsScreen = false
+
+        helpMenuViewController = HelpMenuViewController(giniConfiguration: GiniConfiguration.shared)
+        _ = helpMenuViewController.view
+        
+        let itemsCount = items.count
+        let tableRowsCount = helpMenuViewController.tableView.numberOfRows(inSection: 0)
+        
+        XCTAssertEqual(itemsCount, tableRowsCount, "items count should be equal to the datasource items count")
+    }
     
     func testCellContent() {
         let indexPath = IndexPath(row: 0, section: 0)
-        let itemText = helpMenuViewController.items[indexPath.row].text
+        let itemText = helpMenuViewController.items[indexPath.row].title
         let cellBackgroundColor = UIColor.white
         let cellAccesoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
@@ -90,15 +102,7 @@ final class HelpMenuViewControllerTests: XCTestCase {
         
         XCTAssertEqual(tableRowHeight, helpMenuViewController.tableRowHeight, "table row height should match")
     }
-    
-    func testNoViewControllerForUnknownID() {
-        let unknownID = -1
         
-        let viewController = helpMenuViewController.viewController(forRowWithId: unknownID)
-        
-        XCTAssertNil(viewController, "should be nil since none viewController on the tableview has that ID")
-    }
-    
     func testLeftNavBarItem() {
         XCTAssertNotNil(helpMenuViewController.navigationItem.leftBarButtonItem,
                         "left navigation item should not be nil")

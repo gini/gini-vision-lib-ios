@@ -10,7 +10,23 @@ import UIKit
 import AVFoundation
 import Photos
 
-final class Camera: NSObject {
+protocol CameraProtocol: class {
+    var session: AVCaptureSession { get }
+    var videoDeviceInput: AVCaptureDeviceInput? { get }
+    var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }
+    
+    func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void)
+    func focus(withMode mode: AVCaptureDevice.FocusMode,
+               exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
+               atDevicePoint point: CGPoint,
+               monitorSubjectAreaChange: Bool)
+    func setup(completion: ((CameraError?) -> Void))
+    func setupQRScanningOutput()
+    func start()
+    func stop()
+}
+
+final class Camera: NSObject, CameraProtocol {
     
     // Session management
     var session: AVCaptureSession = AVCaptureSession()
@@ -23,21 +39,19 @@ final class Camera: NSObject {
     fileprivate let application: UIApplication
     
     init(application: UIApplication = UIApplication.shared,
-         giniConfiguration: GiniConfiguration,
-         completion: ((CameraError?) -> Void)) {
+         giniConfiguration: GiniConfiguration) {
         self.application = application
         self.giniConfiguration = giniConfiguration
         super.init()
+    }
+    
+    func setup(completion: ((CameraError?) -> Void)) {
         do {
             try setupSession()
             
             self.session.beginConfiguration()
             self.setupInput()
             self.setupPhotoCaptureOutput()
-            
-            if giniConfiguration.qrCodeScanningEnabled {
-                self.setupQRScanningOutput()
-            }
             self.session.commitConfiguration()
         } catch let error as CameraError {
             completion(error)
@@ -46,7 +60,6 @@ final class Camera: NSObject {
         }
     }
     
-    // MARK: Public methods
     func start() {
         sessionQueue.async {
             self.session.startRunning()
@@ -111,7 +124,30 @@ final class Camera: NSObject {
     }
     
     // MARK: Private methods
-    fileprivate func setupSession() throws {
+    
+    func setupQRScanningOutput() {
+        self.session.beginConfiguration()
+        let qrOutput = AVCaptureMetadataOutput()
+        
+        if self.session.canAddOutput(qrOutput) {
+            self.session.addOutput(qrOutput)
+            qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
+            
+            if qrOutput.availableMetadataObjectTypes.contains(.qr) {
+                qrOutput.metadataObjectTypes = [.qr]
+            }
+        } else {
+            Log(message: "Could not add metadata output to the session", event: .error)
+        }
+        
+        self.session.commitConfiguration()
+    }
+}
+
+// MARK: - Fileprivate
+
+fileprivate extension Camera {
+    func setupSession() throws {
         var videoDevice: AVCaptureDevice? {
             let devices = AVCaptureDevice.devices(for: .video).filter {
                 $0.position == .back
@@ -132,9 +168,9 @@ final class Camera: NSObject {
         }
     }
     
-    fileprivate func setupInput() {
+    func setupInput() {
         // Specify that we are capturing a photo, this will reset the format to be 4:3
-        self.session.sessionPreset = AVCaptureSession.Preset.photo
+        self.session.sessionPreset = .photo
         if self.session.canAddInput(self.videoDeviceInput!) {
             self.session.addInput(self.videoDeviceInput!)
         } else {
@@ -142,7 +178,7 @@ final class Camera: NSObject {
         }
     }
     
-    fileprivate func setupPhotoCaptureOutput() {
+    func setupPhotoCaptureOutput() {
         let output = AVCaptureStillImageOutput()
         
         if self.session.canAddOutput(output) {
@@ -153,22 +189,9 @@ final class Camera: NSObject {
             Log(message: "Could not add still image output to the session", event: .error)
         }
     }
-    
-    fileprivate func setupQRScanningOutput() {
-        let qrOutput = AVCaptureMetadataOutput()
-        
-        if self.session.canAddOutput(qrOutput) {
-            self.session.addOutput(qrOutput)
-            
-            qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
-            qrOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
-        } else {
-            Log(message: "Could not add metadata output to the session", event: .error)
-        }
-    }
 }
 
-// MARK: AVCaptureMetadataOutputObjectsDelegate
+// MARK: - AVCaptureMetadataOutputObjectsDelegate
 
 extension Camera: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,
@@ -189,7 +212,8 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
             } catch {
                 
             }
-
+            
         }
     }
 }
+

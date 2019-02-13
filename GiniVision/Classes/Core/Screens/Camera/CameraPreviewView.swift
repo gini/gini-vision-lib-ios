@@ -18,7 +18,7 @@ final class CameraPreviewView: UIView {
     /// 0.9 = 90% of the view
     let guideLineSize: CGFloat = 0.9
     var guideColor = UIColor.white
-    
+    var ratio: CGFloat = 21.0 / 31.0 // A4 by default
     var guidesLayer: CAShapeLayer?
     var frameLayer: CAShapeLayer?
     
@@ -37,6 +37,10 @@ final class CameraPreviewView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        positionViews()
+    }
+    
+    func positionViews() {
         positionGuides()
         positionFrame()
     }
@@ -98,23 +102,22 @@ extension CameraPreviewView {
     }
     
     fileprivate func biggestA4SizeRect() -> CGRect {
-        let a4Ratio: CGFloat = 21.0 / 31.0
         let wholeFrame = bounds
         let maxWidth = wholeFrame.width * guideLineSize
         let maxHeight = wholeFrame.height * guideLineSize
 
         if (maxHeight > maxWidth || UIApplication.shared.statusBarOrientation.isPortrait) &&
-            maxWidth > maxHeight * a4Ratio {
-            return CGRect(x: 0, y: 0, width: maxHeight * a4Ratio, height: maxHeight)
+            maxWidth > maxHeight * ratio {
+            return CGRect(x: 0, y: 0, width: maxHeight * ratio, height: maxHeight)
         } else {
             let height: CGFloat
-            if maxWidth > maxHeight * a4Ratio {
+            if maxWidth > maxHeight * ratio {
                 // This only happens when the app is on landscape mode and
                 // it fills all the window (no SplitMode on iPads).
                 // In this case the a4 would be landscape (31.0 / 21.0)
-                height = maxWidth * a4Ratio
+                height = maxWidth * ratio
             } else {
-                height = maxWidth / a4Ratio
+                height = maxWidth / ratio
             }
             return CGRect(x: 0, y: 0, width: maxWidth, height: height)
         }
