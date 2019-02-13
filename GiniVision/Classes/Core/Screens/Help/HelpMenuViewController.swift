@@ -9,23 +9,73 @@
 import UIKit
 
 /**
+ The `HelpMenuViewControllerDelegate` protocol defines methods that allow you to handle table item selection actions.
+ 
+ - note: Component API only.
+ */
+
+public protocol HelpMenuViewControllerDelegate: class {
+    func help(_ menuViewController: HelpMenuViewController, didSelect item: HelpMenuViewController.Item)
+}
+
+/**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
  use the _Open with_ feature and which formats are supported by the Gini Vision Library. 
  */
 
 final public class HelpMenuViewController: UITableViewController {
     
+    public weak var delegate: HelpMenuViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
-    lazy var items: [(text: String, id: Int)] = {
-        var items: [(text: String, id: Int)] = [
-            (.localized(resource: HelpStrings.menuFirstItemText), 1),
-            (.localized(resource: HelpStrings.menuThirdItemText), 3)
-        ]
+    
+    public enum Item {
+        case noResultsTips
+        case openWithTutorial
+        case supportedFormats
         
-        if self.giniConfiguration.openWithEnabled {
-            items.insert((.localized(resource: HelpStrings.menuSecondItemText), 2), at: 1)
+        var title: String {
+            switch self {
+            case .noResultsTips:
+                return .localized(resource: HelpStrings.menuFirstItemText)
+            case .openWithTutorial:
+                return .localized(resource: HelpStrings.menuSecondItemText)
+            case .supportedFormats:
+                return .localized(resource: HelpStrings.menuThirdItemText)
+            }
+        }
+        
+        var viewController: UIViewController {
+            let viewController: UIViewController
+            switch self {
+            case .noResultsTips:
+                let title: String = .localized(resource: ImageAnalysisNoResultsStrings.titleText)
+                let topViewText: String = .localized(resource: ImageAnalysisNoResultsStrings.warningHelpMenuText)
+                viewController = ImageAnalysisNoResultsViewController(title: title,
+                                                                      subHeaderText: nil,
+                                                                      topViewText: topViewText,
+                                                                      topViewIcon: nil)
+            case .openWithTutorial:
+                viewController = OpenWithTutorialViewController()
+            case .supportedFormats:
+                viewController = SupportedFormatsViewController()
+            }
+            
+            return viewController
+            
+        }
+    }
+    
+    lazy var items: [Item] = {
+        var items: [Item] = [ .noResultsTips]
+        
+        if giniConfiguration.shouldShowSupportedFormatsScreen {
+            items.append(.supportedFormats)
+        }
+        
+        if giniConfiguration.openWithEnabled {
+            items.append(.openWithTutorial)
         }
         
         return items
@@ -66,49 +116,18 @@ final public class HelpMenuViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        setupNavigationItem(usingResources: backToCameraButtonResource,
-                            selector: #selector(back),
-                            position: .left,
-                            target: self)
+        
+        // (DEPRECATED) If no delegate is assigned, it will add the navigation button to the nav bar
+        if delegate == nil {
+            setupNavigationItem(usingResources: backToCameraButtonResource,
+                                selector: #selector(back),
+                                position: .left,
+                                target: self)
+        }
     }
     
     @objc func back() {
         navigationController?.popViewController(animated: true)
-    }
-    
-    func viewController(forRowWithId id: Int) -> UIViewController? {
-        let viewController: UIViewController
-        switch id {
-        case 1:
-            let title: String = .localized(resource: ImageAnalysisNoResultsStrings.titleText)
-            let topViewText: String = .localized(resource: ImageAnalysisNoResultsStrings.warningHelpMenuText)
-            let vc = ImageAnalysisNoResultsViewController(title: title,
-                                                          subHeaderText: nil,
-                                                          topViewText: topViewText,
-                                                          topViewIcon: nil)
-            vc.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?
-                    .viewControllers
-                    .compactMap { $0 as? CameraViewController })?
-                    .first {
-                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
-                }
-            }
-            viewController = vc
-        case 2:
-            viewController = OpenWithTutorialViewController()
-        case 3:
-            viewController = SupportedFormatsViewController()
-        default:
-            return nil
-        }
-        
-        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
-                                           selector: #selector(back),
-                                           position: .left,
-                                           target: self)
-        
-        return viewController
     }
     
 }
@@ -126,7 +145,7 @@ extension HelpMenuViewController {
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
-        cell.textLabel?.text = items[indexPath.row].0
+        cell.textLabel?.text = items[indexPath.row].title
         cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .white
@@ -135,9 +154,31 @@ extension HelpMenuViewController {
     }
     
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let viewController = viewController(forRowWithId: items[indexPath.row].id) {
-            navigationController?.pushViewController(viewController, animated: true)
+        let item = items[indexPath.row]
+        
+        guard delegate == nil else {
+            delegate?.help(self, didSelect: item)
+            return
         }
+        
+        // (DEPRECATED) If no delegate is assigned, it will perform the navigation
+        let viewController = item.viewController
+        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
+                                           selector: #selector(back),
+                                           position: .left,
+                                           target: self)
+        
+        if let imageNoResultsViewController = viewController as? ImageAnalysisNoResultsViewController {
+            imageNoResultsViewController.didTapBottomButton = {
+                if let cameraViewController = (self.navigationController?
+                    .viewControllers
+                    .compactMap { $0 as? CameraViewController })?
+                    .first {
+                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
+                }
+            }
+        }
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
 }

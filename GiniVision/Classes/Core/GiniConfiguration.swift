@@ -683,6 +683,12 @@ import UIKit
      */
     @objc public var navigationBarHelpScreenTitleBackToMenuButton = ""
     
+    /**
+     Indicates whether the supported format screens should be shown. In case of `false`,
+     the option won't be shown in the Help menu.
+     */
+    @objc public var shouldShowSupportedFormatsScreen = true
+    
     // MARK: Supported formats
     
     /**
