@@ -75,6 +75,11 @@ final class GiniScreenAPICoordinator: NSObject, Coordinator {
                                 comment: "Button title in the navigation bar for " +
             "the continue button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
+    fileprivate lazy var backToHelpMenuButtonResource =
+        PreferredButtonResource(image: "arrowBack",
+                                title: "ginivision.navigationbar.review.back",
+                                comment: "Button title in the navigation bar for the back button on the help screen",
+                                configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
     init(withDelegate delegate: GiniVisionDelegate?,
          giniConfiguration: GiniConfiguration) {
@@ -204,6 +209,11 @@ extension GiniScreenAPICoordinator {
     
     @objc func showHelpMenuScreen() {
         let helpMenuViewController = HelpMenuViewController(giniConfiguration: giniConfiguration)
+        helpMenuViewController.delegate = self
+        helpMenuViewController.setupNavigationItem(usingResources: backButtonResource,
+                                                   selector: #selector(back),
+                                                   position: .left,
+                                                   target: self)
         self.screenAPINavigationController.pushViewController(helpMenuViewController,
                                                               animated: true)
     }
@@ -255,8 +265,8 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         
         if toVC is CameraViewController &&
             (fromVC is ReviewViewController ||
-             fromVC is AnalysisViewController ||
-             fromVC is ImageAnalysisNoResultsViewController) {
+                fromVC is AnalysisViewController ||
+                fromVC is ImageAnalysisNoResultsViewController) {
             // When going directly from the analysis or from the single page review screen to the camera the pages
             // collection should be cleared, since the document processed in that cases is not going to be reused
             clearDocuments()
@@ -298,5 +308,33 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
         } else {
             return multiPageTransition
         }
+    }
+}
+
+// MARK: - HelpMenuViewControllerDelegate
+
+extension GiniScreenAPICoordinator: HelpMenuViewControllerDelegate {
+    func help(_ menuViewController: HelpMenuViewController, didSelect item: HelpMenuViewController.Item) {
+        var viewController: UIViewController
+        switch item {
+        case .noResultsTips:
+            let imageNoResultViewController = item.viewController as? ImageAnalysisNoResultsViewController
+            imageNoResultViewController?.didTapBottomButton = { [weak self] in
+                guard let self = self, let cameraViewController = self.cameraViewController else { return }
+                self.screenAPINavigationController.popToViewController(cameraViewController, animated: true)
+            }
+            
+            viewController = imageNoResultViewController!
+        case .openWithTutorial, .supportedFormats:
+            viewController = item.viewController
+        }
+        
+        viewController.setupNavigationItem(usingResources: backToHelpMenuButtonResource,
+                                           selector: #selector(back),
+                                           position: .left,
+                                           target: self)
+        
+        screenAPINavigationController.pushViewController(viewController, animated: true)
+        
     }
 }

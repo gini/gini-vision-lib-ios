@@ -9,17 +9,28 @@
 import UIKit
 
 /**
+ The `HelpMenuViewControllerDelegate` protocol defines methods that allow you to handle table item selection actions.
+ 
+ - note: Component API only.
+ */
+
+public protocol HelpMenuViewControllerDelegate: class {
+    func help(_ menuViewController: HelpMenuViewController, didSelect item: HelpMenuViewController.Item)
+}
+
+/**
  The `HelpMenuViewController` provides explanations on how to take better pictures, how to
  use the _Open with_ feature and which formats are supported by the Gini Vision Library. 
  */
 
 final public class HelpMenuViewController: UITableViewController {
     
+    public weak var delegate: HelpMenuViewControllerDelegate?
     let giniConfiguration: GiniConfiguration
     let tableRowHeight: CGFloat = 64
     var helpMenuCellIdentifier = "helpMenuCellIdentifier"
     
-    enum Item {
+    public enum Item {
         case noResultsTips
         case openWithTutorial
         case supportedFormats
@@ -105,49 +116,18 @@ final public class HelpMenuViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        setupNavigationItem(usingResources: backToCameraButtonResource,
-                            selector: #selector(back),
-                            position: .left,
-                            target: self)
+        
+        // (DEPRECATED) If no delegate is assigned, it will add the navigation button to the nav bar
+        if delegate == nil {
+            setupNavigationItem(usingResources: backToCameraButtonResource,
+                                selector: #selector(back),
+                                position: .left,
+                                target: self)
+        }
     }
     
     @objc func back() {
         navigationController?.popViewController(animated: true)
-    }
-    
-    func viewController(forRowWithId id: Int) -> UIViewController? {
-        let viewController: UIViewController
-        switch id {
-        case 1:
-            let title: String = .localized(resource: ImageAnalysisNoResultsStrings.titleText)
-            let topViewText: String = .localized(resource: ImageAnalysisNoResultsStrings.warningHelpMenuText)
-            let vc = ImageAnalysisNoResultsViewController(title: title,
-                                                          subHeaderText: nil,
-                                                          topViewText: topViewText,
-                                                          topViewIcon: nil)
-            vc.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?
-                    .viewControllers
-                    .compactMap { $0 as? CameraViewController })?
-                    .first {
-                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
-                }
-            }
-            viewController = vc
-        case 2:
-            viewController = OpenWithTutorialViewController()
-        case 3:
-            viewController = SupportedFormatsViewController()
-        default:
-            return nil
-        }
-        
-        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
-                                           selector: #selector(back),
-                                           position: .left,
-                                           target: self)
-        
-        return viewController
     }
     
 }
@@ -175,6 +155,13 @@ extension HelpMenuViewController {
     
     override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = items[indexPath.row]
+        
+        guard delegate == nil else {
+            delegate?.help(self, didSelect: item)
+            return
+        }
+        
+        // (DEPRECATED) If no delegate is assigned, it will perform the navigation
         let viewController = item.viewController
         viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
                                            selector: #selector(back),
