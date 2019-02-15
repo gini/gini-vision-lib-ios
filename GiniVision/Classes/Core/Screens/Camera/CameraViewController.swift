@@ -125,6 +125,25 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return button
     }()
     
+    lazy var flashToggleButton: UIButton = {
+        let flashToggle = UIButton(type: .custom)
+        flashToggle.translatesAutoresizingMaskIntoConstraints = false
+        flashToggle.setImage(UIImage(bundleName: "flashOn"), for: .selected)
+        flashToggle.setImage(UIImage(bundleName: "flashOff"), for: .normal)
+        flashToggle.imageView?.contentMode = .scaleAspectFit
+        flashToggle.addTarget(self, action: #selector(tapOnFlashToggle), for: .touchUpInside)
+        flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        return flashToggle
+    }()
+    
+    func tapOnFlashToggle(_ button: UIButton) {
+        if #available(iOS 10.0, *) {
+            UIImpactFeedbackGenerator().impactOccurred()
+        }
+        button.isSelected = !button.isSelected
+    }
+    
     lazy var importFileSubtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -255,6 +274,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
         if giniConfiguration.multipageEnabled {
             controlsView.addSubview(capturedImagesStackView)
+        }
+        
+        if true {
+            if UIDevice.current.isIpad {
+                controlsView.addSubview(flashToggleButton)
+            } else {
+                view.addSubview(flashToggleButton)
+            }
         }
 
         addConstraints()

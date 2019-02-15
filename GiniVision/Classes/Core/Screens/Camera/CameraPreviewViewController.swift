@@ -50,17 +50,6 @@ final class CameraPreviewViewController: UIViewController {
         return previewView
     }()
     
-    lazy var flashToggle: UIButton = {
-       let flashToggle = UIButton(type: .custom)
-        flashToggle.translatesAutoresizingMaskIntoConstraints = false
-        flashToggle.setImage(UIImage(bundleName: "flashOn"), for: .selected)
-        flashToggle.setImage(UIImage(bundleName: "flashOff"), for: .normal)
-
-        flashToggle.imageView?.contentMode = .scaleAspectFit
-        
-        return flashToggle
-    }()
-    
     init(giniConfiguration: GiniConfiguration = .shared,
          camera: CameraProtocol = Camera(giniConfiguration: .shared)) {
         self.giniConfiguration = giniConfiguration
@@ -91,14 +80,7 @@ final class CameraPreviewViewController: UIViewController {
         previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
         
         view.insertSubview(previewView, at: 0)
-        view.addSubview(flashToggle)
         Constraints.pin(view: previewView, toSuperView: view)
-
-        Constraints.active(item: flashToggle, attr: .top, relatedBy: .equal, to: view, attr: .top, constant: 10)
-        Constraints.active(item: flashToggle, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
-        Constraints.active(item: flashToggle, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
-                           constant: 25)
-
     }
 
     override func viewDidLoad() {
@@ -122,44 +104,6 @@ final class CameraPreviewViewController: UIViewController {
         coordinator.animate(alongsideTransition: { [weak self] _ in
             self?.updatePreviewViewOrientation()
         })
-    }
-    
-    fileprivate func updatePreviewViewOrientation() {
-        let orientation: AVCaptureVideoOrientation
-        if UIDevice.current.isIpad {
-            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        } else {
-            orientation = .portrait
-        }
-        
-        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-        previewLayer?.connection?.videoOrientation = orientation
-    }
-    
-    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
-        camera.setup { error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if giniConfiguration.debugModeOn {
-                        #if targetEnvironment(simulator)
-                        addDefaultImage()
-                        #endif
-                    }
-                }
-            }
-        }
-                
-        if giniConfiguration.qrCodeScanningEnabled {
-            camera.setupQRScanningOutput()
-            camera.didDetectQR = { [weak self] qrDocument in
-                guard let `self` = self else { return }
-                self.delegate?.cameraPreview(self, didDetect: qrDocument)
-            }
-        }
-        
     }
     
     func captureImage(completion: @escaping (Data?, CameraError?) -> Void) {
@@ -196,6 +140,48 @@ final class CameraPreviewViewController: UIViewController {
         previewView.frameLayer?.isHidden = true
     }
     
+}
+
+// MARK: - Fileprivate
+
+fileprivate extension CameraPreviewViewController {
+    func updatePreviewViewOrientation() {
+        let orientation: AVCaptureVideoOrientation
+        if UIDevice.current.isIpad {
+            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        } else {
+            orientation = .portrait
+        }
+        
+        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+        previewLayer?.connection?.videoOrientation = orientation
+    }
+    
+    func setupCamera(giniConfiguration: GiniConfiguration) {
+        camera.setup { error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if giniConfiguration.debugModeOn {
+                        #if targetEnvironment(simulator)
+                        addDefaultImage()
+                        #endif
+                    }
+                }
+            }
+        }
+        
+        if giniConfiguration.qrCodeScanningEnabled {
+            camera.setupQRScanningOutput()
+            camera.didDetectQR = { [weak self] qrDocument in
+                guard let `self` = self else { return }
+                self.delegate?.cameraPreview(self, didDetect: qrDocument)
+            }
+        }
+        
+    }
 }
 
 // MARK: - Default and not authorized views

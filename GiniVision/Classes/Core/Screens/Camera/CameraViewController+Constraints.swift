@@ -17,6 +17,10 @@ extension CameraViewController {
             addMultipageReviewImagesButtonConstraints()
         }
         
+        if true {
+            addFlashButtonConstraints()
+        }
+        
     }
     
     fileprivate func addPreviewViewConstraints() {
@@ -83,10 +87,20 @@ extension CameraViewController {
                               attr: .trailing)
             Constraints.active(item: capturedImagesStackView, attr: .leading, relatedBy: .equal, to: controlsView,
                               attr: .leading)
-            Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
-                              attr: .top, constant: -50)
             Constraints.active(item: capturedImagesStackView, attr: .top, relatedBy: .greaterThanOrEqual,
                                to: controlsView, attr: .top)
+            
+            let viewBelow: UIView
+            var distance: CGFloat = -50
+            if controlsView.subviews.contains(flashToggleButton) {
+                viewBelow = flashToggleButton
+                distance += flashToggleButton.imageEdgeInsets.top
+            } else {
+                viewBelow = captureButton
+            }
+            
+            Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: viewBelow,
+                               attr: .top, constant: distance)
         } else {
             Constraints.active(item: capturedImagesStackView, attr: .centerY, relatedBy: .equal, to: controlsView,
                               attr: .centerY, priority: 750)
@@ -126,5 +140,29 @@ extension CameraViewController {
         
         Constraints.active(item: importFileSubtitleLabel, attr: .centerX, relatedBy: .equal, to: importFileButton,
                            attr: .centerX)
+    }
+    
+    fileprivate func addFlashButtonConstraints() {
+        if UIDevice.current.isIpad {
+            Constraints.active(item: flashToggleButton, attr: .trailing, relatedBy: .equal, to: controlsView,
+                               attr: .trailing)
+            Constraints.active(item: flashToggleButton, attr: .leading, relatedBy: .equal, to: controlsView,
+                               attr: .leading)
+            Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
+                               attr: .notAnAttribute, constant: 50)
+            Constraints.active(item: flashToggleButton, attr: .bottom, relatedBy: .equal, to: captureButton,
+                               attr: .top, constant: -50 + flashToggleButton.imageEdgeInsets.bottom)
+            
+            if !controlsView.subviews.contains(capturedImagesStackView) {
+                Constraints.active(item: capturedImagesStackView, attr: .top, relatedBy: .greaterThanOrEqual,
+                                   to: controlsView, attr: .top)
+            }
+        } else {
+            Constraints.active(item: flashToggleButton, attr: .trailing, relatedBy: .equal, to: view, attr: .trailing)
+            Constraints.active(item: flashToggleButton, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
+            Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
+                               attr: .notAnAttribute, constant: 40)
+        }
+
     }
 }
