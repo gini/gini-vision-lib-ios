@@ -50,6 +50,17 @@ final class CameraPreviewViewController: UIViewController {
         return previewView
     }()
     
+    lazy var flashToggle: UIButton = {
+       let flashToggle = UIButton(type: .custom)
+        flashToggle.translatesAutoresizingMaskIntoConstraints = false
+        flashToggle.setImage(UIImage(bundleName: "flashOn"), for: .selected)
+        flashToggle.setImage(UIImage(bundleName: "flashOff"), for: .normal)
+
+        flashToggle.imageView?.contentMode = .scaleAspectFit
+        
+        return flashToggle
+    }()
+    
     init(giniConfiguration: GiniConfiguration = .shared,
          camera: CameraProtocol = Camera(giniConfiguration: .shared)) {
         self.giniConfiguration = giniConfiguration
@@ -80,7 +91,13 @@ final class CameraPreviewViewController: UIViewController {
         previewView.drawGuides(withColor: giniConfiguration.cameraPreviewCornerGuidesColor)
         
         view.insertSubview(previewView, at: 0)
+        view.addSubview(flashToggle)
         Constraints.pin(view: previewView, toSuperView: view)
+
+        Constraints.active(item: flashToggle, attr: .top, relatedBy: .equal, to: view, attr: .top, constant: 10)
+        Constraints.active(item: flashToggle, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
+        Constraints.active(item: flashToggle, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                           constant: 25)
 
     }
 
