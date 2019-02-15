@@ -86,7 +86,7 @@ extension CameraViewController {
                                attr: .leading)
             Constraints.active(item: rightStackView, attr: .top, relatedBy: .equal,
                                to: controlsView, attr: .top)
-            Constraints.active(item: capturedImagesStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
+            Constraints.active(item: rightStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
                                attr: .top, constant: -50)
             
             Constraints.active(item: leftStackView, attr: .trailing, relatedBy: .equal, to: controlsView,
@@ -94,9 +94,9 @@ extension CameraViewController {
             Constraints.active(item: leftStackView, attr: .leading, relatedBy: .equal, to: controlsView,
                                attr: .leading)
             Constraints.active(item: leftStackView, attr: .bottom, relatedBy: .equal,
-                               to: controlsView, attr: .top)
+                               to: controlsView, attr: .bottom)
             Constraints.active(item: leftStackView, attr: .top, relatedBy: .equal, to: captureButton,
-                               attr: .bottom, constant: -50)
+                               attr: .bottom, constant: 50)
         } else {
             Constraints.active(item: rightStackView, attr: .trailing, relatedBy: .equal, to: controlsView,
                                attr: .trailing)

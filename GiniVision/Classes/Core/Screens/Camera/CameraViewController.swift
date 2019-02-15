@@ -104,6 +104,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     var opaqueView: UIView?
     var toolTipView: ToolTipView?
     let giniConfiguration: GiniConfiguration
+    let currentDevice: UIDevice
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
   
@@ -125,7 +126,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         flashToggle.imageView?.contentMode = .scaleAspectFit
         flashToggle.addTarget(self, action: #selector(tapOnFlashToggle), for: .touchUpInside)
         
-        if UIDevice.current.isIpad {
+        if currentDevice.isIpad {
             flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         } else {
             flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 20)
@@ -173,10 +174,15 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     lazy var leftStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.distribution = .fill
-        stackView.alignment = .center
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
+        if currentDevice.isIpad {
+            stackView.axis = .vertical
+            stackView.alignment = .top
+        } else {
+            stackView.axis = .horizontal
+            stackView.alignment = .center
+        }
         return stackView
     }()
     
@@ -185,6 +191,14 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
+        if currentDevice.isIpad {
+            stackView.axis = .vertical
+            stackView.alignment = .bottom
+        } else {
+            stackView.distribution = .fill
+            stackView.axis = .horizontal
+            stackView.alignment = .center
+        }
         return stackView
     }()
     
@@ -212,8 +226,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(giniConfiguration: GiniConfiguration) {
+    public init(giniConfiguration: GiniConfiguration, currentDevice: UIDevice = .current) {
         self.giniConfiguration = giniConfiguration
+        self.currentDevice = currentDevice
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -288,17 +303,16 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         controlsView.addSubview(leftStackView)
         controlsView.addSubview(rightStackView)
         
-        if giniConfiguration.multipageEnabled {
-            rightStackView.addArrangedSubview(capturedImagesStackView)
-        }
-        
         if true {
             if UIDevice.current.isIpad {
                 rightStackView.addArrangedSubview(flashToggleButton)
             } else {
                 leftStackView.addArrangedSubview(flashToggleButton)
             }
-            
+        }
+        
+        if giniConfiguration.multipageEnabled {
+            rightStackView.addArrangedSubview(capturedImagesStackView)
         }
 
         addConstraints()
@@ -532,7 +546,11 @@ extension CameraViewController: CameraPreviewViewControllerDelegate {
 extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure import file button
-        leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
+        if UIDevice.current.isIpad {
+            leftStackView.addArrangedSubview(fileImportButtonView)
+        } else {
+            leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
+        }
         addImportButtonConstraints()
     }
     
