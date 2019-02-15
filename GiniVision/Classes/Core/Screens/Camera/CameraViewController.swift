@@ -117,14 +117,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return button
     }()
     
-    lazy var importFileButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(self.documentImportButtonImage, for: .normal)
-        button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
-        return button
-    }()
-    
     lazy var flashToggleButton: UIButton = {
         let flashToggle = UIButton(type: .custom)
         flashToggle.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +124,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         flashToggle.setImage(UIImage(bundleName: "flashOff"), for: .normal)
         flashToggle.imageView?.contentMode = .scaleAspectFit
         flashToggle.addTarget(self, action: #selector(tapOnFlashToggle), for: .touchUpInside)
-        flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        if UIDevice.current.isIpad {
+            flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        } else {
+            flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 20)
+        }
         
         return flashToggle
     }()
@@ -143,15 +140,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         }
         button.isSelected = !button.isSelected
     }
-    
-    lazy var importFileSubtitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = .localized(resource: CameraStrings.importFileButtonLabel)
-        label.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .footnote)
-        label.textColor = .white
-        return label
-    }()
     
     lazy var capturedImagesStackView: CapturedImagesStackView = {
         let view = CapturedImagesStackView(giniConfiguration: giniConfiguration)
@@ -164,11 +152,40 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return view
     }()
     
+    lazy var fileImportButtonView: FileImportButtonView = {
+        let view = FileImportButtonView(giniConfiguration: giniConfiguration)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        view.didTapButton = { [weak self] in
+            guard let self = self else { return }
+            self.showImportFileSheet()
+        }
+        return view
+    }()
+    
     lazy var controlsView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .black
         return view
+    }()
+    
+    lazy var leftStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.alignment = .center
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+    
+    lazy var rightStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
     }()
     
     lazy var cameraPreviewViewController: CameraPreviewViewController = {
@@ -180,9 +197,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     // Images
     fileprivate var cameraCaptureButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
-    }
-    fileprivate var documentImportButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "documentImportButton")
     }
     
     // Output
@@ -271,17 +285,20 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.insertSubview(controlsView, aboveSubview: cameraPreviewViewController.view)
         
         controlsView.addSubview(captureButton)
-
+        controlsView.addSubview(leftStackView)
+        controlsView.addSubview(rightStackView)
+        
         if giniConfiguration.multipageEnabled {
-            controlsView.addSubview(capturedImagesStackView)
+            rightStackView.addArrangedSubview(capturedImagesStackView)
         }
         
         if true {
             if UIDevice.current.isIpad {
-                controlsView.addSubview(flashToggleButton)
+                rightStackView.addArrangedSubview(flashToggleButton)
             } else {
-                view.addSubview(flashToggleButton)
+                leftStackView.addArrangedSubview(flashToggleButton)
             }
+            
         }
 
         addConstraints()
@@ -515,8 +532,7 @@ extension CameraViewController: CameraPreviewViewControllerDelegate {
 extension CameraViewController {
     fileprivate func enableFileImport() {
         // Configure import file button
-        controlsView.addSubview(importFileButton)
-        controlsView.addSubview(importFileSubtitleLabel)
+        leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
         addImportButtonConstraints()
     }
     
@@ -560,7 +576,7 @@ extension CameraViewController {
                                                     style: .cancel, handler: nil))
         
         alertViewController.message = alertViewControllerMessage
-        alertViewController.popoverPresentationController?.sourceView = importFileButton
+        alertViewController.popoverPresentationController?.sourceView = fileImportButtonView
         
         self.present(alertViewController, animated: true, completion: nil)
     }
@@ -572,7 +588,7 @@ extension CameraViewController {
 
         toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
-                                  referenceView: importFileButton,
+                                  referenceView: fileImportButtonView,
                                   superView: self.view,
                                   position: UIDevice.current.isIpad ? .left : .above,
                                   distanceToRefView: UIEdgeInsets(top: 36, left: 0, bottom: 36, right: 0))
