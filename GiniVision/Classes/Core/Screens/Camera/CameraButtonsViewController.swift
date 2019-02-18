@@ -52,7 +52,7 @@ final class CameraButtonsViewController: UIViewController {
         if currentDevice.isIpad {
             flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         } else {
-            flashToggle.imageEdgeInsets = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 20)
+            flashToggle.imageEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
         }
         
         return flashToggle
@@ -150,7 +150,11 @@ final class CameraButtonsViewController: UIViewController {
             }
             
             if giniConfiguration.flashToggleEnabled {
-                leftStackView.addArrangedSubview(flashToggleButtonContainerView)
+                if giniConfiguration.multipageEnabled {
+                    leftStackView.addArrangedSubview(flashToggleButtonContainerView)
+                } else {
+                    rightStackView.addArrangedSubview(flashToggleButtonContainerView)
+                }
             }
         }
         
@@ -270,7 +274,7 @@ fileprivate extension CameraButtonsViewController {
 
         } else {
             flashToggleButtonContainerView.heightAnchor.constraint(equalTo: leftStackView.heightAnchor,
-                                                                  multiplier: 9/20).isActive = true
+                                                                  multiplier: 1).isActive = true
             flashToggleButtonContainerView.widthAnchor.constraint(equalTo: flashToggleButtonContainerView.heightAnchor,
                                                                    multiplier: 11/17).isActive = true
         }
