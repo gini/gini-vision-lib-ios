@@ -44,12 +44,16 @@ extension CameraViewController {
     
     fileprivate func addControlsViewConstraints() {
         if UIDevice.current.isIpad {
+            Constraints.active(item: controlsView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                               constant: 102)
             Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: self.view, attr: .top)
             Constraints.active(item: controlsView, attr: .trailing, relatedBy: .equal, to: self.view, attr: .trailing)
             Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.view, attr: .bottom)
             Constraints.active(item: controlsView, attr: .leading, relatedBy: .equal,
                                to: cameraPreviewViewController.view, attr: .trailing, priority: 750)
         } else {
+            Constraints.active(item: controlsView, attr: .height, relatedBy: .equal, to: nil, attr: .notAnAttribute,
+                               constant: 102)
             Constraints.active(item: controlsView, attr: .top, relatedBy: .equal, to: cameraPreviewViewController.view,
                                attr: .bottom)
             Constraints.active(item: controlsView, attr: .bottom, relatedBy: .equal, to: self.bottomLayoutGuide,
@@ -60,16 +64,20 @@ extension CameraViewController {
     }
     
     fileprivate func addControlsViewButtonsConstraints() {
-        Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: nil, attr: .width, constant: 70)
-        Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: nil, attr: .height, constant: 70)
-        
         if UIDevice.current.isIpad {
+            Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: controlsView, attr: .width,
+                               constant: -32)
+            Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: captureButton, attr: .width)
             Constraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: controlsView, attr: .centerY)
             Constraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: controlsView,
                                attr: .trailing, constant: -16)
             Constraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: controlsView, attr: .leading,
                                constant: 16, priority: 750)
         } else {
+            Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: controlsView, attr: .height,
+                               constant: -32)
+            Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: captureButton, attr: .height)
+
             Constraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: controlsView, attr: .centerX)
             Constraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: controlsView, attr: .top,
                                constant: 16)
@@ -120,6 +128,7 @@ extension CameraViewController {
     
     func addImportButtonConstraints() {
         if UIDevice.current.isIpad {
+            
         } else {
             Constraints.active(item: fileImportButtonView, attr: .height, relatedBy: .equal, to: leftStackView,
                                attr: .height)
@@ -130,9 +139,10 @@ extension CameraViewController {
         if UIDevice.current.isIpad {
             Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
                                attr: .notAnAttribute, constant: 50)
+            Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: rightStackView,
+                               attr: .width, constant: -16)
         } else {
             let height: CGFloat = 60
-            let width: CGFloat = height * 11 / 17
             Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
                                attr: .notAnAttribute, constant: height)
             Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: flashToggleButton,

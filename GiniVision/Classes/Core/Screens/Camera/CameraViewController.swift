@@ -176,13 +176,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
-        if currentDevice.isIpad {
-            stackView.axis = .vertical
-            stackView.alignment = .top
-        } else {
-            stackView.axis = .horizontal
-            stackView.alignment = .center
-        }
+        stackView.axis = .horizontal
+        stackView.alignment = currentDevice.isIpad ? .top : .center
+        
         return stackView
     }()
     
@@ -191,14 +187,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
-        if currentDevice.isIpad {
-            stackView.axis = .vertical
-            stackView.alignment = .bottom
-        } else {
-            stackView.distribution = .fill
-            stackView.axis = .horizontal
-            stackView.alignment = .center
-        }
+        stackView.alignment = currentDevice.isIpad ? .bottom : .center
+
         return stackView
     }()
     
@@ -303,16 +293,24 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         controlsView.addSubview(leftStackView)
         controlsView.addSubview(rightStackView)
         
-        if true {
-            if UIDevice.current.isIpad {
-                rightStackView.addArrangedSubview(flashToggleButton)
-            } else {
-                leftStackView.addArrangedSubview(flashToggleButton)
+        if UIDevice.current.isIpad {
+            let verticalAlignedStackView = UIStackView()
+            verticalAlignedStackView.axis = .vertical
+            verticalAlignedStackView.spacing = 32
+            
+            if giniConfiguration.multipageEnabled {
+                verticalAlignedStackView.addArrangedSubview(capturedImagesStackView)
             }
-        }
-        
-        if giniConfiguration.multipageEnabled {
-            rightStackView.addArrangedSubview(capturedImagesStackView)
+            
+            verticalAlignedStackView.addArrangedSubview(flashToggleButton)
+            
+            rightStackView.addArrangedSubview(verticalAlignedStackView)
+        } else {
+            if giniConfiguration.multipageEnabled {
+                rightStackView.addArrangedSubview(capturedImagesStackView)
+            }
+            
+            leftStackView.addArrangedSubview(flashToggleButton)
         }
 
         addConstraints()
