@@ -135,8 +135,8 @@ extension CameraViewController {
             let width: CGFloat = height * 11 / 17
             Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
                                attr: .notAnAttribute, constant: height)
-            Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: nil,
-                               attr: .notAnAttribute, constant: width)
+            Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: flashToggleButton,
+                               attr: .height, multiplier: 11 / 17, constant: 1.0)
         }
         
     }
