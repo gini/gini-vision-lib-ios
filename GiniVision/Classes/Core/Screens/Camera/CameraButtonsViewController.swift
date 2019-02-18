@@ -195,7 +195,7 @@ fileprivate extension CameraButtonsViewController {
         addCaptureButtonConstraints()
         addStackViewConstraints()
         
-        if true {
+        if giniConfiguration.flashToggleEnabled {
             addFlashButtonConstraints()
         }
     }

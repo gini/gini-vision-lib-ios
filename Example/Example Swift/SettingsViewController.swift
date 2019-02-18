@@ -23,6 +23,7 @@ final class SettingsViewController: UIViewController {
     @IBOutlet weak var openWithSwitch: UISwitch!
     @IBOutlet weak var qrCodeScanningSwitch: UISwitch!
     @IBOutlet weak var multipageSwitch: UISwitch!
+    @IBOutlet weak var flashToggleSwitch: UISwitch!
     @IBAction func fileImportOptions(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 0:
@@ -57,6 +58,11 @@ final class SettingsViewController: UIViewController {
 
     }
     
+    @IBAction func flashToggleSwitch(_ sender: UISwitch) {
+        giniConfiguration.flashToggleEnabled = sender.isOn
+        delegate?.settings(settingViewController: self, didChangeConfiguration: giniConfiguration)
+    }
+    
     @IBAction func resetUserDefaults(_ sender: Any) {
         UserDefaults().removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
     }
@@ -66,7 +72,8 @@ final class SettingsViewController: UIViewController {
         openWithSwitch.setOn(giniConfiguration.openWithEnabled, animated: false)
         qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: false)
         multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: false)
-        
+        flashToggleSwitch.setOn(giniConfiguration.flashToggleEnabled, animated: false)
+
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:
             fileImportControl.selectedSegmentIndex = 0
