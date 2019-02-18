@@ -17,6 +17,7 @@ final class CameraButtonsViewController: UIViewController {
     weak var delegate: CameraButtonsViewControllerDelegate?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let currentDevice: UIDevice
+    fileprivate let captureButtonMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     fileprivate var cameraCaptureButtonImage: UIImage? {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
@@ -51,13 +52,6 @@ final class CameraButtonsViewController: UIViewController {
         return flashToggle
     }()
     
-    @objc func tapOnFlashToggle(_ button: UIButton) {
-        if #available(iOS 10.0, *) {
-            UIImpactFeedbackGenerator().impactOccurred()
-        }
-        button.isSelected = !button.isSelected
-    }
-    
     lazy var capturedImagesStackView: CapturedImagesStackView = {
         let view = CapturedImagesStackView(giniConfiguration: giniConfiguration)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +66,6 @@ final class CameraButtonsViewController: UIViewController {
     lazy var fileImportButtonView: FileImportButtonView = {
         let view = FileImportButtonView(giniConfiguration: giniConfiguration)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
         view.didTapButton = { [weak self] in
             guard let self = self else { return }
             self.delegate?.cameraButtons(self, didTapOn: .fileImport)
@@ -96,6 +89,7 @@ final class CameraButtonsViewController: UIViewController {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.layoutMargins = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.axis = .horizontal
         stackView.alignment = currentDevice.isIpad ? .bottom : .center
         
         return stackView
@@ -120,18 +114,22 @@ final class CameraButtonsViewController: UIViewController {
         view.addSubview(leftStackView)
         view.addSubview(rightStackView)
         
-        if UIDevice.current.isIpad {
-            let verticalAlignedStackView = UIStackView()
-            verticalAlignedStackView.axis = .vertical
-            verticalAlignedStackView.spacing = 32
+        if currentDevice.isIpad {
+            let topVerticalAlignedStackView = UIStackView()
+            topVerticalAlignedStackView.translatesAutoresizingMaskIntoConstraints = false
+            topVerticalAlignedStackView.axis = .vertical
+            topVerticalAlignedStackView.spacing = 32
+            topVerticalAlignedStackView.alignment = .center
             
             if giniConfiguration.multipageEnabled {
-                verticalAlignedStackView.addArrangedSubview(capturedImagesStackView)
+                topVerticalAlignedStackView.addArrangedSubview(capturedImagesStackView)
             }
             
-            verticalAlignedStackView.addArrangedSubview(flashToggleButton)
+            if true {
+                topVerticalAlignedStackView.addArrangedSubview(flashToggleButton)
+            }
             
-            rightStackView.addArrangedSubview(verticalAlignedStackView)
+            rightStackView.addArrangedSubview(topVerticalAlignedStackView)
         } else {
             if giniConfiguration.multipageEnabled {
                 rightStackView.addArrangedSubview(capturedImagesStackView)
@@ -143,20 +141,37 @@ final class CameraButtonsViewController: UIViewController {
         addConstraints()
     }
     
-    func enableFileImport() {
-        // Configure import file button
+    func addFileImportButton() {
         if currentDevice.isIpad {
-            leftStackView.addArrangedSubview(fileImportButtonView)
+            let bottomVerticalAlignedStackView = UIStackView()
+            bottomVerticalAlignedStackView.translatesAutoresizingMaskIntoConstraints = false
+            bottomVerticalAlignedStackView.axis = .vertical
+            bottomVerticalAlignedStackView.alignment = .center
+            bottomVerticalAlignedStackView.addArrangedSubview(fileImportButtonView)
+            bottomVerticalAlignedStackView.isLayoutMarginsRelativeArrangement = true
+
+            leftStackView.addArrangedSubview(bottomVerticalAlignedStackView)
         } else {
             leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
         }
+
         addImportButtonConstraints()
     }
-    
-    @objc fileprivate func captureImage(_ sender: AnyObject) {
+}
+
+// MARK: - Button actions
+
+fileprivate extension CameraButtonsViewController {
+    @objc func captureImage(_ sender: AnyObject) {
         delegate?.cameraButtons(self, didTapOn: .capture)
     }
     
+    @objc func tapOnFlashToggle(_ button: UIButton) {
+        if #available(iOS 10.0, *) {
+            UIImpactFeedbackGenerator().impactOccurred()
+        }
+        button.isSelected = !button.isSelected
+    }
 }
 
 // MARK: - Constraints
@@ -164,7 +179,7 @@ final class CameraButtonsViewController: UIViewController {
 fileprivate extension CameraButtonsViewController {
     
     func addConstraints() {
-        addviewButtonsConstraints()
+        addCaptureButtonConstraints()
         addStackViewConstraints()
         
         if true {
@@ -172,26 +187,22 @@ fileprivate extension CameraButtonsViewController {
         }
     }
     
-    func addviewButtonsConstraints() {
+    func addCaptureButtonConstraints() {
         if UIDevice.current.isIpad {
-            Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: view, attr: .width,
-                               constant: -32)
             Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: captureButton, attr: .width)
             Constraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: view, attr: .centerY)
             Constraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: view,
-                               attr: .trailing, constant: -16)
+                               attr: .trailing, constant: -captureButtonMargins.right)
             Constraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: view, attr: .leading,
-                               constant: 16, priority: 750)
+                               constant: captureButtonMargins.left, priority: 750)
         } else {
-            Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: view, attr: .height,
-                               constant: -32)
             Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: captureButton, attr: .height)
             
             Constraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
             Constraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: view, attr: .top,
-                               constant: 16)
+                               constant: captureButtonMargins.top)
             Constraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: view, attr: .bottom,
-                               constant: -16)
+                               constant: -captureButtonMargins.bottom)
         }
     }
     
@@ -237,25 +248,24 @@ fileprivate extension CameraButtonsViewController {
     
     func addImportButtonConstraints() {
         if UIDevice.current.isIpad {
-            
+            fileImportButtonView.widthAnchor
+                .constraint(equalTo: leftStackView.widthAnchor,
+                            constant: -(leftStackView.layoutMargins.left + leftStackView.layoutMargins.right))
+                .isActive = true
         } else {
-            Constraints.active(item: fileImportButtonView, attr: .height, relatedBy: .equal, to: leftStackView,
-                               attr: .height)
+            fileImportButtonView.heightAnchor.constraint(equalTo: leftStackView.heightAnchor).isActive = true
         }
     }
     
     func addFlashButtonConstraints() {
         if UIDevice.current.isIpad {
-            Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
-                               attr: .notAnAttribute, constant: 50)
-            Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: rightStackView,
-                               attr: .width, constant: -16)
+            flashToggleButton.widthAnchor.constraint(equalTo: rightStackView.widthAnchor,
+                                                     multiplier: 9/20).isActive = true
         } else {
             let height: CGFloat = 60
-            Constraints.active(item: flashToggleButton, attr: .height, relatedBy: .equal, to: nil,
-                               attr: .notAnAttribute, constant: height)
-            Constraints.active(item: flashToggleButton, attr: .width, relatedBy: .equal, to: flashToggleButton,
-                               attr: .height, multiplier: 11 / 17, constant: 1.0)
+            flashToggleButton.heightAnchor.constraint(equalToConstant: height).isActive = true
+            flashToggleButton.widthAnchor.constraint(equalTo: flashToggleButton.heightAnchor,
+                                                     multiplier: 11 / 17).isActive = true
         }
         
     }

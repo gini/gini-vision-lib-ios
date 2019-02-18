@@ -215,7 +215,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.viewDidLoad()
         
         if giniConfiguration.fileImportSupportedTypes != .none {
-            cameraButtonsViewController.enableFileImport()
+            cameraButtonsViewController.addFileImportButton()
             if ToolTipView.shouldShowFileImportToolTip {
                 createFileImportTip(giniConfiguration: giniConfiguration)
                 if !OnboardingContainerViewController.willBeShown {
