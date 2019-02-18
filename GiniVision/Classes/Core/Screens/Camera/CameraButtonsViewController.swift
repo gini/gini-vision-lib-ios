@@ -188,66 +188,49 @@ fileprivate extension CameraButtonsViewController {
     }
     
     func addCaptureButtonConstraints() {
-        if UIDevice.current.isIpad {
-            Constraints.active(item: captureButton, attr: .height, relatedBy: .equal, to: captureButton, attr: .width)
-            Constraints.active(item: captureButton, attr: .centerY, relatedBy: .equal, to: view, attr: .centerY)
-            Constraints.active(item: captureButton, attr: .trailing, relatedBy: .equal, to: view,
-                               attr: .trailing, constant: -captureButtonMargins.right)
-            Constraints.active(item: captureButton, attr: .leading, relatedBy: .equal, to: view, attr: .leading,
-                               constant: captureButtonMargins.left, priority: 750)
+        if currentDevice.isIpad {
+            captureButton.heightAnchor.constraint(equalTo: captureButton.widthAnchor).isActive = true
+            captureButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            captureButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                    constant: -captureButtonMargins.right).isActive = true
+            captureButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                   constant: captureButtonMargins.left).isActive = true
         } else {
-            Constraints.active(item: captureButton, attr: .width, relatedBy: .equal, to: captureButton, attr: .height)
-            
-            Constraints.active(item: captureButton, attr: .centerX, relatedBy: .equal, to: view, attr: .centerX)
-            Constraints.active(item: captureButton, attr: .top, relatedBy: .equal, to: view, attr: .top,
-                               constant: captureButtonMargins.top)
-            Constraints.active(item: captureButton, attr: .bottom, relatedBy: .equal, to: view, attr: .bottom,
-                               constant: -captureButtonMargins.bottom)
+            captureButton.heightAnchor.constraint(equalTo: captureButton.widthAnchor).isActive = true
+            captureButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+            captureButton.topAnchor.constraint(equalTo: view.topAnchor,
+                                               constant: captureButtonMargins.left).isActive = true
+            captureButton.bottomAnchor.constraint(equalTo: view.bottomAnchor,
+                                                  constant: -captureButtonMargins.bottom).isActive = true
         }
     }
     
     func addStackViewConstraints() {
-        if UIDevice.current.isIpad {
-            Constraints.active(item: rightStackView, attr: .trailing, relatedBy: .equal, to: view,
-                               attr: .trailing)
-            Constraints.active(item: rightStackView, attr: .leading, relatedBy: .equal, to: view,
-                               attr: .leading)
-            Constraints.active(item: rightStackView, attr: .top, relatedBy: .equal,
-                               to: view, attr: .top)
-            Constraints.active(item: rightStackView, attr: .bottom, relatedBy: .equal, to: captureButton,
-                               attr: .top, constant: -50)
+        if currentDevice.isIpad {
+            rightStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            rightStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            rightStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            rightStackView.bottomAnchor.constraint(equalTo: captureButton.topAnchor, constant: -50).isActive = true
             
-            Constraints.active(item: leftStackView, attr: .trailing, relatedBy: .equal, to: view,
-                               attr: .trailing)
-            Constraints.active(item: leftStackView, attr: .leading, relatedBy: .equal, to: view,
-                               attr: .leading)
-            Constraints.active(item: leftStackView, attr: .bottom, relatedBy: .equal,
-                               to: view, attr: .bottom)
-            Constraints.active(item: leftStackView, attr: .top, relatedBy: .equal, to: captureButton,
-                               attr: .bottom, constant: 50)
+            leftStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            leftStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            leftStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            leftStackView.topAnchor.constraint(equalTo: captureButton.bottomAnchor, constant: 50).isActive = true
         } else {
-            Constraints.active(item: rightStackView, attr: .trailing, relatedBy: .equal, to: view,
-                               attr: .trailing)
-            Constraints.active(item: rightStackView, attr: .top, relatedBy: .equal, to: view,
-                               attr: .top)
-            Constraints.active(item: rightStackView, attr: .bottom, relatedBy: .equal, to: view,
-                               attr: .bottom)
-            Constraints.active(item: rightStackView, attr: .leading, relatedBy: .equal, to: captureButton,
-                               attr: .trailing, priority: 750)
-            
-            Constraints.active(item: leftStackView, attr: .leading, relatedBy: .equal, to: view,
-                               attr: .leading)
-            Constraints.active(item: leftStackView, attr: .top, relatedBy: .equal, to: view,
-                               attr: .top)
-            Constraints.active(item: leftStackView, attr: .bottom, relatedBy: .equal, to: view,
-                               attr: .bottom)
-            Constraints.active(item: leftStackView, attr: .trailing, relatedBy: .equal, to: captureButton,
-                               attr: .leading, priority: 750)
+            rightStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+            rightStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            rightStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            rightStackView.leadingAnchor.constraint(equalTo: captureButton.trailingAnchor).isActive = true
+
+            leftStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+            leftStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            leftStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            leftStackView.trailingAnchor.constraint(equalTo: captureButton.leadingAnchor).isActive = true
         }
     }
     
     func addImportButtonConstraints() {
-        if UIDevice.current.isIpad {
+        if currentDevice.isIpad {
             fileImportButtonView.widthAnchor
                 .constraint(equalTo: leftStackView.widthAnchor,
                             constant: -(leftStackView.layoutMargins.left + leftStackView.layoutMargins.right))
@@ -258,7 +241,7 @@ fileprivate extension CameraButtonsViewController {
     }
     
     func addFlashButtonConstraints() {
-        if UIDevice.current.isIpad {
+        if currentDevice.isIpad {
             flashToggleButton.widthAnchor.constraint(equalTo: rightStackView.widthAnchor,
                                                      multiplier: 9/20).isActive = true
         } else {
