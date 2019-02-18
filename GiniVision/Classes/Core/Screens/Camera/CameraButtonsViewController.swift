@@ -13,7 +13,7 @@ protocol CameraButtonsViewControllerDelegate: class {
 }
 
 final class CameraButtonsViewController: UIViewController {
-
+    
     weak var delegate: CameraButtonsViewControllerDelegate?
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let currentDevice: UIDevice
@@ -33,6 +33,12 @@ final class CameraButtonsViewController: UIViewController {
         button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
         button.accessibilityLabel = self.giniConfiguration.cameraCaptureButtonTitle
         return button
+    }()
+    
+    lazy var flashToggleButtonContainerView: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     lazy var flashToggleButton: UIButton = {
@@ -109,10 +115,11 @@ final class CameraButtonsViewController: UIViewController {
         super.loadView()
         view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
-
+        
         view.addSubview(captureButton)
         view.addSubview(leftStackView)
         view.addSubview(rightStackView)
+        flashToggleButtonContainerView.addSubview(flashToggleButton)
         
         if currentDevice.isIpad {
             let topVerticalAlignedStackView = UIStackView()
@@ -126,7 +133,7 @@ final class CameraButtonsViewController: UIViewController {
             }
             
             if true {
-                topVerticalAlignedStackView.addArrangedSubview(flashToggleButton)
+                topVerticalAlignedStackView.addArrangedSubview(flashToggleButtonContainerView)
             }
             
             rightStackView.addArrangedSubview(topVerticalAlignedStackView)
@@ -135,7 +142,7 @@ final class CameraButtonsViewController: UIViewController {
                 rightStackView.addArrangedSubview(capturedImagesStackView)
             }
             
-            leftStackView.addArrangedSubview(flashToggleButton)
+            leftStackView.addArrangedSubview(flashToggleButtonContainerView)
         }
         
         addConstraints()
@@ -146,15 +153,17 @@ final class CameraButtonsViewController: UIViewController {
             let bottomVerticalAlignedStackView = UIStackView()
             bottomVerticalAlignedStackView.translatesAutoresizingMaskIntoConstraints = false
             bottomVerticalAlignedStackView.axis = .vertical
+            bottomVerticalAlignedStackView.spacing = 32
             bottomVerticalAlignedStackView.alignment = .center
+            bottomVerticalAlignedStackView.distribution = .fill
             bottomVerticalAlignedStackView.addArrangedSubview(fileImportButtonView)
-            bottomVerticalAlignedStackView.isLayoutMarginsRelativeArrangement = true
-
-            leftStackView.addArrangedSubview(bottomVerticalAlignedStackView)
+            
+            leftStackView.addArrangedSubview(fileImportButtonView)
+            leftStackView.layoutIfNeeded()
         } else {
             leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
         }
-
+        
         addImportButtonConstraints()
     }
 }
@@ -221,7 +230,7 @@ fileprivate extension CameraButtonsViewController {
             rightStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             rightStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
             rightStackView.leadingAnchor.constraint(equalTo: captureButton.trailingAnchor).isActive = true
-
+            
             leftStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
             leftStackView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
             leftStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -231,6 +240,7 @@ fileprivate extension CameraButtonsViewController {
     
     func addImportButtonConstraints() {
         if currentDevice.isIpad {
+            
             fileImportButtonView.widthAnchor
                 .constraint(equalTo: leftStackView.widthAnchor,
                             constant: -(leftStackView.layoutMargins.left + leftStackView.layoutMargins.right))
@@ -241,14 +251,17 @@ fileprivate extension CameraButtonsViewController {
     }
     
     func addFlashButtonConstraints() {
+        flashToggleButton.centerXAnchor.constraint(equalTo: flashToggleButtonContainerView.centerXAnchor)
+            .isActive = true
+        flashToggleButton.centerYAnchor.constraint(equalTo: flashToggleButtonContainerView.centerYAnchor)
+            .isActive = true
+
         if currentDevice.isIpad {
             flashToggleButton.widthAnchor.constraint(equalTo: rightStackView.widthAnchor,
                                                      multiplier: 9/20).isActive = true
         } else {
             let height: CGFloat = 60
-            flashToggleButton.heightAnchor.constraint(equalToConstant: height).isActive = true
-            flashToggleButton.widthAnchor.constraint(equalTo: flashToggleButton.heightAnchor,
-                                                     multiplier: 11 / 17).isActive = true
+            flashToggleButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         }
         
     }
