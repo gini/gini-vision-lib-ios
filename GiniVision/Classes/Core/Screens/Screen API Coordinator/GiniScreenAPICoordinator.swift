@@ -285,7 +285,7 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
     private func multipageTransition(operation: UINavigationController.Operation,
                                      from fromVC: UIViewController,
                                      to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let stackView = cameraViewController?.capturedImagesStackView else {
+        guard let stackView = cameraViewController?.cameraButtonsViewController.capturedImagesStackView else {
             return nil
         }
         
