@@ -356,6 +356,7 @@ extension CameraViewController {
      */
     public func replaceCapturedStackImages(with images: [UIImage]) {
         cameraButtonsViewController.capturedImagesStackView.replaceStackImages(with: images)
+        cameraButtonsViewController.rightStackView.layoutIfNeeded()
     }
 
     fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {

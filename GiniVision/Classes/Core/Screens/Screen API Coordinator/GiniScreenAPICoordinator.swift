@@ -289,12 +289,9 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             return nil
         }
         
-        multiPageTransition.originFrame = stackView
-            .thumbnailFrameRelative(to: screenAPINavigationController.view)
-        multiPageTransition.operation = operation
-        
         if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
             cameraVC.replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
+
             if let (image, frame) = multipageVC.visibleMainCollectionImage(from: screenAPINavigationController.view) {
                 multiPageTransition.popImage = image
                 multiPageTransition.popImageFrame = frame
@@ -302,6 +299,10 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
                 return nil
             }
         }
+        
+        multiPageTransition.originFrame = stackView
+            .thumbnailFrameRelative(to: screenAPINavigationController.view)
+        multiPageTransition.operation = operation
         
         if stackView.isHidden && operation == .push {
             return nil
