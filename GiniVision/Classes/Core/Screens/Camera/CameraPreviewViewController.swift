@@ -16,6 +16,12 @@ protocol CameraPreviewViewControllerDelegate: class {
 final class CameraPreviewViewController: UIViewController {
     
     weak var delegate: CameraPreviewViewControllerDelegate?
+    lazy var isFlashSupported: Bool = camera.isFlashSupported
+    var isFlashOn: Bool = true {
+        didSet {
+            camera.isFlashOn = isFlashOn
+        }
+    }
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView

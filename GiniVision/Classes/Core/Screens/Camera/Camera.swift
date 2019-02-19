@@ -14,7 +14,9 @@ protocol CameraProtocol: class {
     var session: AVCaptureSession { get }
     var videoDeviceInput: AVCaptureDeviceInput? { get }
     var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }
-    
+    var isFlashSupported: Bool { get }
+    var isFlashOn: Bool { get set }
+
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void)
     func focus(withMode mode: AVCaptureDevice.FocusMode,
                exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
@@ -34,9 +36,13 @@ final class Camera: NSObject, CameraProtocol {
     var stillImageOutput: AVCaptureStillImageOutput?
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
     var giniConfiguration: GiniConfiguration
+    
+    lazy var isFlashSupported: Bool = videoDeviceInput?.device.hasFlash ?? false
+    var isFlashOn: Bool = true
+    
+    fileprivate let application: UIApplication
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
                                                                      attributes: [])
-    fileprivate let application: UIApplication
     
     init(application: UIApplication = UIApplication.shared,
          giniConfiguration: GiniConfiguration) {
@@ -111,7 +117,7 @@ final class Camera: NSObject, CameraProtocol {
                 connection.videoOrientation = AVCaptureVideoOrientation(self.application.statusBarOrientation)
             }
             
-            self.videoDeviceInput?.device.setFlashModeSecurely(.on)
+            self.videoDeviceInput?.device.setFlashModeSecurely(self.isFlashOn ? .on : .off)
             self.stillImageOutput?
                 .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
                     if let buffer = buffer, error == nil {

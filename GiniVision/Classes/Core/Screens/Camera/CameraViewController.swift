@@ -115,7 +115,8 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     }()
     
     lazy var cameraButtonsViewController: CameraButtonsViewController = {
-        let cameraButtonsViewController = CameraButtonsViewController()
+        let cameraButtonsViewController =
+            CameraButtonsViewController(isFlashSupported: cameraPreviewViewController.isFlashSupported)
         cameraButtonsViewController.delegate = self
         return cameraButtonsViewController
     }()
@@ -437,6 +438,8 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
     func cameraButtons(_ viewController: CameraButtonsViewController,
                        didTapOn button: CameraButtonsViewController.Button) {
         switch button {
+        case .flashToggle(let isOn):
+            cameraPreviewViewController.isFlashOn = isOn
         case .fileImport:
             showImportFileSheet()
         case .capture:

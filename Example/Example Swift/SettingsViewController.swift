@@ -8,6 +8,7 @@
 
 import UIKit
 import GiniVision
+import AVFoundation
 
 protocol SettingsViewControllerDelegate: class {
     func settings(settingViewController: SettingsViewController,
@@ -73,7 +74,8 @@ final class SettingsViewController: UIViewController {
         qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: false)
         multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: false)
         flashToggleSwitch.setOn(giniConfiguration.flashToggleEnabled, animated: false)
-
+        flashToggleSwitch.isEnabled = AVCaptureDevice.devices(for: .video).first?.hasFlash ?? false
+        
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:
             fileImportControl.selectedSegmentIndex = 0
