@@ -37,7 +37,13 @@ final class Camera: NSObject, CameraProtocol {
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
     var giniConfiguration: GiniConfiguration
     
-    lazy var isFlashSupported: Bool = videoDeviceInput?.device.hasFlash ?? false
+    lazy var isFlashSupported: Bool = {
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return videoDeviceInput?.device.hasFlash ?? false
+        #endif
+    }()
     var isFlashOn: Bool = true
     
     fileprivate let application: UIApplication
