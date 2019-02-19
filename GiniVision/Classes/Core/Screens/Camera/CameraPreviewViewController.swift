@@ -17,9 +17,12 @@ final class CameraPreviewViewController: UIViewController {
     
     weak var delegate: CameraPreviewViewControllerDelegate?
     lazy var isFlashSupported: Bool = camera.isFlashSupported
-    var isFlashOn: Bool = true {
-        didSet {
-            camera.isFlashOn = isFlashOn
+    var isFlashOn: Bool {
+        get {
+            return camera.isFlashOn
+        }
+        set {
+            camera.isFlashOn = newValue
         }
     }
     

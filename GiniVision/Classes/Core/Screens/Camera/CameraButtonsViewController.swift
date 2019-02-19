@@ -23,7 +23,7 @@ final class CameraButtonsViewController: UIViewController {
         return UIImageNamedPreferred(named: "cameraCaptureButton")
     }
     
-    enum Button {
+    enum Button: Equatable {
         case fileImport, capture, imagesStack, flashToggle(Bool)
     }
     
@@ -169,7 +169,7 @@ final class CameraButtonsViewController: UIViewController {
             let bottomVerticalAlignedStackView = verticalAlignedStackView
             bottomVerticalAlignedStackView.addArrangedSubview(fileImportButtonView)
             
-            leftStackView.addArrangedSubview(fileImportButtonView)
+            leftStackView.addArrangedSubview(bottomVerticalAlignedStackView)
             leftStackView.layoutIfNeeded()
         } else {
             leftStackView.insertArrangedSubview(fileImportButtonView, at: 0)
