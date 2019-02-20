@@ -114,21 +114,21 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/GiniConfiguration.swift",
-      "line": 45,
+      "line": 38,
       "symbol": "GiniConfiguration.GiniVisionImportFileTypes.none",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/GiniConfiguration.swift",
-      "line": 46,
+      "line": 39,
       "symbol": "GiniConfiguration.GiniVisionImportFileTypes.pdf",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/GiniConfiguration.swift",
-      "line": 47,
+      "line": 40,
       "symbol": "GiniConfiguration.GiniVisionImportFileTypes.pdf_and_images",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
@@ -779,217 +779,273 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 273,
+      "line": 242,
       "symbol": "CameraViewController.loadView()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 301,
+      "line": 263,
       "symbol": "CameraViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 317,
+      "line": 277,
       "symbol": "CameraViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 323,
+      "line": 282,
       "symbol": "CameraViewController.viewDidAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 328,
-      "symbol": "CameraViewController.viewWillDisappear(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 334,
+      "line": 287,
       "symbol": "CameraViewController.viewDidLayoutSubviews()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 340,
+      "line": 293,
       "symbol": "CameraViewController.viewWillTransition(to:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 323,
+      "line": null,
+      "symbol": "DocumentPickerCoordinator",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
+      "line": null,
+      "symbol": "DocumentPickerCoordinator",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
+      "line": 64,
+      "symbol": "DocumentPickerCoordinator",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
+      "line": 324,
       "symbol": "DocumentPickerCoordinator.documentPicker(_:didPickDocumentsAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 335,
+      "line": 336,
       "symbol": "DocumentPickerCoordinator.documentPicker(_:didPickDocumentAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 339,
+      "line": 340,
       "symbol": "DocumentPickerCoordinator.documentPickerWasCancelled(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 352,
+      "line": 353,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:canHandle:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 369,
+      "line": 370,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:sessionDidUpdate:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Document picker/DocumentPickerCoordinator.swift",
-      "line": 374,
+      "line": 375,
       "symbol": "DocumentPickerCoordinator.dropInteraction(_:performDrop:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 48,
+      "line": 18,
+      "symbol": "HelpMenuViewControllerDelegate.help(_:didSelect:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 28,
+      "symbol": "HelpMenuViewController.delegate",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 33,
+      "symbol": "HelpMenuViewController.Item",
+      "symbol_kind": "source.lang.swift.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 34,
+      "symbol": "HelpMenuViewController.Item.noResultsTips",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 35,
+      "symbol": "HelpMenuViewController.Item.openWithTutorial",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 36,
+      "symbol": "HelpMenuViewController.Item.supportedFormats",
+      "symbol_kind": "source.lang.swift.decl.enumelement",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
+      "line": 98,
       "symbol": "HelpMenuViewController.init(giniConfiguration:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 53,
+      "line": 103,
       "symbol": "HelpMenuViewController.init(coder:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 57,
+      "line": 107,
       "symbol": "HelpMenuViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 119,
+      "line": 138,
       "symbol": "HelpMenuViewController.numberOfSections(in:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 123,
+      "line": 142,
       "symbol": "HelpMenuViewController.tableView(_:numberOfRowsInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 127,
+      "line": 146,
       "symbol": "HelpMenuViewController.tableView(_:cellForRowAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/HelpMenuViewController.swift",
-      "line": 137,
+      "line": 156,
       "symbol": "HelpMenuViewController.tableView(_:didSelectRowAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 58,
+      "line": 64,
       "symbol": "ImageAnalysisNoResultsViewController.didTapBottomButton",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 60,
+      "line": 66,
       "symbol": "ImageAnalysisNoResultsViewController.init(title:subHeaderText:topViewText:topViewIcon:bottomButtonText:bottomButtonIcon:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 105,
+      "line": 111,
       "symbol": "ImageAnalysisNoResultsViewController.init(coder:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 110,
+      "line": 116,
       "symbol": "ImageAnalysisNoResultsViewController.loadView()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 126,
+      "line": 132,
       "symbol": "ImageAnalysisNoResultsViewController.viewWillTransition(to:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 172,
+      "line": 178,
       "symbol": "ImageAnalysisNoResultsViewController.collectionView(_:numberOfItemsInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 176,
+      "line": 182,
       "symbol": "ImageAnalysisNoResultsViewController.collectionView(_:cellForItemAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 187,
+      "line": 193,
       "symbol": "ImageAnalysisNoResultsViewController.numberOfSections(in:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 195,
+      "line": 201,
       "symbol": "ImageAnalysisNoResultsViewController.collectionView(_:layout:sizeForItemAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 201,
+      "line": 207,
       "symbol": "ImageAnalysisNoResultsViewController.collectionView(_:layout:referenceSizeForHeaderInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Screens/Help/No results /ImageAnalysisNoResultsViewController.swift",
-      "line": 207,
+      "line": 213,
       "symbol": "ImageAnalysisNoResultsViewController.collectionView(_:viewForSupplementaryElementOfKind:at:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -1192,7 +1248,7 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Networking/DocumentServiceProtocol.swift",
-      "line": 11,
+      "line": 12,
       "symbol": "Extraction",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
