@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.4.1 (2019-02-20)
+------------------
+
+-   Fixed issue with Onboarding modal transition style.
+
 4.4.0 (2019-02-13)
 ------------------
 
