@@ -128,6 +128,16 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.applyStyle(withConfiguration: giniConfiguration)
         navigationController.modalPresentationStyle = .overCurrentContext
+        
+        // Since the onboarding appears on startup, it could be the case where there are two consecutive 'coverVertical'
+        // modal transitions. When the Screen API is embedded in a UINavigationController, it still has that
+        // transition but it's not used.
+        if let rootContainerViewController = rootViewController.parent,
+            rootContainerViewController.modalTransitionStyle == .coverVertical,
+            !(rootContainerViewController.parent is UINavigationController) {
+            navigationController.modalTransitionStyle = .crossDissolve
+        }
+        
         screenAPINavigationController.present(navigationController, animated: true, completion: nil)
     }
     
