@@ -73,6 +73,8 @@ final class CapturedImagesStackView: UIView {
         label.textColor = .white
         label.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .footnote)
         label.numberOfLines = 0
+        label.minimumScaleFactor = 10 / label.font.pointSize
+        label.adjustsFontSizeToFitWidth = true
 
         return label
     }()
@@ -180,7 +182,7 @@ extension CapturedImagesStackView {
         
         // capturedImagesStackSubtitleLabel
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .bottom, relatedBy: .equal,
-                           to: self, attr: .bottom, constant: -10)
+                           to: self, attr: .bottom)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .top, relatedBy: .equal,
                            to: thumbnailStackBackgroundView, attr: .bottom, constant: 4)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .leading, relatedBy: .equal,

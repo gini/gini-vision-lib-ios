@@ -57,7 +57,7 @@ final class CameraViewControllerTests: XCTestCase {
         
         _ = cameraViewController.view
         
-        XCTAssertFalse(cameraViewController.captureButton.isEnabled,
+        XCTAssertFalse(cameraViewController.cameraButtonsViewController.captureButton.isEnabled,
                        "capture button should be disaled when tooltip is shown")
     }
     

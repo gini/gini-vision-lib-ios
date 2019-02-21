@@ -68,4 +68,18 @@ final class CameraPreviewViewControllerTests: XCTestCase {
         }
         wait(for: [expect], timeout: 1.0)
     }
+    
+    func testFlashToggle() {
+        let camera = CameraMock(state: .authorized)
+        let defaultFlashState = camera.isFlashOn
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.flashToggleEnabled = true
+        
+        cameraPreviewViewController = CameraPreviewViewController(giniConfiguration: giniConfiguration,
+                                                                  camera: camera)
+        _ = cameraPreviewViewController.view
+        cameraPreviewViewController.isFlashOn = false
+        
+        XCTAssertNotEqual(defaultFlashState, camera.isFlashOn, "camera flash state should change it after toggle it")
+    }
 }

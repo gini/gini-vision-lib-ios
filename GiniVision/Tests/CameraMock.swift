@@ -20,6 +20,8 @@ final class CameraMock: CameraProtocol {
     var videoDeviceInput: AVCaptureDeviceInput?
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
     let state: CameraAuthState
+    var isFlashOn: Bool = true
+    var isFlashSupported: Bool = true
     
     init(state: CameraAuthState) {
         self.state = state

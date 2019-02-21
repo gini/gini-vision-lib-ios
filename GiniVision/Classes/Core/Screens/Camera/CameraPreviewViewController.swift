@@ -16,6 +16,15 @@ protocol CameraPreviewViewControllerDelegate: class {
 final class CameraPreviewViewController: UIViewController {
     
     weak var delegate: CameraPreviewViewControllerDelegate?
+    lazy var isFlashSupported: Bool = camera.isFlashSupported
+    var isFlashOn: Bool {
+        get {
+            return camera.isFlashOn
+        }
+        set {
+            camera.isFlashOn = newValue
+        }
+    }
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
@@ -81,7 +90,6 @@ final class CameraPreviewViewController: UIViewController {
         
         view.insertSubview(previewView, at: 0)
         Constraints.pin(view: previewView, toSuperView: view)
-
     }
 
     override func viewDidLoad() {
@@ -105,44 +113,6 @@ final class CameraPreviewViewController: UIViewController {
         coordinator.animate(alongsideTransition: { [weak self] _ in
             self?.updatePreviewViewOrientation()
         })
-    }
-    
-    fileprivate func updatePreviewViewOrientation() {
-        let orientation: AVCaptureVideoOrientation
-        if UIDevice.current.isIpad {
-            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        } else {
-            orientation = .portrait
-        }
-        
-        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-        previewLayer?.connection?.videoOrientation = orientation
-    }
-    
-    fileprivate func setupCamera(giniConfiguration: GiniConfiguration) {
-        camera.setup { error in
-            if let error = error {
-                switch error {
-                case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
-                default:
-                    if giniConfiguration.debugModeOn {
-                        #if targetEnvironment(simulator)
-                        addDefaultImage()
-                        #endif
-                    }
-                }
-            }
-        }
-                
-        if giniConfiguration.qrCodeScanningEnabled {
-            camera.setupQRScanningOutput()
-            camera.didDetectQR = { [weak self] qrDocument in
-                guard let `self` = self else { return }
-                self.delegate?.cameraPreview(self, didDetect: qrDocument)
-            }
-        }
-        
     }
     
     func captureImage(completion: @escaping (Data?, CameraError?) -> Void) {
@@ -179,6 +149,48 @@ final class CameraPreviewViewController: UIViewController {
         previewView.frameLayer?.isHidden = true
     }
     
+}
+
+// MARK: - Fileprivate
+
+fileprivate extension CameraPreviewViewController {
+    func updatePreviewViewOrientation() {
+        let orientation: AVCaptureVideoOrientation
+        if UIDevice.current.isIpad {
+            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        } else {
+            orientation = .portrait
+        }
+        
+        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+        previewLayer?.connection?.videoOrientation = orientation
+    }
+    
+    func setupCamera(giniConfiguration: GiniConfiguration) {
+        camera.setup { error in
+            if let error = error {
+                switch error {
+                case .notAuthorizedToUseDevice:
+                    addNotAuthorizedView()
+                default:
+                    if giniConfiguration.debugModeOn {
+                        #if targetEnvironment(simulator)
+                        addDefaultImage()
+                        #endif
+                    }
+                }
+            }
+        }
+        
+        if giniConfiguration.qrCodeScanningEnabled {
+            camera.setupQRScanningOutput()
+            camera.didDetectQR = { [weak self] qrDocument in
+                guard let `self` = self else { return }
+                self.delegate?.cameraPreview(self, didDetect: qrDocument)
+            }
+        }
+        
+    }
 }
 
 // MARK: - Default and not authorized views
