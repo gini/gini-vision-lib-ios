@@ -104,53 +104,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     var opaqueView: UIView?
     var toolTipView: ToolTipView?
     let giniConfiguration: GiniConfiguration
+    let currentDevice: UIDevice
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
-  
-    // User interface
-    lazy var captureButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(self.cameraCaptureButtonImage, for: .normal)
-        button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
-        button.accessibilityLabel = self.giniConfiguration.cameraCaptureButtonTitle
-        return button
-    }()
-    
-    lazy var importFileButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(self.documentImportButtonImage, for: .normal)
-        button.addTarget(self, action: #selector(showImportFileSheet), for: .touchUpInside)
-        return button
-    }()
-    
-    lazy var importFileSubtitleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = .localized(resource: CameraStrings.importFileButtonLabel)
-        label.font = giniConfiguration.customFont.with(weight: .regular, size: 12, style: .footnote)
-        label.textColor = .white
-        return label
-    }()
-    
-    lazy var capturedImagesStackView: CapturedImagesStackView = {
-        let view = CapturedImagesStackView(giniConfiguration: giniConfiguration)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.isHidden = true
-        view.didTapImageStackButton = { [weak self] in
-            guard let `self` = self else { return }
-            self.delegate?.cameraDidTapMultipageReviewButton(self)
-        }
-        return view
-    }()
-    
-    lazy var controlsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        return view
-    }()
     
     lazy var cameraPreviewViewController: CameraPreviewViewController = {
         let cameraPreviewViewController = CameraPreviewViewController()
@@ -158,13 +114,12 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return cameraPreviewViewController
     }()
     
-    // Images
-    fileprivate var cameraCaptureButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "cameraCaptureButton")
-    }
-    fileprivate var documentImportButtonImage: UIImage? {
-        return UIImageNamedPreferred(named: "documentImportButton")
-    }
+    lazy var cameraButtonsViewController: CameraButtonsViewController = {
+        let cameraButtonsViewController =
+            CameraButtonsViewController(isFlashSupported: cameraPreviewViewController.isFlashSupported)
+        cameraButtonsViewController.delegate = self
+        return cameraButtonsViewController
+    }()
     
     // Output
     fileprivate var successBlock: CameraScreenSuccessBlock?
@@ -179,8 +134,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
      
      - returns: A view controller instance allowing the user to take a picture or pick a document.
      */
-    public init(giniConfiguration: GiniConfiguration) {
+    public init(giniConfiguration: GiniConfiguration, currentDevice: UIDevice = .current) {
         self.giniConfiguration = giniConfiguration
+        self.currentDevice = currentDevice
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -249,13 +205,9 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.addSubview(cameraPreviewViewController.view)
         cameraPreviewViewController.didMove(toParent: self)
         
-        view.insertSubview(controlsView, aboveSubview: cameraPreviewViewController.view)
-        
-        controlsView.addSubview(captureButton)
-
-        if giniConfiguration.multipageEnabled {
-            controlsView.addSubview(capturedImagesStackView)
-        }
+        addChild(cameraButtonsViewController)
+        view.insertSubview(cameraButtonsViewController.view, aboveSubview: cameraPreviewViewController.view)
+        cameraButtonsViewController.didMove(toParent: self)
 
         addConstraints()
     }
@@ -264,7 +216,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         super.viewDidLoad()
         
         if giniConfiguration.fileImportSupportedTypes != .none {
-            enableFileImport()
+            cameraButtonsViewController.addFileImportButton()
             if ToolTipView.shouldShowFileImportToolTip {
                 createFileImportTip(giniConfiguration: giniConfiguration)
                 if !OnboardingContainerViewController.willBeShown {
@@ -311,14 +263,14 @@ extension CameraViewController {
      Show the capture button. Should be called when onboarding is dismissed.
      */
     public func showCaptureButton() {
-        controlsView.alpha = 1
+        cameraButtonsViewController.view.alpha = 1
     }
     
     /**
      Hide the capture button. Should be called when onboarding is presented.
      */
     public func hideCaptureButton() {
-        controlsView.alpha = 0
+        cameraButtonsViewController.view.alpha = 0
     }
     
     /**
@@ -341,7 +293,7 @@ extension CameraViewController {
     public func showFileImportTip() {
         self.toolTipView?.show {
             self.opaqueView?.alpha = 1
-            self.captureButton.isEnabled = false
+            self.cameraButtonsViewController.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
     }
@@ -376,23 +328,23 @@ extension CameraViewController {
         }, completion: { _ in
             UIView.animateKeyframes(withDuration: AnimationDuration.medium, delay: 0.6, animations: {
                 UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 1, animations: {
-                    let thumbnailSize = self.capturedImagesStackView.thumbnailSize
+                    let thumbnailSize = self.cameraButtonsViewController.capturedImagesStackView.thumbnailSize
                     let scaleRatioY = thumbnailSize.height / self.cameraPreviewViewController.view.frame.height
                     let scaleRatioX = thumbnailSize.width / self.cameraPreviewViewController.view.frame.width
                     
                     previewImageView.transform = CGAffineTransform(scaleX: scaleRatioX, y: scaleRatioY)
-                    previewImageView.center = self.capturedImagesStackView
+                    previewImageView.center = self.cameraButtonsViewController.capturedImagesStackView
                         .thumbnailFrameRelative(to: self.view)
                         .center
                 })
-                if !self.capturedImagesStackView.isHidden {
+                if !self.cameraButtonsViewController.capturedImagesStackView.isHidden {
                     UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 1, animations: {
                         previewImageView.alpha = 0
                     })
                 }
             }, completion: { _ in
                 previewImageView.removeFromSuperview()
-                self.capturedImagesStackView.addImageToStack(image: documentImage)
+                self.cameraButtonsViewController.capturedImagesStackView.addImageToStack(image: documentImage)
                 completion?()
             })
         })
@@ -404,7 +356,8 @@ extension CameraViewController {
      - parameter images: New images to be shown in the stack. (Last image will be shown on top)
      */
     public func replaceCapturedStackImages(with images: [UIImage]) {
-        capturedImagesStackView.replaceStackImages(with: images)
+        cameraButtonsViewController.capturedImagesStackView.replaceStackImages(with: images)
+        cameraButtonsViewController.rightStackView.layoutIfNeeded()
     }
 
     fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
@@ -436,10 +389,6 @@ extension CameraViewController {
                 self.currentQRCodePopup?.show(didDismiss: didDismiss)
             }
         }
-    }
-    
-    @objc fileprivate func captureImage(_ sender: AnyObject) {
-        cameraPreviewViewController.captureImage(completion: cameraDidCapture)
     }
     
     private func cameraDidCapture(imageData: Data?, error: CameraError?) {
@@ -483,16 +432,27 @@ extension CameraViewController: CameraPreviewViewControllerDelegate {
     }
 }
 
+// MARK: - CameraButtonsViewControllerDelegate
+
+extension CameraViewController: CameraButtonsViewControllerDelegate {
+    func cameraButtons(_ viewController: CameraButtonsViewController,
+                       didTapOn button: CameraButtonsViewController.Button) {
+        switch button {
+        case .flashToggle(let isOn):
+            cameraPreviewViewController.isFlashOn = isOn
+        case .fileImport:
+            showImportFileSheet()
+        case .capture:
+            cameraPreviewViewController.captureImage(completion: cameraDidCapture)
+        case .imagesStack:
+            delegate?.cameraDidTapMultipageReviewButton(self)
+        }
+    }
+}
+
 // MARK: - Document import
 
-extension CameraViewController {
-    fileprivate func enableFileImport() {
-        // Configure import file button
-        controlsView.addSubview(importFileButton)
-        controlsView.addSubview(importFileSubtitleLabel)
-        addImportButtonConstraints()
-    }
-    
+extension CameraViewController {    
     func addValidationLoadingView() -> UIView {
         let loadingIndicator = UIActivityIndicatorView(style: .whiteLarge)
         let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -533,7 +493,7 @@ extension CameraViewController {
                                                     style: .cancel, handler: nil))
         
         alertViewController.message = alertViewControllerMessage
-        alertViewController.popoverPresentationController?.sourceView = importFileButton
+        alertViewController.popoverPresentationController?.sourceView = cameraButtonsViewController.fileImportButtonView
         
         self.present(alertViewController, animated: true, completion: nil)
     }
@@ -545,7 +505,7 @@ extension CameraViewController {
 
         toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
-                                  referenceView: importFileButton,
+                                  referenceView: cameraButtonsViewController.fileImportButtonView,
                                   superView: self.view,
                                   position: UIDevice.current.isIpad ? .left : .above,
                                   distanceToRefView: UIEdgeInsets(top: 36, left: 0, bottom: 36, right: 0))
@@ -553,7 +513,7 @@ extension CameraViewController {
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }
             self.opaqueView?.removeFromSuperview()
-            self.captureButton.isEnabled = true
+            self.cameraButtonsViewController.captureButton.isEnabled = true
         }
     }
 }

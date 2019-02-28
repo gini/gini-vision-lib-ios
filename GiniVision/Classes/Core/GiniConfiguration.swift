@@ -329,6 +329,12 @@ import UIKit
      Sets the text color of the item selected background check
      */
     @objc public var galleryPickerItemSelectedBackgroundCheckColor = Colors.Gini.blue
+    
+    /**
+     Indicates whether the flash toggle should be shown in the camera screen.
+     
+     */
+    @objc public var flashToggleEnabled = false
 
     /**
      Sets the title text in the navigation bar on the camera screen.

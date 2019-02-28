@@ -17,10 +17,10 @@ final class CameraPreviewView: UIView {
     /// the size of the guides compared to the size of the whole view
     /// 0.9 = 90% of the view
     let guideLineSize: CGFloat = 0.9
-    var guideColor = UIColor.white
-    var ratio: CGFloat = 21.0 / 31.0 // A4 by default
-    var guidesLayer: CAShapeLayer?
-    var frameLayer: CAShapeLayer?
+    fileprivate(set) var guideColor = UIColor.white
+    fileprivate(set) var ratio: CGFloat = 21.0 / 31.0 // A4 by default
+    fileprivate(set) var guidesLayer: CAShapeLayer?
+    fileprivate(set) var frameLayer: CAShapeLayer?
     
     override class var layerClass: AnyClass {
         return AVCaptureVideoPreviewLayer.classForCoder()

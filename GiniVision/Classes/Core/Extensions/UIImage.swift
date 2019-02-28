@@ -21,6 +21,10 @@ extension UIImage {
         }
     }
     
+    convenience init(bundleName: StaticString) {
+        self.init(named: "\(bundleName)", in: Bundle(for: GiniVision.self), compatibleWith: nil)!
+    }
+    
     func rotated90Degrees() -> UIImage? {
         guard let cgImage = self.cgImage else { return nil }
         let rotatedOrientation = nextImageOrientationClockwise(self.imageOrientation)

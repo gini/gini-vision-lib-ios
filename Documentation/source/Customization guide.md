@@ -63,6 +63,7 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 - Import button
 	- Image &#8594; <span style="color:#009EDF">*documentImportButton*</span> image asset
 - Captured images stack indicator color &#8594; `GiniConfiguration.imagesStackIndicatorLabelTextcolor`
+- Flash toggle can be enabled through &#8594; `GiniConfiguration.flashToggleEnabled`
 
 ##### 4. QR code popup
 <br>
