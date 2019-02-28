@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.5.0 (2019-02-28)
+------------------
+
+-   Added flash toggle in the camera screen, configurable view `GiniConfiguration.flashToggleEnabled`.
+
 4.4.1 (2019-02-20)
 ------------------
 
