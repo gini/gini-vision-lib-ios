@@ -148,7 +148,7 @@ extension MultipageReviewPagesCollectionFooter {
                            attr: .notAnAttribute, constant: 60, priority: 999)
         Constraints.active(item: addButton, attr: .width, relatedBy: .equal, to: addButton, attr: .height)
         Constraints.active(item: addButton, attr: .top, relatedBy: .greaterThanOrEqual, to: roundMask,
-                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top)
+                           attr: .top, constant: MultipageReviewPagesCollectionFooter.padding().top, priority: 999)
         
         // addLabel
         Constraints.active(item: addLabel, attr: .top, relatedBy: .equal, to: addButton, attr: .bottom,

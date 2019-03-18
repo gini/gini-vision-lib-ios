@@ -149,9 +149,9 @@ extension CapturedImagesStackView {
         Constraints.active(item: thumbnailButton, attr: .centerX, relatedBy: .equal,
                            to: self, attr: .centerX)
         Constraints.active(item: thumbnailButton, attr: .height, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: thumbnailSize.height)
+                           attr: .notAnAttribute, constant: thumbnailSize.height, priority: 999)
         Constraints.active(item: thumbnailButton, attr: .width, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: thumbnailSize.width)
+                           attr: .notAnAttribute, constant: thumbnailSize.width, priority: 999)
         
         // multipageReviewBackgroundView
         Constraints.active(item: thumbnailStackBackgroundView, attr: .centerY, relatedBy: .equal,
@@ -159,9 +159,9 @@ extension CapturedImagesStackView {
         Constraints.active(item: thumbnailStackBackgroundView, attr: .centerX, relatedBy: .equal,
                            to: thumbnailButton, attr: .centerX, constant: -3)
         Constraints.active(item: thumbnailStackBackgroundView, attr: .height, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: thumbnailSize.height)
+                           attr: .notAnAttribute, constant: thumbnailSize.height, priority: 999)
         Constraints.active(item: thumbnailStackBackgroundView, attr: .width, relatedBy: .equal, to: nil,
-                           attr: .notAnAttribute, constant: thumbnailSize.width)
+                           attr: .notAnAttribute, constant: thumbnailSize.width, priority: 999)
         
         // stackIndicatorCircleView
         Constraints.active(item: stackIndicatorCircleView, attr: .trailing, relatedBy: .equal,
@@ -184,7 +184,7 @@ extension CapturedImagesStackView {
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .bottom, relatedBy: .equal,
                            to: self, attr: .bottom)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .top, relatedBy: .equal,
-                           to: thumbnailStackBackgroundView, attr: .bottom, constant: 4)
+                           to: thumbnailStackBackgroundView, attr: .bottom, constant: 4, priority: 999)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .leading, relatedBy: .equal,
                            to: self, attr: .leading)
         Constraints.active(item: capturedImagesStackSubtitleLabel, attr: .trailing, relatedBy: .equal,
