@@ -260,7 +260,10 @@ fileprivate extension CameraButtonsViewController {
                             constant: -(leftStackView.layoutMargins.left + leftStackView.layoutMargins.right))
                 .isActive = true
         } else {
-            fileImportButtonView.heightAnchor.constraint(equalTo: leftStackView.heightAnchor).isActive = true
+            let heightConstraint = fileImportButtonView
+                .heightAnchor.constraint(equalTo: leftStackView.heightAnchor)
+            heightConstraint.priority = UILayoutPriority(999)
+            heightConstraint.isActive = true
         }
     }
     
@@ -271,20 +274,34 @@ fileprivate extension CameraButtonsViewController {
             .isActive = true
 
         if currentDevice.isIpad {
-            flashToggleButtonContainerView.widthAnchor.constraint(equalTo: rightStackView.widthAnchor,
-                                                                  multiplier: 1/3).isActive = true
-            flashToggleButtonContainerView.heightAnchor.constraint(equalTo: flashToggleButtonContainerView.widthAnchor,
-                                                                   multiplier: 17/11).isActive = true
+            let heightConstraint =
+                flashToggleButtonContainerView.widthAnchor.constraint(equalTo: rightStackView.widthAnchor,
+                                                                      multiplier: 1/3)
+            heightConstraint.priority = UILayoutPriority(999)
+            heightConstraint.isActive = true
+            let widthConstraint = flashToggleButtonContainerView
+                    .heightAnchor.constraint(equalTo: flashToggleButtonContainerView.widthAnchor,
+                                                                       multiplier: 17/11)
+            widthConstraint.priority = UILayoutPriority(999)
+            widthConstraint.isActive = true
 
         } else {
-            flashToggleButtonContainerView.heightAnchor.constraint(equalTo: leftStackView.heightAnchor,
-                                                                  multiplier: 1).isActive = true
-            flashToggleButtonContainerView.widthAnchor.constraint(equalTo: flashToggleButtonContainerView.heightAnchor,
-                                                                   multiplier: 11/17).isActive = true
+            let heightConstraint = flashToggleButtonContainerView
+                .heightAnchor.constraint(equalTo: leftStackView.heightAnchor,
+                                         multiplier: 1)
+            heightConstraint.priority = UILayoutPriority(999)
+            heightConstraint.isActive = true
+            let widthConstraint = flashToggleButtonContainerView
+                .widthAnchor.constraint(equalTo: flashToggleButtonContainerView.heightAnchor,
+                                        multiplier: 11/17)
+            widthConstraint.priority = UILayoutPriority(999)
+            widthConstraint.isActive = true
         }
         
-        flashToggleButton.heightAnchor.constraint(equalTo: flashToggleButtonContainerView.heightAnchor)
-            .isActive = true
+        let heightConstraint = flashToggleButton
+            .heightAnchor.constraint(equalTo: flashToggleButtonContainerView.heightAnchor)
+        heightConstraint.priority = UILayoutPriority(999)
+        heightConstraint.isActive = true
         
     }
 }
