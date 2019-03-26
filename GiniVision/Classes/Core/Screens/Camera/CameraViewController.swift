@@ -398,6 +398,10 @@ extension CameraViewController {
                 return
         }
         
+        if #available(iOS 10.0, *) {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        }
+        
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
