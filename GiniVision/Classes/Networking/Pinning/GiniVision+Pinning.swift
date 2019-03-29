@@ -20,6 +20,10 @@ extension GiniVision {
      There should be either images or one PDF, and they should be validated before calling this method.
      - parameter resultsDelegate: Results delegate object where you can get the results of the analysis.
      - parameter publicKeyPinningConfig: Public key pinning configuration.
+     - parameter documentMetadata: (Optional) The document metadata containing any custom information regarding
+     the upload (used later for reporting).
+     - parameter docType: (Optional) Document type hint.
+     - parameter api: The `GINIAPIType` the SDK connects to.
      
      - note: Screen API only.
      
@@ -32,6 +36,7 @@ extension GiniVision {
                                            resultsDelegate: GiniVisionResultsDelegate,
                                            publicKeyPinningConfig: [String: Any],
                                            documentMetadata: GINIDocumentMetadata? = nil,
+                                           docType: DocType = .none,
                                            api: GINIAPIType = .default) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
@@ -39,6 +44,7 @@ extension GiniVision {
                                                          giniConfiguration: configuration,
                                                          publicKeyPinningConfig: publicKeyPinningConfig,
                                                          documentMetadata: documentMetadata,
+                                                         docType: docType,
                                                          api: api)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }

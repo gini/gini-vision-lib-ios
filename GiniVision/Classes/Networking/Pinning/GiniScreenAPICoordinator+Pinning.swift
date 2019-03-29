@@ -14,6 +14,7 @@ extension GiniScreenAPICoordinator {
                      giniConfiguration: GiniConfiguration,
                      publicKeyPinningConfig: [String: Any],
                      documentMetadata: GINIDocumentMetadata?,
+                     docType: DocType,
                      api: GINIAPIType) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
@@ -31,6 +32,7 @@ extension GiniScreenAPICoordinator {
         
         self.documentService = documentService(with: sdk,
                                                documentMetadata: documentMetadata,
+                                               docType: docType,
                                                giniConfiguration: giniConfiguration,
                                                for: api)
     }

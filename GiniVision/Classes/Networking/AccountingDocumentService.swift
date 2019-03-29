@@ -14,11 +14,13 @@ final class AccountingDocumentService: DocumentServiceProtocol {
     var metadata: GINIDocumentMetadata?
     var document: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
+    var docType: DocType
     
-    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?) {
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?, docType: DocType) {
         self.giniSDK = sdk
         self.metadata = metadata
         self.giniSDK.sessionManager.logIn()
+        self.docType = docType
     }
     
     func cancelAnalysis() {
@@ -56,6 +58,7 @@ final class AccountingDocumentService: DocumentServiceProtocol {
         
         createDocument(from: document,
                        fileName: fileName,
+                       docType: docType,
                        cancellationToken: analysisCancellationToken?.token) { result in
             switch result {
             case .success(let createdDocument):
@@ -77,7 +80,7 @@ final class AccountingDocumentService: DocumentServiceProtocol {
 fileprivate extension AccountingDocumentService {
     func createDocument(from document: GiniVisionDocument,
                         fileName: String,
-                        docType: String = "",
+                        docType: DocType?,
                         cancellationToken: BFCancellationToken? = nil,
                         completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
@@ -88,7 +91,7 @@ fileprivate extension AccountingDocumentService {
             .continueOnSuccessWith(block: { [weak self] _ in
                 return self?.giniSDK.documentTaskManager.createDocument(withFilename: fileName,
                                                                         from: document.data,
-                                                                        docType: docType,
+                                                                        docType: docType?.value,
                                                                         metadata: self?.metadata,
                                                                         cancellationToken: cancellationToken)
             }).continueWith(block: { [weak self] task in

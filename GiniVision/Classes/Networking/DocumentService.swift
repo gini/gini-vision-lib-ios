@@ -9,6 +9,41 @@ import UIKit
 import Gini_iOS_SDK
 import Bolts
 
+@objc public enum DocType: Int {
+    case bankStatement
+    case contract
+    case invoice
+    case receipt
+    case reminder
+    case remittanceSlip
+    case travelExpenseReport
+    case other
+    case none
+    
+    var value: String? {
+        switch self {
+        case .bankStatement:
+            return "BankStatement"
+        case .contract:
+            return "Contract"
+        case .invoice:
+            return "Invoice"
+        case .receipt:
+            return "Receipt"
+        case .reminder:
+            return "Reminder"
+        case .remittanceSlip:
+            return "RemittanceSlip"
+        case .travelExpenseReport:
+            return "TravelExpenseReport"
+        case .other:
+            return "Other"
+        case .none:
+            return nil
+        }
+    }
+}
+
 final class DocumentService: DocumentServiceProtocol {
     
     var giniSDK: GiniSDK
@@ -16,11 +51,13 @@ final class DocumentService: DocumentServiceProtocol {
     var document: GINIDocument?
     var analysisCancellationToken: BFCancellationTokenSource?
     var metadata: GINIDocumentMetadata?
+    var docType: DocType
     
-    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?) {
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?, docType: DocType) {
         self.metadata = metadata
         self.giniSDK = sdk
         self.giniSDK.sessionManager.logIn()
+        self.docType = docType
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {
@@ -78,7 +115,7 @@ final class DocumentService: DocumentServiceProtocol {
                                 order: self.partialDocuments.count)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
 
-        createDocument(from: document, fileName: fileName) { result in
+        createDocument(from: document, fileName: fileName, docType: docType) { result in
             switch result {
             case .success(let createdDocument):
                 self.partialDocuments[document.id]?.info.documentUrl = createdDocument.links.document
@@ -96,7 +133,7 @@ final class DocumentService: DocumentServiceProtocol {
 fileprivate extension DocumentService {
     func createDocument(from document: GiniVisionDocument,
                         fileName: String,
-                        docType: String = "",
+                        docType: DocType?,
                         cancellationToken: BFCancellationToken? = nil,
                         completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
@@ -107,7 +144,7 @@ fileprivate extension DocumentService {
             .continueOnSuccessWith(block: { [weak self] _ in
                 return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
                                                                                from: document.data,
-                                                                               docType: docType,
+                                                                               docType: docType?.value,
                                                                                metadata: self?.metadata,
                                                                                cancellationToken: cancellationToken)
             }).continueWith(block: { task in

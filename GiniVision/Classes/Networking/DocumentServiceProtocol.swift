@@ -21,7 +21,7 @@ protocol DocumentServiceProtocol: class {
     var metadata: GINIDocumentMetadata? { get }
     var analysisCancellationToken: BFCancellationTokenSource? { get set }
 
-    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?)
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?, docType: DocType)
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
     func resetToInitialState()

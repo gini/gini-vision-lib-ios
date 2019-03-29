@@ -74,6 +74,7 @@ extension GiniScreenAPICoordinator {
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
                      documentMetadata: GINIDocumentMetadata?,
+                     docType: DocType,
                      api: GINIAPIType) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
@@ -91,22 +92,24 @@ extension GiniScreenAPICoordinator {
         
         self.documentService = documentService(with: sdk,
                                                documentMetadata: documentMetadata,
+                                               docType: docType,
                                                giniConfiguration: giniConfiguration,
                                                for: api)
     }
     
     func documentService(with sdk: GiniSDK,
                          documentMetadata: GINIDocumentMetadata?,
+                         docType: DocType,
                          giniConfiguration: GiniConfiguration,
                          for api: GINIAPIType) -> DocumentServiceProtocol {
         switch api {
         case .default:
-            return DocumentService(sdk: sdk, metadata: documentMetadata)
+            return DocumentService(sdk: sdk, metadata: documentMetadata, docType: docType)
         case .accounting:
             if giniConfiguration.multipageEnabled {
                 preconditionFailure("The accounting API does not support multipage")
             }
-            return AccountingDocumentService(sdk: sdk, metadata: documentMetadata)
+            return AccountingDocumentService(sdk: sdk, metadata: documentMetadata, docType: docType)
         }
     }
     
