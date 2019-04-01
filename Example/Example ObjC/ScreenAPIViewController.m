@@ -66,6 +66,7 @@ NSString *kClientDomain = @"client_domain";
                                                   configuration:giniConfiguration
                                                 resultsDelegate:self
                                                documentMetadata:nil
+                                                        docType:DocTypeNone
                                                             api:GINIAPITypeDefault];
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
