@@ -105,6 +105,7 @@ final class ToolTipView: UIView {
     fileprivate func addTipContainer(backgroundColor color: UIColor) {
         self.addSubview(tipContainer)
         self.tipContainer.backgroundColor = color
+        self.tipContainer.layer.cornerRadius = 2.0
     }
     
     fileprivate func addTextLabel(withText text: String, textColor: UIColor, font: UIFont) {
