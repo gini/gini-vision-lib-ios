@@ -398,6 +398,10 @@ extension CameraViewController {
                 return
         }
         
+        if #available(iOS 10.0, *) {
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        }
+        
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
                                               deviceOrientation: UIApplication.shared.statusBarOrientation)
@@ -505,10 +509,12 @@ extension CameraViewController {
 
         toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
-                                  referenceView: cameraButtonsViewController.fileImportButtonView,
+                                  referenceView: cameraButtonsViewController
+                                    .fileImportButtonView.importFileButton.imageView ?? cameraButtonsViewController
+                                        .fileImportButtonView.importFileButton,
                                   superView: self.view,
                                   position: UIDevice.current.isIpad ? .left : .above,
-                                  distanceToRefView: UIEdgeInsets(top: 36, left: 0, bottom: 36, right: 0))
+                                  distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
         toolTipView?.willDismiss = { [weak self] in
             guard let `self` = self else { return }

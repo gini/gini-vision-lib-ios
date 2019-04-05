@@ -12,12 +12,23 @@ import Gini_iOS_SDK
  The GiniVisionResultsDelegate protocol defines methods that allow you to handle the analysis result.
  */
 @objc public protocol GiniVisionResultsDelegate: class {
+    
+    /**
+     Called when the analysis finished with results
+     
+     - parameter result: Contains the analysis result
+     - parameter sendFeedbackBlock: Block used to send feeback once the results have been corrected
+     */
+    func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
+                                         sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
+    
     /**
      Called when the analysis finished with results
      
      - parameter results: Dictionary with all the extractions
      - parameter sendFeedbackBlock: Block used to send feeback once the results have been corrected
      */
+    @available(*, unavailable, message: "This method is no longer available")
     func giniVisionAnalysisDidFinish(with results: [String: Extraction],
                                      sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
     
@@ -115,10 +126,12 @@ extension GiniScreenAPICoordinator {
         let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if hasExtactions {
+                let images = self.pages.compactMap { $0.document.previewImage }
+                let result = AnalysisResult(extractions: result, images: images)
                 self.resultsDelegate?
-                    .giniVisionAnalysisDidFinish(with: result) { [weak self] updatedExtractions in
+                    .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
                                     self.documentService?.sendFeedback(with: updatedExtractions)
                                     self.documentService?.resetToInitialState()

@@ -103,9 +103,9 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 // MARK: - GiniVisionResultsDelegate
 
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
-    func giniVisionAnalysisDidFinish(with results: [String: Extraction],
-                                     sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
-        showResultsScreen(results: results)
+    func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
+                                         sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
+        showResultsScreen(results: result.extractions)
         self.sendFeedbackBlock = sendFeedbackBlock
     }
     

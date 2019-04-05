@@ -1,6 +1,14 @@
 Changelog
 =========
 
+4.6.0 (2019-04-05)
+------------------
+
+-   Added haptic feedback for image capturing.
+-   Added images to `GiniVisionResultsDelegate` results method (breaking change).
+-   Fixed breaking constraints issue.
+-   Fixed issue with tooltip position in camera screen.
+
 4.5.0 (2019-02-28)
 ------------------
 
