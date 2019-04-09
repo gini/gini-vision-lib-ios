@@ -73,7 +73,7 @@ class Constraints {
         case top, bottom, right, left
     }
     
-    class func active(item view1: Any,
+    class func active(item view1: Any!,
                       attr attr1: NSLayoutConstraint.Attribute,
                       relatedBy relation: NSLayoutConstraint.Relation,
                       to view2: Any?,
@@ -83,7 +83,7 @@ class Constraints {
                       priority: Float = 1000,
                       identifier: String? = nil) {
         
-        let constraint = NSLayoutConstraint(item: view1,
+        let constraint = NSLayoutConstraint(item: view1!,
                                             attribute: attr1,
                                             relatedBy: relation,
                                             toItem: view2, attribute: attr2,
