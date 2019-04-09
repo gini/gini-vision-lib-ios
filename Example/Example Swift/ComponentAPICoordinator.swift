@@ -257,7 +257,7 @@ extension ComponentAPICoordinator {
         }
         
         viewControllersToDelete.forEach { viewControllerToDelete in
-            if let index = navigationStack.index(of: viewControllerToDelete) {
+            if let index = navigationStack.firstIndex(of: viewControllerToDelete) {
                 navigationStack.remove(at: index)
             }
         }

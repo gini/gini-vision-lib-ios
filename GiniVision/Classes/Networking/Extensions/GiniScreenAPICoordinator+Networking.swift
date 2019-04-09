@@ -118,6 +118,8 @@ extension GiniScreenAPICoordinator {
                 preconditionFailure("The accounting API does not support multipage")
             }
             return AccountingDocumentService(sdk: sdk, metadata: documentMetadata)
+        @unknown default:
+            preconditionFailure("All API types must be handled")
         }
     }
     
