@@ -10,7 +10,6 @@ import Gini
 
 final class DocumentService: DocumentServiceProtocol {
     
-    var giniSDK: GiniSDK
     var partialDocuments: [String: PartialDocument] = [:]
     var document: Document?
     var analysisCancellationToken: CancellationToken?
@@ -19,8 +18,7 @@ final class DocumentService: DocumentServiceProtocol {
     
     init(sdk: GiniSDK, metadata: Document.Metadata?) {
         self.metadata = metadata
-        self.giniSDK = sdk
-        self.documentService = self.giniSDK.documentService()
+        self.documentService = sdk.documentService()
     }
     
     func startAnalysis(completion: @escaping AnalysisCompletion) {

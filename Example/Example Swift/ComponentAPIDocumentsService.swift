@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import Gini_iOS_SDK
 import GiniVision
-import Bolts
+import Gini
 
 final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     
