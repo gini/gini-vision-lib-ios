@@ -130,8 +130,8 @@ extension GiniScreenAPICoordinator {
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
-                                    self.documentService?.sendFeedback(with: updatedExtractions)
-                                    self.documentService?.resetToInitialState()
+                        self.documentService?.sendFeedback(with: updatedExtractions.map { $0.value })
+                        self.documentService?.resetToInitialState()
                 }
             } else {
                 self.resultsDelegate?

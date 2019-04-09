@@ -42,6 +42,20 @@ final class AccountingDocumentService: DocumentServiceProtocol {
         document = nil
     }
     
+    func sendFeedback(with updatedExtractions: [Extraction]) {
+        guard let document = document else { return }
+        documentService.submitFeedback(for: document, with: updatedExtractions) { result in
+            switch result {
+            case .success:
+                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
+                    event: "🚀")
+            case .failure(let error):
+                let message = "Error sending feedback for document with id: \(document.id) error: \(error)"
+                Log(message: message, event: .error)
+            }
+        }
+    }
+    
     func startAnalysis(completion: @escaping AnalysisCompletion) {
         fetchExtractions(completion: completion)
     }
