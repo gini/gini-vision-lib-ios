@@ -13,7 +13,6 @@ typealias AnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
 
 protocol DocumentServiceProtocol: class {
     
-    var giniSDK: GiniSDK { get }
     var document: Document? { get set }
     var metadata: Document.Metadata? { get }
     var analysisCancellationToken: CancellationToken? { get set }

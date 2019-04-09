@@ -9,16 +9,14 @@ import Foundation
 import Gini
 
 final class AccountingDocumentService: DocumentServiceProtocol {
-    var giniSDK: GiniSDK
     var metadata: Document.Metadata?
     var document: Document?
     var analysisCancellationToken: CancellationToken?
     let documentService: Gini.AccountingDocumentService
     
     init(sdk: GiniSDK, metadata: Document.Metadata?) {
-        self.giniSDK = sdk
         self.metadata = metadata
-        self.documentService = self.giniSDK.documentService()
+        self.documentService = sdk.documentService()
     }
     
     func cancelAnalysis() {
