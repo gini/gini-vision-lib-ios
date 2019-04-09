@@ -11,7 +11,7 @@ import Gini
 /**
  The GiniVisionResultsDelegate protocol defines methods that allow you to handle the analysis result.
  */
-@objc public protocol GiniVisionResultsDelegate: class {
+public protocol GiniVisionResultsDelegate: class {
     
     /**
      Called when the analysis finished with results
@@ -21,16 +21,6 @@ import Gini
      */
     func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
                                          sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
-    
-    /**
-     Called when the analysis finished with results
-     
-     - parameter results: Dictionary with all the extractions
-     - parameter sendFeedbackBlock: Block used to send feeback once the results have been corrected
-     */
-    @available(*, unavailable, message: "This method is no longer available")
-    func giniVisionAnalysisDidFinish(with results: [String: Extraction],
-                                     sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
     
     /**
      Called when the analysis finished without results.
@@ -113,8 +103,6 @@ extension GiniScreenAPICoordinator {
                 preconditionFailure("The accounting API does not support multipage")
             }
             return AccountingDocumentService(sdk: sdk, metadata: documentMetadata)
-        @unknown default:
-            preconditionFailure("All API types must be handled")
         }
     }
     

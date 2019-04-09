@@ -26,13 +26,13 @@ extension GiniVision {
      - returns: A presentable view controller.
      */
     
-    @objc public class func viewController(withClient client: Client,
-                                           importedDocuments: [GiniVisionDocument]? = nil,
-                                           configuration: GiniConfiguration,
-                                           resultsDelegate: GiniVisionResultsDelegate,
-                                           publicKeyPinningConfig: [String: Any],
-                                           documentMetadata: Document.Metadata? = nil,
-                                           api: APIDomain = .default) -> UIViewController {
+    public class func viewController(withClient client: Client,
+                                     importedDocuments: [GiniVisionDocument]? = nil,
+                                     configuration: GiniConfiguration,
+                                     resultsDelegate: GiniVisionResultsDelegate,
+                                     publicKeyPinningConfig: [String: Any],
+                                     documentMetadata: Document.Metadata? = nil,
+                                     api: APIDomain = .default) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
