@@ -1,10 +1,12 @@
 source 'https://github.com/gini/gini-podspecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 use_frameworks!
 
 def project_pods
+    pod 'Gini/Documents', :path => '../../gini-ios/'
+    pod 'Gini/Pinning', :path => '../../gini-ios/'
     pod 'GiniVision', :path => '../', :testspecs => ['Tests']
     pod 'GiniVision/Networking+Pinning', :path => '../'
 end
