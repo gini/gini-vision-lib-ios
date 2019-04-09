@@ -62,11 +62,6 @@ struct AnimationDuration {
     static var fast = 0.3
 }
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
 class Constraints {
     
     enum Position {

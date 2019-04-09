@@ -6,14 +6,15 @@
 //
 
 import Foundation
+import Gini
 
 @objc public class AnalysisResult: NSObject {
     /// Images processed in the analysis
     public let images: [UIImage]
     /// Extractions obtained after the analysis
-    public let extractions: [String: Extraction]
+    public let extractions: [Extraction]
     
-    init(extractions: [String: Extraction], images: [UIImage]) {
+    init(extractions: [Extraction], images: [UIImage]) {
         self.images = images
         self.extractions = extractions
     }
