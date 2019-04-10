@@ -18,7 +18,7 @@ final class ResultTableViewController: UITableViewController {
     /**
      The result collection from the analysis process.
      */
-    var result: [Extraction]! {
+    var result: [Extraction] = [] {
         didSet {
             result.sort(by: { $0.name! < $1.name! })
         }

@@ -33,7 +33,7 @@ final class DocumentService: DocumentServiceProtocol {
     
     func cancelAnalysis() {
         if let compositeDocument = document {
-            delete(composite: compositeDocument)
+            delete(compositeDocument)
         }
         
         analysisCancellationToken?.cancel()
@@ -45,7 +45,7 @@ final class DocumentService: DocumentServiceProtocol {
         if let index = partialDocuments.index(forKey: document.id) {
             if let document = partialDocuments[document.id]?
                 .document {
-                delete(partial: document)
+                delete(document)
             }
             partialDocuments.remove(at: index)
         }
@@ -132,24 +132,16 @@ fileprivate extension DocumentService {
         }
     }
     
-    func delete(composite document: Document) {
+    func delete(_ document: Document) {
         documentService.delete(document) { result in
             switch result {
             case .success:
-                Log(message: "Deleted composite document with id: \(document.id)", event: "🗑")
+                Log(message: "Deleted \(document.sourceClassification.rawValue) document with id: \(document.id)",
+                    event: "🗑")
             case .failure:
-                Log(message: "Error deleting composite document with id: \(document.id)", event: .error)
-            }
-        }
-    }
-    
-    func delete(partial document: Document) {
-        documentService.delete(document) { result in
-            switch result {
-            case .success:
-                Log(message: "Deleted partial document with id: \(document.id)", event: "🗑")
-            case .failure:
-                Log(message: "Error deleting partial document with id: \(document.id)", event: .error)
+                Log(message: "Error deleting \(document.sourceClassification.rawValue) document with" +
+                    " id: \(document.id)",
+                    event: .error)
             }
         }
     }

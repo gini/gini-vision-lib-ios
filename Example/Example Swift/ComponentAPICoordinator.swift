@@ -683,7 +683,7 @@ extension ComponentAPICoordinator {
     
     fileprivate func handleAnalysis(with extractions: [Extraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = extractions.filter { payFive.contains($0.name ?? "no-name") }.count > 0
+        let hasPayFive = extractions.filter { $0.name != nil ? payFive.contains($0.name!) : false }.count > 0
         
         if hasPayFive {
             showResultsTableScreen(withExtractions: extractions)
