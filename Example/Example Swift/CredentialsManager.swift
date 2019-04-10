@@ -28,6 +28,8 @@ final class CredentialsManager {
                           secret: client_password,
                           domain: client_email_domain)
         }
+        
+        print("⚠️ No credentials were fetched from the Credentials.plist file")
         return Client(id: "",
                       secret: "",
                       domain: "")

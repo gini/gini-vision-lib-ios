@@ -48,8 +48,8 @@ final class AccountingDocumentService: DocumentServiceProtocol {
                 Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
                     event: "🚀")
             case .failure(let error):
-                let message = "Error sending feedback for document with id: \(document.id) error: \(error)"
-                Log(message: message, event: .error)
+                Log(message: "Error sending feedback for document with id: \(document.id) error: \(error)",
+                    event: .error)
             }
         }
     }
@@ -114,8 +114,9 @@ fileprivate extension AccountingDocumentService {
         documentService.delete(document) { result in
             switch result {
             case .success:
-                Log(message: "Deleted document with id: \(document.id)", event: "🗑")
                 self.document = nil
+
+                Log(message: "Deleted document with id: \(document.id)", event: "🗑")
             case .failure:
                 Log(message: "Error deleting document with id: \(document.id)", event: .error)
             }

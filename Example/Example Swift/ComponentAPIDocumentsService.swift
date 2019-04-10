@@ -34,7 +34,7 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     
     func cancelAnalysis() {
         if let compositeDocument = document {
-            delete(composite: compositeDocument)
+            delete(compositeDocument)
         }
         
         analysisCancellationToken?.cancel()
@@ -46,7 +46,7 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
         if let index = partialDocuments.index(forKey: document.id) {
             if let document = partialDocuments[document.id]?
                 .document {
-                delete(partial: document)
+                delete(document)
             }
             partialDocuments.remove(at: index)
         }
@@ -69,8 +69,7 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
             case .success:
                 print("🚀 Feedback sent with \(updatedExtractions.count) extractions")
             case .failure(let error):
-                let message = "❌ Error sending feedback for document with id: \(document.id) error: \(error)"
-                print(message)
+                print("❌ Error sending feedback for document with id: \(document.id) error: \(error)")
             }
         }
     }
@@ -123,7 +122,7 @@ extension ComponentAPIDocumentsService {
                                                 "for vision document \(document.id)")
                                             completion(.success(createdDocument))
                                         case .failure(let error):
-                                            print("❌ Document creation failed")
+                                            print("❌ Document creation failed: \(error)")
                                             
                                             completion(.failure(error))
                                         }
@@ -131,24 +130,14 @@ extension ComponentAPIDocumentsService {
         }
     }
     
-    func delete(composite document: Document) {
+    func delete(_ document: Document) {
         documentService.delete(document) { result in
             switch result {
             case .success:
-                print("🗑 Deleted composite document with id: \(document.id)")
-            case .failure:
-                print("❌ Error deleting composite document with id: \(document.id)")
-            }
-        }
-    }
-    
-    func delete(partial document: Document) {
-        documentService.delete(document) { result in
-            switch result {
-            case .success:
-                print("🗑 Deleted partial document with id: \(document.id)")
-            case .failure:
-                print("❌ Error deleting partial document with id: \(document.id)")
+                print("🗑 Deleted \(document.sourceClassification.rawValue) document with id: \(document.id)")
+            case .failure(let error):
+                print("❌ Error deleting \(document.sourceClassification.rawValue) document with id \(document.id):" +
+                    " \(error)")
             }
         }
     }
