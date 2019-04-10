@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Gini_iOS_SDK
+import Gini
 
 /**
  Presents a dictionary of results from the analysis process in a table view.
@@ -16,12 +16,12 @@ import Gini_iOS_SDK
 final class ResultTableViewController: UITableViewController {
     
     /**
-     The result dictionary from the analysis process.
+     The result collection from the analysis process.
      */
-    var result: [String: GINIExtraction]!
-    
-    fileprivate var sortedKeys: [String] {
-        return Array(result.keys).sorted(by: <)
+    var result: [Extraction]! {
+        didSet {
+            result.sort(by: { $0.name! < $1.name! })
+        }
     }
 }
 
@@ -31,14 +31,13 @@ extension ResultTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sortedKeys.count
+        return result.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath)
-        let key = sortedKeys[indexPath.row]
-        cell.textLabel?.text = result[key]?.value
-        cell.detailTextLabel?.text = key
+        cell.textLabel?.text = result[indexPath.row].value
+        cell.detailTextLabel?.text = result[indexPath.row].name
         return cell
     }
 }
