@@ -30,18 +30,18 @@ protocol DocumentServiceProtocol: class {
 
 extension DocumentServiceProtocol {
     
-    func handleResults(completion: @escaping AnalysisCompletion) -> (CompletionResult<[Extraction]>){
+    func handleResults(completion: @escaping AnalysisCompletion) -> (CompletionResult<[Extraction]>) {
         return { result in
             switch result {
             case .success(let extractions):
-                print("✅ Finished analysis process with no errors")
+                Log(message: "Finished analysis process with no errors", event: .success)
                 completion(.success(extractions))
             case .failure(let error):
                 switch error {
                 case .requestCancelled:
-                    print("❌ Cancelled analysis process")
+                    Log(message: "Cancelled analysis process", event: .error)
                 default:
-                    print("❌ Finished analysis process with error: \(error)")
+                    Log(message: "Finished analysis process with error: \(error)", event: .error)
                 }
             }
         }

@@ -8,7 +8,7 @@
 
 import Foundation
 import GiniVision
-import Gini_iOS_SDK
+import Gini
 
 protocol ComponentAPICoordinatorDelegate: class {
     func componentAPI(coordinator: ComponentAPICoordinator, didFinish:())
@@ -184,7 +184,7 @@ extension ComponentAPICoordinator {
         navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
+    fileprivate func showResultsTableScreen(withExtractions extractions: [Extraction]) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
         resultsScreen?.result = extractions
@@ -335,10 +335,9 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure(let error):
-                    let error = error as? AnalysisError ?? AnalysisError.unknown
-                    guard error != .cancelled else { return }
+                    guard error != .requestCancelled else { return }
 
-                    self.showErrorInAnalysisScreen(with: error.message) {
+                    self.showErrorInAnalysisScreen(with: AnalysisError.unknown.message) {
                         self.startAnalysis()
                     }
                 }
@@ -632,7 +631,7 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 extension ComponentAPICoordinator {
     
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (CompletionResult<[GiniVisionPage]>) -> Void) {
+                              completion: @escaping (Result<[GiniVisionPage], Error>) -> Void) {
         guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
@@ -682,9 +681,9 @@ extension ComponentAPICoordinator {
 
 extension ComponentAPICoordinator {
     
-    fileprivate func handleAnalysis(with extractions: [String: GINIExtraction]) {
+    fileprivate func handleAnalysis(with extractions: [Extraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = extractions.filter { payFive.contains($0.0) }.count > 0
+        let hasPayFive = extractions.filter { payFive.contains($0.name ?? "no-name") }.count > 0
         
         if hasPayFive {
             showResultsTableScreen(withExtractions: extractions)
