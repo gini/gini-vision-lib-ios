@@ -163,7 +163,7 @@ extension ComponentAPIDocumentsService {
                                                      cancellationToken: self.analysisCancellationToken!,
                                                      completion: self.handleResults(completion: completion))
                                 case .failure(let error):
-                                    print("❌ Composite document creation failed")
+                                    print("❌ Composite document creation failed: \(error)")
                                     completion(.failure(error))
                                 }
         }
