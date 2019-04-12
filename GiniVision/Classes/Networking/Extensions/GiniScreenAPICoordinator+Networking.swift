@@ -203,6 +203,20 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
+        // The EPS QR codes are a special case, since they cannot be analyzed by the Gini API and therefore, they are
+        // ready to be delivered after capturing them.
+        if let qrCodeDocument = document as? GiniQRCodeDocument,
+            let format = qrCodeDocument.qrCodeFormat,
+            case .eps4mobile = format {
+            let result = qrCodeDocument.extractedParameters.compactMapValues {
+                Extraction(name: QRCodesExtractor.epsCodeUrlKey,
+                           value: $0, entity: nil, box: nil)
+                }
+            
+            self.deliver(result: result, analysisDelegate: networkDelegate)
+            return
+        }
+        
         // When an non reviewable document or an image in multipage mode is captured,
         // it has to be uploaded right away.
         if giniConfiguration.multipageEnabled || !document.isReviewable {
