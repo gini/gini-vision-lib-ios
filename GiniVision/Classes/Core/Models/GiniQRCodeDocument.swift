@@ -30,14 +30,15 @@ import Foundation
     fileprivate let epc06912LinesCount = 12
     lazy var qrCodeFormat: QRCodesFormat? = {
         if self.scannedString.starts(with: "bank://") {
-            return .bezahlcode
-        } else {
-            let lines = self.scannedString.splitlines
-            if lines.count > 9 &&
-                (lines[1] == "001" || lines[1] == "002") &&
-                (lines[2] == "1" || lines[2] == "2") {
+            return .bezahl
+        } else if self.scannedString.starts(with: "epspayment://") {
+            return .eps4mobile
+        } else if let lines = Optional(self.scannedString.splitlines),
+            lines.count > 9 &&
+            (lines[1] == "001" || lines[1] == "002") &&
+            (lines[2] == "1" || lines[2] == "2") {
                 return .epc06912
-            }
+        } else {
             return nil
         }
     }()

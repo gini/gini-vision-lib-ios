@@ -9,16 +9,22 @@ import Foundation
 
 enum QRCodesFormat {
     case epc06912
-    case bezahlcode
+    case eps4mobile
+    case bezahl
 }
 
 final class QRCodesExtractor {
+    
+    static let epsCodeUrlKey = "EPSCodeUrl"
+    
     class func extractParameters(from string: String, withFormat qrCodeFormat: QRCodesFormat?) -> [String: String] {
         switch qrCodeFormat {
-        case .some(.bezahlcode):
+        case .some(.bezahl):
             return extractParameters(fromBezhalCodeString: string)
         case .some(.epc06912):
             return extractParameters(fromEPC06912CodeString: string)
+        case .some(.eps4mobile):
+            return [epsCodeUrlKey: string]
         case .none:
             return [:]
         }
