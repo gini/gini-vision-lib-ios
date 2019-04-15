@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.7.0 (2019-04-15)
+------------------
+
+-   Added EPS QR code detection support.
+-   Added client credential deletion possibility in the Networking plugin.
+
 4.6.0 (2019-04-05)
 ------------------
 
