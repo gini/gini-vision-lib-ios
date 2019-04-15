@@ -13,10 +13,6 @@ public final class GiniVisionDocumentValidator {
         return 10
     }
     
-    fileprivate static var maxFileSize: Int { // Bytes
-        return 10 * 1024 * 1024
-    }
-    
     // MARK: File validation
     /**
      Validates a document. The validation process is done in the _global_ `DispatchQueue`.
@@ -37,24 +33,28 @@ public final class GiniVisionDocumentValidator {
             throw DocumentValidationError.exceededMaxFileSize
         }
     }
+
+}
+
+// MARK: - Fileprivate
+
+fileprivate extension GiniVisionDocumentValidator {
     
-    // MARK: File size check
+    static var maxFileSize: Int { // Bytes
+        return 10 * 1024 * 1024
+    }
     
-    fileprivate class func maxFileSizeExceeded(forData data: Data) -> Bool {
+    class func maxFileSizeExceeded(forData data: Data) -> Bool {
         if data.count > maxFileSize {
             return true
         }
         return false
     }
     
-    fileprivate class func validateType(for document: GiniVisionDocument) throws {
+    class func validateType(for document: GiniVisionDocument) throws {
         switch document {
-        case let qrDocument as GiniQRCodeDocument:
-            if qrDocument.qrCodeFormat == nil ||
-                qrDocument.extractedParameters.isEmpty ||
-                qrDocument.extractedParameters["iban"] == nil {
-                throw DocumentValidationError.qrCodeFormatNotValid
-            }
+        case let document as GiniQRCodeDocument:
+            try validate(qrCode: document)
         case let pdfDocument as GiniPDFDocument:
             if pdfDocument.data.isPDF {
                 if case 1...maxPagesCount = pdfDocument.numberPages {
@@ -78,6 +78,23 @@ public final class GiniVisionDocumentValidator {
             }
         default:
             break
+        }
+    }
+    
+    class func validate(qrCode document: GiniQRCodeDocument) throws {
+        switch document.qrCodeFormat {
+        case .some(.bezahl), .some(.epc06912):
+            if document.qrCodeFormat == nil ||
+                document.extractedParameters.isEmpty ||
+                document.extractedParameters["iban"] == nil {
+                throw DocumentValidationError.qrCodeFormatNotValid
+            }
+        case .some(.eps4mobile):
+            if document.extractedParameters[QRCodesExtractor.epsCodeUrlKey] == nil {
+                throw DocumentValidationError.qrCodeFormatNotValid
+            }
+        case .none:
+            throw DocumentValidationError.qrCodeFormatNotValid
         }
     }
 }
