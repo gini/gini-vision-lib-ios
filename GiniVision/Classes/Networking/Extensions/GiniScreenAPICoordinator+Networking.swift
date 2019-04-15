@@ -203,8 +203,8 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
     }
     
     func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
-        // The EPS QR codes are a special case, since they cannot be analyzed by the Gini API and therefore, they are
-        // ready to be delivered after capturing them.
+        // The EPS QR codes are a special case, since they don0t have to be analyzed by the Gini API and therefore,
+        // they are ready to be delivered after capturing them.
         if let qrCodeDocument = document as? GiniQRCodeDocument,
             let format = qrCodeDocument.qrCodeFormat,
             case .eps4mobile = format {
