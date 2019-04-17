@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.7.0 (2019-04-17)
+------------------
+
+-   Fixed navigation bar appearance issue after opening a document from the file browser.
+
 4.7.0 (2019-04-15)
 ------------------
 
