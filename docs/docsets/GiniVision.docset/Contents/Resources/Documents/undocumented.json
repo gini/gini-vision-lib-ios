@@ -583,7 +583,7 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Core/Models/GiniQRCodeDocument.swift",
-      "line": 55,
+      "line": 56,
       "symbol": "GiniQRCodeDocument.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -1254,10 +1254,24 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Networking/AnalysisResult.swift",
+      "line": 19,
+      "symbol": "AnalysisResult.extractions",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Networking/DocumentServiceProtocol.swift",
       "line": 12,
       "symbol": "Extraction",
       "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/_gini-vision-lib-ios_master-3RTYZ57GIHHKERT3ECPQGTOB5VK6YRRTZAXH3SURV2FA3LO4UJ3Q/GiniVision/Classes/Networking/Extensions/GiniVision+GiniVisionDelegate.swift",
+      "line": 42,
+      "symbol": "GiniVision.removeStoredCredentials(for:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.class",
       "warning": "undocumented"
     },
     {
