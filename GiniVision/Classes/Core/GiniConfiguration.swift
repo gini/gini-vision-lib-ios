@@ -147,6 +147,7 @@ import UIKit
     /**
      Sets the tint color of the UIDocumentPickerViewController navigation bar.
      
+     - note: Use only if you have a custom `UIAppearance` for your UINavigationBar
      - note: Only iOS >= 11.0
      */
     @objc public var documentPickerNavigationBarTintColor: UIColor?
