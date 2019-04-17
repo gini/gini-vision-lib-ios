@@ -179,13 +179,13 @@ public final class DocumentPickerCoordinator: NSObject {
         if #available(iOS 11.0, *) {
             documentPicker.allowsMultipleSelection = giniConfiguration.multipageEnabled
             
-            // Starting with iOS 11.0, the UIDocumentPickerViewController navigation bar almost can't be customized,
-            // only being possible to customize the tint color. To avoid issues with custom UIAppearance styles,
-            // this is reset to default, saving the current state in order to restore it during dismissal.
-            saveCurrentNavBarAppearance()
-            applyDefaultNavBarAppearance()
-            
             if let tintColor = giniConfiguration.documentPickerNavigationBarTintColor {
+                // Starting with iOS 11.0, the UIDocumentPickerViewController navigation bar almost can't be customized,
+                // only being possible to customize the tint color. To avoid issues with custom UIAppearance styles,
+                // this is reset to default, saving the current state in order to restore it during dismissal.
+                saveCurrentNavBarAppearance()
+                applyDefaultNavBarAppearance()
+                
                 UINavigationBar.appearance().tintColor = tintColor
                 UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self])
                     .setTitleTextAttributes([.foregroundColor: tintColor],
@@ -326,7 +326,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
             .compactMap(self.data)
             .compactMap(self.createDocument)
         
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *), giniConfiguration.documentPickerNavigationBarTintColor != nil {
             restoreSavedNavBarAppearance()
         }
         
@@ -338,7 +338,7 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
     }
     
     public func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, *), giniConfiguration.documentPickerNavigationBarTintColor != nil {
             restoreSavedNavBarAppearance()
         }
         
