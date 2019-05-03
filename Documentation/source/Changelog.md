@@ -1,7 +1,15 @@
 Changelog
 =========
 
-4.7.0 (2019-04-17)
+4.7.2 (2019-05-03)
+------------------
+
+-   Renamed EPS QR Code url extraction name to `epsPaymentQRCodeUrl`, which is returned in the 
+    `GiniVisionResultsDelegate.giniVisionAnalysisDidFinishWith(result:sendFeedbackBlock:)` 
+    method when using the Networking plugin.
+    If not, a `GiniQRCodeDocument` will be returned directly in the `GiniVisionDelegate.didCapture(document:networkDelegate:)` method.
+
+4.7.1 (2019-04-17)
 ------------------
 
 -   Fixed navigation bar appearance issue after opening a document from the file browser.
