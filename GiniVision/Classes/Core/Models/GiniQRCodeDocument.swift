@@ -7,6 +7,15 @@
 
 import Foundation
 
+/**
+ A Gini Vision document made from a QR code.
+ 
+ The Gini Vision Library supports the following QR code formats:
+ - Bezahlcode (http://www.bezahlcode.de).
+ - Stuzza (AT) and GiroCode (DE) (https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation).
+ - EPS E-Payment (https://eservice.stuzza.at/de/eps-ueberweisung-dokumentation/category/5-dokumentation.html).
+ 
+ */
 @objc final public class GiniQRCodeDocument: NSObject, GiniVisionDocument {
     public var type: GiniVisionDocumentType = .qrcode
     public lazy var data: Data = {
