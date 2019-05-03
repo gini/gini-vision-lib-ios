@@ -15,7 +15,7 @@ enum QRCodesFormat {
 
 final class QRCodesExtractor {
     
-    static let epsCodeUrlKey = "EPSCodeUrl"
+    static let epsCodeUrlKey = "epsPaymentQRCodeUrl"
     
     class func extractParameters(from string: String, withFormat qrCodeFormat: QRCodesFormat?) -> [String: String] {
         switch qrCodeFormat {
