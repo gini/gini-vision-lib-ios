@@ -214,8 +214,14 @@ extension GiniScreenAPICoordinator {
                                                    selector: #selector(back),
                                                    position: .left,
                                                    target: self)
-        self.screenAPINavigationController.pushViewController(helpMenuViewController,
-                                                              animated: true)
+        if helpMenuViewController.items.count == 1 {
+            screenAPINavigationController
+                .pushViewController(helpItemViewController(for: helpMenuViewController.items[0]),
+                                    animated: true)
+        } else {
+            screenAPINavigationController
+                .pushViewController(helpMenuViewController, animated: true)
+        }
     }
     
     @objc func showAnalysisScreen() {
@@ -316,6 +322,11 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
 
 extension GiniScreenAPICoordinator: HelpMenuViewControllerDelegate {
     func help(_ menuViewController: HelpMenuViewController, didSelect item: HelpMenuViewController.Item) {
+        screenAPINavigationController.pushViewController(helpItemViewController(for: item),
+                                                         animated: true)
+    }
+    
+    func helpItemViewController(for item: HelpMenuViewController.Item) -> UIViewController {
         var viewController: UIViewController
         switch item {
         case .noResultsTips:
@@ -335,7 +346,6 @@ extension GiniScreenAPICoordinator: HelpMenuViewControllerDelegate {
                                            position: .left,
                                            target: self)
         
-        screenAPINavigationController.pushViewController(viewController, animated: true)
-        
+        return viewController
     }
 }
