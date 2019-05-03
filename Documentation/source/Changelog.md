@@ -4,7 +4,8 @@ Changelog
 4.7.2 (2019-05-03)
 ------------------
 
--   Renamed EPS QR Code url extraction name to `epsPaymentQRCodeUrl` , which is returned in the  `GiniVisionResultsDelegate.giniVisionAnalysisDidFinishWith(result:sendFeedbackBlock:)` 
+-   Renamed EPS QR Code url extraction name to `epsPaymentQRCodeUrl`, which is returned in the 
+    `GiniVisionResultsDelegate.giniVisionAnalysisDidFinishWith(result:sendFeedbackBlock:)` 
     method when using the Networking plugin.
     If not, a `GiniQRCodeDocument` will be returned directly in the `GiniVisionDelegate.didCapture(document:networkDelegate:)` method.
 
