@@ -336,7 +336,13 @@ import UIKit
      
      */
     @objc public var flashToggleEnabled = false
-
+    
+    /**
+     When the flash toggle is enabled, this flag indicates whether
+     if the flash is on by default.
+     */
+    @objc public var flashOnByDefault = true
+    
     /**
      Sets the title text in the navigation bar on the camera screen.
      - Warning: Deprecated, use the ginivision.navigationbar.camera.title localized string instead
