@@ -301,7 +301,7 @@ final class CameraButtonsViewControllerTests: XCTestCase {
                                                                   currentDevice: IphoneDevice())
         
         XCTAssertFalse(cameraButtonsViewController.flashToggleButton.isSelected,
-                       "the flash toggle should be selected when flash in on by default")
+                       "the flash toggle should be selected when flash in off by default")
         
     }
     

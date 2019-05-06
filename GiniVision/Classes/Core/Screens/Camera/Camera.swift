@@ -44,7 +44,7 @@ final class Camera: NSObject, CameraProtocol {
         return videoDeviceInput?.device.hasFlash ?? false
         #endif
     }()
-    lazy var isFlashOn: Bool = giniConfiguration.flashOnByDefault
+    var isFlashOn: Bool
     
     fileprivate let application: UIApplication
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
@@ -54,6 +54,7 @@ final class Camera: NSObject, CameraProtocol {
          giniConfiguration: GiniConfiguration) {
         self.application = application
         self.giniConfiguration = giniConfiguration
+        self.isFlashOn = giniConfiguration.flashOnByDefault
         super.init()
     }
     
