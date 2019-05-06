@@ -8,6 +8,7 @@
 import XCTest
 @testable import GiniVision
 
+// swiftlint:disable type_body_length
 final class CameraButtonsViewControllerTests: XCTestCase {
     
     var cameraButtonsViewController: CameraButtonsViewController!
@@ -277,6 +278,31 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         XCTAssertEqual(cameraButtonsViewController.rightStackView.arrangedSubviews[0],
                        cameraButtonsViewController.capturedImagesStackView,
                        "the inner stack view should contain the captured images stack button")
+    }
+    
+    func testFlashStatusWhenOnByDefault() {
+        let giniConfiguration = GiniConfiguration()
+        
+        cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
+                                                                  isFlashSupported: true,
+                                                                  currentDevice: IphoneDevice())
+        
+        XCTAssertTrue(cameraButtonsViewController.flashToggleButton.isSelected,
+                      "the flash toggle should be selected when flash in on by default")
+        
+    }
+    
+    func testFlashStatusWhenOffByDefault() {
+        let giniConfiguration = GiniConfiguration()
+        giniConfiguration.flashOnByDefault = false
+        
+        cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
+                                                                  isFlashSupported: true,
+                                                                  currentDevice: IphoneDevice())
+        
+        XCTAssertFalse(cameraButtonsViewController.flashToggleButton.isSelected,
+                       "the flash toggle should be selected when flash in off by default")
+        
     }
     
 }
