@@ -47,7 +47,7 @@ final class CameraButtonsViewController: UIViewController {
         flashToggle.translatesAutoresizingMaskIntoConstraints = false
         flashToggle.setImage(UIImage(bundleName: "flashOn"), for: .selected)
         flashToggle.setImage(UIImage(bundleName: "flashOff"), for: .normal)
-        flashToggle.isSelected = true
+        flashToggle.isSelected = giniConfiguration.flashOnByDefault
         flashToggle.imageView?.contentMode = .scaleAspectFit
         flashToggle.addTarget(self, action: #selector(tapOnFlashToggle), for: .touchUpInside)
         

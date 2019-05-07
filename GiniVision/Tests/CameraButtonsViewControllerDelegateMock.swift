@@ -17,5 +17,4 @@ final class CameraButtonViewControllerDelegateMock: CameraButtonsViewControllerD
         selectedButton = button
     }
     
-    
 }

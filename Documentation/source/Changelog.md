@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.8.0 (2019-05-07)
+------------------
+
+-   Added the option to set the flash off by default with the `GiniConfiguration.flashOnByDefault` flag.
+-   Improved navigation to the help screens.
+
 4.7.2 (2019-05-03)
 ------------------
 
