@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Gini
 
 @objc public class AnalysisResult: NSObject {
     /// Images processed in the analysis
@@ -16,9 +17,9 @@ import Foundation
      *  (http://developer.gini.net/gini-api/html/document_extractions.html#available-specific-extractions),
      *  it can also return the epsPaymentQRCodeUrl extraction, obtained from a EPS QR code.
      */
-    public let extractions: [String: Extraction]
+    public let extractions: [Extraction]
     
-    init(extractions: [String: Extraction], images: [UIImage]) {
+    init(extractions: [Extraction], images: [UIImage]) {
         self.images = images
         self.extractions = extractions
     }
