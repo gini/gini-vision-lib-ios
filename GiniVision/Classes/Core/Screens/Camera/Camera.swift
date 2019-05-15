@@ -161,13 +161,9 @@ final class Camera: NSObject, CameraProtocol {
 
 fileprivate extension Camera {
     func setupSession() throws {
-        var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(for: .video).filter {
-                $0.position == .back
-            }
-            guard let device = devices.first else { return nil }
-            return device
-        }
+        let videoDevice: AVCaptureDevice? = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                                    for: .video,
+                                                                    position: .back)
         
         do {
             guard let videoDevice = videoDevice else { throw CameraError.unknown }
