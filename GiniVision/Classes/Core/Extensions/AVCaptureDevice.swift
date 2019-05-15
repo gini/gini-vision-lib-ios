@@ -10,13 +10,13 @@ import AVFoundation
 
 extension AVCaptureDevice {
     
-    func setFlashModeSecurely(_ mode: AVCaptureDevice.FlashMode) {
-        guard hasFlash && isFlashModeSupported(mode) else { return }
-        guard case .some = try? lockForConfiguration() else {
-            Log(message: "Could not lock device for flash configuration", event: .error)
-            return
+    func setFlash(mode: AVCaptureDevice.FlashMode, in settings: AVCapturePhotoSettings) {
+        if hasFlash {
+            switch mode {
+            case .auto: settings.flashMode = .auto
+            case .on: settings.flashMode = .on
+            default: settings.flashMode = .off
+            }
         }
-        flashMode = mode
-        unlockForConfiguration()
     }
 }
