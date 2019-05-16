@@ -30,14 +30,17 @@ protocol CameraProtocol: class {
 
 final class Camera: NSObject, CameraProtocol {
     
-    // Session management
-    var session: AVCaptureSession = AVCaptureSession()
-    var videoDeviceInput: AVCaptureDeviceInput?
-    var photoOutput: AVCapturePhotoOutput?
+    // Callbacks
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
-    var giniConfiguration: GiniConfiguration
     var didCaptureImageHandler: ((Data?, CameraError?) -> Void)?
     
+    // Session management
+    var giniConfiguration: GiniConfiguration
+    var isFlashOn: Bool
+    var photoOutput: AVCapturePhotoOutput?
+    var session: AVCaptureSession = AVCaptureSession()
+    var videoDeviceInput: AVCaptureDeviceInput?
+
     lazy var isFlashSupported: Bool = {
         #if targetEnvironment(simulator)
         return true
@@ -45,7 +48,6 @@ final class Camera: NSObject, CameraProtocol {
         return videoDeviceInput?.device.hasFlash ?? false
         #endif
     }()
-    var isFlashOn: Bool
     
     fileprivate let application: UIApplication
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
