@@ -127,7 +127,7 @@ final class Camera: NSObject, CameraProtocol {
 
             // Trigger photo capturing
             self.didCaptureImageHandler = completion
-            self.photoOutput?.capturePhoto(with: self.createCaptureSettings(), delegate: self)
+            self.photoOutput?.capturePhoto(with: self.captureSettings, delegate: self)
         }
     }
     
@@ -155,6 +155,21 @@ final class Camera: NSObject, CameraProtocol {
 // MARK: - Fileprivate
 
 fileprivate extension Camera {
+    
+    var captureSettings: AVCapturePhotoSettings {
+        let captureSettings = AVCapturePhotoSettings()
+        
+        guard let device = self.videoDeviceInput?.device else { return captureSettings }
+        
+        let flashMode: AVCaptureDevice.FlashMode = self.isFlashOn ? .on : .off
+        if let imageOuput = self.photoOutput, imageOuput.supportedFlashModes.contains(flashMode) &&
+            device.hasFlash {
+            captureSettings.flashMode = flashMode
+        }
+        
+        return captureSettings
+    }
+    
     func setupSession() throws {
         let videoDevice: AVCaptureDevice? = AVCaptureDevice.default(.builtInWideAngleCamera,
                                                                     for: .video,
@@ -191,20 +206,6 @@ fileprivate extension Camera {
         } else {
             Log(message: "Could not add still image output to the session", event: .error)
         }
-    }
-    
-    func createCaptureSettings() -> AVCapturePhotoSettings {
-        let captureSettings = AVCapturePhotoSettings()
-        
-        guard let device = self.videoDeviceInput?.device else { return captureSettings }
-
-        let flashMode: AVCaptureDevice.FlashMode = self.isFlashOn ? .on : .off
-        if let imageOuput = self.photoOutput, imageOuput.supportedFlashModes.contains(flashMode) &&
-            device.hasFlash {
-            captureSettings.flashMode = flashMode
-        }
-        
-        return captureSettings
     }
 }
 
