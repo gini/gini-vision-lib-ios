@@ -114,7 +114,13 @@ extension GiniScreenAPICoordinator {
             guard let self = self else { return }
             if hasExtactions {
                 let images = self.pages.compactMap { $0.document.previewImage }
-                let result = AnalysisResult(extractions: result, images: images)
+                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.compactMap {
+                    guard let name = $0.name else { return nil }
+                    
+                    return (name, $0)
+                })
+            
+                let result = AnalysisResult(extractions: extractions, images: images)
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }

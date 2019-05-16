@@ -17,9 +17,9 @@ import Gini
      *  (http://developer.gini.net/gini-api/html/document_extractions.html#available-specific-extractions),
      *  it can also return the epsPaymentQRCodeUrl extraction, obtained from a EPS QR code.
      */
-    public let extractions: [Extraction]
+    public let extractions: [String: Extraction]
     
-    init(extractions: [Extraction], images: [UIImage]) {
+    init(extractions: [String: Extraction], images: [UIImage]) {
         self.images = images
         self.extractions = extractions
     }
