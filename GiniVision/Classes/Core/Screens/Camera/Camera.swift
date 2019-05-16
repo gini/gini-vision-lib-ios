@@ -132,7 +132,7 @@ final class Camera: NSObject, CameraProtocol {
             self.photoOutput?.capturePhoto(with: self.captureSettings, delegate: self)
         }
     }
-        
+    
     func setupQRScanningOutput() {
         self.session.beginConfiguration()
         let qrOutput = AVCaptureMetadataOutput()
