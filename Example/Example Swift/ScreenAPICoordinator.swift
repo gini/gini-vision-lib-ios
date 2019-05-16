@@ -110,7 +110,7 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
     func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
                                          sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
-        showResultsScreen(results: result.extractions)
+        showResultsScreen(results: result.extractions.map { $0.value })
         self.sendFeedbackBlock = sendFeedbackBlock
     }
     

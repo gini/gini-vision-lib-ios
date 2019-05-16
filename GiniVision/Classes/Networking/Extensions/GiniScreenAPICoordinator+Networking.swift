@@ -114,7 +114,13 @@ extension GiniScreenAPICoordinator {
             guard let self = self else { return }
             if hasExtactions {
                 let images = self.pages.compactMap { $0.document.previewImage }
-                let result = AnalysisResult(extractions: result, images: images)
+                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.compactMap {
+                    guard let name = $0.name else { return nil }
+                    
+                    return (name, $0)
+                })
+            
+                let result = AnalysisResult(extractions: extractions, images: images)
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
@@ -193,9 +199,11 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         if let qrCodeDocument = document as? GiniQRCodeDocument,
             let format = qrCodeDocument.qrCodeFormat,
             case .eps4mobile = format {
-            let result = qrCodeDocument.extractedParameters.compactMapValues {
-                Extraction(name: QRCodesExtractor.epsCodeUrlKey,
-                           value: $0, entity: nil, box: nil)
+            let result = qrCodeDocument.extractedParameters.compactMap {
+                Extraction(box: nil, candidates: nil,
+                           entity: QRCodesExtractor.epsCodeUrlKey,
+                           value: $0.value,
+                           name: QRCodesExtractor.epsCodeUrlKey)
                 }
             
             self.deliver(result: result, analysisDelegate: networkDelegate)

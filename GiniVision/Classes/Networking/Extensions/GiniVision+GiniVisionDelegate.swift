@@ -39,16 +39,10 @@ extension GiniVision {
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     
-    public class func removeStoredCredentials(for client: GiniClient) {
-        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
-                                                   clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain)
+    public class func removeStoredCredentials(for client: Client) throws {
+        let sdk = GiniSDK.Builder(client: client).build()
         
-        guard let sdk = builder?.build() else {
-            fatalError("There was a problem removing the credentials")
-        }
-        
-        sdk.removeStoredCredentials()
+        try sdk.removeStoredCredentials()
     }
     
 }
