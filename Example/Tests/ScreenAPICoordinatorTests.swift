@@ -9,12 +9,13 @@
 import XCTest
 @testable import Example_Swift
 @testable import GiniVision
+@testable import Gini
 
 final class ScreenAPICoordinatorTests: XCTestCase {
     
-    let client = GiniClient(clientId: "",
-                            clientSecret: "",
-                            clientEmailDomain: "")
+    let client = Client(id: "",
+                        secret: "",
+                        domain: "")
     var screenAPICoordinator: ScreenAPICoordinator?
     
     func testInitialization() {
