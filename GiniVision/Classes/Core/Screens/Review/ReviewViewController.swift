@@ -18,37 +18,6 @@ import UIKit
 }
 
 /**
- Block that will be executed each time the user rotates a picture. It contains the
- JPEG representation of the image including meta information about the rotated image.
- 
- - note: Component API only.
- */
-public typealias ReviewSuccessBlock = (_ imageData: Data) -> Void
-
-/**
- Block that will be executed each time the user rotates a picture. It contains the
- JPEG representation of the image including meta information about the rotated image.
- In the case of a PDF, it should proceed to analysis screen once it has been validated.
- 
- - note: Component API only.
- */
-public typealias ReviewScreenSuccessBlock = (_ document: GiniVisionDocument) -> Void
-
-/**
- Block that will be executed when an error occurs on the review screen. It contains a review specific error.
- 
- - note: Component API only.
- */
-public typealias ReviewErrorBlock = (_ error: ReviewError) -> Void
-
-/**
- Block that will be executed if an error occurs on the review screen.
- 
- - note: Component API only.
- */
-public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
-
-/**
  The `ReviewViewController` provides a custom review screen. The user has the option to check
  for blurriness and document orientation. If the result is not satisfying, the user can either
  return to the camera screen or rotate the photo by steps of 90 degrees. The photo should be
@@ -136,10 +105,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return UIImageNamedPreferred(named: "reviewRotateButton")
     }
     
-    // Output
-    fileprivate var successBlock: ReviewScreenSuccessBlock?
-    fileprivate var failureBlock: ReviewScreenFailureBlock?
-    
     /**
      Designated initializer for ReviewViewController
      
@@ -152,52 +117,6 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         self.giniConfiguration = giniConfiguration
         self.currentDocument = document
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    /**
-     Designated initializer for the `ReviewViewController` which allows to set a success block and
-     an error block which will be executed accordingly.
-     
-     - parameter document:  JPEG representation or PDF as a result from the camera, camera roll or file explorer.
-     - parameter success:   Success block to be executed when image was rotated.
-     - parameter failure:   Error block to be executed if an error occured.
-     
-     - returns: A view controller instance allowing the user to review a picture.
-     */
-    @available(*,
-    deprecated,
-    message: "Use init(document:giniConfiguration:) along with ReviewViewControllerDelegate instead")
-    public convenience init(_ document: GiniVisionDocument,
-                            successBlock: @escaping ReviewScreenSuccessBlock,
-                            failureBlock: @escaping ReviewScreenFailureBlock) {
-        self.init(document: document, giniConfiguration: GiniConfiguration.shared)
-        
-        self.successBlock = successBlock
-        self.failureBlock = failureBlock
-    }
-    
-    /**
-     Convenience initializer for the `ReviewViewController` which allows to set a success block
-     and an error block which will be executed accordingly.
-     
-     - parameter imageData:  JPEG representation as a result from the camera.
-     - parameter success:    Success block to be executed when image was rotated.
-     - parameter failure:    Error block to be executed if an error occured.
-     
-     - returns: A view controller instance allowing the user to review a picture of a document.
-     */
-    
-    @available(*,
-    deprecated,
-    message: "Use init(document:giniConfiguration:) along with ReviewViewControllerDelegate instead")
-    public convenience init(_ imageData: Data,
-                            success: @escaping ReviewSuccessBlock,
-                            failure: @escaping ReviewErrorBlock) {
-        self.init(GiniImageDocument(data: imageData, imageSource: .external), successBlock: { document in
-            success(document.data)
-        }, failureBlock: { error in
-            failure((error as? ReviewError)!)
-        })
     }
     
     /**
@@ -258,7 +177,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         if let delegate = delegate {
             delegate.review(self, didReview: imageDocument)
         } else {
-            successBlock?(imageDocument)
+            assertionFailure("The ReviewViewControllerDelegate has not been assigned")
         }
     }
     
