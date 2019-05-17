@@ -63,7 +63,7 @@ import UIKit
     
     fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
-        loadingText.text = giniConfiguration.analysisLoadingText
+        loadingText.text = .localized(resource: AnalysisStrings.loadingText)
         loadingText.font = giniConfiguration.customFont.with(weight: .regular, size: 18, style: .body)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
@@ -283,8 +283,8 @@ import UIKit
                                             giniConfiguration: GiniConfiguration) {
         let title: String = document.pdfTitle ?? .localized(resource: AnalysisStrings.defaultPdfDokumentTitle)
         let pdfView = PDFInformationView(title: title,
-                                         subtitle: giniConfiguration
-                                            .analysisPDFNumberOfPages(pagesCount: document.numberPages),
+                                         subtitle: .localized(resource: AnalysisStrings.pdfPages,
+                                                              args: document.numberPages),
                                          textColor: giniConfiguration.analysisPDFInformationTextColor,
                                          textFont: giniConfiguration.customFont.with(weight: .regular,
                                                                                      size: 16,

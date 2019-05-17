@@ -80,12 +80,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.accessibilityLabel = GiniConfiguration.shared.reviewDocumentImageTitle
+        imageView.accessibilityLabel = .localized(resource: ReviewStrings.documentImageTitle)
         return imageView
     }()
     
     fileprivate var topView: UIView = {
-        let topView = NoticeView(text: GiniConfiguration.shared.reviewTextTop)
+        let topView = NoticeView(text: .localized(resource: ReviewStrings.topText))
         topView.translatesAutoresizingMaskIntoConstraints = false
        return topView
     }()
@@ -103,7 +103,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(rotate), for: .touchUpInside)
-        button.accessibilityLabel = GiniConfiguration.shared.reviewRotateButtonTitle
+        button.accessibilityLabel = .localized(resource: ReviewStrings.rotateButton)
 
         return button
     }()
@@ -111,7 +111,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
     fileprivate lazy var bottomLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = giniConfiguration.reviewTextBottom
+        label.text = .localized(resource: ReviewStrings.bottomText)
         label.numberOfLines = 0
         label.textColor = giniConfiguration.reviewTextBottomColor
         label.textAlignment = .right

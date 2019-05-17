@@ -343,9 +343,9 @@ import UIKit
                                              text: .localized(resource: OnboardingStrings.onboardingFirstPageText),
                                              rotateImageInLandscape: true),
                 let page2 = OnboardingPage(imageNamed: "onboardingPage2",
-                                           text: .localized(resource: OnboardingStrings.onboardingSecondPageText),
+                                           text: .localized(resource: OnboardingStrings.onboardingSecondPageText)),
                 let page3 = OnboardingPage(imageNamed: "onboardingPage3",
-                                           text: .localized(resource: OnboardingStrings.onboardingThirdPageText),
+                                           text: .localized(resource: OnboardingStrings.onboardingThirdPageText)),
                 let page4 = OnboardingPage(imageNamed: "onboardingPage5",
                                            text: .localized(resource: OnboardingStrings.onboardingFifthPageText)) else {
                     return [UIView]()
