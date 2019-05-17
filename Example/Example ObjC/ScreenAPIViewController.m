@@ -7,13 +7,16 @@
 //
 
 #import "ScreenAPIViewController.h"
+#import "AnalysisManager.h"
 #import "ResultTableViewController.h"
 #import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 #import "CredentialsManager.h"
 
-@interface ScreenAPIViewController () <GiniVisionDelegate>
-
+@interface ScreenAPIViewController () <GiniVisionDelegate> {
+    id<AnalysisDelegate> _analysisDelegate;
+    NSData *_imageData;
+}
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSDictionary *result;
 @property (nonatomic, strong) GINIDocument *document;
@@ -21,10 +24,6 @@
 @end
 
 @implementation ScreenAPIViewController
-
-NSString *kClientId = @"client_id";
-NSString *kClientPassword = @"client_password";
-NSString *kClientDomain = @"client_domain";
 
 // MARK: View life cycle
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,11 +53,6 @@ NSString *kClientDomain = @"client_domain";
     giniConfiguration.openWithEnabled = YES;
     giniConfiguration.qrCodeScanningEnabled = YES;
     
-    NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init] getCredentials];
-    
-//    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[kClientId]
-//                                                 clientSecret:credentials[kClientPassword]
-//                                            clientEmailDomain:credentials[kClientPassword]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
     UIViewController *vc =  [GiniVision viewControllerWithDelegate:self
                                                  withConfiguration:giniConfiguration
@@ -73,20 +67,7 @@ NSString *kClientDomain = @"client_domain";
     [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)giniVisionAnalysisDidFinishWithoutResults:(BOOL)showingNoResultsScreen {
-    if(!showingNoResultsScreen){
-        [self presentResultsWithSendFeedbackBlock:nil];
-    }
-}
-
-- (void)giniVisionAnalysisDidFinishWith:(NSDictionary<NSString *,GINIExtraction *> *)results
-                      sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
-    _result = results;
-    [self presentResultsWithSendFeedbackBlock:sendFeedbackBlock];
-}
-
-- (void)presentResultsWithSendFeedbackBlock:(SendFeedbackBlock)sendFeedbackBlock {
-    // Here you can filter what paremeters are mandatory to show the results screen.
+- (void)presentResults {
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
@@ -99,8 +80,8 @@ NSString *kClientDomain = @"client_domain";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+        vc.document = _document;
         vc.result = _result;
-        vc.sendFeedback = sendFeedbackBlock;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:NO];
         });
@@ -116,27 +97,97 @@ NSString *kClientDomain = @"client_domain";
     });
 }
 
-- (void)didCancelAnalysis {
+// MARK: Gini Vision delegate
 
-}
-    
-- (void)didCancelCapturing {
-    [self dismissViewControllerAnimated:true completion:nil];
-}
-    
-- (void)didCancelReviewFor:(id<GiniVisionDocument> _Nonnull)document {
-    
-}
-    
 - (void)didCaptureWithDocument:(id<GiniVisionDocument> _Nonnull)document
                networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
-    
-}
-    
-- (void)didReviewWithDocuments:(NSArray<id<GiniVisionDocument>> * _Nonnull)documents
-               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
-    
+    // When using Multipage, each document must be uploaded and notified to the networkDelegate
+    if(document.type != GiniVisionDocumentTypeImage) {
+        [self didReviewWithDocuments:@[document] networkDelegate:networkDelegate];
+    }
 }
 
+- (void)didReviewWithDocuments:(NSArray<id<GiniVisionDocument>> * _Nonnull)documents
+               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
+    _analysisDelegate = networkDelegate;
+    _imageData = documents[0].data;
+    [self analyzeDocumentWithImageData:documents[0].data];
+}
+
+- (void)didCancelCapturing {
+    NSLog(@"Screen API canceled capturing");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didCancelReviewFor:(id<GiniVisionDocument> _Nonnull)document {
+    NSLog(@"Screen API canceled review");
     
+    // Cancel analysis process to avoid unnecessary network calls.
+    [self cancelAnalysis];
+}
+
+- (void)didCancelAnalysis {
+    NSLog(@"Screen API canceled analysis");
+    
+    _analysisDelegate = nil;
+    
+    // Cancel analysis process to avoid unnecessary network calls.
+    [self cancelAnalysis];
+}
+
+// MARK: Handle analysis of document
+- (void)analyzeDocumentWithImageData:(NSData *)data {
+    [self cancelAnalysis];
+    _imageData = data;
+    [[AnalysisManager sharedManager] analyzeDocumentWithImageData:data
+                                                    andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
+        if (error) {
+            self.errorMessage = @"Es ist ein Fehler aufgetreten. Wiederholen";
+        } else if (result && document) {
+            self.document = document;
+            self.result = result;
+        } else {
+            self.errorMessage = @"Ein unbekannter Fehler ist aufgetreten. Wiederholen";
+        }
+    }];
+}
+
+- (void)cancelAnalysis {
+    [[AnalysisManager sharedManager] cancelAnalysis];
+    _result = nil;
+    _document = nil;
+    _errorMessage = nil;
+    _imageData = nil;
+}
+
+// MARK: Handle results from analysis process
+- (void)setErrorMessage:(NSString *)errorMessage {
+    _errorMessage = errorMessage;
+    if (_errorMessage) {
+        [self showErrorMessage];
+    }
+}
+
+- (void)setResult:(NSDictionary *)result {
+    _result = result;
+    if (_result && _document) {
+        [self showResults];
+    }
+}
+
+- (void)showErrorMessage {
+    if (_errorMessage && _imageData && _analysisDelegate) {
+        [_analysisDelegate displayErrorWithMessage:_errorMessage andAction:^{
+            [self analyzeDocumentWithImageData: self->_imageData];
+        }];
+    }
+}
+
+- (void)showResults {
+    if (_analysisDelegate) {
+        _analysisDelegate = nil;
+        [self presentResults];
+    }
+}
+
 @end

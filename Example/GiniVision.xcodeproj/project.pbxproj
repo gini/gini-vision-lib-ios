@@ -29,6 +29,7 @@
 		1F59756320A0A24A0012196B /* PartialDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756220A0A24A0012196B /* PartialDocument.swift */; };
 		1F59756820A1C5C00012196B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756720A1C5C00012196B /* UIViewController.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
+		1F731F80228ED0D6002D2EFE /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */; };
 		1F93350220A334F2004BC50C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350120A334F2004BC50C /* AppDelegate.m */; };
 		1F93350820A334F2004BC50C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350620A334F2004BC50C /* Main.storyboard */; };
 		1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350920A334F2004BC50C /* Assets.xcassets */; };
@@ -103,6 +104,8 @@
 		1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPIDocumentsService.swift; sourceTree = "<group>"; };
 		1F59756220A0A24A0012196B /* PartialDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialDocument.swift; sourceTree = "<group>"; };
 		1F59756720A1C5C00012196B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		1F731F7E228ED0D5002D2EFE /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
+		1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
 		1F93350020A334F2004BC50C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1F93350120A334F2004BC50C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1F93350720A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -245,6 +248,8 @@
 			children = (
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
 				1F93350120A334F2004BC50C /* AppDelegate.m */,
+				1F731F7E228ED0D5002D2EFE /* AnalysisManager.h */,
+				1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */,
 				1F93350920A334F2004BC50C /* Assets.xcassets */,
 				1FAA2A9820A3548D00A54452 /* CredentialsManager.h */,
 				1FAA2A9620A3546E00A54452 /* CredentialsManager.m */,
@@ -726,6 +731,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */,
+				1F731F80228ED0D6002D2EFE /* AnalysisManager.m in Sources */,
 				1F93351020A334F2004BC50C /* main.m in Sources */,
 				1F93350220A334F2004BC50C /* AppDelegate.m in Sources */,
 				1F93353420A33617004BC50C /* ResultTableViewController.m in Sources */,
