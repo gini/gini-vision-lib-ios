@@ -116,14 +116,6 @@ final public class HelpMenuViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        
-        // (DEPRECATED) If no delegate is assigned, it will add the navigation button to the nav bar
-        if delegate == nil {
-            setupNavigationItem(usingResources: backToCameraButtonResource,
-                                selector: #selector(back),
-                                position: .left,
-                                target: self)
-        }
     }
     
     @objc func back() {
