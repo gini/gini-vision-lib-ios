@@ -212,7 +212,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EJu-ez-xha">
-                                <rect key="frame" x="37" y="200" width="301" height="84"/>
+                                <rect key="frame" x="31.5" y="200" width="312" height="84"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="ALD-iY-BWg"/>
                                 </constraints>
@@ -227,15 +227,16 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="T8h-wN-I1j" secondAttribute="trailing" id="1r7-z6-gv1"/>
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="trailing" secondItem="Icr-Ae-rRL" secondAttribute="trailingMargin" id="9iY-nf-zp3"/>
-                            <constraint firstItem="EJu-ez-xha" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leading" constant="37" id="CZz-VB-Y2u"/>
+                            <constraint firstItem="EJu-ez-xha" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Icr-Ae-rRL" secondAttribute="leading" constant="16" id="CZz-VB-Y2u"/>
                             <constraint firstItem="xR3-Pr-BVQ" firstAttribute="trailing" secondItem="Icr-Ae-rRL" secondAttribute="trailingMargin" id="EAe-ku-RA5"/>
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="top" secondItem="27p-gy-Ntg" secondAttribute="bottom" constant="45" id="GBS-eR-71u"/>
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leadingMargin" id="QFk-J1-185"/>
                             <constraint firstItem="T8h-wN-I1j" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leading" id="RDC-Lq-7MA"/>
                             <constraint firstItem="xR3-Pr-BVQ" firstAttribute="leading" secondItem="Icr-Ae-rRL" secondAttribute="leadingMargin" id="aVT-ZC-yfH"/>
+                            <constraint firstItem="EJu-ez-xha" firstAttribute="centerX" secondItem="Icr-Ae-rRL" secondAttribute="centerX" id="bhz-BD-M2Y"/>
                             <constraint firstItem="IK5-OX-U0Y" firstAttribute="top" secondItem="T8h-wN-I1j" secondAttribute="bottom" id="cJo-ga-CSj"/>
                             <constraint firstItem="eMq-gT-2Ld" firstAttribute="top" secondItem="EJu-ez-xha" secondAttribute="bottom" id="f7o-Ps-DgG"/>
-                            <constraint firstAttribute="trailing" secondItem="EJu-ez-xha" secondAttribute="trailing" constant="37" id="kko-Oy-EOP"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EJu-ez-xha" secondAttribute="trailing" constant="16" id="kko-Oy-EOP"/>
                             <constraint firstItem="eMq-gT-2Ld" firstAttribute="centerX" secondItem="Icr-Ae-rRL" secondAttribute="centerX" id="mrH-r7-bb2"/>
                             <constraint firstItem="GV5-n6-YJy" firstAttribute="top" secondItem="27p-gy-Ntg" secondAttribute="bottom" constant="45" id="pqk-2Y-VMx"/>
                             <constraint firstItem="EJu-ez-xha" firstAttribute="top" secondItem="xR3-Pr-BVQ" secondAttribute="bottom" constant="9" id="rYY-TO-pvV"/>

@@ -27,7 +27,6 @@ NSString *kClientDomain = @"client_domain";
     NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init]
                                                        getCredentials];
     
-    
     GINISDKBuilder *builder = [GINISDKBuilder anonymousUserWithClientID:credentials[kClientId]
                                                            clientSecret:credentials[kClientPassword]
                                                         userEmailDomain:credentials[kClientPassword]];
