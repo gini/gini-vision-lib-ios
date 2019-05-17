@@ -23,7 +23,6 @@ target 'Example Swift' do
 end
 
 target 'Example ObjC' do
-
+    pod 'Gini-iOS-SDK'
     project_pods
-
 end

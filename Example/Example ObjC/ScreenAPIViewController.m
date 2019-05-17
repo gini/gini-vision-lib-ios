@@ -12,7 +12,7 @@
 #import <GiniVision/GiniVision-Swift.h>
 #import "CredentialsManager.h"
 
-@interface ScreenAPIViewController () <GiniVisionResultsDelegate>
+@interface ScreenAPIViewController () <GiniVisionDelegate>
 
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSDictionary *result;
@@ -50,23 +50,19 @@ NSString *kClientDomain = @"client_domain";
     GiniConfiguration *giniConfiguration = [GiniConfiguration new];
     giniConfiguration.debugModeOn = YES;
     giniConfiguration.navigationBarItemTintColor = [UIColor whiteColor];
-    giniConfiguration.multipageEnabled = YES;
     giniConfiguration.fileImportSupportedTypes = GiniVisionImportFileTypesPdf_and_images;
     giniConfiguration.openWithEnabled = YES;
     giniConfiguration.qrCodeScanningEnabled = YES;
     
     NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init] getCredentials];
     
-    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[kClientId]
-                                                 clientSecret:credentials[kClientPassword]
-                                            clientEmailDomain:credentials[kClientPassword]];
+//    GiniClient *client = [[GiniClient alloc] initWithClientId:credentials[kClientId]
+//                                                 clientSecret:credentials[kClientPassword]
+//                                            clientEmailDomain:credentials[kClientPassword]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc = [GiniVision viewControllerWithClient:client
-                                              importedDocuments:NULL
-                                                  configuration:giniConfiguration
-                                                resultsDelegate:self
-                                               documentMetadata:nil
-                                                            api:GINIAPITypeDefault];
+    UIViewController *vc =  [GiniVision viewControllerWithDelegate:self
+                                                 withConfiguration:giniConfiguration
+                                                  importedDocument:NULL];
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:vc animated:YES completion:nil];
     
@@ -120,4 +116,27 @@ NSString *kClientDomain = @"client_domain";
     });
 }
 
+- (void)didCancelAnalysis {
+
+}
+    
+- (void)didCancelCapturing {
+    [self dismissViewControllerAnimated:true completion:nil];
+}
+    
+- (void)didCancelReviewFor:(id<GiniVisionDocument> _Nonnull)document {
+    
+}
+    
+- (void)didCaptureWithDocument:(id<GiniVisionDocument> _Nonnull)document
+               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
+    
+}
+    
+- (void)didReviewWithDocuments:(NSArray<id<GiniVisionDocument>> * _Nonnull)documents
+               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
+    
+}
+
+    
 @end
