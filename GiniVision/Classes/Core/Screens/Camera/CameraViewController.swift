@@ -22,7 +22,7 @@ import AVFoundation
      documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
      
      - parameter viewController: `CameraViewController` where the documents were taken.
-     - parameter documents: One or several documents either captured or imported in
+     - parameter document: One or several documents either captured or imported in
      the `CameraViewController`. They can contain an error produced in the validation process.
      */
     @objc func camera(_ viewController: CameraViewController,

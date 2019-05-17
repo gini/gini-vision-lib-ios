@@ -77,7 +77,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
     
     // 1. Get session
     [[[[[sdk.sessionManager getSession] continueWithBlock:^id(BFTask *task) {
-        if (_cancelationToken.cancellationRequested) {
+        if (self->_cancelationToken.cancellationRequested) {
             return [BFTask cancelledTask];
         }
         if (task.error) {
@@ -87,27 +87,27 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
         
     // 2. Create a document from the given image data
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        if (_cancelationToken.cancellationRequested) {
+        if (self->_cancelationToken.cancellationRequested) {
             return [BFTask cancelledTask];
         }
         return [manager createDocumentWithFilename:fileName fromData:data docType:@""];
         
     // 3. Get extractions from the document
     }] continueWithSuccessBlock:^id(BFTask *task) {
-        if (_cancelationToken.cancellationRequested) {
+        if (self->_cancelationToken.cancellationRequested) {
             return [BFTask cancelledTask];
         }
-        _document = (GINIDocument *)task.result;
-        documentId = _document.documentId;
+        self->_document = (GINIDocument *)task.result;
+        documentId = self->_document.documentId;
         NSLog(@"Created document with id: %@", documentId);
         
-        return _document.extractions;
+        return [manager getExtractionsForDocument:self->_document];
         
     // 4. Handle results
     }] continueWithBlock:^id(BFTask *task) {
-        if (_cancelationToken.cancellationRequested || task.cancelled) {
+        if (self->_cancelationToken.cancellationRequested || task.cancelled) {
             NSLog(@"Canceled analysis process");
-            _analyzing = NO;
+            self->_analyzing = NO;
             return [BFTask cancelledTask];
         }
         
@@ -117,25 +117,25 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
         NSString *notificationName;
         
         if (task.error) {
-            _error = task.error.copy;
-            userInfo = @{GINIAnalysisManagerErrorUserInfoKey: _error};
+            self->_error = task.error.copy;
+            userInfo = @{GINIAnalysisManagerErrorUserInfoKey: self->_error};
             notificationName = GINIAnalysisManagerDidReceiveErrorNotification;
             if (completion) {
                 completion(nil, nil, task.error);
             }
         } else {
-            _result = ((NSDictionary *)task.result).copy;
-            userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: _result, GINIAnalysisManagerDocumentUserInfoKey: _document};
+            self->_result = ((NSDictionary *)task.result).copy;
+            userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: self->_result, GINIAnalysisManagerDocumentUserInfoKey: self->_document};
             notificationName = GINIAnalysisManagerDidReceiveResultNotification;
             if (completion) {
-                completion(_result, _document, nil);
+                completion(self->_result, self->_document, nil);
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:notificationName object:self userInfo:userInfo];
         });
         
-        _analyzing = NO;
+        self->_analyzing = NO;
         return nil;
     }];
 }

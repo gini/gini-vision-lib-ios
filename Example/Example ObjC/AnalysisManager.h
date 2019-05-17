@@ -58,7 +58,6 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
  *  @note Only one analysis process can be running at a time.
  *
  *  @param data       The image data to be analyzed.
- *  @param token      The cancelation token.
  *  @param completion The completion block handling the result.
  */
 - (void)analyzeDocumentWithImageData:(nonnull NSData *)data
