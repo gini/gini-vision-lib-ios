@@ -124,19 +124,6 @@ import UIKit
     }
     
     /**
-     Convenience intitializer for the `AnalysisViewController`.
-     
-     - parameter imageData:  Reviewed image ready for analysis
-     
-     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
-     */
-    
-    @available(*, deprecated, message: "Use init(document: giniConfiguration:) instead")
-    public convenience init(_ imageData: Data) {
-        self.init(document: GiniImageDocument(data: imageData, imageSource: .external))
-    }
-    
-    /**
      Returns an object initialized from data in a given unarchiver.
      
      - warning: Not implemented.
