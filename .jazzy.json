@@ -49,6 +49,7 @@
          "name":"Classes",
          "children":[
             "AnalysisViewController",
+            "AnalysisResult",
             "CameraViewController",
             "CustomDocumentValidationError",
             "CustomDocumentValidationResult",
@@ -80,6 +81,7 @@
             "FilePickerError",
             "GiniVisionDocumentType",
             "ImageAnalysisNoResultsStrings",
+            "ImageAssetsStrings",
             "NoticeActionType",
             "OpaqueViewStyle",
             "ReviewError"
@@ -97,12 +99,14 @@
          "children":[
             "AnalysisDelegate",
             "CameraViewControllerDelegate",
+            "Diffable",
             "DocumentPickerCoordinatorDelegate",
             "GiniLogger",
             "GiniVisionDelegate",
             "GiniVisionDocument",
             "GiniVisionError",
             "GiniVisionResultsDelegate",
+            "HelpMenuViewControllerDelegate",
             "MultipageReviewViewControllerDelegate",
             "ReviewViewControllerDelegate",
             "UploadDelegate"
