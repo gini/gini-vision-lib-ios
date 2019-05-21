@@ -40,6 +40,7 @@
       {
          "name":"Migration guides",
          "children":[
+           "Updating to 5.0",
            "Updating to 4.0",
            "Updating to 3.2"
          ]
