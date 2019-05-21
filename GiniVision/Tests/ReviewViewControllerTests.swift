@@ -27,16 +27,4 @@ final class ReviewViewControllerTests: XCTestCase {
                       "after tapping rotate button the document should have been modified and therefore the delegate" +
                       "should be notified")
     }
-    
-    func testDidReviewOnRotationWithBlocks() {
-        let document = GiniVisionTestsHelper.loadImageDocument(named: "invoice")
-        let expect = expectation(description: "success block is triggered after rotate image")
-        reviewViewController = ReviewViewController(document, successBlock: { _ in
-            expect.fulfill()
-        }, failureBlock: { _ in})
-        _ = reviewViewController.view
-        reviewViewController.rotateButton.sendActions(for: .touchUpInside)
-        
-        waitForExpectations(timeout: 1, handler: nil)
-    }
 }

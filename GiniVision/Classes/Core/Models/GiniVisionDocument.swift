@@ -21,14 +21,6 @@ import Foundation
     var isImported: Bool { get }
 }
 
-extension GiniVisionDocument {
-    @available(*, deprecated, message: "Use `GiniVisionDocumentValidator` instead")
-    public func validate() throws {
-        try GiniVisionDocumentValidator.validate(self,
-                                                 withConfig: GiniConfiguration.shared)
-    }
-}
-
 // MARK: GiniVisionDocumentType
 
 @objc public enum GiniVisionDocumentType: Int {
