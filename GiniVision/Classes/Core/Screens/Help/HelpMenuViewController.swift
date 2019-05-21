@@ -152,25 +152,6 @@ extension HelpMenuViewController {
             delegate?.help(self, didSelect: item)
             return
         }
-        
-        // (DEPRECATED) If no delegate is assigned, it will perform the navigation
-        let viewController = item.viewController
-        viewController.setupNavigationItem(usingResources: backToMenuButtonResource,
-                                           selector: #selector(back),
-                                           position: .left,
-                                           target: self)
-        
-        if let imageNoResultsViewController = viewController as? ImageAnalysisNoResultsViewController {
-            imageNoResultsViewController.didTapBottomButton = {
-                if let cameraViewController = (self.navigationController?
-                    .viewControllers
-                    .compactMap { $0 as? CameraViewController })?
-                    .first {
-                    _ = self.navigationController?.popToViewController(cameraViewController, animated: true)
-                }
-            }
-        }
-        navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
