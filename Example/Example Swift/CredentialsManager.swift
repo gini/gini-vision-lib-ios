@@ -7,11 +7,11 @@
 //
 
 import Foundation
-import GiniVision
+import Gini
 
 final class CredentialsManager {
 
-    class func fetchClientFromBundle() -> GiniClient {
+    class func fetchClientFromBundle() -> Client {
         let clientID = "client_id"
         let clientPassword = "client_password"
         let clientEmailDomain = "client_domain"
@@ -24,12 +24,14 @@ final class CredentialsManager {
             let client_email_domain = keys[clientEmailDomain] as? String,
             !client_id.isEmpty, !client_password.isEmpty, !client_email_domain.isEmpty {
             
-            return GiniClient(clientId: client_id,
-                              clientSecret: client_password,
-                              clientEmailDomain: client_email_domain)
+            return Client(id: client_id,
+                          secret: client_password,
+                          domain: client_email_domain)
         }
-        return GiniClient(clientId: "",
-                          clientSecret: "",
-                          clientEmailDomain: "")
+        
+        print("⚠️ No credentials were fetched from the Credentials.plist file")
+        return Client(id: "",
+                      secret: "",
+                      domain: "")
     }
 }

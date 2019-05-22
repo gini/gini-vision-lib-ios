@@ -23,17 +23,16 @@ public final class GiniVisionDocumentValidator {
      
      */
     public class func validate(_ document: GiniVisionDocument, withConfig giniConfiguration: GiniConfiguration) throws {
-        if !maxFileSizeExceeded(forData: document.data) {
-            try validateType(for: document)
-            let customValidationResult = giniConfiguration.customDocumentValidations(document)
-            if let error = customValidationResult.error, !customValidationResult.isSuccess {
-                throw error
-            }
-        } else {
-            throw DocumentValidationError.exceededMaxFileSize
+        try validateSize(for: document.data)
+        try validateType(for: document)
+        
+        let customValidationResult = giniConfiguration.customDocumentValidations(document)
+        if let error = customValidationResult.error, !customValidationResult.isSuccess {
+            throw error
         }
+        
     }
-
+    
 }
 
 // MARK: - Fileprivate
@@ -44,11 +43,16 @@ fileprivate extension GiniVisionDocumentValidator {
         return 10 * 1024 * 1024
     }
     
-    class func maxFileSizeExceeded(forData data: Data) -> Bool {
+    class func validateSize(for data: Data) throws {
         if data.count > maxFileSize {
-            return true
+            throw DocumentValidationError.exceededMaxFileSize
         }
-        return false
+        
+        if data.count == 0 {
+            throw DocumentValidationError.fileFormatNotValid
+        }
+        
+        return
     }
     
     class func validateType(for document: GiniVisionDocument) throws {

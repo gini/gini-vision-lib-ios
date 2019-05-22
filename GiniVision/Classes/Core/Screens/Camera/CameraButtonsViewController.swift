@@ -32,7 +32,7 @@ final class CameraButtonsViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(self.cameraCaptureButtonImage, for: .normal)
         button.addTarget(self, action: #selector(captureImage), for: .touchUpInside)
-        button.accessibilityLabel = self.giniConfiguration.cameraCaptureButtonTitle
+        button.accessibilityLabel = .localized(resource: CameraStrings.captureButton)
         return button
     }()
     

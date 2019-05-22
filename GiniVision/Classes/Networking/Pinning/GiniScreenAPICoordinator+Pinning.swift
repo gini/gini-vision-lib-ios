@@ -6,28 +6,22 @@
 //
 
 import Foundation
-import Gini_iOS_SDK
+import Gini
 
 extension GiniScreenAPICoordinator {
-    convenience init(client: GiniClient,
+    convenience init(client: Client,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
                      publicKeyPinningConfig: [String: Any],
-                     documentMetadata: GINIDocumentMetadata?,
-                     api: GINIAPIType) {
+                     documentMetadata: Document.Metadata?,
+                     api: APIDomain) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
-        
-        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
-                                                   clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain,
-                                                   publicKeyPinningConfig: publicKeyPinningConfig,
-                                                   api: api)
-        guard let sdk = builder?.build() else {
-            fatalError("There was a problem building the GINISDK")
-        }
+        let sdk = GiniSDK
+            .Builder(client: client, api: api, pinningConfig: publicKeyPinningConfig)
+            .build()
         
         self.documentService = documentService(with: sdk,
                                                documentMetadata: documentMetadata,

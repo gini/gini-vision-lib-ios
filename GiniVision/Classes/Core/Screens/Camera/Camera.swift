@@ -30,13 +30,17 @@ protocol CameraProtocol: class {
 
 final class Camera: NSObject, CameraProtocol {
     
+    // Callbacks
+    var didDetectQR: ((GiniQRCodeDocument) -> Void)?
+    var didCaptureImageHandler: ((Data?, CameraError?) -> Void)?
+    
     // Session management
+    var giniConfiguration: GiniConfiguration
+    var isFlashOn: Bool
+    var photoOutput: AVCapturePhotoOutput?
     var session: AVCaptureSession = AVCaptureSession()
     var videoDeviceInput: AVCaptureDeviceInput?
-    var stillImageOutput: AVCaptureStillImageOutput?
-    var didDetectQR: ((GiniQRCodeDocument) -> Void)?
-    var giniConfiguration: GiniConfiguration
-    
+
     lazy var isFlashSupported: Bool = {
         #if targetEnvironment(simulator)
         return true
@@ -44,7 +48,6 @@ final class Camera: NSObject, CameraProtocol {
         return videoDeviceInput?.device.hasFlash ?? false
         #endif
     }()
-    var isFlashOn: Bool
     
     fileprivate let application: UIApplication
     fileprivate lazy var sessionQueue: DispatchQueue = DispatchQueue(label: "session queue",
@@ -114,7 +117,7 @@ final class Camera: NSObject, CameraProtocol {
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
-            guard let connection = self.stillImageOutput?.connection(with: .video) else {
+            guard let connection = self.photoOutput?.connection(with: .video) else {
                 return completion(nil, .noInputDevice)
             }
             
@@ -123,20 +126,12 @@ final class Camera: NSObject, CameraProtocol {
                 guard let `self` = self else { return }
                 connection.videoOrientation = AVCaptureVideoOrientation(self.application.statusBarOrientation)
             }
-            
-            self.videoDeviceInput?.device.setFlashModeSecurely(self.isFlashOn ? .on : .off)
-            self.stillImageOutput?
-                .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
-                    if let buffer = buffer, error == nil {
-                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
-                    } else {
-                        completion(nil, .captureFailed)
-                    }
-            }
+
+            // Trigger photo capturing
+            self.didCaptureImageHandler = completion
+            self.photoOutput?.capturePhoto(with: self.captureSettings, delegate: self)
         }
     }
-    
-    // MARK: Private methods
     
     func setupQRScanningOutput() {
         self.session.beginConfiguration()
@@ -160,14 +155,25 @@ final class Camera: NSObject, CameraProtocol {
 // MARK: - Fileprivate
 
 fileprivate extension Camera {
-    func setupSession() throws {
-        var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(for: .video).filter {
-                $0.position == .back
-            }
-            guard let device = devices.first else { return nil }
-            return device
+    
+    var captureSettings: AVCapturePhotoSettings {
+        let captureSettings = AVCapturePhotoSettings()
+        
+        guard let device = self.videoDeviceInput?.device else { return captureSettings }
+        
+        let flashMode: AVCaptureDevice.FlashMode = self.isFlashOn ? .on : .off
+        if let imageOuput = self.photoOutput, imageOuput.supportedFlashModes.contains(flashMode) &&
+            device.hasFlash {
+            captureSettings.flashMode = flashMode
         }
+        
+        return captureSettings
+    }
+    
+    func setupSession() throws {
+        let videoDevice: AVCaptureDevice? = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                                    for: .video,
+                                                                    position: .back)
         
         do {
             guard let videoDevice = videoDevice else { throw CameraError.unknown }
@@ -192,12 +198,11 @@ fileprivate extension Camera {
     }
     
     func setupPhotoCaptureOutput() {
-        let output = AVCaptureStillImageOutput()
+        let output = AVCapturePhotoOutput()
         
         if self.session.canAddOutput(output) {
-            output.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
             self.session.addOutput(output)
-            self.stillImageOutput = output
+            self.photoOutput = output
         } else {
             Log(message: "Could not add still image output to the session", event: .error)
         }
@@ -230,3 +235,25 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+// MARK: - AVCapturePhotoCaptureDelegate
+
+extension Camera: AVCapturePhotoCaptureDelegate {
+    //swiftlint:disable function_parameter_count
+    func photoOutput(_ output: AVCapturePhotoOutput,
+                     didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?,
+                     previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?,
+                     resolvedSettings: AVCaptureResolvedPhotoSettings,
+                     bracketSettings: AVCaptureBracketedStillImageSettings?,
+                     error: Error?) {
+        guard let buffer = photoSampleBuffer,
+            let imageData = AVCapturePhotoOutput
+                .jpegPhotoDataRepresentation(forJPEGSampleBuffer: buffer,
+                                             previewPhotoSampleBuffer: previewPhotoSampleBuffer),
+            error == nil else {
+                didCaptureImageHandler?(nil, .captureFailed)
+                return
+        }
+        
+        didCaptureImageHandler?(imageData, nil)
+    }
+}

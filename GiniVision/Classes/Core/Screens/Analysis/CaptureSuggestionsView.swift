@@ -186,7 +186,7 @@ extension CaptureSuggestionsView {
     }
     
     fileprivate func changeSuggestionText() {
-        if let currentText = suggestionText.text, let currentIndex = suggestionTexts.index(of: currentText) {
+        if let currentText = suggestionText.text, let currentIndex = suggestionTexts.firstIndex(of: currentText) {
             let nextIndex: Int
             if suggestionTexts.index(after: currentIndex) < suggestionTexts.endIndex {
                 nextIndex = suggestionTexts.index(after: currentIndex)

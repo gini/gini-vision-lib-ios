@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import Gini_iOS_SDK
+import Gini
 
 extension GiniVision {
     /**
@@ -24,12 +24,12 @@ extension GiniVision {
 
      - returns: A presentable view controller.
      */
-    @objc public class func viewController(withClient client: GiniClient,
-                                           importedDocuments: [GiniVisionDocument]? = nil,
-                                           configuration: GiniConfiguration,
-                                           resultsDelegate: GiniVisionResultsDelegate,
-                                           documentMetadata: GINIDocumentMetadata? = nil,
-                                           api: GINIAPIType = .default) -> UIViewController {
+    public class func viewController(withClient client: Client,
+                                     importedDocuments: [GiniVisionDocument]? = nil,
+                                     configuration: GiniConfiguration,
+                                     resultsDelegate: GiniVisionResultsDelegate,
+                                     documentMetadata: Document.Metadata? = nil,
+                                     api: APIDomain = .default) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
@@ -39,16 +39,10 @@ extension GiniVision {
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     
-    public class func removeStoredCredentials(for client: GiniClient) {
-        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
-                                                   clientSecret: client.clientSecret,
-                                                   userEmailDomain: client.clientEmailDomain)
+    public class func removeStoredCredentials(for client: Client) throws {
+        let sdk = GiniSDK.Builder(client: client).build()
         
-        guard let sdk = builder?.build() else {
-            fatalError("There was a problem removing the credentials")
-        }
-        
-        sdk.removeStoredCredentials()
+        try sdk.removeStoredCredentials()
     }
     
 }
