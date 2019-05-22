@@ -1,6 +1,14 @@
 Changelog
 =========
 
+5.0.0 (2019-05-22)
+------------------
+
+-   Added the new API SDK in the network plugin.
+-   Removed support for iOS 9.0.
+-   Removed support for Obj-C in the networking plugin.
+-   Added document validation for empty files.
+
 4.8.0 (2019-05-07)
 ------------------
 
