@@ -91,8 +91,8 @@ final class QRCodesExtractor {
         let length = amount.count < 3 ? amount.count : 3
         
         if regexCurrency?.numberOfMatches(in: amount, options: [], range: NSRange(location: 0, length: length)) == 3 {
-            let currency = String(amount[..<String.Index(utf16Offset: 3, in: amount)])
-            let quantity = String(amount[String.Index(utf16Offset: 3, in: amount)...])
+            let currency = String(amount[..<String.Index(encodedOffset: 3)])
+            let quantity = String(amount[String.Index(encodedOffset: 3)...])
             return quantity + ":" + currency
         } else if let currency = currency {
             return amount + ":" + currency

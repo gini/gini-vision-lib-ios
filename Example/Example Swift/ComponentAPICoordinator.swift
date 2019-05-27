@@ -8,7 +8,7 @@
 
 import Foundation
 import GiniVision
-import Gini
+import Gini_iOS_SDK
 
 protocol ComponentAPICoordinatorDelegate: class {
     func componentAPI(coordinator: ComponentAPICoordinator, didFinish:())
@@ -184,7 +184,7 @@ extension ComponentAPICoordinator {
         navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(withExtractions extractions: [Extraction]) {
+    fileprivate func showResultsTableScreen(withExtractions extractions: [String: GINIExtraction]) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
         resultsScreen?.result = extractions
@@ -257,7 +257,7 @@ extension ComponentAPICoordinator {
         }
         
         viewControllersToDelete.forEach { viewControllerToDelete in
-            if let index = navigationStack.firstIndex(of: viewControllerToDelete) {
+            if let index = navigationStack.index(of: viewControllerToDelete) {
                 navigationStack.remove(at: index)
             }
         }
@@ -335,9 +335,10 @@ extension ComponentAPICoordinator {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
                 case .failure(let error):
-                    guard error != .requestCancelled else { return }
+                    let error = error as? AnalysisError ?? AnalysisError.unknown
+                    guard error != .cancelled else { return }
 
-                    self.showErrorInAnalysisScreen(with: AnalysisError.unknown.message) {
+                    self.showErrorInAnalysisScreen(with: error.message) {
                         self.startAnalysis()
                     }
                 }
@@ -631,7 +632,7 @@ extension ComponentAPICoordinator: NoResultsScreenDelegate {
 extension ComponentAPICoordinator {
     
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[GiniVisionPage], Error>) -> Void) {
+                              completion: @escaping (CompletionResult<[GiniVisionPage]>) -> Void) {
         guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
             return
@@ -681,9 +682,9 @@ extension ComponentAPICoordinator {
 
 extension ComponentAPICoordinator {
     
-    fileprivate func handleAnalysis(with extractions: [Extraction]) {
+    fileprivate func handleAnalysis(with extractions: [String: GINIExtraction]) {
         let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = extractions.filter { $0.name != nil ? payFive.contains($0.name!) : false }.count > 0
+        let hasPayFive = extractions.filter { payFive.contains($0.0) }.count > 0
         
         if hasPayFive {
             showResultsTableScreen(withExtractions: extractions)

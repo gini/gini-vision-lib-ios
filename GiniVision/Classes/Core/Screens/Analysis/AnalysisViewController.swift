@@ -63,7 +63,7 @@ import UIKit
     
     fileprivate lazy var loadingIndicatorText: UILabel = {
         var loadingText = UILabel()
-        loadingText.text = .localized(resource: AnalysisStrings.loadingText)
+        loadingText.text = giniConfiguration.analysisLoadingText
         loadingText.font = giniConfiguration.customFont.with(weight: .regular, size: 18, style: .body)
         loadingText.textAlignment = .center
         loadingText.textColor = .white
@@ -121,6 +121,19 @@ import UIKit
      */
     public convenience init(document: GiniVisionDocument) {
         self.init(document: document, giniConfiguration: GiniConfiguration.shared)
+    }
+    
+    /**
+     Convenience intitializer for the `AnalysisViewController`.
+     
+     - parameter imageData:  Reviewed image ready for analysis
+     
+     - returns: A view controller instance giving the user a nice user interface while waiting for the analysis results.
+     */
+    
+    @available(*, deprecated, message: "Use init(document: giniConfiguration:) instead")
+    public convenience init(_ imageData: Data) {
+        self.init(document: GiniImageDocument(data: imageData, imageSource: .external))
     }
     
     /**
@@ -270,8 +283,8 @@ import UIKit
                                             giniConfiguration: GiniConfiguration) {
         let title: String = document.pdfTitle ?? .localized(resource: AnalysisStrings.defaultPdfDokumentTitle)
         let pdfView = PDFInformationView(title: title,
-                                         subtitle: .localized(resource: AnalysisStrings.pdfPages,
-                                                              args: document.numberPages),
+                                         subtitle: giniConfiguration
+                                            .analysisPDFNumberOfPages(pagesCount: document.numberPages),
                                          textColor: giniConfiguration.analysisPDFInformationTextColor,
                                          textFont: giniConfiguration.customFont.with(weight: .regular,
                                                                                      size: 16,

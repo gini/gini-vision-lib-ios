@@ -40,13 +40,13 @@ public extension Collection where Iterator.Element == GiniVisionDocument {
 public extension Array where Iterator.Element == GiniVisionPage {
     
     mutating func remove(_ document: GiniVisionDocument) {
-        if let documentIndex = (self.firstIndex { $0.document.id == document.id }) {
+        if let documentIndex = (self.index { $0.document.id == document.id }) {
             remove(at: documentIndex)
         }
     }
     
     func index(of document: GiniVisionDocument) -> Int? {
-        if let documentIndex = (self.firstIndex { $0.document.id == document.id }) {
+        if let documentIndex = (self.index { $0.document.id == document.id }) {
             return documentIndex
         }
         return nil

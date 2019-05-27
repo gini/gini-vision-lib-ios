@@ -8,7 +8,7 @@
 import XCTest
 @testable import GiniVision
 
-//swiftlint:disable type_body_length
+// swiftlint:disable type_body_length
 final class CameraButtonsViewControllerTests: XCTestCase {
     
     var cameraButtonsViewController: CameraButtonsViewController!

@@ -7,7 +7,6 @@
 
 import Foundation
 
-//swiftlint:disable line_length
 /**
  A Gini Vision document made from a QR code.
  

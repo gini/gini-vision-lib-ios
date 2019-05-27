@@ -4,7 +4,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)]()
 [![Devices](https://img.shields.io/badge/devices-iPhone%20%7C%20iPad-blue.svg)]()
-[![Swift version](https://img.shields.io/badge/swift-5.0-orange.svg)]()
+[![Swift version](https://img.shields.io/badge/swift-4.2-orange.svg)]()
 
 
 The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.
@@ -28,7 +28,6 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
   - [Open with guide](open-with-guide.html)
   - [QR Code scanning guide](qr-code-scanning-guide.html)
 * Migration guides
-  - [Updating to 5.0](updating-to-50.html)
   - [Updating to 4.0](updating-to-40.html)
   - [Updating to 3.2](updating-to-32.html)
 

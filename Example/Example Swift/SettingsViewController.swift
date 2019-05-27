@@ -74,9 +74,7 @@ final class SettingsViewController: UIViewController {
         qrCodeScanningSwitch.setOn(giniConfiguration.qrCodeScanningEnabled, animated: false)
         multipageSwitch.setOn(giniConfiguration.multipageEnabled, animated: false)
         flashToggleSwitch.setOn(giniConfiguration.flashToggleEnabled, animated: false)
-        flashToggleSwitch.isEnabled = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                              for: .video,
-                                                              position: .back)?.hasFlash ?? false
+        flashToggleSwitch.isEnabled = AVCaptureDevice.devices(for: .video).first?.hasFlash ?? false
         
         switch giniConfiguration.fileImportSupportedTypes {
         case .none:

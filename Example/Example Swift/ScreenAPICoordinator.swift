@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import GiniVision
-import Gini
+import Gini_iOS_SDK
 
 protocol ScreenAPICoordinatorDelegate: class {
     func screenAPI(coordinator: ScreenAPICoordinator, didFinish:())
@@ -24,17 +24,17 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
     }
     var screenAPIViewController: UINavigationController!
     
-    let client: Client
-    let documentMetadata: Document.Metadata?
+    let client: GiniClient
+    let documentMetadata: GINIDocumentMetadata?
     weak var analysisDelegate: AnalysisDelegate?
     var visionDocuments: [GiniVisionDocument]?
     var visionConfiguration: GiniConfiguration
-    var sendFeedbackBlock: (([String: Extraction]) -> Void)?
+    var sendFeedbackBlock: (([String: GINIExtraction]) -> Void)?
     
     init(configuration: GiniConfiguration,
          importedDocuments documents: [GiniVisionDocument]?,
-         client: Client,
-         documentMetadata: Document.Metadata?) {
+         client: GiniClient,
+         documentMetadata: GINIDocumentMetadata?) {
         self.visionConfiguration = configuration
         self.visionDocuments = documents
         self.client = client
@@ -56,7 +56,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    fileprivate func showResultsScreen(results: [Extraction]) {
+    fileprivate func showResultsScreen(results: [String: GINIExtraction]) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = results
@@ -84,12 +84,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
         }
         
         if let fromVC = fromVC as? ResultTableViewController {
-            self.sendFeedbackBlock?(fromVC.result.reduce([:]) {
-                guard let name = $1.name else { return $0 }
-                var result = $0
-                result[name] = $1
-                return result
-            })
+            self.sendFeedbackBlock?(fromVC.result)
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
         
@@ -110,7 +105,7 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
     func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
                                          sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
-        showResultsScreen(results: result.extractions.map { $0.value })
+        showResultsScreen(results: result.extractions)
         self.sendFeedbackBlock = sendFeedbackBlock
     }
     

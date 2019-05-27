@@ -7,17 +7,17 @@
 //
 
 import Foundation
-@testable import Gini
+@testable import Gini_iOS_SDK
 @testable import GiniVision
 @testable import Example_Swift
 
 final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
 
     var giniSDK: GiniSDK
-    var document: Document?
-    var analysisCancellationToken: CancellationToken?
+    var compositeDocument: GINIDocument?
+    var analysisCancellationToken: BFCancellationTokenSource?
     
-    init(sdk: GiniSDK, documentMetadata: Document.Metadata?) {
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?) {
         self.giniSDK = sdk
     }
     
@@ -33,7 +33,7 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
         
     }
     
-    func sendFeedback(with updatedExtractions: [Extraction]) {
+    func sendFeedback(with: [String: Extraction]) {
         
     }
     
@@ -57,7 +57,6 @@ final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
 
 extension DocumentServiceMock {
     convenience init() {
-        self.init(sdk: GiniSDK.Builder(client: Client(id: "id", secret: "secret", domain: "domain")).build(),
-                  documentMetadata: nil)
+        self.init(sdk: GiniSDK(), documentMetadata: nil)
     }
 }

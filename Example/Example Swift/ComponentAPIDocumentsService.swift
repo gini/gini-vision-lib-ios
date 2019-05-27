@@ -6,20 +6,21 @@
 //
 
 import UIKit
+import Gini_iOS_SDK
 import GiniVision
-import Gini
+import Bolts
 
 final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     
-    var partialDocuments: [String: PartialDocument] = [:]
-    var document: Document?
-    var analysisCancellationToken: CancellationToken?
-    var metadata: Document.Metadata?
-    var documentService: DefaultDocumentService
+    var giniSDK: GiniSDK
+    var partialDocuments: [String: PartialDocumentInfo] = [:]
+    var compositeDocument: GINIDocument?
+    var analysisCancellationToken: BFCancellationTokenSource?
+    var documentMetadata: GINIDocumentMetadata?
     
-    init(sdk: GiniSDK, documentMetadata: Document.Metadata?) {
-        self.metadata = documentMetadata
-        self.documentService = sdk.documentService()
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?) {
+        self.giniSDK = sdk
+        self.documentMetadata = documentMetadata
     }
     
     func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion) {
@@ -33,20 +34,21 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     }
     
     func cancelAnalysis() {
-        if let compositeDocument = document {
-            delete(compositeDocument)
+        if let compositeDocument = compositeDocument {
+            deleteCompositeDocument(withId: compositeDocument.documentId)
         }
         
         analysisCancellationToken?.cancel()
         analysisCancellationToken = nil
-        document = nil
+        compositeDocument = nil
     }
     
     func remove(document: GiniVisionDocument) {
         if let index = partialDocuments.index(forKey: document.id) {
-            if let document = partialDocuments[document.id]?
-                .document {
-                delete(document)
+            if let partialDocumentId = partialDocuments[document.id]?
+                .info
+                .documentId {
+                deletePartialDocument(withId: partialDocumentId)
             }
             partialDocuments.remove(at: index)
         }
@@ -55,23 +57,36 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     func resetToInitialState() {
         partialDocuments.removeAll()
         analysisCancellationToken = nil
-        document = nil
+        compositeDocument = nil
     }
     
     func update(imageDocument: GiniImageDocument) {
-        partialDocuments[imageDocument.id]?.info.rotationDelta = imageDocument.rotationDelta
+        partialDocuments[imageDocument.id]?.info.rotationDelta = Int32(imageDocument.rotationDelta)
     }
     
-    func sendFeedback(with updatedExtractions: [Extraction]) {
-        guard let document = document else { return }
-        documentService.submitFeedback(for: document, with: updatedExtractions) { result in
-            switch result {
-            case .success:
+    func sendFeedback(with updatedExtractions: [String: Extraction]) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock())
+            .continueOnSuccessWith(block: { _ in
+                return self.giniSDK
+                    .documentTaskManager?
+                    .update(self.compositeDocument,
+                            updatedExtractions: updatedExtractions,
+                            cancellationToken: nil)
+            })
+            .continueWith(block: { (task: BFTask?) in
+                if let error = task?.error {
+                    let id = self.compositeDocument?.documentId ?? ""
+                    let message = "❌ Error sending feedback for document with id: \(id) error: \(error)"
+                    print(message)
+                    
+                    return nil
+                }
+                
                 print("🚀 Feedback sent with \(updatedExtractions.count) extractions")
-            case .failure(let error):
-                print("❌ Error sending feedback for document with id: \(document.id) error: \(error)")
-            }
-        }
+                return nil
+            })
     }
     
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
@@ -84,16 +99,14 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
     func upload(document: GiniVisionDocument,
                 completion: ComponentAPIUploadDocumentCompletion?) {
         self.partialDocuments[document.id] =
-            PartialDocument(info: (PartialDocumentInfo(document: nil, rotationDelta: 0)),
-                            document: nil,
-                            order: self.partialDocuments.count)
+            PartialDocumentInfo(info: (GINIPartialDocumentInfo(documentUrl: nil, rotationDelta: 0)),
+                                order: self.partialDocuments.count)
         let fileName = "Partial-\(NSDate().timeIntervalSince1970)"
         
         createDocument(from: document, fileName: fileName) { result in
             switch result {
             case .success(let createdDocument):
-                self.partialDocuments[document.id]?.document = createdDocument
-                self.partialDocuments[document.id]?.info.document = createdDocument.links.document
+                self.partialDocuments[document.id]?.info.documentUrl = createdDocument.links.document
                 
                 completion?(.success(createdDocument))
             case .failure(let error):
@@ -108,83 +121,148 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
 extension ComponentAPIDocumentsService {
     fileprivate func createDocument(from document: GiniVisionDocument,
                                     fileName: String,
-                                    docType: Document.DocType? = nil,
+                                    docType: String = "",
+                                    cancellationToken: BFCancellationToken? = nil,
                                     completion: @escaping ComponentAPIUploadDocumentCompletion) {
         print("📝 Creating document...")
         
-        documentService.createDocument(fileName: fileName,
-                                       docType: docType,
-                                       type: .partial(document.data),
-                                       metadata: metadata) { result in
-                                        switch result {
-                                        case .success(let createdDocument):
-                                            print("📄 Created document with id: \(createdDocument.id) " +
-                                                "for vision document \(document.id)")
-                                            completion(.success(createdDocument))
-                                        case .failure(let error):
-                                            print("❌ Document creation failed: \(error)")
-                                            
-                                            completion(.failure(error))
-                                        }
-                                        
-        }
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: cancellationToken))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                return self?.giniSDK.documentTaskManager.createPartialDocument(withFilename: fileName,
+                                                                               from: document.data,
+                                                                               docType: docType,
+                                                                               metadata: self?.documentMetadata,
+                                                                               cancellationToken: cancellationToken)
+            }).continueWith(block: { task in
+                if let createdDocument = task.result as? GINIDocument {
+                    print("📄 Created document with id: \(createdDocument.documentId ?? "") " +
+                        "for vision document \(document.id)")
+                    completion(.success(createdDocument))
+                } else if task.isCancelled {
+                    print("❌ Document creation was cancelled")
+                    completion(.failure(AnalysisError.cancelled))
+                } else {
+                    print("❌ Document creation failed")
+                    completion(.failure(AnalysisError.documentCreation))
+                }
+                
+                return nil
+            })
     }
     
-    func delete(_ document: Document) {
-        documentService.delete(document) { result in
-            switch result {
-            case .success:
-                print("🗑 Deleted \(document.sourceClassification.rawValue) document with id: \(document.id)")
-            case .failure(let error):
-                print("❌ Error deleting \(document.sourceClassification.rawValue) document with id \(document.id):" +
-                    " \(error)")
-            }
-        }
+    fileprivate func deleteCompositeDocument(withId id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.deleteCompositeDocument(withId: id,
+                                                                          cancellationToken: nil)
+            })
+            .continueWith(block: { task in
+                if task.isCancelled || task.error != nil {
+                    print("❌ Error deleting composite document with id: \(id)")
+                } else {
+                    print("🗑 Deleted composite document with id: \(id)")
+                }
+                
+                return nil
+            })
+        
     }
     
-    fileprivate func fetchExtractions(for documents: [PartialDocumentInfo],
+    fileprivate func deletePartialDocument(withId id: String) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: sessionBlock(cancellationToken: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.deletePartialDocument(withId: id,
+                                                                        cancellationToken: nil)
+            })
+            .continueWith(block: { task in
+                if task.isCancelled || task.error != nil {
+                    print("❌ Error deleting partial document with id: \(id)")
+                } else {
+                    print("🗑 Deleted partial document with id: \(id)")
+                }
+                
+                return nil
+            })
+        
+    }
+    
+    fileprivate func fetchExtractions(for documents: [GINIPartialDocumentInfo],
                                       completion: @escaping ComponentAPIAnalysisCompletion) {
         print(" 📑 Creating composite document...")
+        
+        analysisCancellationToken = BFCancellationTokenSource()
         let fileName = "Composite-\(NSDate().timeIntervalSince1970)"
         
-        documentService
-            .createDocument(fileName: fileName,
-                            docType: nil,
-                            type: .composite(CompositeDocumentInfo(partialDocuments: documents)),
-                            metadata: metadata) { [weak self] result in
-                                guard let self = self else { return }
-                                switch result {
-                                case .success(let createdDocument):
-                                    print("🔎 Starting analysis for composite document with id \(createdDocument.id)")
-                                    
-                                    self.analysisCancellationToken = CancellationToken()
-                                    self.documentService
-                                        .extractions(for: createdDocument,
-                                                     cancellationToken: self.analysisCancellationToken!,
-                                                     completion: self.handleResults(completion: completion))
-                                case .failure(let error):
-                                    print("❌ Composite document creation failed: \(error)")
-                                    completion(.failure(error))
-                                }
-        }
+        giniSDK
+            .documentTaskManager
+            .createCompositeDocument(withPartialDocumentsInfo: documents,
+                                     fileName: fileName,
+                                     docType: "",
+                                     metadata: documentMetadata,
+                                     cancellationToken: analysisCancellationToken?.token)
+            .continueOnSuccessWith { task in
+                if let document = task.result as? GINIDocument {
+                    print("🔎 Starting analysis for composite document with id \(document.documentId ?? "")")
+
+                    self.compositeDocument = document
+                    return self.giniSDK
+                        .documentTaskManager
+                        .getExtractionsFor(document,
+                                           cancellationToken: self.analysisCancellationToken?.token)
+                }
+                return BFTask<AnyObject>(error: AnalysisError.documentCreation)
+            }
+            .continueWith(block: handleAnalysisResults(completion: completion))
         
     }
     
-    func handleResults(completion: @escaping ComponentAPIAnalysisCompletion) -> (CompletionResult<[Extraction]>) {
-        return { result in
-            switch result {
-            case .success(let extractions):
-                print("✅ Finished analysis process with no errors")
-                completion(.success(extractions))
-            case .failure(let error):
-                switch error {
-                case .requestCancelled:
+    fileprivate func handleAnalysisResults(completion: @escaping ComponentAPIAnalysisCompletion)
+        -> ((BFTask<AnyObject>) -> Any?) {
+            return { task in
+                if task.isCancelled {
                     print("❌ Cancelled analysis process")
-                default:
-                    print("❌ Finished analysis process with error: \(error)")
+                    completion(.failure(AnalysisError.cancelled))
+                    
+                    return BFTask<AnyObject>.cancelled()
                 }
+                
+                let finishedString = "Finished analysis process with"
+                
+                if let error = task.error {
+                    print("❌ \(finishedString) this error: \(error)")
+                    
+                    completion(.failure(error))
+                } else if let result = task.result as? [String: Extraction] {
+                    print("✅ \(finishedString) no errors")
+                    
+                    completion(.success(result))
+                } else {
+                    let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
+                    print("❌ \(finishedString) this error: \(error)")
+                    
+                    completion(.failure(AnalysisError.unknown))
+                }
+                
+                return nil
             }
-        }
-        
+    }
+    
+    fileprivate func sessionBlock(cancellationToken token: BFCancellationToken? = nil)
+        -> ((BFTask<AnyObject>) -> Any?) {
+            return {
+                [weak self] task in
+                guard let `self` = self else { return nil }
+                
+                if task.error != nil {
+                    return self.giniSDK.sessionManager.logIn()
+                }
+                return task.result
+            }
     }
 }

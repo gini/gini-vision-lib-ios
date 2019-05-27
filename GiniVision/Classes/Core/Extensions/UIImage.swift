@@ -42,8 +42,6 @@ extension UIImage {
             nextOrientation = .up
         case .right, .rightMirrored:
             nextOrientation = .down
-        @unknown default:
-            preconditionFailure("All orientation must be handled")
         }
         return nextOrientation
     }

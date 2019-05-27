@@ -69,7 +69,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         cameraViewController.delegate = self
-        cameraViewController.title = .localized(resource: NavigationBarStrings.cameraTitle)
+        cameraViewController.title = giniConfiguration.navigationBarCameraTitle
         cameraViewController.view.backgroundColor = giniConfiguration.backgroundColor
         
         cameraViewController.setupNavigationItem(usingResources: closeButtonResource,
@@ -225,7 +225,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
 
 extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[GiniVisionPage], Error>) -> Void) {
+                              completion: @escaping (Result<[GiniVisionPage]>) -> Void) {
         
         guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))

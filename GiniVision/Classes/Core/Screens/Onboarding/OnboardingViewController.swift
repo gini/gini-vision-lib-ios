@@ -168,7 +168,7 @@ import UIKit
             if page == pages.first {
                 Constraints.active(item: page, attr: .leading, relatedBy: .equal, to: contentView, attr: .leading)
             } else {
-                let previousPage = pages[pages.firstIndex(of: page)! - 1]
+                let previousPage = pages[pages.index(of: page)! - 1]
                 Constraints.active(item: page, attr: .leading, relatedBy: .equal, to: previousPage, attr: .trailing)
             }
         }

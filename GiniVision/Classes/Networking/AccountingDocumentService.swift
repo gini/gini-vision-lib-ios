@@ -6,17 +6,19 @@
 //
 
 import Foundation
-import Gini
+import Gini_iOS_SDK
+import Bolts
 
 final class AccountingDocumentService: DocumentServiceProtocol {
-    var metadata: Document.Metadata?
-    var document: Document?
-    var analysisCancellationToken: CancellationToken?
-    let documentService: Gini.AccountingDocumentService
+    var giniSDK: GiniSDK
+    var metadata: GINIDocumentMetadata?
+    var document: GINIDocument?
+    var analysisCancellationToken: BFCancellationTokenSource?
     
-    init(sdk: GiniSDK, metadata: Document.Metadata?) {
+    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?) {
+        self.giniSDK = sdk
         self.metadata = metadata
-        self.documentService = sdk.documentService()
+        self.giniSDK.sessionManager.logIn()
     }
     
     func cancelAnalysis() {
@@ -40,20 +42,6 @@ final class AccountingDocumentService: DocumentServiceProtocol {
         document = nil
     }
     
-    func sendFeedback(with updatedExtractions: [Extraction]) {
-        guard let document = document else { return }
-        documentService.submitFeedback(for: document, with: updatedExtractions) { result in
-            switch result {
-            case .success:
-                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
-                    event: "🚀")
-            case .failure(let error):
-                Log(message: "Error sending feedback for document with id: \(document.id) error: \(error)",
-                    event: .error)
-            }
-        }
-    }
-    
     func startAnalysis(completion: @escaping AnalysisCompletion) {
         fetchExtractions(completion: completion)
     }
@@ -64,9 +52,11 @@ final class AccountingDocumentService: DocumentServiceProtocol {
     
     func upload(document: GiniVisionDocument, completion: UploadDocumentCompletion?) {
         let fileName = "Document-\(NSDate().timeIntervalSince1970)"
+        analysisCancellationToken = BFCancellationTokenSource()
         
         createDocument(from: document,
-                       fileName: fileName) { result in
+                       fileName: fileName,
+                       cancellationToken: analysisCancellationToken?.token) { result in
             switch result {
             case .success(let createdDocument):
                 completion?(.success(createdDocument))
@@ -87,53 +77,70 @@ final class AccountingDocumentService: DocumentServiceProtocol {
 fileprivate extension AccountingDocumentService {
     func createDocument(from document: GiniVisionDocument,
                         fileName: String,
-                        docType: Document.DocType? = nil,
+                        docType: String = "",
+                        cancellationToken: BFCancellationToken? = nil,
                         completion: @escaping UploadDocumentCompletion) {
         Log(message: "Creating document...", event: "📝")
         
-        documentService.createDocument(with: document.data,
-                                       fileName: fileName,
-                                       docType: docType,
-                                       metadata: metadata) { result in
-                                        switch result {
-                                        case .success(let createdDocument):
-                                            Log(message: "Created document with id: \(createdDocument.id) " +
-                                                "for vision document \(document.id)", event: "📄")
-                                            
-                                            self.document = createdDocument
-                                            completion(.success(createdDocument))
-                                        case .failure(let error):
-                                            Log(message: "Document creation failed", event: .error)
-                                            completion(.failure(error))
-                                        }
-            
-        }
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: getSession(with: cancellationToken))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                return self?.giniSDK.documentTaskManager.createDocument(withFilename: fileName,
+                                                                        from: document.data,
+                                                                        docType: docType,
+                                                                        metadata: self?.metadata,
+                                                                        cancellationToken: cancellationToken)
+            }).continueWith(block: { [weak self] task in
+                guard let self = self else { return nil }
+                if let createdDocument = task.result as? GINIDocument {
+                    Log(message: "Created document with id: \(createdDocument.documentId ?? "") " +
+                        "for vision document \(document.id)", event: "📄")
+                    
+                    self.document = createdDocument
+                    completion(.success(createdDocument))
+                } else if task.isCancelled {
+                    Log(message: "Document creation was cancelled", event: .error)
+                    completion(.failure(AnalysisError.cancelled))
+                } else {
+                    Log(message: "Document creation failed", event: .error)
+                    completion(.failure(AnalysisError.documentCreation))
+                }
+                
+                return nil
+            })
     }
     
-    func delete(_ document: Document) {
-        documentService.delete(document) { result in
-            switch result {
-            case .success:
-                self.document = nil
-
-                Log(message: "Deleted document with id: \(document.id)", event: "🗑")
-            case .failure:
-                Log(message: "Error deleting document with id: \(document.id)", event: .error)
-            }
-            
-        }
+    func delete(_ document: GINIDocument) {
+        giniSDK.sessionManager
+            .getSession()
+            .continueWith(block: getSession(with: nil))
+            .continueOnSuccessWith(block: { [weak self] _ in
+                self?.giniSDK.documentTaskManager.delete(document)
+            })
+            .continueWith(block: { task in
+                if task.isCancelled || task.error != nil {
+                    Log(message: "Error deleting document with id: \(document.documentId ?? "")",
+                        event: .error)
+                } else {
+                    Log(message: "Deleted document with id: \(document.documentId ?? "")", event: "🗑")
+                    self.document = nil
+                }
+                
+                return nil
+            })
     }
     
     func fetchExtractions(completion: @escaping AnalysisCompletion) {
-        guard let document = document else { return }
-        Log(message: "Starting analysis for document with id \(document.id)", event: "🔎")
-        
+        Log(message: "Starting analysis for document with id \(document?.documentId ?? "")",
+            event: "🔎")
         if analysisCancellationToken == nil {
-            analysisCancellationToken = CancellationToken()
+            analysisCancellationToken = BFCancellationTokenSource()
         }
         
-        documentService.extractions(for: document,
-                                    cancellationToken: analysisCancellationToken!,
-                                    completion: handleResults(completion: completion))
+        giniSDK
+            .documentTaskManager
+            .getExtractionsFor(document, cancellationToken: self.analysisCancellationToken?.token)
+            .continueWith(block: handleAnalysisResults(completion: completion))
     }
 }

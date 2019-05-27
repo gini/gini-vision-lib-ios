@@ -102,7 +102,7 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = .localized(resource: NavigationBarStrings.onboardingTitle)
+        title = giniConfiguration.navigationBarOnboardingTitle
         view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
         // Add content to container view

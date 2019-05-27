@@ -168,8 +168,6 @@ final class GalleryCoordinator: NSObject, Coordinator {
                     }
                 }
             }
-        @unknown default:
-            break
         }
     }
     
@@ -230,7 +228,7 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didDeselectAsset asset: Asset,
                      at index: IndexPath) {
-        if let documentIndex = selectedImageDocuments.firstIndex(where: { $0.assetId == asset.identifier }) {
+        if let documentIndex = selectedImageDocuments.index(where: { $0.assetId == asset.identifier }) {
             viewController.deselectCell(at: index)
             
             selectedImageDocuments.remove(at: documentIndex)

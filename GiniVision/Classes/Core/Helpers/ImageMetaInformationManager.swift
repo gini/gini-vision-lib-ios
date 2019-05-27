@@ -317,8 +317,6 @@ final class ImageMetaInformationManager {
             number = 6
         case .rightMirrored:
             number = 5
-        @unknown default:
-            preconditionFailure("All orientations must be handled")
         }
         return number
     }

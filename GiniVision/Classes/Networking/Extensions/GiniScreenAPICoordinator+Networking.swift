@@ -6,12 +6,12 @@
 //
 
 import Foundation
-import Gini
+import Gini_iOS_SDK
 
 /**
  The GiniVisionResultsDelegate protocol defines methods that allow you to handle the analysis result.
  */
-public protocol GiniVisionResultsDelegate: class {
+@objc public protocol GiniVisionResultsDelegate: class {
     
     /**
      Called when the analysis finished with results
@@ -21,6 +21,16 @@ public protocol GiniVisionResultsDelegate: class {
      */
     func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
                                          sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
+    
+    /**
+     Called when the analysis finished with results
+     
+     - parameter results: Dictionary with all the extractions
+     - parameter sendFeedbackBlock: Block used to send feeback once the results have been corrected
+     */
+    @available(*, unavailable, message: "This method is no longer available")
+    func giniVisionAnalysisDidFinish(with results: [String: Extraction],
+                                     sendFeedbackBlock: @escaping ([String: Extraction]) -> Void)
     
     /**
      Called when the analysis finished without results.
@@ -71,19 +81,24 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    convenience init(client: Client,
+    convenience init(client: GiniClient,
                      resultsDelegate: GiniVisionResultsDelegate,
                      giniConfiguration: GiniConfiguration,
-                     documentMetadata: Document.Metadata?,
-                     api: APIDomain) {
+                     documentMetadata: GINIDocumentMetadata?,
+                     api: GINIAPIType) {
         self.init(withDelegate: nil,
                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
         
-        let sdk = GiniSDK
-            .Builder(client: client, api: api)
-            .build()
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain,
+                                                   api: api)
+        
+        guard let sdk = builder?.build() else {
+            fatalError("There was a problem building the GINISDK")
+        }
         
         self.documentService = documentService(with: sdk,
                                                documentMetadata: documentMetadata,
@@ -92,9 +107,9 @@ extension GiniScreenAPICoordinator {
     }
     
     func documentService(with sdk: GiniSDK,
-                         documentMetadata: Document.Metadata?,
+                         documentMetadata: GINIDocumentMetadata?,
                          giniConfiguration: GiniConfiguration,
-                         for api: APIDomain) -> DocumentServiceProtocol {
+                         for api: GINIAPIType) -> DocumentServiceProtocol {
         switch api {
         case .default:
             return DocumentService(sdk: sdk, metadata: documentMetadata)
@@ -106,26 +121,20 @@ extension GiniScreenAPICoordinator {
         }
     }
     
-    func deliver(result: [Extraction], analysisDelegate: AnalysisDelegate) {
+    func deliver(result: [String: Extraction], analysisDelegate: AnalysisDelegate) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasExtactions = result.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
+        let hasExtactions = result.filter { resultParameters.contains($0.0) }.count > 0
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if hasExtactions {
                 let images = self.pages.compactMap { $0.document.previewImage }
-                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.compactMap {
-                    guard let name = $0.name else { return nil }
-                    
-                    return (name, $0)
-                })
-            
-                let result = AnalysisResult(extractions: extractions, images: images)
+                let result = AnalysisResult(extractions: result, images: images)
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
                                     guard let `self` = self else { return }
-                        self.documentService?.sendFeedback(with: updatedExtractions.map { $0.value })
-                        self.documentService?.resetToInitialState()
+                                    self.documentService?.sendFeedback(with: updatedExtractions)
+                                    self.documentService?.resetToInitialState()
                 }
             } else {
                 self.resultsDelegate?
@@ -145,10 +154,10 @@ extension GiniScreenAPICoordinator {
             case .success(let extractions):
                 self.deliver(result: extractions, analysisDelegate: networkDelegate)
             case .failure(let error):
-                guard error != .requestCancelled else { return }
+                let error = error as? AnalysisError ?? AnalysisError.unknown
+                guard error != .cancelled else { return }
                 
-                networkDelegate.displayError(withMessage: .localized(resource: AnalysisStrings.analysisErrorMessage),
-                                             andAction: {
+                networkDelegate.displayError(withMessage: error.message, andAction: {
                     self.startAnalysis(networkDelegate: networkDelegate)
                 })
             }
@@ -199,11 +208,9 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
         if let qrCodeDocument = document as? GiniQRCodeDocument,
             let format = qrCodeDocument.qrCodeFormat,
             case .eps4mobile = format {
-            let result = qrCodeDocument.extractedParameters.compactMap {
-                Extraction(box: nil, candidates: nil,
-                           entity: QRCodesExtractor.epsCodeUrlKey,
-                           value: $0.value,
-                           name: QRCodesExtractor.epsCodeUrlKey)
+            let result = qrCodeDocument.extractedParameters.compactMapValues {
+                Extraction(name: QRCodesExtractor.epsCodeUrlKey,
+                           value: $0, entity: nil, box: nil)
                 }
             
             self.deliver(result: result, analysisDelegate: networkDelegate)

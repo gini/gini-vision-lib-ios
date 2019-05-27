@@ -76,7 +76,7 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .photoLibraryAccessDenied:
-            return .localized(resource: CameraStrings.photoLibraryAccessDeniedMessage)
+            return GiniConfiguration.shared.photoLibraryAccessDeniedMessageText
         case .maxFilesPickedCountExceeded:
             return .localized(resource: CameraStrings.tooManyPagesErrorMessage)
         case .mixedDocumentsUnsupported:
@@ -137,17 +137,17 @@ public protocol GiniVisionError: Error {
     public var message: String {
         switch self {
         case .exceededMaxFileSize:
-            return .localized(resource: CameraStrings.exceededFileSizeErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorExcedeedFileSize
         case .imageFormatNotValid:
-            return .localized(resource: CameraStrings.wrongFormatErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .fileFormatNotValid:
-            return .localized(resource: CameraStrings.wrongFormatErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .pdfPageLengthExceeded:
-            return .localized(resource: CameraStrings.tooManyPagesErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorTooManyPages
         case .qrCodeFormatNotValid:
-            return .localized(resource: CameraStrings.wrongFormatErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorWrongFormat
         case .unknown:
-            return .localized(resource: CameraStrings.documentValidationGeneralErrorMessage)
+            return GiniConfiguration.shared.documentValidationErrorGeneral
         }
     }
     

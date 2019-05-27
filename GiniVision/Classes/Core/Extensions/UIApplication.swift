@@ -12,7 +12,7 @@ extension UIApplication {
     func openAppSettings() {
         guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
         if self.canOpenURL(settingsUrl) {
-            self.open(settingsUrl, options: [:], completionHandler: nil)
+            self.openURL(settingsUrl)
         }
     }
 }

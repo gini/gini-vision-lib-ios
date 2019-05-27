@@ -48,17 +48,6 @@ final class GiniVisionDocumentValidatorTests: XCTestCase {
                          "Valid images should validate without throwing an exception")
     }
     
-    func testEmptyFileValidation() {
-        let pdfDocument = GiniPDFDocument(data: Data(count: 0))
-
-        XCTAssertThrowsError(try GiniVisionDocumentValidator.validate(pdfDocument,
-                                                                      withConfig: giniConfiguration),
-                             "Empty files should not be valid") { error in
-                                XCTAssert(error as? DocumentValidationError == .fileFormatNotValid,
-                                          "should indicate that the file format is invalid")
-        }
-    }
-    
     fileprivate func generateFakeData(megaBytes lengthInMB: Int) -> Data {
         let length = lengthInMB * 1000000
         return Data(count: length)

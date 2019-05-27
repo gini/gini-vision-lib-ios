@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Gini
 
 @objc public class AnalysisResult: NSObject {
     /// Images processed in the analysis

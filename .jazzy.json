@@ -40,7 +40,6 @@
       {
          "name":"Migration guides",
          "children":[
-           "Updating to 5.0",
            "Updating to 4.0",
            "Updating to 3.2"
          ]
@@ -49,11 +48,11 @@
          "name":"Classes",
          "children":[
             "AnalysisViewController",
-            "AnalysisResult",
             "CameraViewController",
             "CustomDocumentValidationError",
             "CustomDocumentValidationResult",
             "DocumentPickerCoordinator",
+            "GiniClient",
             "GiniConfiguration",
             "GiniImageDocument",
             "GiniPDFDocument",
@@ -81,7 +80,6 @@
             "FilePickerError",
             "GiniVisionDocumentType",
             "ImageAnalysisNoResultsStrings",
-            "ImageAssetsStrings",
             "NoticeActionType",
             "OpaqueViewStyle",
             "ReviewError"
@@ -99,14 +97,12 @@
          "children":[
             "AnalysisDelegate",
             "CameraViewControllerDelegate",
-            "Diffable",
             "DocumentPickerCoordinatorDelegate",
             "GiniLogger",
             "GiniVisionDelegate",
             "GiniVisionDocument",
             "GiniVisionError",
             "GiniVisionResultsDelegate",
-            "HelpMenuViewControllerDelegate",
             "MultipageReviewViewControllerDelegate",
             "ReviewViewControllerDelegate",
             "UploadDelegate"
@@ -122,7 +118,17 @@
       {
          "name":"Typealiases",
          "children":[
-            "GiniVisionNetworkDelegate"
+            "CameraErrorBlock",
+            "CameraSuccessBlock",
+            "CameraScreenFailureBlock",
+            "CameraScreenSuccessBlock",
+            "Extraction",
+            "GiniVisionNetworkDelegate",
+            "NoticeAction",
+            "ReviewErrorBlock",
+            "ReviewSuccessBlock",
+            "ReviewScreenFailureBlock",
+            "ReviewScreenSuccessBlock"
          ]
       }
    ]

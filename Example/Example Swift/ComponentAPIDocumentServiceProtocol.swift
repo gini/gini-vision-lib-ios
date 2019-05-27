@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Gini_iOS_SDK
 import GiniVision
-import Gini
+import Bolts
+
+public typealias Extraction = GINIExtraction
 
 enum CustomAnalysisError: GiniVisionError {
     case analysisFailed
@@ -19,18 +22,25 @@ enum CustomAnalysisError: GiniVisionError {
     }
 }
 
-typealias ComponentAPIUploadDocumentCompletion = (Result<Document, GiniError>) -> Void
-typealias ComponentAPIAnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
+enum CompletionResult<T> {
+    case success(T)
+    case failure(Error)
+}
+
+typealias ComponentAPIUploadDocumentCompletion = (CompletionResult<GINIDocument>) -> Void
+typealias ComponentAPIAnalysisCompletion = (CompletionResult<[String: Extraction]>) -> Void
 
 protocol ComponentAPIDocumentServiceProtocol: class {
     
-    var document: Document? { get set }
-    var analysisCancellationToken: CancellationToken? { get set }
+    var giniSDK: GiniSDK { get }
+    var compositeDocument: GINIDocument? { get set }
+    var analysisCancellationToken: BFCancellationTokenSource? { get set }
     
+    init(sdk: GiniSDK, documentMetadata: GINIDocumentMetadata?)
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
     func resetToInitialState()
-    func sendFeedback(with updatedExtractions: [Extraction])
+    func sendFeedback(with: [String: Extraction])
     func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion)
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument])
     func upload(document: GiniVisionDocument,

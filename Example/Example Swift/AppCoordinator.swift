@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 import GiniVision
-import Gini
+import Gini_iOS_SDK
 
 final class AppCoordinator: Coordinator {
     
@@ -24,7 +24,7 @@ final class AppCoordinator: Coordinator {
         let selectAPIViewController = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "selectAPIViewController") as? SelectAPIViewController)!
         selectAPIViewController.delegate = self
-        selectAPIViewController.clientId = self.client.id
+        selectAPIViewController.clientId = self.client.clientId
         return selectAPIViewController
     }()
     
@@ -49,8 +49,8 @@ final class AppCoordinator: Coordinator {
         return giniConfiguration
     }()
     
-    private lazy var client: Client = CredentialsManager.fetchClientFromBundle()
-    private var documentMetadata: Document.Metadata?
+    private lazy var client: GiniClient = CredentialsManager.fetchClientFromBundle()
+    private var documentMetadata: GINIDocumentMetadata?
     private let documentMetadataBranchId = "GVLExampleIOS"
     private let documentMetadataAppFlowKey = "AppFlow"
 
@@ -58,8 +58,8 @@ final class AppCoordinator: Coordinator {
         self.window = window
         print("------------------------------------\n\n",
               "📸 Gini Vision Library for iOS (\(GiniVision.versionString))\n\n",
-            "      - Client id:  \(client.id)\n",
-            "      - Client email domain:  \(client.domain)",
+            "      - Client id:  \(client.clientId)\n",
+            "      - Client email domain:  \(client.clientEmailDomain)",
             "\n\n------------------------------------\n")
     }
     
@@ -98,8 +98,8 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func showScreenAPI(with pages: [GiniVisionPage]? = nil) {
-        documentMetadata = Document.Metadata(branchId: documentMetadataBranchId,
-                                             additionalHeaders: [documentMetadataAppFlowKey: "ScreenAPI"])
+        documentMetadata = GINIDocumentMetadata(branchId: documentMetadataBranchId,
+                                                additionalHeaders: [documentMetadataAppFlowKey: "ScreenAPI"])
         let screenAPICoordinator = ScreenAPICoordinator(configuration: giniConfiguration,
                                                         importedDocuments: pages?.map { $0.document },
                                                         client: client,
@@ -123,10 +123,15 @@ final class AppCoordinator: Coordinator {
     }
     
     fileprivate func componentAPIDocumentService() -> ComponentAPIDocumentServiceProtocol {
-        let sdk = GiniSDK.Builder(client: client).build()
+        let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
+                                                   clientSecret: client.clientSecret,
+                                                   userEmailDomain: client.clientEmailDomain)
+        guard let sdk = builder?.build() else {
+            fatalError("It wasn't possible to build a Gini API SDK ")
+        }
         
-        documentMetadata = Document.Metadata(branchId: documentMetadataBranchId,
-                                             additionalHeaders: [documentMetadataAppFlowKey: "ComponentAPI"])
+        documentMetadata = GINIDocumentMetadata(branchId: documentMetadataBranchId,
+                                                additionalHeaders: [documentMetadataAppFlowKey: "ComponentAPI"])
         return ComponentAPIDocumentsService(sdk: sdk, documentMetadata: documentMetadata)
     }
     

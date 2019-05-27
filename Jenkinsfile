@@ -69,7 +69,7 @@ pipeline {
         }
       }
     }
-    stage('Release Pod') {
+    stage('Pod lint') {
       when {
         branch 'master'
         expression {
@@ -78,7 +78,7 @@ pipeline {
         }
       }
       steps {
-        sh '/usr/local/bin/pod trunk push GiniVision.podspec --allow-warnings'
+        sh '/usr/local/bin/pod lib lint --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
   }
