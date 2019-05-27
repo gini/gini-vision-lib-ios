@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Integration  Reference</title>
+    <title>Other Classes  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -14,8 +14,9 @@
   </head>
   <body>
 
+    <a name="//apple_ref/swift/Section/Other Classes" class="dashAnchor"></a>
 
-    <a title="Integration  Reference"></a>
+    <a title="Other Classes  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +45,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      Integration  Reference
+      Other Classes  Reference
     </p>
 
     <div class="content-wrapper">
@@ -335,79 +336,49 @@
 
         <section class="section">
           <div class="section-content">
-            
-            <h1 id='integration' class='heading'>Integration</h1>
-
-<p>The Gini Vision Library provides two integration options. A <a href="#screen-api">Screen API</a> that is easy to implement and a more complex, but also more flexible <a href="#component-api">Component API</a>. Both APIs can access the complete functionality of the library.</p>
-
-<p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for <q>Keychain Sharing</q> in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
-<h2 id='screen-api' class='heading'>Screen API</h2>
-
-<p>The Screen API provides a custom <code>UIViewController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis.
-The Screen API, in turn, offers two different ways of implementation:</p>
-<h4 id='ui-with-networking-recommended' class='heading'>UI with Networking (Recommended)</h4>
-
-<p>Using this method you don&rsquo;t need to care about handling the analysis process with the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a>, you only need to provide your API credentials and a delegate to get the analysis results.</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withClient</span><span class="p">:</span> <span class="n">client</span><span class="p">,</span>
-                                               <span class="nv">configuration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">,</span>
-                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="n">resultsDelegate</span><span class="p">)</span>
-
-<span class="nf">present</span><span class="p">(</span><span class="n">viewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
-</code></pre>
-
-<p>Optionally if you want to use <em>Certificate pinning</em>, provide metadata for the upload process or use the <a href="https://accounting-api.gini.net/documentation/">Accounting API</a>, you can pass both your public key pinning configuration (see <a href="https://github.com/datatheorem/TrustKit">TrustKit repo</a> for more information), the metadata information and the <em>API type</em> (the <a href="http://developer.gini.net/gini-api/html/index.html">Gini API</a> is used by default) as follows:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withClient</span><span class="p">:</span> <span class="n">client</span><span class="p">,</span>
-                                               <span class="nv">configuration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">,</span>
-                                               <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="n">resultsDelegate</span><span class="p">,</span>
-                                               <span class="nv">publicKeyPinningConfig</span><span class="p">:</span> <span class="n">pinningConfig</span><span class="p">,</span>
-                                               <span class="nv">documentMetadata</span><span class="p">:</span> <span class="n">documentMetadata</span><span class="p">,</span>
-                                               <span class="nv">api</span><span class="p">:</span> <span class="o">.</span><span class="n">accounting</span><span class="p">)</span>
-
-<span class="nf">present</span><span class="p">(</span><span class="n">viewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
-</code></pre>
-
-<blockquote>
-<p>⚠️  <strong>Important</strong></p>
-
-<ul>
-<li>The document metadata for the upload process is intended to be used for reporting.</li>
-<li>The multipage is supported only by the <code>.default</code> api, not the <code>.accounting</code> api. The <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipageEnabled">GiniConfiguration.multipageEnabled</a></code> property must not be <code>true</code> if you use the <code>.accounting</code> api.</li>
-</ul>
-</blockquote>
-<h4 id='only-ui' class='heading'>Only UI</h4>
-
-<p>In case that you decide to use only the UI and to handle all the analysis process (either using the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a> or with your own implementation of the API), just get the <code>UIViewController</code> as follows:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span>
-                                               <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">)</span>
-
-<span class="nf">present</span><span class="p">(</span><span class="n">viewController</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-</code></pre>
-<h2 id='component-api' class='heading'>Component API</h2>
-
-<p>The Component API provides a custom <code>UIViewController</code> for each screen. This allows a maximum of flexibility, as the screens can be presented modally, used in a container view or pushed to a navigation view controller. Make sure to add your own navigational elements around the provided views.</p>
-
-<p>To also use the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code> with the Component API just use the <code><a href="Classes/GiniVision.html#/c:@M@GiniVision@objc(cs)GiniVision(cm)setConfiguration:">GiniVision.setConfiguration(_:)</a></code> as follows:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">giniConfiguration</span> <span class="o">=</span> <span class="kt">GiniConfiguration</span><span class="p">()</span>
-<span class="o">.</span>
-<span class="o">.</span>
-<span class="o">.</span>
-<span class="kt">GiniVision</span><span class="o">.</span><span class="nf">setConfiguration</span><span class="p">(</span><span class="n">giniConfiguration</span><span class="p">)</span>
-</code></pre>
-
-<p>The components that can be found in the library are:</p>
-
-<ul>
-<li><strong>Camera</strong>: The actual camera screen to capture the image of the document, to import a PDF or an image or to scan a QR Code (<code><a href="Classes/CameraViewController.html">CameraViewController</a></code>).</li>
-<li><strong>Review</strong>: Offers the opportunity to the user to check the sharpness of the image and eventually to rotate it into reading direction (<code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code>).</li>
-<li><strong>Multipage Review</strong>: Allows to check the quality of one or several images and the possibility to rotate and reorder them (<code><a href="Classes/MultipageReviewViewController.html">MultipageReviewViewController</a></code>).</li>
-<li><strong>Analysis</strong>: Provides a UI for the analysis process of the document by showing the user capture tips when an image is analyzed or the document information when it is a PDF. In both cases an image preview of the document analyzed will be shown (<code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code>).</li>
-<li><strong>Help</strong>: Helpful tutorials indicating how to use the open with feature, which are the supported file types and how to capture better photos for a good analysis (<code><a href="Classes/HelpMenuViewController.html">HelpMenuViewController</a></code>).</li>
-<li><strong>No results</strong>: Shows some suggestions to capture better photos when there are no results after an analysis (<code><a href="Classes/ImageAnalysisNoResultsViewController.html">ImageAnalysisNoResultsViewController</a></code>).</li>
-</ul>
+            <h1>Other Classes</h1>
+            <p>The following classes are available globally.</p>
 
           </div>
         </section>
 
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)AnalysisResult"></a>
+                    <a name="//apple_ref/swift/Class/AnalysisResult" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)AnalysisResult">AnalysisResult</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                        <a href="Classes/AnalysisResult.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">AnalysisResult</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
 
       </article>
     </div>
