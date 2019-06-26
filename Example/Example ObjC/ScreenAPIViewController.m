@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *errorMessage;
 @property (nonatomic, strong) NSDictionary *result;
 @property (nonatomic, strong) GINIDocument *document;
+@property (nonatomic, strong) UIViewController *giniVisionVC;
 
 @end
 
@@ -61,14 +62,14 @@ NSString *kClientDomain = @"client_domain";
                                                  clientSecret:credentials[kClientPassword]
                                             clientEmailDomain:credentials[kClientPassword]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc = [GiniVision viewControllerWithClient:client
+    self.giniVisionVC = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
                                                   configuration:giniConfiguration
                                                 resultsDelegate:self
                                                documentMetadata:nil
                                                             api:GINIAPITypeDefault];
     // 3. Present the Gini Vision Library Screen API modally
-    [self presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:_giniVisionVC animated:YES completion:nil];
     
     // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
 }
