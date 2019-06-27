@@ -15,7 +15,7 @@
 @interface ScreenAPIViewController () <GiniVisionResultsDelegate>
 
 @property (nonatomic, strong) NSString *errorMessage;
-@property (nonatomic, strong) NSDictionary *result;
+@property (nonatomic, strong) AnalysisResult *result;
 @property (nonatomic, strong) GINIDocument *document;
 @property (nonatomic, strong) UIViewController *giniVisionVC;
 
@@ -84,9 +84,9 @@ NSString *kClientDomain = @"client_domain";
     }
 }
 
-- (void)giniVisionAnalysisDidFinishWith:(NSDictionary<NSString *,GINIExtraction *> *)results
-                      sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
-    _result = results;
+- (void)giniVisionAnalysisDidFinishWithResult:(AnalysisResult *)result
+                            sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
+    _result = result;
     [self presentResultsWithSendFeedbackBlock:sendFeedbackBlock];
 }
 
@@ -95,7 +95,7 @@ NSString *kClientDomain = @"client_domain";
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
-        if (_result[key]) {
+        if (_result.extractions[key]) {
             hasPayFive = YES;
             break;
         }
@@ -104,7 +104,7 @@ NSString *kClientDomain = @"client_domain";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
-        vc.result = _result;
+        vc.result = _result.extractions;
         vc.sendFeedback = sendFeedbackBlock;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:NO];
