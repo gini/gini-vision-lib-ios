@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc public class AnalysisResult: NSObject {
+@objcMembers public class AnalysisResult: NSObject {
     /// Images processed in the analysis
     public let images: [UIImage]
     /*

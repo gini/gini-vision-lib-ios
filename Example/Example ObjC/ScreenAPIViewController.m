@@ -15,8 +15,9 @@
 @interface ScreenAPIViewController () <GiniVisionResultsDelegate>
 
 @property (nonatomic, strong) NSString *errorMessage;
-@property (nonatomic, strong) NSDictionary *result;
+@property (nonatomic, strong) AnalysisResult *result;
 @property (nonatomic, strong) GINIDocument *document;
+@property (nonatomic, strong) UIViewController *giniVisionVC;
 
 @end
 
@@ -61,14 +62,14 @@ NSString *kClientDomain = @"client_domain";
                                                  clientSecret:credentials[kClientPassword]
                                             clientEmailDomain:credentials[kClientPassword]];
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc = [GiniVision viewControllerWithClient:client
+    self.giniVisionVC = [GiniVision viewControllerWithClient:client
                                               importedDocuments:NULL
                                                   configuration:giniConfiguration
                                                 resultsDelegate:self
                                                documentMetadata:nil
                                                             api:GINIAPITypeDefault];
     // 3. Present the Gini Vision Library Screen API modally
-    [self presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:_giniVisionVC animated:YES completion:nil];
     
     // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
 }
@@ -83,9 +84,9 @@ NSString *kClientDomain = @"client_domain";
     }
 }
 
-- (void)giniVisionAnalysisDidFinishWith:(NSDictionary<NSString *,GINIExtraction *> *)results
-                      sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
-    _result = results;
+- (void)giniVisionAnalysisDidFinishWithResult:(AnalysisResult *)result
+                            sendFeedbackBlock:(void (^)(NSDictionary<NSString *,GINIExtraction *> * _Nonnull))sendFeedbackBlock {
+    _result = result;
     [self presentResultsWithSendFeedbackBlock:sendFeedbackBlock];
 }
 
@@ -94,7 +95,7 @@ NSString *kClientDomain = @"client_domain";
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
     for (NSString *key in payFive) {
-        if (_result[key]) {
+        if (_result.extractions[key]) {
             hasPayFive = YES;
             break;
         }
@@ -103,7 +104,7 @@ NSString *kClientDomain = @"client_domain";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
-        vc.result = _result;
+        vc.result = _result.extractions;
         vc.sendFeedback = sendFeedbackBlock;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:NO];
