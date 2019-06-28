@@ -1,6 +1,13 @@
 Changelog
 =========
 
+4.8.1 (2019-06-28)
+------------------
+
+-   Fixed a crash when using the Networking module and the results delegate is deallocated before analysis finishes.
+-   Fixed the Objective-C example.
+-   AnalysisResult properties made available to Objective-C.
+
 4.8.0 (2019-05-07)
 ------------------
 
