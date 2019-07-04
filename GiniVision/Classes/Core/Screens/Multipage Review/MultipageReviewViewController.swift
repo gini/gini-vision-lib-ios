@@ -322,6 +322,10 @@ extension MultipageReviewViewController {
     }
     
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
+        guard self.pages.count > 0 else {
+            return
+        }
+        
         var indexPathRow = position
         if position < 0 || position >= self.pages.count {
             indexPathRow = 0

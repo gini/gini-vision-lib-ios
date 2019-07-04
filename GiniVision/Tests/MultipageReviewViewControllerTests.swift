@@ -239,7 +239,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testSelectingItemAtNegativePositionSelectsFirstItem() {
-        ToolTipView.shouldShowReorderPagesButtonToolTip = true
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
         multipageReviewViewController = MultipageReviewViewController(pages: imagePages,
                                                                       giniConfiguration: giniConfiguration)
@@ -252,7 +252,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     }
     
     func testSelectingItemAtOutOfUpperBoundPositionSelectsFirstItem() {
-        ToolTipView.shouldShowReorderPagesButtonToolTip = true
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
         
         multipageReviewViewController = MultipageReviewViewController(pages: imagePages,
                                                                       giniConfiguration: giniConfiguration)
@@ -262,5 +262,18 @@ final class MultipageReviewViewControllerTests: XCTestCase {
         
         XCTAssertEqual(multipageReviewViewController.pagesCollection.indexPathsForSelectedItems?[0].row, 0,
                        "pages collection selected item position should be 0")
+    }
+    
+    func testSelectingItemDoesNothingIfPagesIsEmpty() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewViewController(pages: [],
+                                                                      giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        
+        multipageReviewViewController.selectItem(at: 1)
+        
+        XCTAssertEqual(multipageReviewViewController.pagesCollection.indexPathsForSelectedItems?.count, 0,
+                       "pages collection has no selected items")
     }
 }
