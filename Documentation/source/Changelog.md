@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.8.2 (2019-07-05)
+------------------
+
+- Fixed a crash that could occur when opening and closing the multipage review screen multiple times.
+
 4.8.1 (2019-06-28)
 ------------------
 
