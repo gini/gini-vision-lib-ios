@@ -238,6 +238,9 @@ extension MultipageReviewViewController {
         if ToolTipView.shouldShowReorderPagesButtonToolTip {
             createReorderPagesTip()
         }
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     public override func viewWillAppear(_ animated: Bool) {

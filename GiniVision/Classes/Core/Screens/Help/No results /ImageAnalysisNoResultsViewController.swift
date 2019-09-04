@@ -135,6 +135,12 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         }, completion: nil)
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     fileprivate func addConstraints() {
         
         // Collection View

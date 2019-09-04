@@ -107,6 +107,9 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         
         // Add content to container view
         displayContent(contentController)
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

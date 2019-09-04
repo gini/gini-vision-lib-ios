@@ -23,6 +23,12 @@ final class ResultTableViewController: UITableViewController {
     fileprivate var sortedKeys: [String] {
         return Array(result.keys).sorted(by: <)
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
 }
 
 extension ResultTableViewController {
