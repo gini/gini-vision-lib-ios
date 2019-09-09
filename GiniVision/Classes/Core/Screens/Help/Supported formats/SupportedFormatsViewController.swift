@@ -67,6 +67,9 @@ final class SupportedFormatsViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     // MARK: - Table view data source

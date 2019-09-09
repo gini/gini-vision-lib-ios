@@ -77,6 +77,9 @@ final class OpenWithTutorialViewController: UICollectionViewController {
         stepsCollectionLayout.minimumLineSpacing = 1
         stepsCollectionLayout.minimumInteritemSpacing = 1
         stepsCollectionLayout.estimatedItemSize = estimatedCellSize(widthParentSize: view.frame.size)
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

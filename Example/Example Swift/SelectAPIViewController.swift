@@ -42,6 +42,8 @@ final class SelectAPIViewController: UIViewController {
         let metaTitle = "Gini Vision Library: (\(GiniVision.versionString)) / Client id: \(self.clientId ?? "")"
         metaInformationButton.setTitle(metaTitle, for: .normal)
         
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     // MARK: User interaction
