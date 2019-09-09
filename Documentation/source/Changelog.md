@@ -1,6 +1,13 @@
 Changelog
 =========
 
+4.8.3 (2019-09-09)
+------------------
+
+- Support for iOS 13:
+  - Light mode only: when using dark mode GVL's UI remains in light mode.
+  - Fixed QR Code rendering on the QR Code detected popup.
+
 4.8.2 (2019-07-05)
 ------------------
 
