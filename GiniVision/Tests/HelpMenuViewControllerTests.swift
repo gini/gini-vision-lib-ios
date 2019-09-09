@@ -93,7 +93,8 @@ final class HelpMenuViewControllerTests: XCTestCase {
         
         XCTAssertEqual(itemText, cell.textLabel?.text,
                        "cell text in the first row should be the same as the first item text")
-        XCTAssertEqual(cellBackgroundColor, cell.backgroundColor, "cell background color should always be white")
+        // Compare cgColors because since iOS 13 cell.backgroundColor has the UIDynamicSystemColor type
+        XCTAssertEqual(cellBackgroundColor.cgColor, cell.backgroundColor!.cgColor, "cell background color should always be white")
         XCTAssertEqual(cellAccesoryType, cell.accessoryType, "cell accesory type should be and a disclosure indicator")
     }
     

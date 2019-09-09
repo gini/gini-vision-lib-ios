@@ -230,6 +230,12 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         view.layoutIfNeeded()
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     /**
      Called to notify the view controller that its view has just laid out its subviews.
      */
@@ -242,7 +248,7 @@ public typealias ReviewScreenFailureBlock = (_ error: GiniVisionError) -> Void
         // inside the ScrollView when its size has changed
         self.updateConstraintsForSize(scrollView.bounds.size)
     }
-    
+        
     /**
      Notifies the view controller that its view was added to a view hierarchy.
      

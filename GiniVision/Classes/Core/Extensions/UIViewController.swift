@@ -75,6 +75,10 @@ extension UIViewController {
                                  confirmAction: (() -> Void)? = nil) -> UIAlertController {
         
         let alertViewController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        
+        // Ignore dark mode
+        alertViewController.useLightUserInterfaceStyle()
+        
         alertViewController.addAction(UIAlertAction(title: cancelActionTitle,
                                                     style: .cancel,
                                                     handler: { _ in
@@ -90,5 +94,11 @@ extension UIViewController {
         }
         
         return alertViewController
+    }
+    
+    func useLightUserInterfaceStyle() {
+        if #available(iOS 13.0, *) {
+            overrideUserInterfaceStyle = .light
+        }
     }
 }

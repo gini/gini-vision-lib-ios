@@ -124,6 +124,9 @@ final public class HelpMenuViewController: UITableViewController {
                                 position: .left,
                                 target: self)
         }
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     @objc func back() {

@@ -85,6 +85,8 @@ final class SettingsViewController: UIViewController {
             fileImportControl.selectedSegmentIndex = 2
         }
         
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
 
 }
