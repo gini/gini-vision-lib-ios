@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Gini
 
 @objcMembers public class AnalysisResult: NSObject {
     /// Images processed in the analysis
@@ -18,7 +19,7 @@ import Foundation
      */
     public let extractions: [String: Extraction]
     
-    init(extractions: [String: Extraction], images: [UIImage]) {
+    public init(extractions: [String: Extraction], images: [UIImage]) {
         self.images = images
         self.extractions = extractions
     }

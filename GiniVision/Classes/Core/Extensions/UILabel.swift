@@ -11,7 +11,7 @@ import Foundation
 extension UILabel {
     
     func textHeight(forWidth width: CGFloat) -> CGFloat {
-        guard let text = self.text else {
+        guard let text = self.text, let font = font else {
             return 0
         }
         

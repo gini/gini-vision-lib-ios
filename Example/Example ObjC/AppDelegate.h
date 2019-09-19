@@ -13,5 +13,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+// GiniSDK property to have global access to the Gini API.
+@property (strong, nonatomic) GiniSDK* giniSDK;
+
 @end
 

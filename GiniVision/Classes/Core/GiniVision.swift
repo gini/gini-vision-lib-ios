@@ -42,7 +42,7 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
     /**
      Called when the user has taken an image.
      
-     - parameter fileData: JPEG image data including meta information or PDF data
+     - parameter imageData: JPEG image data including meta information or PDF data
      */
     @available(*, unavailable,
     message: "Use didCapture(document: GiniVisionDocument, uploadDelegate: UploadDelegate) instead")
@@ -72,7 +72,7 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
     /**
      Called when the user has reviewed the image and potentially rotated it to the correct orientation.
      
-     - parameter fileData:  JPEG image data including eventually updated meta information or PDF Data
+     - parameter imageData:  JPEG image data including eventually updated meta information or PDF Data
      - parameter changes:   Indicates whether `imageData` was altered.
      */
     @available(*, unavailable,

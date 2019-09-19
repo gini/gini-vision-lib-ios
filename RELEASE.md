@@ -11,5 +11,4 @@ This document describes the release process for a new version of the Gini Vision
 3. Merge `release` branch into `master` and `develop`
 4. Tag `master` branch with the same version used in 2
 5. Push all branches to remote including tags
-6. Wait for jenkins to pass
-7. Push update to [Gini Podspec repo](https://github.com/gini/gini-podspecs) with `pod repo push gini-specs ./GiniVision.podspec --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings`
+6. Wait for jenkins to pass 🚀

@@ -13,7 +13,7 @@ Requirements
 
 After cloning the **Xamapod** tool repository and installing all its dependencies, run the following command:
 ```bash
-sh build.sh -p GiniVision -s Networking -l https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git
+sh build.sh -p GiniVision -s Networking
 ```
 
 Check the [Integration guide](integration.html) for further information about the possible subspecs (`-s`).

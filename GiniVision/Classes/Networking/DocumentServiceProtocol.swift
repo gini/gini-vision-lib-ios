@@ -6,25 +6,21 @@
 //
 
 import Foundation
-import Gini_iOS_SDK
-import Bolts
+import Gini
 
-public typealias Extraction = GINIExtraction
-
-typealias UploadDocumentCompletion = (Result<GINIDocument>) -> Void
-typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
+typealias UploadDocumentCompletion = (Result<Document, GiniError>) -> Void
+typealias AnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
 
 protocol DocumentServiceProtocol: class {
     
-    var giniSDK: GiniSDK { get }
-    var document: GINIDocument? { get set }
-    var metadata: GINIDocumentMetadata? { get }
-    var analysisCancellationToken: BFCancellationTokenSource? { get set }
-
-    init(sdk: GiniSDK, metadata: GINIDocumentMetadata?)
+    var document: Document? { get set }
+    var metadata: Document.Metadata? { get }
+    var analysisCancellationToken: CancellationToken? { get set }
+    
     func cancelAnalysis()
     func remove(document: GiniVisionDocument)
     func resetToInitialState()
+    func sendFeedback(with updatedExtractions: [Extraction])
     func startAnalysis(completion: @escaping AnalysisCompletion)
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument])
     func upload(document: GiniVisionDocument,
@@ -34,75 +30,21 @@ protocol DocumentServiceProtocol: class {
 
 extension DocumentServiceProtocol {
     
-    func getSession(with token: BFCancellationToken? = nil)
-        -> ((BFTask<AnyObject>) -> Any?) {
-            return {
-                [weak self] task in
-                guard let `self` = self else { return nil }
-                
-                if task.error != nil {
-                    return self.giniSDK.sessionManager.logIn()
-                }
-                return task.result
-            }
-    }
-    
-    func handleAnalysisResults(completion: @escaping AnalysisCompletion)
-        -> ((BFTask<AnyObject>) -> Any?) {
-            return { task in
-                if task.isCancelled {
+    func handleResults(completion: @escaping AnalysisCompletion) -> (CompletionResult<[Extraction]>) {
+        return { result in
+            switch result {
+            case .success(let extractions):
+                Log(message: "Finished analysis process with no errors", event: .success)
+                completion(.success(extractions))
+            case .failure(let error):
+                switch error {
+                case .requestCancelled:
                     Log(message: "Cancelled analysis process", event: .error)
-                    completion(.failure(AnalysisError.cancelled))
-                    
-                    return BFTask<AnyObject>.cancelled()
+                default:
+                    Log(message: "Finished analysis process with error: \(error)", event: .error)
                 }
-                
-                let finishedString = "Finished analysis process with"
-                
-                if let error = task.error {
-                    Log(message: "\(finishedString) this error: \(error)", event: .error)
-                    
-                    completion(.failure(error))
-                } else if let result = task.result as? [String: Extraction] {
-                    Log(message: "\(finishedString) no errors", event: .success)
-                    
-                    completion(.success(result))
-                } else {
-                    let error = NSError(domain: "net.gini.error.", code: AnalysisError.unknown._code, userInfo: nil)
-                    Log(message: "\(finishedString) this error: \(error)", event: .error)
-                    
-                    completion(.failure(AnalysisError.unknown))
-                }
-                
-                return nil
             }
-    }
-    
-    func sendFeedback(with updatedExtractions: [String: Extraction]) {
-        guard let document = document else { return }
-        giniSDK.sessionManager
-            .getSession()
-            .continueWith(block: getSession())
-            .continueOnSuccessWith(block: { _ in
-                return self.giniSDK
-                    .documentTaskManager?
-                    .update(document,
-                            updatedExtractions: updatedExtractions,
-                            cancellationToken: nil)
-            })
-            .continueWith(block: { (task: BFTask?) in
-                if let error = task?.error {
-                    let id = self.document?.documentId ?? ""
-                    let message = "Error sending feedback for document with id: \(id) error: \(error)"
-                    Log(message: message, event: .error)
-                    
-                    return nil
-                }
-                
-                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
-                    event: "🚀")
-                
-                return nil
-            })
+        }
+        
     }
 }

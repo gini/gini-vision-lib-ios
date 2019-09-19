@@ -22,7 +22,7 @@ import AVFoundation
      documents accumulated doesn't exceed the minimun (`GiniImageDocument.maxPagesCount`).
      
      - parameter viewController: `CameraViewController` where the documents were taken.
-     - parameter documents: One or several documents either captured or imported in
+     - parameter document: One or several documents either captured or imported in
      the `CameraViewController`. They can contain an error produced in the validation process.
      */
     @objc func camera(_ viewController: CameraViewController,
@@ -52,39 +52,6 @@ import AVFoundation
     @objc func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController)
 
 }
-
-/**
- Block that will be executed when the camera successfully takes a picture.
- It contains the JPEG representation of the image including meta information about the image.
- 
- - note: Component API only.
- */
-@available(*, deprecated)
-public typealias CameraSuccessBlock = (_ imageData: Data) -> Void
-
-/**
- Block that will be executed when the camera screen successfully takes a picture or pick a document/picture.
- It contains the JPEG representation of the image including meta information about the image, or the PDF Data.
- It also contains if the document has been imported from camera-roll/document-explorer or from the camera.
- 
- - note: Component API only.
- */
-public typealias CameraScreenSuccessBlock = (_ document: GiniVisionDocument) -> Void
-
-/**
- Block that will be executed if an error occurs on the camera. It contains a camera specific error.
- 
- - note: Component API only.
- */
-@available(*, deprecated)
-public typealias CameraErrorBlock = (_ error: CameraError) -> Void
-
-/**
- Block that will be executed if an error occurs on the camera screen.
- 
- - note: Component API only.
- */
-public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
 
 /**
  The `CameraViewController` provides a custom camera screen which enables the user to take a
@@ -121,10 +88,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         return cameraButtonsViewController
     }()
     
-    // Output
-    fileprivate var successBlock: CameraScreenSuccessBlock?
-    fileprivate var failureBlock: CameraScreenFailureBlock?
-    
     /**
      Designated initializer for the `CameraViewController` which allows
      to set the `GiniConfiguration for the camera screen`.
@@ -141,44 +104,6 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
     }
     
     /**
-     Convenience initializer for the `CameraViewController` which allows
-     to set a success block and an error block which will be executed accordingly.
-     
-     - parameter success: Success block to be executed when document was picked or image was taken.
-     - parameter failure: Error block to be executed if an error occurred.
-     
-     - returns: A view controller instance allowing the user to take a picture or pick a document.
-     */
-    @available(*, deprecated, message: "Use init(giniConfiguration:) initializer instead")
-    public convenience init(successBlock: @escaping CameraScreenSuccessBlock,
-                            failureBlock: @escaping CameraScreenFailureBlock) {
-        self.init(giniConfiguration: GiniConfiguration.shared)
-        // Set callback
-        self.successBlock = successBlock
-        self.failureBlock = failureBlock
-        
-    }
-    
-    /**
-     Convenience initializer for the `CameraViewController` which allows
-     to set a success block and an error block which will be executed accordingly.
-     
-     - parameter success: Success block to be executed when an image was taken.
-     - parameter failure: Error block to be executed if an error occurred.
-     
-     - returns: A view controller instance allowing the user to take a picture.
-     */
-    
-    @available(*, deprecated, message: "Use init(giniConfiguration:) initializer instead")
-    public convenience init(success: @escaping CameraSuccessBlock, failure: @escaping CameraErrorBlock) {
-        self.init(successBlock: { data in
-            success(data.data)
-        }, failureBlock: { error in
-            failure(error as? CameraError ?? .unknown)
-        })
-    }
-    
-    /**
      Returns an object initialized from data in a given unarchiver.
      
      - warning: Not implemented.
@@ -191,7 +116,7 @@ public typealias CameraScreenFailureBlock = (_ error: GiniVisionError) -> Void
         if let delegate = delegate {
             delegate.camera(self, didCapture: document)
         } else {
-            successBlock?(document)
+            assertionFailure("The CameraViewControllerDelegate has not been assigned")
         }
     }
     
@@ -397,7 +322,7 @@ extension CameraViewController {
     private func cameraDidCapture(imageData: Data?, error: CameraError?) {
         guard let imageData = imageData,
             error == nil else {
-                self.failureBlock?(error ?? .captureFailed)
+                assertionFailure("There was an error while capturing a picture")
                 return
         }
         
