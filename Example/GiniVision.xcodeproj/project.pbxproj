@@ -45,6 +45,7 @@
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
 		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
+		23B1405C23350E5400518D3C /* GVLGoogleAuthSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B1405B23350E5400518D3C /* GVLGoogleAuthSessionManager.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -130,6 +131,7 @@
 		1FEED2931F6AC0440068E8AB /* testPDF.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = testPDF.pdf; sourceTree = "<group>"; };
 		1FF3A41C20C6C8E700081A32 /* DocumentServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentServiceMock.swift; sourceTree = "<group>"; };
 		1FF3A42020C6D20900081A32 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = SOURCE_ROOT; };
+		23B1405B23350E5400518D3C /* GVLGoogleAuthSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GVLGoogleAuthSessionManager.swift; sourceTree = "<group>"; };
 		24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31B85359B1A820A66036BEFA /* Pods-Example_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 			children = (
 				1F2E1AA21FB5AD5D00E1022A /* ScreenAPICoordinator.swift */,
 				1F53F50F1FE967C5009E2677 /* RootNavigationController.swift */,
+				23B1405B23350E5400518D3C /* GVLGoogleAuthSessionManager.swift */,
 			);
 			name = "Screen API";
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F59756320A0A24A0012196B /* PartialDocumentInfo.swift in Sources */,
+				23B1405C23350E5400518D3C /* GVLGoogleAuthSessionManager.swift in Sources */,
 				1F53F5101FE967C5009E2677 /* RootNavigationController.swift in Sources */,
 				1F59756820A1C5C00012196B /* UIViewController.swift in Sources */,
 				1F59756120A0A21A0012196B /* ComponentAPIDocumentsService.swift in Sources */,
