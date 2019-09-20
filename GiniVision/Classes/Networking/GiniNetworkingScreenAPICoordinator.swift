@@ -100,6 +100,32 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                                                giniConfiguration: giniConfiguration,
                                                for: api)
     }
+    
+    init(sessionManager: GINISessionManager,
+         baseUrl: String,
+         resultsDelegate: GiniVisionResultsDelegate,
+         giniConfiguration: GiniConfiguration,
+         documentMetadata: GINIDocumentMetadata?) {
+        super.init(withDelegate: nil,
+                   giniConfiguration: giniConfiguration)
+        self.visionDelegate = self
+        self.resultsDelegate = resultsDelegate
+        
+        let builder = GINISDKBuilder.anonymousUser(withClientID: "",
+                                                   clientSecret: "",
+                                                   userEmailDomain: "",
+                                                   api: .default)
+        
+        builder?.injector.setObject(URL(string: baseUrl), forKey: GINIInjectorAPIBaseURLKey)
+                
+        builder?.injector.setObject(sessionManager, forKey: GINISessionManagerProtocol.self)
+        
+        guard let sdk = builder?.build() else {
+            fatalError("There was a problem building the GINISDK")
+        }
+        
+        self.documentService = DocumentService(sdk: sdk, metadata: documentMetadata)
+    }
 
     func documentService(with sdk: GiniSDK,
                          documentMetadata: GINIDocumentMetadata?,

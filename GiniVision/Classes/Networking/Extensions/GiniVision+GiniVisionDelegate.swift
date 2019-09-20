@@ -39,6 +39,21 @@ extension GiniVision {
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     
+    @objc public class func viewController(withSessionManager sessionManager: GINISessionManager,
+                                           baseUrl: String,
+                                           importedDocuments: [GiniVisionDocument]? = nil,
+                                           configuration: GiniConfiguration,
+                                           resultsDelegate: GiniVisionResultsDelegate,
+                                           documentMetadata: GINIDocumentMetadata? = nil) -> UIViewController {
+        GiniVision.setConfiguration(configuration)
+        let screenCoordinator = GiniNetworkingScreenAPICoordinator(sessionManager: sessionManager,
+                                                                   baseUrl: baseUrl,
+                                                         resultsDelegate: resultsDelegate,
+                                                         giniConfiguration: configuration,
+                                                         documentMetadata: documentMetadata)
+        return screenCoordinator.start(withDocuments: importedDocuments)
+    }
+    
     public class func removeStoredCredentials(for client: GiniClient) {
         let builder = GINISDKBuilder.anonymousUser(withClientID: client.clientId,
                                                    clientSecret: client.clientSecret,
