@@ -116,6 +116,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
                           attr: .leading, constant: padding.left)
         Constraints.active(item: stepSubTitle, attr: .trailing, relatedBy: .equal, to: self,
                           attr: .trailing, constant: -padding.right)
+        stepSubTitle.setContentCompressionResistancePriority(.required, for: .vertical)
         
         // stepImage
         Constraints.active(item: stepImage, attr: .top, relatedBy: .equal, to: stepSubTitle,
