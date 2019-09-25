@@ -160,6 +160,12 @@ import UIKit
         addErrorView()
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     override public func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         didShowAnalysis?()

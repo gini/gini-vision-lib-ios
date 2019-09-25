@@ -174,6 +174,10 @@ public final class DocumentPickerCoordinator: NSObject {
     public func showDocumentPicker(from viewController: UIViewController,
                                    device: UIDevice = UIDevice.current) {
         let documentPicker = UIDocumentPickerViewController(documentTypes: acceptedDocumentTypes, in: .import)
+        
+        // Ignore dark mode
+        documentPicker.useLightUserInterfaceStyle()
+        
         documentPicker.delegate = self
         
         if #available(iOS 11.0, *) {

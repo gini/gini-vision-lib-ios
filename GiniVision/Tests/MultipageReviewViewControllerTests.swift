@@ -237,4 +237,43 @@ final class MultipageReviewViewControllerTests: XCTestCase {
                      "rotate button should be disabled when tooltip is shown")
         
     }
+    
+    func testSelectingItemAtNegativePositionSelectsFirstItem() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewViewController(pages: imagePages,
+                                                                      giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        
+        multipageReviewViewController.selectItem(at: -1)
+        
+        XCTAssertEqual(multipageReviewViewController.pagesCollection.indexPathsForSelectedItems?[0].row, 0,
+                       "pages collection selected item position should be 0")
+    }
+    
+    func testSelectingItemAtOutOfUpperBoundPositionSelectsFirstItem() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewViewController(pages: imagePages,
+                                                                      giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        
+        multipageReviewViewController.selectItem(at: imagePages.count)
+        
+        XCTAssertEqual(multipageReviewViewController.pagesCollection.indexPathsForSelectedItems?[0].row, 0,
+                       "pages collection selected item position should be 0")
+    }
+    
+    func testSelectingItemDoesNothingIfPagesIsEmpty() {
+        ToolTipView.shouldShowReorderPagesButtonToolTip = false
+        
+        multipageReviewViewController = MultipageReviewViewController(pages: [],
+                                                                      giniConfiguration: giniConfiguration)
+        _ = multipageReviewViewController.view
+        
+        multipageReviewViewController.selectItem(at: 1)
+        
+        XCTAssertEqual(multipageReviewViewController.pagesCollection.indexPathsForSelectedItems?.count, 0,
+                       "pages collection has no selected items")
+    }
 }

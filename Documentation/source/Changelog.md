@@ -9,6 +9,31 @@ Changelog
 -   Removed support for Obj-C in the networking plugin.
 -   Added document validation for empty files.
 
+4.8.4 (2019-09-25)
+------------------
+
+- Fixed scanning of EPC06912 with character sets other than 1 or 2.
+- Fixed truncated text in the Help section.
+
+4.8.3 (2019-09-09)
+------------------
+
+- Support for iOS 13:
+  - Light mode only: when using dark mode GVL's UI remains in light mode.
+  - Fixed QR Code rendering on the QR Code detected popup.
+
+4.8.2 (2019-07-05)
+------------------
+
+- Fixed a crash that could occur when opening and closing the multipage review screen multiple times.
+
+4.8.1 (2019-06-28)
+------------------
+
+-   Fixed a crash when using the Networking module and the results delegate is deallocated before analysis finishes.
+-   Fixed the Objective-C example.
+-   AnalysisResult properties made available to Objective-C.
+
 4.8.0 (2019-05-07)
 ------------------
 

@@ -15,7 +15,17 @@ extension UIImage {
         filter?.setValue("Q", forKey: "inputCorrectionLevel")
 
         if let outputImage = filter?.outputImage {
-            self.init(ciImage: outputImage.transformed(by: CGAffineTransform(scaleX: 2, y: 2)))
+            // Convert to CGImage because UIImage(ciImage:) was not working on the iOS 13.1 beta
+            let ciContext = CIContext(options: nil)
+            defer {
+                if #available(iOS 10.0, *) {
+                    ciContext.clearCaches()
+                }
+            }
+            guard let cgOutputImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
+                return nil
+            }
+            self.init(cgImage: cgOutputImage)
         } else {
             return nil
         }

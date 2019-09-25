@@ -149,6 +149,9 @@ import AVFoundation
                 }
             }
         }
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -403,6 +406,10 @@ extension CameraViewController {
         toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // Ignore dark mode
+        alertViewController.useLightUserInterfaceStyle()
+        
         var alertViewControllerMessage: String = .localized(resource: CameraStrings.popupTitleImportPDF)
         
         if giniConfiguration.fileImportSupportedTypes == .pdf_and_images {

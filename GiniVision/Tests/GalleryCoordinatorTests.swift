@@ -63,7 +63,7 @@ final class GalleryCoordinatorTests: XCTestCase {
                 let expect = self.expectation(for: NSPredicate(value: true),
                                               evaluatedWith: delegate.didOpenImages,
                                               handler: nil)
-                self.wait(for: [expect], timeout: 1)
+                self.wait(for: [expect], timeout: 2)
                 XCTAssertTrue(delegate.didOpenImages,
                               "gallery images picked should be processed after tapping open images button")
                 XCTAssertEqual(delegate.openedImageDocuments.count, 2,

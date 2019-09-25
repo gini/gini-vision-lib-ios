@@ -146,6 +146,10 @@ final class AppCoordinator: Coordinator {
                                                     message: "Möchten Sie die importierte Datei mit dem " +
             "ScreenAPI oder ComponentAPI verwenden?",
                                                     preferredStyle: .alert)
+        
+        // Ignore dark mode
+        alertViewController.useLightUserInterfaceStyle()
+        
         alertViewController.addAction(UIAlertAction(title: "Screen API", style: .default) {[weak self] _ in
             self?.showScreenAPI(with: pages)
         })        
@@ -160,6 +164,10 @@ final class AppCoordinator: Coordinator {
         let alertViewController = UIAlertController(title: "Ungültiges Dokument",
                                                     message: "Dies ist kein gültiges Dokument",
                                                     preferredStyle: .alert)
+        
+        // Ignore dark mode
+        alertViewController.useLightUserInterfaceStyle()
+        
         alertViewController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
             alertViewController.dismiss(animated: true, completion: nil)
         })

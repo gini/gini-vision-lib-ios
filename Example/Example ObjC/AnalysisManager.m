@@ -9,6 +9,7 @@
 #import "AnalysisManager.h"
 #import "AppDelegate.h"
 #import <Bolts/BFCancellationTokenSource.h>
+#import <Gini/Gini-Swift.h>
 
 NSString *const GINIAnalysisManagerDidReceiveResultNotification = @"GINIAnalysisManagerDidReceiveResultNotification";
 NSString *const GINIAnalysisManagerDidReceiveErrorNotification  = @"GINIAnalysisManagerDidReceiveErrorNotification";
@@ -44,7 +45,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
 }
 
 - (void)analyzeDocumentWithImageData:(NSData *)data
-                       andCompletion:(void (^)(NSDictionary *, GINIDocument *, NSError *))completion {
+                       andCompletion:(void (^)(AnalysisResult *, GINIDocument *, NSError *))completion {
     
     // Cancel any running analysis process and set cancelation token.
     [self cancelAnalysis];
@@ -124,7 +125,37 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
                 completion(nil, nil, task.error);
             }
         } else {
-            self->_result = ((NSDictionary *)task.result).copy;
+            
+            NSDictionary *dictionaryResult = ((NSDictionary *)task.result).copy;
+                        
+            NSMutableDictionary<NSString *, Extraction *> *extractions = [[NSMutableDictionary alloc] init];
+            
+            for (GINIExtraction *giniExtraction in dictionaryResult.allValues) {
+                
+                NSDictionary *giniBox = giniExtraction.box;
+                
+                Box *box = nil;
+                
+                if (giniBox != nil) {
+                    box = [[Box alloc] initWithHeight:((NSNumber *)giniBox[@"height"]).doubleValue
+                                                 left:((NSNumber *)giniBox[@"left"]).doubleValue
+                                                 page:((NSNumber *)giniBox[@"page"]).integerValue
+                                                  top:((NSNumber *)giniBox[@"top"]).doubleValue
+                                                width:((NSNumber *)giniBox[@"width"]).doubleValue];
+                }
+                                                
+                Extraction *extraction = [[Extraction alloc] initWithBox:box
+                                                              candidates:nil
+                                                                  entity:giniExtraction.entity
+                                                                   value:giniExtraction.value
+                                                                    name:giniExtraction.name];
+                
+                [extractions setObject:extraction forKey:giniExtraction.name];
+            }
+            
+            AnalysisResult *analysisResult = [[AnalysisResult alloc] initWithExtractions:extractions
+                                                                                  images:[[NSArray alloc] init]];
+            self->_result = analysisResult;
             userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: self->_result, GINIAnalysisManagerDocumentUserInfoKey: self->_document};
             notificationName = GINIAnalysisManagerDidReceiveResultNotification;
             if (completion) {

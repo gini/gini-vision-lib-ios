@@ -1,8 +1,8 @@
 //
-//  GiniScreenAPICoordinator.swift
+//  GiniNetworkingScreenAPICoordinator.swift
 //  GiniVision
 //
-//  Created by Enrique del Pozo Gómez on 2/15/18.
+//  Created by Alpár Szotyori on 25.06.19.
 //
 
 import Foundation
@@ -35,54 +35,46 @@ public protocol GiniVisionResultsDelegate: class {
     func giniVisionDidCancelAnalysis()
 }
 
-extension GiniScreenAPICoordinator {
-    fileprivate struct AssociatedKey {
-        static var documentService = "documentService"
-        static var resultsDelegate = "resultsDelegate"
-    }
+final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
     
-    var resultsDelegate: GiniVisionResultsDelegate? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKey.resultsDelegate) as? GiniVisionResultsDelegate
-        }
-        
-        set {
-            if let value = newValue {
-                objc_setAssociatedObject(self,
-                                         &AssociatedKey.resultsDelegate,
-                                         value,
-                                         objc_AssociationPolicy.OBJC_ASSOCIATION_ASSIGN)
-            }
-        }
-    }
+    weak var resultsDelegate: GiniVisionResultsDelegate?
+    var documentService: DocumentServiceProtocol?
     
-    var documentService: DocumentServiceProtocol? {
-        get {
-            return objc_getAssociatedObject(self, &AssociatedKey.documentService) as? DocumentServiceProtocol
-        }
-        
-        set {
-            if let value = newValue {
-                objc_setAssociatedObject(self,
-                                         &AssociatedKey.documentService,
-                                         value,
-                                         objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-            }
-        }
-    }
-    
-    convenience init(client: Client,
-                     resultsDelegate: GiniVisionResultsDelegate,
-                     giniConfiguration: GiniConfiguration,
-                     documentMetadata: Document.Metadata?,
-                     api: APIDomain) {
-        self.init(withDelegate: nil,
-                  giniConfiguration: giniConfiguration)
+    init(client: Client,
+         resultsDelegate: GiniVisionResultsDelegate,
+         giniConfiguration: GiniConfiguration,
+         documentMetadata: Document.Metadata?,
+         api: APIDomain) {
+        super.init(withDelegate: nil,
+                   giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
         
         let sdk = GiniSDK
             .Builder(client: client, api: api)
+            .build()
+        
+        self.documentService = documentService(with: sdk,
+                                               documentMetadata: documentMetadata,
+                                               giniConfiguration: giniConfiguration,
+                                               for: api)
+    }
+    
+    init(client: Client,
+         resultsDelegate: GiniVisionResultsDelegate,
+         giniConfiguration: GiniConfiguration,
+         publicKeyPinningConfig: [String: Any],
+         documentMetadata: Document.Metadata?,
+         api: APIDomain) {
+        super.init(withDelegate: nil,
+                   giniConfiguration: giniConfiguration)
+        self.visionDelegate = self
+        self.resultsDelegate = resultsDelegate
+        
+        let sdk = GiniSDK
+            .Builder(client: client,
+                     api: api,
+                     pinningConfig: publicKeyPinningConfig)
             .build()
         
         self.documentService = documentService(with: sdk,
@@ -119,11 +111,12 @@ extension GiniScreenAPICoordinator {
                     
                     return (name, $0)
                 })
-            
+                
                 let result = AnalysisResult(extractions: extractions, images: images)
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
-                                    guard let `self` = self else { return }
+                        
+                        guard let `self` = self else { return }
                         self.documentService?.sendFeedback(with: updatedExtractions.map { $0.value })
                         self.documentService?.resetToInitialState()
                 }
@@ -138,13 +131,14 @@ extension GiniScreenAPICoordinator {
 
 // MARK: - Networking methods
 
-extension GiniScreenAPICoordinator {
+extension GiniNetworkingScreenAPICoordinator {
     fileprivate func startAnalysis(networkDelegate: GiniVisionNetworkDelegate) {
         self.documentService?.startAnalysis { result in
             switch result {
             case .success(let extractions):
                 self.deliver(result: extractions, analysisDelegate: networkDelegate)
             case .failure(let error):
+
                 guard error != .requestCancelled else { return }
                 
                 networkDelegate.displayError(withMessage: .localized(resource: AnalysisStrings.analysisErrorMessage),
@@ -154,7 +148,7 @@ extension GiniScreenAPICoordinator {
             }
         }
     }
-    
+
     fileprivate func upload(document: GiniVisionDocument,
                             didComplete: @escaping (GiniVisionDocument) -> Void,
                             didFail: @escaping (GiniVisionDocument, Error) -> Void) {
@@ -167,7 +161,7 @@ extension GiniScreenAPICoordinator {
             }
         }
     }
-    
+
     fileprivate func uploadAndStartAnalysis(document: GiniVisionDocument,
                                             networkDelegate: GiniVisionNetworkDelegate,
                                             uploadDidFail: @escaping () -> Void) {
@@ -175,7 +169,7 @@ extension GiniScreenAPICoordinator {
             self.startAnalysis(networkDelegate: networkDelegate)
         }, didFail: { _, error in
             let error = error as? GiniVisionError ?? AnalysisError.documentCreation
-            
+
             guard let analysisError = error as? AnalysisError, case analysisError = AnalysisError.cancelled else {
                 networkDelegate.displayError(withMessage: error.message, andAction: {
                     uploadDidFail()
@@ -188,11 +182,11 @@ extension GiniScreenAPICoordinator {
 
 // MARK: - GiniVisionDelegate
 
-extension GiniScreenAPICoordinator: GiniVisionDelegate {
+extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
     func didCancelCapturing() {
-        resultsDelegate?.giniVisionDidCancelAnalysis()        
+        resultsDelegate?.giniVisionDidCancelAnalysis()
     }
-    
+
     func didCapture(document: GiniVisionDocument, networkDelegate: GiniVisionNetworkDelegate) {
         // The EPS QR codes are a special case, since they don0t have to be analyzed by the Gini API and therefore,
         // they are ready to be delivered after capturing them.
@@ -209,7 +203,7 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             self.deliver(result: result, analysisDelegate: networkDelegate)
             return
         }
-        
+
         // When an non reviewable document or an image in multipage mode is captured,
         // it has to be uploaded right away.
         if giniConfiguration.multipageEnabled || !document.isReviewable {
@@ -222,22 +216,22 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
                 upload(document: document,
                        didComplete: networkDelegate.uploadDidComplete,
                        didFail: networkDelegate.uploadDidFail)
-            }            
+            }
         }
     }
-    
+
     func didReview(documents: [GiniVisionDocument], networkDelegate: GiniVisionNetworkDelegate) {
         // It is necessary to check the order when using multipage before
         // creating the composite document
         if giniConfiguration.multipageEnabled {
             documentService?.sortDocuments(withSameOrderAs: documents)
         }
-        
+
         // And review the changes for each document recursively.
         for document in (documents.compactMap { $0 as? GiniImageDocument }) {
             documentService?.update(imageDocument: document)
         }
-        
+
         // In multipage mode the analysis can be triggered once the documents have been uploaded.
         // However, in single mode, the analysis can be triggered right after capturing the image.
         // That is why the document upload shuld be done here and start the analysis afterwards
@@ -249,11 +243,11 @@ extension GiniScreenAPICoordinator: GiniVisionDelegate {
             })
         }
     }
-    
+
     func didCancelReview(for document: GiniVisionDocument) {
         documentService?.remove(document: document)
     }
-    
+
     func didCancelAnalysis() {
         // Cancel analysis process to avoid unnecessary network calls.
         if pages.type == .image {

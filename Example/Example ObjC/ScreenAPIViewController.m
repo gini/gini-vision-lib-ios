@@ -18,8 +18,9 @@
     NSData *_imageData;
 }
 @property (nonatomic, strong) NSString *errorMessage;
-@property (nonatomic, strong) NSDictionary *result;
+@property (nonatomic, strong) AnalysisResult *result;
 @property (nonatomic, strong) GINIDocument *document;
+@property (nonatomic, strong) UIViewController *giniVisionVC;
 
 @end
 
@@ -54,11 +55,12 @@
     giniConfiguration.qrCodeScanningEnabled = YES;
     
     // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    UIViewController *vc =  [GiniVision viewControllerWithDelegate:self
-                                                 withConfiguration:giniConfiguration
-                                                  importedDocument:NULL];
+    self.giniVisionVC = [GiniVision viewControllerWithDelegate:self
+                                             withConfiguration:giniConfiguration
+                                              importedDocument:NULL];
+    
     // 3. Present the Gini Vision Library Screen API modally
-    [self presentViewController:vc animated:YES completion:nil];
+    [self presentViewController:_giniVisionVC animated:YES completion:nil];
     
     // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
 }
@@ -70,8 +72,9 @@
 - (void)presentResults {
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
+        
     for (NSString *key in payFive) {
-        if (_result[key]) {
+        if (_result.extractions[key]) {
             hasPayFive = YES;
             break;
         }
@@ -81,7 +84,7 @@
     if (hasPayFive) {
         ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
         vc.document = _document;
-        vc.result = _result;
+        vc.result = _result.extractions;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.navigationController pushViewController:vc animated:NO];
         });
@@ -140,7 +143,7 @@
     [self cancelAnalysis];
     _imageData = data;
     [[AnalysisManager sharedManager] analyzeDocumentWithImageData:data
-                                                    andCompletion:^(NSDictionary *result, GINIDocument * document, NSError *error) {
+                                                    andCompletion:^(AnalysisResult *result, GINIDocument * document, NSError *error) {
         if (error) {
             self.errorMessage = @"Es ist ein Fehler aufgetreten. Wiederholen";
         } else if (result && document) {
@@ -168,7 +171,7 @@
     }
 }
 
-- (void)setResult:(NSDictionary *)result {
+- (void)setResult:(AnalysisResult *)result {
     _result = result;
     if (_result && _document) {
         [self showResults];

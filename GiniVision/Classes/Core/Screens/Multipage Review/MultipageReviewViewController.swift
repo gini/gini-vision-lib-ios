@@ -238,6 +238,9 @@ extension MultipageReviewViewController {
         if ToolTipView.shouldShowReorderPagesButtonToolTip {
             createReorderPagesTip()
         }
+        
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -322,7 +325,16 @@ extension MultipageReviewViewController {
     }
     
     func selectItem(at position: Int, in section: Int = 0, animated: Bool = true) {
-        let indexPath = IndexPath(row: position, section: section)
+        guard self.pages.count > 0 else {
+            return
+        }
+        
+        var indexPathRow = position
+        if position < 0 || position >= self.pages.count {
+            indexPathRow = 0
+        }
+        
+        let indexPath = IndexPath(row: indexPathRow, section: section)
         pagesCollection.selectItem(at: indexPath,
                                    animated: animated,
                                    scrollPosition: .centeredHorizontally)

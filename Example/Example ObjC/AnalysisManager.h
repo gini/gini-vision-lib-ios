@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Gini_iOS_SDK/GiniSDK.h>
+#import <GiniVision/GiniVision-Swift.h>
 
 extern NSString * _Nonnull const GINIAnalysisManagerDidReceiveResultNotification;
 extern NSString * _Nonnull const GINIAnalysisManagerDidReceiveErrorNotification;
@@ -28,7 +29,7 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
 /**
  *  Most current result dictionary from analysis.
  */
-@property (nonatomic, strong, nullable) NSDictionary *result;
+@property (nonatomic, strong, nullable) AnalysisResult *result;
 
 /**
  *  Most current analyzed document.
@@ -61,6 +62,6 @@ extern NSString * _Nonnull const GINIAnalysisManagerDocumentUserInfoKey;
  *  @param completion The completion block handling the result.
  */
 - (void)analyzeDocumentWithImageData:(nonnull NSData *)data
-                       andCompletion:(nullable void (^)(NSDictionary * _Nullable, GINIDocument * _Nullable, NSError * _Nullable))completion;
+                       andCompletion:(nullable void (^)(AnalysisResult * _Nullable, GINIDocument * _Nullable, NSError * _Nullable))completion;
 
 @end

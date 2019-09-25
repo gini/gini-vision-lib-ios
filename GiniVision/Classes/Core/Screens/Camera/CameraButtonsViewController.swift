@@ -164,6 +164,12 @@ final class CameraButtonsViewController: UIViewController {
         addConstraints()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     func addFileImportButton() {
         if currentDevice.isIpad {
             let bottomVerticalAlignedStackView = verticalAlignedStackView

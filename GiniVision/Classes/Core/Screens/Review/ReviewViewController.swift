@@ -149,6 +149,12 @@ import UIKit
         view.layoutIfNeeded()
     }
     
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     /**
      Called to notify the view controller that its view has just laid out its subviews.
      */
@@ -161,7 +167,7 @@ import UIKit
         // inside the ScrollView when its size has changed
         self.updateConstraintsForSize(scrollView.bounds.size)
     }
-    
+        
     /**
      Notifies the view controller that its view was added to a view hierarchy.
      

@@ -72,6 +72,12 @@ final class ImagePickerViewController: UIViewController {
         Constraints.pin(view: collectionView, toSuperView: view)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollToBottomOnStartup()

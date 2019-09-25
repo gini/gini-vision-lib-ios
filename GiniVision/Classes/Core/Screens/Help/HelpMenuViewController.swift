@@ -116,6 +116,9 @@ final public class HelpMenuViewController: UITableViewController {
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
+
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
     }
     
     @objc func back() {

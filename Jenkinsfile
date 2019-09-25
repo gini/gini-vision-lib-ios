@@ -20,22 +20,22 @@ pipeline {
     }
     stage('Build ObjC') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 8\''
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 8\''
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 6\''
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 8\''
       }
     }
     stage('Documentation') {
       when {
-        branch 'master'
+        anyOf { branch 'master'; branch 'hotfix' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
@@ -71,7 +71,7 @@ pipeline {
     }
     stage('Release Pod') {
       when {
-        branch 'master'
+        anyOf { branch 'master'; branch 'hotfix' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()

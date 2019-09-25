@@ -54,6 +54,12 @@ final class AlbumsPickerViewController: UIViewController {
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Ignore dark mode
+        useLightUserInterfaceStyle()
+    }
+    
     func reloadAlbums() {
         albumsTableView.reloadData()
     }

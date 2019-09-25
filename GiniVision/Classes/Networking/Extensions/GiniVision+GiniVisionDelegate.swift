@@ -31,7 +31,7 @@ extension GiniVision {
                                      documentMetadata: Document.Metadata? = nil,
                                      api: APIDomain = .default) -> UIViewController {
         GiniVision.setConfiguration(configuration)
-        let screenCoordinator = GiniScreenAPICoordinator(client: client,
+        let screenCoordinator = GiniNetworkingScreenAPICoordinator(client: client,
                                                          resultsDelegate: resultsDelegate,
                                                          giniConfiguration: configuration,
                                                          documentMetadata: documentMetadata,
