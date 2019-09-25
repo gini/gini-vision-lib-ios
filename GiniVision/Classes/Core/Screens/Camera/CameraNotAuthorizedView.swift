@@ -29,22 +29,18 @@ final class CameraNotAuthorizedView: UIView {
         imageView.contentMode = .scaleAspectFit
         
         // Configure label
-        label.text = giniConfiguration.cameraNotAuthorizedText
+        label.text = .localized(resource: CameraStrings.notAuthorizedMessage)
         label.numberOfLines = 0
         label.textColor = giniConfiguration.cameraNotAuthorizedTextColor
         label.textAlignment = .center
-        label.font = giniConfiguration.customFont.isEnabled ?
-            giniConfiguration.customFont.with(weight: .thin, size: 20, style: .title2) :
-            giniConfiguration.cameraNotAuthorizedTextFont
-            
+        label.font = giniConfiguration.customFont.with(weight: .thin, size: 20, style: .title2)
+        
         // Configure button
-        button.setTitle(giniConfiguration.cameraNotAuthorizedButtonTitle, for: .normal)
+        button.setTitle(.localized(resource: CameraStrings.notAuthorizedButton), for: .normal)
         button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor, for: .normal)
         button.setTitleColor(giniConfiguration.cameraNotAuthorizedButtonTitleColor.withAlphaComponent(0.8),
                              for: .highlighted)
-        button.titleLabel?.font = giniConfiguration.customFont.isEnabled ?
-            giniConfiguration.customFont.with(weight: .regular, size: 20, style: .caption1) :
-            giniConfiguration.cameraNotAuthorizedButtonFont
+        button.titleLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 20, style: .caption1)
 
         button.addTarget(self, action: #selector(openSettings), for: .touchUpInside)
         

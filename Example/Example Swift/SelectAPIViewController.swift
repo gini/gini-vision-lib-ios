@@ -8,7 +8,6 @@
 
 import UIKit
 import GiniVision
-import Gini_iOS_SDK
 
 protocol SelectAPIViewControllerDelegate: class {
     func selectAPI(viewController: SelectAPIViewController, didSelectApi api: GiniVisionAPIType)

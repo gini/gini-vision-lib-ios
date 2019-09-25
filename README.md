@@ -4,7 +4,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-iOS-lightgrey.svg)]()
 [![Devices](https://img.shields.io/badge/devices-iPhone%20%7C%20iPad-blue.svg)]()
-[![Swift version](https://img.shields.io/badge/swift-4.2-orange.svg)]()
+[![Swift version](https://img.shields.io/badge/swift-5.0-orange.svg)]()
 
 
 The Gini Vision Library provides components for capturing, reviewing and analyzing photos of invoices and remittance slips.
@@ -28,13 +28,13 @@ To inject your API credentials into the Example app, just add to the Example dir
 
 ## Requirements
 
-- iOS 9.0+
-- Xcode 9.3+
+- iOS 10.0+
+- Xcode 10.2+
 
 **Note:**
 In order to have better analysis results it is highly recommended to enable only devices with 8MP camera and flash. These devices would be:
 
-* iPhones with iOS 9.0 or higher.
+* iPhones with iOS 10.0 or higher.
 * iPad Pro devices (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash).
 
 ## Author

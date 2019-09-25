@@ -93,7 +93,7 @@ final class ImagePickerViewController: UIViewController {
     }
     
     func removeFromDownloadingItems(index: IndexPath, needsReloading: Bool = false) {
-        if let assetIndex = indexesForAssetsBeingDownloaded.index(of: index) {
+        if let assetIndex = indexesForAssetsBeingDownloaded.firstIndex(of: index) {
             indexesForAssetsBeingDownloaded.remove(at: assetIndex)
             if needsReloading {
                 collectionView.reloadItems(at: [index])
@@ -107,7 +107,7 @@ final class ImagePickerViewController: UIViewController {
     }
     
     func deselectCell(at indexPath: IndexPath) {
-        if let deselectCellIndex = indexesForSelectedCells.index(of: indexPath) {
+        if let deselectCellIndex = indexesForSelectedCells.firstIndex(of: indexPath) {
             indexesForSelectedCells.remove(at: deselectCellIndex)
             collectionView.reloadItems(at: [indexPath])
         }
