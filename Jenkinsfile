@@ -35,7 +35,7 @@ pipeline {
     }
     stage('Documentation') {
       when {
-        branch 'master'
+        anyOf { branch 'master'; branch 'hotfix' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
@@ -71,7 +71,7 @@ pipeline {
     }
     stage('Release Pod') {
       when {
-        branch 'master'
+        anyOf { branch 'master'; branch 'hotfix' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
