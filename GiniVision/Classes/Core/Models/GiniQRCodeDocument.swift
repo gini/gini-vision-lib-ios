@@ -47,7 +47,7 @@ import Foundation
             (lines[1] == "001" || lines[1] == "002") {
             
             if !(lines[2] == "1" || lines[2] == "2") {
-                print("WARNING: Version \(lines[2]) is unknown. Expected version 1 or 2.")
+                print("WARNING: Character set \(lines[2]) is unknown. Expected version 1 or 2.")
             }
             
             return .epc06912
