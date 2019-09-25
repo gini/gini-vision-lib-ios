@@ -9,6 +9,12 @@ Changelog
 -   Removed support for Obj-C in the networking plugin.
 -   Added document validation for empty files.
 
+4.8.4 (2019-09-25)
+------------------
+
+- Fixed scanning of EPC06912 with character sets other than 1 or 2.
+- Fixed truncated text in the Help section.
+
 4.8.3 (2019-09-09)
 ------------------
 
