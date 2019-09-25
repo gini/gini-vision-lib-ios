@@ -44,9 +44,13 @@ import Foundation
             return .eps4mobile
         } else if let lines = Optional(self.scannedString.splitlines),
             lines.count > 9 &&
-            (lines[1] == "001" || lines[1] == "002") &&
-            (lines[2] == "1" || lines[2] == "2") {
-                return .epc06912
+            (lines[1] == "001" || lines[1] == "002") {
+            
+            if !(lines[2] == "1" || lines[2] == "2") {
+                print("WARNING: Character set \(lines[2]) is unknown. Expected version 1 or 2.")
+            }
+            
+            return .epc06912
         } else {
             return nil
         }
