@@ -203,9 +203,14 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
         if let qrCodeDocument = document as? GiniQRCodeDocument,
             let format = qrCodeDocument.qrCodeFormat,
             case .eps4mobile = format {
-            let result = qrCodeDocument.extractedParameters.compactMapValues {
-                Extraction(name: QRCodesExtractor.epsCodeUrlKey,
-                           value: $0, entity: nil, box: nil)
+           
+            var result = [String : Extraction]()
+            
+            for (key, value) in qrCodeDocument.extractedParameters {
+                if let extraction = Extraction(name: QRCodesExtractor.epsCodeUrlKey,
+                                               value: value, entity: nil, box: nil) {
+                    result[key] = extraction
+                }
             }
 
             self.deliver(result: result, analysisDelegate: networkDelegate)
