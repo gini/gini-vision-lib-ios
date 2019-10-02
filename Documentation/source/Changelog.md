@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.8.5 (2019-10-02)
+------------------
+
+- Fixed Swift 4 builds and builds against iOS 12 SDK
+
 4.8.4 (2019-09-25)
 ------------------
 
