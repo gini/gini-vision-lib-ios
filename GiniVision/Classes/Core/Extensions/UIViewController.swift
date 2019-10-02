@@ -98,7 +98,9 @@ extension UIViewController {
     
     func useLightUserInterfaceStyle() {
         if #available(iOS 13.0, *) {
-            overrideUserInterfaceStyle = .light
+            if self.responds(to: Selector("overrideUserInterfaceStyle")) {
+                self.setValue(UIUserInterfaceStyle.light.rawValue, forKey: "overrideUserInterfaceStyle")
+            }
         }
     }
 }
