@@ -101,11 +101,9 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     func refreshMultipageReviewNextButton(with pages: [GiniVisionPage]) {
+        
         multiPageReviewViewController.navigationItem
             .rightBarButtonItem?
-            .isEnabled = pages
-                .reduce(true, { result, page in
-                    result && page.isUploaded
-                })
+            .isEnabled = pages.allSatisfy { $0.isUploaded }
     }
 }

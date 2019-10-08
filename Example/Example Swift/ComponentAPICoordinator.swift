@@ -269,10 +269,7 @@ extension ComponentAPICoordinator {
     fileprivate func refreshMultipageReview(with pages: [GiniVisionPage]) {
         multipageReviewScreen.navigationItem
             .rightBarButtonItem?
-            .isEnabled = pages
-                .reduce(true, { result, page in
-                    result && page.isUploaded
-                })
+            .isEnabled = pages.allSatisfy { $0.isUploaded }
         multipageReviewScreen.updateCollections(with: pages)
     }
 }
