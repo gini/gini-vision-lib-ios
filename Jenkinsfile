@@ -78,7 +78,8 @@ pipeline {
         }
       }
       steps {
-        sh '/usr/local/bin/pod trunk push GiniVision.podspec --allow-warnings'
+
+        sh '/usr/local/bin/pod push gini-specs GiniVision.podspec --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
   }
