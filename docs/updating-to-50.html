@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Updating to 3.2  Reference</title>
+    <title>Updating to 5.0  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <body>
 
 
-    <a title="Updating to 3.2  Reference"></a>
+    <a title="Updating to 5.0  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -44,7 +44,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">GiniVision Reference</a>
       <img class="carat" src="img/carat.png" />
-      Updating to 3.2  Reference
+      Updating to 5.0  Reference
     </p>
 
     <div class="content-wrapper">
@@ -294,103 +294,36 @@
         <section class="section">
           <div class="section-content">
             
-            <h1 id='updating-to-3-2' class='heading'>Updating to 3.2</h1>
+            <h1 id='updating-to-5-0' class='heading'>Updating to 5.0</h1>
+<h2 id='what-39-s-new' class='heading'>What&rsquo;s new?</h2>
 
-<p>GiniVision 3.2 introduces several new features and changes, empowering your app and improving the user experience.  </p>
+<hr>
+<h4 id='new-api-sdk' class='heading'>New API SDK</h4>
 
-<p>This guide is provided in order to ease the transition of existing applications using <em>GiniVision</em> with a version lower than 3.2.</p>
+<p>The networking plugin now uses the new API SDK, which has been completely rewritten in Swift, getting rid of  <strong>Bolts</strong> and using only built-in components.</p>
 <h2 id='breaking-changes' class='heading'>Breaking Changes</h2>
-<h3 id='camera-screen' class='heading'>Camera screen</h3>
 
-<p>The UI of the Camera Screen has been updated for a better user experience. The document corner guides on the camera screen are now drawn programmatically, so you don&rsquo;t need to provide an overlay image for it anymore (<code>cameraOverlay</code> resource should be removed from assets). Now you only need to specify the color of the corner lines in the <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)cameraPreviewCornerGuidesColor">GiniConfiguration.cameraPreviewCornerGuidesColor</a></code> property.</p>
-<h2 id='deprecation' class='heading'>Deprecation</h2>
+<hr>
+<h4 id='removed-support-for-ios-9' class='heading'>Removed support for iOS 9</h4>
 
-<ul>
-<li><code>GiniVisionDelegate.didCapture(_:)</code> - use the new <code>GiniVisionDelegate.didCapture(document:)</code> delegate method instead.</li>
-<li><code>GiniVisionDelegate.didReview(_:withChanges:)</code> - use the new <code>GiniVisionDelegate.didReview(document:withChanges:)</code> delegate method instead.</li>
-<li><code>AnalysisViewController.init(_:)</code> - use the new <code><a href="Classes/AnalysisViewController.html#/c:@M@GiniVision@objc(cs)AnalysisViewController(im)initWithDocument:">AnalysisViewController.init(document:)</a></code> initializer instead.</li>
-<li><code>CameraViewController.init(success:failure:)</code> - use the new <code>CameraViewController.init(successBlock:failureBlock:)</code> initializer instead.</li>
-<li><code>ReviewViewController.init(_:success:failure:)</code> - use the new <code>ReviewViewController.init(_:successBlock:failureBlock:)</code> initializer instead.</li>
-</ul>
-<h2 id='new-features' class='heading'>New features</h2>
-<h3 id='document-import' class='heading'>Document Import</h3>
+<p>In order to use the new API SDK, to improve the codebase and since iOS 9.0 adoption is lower than 1% nowadays, the minimun deployment target is iOS 10.0 now.</p>
+<h4 id='removed-em-giniclient-em-type' class='heading'>Removed <em>GiniClient</em> type</h4>
 
-<p>The Document Import feature is located on the Camera Screen and allows users to select images (jpeg, png and gif) and PDFs of invoices from their device or from their cloud storage (<em>iCloud</em>, <em>Dropbox</em>&hellip;). The selected document will be made available to the client and may be optionally verified before accepting it for upload and analysis.
-To implement this feature you can follow <a href="Import-pdfs-and-images-guide.html">Import PDFs and Images guide</a>.</p>
-<h3 id='open-with' class='heading'>Open with</h3>
+<p>The <em>GiniClient</em> has been removed, using now the new <code>Client</code> type in the new API SDK.</p>
+<h4 id='removed-obj-c-support-for-networking-plugin' class='heading'>Removed Obj-C support for networking plugin</h4>
 
-<p>With the <em>Open with</em> feature now is possible to open files from other apps like <em>Mail</em> or <em>Whatsapp</em>. More information about this and how to implement it can be found in the <a href="Open-with-guide.html">Open with guide</a></p>
-<h3 id='new-camera-screen-ui' class='heading'>New Camera Screen UI</h3>
+<p>Now the networking plugin uses the new API SDK, which does not support Obj-C and therefore it&rsquo;s not compatible.</p>
+<h4 id='removed-deprecated-code' class='heading'>Removed deprecated code</h4>
 
-<p>The UI of the Camera Screen has been redesigned to offer a better user experience. Apart from the corner guides, described above, and the dimmed borders on the preview, a new button for Document import (that can be replaced adding the <code>documentImportButton</code> asset). All the properties of the hint (color, text or close button color) can be customized in the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code> instance.</p>
-<h3 id='new-analysis-screen-ui' class='heading'>New Analysis Screen UI</h3>
-
-<p>The UI of the Anaysis Screen has also been redesigned, to accomodate opening PDFs and to provide additional information to the user. When a <em>PDF</em> is analysed, an information panel will appear on the top of the screen indicating <em>PDF</em> name and the number of pages. Both the background color and text color of the panel can be customized through the <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)analysisPDFInformationTextColor">GiniConfiguration.analysisPDFInformationTextColor</a></code> and <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)analysisPDFInformationBackgroundColor">GiniConfiguration.analysisPDFInformationBackgroundColor</a></code> properties.</p>
-
-<p>When analysing an image takes more than 5 seconds, the Gini Vision Library cycles through tips, showing each one for 4 seconds. The tips, which are shown on the bottom of the Screen, are intended to help our users achieve better results by offering them advice on how to take photos most suitable for analysis.</p>
-<h3 id='help-screens' class='heading'>Help screens</h3>
-
-<p>To aid users in discovering and learning about the features of the Gini Vision Library, and how to best use them, we added help screens. These can be viewed from the Camera Screen.</p>
-
-<p>If using the <strong>Screen API</strong>, the top right button in the Camera Screen will now launch the HelpActivity instead of showing the Onboarding Screens. If using the <strong>Component API</strong>, you need to launch the <code><a href="Classes/HelpMenuViewController.html">HelpMenuViewController</a></code> manually.</p>
-
-<p>From the Help Screen the following screens can be reached:</p>
+<p>Old deprecated code in previous versions has been removed, which includes the following:</p>
 
 <ul>
-<li><strong>Photo Tips Screen</strong>:</li>
+<li>All localized strings variables in the <code><a href="Classes/GiniConfiguration.html">GiniConfiguration</a></code>. Now it uses the <code>Localizable.strings</code> file.</li>
+<li>All the custom font variables. Now the <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)customFont">GiniConfiguration.customFont</a></code> is used.</li>
+<li>The initializers for the <code><a href="Classes/CameraViewController.html">CameraViewController</a></code>, <code><a href="Classes/ReviewViewController.html">ReviewViewController</a></code> and <code><a href="Classes/AnalysisViewController.html">AnalysisViewController</a></code>.</li>
+<li>The <code>validate</code> method in the <code><a href="Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code>. The <code><a href="Classes/GiniVisionDocumentValidator.html">GiniVisionDocumentValidator</a></code> should be used instead.</li>
+<li>The left navigation bar button item setting has been removed from the <code><a href="Classes/HelpMenuViewController.html">HelpMenuViewController</a></code>.</li>
 </ul>
-
-<p>Information to the user about how to take photos suitable for analysis. The images of this screen can be changed adding <code>captureSuggestion1</code>, <code>captureSuggestion2</code>, <code>captureSuggestion3</code> and <code>captureSuggestion4</code> assets into your project.</p>
-
-<ul>
-<li><strong>File Import Screen</strong>:</li>
-</ul>
-
-<p>A guide on how to import files from other apps via “open with”. Images can be changed adding <code>openWithTutorialStep1</code>, <code>openWithTutorialStep2</code> and <code>openWithTutorialStep3</code> assets into your project. Texts also can be changed adding <code>ginivision.help.openWithTutorial.step1.title</code>,
-<code>ginivision.help.openWithTutorial.step1.subTitle</code>, <code>ginivision.help.openWithTutorial.step2.title</code>,
-<code>ginivision.help.openWithTutorial.step2.subTitle</code>, <code>ginivision.help.openWithTutorial.step3.title</code> and
-<code>ginivision.help.openWithTutorial.step3.subTitle</code> to your <code>X.strings</code> file.</p>
-
-<ul>
-<li><strong>Supported Formats Screen</strong>:</li>
-</ul>
-
-<p>Information about the document formats supported by the Gini Vision Library. Both supported and unsupported icon circle color can be changed in <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)supportedFormatsIconColor">GiniConfiguration.supportedFormatsIconColor</a></code> and <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)nonSupportedFormatsIconColor">GiniConfiguration.nonSupportedFormatsIconColor</a></code> properties.</p>
-
-<p>All these new assets can be found in the <a href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
-<h3 id='no-results-screen' class='heading'>No results screen</h3>
-
-<p>The Gini Vision Library contains a new screen providing tips for users in order to achieve better results from images. This screen is displayed only for images (pictures taken by the camera and imported images).</p>
-
-<p>The No Results Screen should be requested only when none of the required extractions were received.</p>
-
-<p>When using the <strong>Screen API</strong>, once the analysis has been completed you can call the <code><a href="Protocols/AnalysisDelegate.html#/c:@M@GiniVision@objc(pl)AnalysisDelegate(im)tryDisplayNoResultsScreen">AnalysisDelegate.tryDisplayNoResultsScreen()</a></code> as follows:</p>
-<pre class="highlight swift"><code><span class="k">if</span> <span class="n">hasExtractions</span> <span class="p">{</span>
-    <span class="c1">// Show the extractions</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">shown</span> <span class="o">=</span> <span class="n">analysisDelegate</span><span class="o">.</span><span class="nf">tryDisplayNoResultsScreen</span><span class="p">()</span>
-    <span class="k">if</span> <span class="o">!</span><span class="n">shown</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="nv">customNoResultsScreen</span> <span class="o">=</span> <span class="kt">UIStoryboard</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"Main"</span><span class="p">,</span> <span class="nv">bundle</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span><span class="o">.</span><span class="nf">instantiateViewController</span><span class="p">(</span><span class="nv">withIdentifier</span><span class="p">:</span> <span class="s">"noResultScreen"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">NoResultViewController</span>
-        <span class="k">self</span><span class="o">.</span><span class="n">navigationController</span><span class="o">!.</span><span class="nf">pushViewController</span><span class="p">(</span><span class="n">customNoResultsScreen</span><span class="p">,</span> <span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">)</span>
-        <span class="k">self</span><span class="o">.</span><span class="nf">dismiss</span><span class="p">(</span><span class="nv">animated</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-    <span class="p">}</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">analysisDelegate</span> <span class="o">=</span> <span class="kc">nil</span>
-<span class="p">}</span>
-</code></pre>
-<h3 id='custom-font' class='heading'>Custom font</h3>
-
-<p>Now it is possible to specify a custom font for the whole library, being not needed to specify a font for each text.
-You just need to specify the <code><a href="Classes/GiniVisionFont.html">GiniVisionFont</a></code> in the <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)customFont">GiniConfiguration.customFont</a></code> property. Previously defined fonts are no longer needed (<code>NavigationBarItemFont</code>, <code>NavigationBarTitleFont</code>, <code>NoticeFont</code>, <code>CameraNotAuthorizedTextFont</code>, <code>CameraNotAuthorizedButtonFont</code>, <code>OnboardingTextFont</code>,<code>ReviewTextTopFont</code> and <code>ReviewTextBottomFont</code>).</p>
-<h3 id='ipad-support' class='heading'>iPad support</h3>
-
-<p>On iPad, unlike the iPhone, the Gini Vision Library UI supports both landscape and portrait orientations, full rotation being enabled by default in both APIs (<em>Screen</em> and <em>Component</em>). So in case you don&rsquo;t want a particular orientation, you will need to disable it in your project settings (<em>Project Settings &rarr; General &rarr; Deployment Info &rarr; Device orientation</em>).</p>
-
-<p>If you want to modify the images shown on both Onboarding screen and No Results screen, keep in mind that the device image (<code>onboardingPage1</code> and <code>captureSuggestion4</code> assets) is different for iPhone and iPads, so it will also be necessary to provide a version for iPad.</p>
-<h4 id='extraction-quality-considerations' class='heading'>Extraction Quality Considerations</h4>
-
-<p>We recommend implementing checks on tablet hardware to ensure that devices meet the Gini Vision Libraries minimum recommended hardware specifications.</p>
-
-<p>Many iPads with at least 8MP cameras don’t have an LED flash (iPad Air 2 and iPad Mini 4 have 8MP camera but no flash). For this reason the extraction quality on those tablets might be lower compared to smartphones.</p>
 
           </div>
         </section>
