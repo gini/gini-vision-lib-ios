@@ -1,6 +1,11 @@
 Changelog
 =========
 
+4.8.6 (2019-10-09)
+------------------
+
+- Removed a trailing space from the "No Results " folder name.
+
 4.8.5 (2019-10-02)
 ------------------
 
