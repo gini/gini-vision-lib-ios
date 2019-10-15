@@ -239,12 +239,26 @@ import UIKit
      */
     public var toolTipOpaqueBackgroundStyle: OpaqueViewStyle {
         
-        if #available(iOS 13.0, *) {
-            return .blurred(style: .regular)
-        } else {
-            return .blurred(style: .dark)
+        set {
+            _toolTipOpaqueBackgroundStyle = newValue
+        }
+        
+        get {
+            
+            if let setValue = _toolTipOpaqueBackgroundStyle {
+                return setValue
+            } else {
+                
+                if #available(iOS 13.0, *) {
+                    return .blurred(style: .regular)
+                } else {
+                    return .blurred(style: .dark)
+                }
+            }
         }
     }
+    
+    private var _toolTipOpaqueBackgroundStyle: OpaqueViewStyle?
     
     /**
      Sets the text color of the item selected background check
@@ -435,12 +449,26 @@ import UIKit
      */
     @objc public var multipagePagesContainerAndToolBarColor: UIColor {
         
-        if #available(iOS 13.0, *) {
-            return Colors.Gini.dynamicPearl
-        } else {
-            return Colors.Gini.pearl
+        set {
+            _multipagePagesContainerAndToolBarColor = newValue
+        }
+        
+        get {
+            
+            if let setValue = _multipagePagesContainerAndToolBarColor {
+                return setValue
+            } else {
+                
+                if #available(iOS 13.0, *) {
+                    return Colors.Gini.dynamicPearl
+                } else {
+                    return Colors.Gini.pearl
+                }
+            }
         }
     }
+    
+    @objc private var _multipagePagesContainerAndToolBarColor: UIColor?
     
     @objc public var indicatorCircleColor: UIColor {
         
@@ -478,21 +506,35 @@ import UIKit
      */
     @objc public var multipagePageBackgroundColor: UIColor {
         
-        if #available(iOS 13.0, *) {
+        set {
+            _multipagePageBackgroundColor = newValue
+        }
+        
+        get {
             
-            return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            if let setValue = _multipagePageBackgroundColor {
+                return setValue
+            } else {
                 
-                if traitCollection.userInterfaceStyle == .dark {
-                    return .secondarySystemBackground
+                if #available(iOS 13.0, *) {
+                    
+                    return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                        
+                        if traitCollection.userInterfaceStyle == .dark {
+                            return .secondarySystemBackground
+                        } else {
+                            return .white
+                        }
+                    }
+                    
                 } else {
                     return .white
                 }
             }
-            
-        } else {
-            return .white
         }
     }
+    
+    @objc private var _multipagePageBackgroundColor: UIColor?
     
     /**
      Sets the tint color of the draggable icon in the page collection cell

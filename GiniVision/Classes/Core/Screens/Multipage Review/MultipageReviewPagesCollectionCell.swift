@@ -58,7 +58,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var draggableIcon: UIImageView = {
+    lazy var draggableIcon: UIImageView = {
         let image = UIImage(named: "draggablePageIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
         let imageView = UIImageView(image: image?.withRenderingMode(.alwaysTemplate))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +67,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var bottomContainer: UIView = {
+    lazy var bottomContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -93,7 +93,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return view
     }()
     
-    private lazy var pageSelectedLine: UIView = {
+    lazy var pageSelectedLine: UIView = {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
