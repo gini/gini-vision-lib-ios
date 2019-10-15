@@ -20,10 +20,19 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     var giniConfiguration: GiniConfiguration {
         set {
             _giniConfiguration = newValue
+            applyConfiguration(giniConfiguration: giniConfiguration)
         }
         get {
             return _giniConfiguration ?? GiniConfiguration.shared
         }
+    }
+    
+    private func applyConfiguration(giniConfiguration: GiniConfiguration) {
+        draggableIcon.tintColor = giniConfiguration.multipageDraggableIconColor
+        bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
+        pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
+        pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
+        pageIndicatorCircle.layer.borderColor = giniConfiguration.indicatorCircleColor.cgColor
     }
     
     private lazy var roundMask: UIView = {
