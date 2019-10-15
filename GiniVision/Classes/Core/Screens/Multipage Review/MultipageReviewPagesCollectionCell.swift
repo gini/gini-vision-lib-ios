@@ -15,7 +15,18 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     let pageIndicatorCircleSize = CGSize(width: 25, height: 25)
     let stateViewSize = CGSize(width: 40, height: 40)
     
-    lazy var roundMask: UIView = {
+    private var _giniConfiguration: GiniConfiguration?
+    
+    var giniConfiguration: GiniConfiguration {
+        set {
+            _giniConfiguration = newValue
+        }
+        get {
+            return _giniConfiguration ?? GiniConfiguration.shared
+        }
+    }
+    
+    private lazy var roundMask: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 5.0
@@ -40,49 +51,52 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         return view
     }()
     
-    lazy var traslucentBackground: UIView = {
+    private lazy var traslucentBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         return view
     }()
     
-    lazy var draggableIcon: UIImageView = {
+    private lazy var draggableIcon: UIImageView = {
         let image = UIImage(named: "draggablePageIcon", in: Bundle(for: GiniVision.self), compatibleWith: nil)
         let imageView = UIImageView(image: image?.withRenderingMode(.alwaysTemplate))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = giniConfiguration.multipageDraggableIconColor
         return imageView
     }()
     
-    lazy var bottomContainer: UIView = {
+    private lazy var bottomContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        
+        view.backgroundColor = giniConfiguration.multipagePageBackgroundColor
+        
         return view
     }()
     
     lazy var pageIndicatorLabel: UILabel = {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = Colors.Gini.blue
+        label.textColor = giniConfiguration.multipagePageIndicatorColor
         return label
     }()
     
-    lazy var pageIndicatorCircle: UIView = {
+    private lazy var pageIndicatorCircle: UIView = {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.frame.size = self.pageIndicatorCircleSize
-        view.layer.borderColor = Colors.Gini.pearl.cgColor
         view.layer.borderWidth = 1
         view.layer.cornerRadius = self.pageIndicatorCircleSize.width / 2
+        updatePageIndicatorCircleColor(pageIndicatorCircle: view)
         return view
     }()
     
-    lazy var pageSelectedLine: UIView = {
+    private lazy var pageSelectedLine: UIView = {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = Colors.Gini.blue
+        view.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
         view.alpha = 0
         return view
     }()
@@ -111,6 +125,22 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(frame:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                updatePageIndicatorCircleColor(pageIndicatorCircle: pageIndicatorCircle)
+            }
+        }
+    }
+    
+    private func updatePageIndicatorCircleColor(pageIndicatorCircle: UIView) {
+        
+        pageIndicatorCircle.layer.borderColor = giniConfiguration.indicatorCircleColor.cgColor
     }
     
     //swiftlint:disable function_body_length

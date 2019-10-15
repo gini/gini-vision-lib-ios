@@ -32,11 +32,18 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.frame.size = self.stepIndicatorCircleSize
-        view.layer.borderColor = Colors.Gini.pearl.cgColor
+        
+        updateStepIndicatorCircleColor(stepIndicatorCircle: view)
+        
         view.layer.borderWidth = 1
         view.layer.cornerRadius = self.stepIndicatorCircleSize.width / 2
         return view
     }()
+    
+    private func updateStepIndicatorCircleColor(stepIndicatorCircle: UIView) {
+        
+        stepIndicatorCircle.layer.borderColor = GiniConfiguration.shared.indicatorCircleColor.cgColor
+    }
     
     lazy var stepTitle: UILabel = {
         var label = UILabel()
@@ -50,7 +57,12 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         var label = UILabel()
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .lightGray
+        
+        if #available(iOS 13.0, *) {
+            label.textColor = .secondaryLabel
+        } else {
+            label.textColor = .lightGray
+        }
         
         return label
     }()
@@ -60,15 +72,44 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.layer.shadowOffset = CGSize(width: 0, height: 4)
-        imageView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        imageView.layer.shadowOpacity = 1
+        
+        updateStepImageShadow(stepImage: imageView)
+        
+        imageView.layer.shadowOpacity = 0.1
         imageView.layer.shadowRadius = 14
         return imageView
     }()
     
+    private func updateStepImageShadow(stepImage: UIImageView) {
+        
+        if #available(iOS 13.0, *) {
+            stepImage.layer.shadowColor = Colors.Gini.shadowColor.cgColor
+        } else {
+            stepImage.layer.shadowColor = UIColor.black.cgColor
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                
+                updateStepIndicatorCircleColor(stepIndicatorCircle: stepIndicatorCircle)
+                updateStepImageShadow(stepImage: stepImage)
+            }
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        
+        if #available(iOS 13.0, *) {
+            backgroundColor = .systemBackground
+        } else {
+            backgroundColor = .white
+        }
         
         addSubview(stepIndicator)
         addSubview(stepIndicatorCircle)

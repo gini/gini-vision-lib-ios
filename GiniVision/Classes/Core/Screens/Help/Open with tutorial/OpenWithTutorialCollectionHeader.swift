@@ -15,7 +15,13 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
     lazy var headerContainer: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
+        
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
+        
         return view
     }()
     
@@ -25,7 +31,6 @@ final class OpenWithTutorialCollectionHeader: UICollectionReusableView {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.textColor = .black
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 12 / OpenWithTutorialCollectionHeader.maxHeaderFontSize
         return label

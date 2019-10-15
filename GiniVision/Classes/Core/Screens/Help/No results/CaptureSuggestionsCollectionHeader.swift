@@ -74,7 +74,6 @@ final class CaptureSuggestionsCollectionHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
         topViewContainer.addSubview(topViewContainerBottomLine)
         topViewContainer.addSubview(topViewText)
         topViewContainer.addSubview(topViewIcon)

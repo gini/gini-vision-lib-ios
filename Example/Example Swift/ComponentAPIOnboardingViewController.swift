@@ -27,9 +27,6 @@ final class ComponentAPIOnboardingViewController: UIViewController {
         
         // 2. Display the onboarding view controller
         displayContent(contentController)
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     // Displays the content controller inside the container view

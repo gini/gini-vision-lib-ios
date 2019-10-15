@@ -85,7 +85,13 @@ public final class MultipageReviewViewController: UIViewController {
         
         var collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
-        collection.backgroundColor = Colors.Gini.veryLightGray
+        
+        if #available(iOS 13.0, *) {
+            collection.backgroundColor = Colors.Gini.dynamicVeryLightGray
+        } else {
+            collection.backgroundColor = Colors.Gini.veryLightGray
+        }
+        
         collection.dataSource = self
         collection.delegate = self
         collection.isPagingEnabled = true
@@ -112,7 +118,12 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var pagesCollectionTopBorder: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.lightGray
+        
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemGray2
+        } else {
+            view.backgroundColor = .lightGray
+        }
         
         return view
     }()
@@ -238,9 +249,6 @@ extension MultipageReviewViewController {
         if ToolTipView.shouldShowReorderPagesButtonToolTip {
             createReorderPagesTip()
         }
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     public override func viewWillAppear(_ animated: Bool) {

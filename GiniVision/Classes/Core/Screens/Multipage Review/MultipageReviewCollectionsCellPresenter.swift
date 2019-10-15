@@ -101,11 +101,7 @@ fileprivate extension MultipageReviewCollectionCellPresenter {
         }
         
         cell.pageIndicatorLabel.text = "\(pageIndex + 1)"
-        cell.pageIndicatorLabel.textColor = giniConfiguration.multipagePageIndicatorColor
-        cell.pageSelectedLine.backgroundColor = giniConfiguration.multipagePageSelectedIndicatorColor
-        cell.draggableIcon.tintColor = giniConfiguration.multipageDraggableIconColor
-        cell.bottomContainer.backgroundColor = giniConfiguration.multipagePageBackgroundColor
-        
+        cell.giniConfiguration = giniConfiguration
         // Every time the cell is dequeued, its `isSelected` state is set to default, false.
         cell.isSelected = selected
         
