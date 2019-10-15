@@ -51,9 +51,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         tabBarViewController.tabBar.tintColor = .white
         tabBarViewController.view.backgroundColor = .black
         
-        if #available(iOS 10.0, *) {
-            tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
-        }
+        tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
         
         return tabBarViewController
     }()

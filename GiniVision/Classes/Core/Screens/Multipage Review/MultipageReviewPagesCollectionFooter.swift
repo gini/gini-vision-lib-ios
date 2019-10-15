@@ -92,9 +92,7 @@ final class MultipageReviewPagesCollectionFooter: UICollectionReusableView {
 extension MultipageReviewPagesCollectionFooter {
     
     @objc fileprivate func addImageButtonAction() {
-        if #available(iOS 10.0, *) {
-            UIImpactFeedbackGenerator().impactOccurred()
-        }
+        UIImpactFeedbackGenerator().impactOccurred()
         didTapAddButton?()
     }
     
