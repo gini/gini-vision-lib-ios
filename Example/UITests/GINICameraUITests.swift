@@ -5,15 +5,7 @@ class GINICameraUITests: XCTestCase {
     let app = XCUIApplication()
     
     override func setUp() {
-        super.setUp()
-        continueAfterFailure = false
-        app.launchArguments = [ "--UITest" ]
         app.launch()
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        app.terminate()
     }
     
     func testCameraIsPresent() {
@@ -26,8 +18,8 @@ class GINICameraUITests: XCTestCase {
     func testCapture() {
         app.buttons["Screen API"].tap()
         app.buttons["Auslösen"].tap()
-        let reviewScreen = app.navigationBars["Überprüfen"]
-        _ = reviewScreen.waitForExistence(timeout: 5)
+        let reviewScreen = app.navigationBars["1 von 1"]
+        XCTAssert(reviewScreen.waitForExistence(timeout: 5))
         
         XCTAssert(reviewScreen.exists, "taping the capture button should trigger displaying the review screen")
     }

@@ -65,6 +65,13 @@
 			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
 			remoteInfo = GiniVision_Example;
 		};
+		526B963F235705730067C373 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1F9334FD20A334F2004BC50C;
+			remoteInfo = "Example ObjC";
+		};
 		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
@@ -404,6 +411,7 @@
 			);
 			dependencies = (
 				0A3B96581D478BF700BFEF05 /* PBXTargetDependency */,
+				526B9640235705730067C373 /* PBXTargetDependency */,
 			);
 			name = GiniVision_UITests;
 			productName = GiniVision_UITests;
@@ -781,6 +789,11 @@
 			target = 607FACCF1AFB9204008FA782 /* Example Swift */;
 			targetProxy = 0A3B96571D478BF700BFEF05 /* PBXContainerItemProxy */;
 		};
+		526B9640235705730067C373 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1F9334FD20A334F2004BC50C /* Example ObjC */;
+			targetProxy = 526B963F235705730067C373 /* PBXContainerItemProxy */;
+		};
 		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 607FACCF1AFB9204008FA782 /* Example Swift */;
@@ -931,7 +944,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = GiniVision_Example;
+				TEST_TARGET_NAME = "Example Swift";
 			};
 			name = Release;
 		};
@@ -947,7 +960,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = GiniVision_Example;
+				TEST_TARGET_NAME = "Example Swift";
 			};
 			name = Debug;
 		};
@@ -962,7 +975,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.GiniVision-UITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = GiniVision_Example;
+				TEST_TARGET_NAME = "Example Swift";
 			};
 			name = "In House";
 		};

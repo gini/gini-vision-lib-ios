@@ -16,6 +16,11 @@ final class MultipageReviewMainCollectionCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
+        
+        imageView.accessibilityLabel = NSLocalizedString("ginivision.review.documentImageTitle",
+                                                         bundle: Bundle(for: GiniVision.self),
+                                                         comment: "Document")
+        
         return imageView
     }()
     
