@@ -237,7 +237,28 @@ import UIKit
     /**
      Sets the background style when the tooltip is shown
      */
-    public var toolTipOpaqueBackgroundStyle: OpaqueViewStyle = .blurred(style: .dark)
+    public var toolTipOpaqueBackgroundStyle: OpaqueViewStyle {
+        
+        set {
+            _toolTipOpaqueBackgroundStyle = newValue
+        }
+        
+        get {
+            
+            if let setValue = _toolTipOpaqueBackgroundStyle {
+                return setValue
+            } else {
+                
+                if #available(iOS 13.0, *) {
+                    return .blurred(style: .regular)
+                } else {
+                    return .blurred(style: .dark)
+                }
+            }
+        }
+    }
+    
+    private var _toolTipOpaqueBackgroundStyle: OpaqueViewStyle?
     
     /**
      Sets the text color of the item selected background check
@@ -282,12 +303,30 @@ import UIKit
     /**
      Sets the text color of the QR Code popup label
      */
-    @objc public var qrCodePopupTextColor = UIColor.black
+    @objc public var qrCodePopupTextColor: UIColor {
+        
+        if #available(iOS 13.0, *) {
+             
+            return .label
+            
+        } else {
+            return .black
+        }
+    }
     
     /**
      Sets the text color of the QR Code popup background
      */
-    @objc public var qrCodePopupBackgroundColor = UIColor.white
+    @objc public var qrCodePopupBackgroundColor: UIColor {
+        
+        if #available(iOS 13.0, *) {
+             
+            return .secondarySystemBackground
+            
+        } else {
+            return .white
+        }
+    }
     
     /**
      Sets the continue button text in the navigation bar on the onboarding screen.
@@ -408,7 +447,44 @@ import UIKit
     /**
      Sets the color of the pages container and toolbar
      */
-    @objc public var multipagePagesContainerAndToolBarColor = Colors.Gini.pearl
+    @objc public var multipagePagesContainerAndToolBarColor: UIColor {
+        
+        set {
+            _multipagePagesContainerAndToolBarColor = newValue
+        }
+        
+        get {
+            
+            if let setValue = _multipagePagesContainerAndToolBarColor {
+                return setValue
+            } else {
+                
+                if #available(iOS 13.0, *) {
+                    return Colors.Gini.dynamicPearl
+                } else {
+                    return Colors.Gini.pearl
+                }
+            }
+        }
+    }
+    
+    @objc private var _multipagePagesContainerAndToolBarColor: UIColor?
+    
+    @objc public var indicatorCircleColor: UIColor {
+        
+        if #available(iOS 13.0, *) {
+                        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                
+                if traitCollection.userInterfaceStyle == .dark {
+                    return .lightGray
+                } else {
+                    return Colors.Gini.pearl
+                }
+            }
+        } else {
+            return Colors.Gini.pearl
+        }
+    }
     
     /**
      Sets the tint color of the toolbar items
@@ -426,9 +502,39 @@ import UIKit
     @objc public var multipagePageSelectedIndicatorColor = Colors.Gini.blue
     
     /**
-     Sets the tint color of the page background
+     Sets the background color of the page background
      */
-    @objc public var multipagePageBackgroundColor = UIColor.white
+    @objc public var multipagePageBackgroundColor: UIColor {
+        
+        set {
+            _multipagePageBackgroundColor = newValue
+        }
+        
+        get {
+            
+            if let setValue = _multipagePageBackgroundColor {
+                return setValue
+            } else {
+                
+                if #available(iOS 13.0, *) {
+                    
+                    return UIColor { (traitCollection: UITraitCollection) -> UIColor in
+                        
+                        if traitCollection.userInterfaceStyle == .dark {
+                            return .secondarySystemBackground
+                        } else {
+                            return .white
+                        }
+                    }
+                    
+                } else {
+                    return .white
+                }
+            }
+        }
+    }
+    
+    @objc private var _multipagePageBackgroundColor: UIColor?
     
     /**
      Sets the tint color of the draggable icon in the page collection cell

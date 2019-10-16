@@ -110,15 +110,17 @@ final public class HelpMenuViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
         tableView.rowHeight = tableRowHeight
-        tableView.backgroundColor = Colors.Gini.pearl
+        
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = Colors.Gini.dynamicPearl
+        } else {
+            tableView.backgroundColor = Colors.Gini.pearl
+        }
         
         // In iOS it is .automatic by default, having an initial animation when the view is loaded.
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     @objc func back() {
@@ -143,7 +145,6 @@ extension HelpMenuViewController {
         cell.textLabel?.text = items[indexPath.row].title
         cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.accessoryType = .disclosureIndicator
-        cell.backgroundColor = .white
         
         return cell
     }

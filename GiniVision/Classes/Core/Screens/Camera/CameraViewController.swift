@@ -149,9 +149,6 @@ import AVFoundation
                 }
             }
         }
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -326,9 +323,7 @@ extension CameraViewController {
                 return
         }
         
-        if #available(iOS 10.0, *) {
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
         let imageDocument = GiniImageDocument(data: imageData,
                                               imageSource: .camera,
@@ -406,9 +401,6 @@ extension CameraViewController {
         toolTipView?.dismiss(withCompletion: nil)
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        // Ignore dark mode
-        alertViewController.useLightUserInterfaceStyle()
         
         var alertViewControllerMessage: String = .localized(resource: CameraStrings.popupTitleImportPDF)
         

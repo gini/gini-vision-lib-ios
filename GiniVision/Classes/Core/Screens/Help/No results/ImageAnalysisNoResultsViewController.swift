@@ -115,8 +115,13 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
     
     public override func loadView() {
         super.loadView()
-        view.backgroundColor = .white
         edgesForExtendedLayout = []
+        
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
         
         view.addSubview(suggestionsCollectionView)
         
@@ -133,12 +138,6 @@ public final class ImageAnalysisNoResultsViewController: UIViewController {
         coordinator.animate(alongsideTransition: { _ in
             self.suggestionsCollectionView.collectionViewLayout.invalidateLayout()
         }, completion: nil)
-    }
-    
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     fileprivate func addConstraints() {

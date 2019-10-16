@@ -66,16 +66,16 @@ final class ImagePickerViewController: UIViewController {
         super.loadView()
         
         title = currentAlbum.title
-        view.backgroundColor = .white
+        
+        if #available(iOS 13.0, *) {
+            collectionView.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
+        
         view.addSubview(collectionView)
         
         Constraints.pin(view: collectionView, toSuperView: view)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     override func viewDidLayoutSubviews() {

@@ -18,9 +18,7 @@ extension UIImage {
             // Convert to CGImage because UIImage(ciImage:) was not working on the iOS 13.1 beta
             let ciContext = CIContext(options: nil)
             defer {
-                if #available(iOS 10.0, *) {
-                    ciContext.clearCaches()
-                }
+                ciContext.clearCaches()
             }
             guard let cgOutputImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
                 return nil

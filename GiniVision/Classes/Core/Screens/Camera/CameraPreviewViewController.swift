@@ -95,9 +95,6 @@ final class CameraPreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updatePreviewViewOrientation() // Video orientation should be updated once the view has been loaded
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     public override func viewWillAppear(_ animated: Bool) {

@@ -164,12 +164,6 @@ final class CameraButtonsViewController: UIViewController {
         addConstraints()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
-    }
-    
     func addFileImportButton() {
         if currentDevice.isIpad {
             let bottomVerticalAlignedStackView = verticalAlignedStackView
@@ -193,9 +187,7 @@ fileprivate extension CameraButtonsViewController {
     }
     
     @objc func tapOnFlashToggle(_ button: UIButton) {
-        if #available(iOS 10.0, *) {
-            UIImpactFeedbackGenerator().impactOccurred()
-        }
+        UIImpactFeedbackGenerator().impactOccurred()
         button.isSelected.toggle()
         delegate?.cameraButtons(self, didTapOn: .flashToggle(button.isSelected))
     }

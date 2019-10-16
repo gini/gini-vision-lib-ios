@@ -108,9 +108,7 @@ final class NoticeView: UIView {
     }
     
     @objc func didTapActionButton() {
-        if #available(iOS 10.0, *) {
-            UIImpactFeedbackGenerator().impactOccurred()
-        }
+        UIImpactFeedbackGenerator().impactOccurred()
         self.userAction?.action()
     }
     

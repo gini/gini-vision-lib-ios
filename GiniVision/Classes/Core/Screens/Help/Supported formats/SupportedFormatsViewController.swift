@@ -60,16 +60,19 @@ final class SupportedFormatsViewController: UITableViewController {
         tableView.tableFooterView = UIView()
         tableView.sectionHeaderHeight = sectionHeight
         tableView.allowsSelection = false
-        tableView.backgroundColor = Colors.Gini.pearl
+        
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = Colors.Gini.dynamicPearl
+        } else {
+            tableView.backgroundColor = Colors.Gini.pearl
+        }
+        
         tableView.alwaysBounceVertical = false
         
         // On iOS is .automatic by default and it the transition to this view controller looks weird.
         if #available(iOS 11.0, *) {
             tableView.contentInsetAdjustmentBehavior = .never
         }
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     // MARK: - Table view data source

@@ -13,13 +13,6 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
     static let height: CGFloat = 90.0
     let padding = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     
-    lazy var albumAccesoryView: UIButton = {
-        let button = UIButton(frame: .zero)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImageNamedPreferred(named: "disclosureIndicator"), for: .normal)
-        return button
-    }()
-    
     lazy var albumThumbnailView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,15 +36,19 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
     lazy var albumSubTitleLabel: UILabel = {
         let albumSubTitle = UILabel(frame: .zero)
         albumSubTitle.translatesAutoresizingMaskIntoConstraints = false
-        albumSubTitle.textColor = .lightGray
+        
+        if #available(iOS 13.0, *) {
+            albumSubTitle.textColor = .secondaryLabel
+        } else {
+            albumSubTitle.textColor = .lightGray
+        }
         
         return albumSubTitle
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        addSubview(albumAccesoryView)
+        accessoryType = .disclosureIndicator
         addSubview(albumThumbnailView)
         addSubview(albumTitleLabel)
         addSubview(albumSubTitleLabel)
@@ -72,16 +69,6 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
                            constant: 70)
         Constraints.active(item: albumThumbnailView, attr: .width, relatedBy: .equal, to: nil, attr: .notAnAttribute,
                            constant: 70)
-        
-        // albumAccesoryView
-        Constraints.active(item: albumAccesoryView, attr: .leading, relatedBy: .equal, to: albumTitleLabel,
-                           attr: .trailing, constant: padding.left, priority: 999)
-        Constraints.active(item: albumAccesoryView, attr: .top, relatedBy: .equal, to: self, attr: .top,
-                           constant: padding.top)
-        Constraints.active(item: albumAccesoryView, attr: .bottom, relatedBy: .equal, to: self, attr: .bottom,
-                           constant: -padding.bottom)
-        Constraints.active(item: albumAccesoryView, attr: .trailing, relatedBy: .equal, to: self, attr: .trailing,
-                           constant: -padding.left * 2)
         
         // albumTitleLabel
         Constraints.active(item: albumTitleLabel, attr: .centerY, relatedBy: .equal, to: self, attr: .centerY,

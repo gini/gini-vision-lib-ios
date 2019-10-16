@@ -51,9 +51,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         tabBarViewController.tabBar.tintColor = .white
         tabBarViewController.view.backgroundColor = .black
         
-        if #available(iOS 10.0, *) {
-            tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
-        }
+        tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
         
         return tabBarViewController
     }()
@@ -269,10 +267,7 @@ extension ComponentAPICoordinator {
     fileprivate func refreshMultipageReview(with pages: [GiniVisionPage]) {
         multipageReviewScreen.navigationItem
             .rightBarButtonItem?
-            .isEnabled = pages
-                .reduce(true, { result, page in
-                    result && page.isUploaded
-                })
+            .isEnabled = pages.allSatisfy { $0.isUploaded }
         multipageReviewScreen.updateCollections(with: pages)
     }
 }

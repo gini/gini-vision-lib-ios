@@ -21,9 +21,6 @@ final class NoResultViewController: UIViewController {
         super.viewDidLoad()
         
         rotateImageView.image = rotateImageView.image?.withRenderingMode(.alwaysTemplate)
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     @IBAction func retry(_ sender: AnyObject) {

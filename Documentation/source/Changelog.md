@@ -1,6 +1,10 @@
 Changelog
 =========
 
+5.0.2 (2019-10-16)
+------------------
+-   Support for Dark Mode.
+
 5.0.1 (2019-10-09)
 ------------------
 
@@ -13,6 +17,16 @@ Changelog
 -   Removed support for iOS 9.0.
 -   Removed support for Obj-C in the networking plugin.
 -   Added document validation for empty files.
+
+4.8.6 (2019-10-09)
+------------------
+
+- Removed a trailing space from the "No Results " folder name.
+
+4.8.5 (2019-10-02)
+------------------
+
+- Fixed Swift 4 builds and builds against iOS 12 SDK
 
 4.8.4 (2019-09-25)
 ------------------
