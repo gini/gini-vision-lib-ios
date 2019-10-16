@@ -184,9 +184,14 @@ public final class MultipageReviewViewController: UIViewController {
     fileprivate var opaqueView: UIView?
     
     lazy var rotateButton: UIBarButtonItem = {
-        return barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
+        let button = barButtonItem(withImage: UIImageNamedPreferred(named: "rotateImageIcon"),
                              insets: UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2),
                              action: #selector(rotateImageButtonAction))
+        
+        button.accessibilityLabel = NSLocalizedString("ginivision.review.rotateButton",
+                                                      bundle: Bundle(for: GiniVision.self),
+                                                      comment: "Rotate button")
+        return button
     }()
     
     lazy var deleteButton: UIBarButtonItem = {
