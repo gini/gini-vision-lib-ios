@@ -110,12 +110,6 @@ import UIKit
         addConstraints()
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
-    }
-    
     /**
      Scrolls the scroll view to the next page.
      

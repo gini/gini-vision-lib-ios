@@ -149,12 +149,6 @@ import UIKit
         view.layoutIfNeeded()
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
-    }
-    
     /**
      Called to notify the view controller that its view has just laid out its subviews.
      */

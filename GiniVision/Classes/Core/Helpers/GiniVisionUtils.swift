@@ -134,10 +134,42 @@ struct Colors {
         static var grey = Colors.UIColorHex(0xAFB2B3)
         static var raspberry = Colors.UIColorHex(0xe30b5d)
         static var rose = Colors.UIColorHex(0xFC6B7E)
+        
         static var pearl = Colors.UIColorHex(0xF2F2F2)
+        
+        @available(iOS 13.0, *)
+        static var dynamicPearl = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            
+            if traitCollection.userInterfaceStyle == .dark {
+                return Colors.UIColorHex(0x1C1C1C)
+            } else {
+                return pearl
+            }
+        }
+        
         static var paleGreen = Colors.UIColorHex(0xB8E986)
         static var springGreen = Colors.UIColorHex(0x00FA9A)
         static var veryLightGray = Colors.UIColorHex(0xD8D8D8)
+        
+        @available(iOS 13.0, *)
+        static var dynamicVeryLightGray = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            
+            if traitCollection.userInterfaceStyle == .dark {
+                return Colors.UIColorHex(0x3A3A3A)
+            } else {
+                return Colors.UIColorHex(0xD8D8D8)
+            }
+        }
+        
+        @available(iOS 13.0, *)
+        static var shadowColor = UIColor { (traitCollection: UITraitCollection) -> UIColor in
+            
+            if traitCollection.userInterfaceStyle == .dark {
+                return .white
+            } else {
+                return .black
+            }
+        }
     }
     
     fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {

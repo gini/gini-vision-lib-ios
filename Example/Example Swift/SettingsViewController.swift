@@ -86,9 +86,5 @@ final class SettingsViewController: UIViewController {
         case .pdf_and_images:
             fileImportControl.selectedSegmentIndex = 2
         }
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
-
 }

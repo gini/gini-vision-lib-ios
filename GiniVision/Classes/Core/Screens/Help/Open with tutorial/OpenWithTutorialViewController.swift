@@ -63,7 +63,13 @@ final class OpenWithTutorialViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = .localized(resource: HelpStrings.openWithTutorialTitle)
-        self.view.backgroundColor = Colors.Gini.pearl
+        
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = Colors.Gini.dynamicPearl
+        } else {
+            view.backgroundColor = Colors.Gini.pearl
+        }
+        
         self.collectionView!.backgroundColor = nil
         self.edgesForExtendedLayout = []
         self.automaticallyAdjustsScrollViewInsets = false
@@ -77,9 +83,6 @@ final class OpenWithTutorialViewController: UICollectionViewController {
         stepsCollectionLayout.minimumLineSpacing = 1
         stepsCollectionLayout.minimumInteritemSpacing = 1
         stepsCollectionLayout.estimatedItemSize = estimatedCellSize(widthParentSize: view.frame.size)
-        
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

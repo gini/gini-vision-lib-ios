@@ -36,7 +36,12 @@ final class CaptureSuggestionsCollectionView: UICollectionView {
                       withReuseIdentifier: CaptureSuggestionsCollectionView.captureSuggestionsHeaderIdentifier)
         
         self.showsVerticalScrollIndicator = false
-        self.backgroundColor = .white
+       
+        if #available(iOS 13.0, *) {
+            backgroundColor = .systemBackground
+        } else {
+            backgroundColor = .white
+        }
         
         captureSuggestionsCollectionLayout.minimumLineSpacing = 20
         captureSuggestionsCollectionLayout.minimumInteritemSpacing = 0

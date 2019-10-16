@@ -23,12 +23,6 @@ final class ResultTableViewController: UITableViewController {
             result.sort(by: { $0.name! < $1.name! })
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
-    }
 }
 
 extension ResultTableViewController {

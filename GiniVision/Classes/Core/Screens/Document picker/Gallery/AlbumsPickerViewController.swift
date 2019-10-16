@@ -26,7 +26,13 @@ final class AlbumsPickerViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Colors.Gini.pearl
+        
+        if #available(iOS 13.0, *) {
+            tableView.backgroundColor = Colors.Gini.dynamicPearl
+        } else {
+            tableView.backgroundColor = Colors.Gini.pearl
+        }
+        
         tableView.register(AlbumsPickerTableViewCell.self,
                            forCellReuseIdentifier: AlbumsPickerTableViewCell.identifier)
         return tableView
@@ -52,12 +58,6 @@ final class AlbumsPickerViewController: UIViewController {
         title = .localized(resource: GalleryStrings.albumsTitle)
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Ignore dark mode
-        useLightUserInterfaceStyle()
     }
     
     func reloadAlbums() {
