@@ -1,6 +1,10 @@
 Changelog
 =========
 
+5.0.3 (2019-10-17)
+------------------
+-   Made GiniVisionResultsDelegate accessible from Objective-C again.
+
 5.0.2 (2019-10-16)
 ------------------
 -   Support for Dark Mode.
