@@ -10,25 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-protocol CameraProtocol: class {
-    var session: AVCaptureSession { get }
-    var videoDeviceInput: AVCaptureDeviceInput? { get }
-    var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }
-    var isFlashSupported: Bool { get }
-    var isFlashOn: Bool { get set }
-
-    func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void)
-    func focus(withMode mode: AVCaptureDevice.FocusMode,
-               exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
-               atDevicePoint point: CGPoint,
-               monitorSubjectAreaChange: Bool)
-    func setup(completion: ((CameraError?) -> Void))
-    func setupQRScanningOutput()
-    func start()
-    func stop()
-}
-
-final class Camera: NSObject, CameraProtocol {
+final class Camera: NSObject {
     
     // Callbacks
     var didDetectQR: ((GiniQRCodeDocument) -> Void)?
@@ -61,18 +43,32 @@ final class Camera: NSObject, CameraProtocol {
         super.init()
     }
     
-    func setup(completion: ((CameraError?) -> Void)) {
-        do {
-            try setupSession()
+    func setup(completion: @escaping ((CameraError?) -> Void)) {
+        
+        setupCaptureDevice { [weak self] result in
             
-            self.session.beginConfiguration()
-            self.setupInput()
-            self.setupPhotoCaptureOutput()
-            self.session.commitConfiguration()
-        } catch let error as CameraError {
-            completion(error)
-        } catch {
-            completion(.unknown)
+            guard let self = self else { return }
+            
+            switch result {
+            case .failure(let cameraError):
+                
+                completion(cameraError)
+                
+            case .success(let captureDevice):
+                
+                do {
+                    self.videoDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+                } catch {
+                    completion(.notAuthorizedToUseDevice) // shouldn't happen
+                }
+                
+                self.session.beginConfiguration()
+                self.setupInput()
+                self.setupPhotoCaptureOutput()
+                self.session.commitConfiguration()
+                
+                completion(nil)
+            }
         }
     }
     
@@ -170,20 +166,39 @@ fileprivate extension Camera {
         return captureSettings
     }
     
-    func setupSession() throws {
-        let videoDevice: AVCaptureDevice? = AVCaptureDevice.default(.builtInWideAngleCamera,
-                                                                    for: .video,
-                                                                    position: .back)
+    private func setupCaptureDevice(completion: @escaping (Result<AVCaptureDevice, CameraError>) -> Void) {
         
-        do {
-            guard let videoDevice = videoDevice else { throw CameraError.unknown }
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-        } catch let error as NSError {
-            if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
-                throw CameraError.notAuthorizedToUseDevice
-            } else {
-                throw CameraError.unknown
+        guard let videoDevice = AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                        for: .video,
+                                                        position: .back) else {
+                                                            
+                                                            completion(.failure(.noInputDevice))
+                                                            return
+        }
+        
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+            
+        case .authorized:
+            completion(.success(videoDevice))
+            
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                
+                DispatchQueue.main.async {
+                    
+                    if granted {
+                        completion(.success(videoDevice))
+                    } else {
+                        completion(.failure(.notAuthorizedToUseDevice))
+                    }
+                }
             }
+            
+        case .denied, .restricted:
+            completion(.failure(.notAuthorizedToUseDevice))
+            
+        @unknown default:
+            completion(.failure(.notAuthorizedToUseDevice))
         }
     }
     
