@@ -28,7 +28,7 @@ final class CameraPreviewViewController: UIViewController {
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
-    fileprivate var camera: Camera
+    fileprivate var camera: CameraProtocol
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
@@ -60,7 +60,7 @@ final class CameraPreviewViewController: UIViewController {
     }()
     
     init(giniConfiguration: GiniConfiguration = .shared,
-         camera: Camera = Camera(giniConfiguration: .shared)) {
+         camera: CameraProtocol = Camera(giniConfiguration: .shared)) {
         self.giniConfiguration = giniConfiguration
         self.camera = camera
         super.init(nibName: nil, bundle: nil)
