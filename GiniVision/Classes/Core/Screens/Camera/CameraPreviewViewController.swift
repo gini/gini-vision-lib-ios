@@ -28,7 +28,7 @@ final class CameraPreviewViewController: UIViewController {
     
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate typealias FocusIndicator = UIImageView
-    fileprivate var camera: CameraProtocol
+    fileprivate var camera: Camera
     fileprivate var defaultImageView: UIImageView?
     fileprivate var focusIndicatorImageView: UIImageView?
     fileprivate let interfaceOrientationsMapping: [UIInterfaceOrientation: AVCaptureVideoOrientation] = [
@@ -60,7 +60,7 @@ final class CameraPreviewViewController: UIViewController {
     }()
     
     init(giniConfiguration: GiniConfiguration = .shared,
-         camera: CameraProtocol = Camera(giniConfiguration: .shared)) {
+         camera: Camera = Camera(giniConfiguration: .shared)) {
         self.giniConfiguration = giniConfiguration
         self.camera = camera
         super.init(nibName: nil, bundle: nil)
@@ -171,11 +171,11 @@ fileprivate extension CameraPreviewViewController {
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
+                    self.addNotAuthorizedView()
                 default:
                     if giniConfiguration.debugModeOn {
                         #if targetEnvironment(simulator)
-                        addDefaultImage()
+                        self.addDefaultImage()
                         #endif
                     }
                 }
