@@ -1,6 +1,10 @@
 Changelog
 =========
 
+5.0.4 (2019-10-22)
+------------------
+-   Fixed a problem where the lack of camera permissions screen isn't shown directly following the user refusing to grant the camera permissions.
+
 5.0.3 (2019-10-17)
 ------------------
 -   Made GiniVisionResultsDelegate accessible from Objective-C again.
