@@ -174,11 +174,11 @@ fileprivate extension CameraPreviewViewController {
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
-                    addNotAuthorizedView()
+                    self.addNotAuthorizedView()
                 default:
                     if giniConfiguration.debugModeOn {
                         #if targetEnvironment(simulator)
-                        addDefaultImage()
+                        self.addDefaultImage()
                         #endif
                     }
                 }

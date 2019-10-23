@@ -11,8 +11,8 @@ import Bolts
 
 public typealias Extraction = GINIExtraction
 
-typealias UploadDocumentCompletion = (Result<GINIDocument>) -> Void
-typealias AnalysisCompletion = (Result<[String: Extraction]>) -> Void
+typealias UploadDocumentCompletion = (Result<GINIDocument, Error>) -> Void
+typealias AnalysisCompletion = (Result<[String: Extraction], Error>) -> Void
 
 protocol DocumentServiceProtocol: class {
     

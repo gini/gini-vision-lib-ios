@@ -225,7 +225,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
 
 extension GiniScreenAPICoordinator {
     fileprivate func validate(_ documents: [GiniVisionDocument],
-                              completion: @escaping (Result<[GiniVisionPage]>) -> Void) {
+                              completion: @escaping (Result<[GiniVisionPage], Error>) -> Void) {
         
         guard !(documents + pages.map {$0.document}).containsDifferentTypes else {
             completion(.failure(FilePickerError.mixedDocumentsUnsupported))
