@@ -1,6 +1,39 @@
 Changelog
 =========
 
+4.8.7 (2019-10-23)
+------------------
+-   Fixed a problem where the lack of camera permissions screen isn't shown directly following the user refusing to grant the camera permissions.
+
+5.0.5 (2019-10-23)
+------------------
+-   Don't require the client to retain the GiniVision view controller for the feedback closure to run correctly.
+
+5.0.4 (2019-10-22)
+------------------
+-   Fixed a problem where the lack of camera permissions screen isn't shown directly following the user refusing to grant the camera permissions.
+
+5.0.3 (2019-10-17)
+------------------
+-   Made GiniVisionResultsDelegate accessible from Objective-C again.
+
+5.0.2 (2019-10-16)
+------------------
+-   Support for Dark Mode.
+
+5.0.1 (2019-10-09)
+------------------
+
+-   Removed a trailing space from "No results " folder name.
+
+5.0.0 (2019-05-22)
+------------------
+
+-   Added the new API SDK in the network plugin.
+-   Removed support for iOS 9.0.
+-   Removed support for Obj-C in the networking plugin.
+-   Added document validation for empty files.
+
 4.8.6 (2019-10-09)
 ------------------
 
