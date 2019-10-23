@@ -1,6 +1,10 @@
 Changelog
 =========
 
+5.0.5 (2019-10-23)
+------------------
+-   Don't require the client to retain the GiniVision view controller for the feedback closure to run correctly.
+
 5.0.4 (2019-10-22)
 ------------------
 -   Fixed a problem where the lack of camera permissions screen isn't shown directly following the user refusing to grant the camera permissions.
