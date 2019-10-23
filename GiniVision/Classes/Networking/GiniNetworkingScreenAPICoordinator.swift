@@ -38,26 +38,27 @@ import Gini
 final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
     
     weak var resultsDelegate: GiniVisionResultsDelegate?
-    var documentService: DocumentServiceProtocol?
+    private let documentService: DocumentServiceProtocol
     
     init(client: Client,
          resultsDelegate: GiniVisionResultsDelegate,
          giniConfiguration: GiniConfiguration,
          documentMetadata: Document.Metadata?,
          api: APIDomain) {
-        super.init(withDelegate: nil,
-                   giniConfiguration: giniConfiguration)
-        self.visionDelegate = self
-        self.resultsDelegate = resultsDelegate
         
         let sdk = GiniSDK
             .Builder(client: client, api: api)
             .build()
         
-        self.documentService = documentService(with: sdk,
+        self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
                                                documentMetadata: documentMetadata,
                                                giniConfiguration: giniConfiguration,
                                                for: api)
+        
+        super.init(withDelegate: nil,
+                   giniConfiguration: giniConfiguration)
+        self.visionDelegate = self
+        self.resultsDelegate = resultsDelegate
     }
     
     init(client: Client,
@@ -66,10 +67,6 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          publicKeyPinningConfig: [String: Any],
          documentMetadata: Document.Metadata?,
          api: APIDomain) {
-        super.init(withDelegate: nil,
-                   giniConfiguration: giniConfiguration)
-        self.visionDelegate = self
-        self.resultsDelegate = resultsDelegate
         
         let sdk = GiniSDK
             .Builder(client: client,
@@ -77,16 +74,21 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                      pinningConfig: publicKeyPinningConfig)
             .build()
         
-        self.documentService = documentService(with: sdk,
+        self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
                                                documentMetadata: documentMetadata,
                                                giniConfiguration: giniConfiguration,
                                                for: api)
+        
+        super.init(withDelegate: nil,
+                   giniConfiguration: giniConfiguration)
+        self.visionDelegate = self
+        self.resultsDelegate = resultsDelegate
     }
     
-    func documentService(with sdk: GiniSDK,
-                         documentMetadata: Document.Metadata?,
-                         giniConfiguration: GiniConfiguration,
-                         for api: APIDomain) -> DocumentServiceProtocol {
+    private static func documentService(with sdk: GiniSDK,
+                                        documentMetadata: Document.Metadata?,
+                                        giniConfiguration: GiniConfiguration,
+                                        for api: APIDomain) -> DocumentServiceProtocol {
         switch api {
         case .default:
             return DocumentService(sdk: sdk, metadata: documentMetadata)
@@ -113,17 +115,19 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                 })
                 
                 let result = AnalysisResult(extractions: extractions, images: images)
+                
+                let documentService = self.documentService
+                
                 self.resultsDelegate?
-                    .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
+                    .giniVisionAnalysisDidFinishWith(result: result) { updatedExtractions in
                         
-                        guard let `self` = self else { return }
-                        self.documentService?.sendFeedback(with: updatedExtractions.map { $0.value })
-                        self.documentService?.resetToInitialState()
+                        documentService.sendFeedback(with: updatedExtractions.map { $0.value })
+                        documentService.resetToInitialState()
                 }
             } else {
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWithoutResults(analysisDelegate.tryDisplayNoResultsScreen())
-                self.documentService?.resetToInitialState()
+                self.documentService.resetToInitialState()
             }
         }
     }
@@ -133,7 +137,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
 
 extension GiniNetworkingScreenAPICoordinator {
     fileprivate func startAnalysis(networkDelegate: GiniVisionNetworkDelegate) {
-        self.documentService?.startAnalysis { result in
+        self.documentService.startAnalysis { result in
             switch result {
             case .success(let extractions):
                 self.deliver(result: extractions, analysisDelegate: networkDelegate)
@@ -152,7 +156,7 @@ extension GiniNetworkingScreenAPICoordinator {
     fileprivate func upload(document: GiniVisionDocument,
                             didComplete: @escaping (GiniVisionDocument) -> Void,
                             didFail: @escaping (GiniVisionDocument, Error) -> Void) {
-        documentService?.upload(document: document) { result in
+        documentService.upload(document: document) { result in
             switch result {
             case .success:
                 didComplete(document)
@@ -224,12 +228,12 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
         // It is necessary to check the order when using multipage before
         // creating the composite document
         if giniConfiguration.multipageEnabled {
-            documentService?.sortDocuments(withSameOrderAs: documents)
+            documentService.sortDocuments(withSameOrderAs: documents)
         }
 
         // And review the changes for each document recursively.
         for document in (documents.compactMap { $0 as? GiniImageDocument }) {
-            documentService?.update(imageDocument: document)
+            documentService.update(imageDocument: document)
         }
 
         // In multipage mode the analysis can be triggered once the documents have been uploaded.
@@ -245,15 +249,15 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
     }
 
     func didCancelReview(for document: GiniVisionDocument) {
-        documentService?.remove(document: document)
+        documentService.remove(document: document)
     }
 
     func didCancelAnalysis() {
         // Cancel analysis process to avoid unnecessary network calls.
         if pages.type == .image {
-            documentService?.cancelAnalysis()
+            documentService.cancelAnalysis()
         } else {
-            documentService?.resetToInitialState()
+            documentService.resetToInitialState()
         }
     }
 }
