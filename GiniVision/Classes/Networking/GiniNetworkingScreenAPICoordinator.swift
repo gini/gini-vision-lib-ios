@@ -115,12 +115,14 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                 })
                 
                 let result = AnalysisResult(extractions: extractions, images: images)
+                
+                let documentService = self.documentService
+                
                 self.resultsDelegate?
-                    .giniVisionAnalysisDidFinishWith(result: result) { [weak self] updatedExtractions in
+                    .giniVisionAnalysisDidFinishWith(result: result) { updatedExtractions in
                         
-                        guard let `self` = self else { return }
-                        self.documentService.sendFeedback(with: updatedExtractions.map { $0.value })
-                        self.documentService.resetToInitialState()
+                        documentService.sendFeedback(with: updatedExtractions.map { $0.value })
+                        documentService.resetToInitialState()
                 }
             } else {
                 self.resultsDelegate?
