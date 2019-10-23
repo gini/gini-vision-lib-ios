@@ -22,7 +22,7 @@ protocol CameraProtocol: class {
                exposeWithMode exposureMode: AVCaptureDevice.ExposureMode,
                atDevicePoint point: CGPoint,
                monitorSubjectAreaChange: Bool)
-    func setup(completion: ((CameraError?) -> Void))
+    func setup(completion: @escaping ((CameraError?) -> Void))
     func setupQRScanningOutput()
     func start()
     func stop()
@@ -58,18 +58,32 @@ final class Camera: NSObject, CameraProtocol {
         super.init()
     }
     
-    func setup(completion: ((CameraError?) -> Void)) {
-        do {
-            try setupSession()
+    func setup(completion: @escaping ((CameraError?) -> Void)) {
+        
+        setupCaptureDevice { [weak self] result in
             
-            self.session.beginConfiguration()
-            self.setupInput()
-            self.setupPhotoCaptureOutput()
-            self.session.commitConfiguration()
-        } catch let error as CameraError {
-            completion(error)
-        } catch {
-            completion(.unknown)
+            guard let self = self else { return }
+            
+            switch result {
+            case .failure(let cameraError):
+                
+                completion(cameraError)
+                
+            case .success(let captureDevice):
+                
+                do {
+                    self.videoDeviceInput = try AVCaptureDeviceInput(device: captureDevice)
+                } catch {
+                    completion(.notAuthorizedToUseDevice) // shouldn't happen
+                }
+                
+                self.session.beginConfiguration()
+                self.setupInput()
+                self.setupPhotoCaptureOutput()
+                self.session.commitConfiguration()
+                
+                completion(nil)
+            }
         }
     }
     
@@ -160,24 +174,41 @@ final class Camera: NSObject, CameraProtocol {
 // MARK: - Fileprivate
 
 fileprivate extension Camera {
-    func setupSession() throws {
-        var videoDevice: AVCaptureDevice? {
-            let devices = AVCaptureDevice.devices(for: .video).filter {
-                $0.position == .back
-            }
-            guard let device = devices.first else { return nil }
-            return device
+    
+    private func setupCaptureDevice(completion: @escaping (Result<AVCaptureDevice, CameraError>) -> Void) {
+        
+        let devices = AVCaptureDevice.devices(for: .video).filter {
+            $0.position == .back
         }
         
-        do {
-            guard let videoDevice = videoDevice else { throw CameraError.unknown }
-            self.videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-        } catch let error as NSError {
-            if error.code == AVError.Code.applicationIsNotAuthorizedToUseDevice.rawValue {
-                throw CameraError.notAuthorizedToUseDevice
-            } else {
-                throw CameraError.unknown
+        guard let videoDevice = devices.first else {
+            completion(.failure(.noInputDevice))
+            return
+        }
+        
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+            
+        case .authorized:
+            completion(.success(videoDevice))
+            
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                
+                DispatchQueue.main.async {
+                    
+                    if granted {
+                        completion(.success(videoDevice))
+                    } else {
+                        completion(.failure(.notAuthorizedToUseDevice))
+                    }
+                }
             }
+            
+        case .denied, .restricted:
+            completion(.failure(.notAuthorizedToUseDevice))
+            
+        @unknown default:
+            completion(.failure(.notAuthorizedToUseDevice))
         }
     }
     
