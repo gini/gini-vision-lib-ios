@@ -57,7 +57,7 @@ pipeline {
         sh 'rm -rf build'
         sh 'mkdir build'
         sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration Release archive -archivePath build/GiniVision.xcarchive'
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration "In House" archive -archivePath build/GiniVision.xcarchive'
         sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
         step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/Example Swift.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
 
@@ -78,7 +78,6 @@ pipeline {
         }
       }
       steps {
-
         sh '/usr/local/bin/pod repo push gini-specs GiniVision.podspec --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
