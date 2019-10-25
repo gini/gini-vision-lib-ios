@@ -51,9 +51,9 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
             .build()
         
         self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
-                                               documentMetadata: documentMetadata,
-                                               giniConfiguration: giniConfiguration,
-                                               for: api)
+                                                                                  documentMetadata: documentMetadata,
+                                                                                  giniConfiguration: giniConfiguration,
+                                                                                  for: api)
         
         super.init(withDelegate: nil,
                    giniConfiguration: giniConfiguration)
@@ -75,9 +75,9 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
             .build()
         
         self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
-                                               documentMetadata: documentMetadata,
-                                               giniConfiguration: giniConfiguration,
-                                               for: api)
+                                                                                  documentMetadata: documentMetadata,
+                                                                                  giniConfiguration: giniConfiguration,
+                                                                                  for: api)
         
         super.init(withDelegate: nil,
                    giniConfiguration: giniConfiguration)
@@ -90,7 +90,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                                         giniConfiguration: GiniConfiguration,
                                         for api: APIDomain) -> DocumentServiceProtocol {
         switch api {
-        case .default:
+        case .default, .gym:
             return DocumentService(sdk: sdk, metadata: documentMetadata)
         case .accounting:
             if giniConfiguration.multipageEnabled {
