@@ -1,6 +1,10 @@
 Changelog
 =========
 
+5.0.6 (2019-10-25)
+------------------
+-   Updated the Gini library to v. 0.2.0
+
 5.0.5 (2019-10-23)
 ------------------
 -   Don't require the client to retain the GiniVision view controller for the feedback closure to run correctly.
