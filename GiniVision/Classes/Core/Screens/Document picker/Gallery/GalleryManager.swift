@@ -64,14 +64,14 @@ final class GalleryManager: GalleryManagerProtocol {
     }
     
     func startCachingImages(for album: Album) {
-        self.cachingImageManager.startCachingImages(for: album.assets.map { $0.value },
+        self.cachingImageManager.startCachingImages(for: album.assets.suffix(5).map { $0.value },
                                                     targetSize: PHImageManagerMaximumSize,
                                                     contentMode: .default,
                                                     options: nil)
     }
     
     func stopCachingImages(for album: Album) {
-        self.cachingImageManager.stopCachingImages(for: album.assets.map { $0.value },
+        self.cachingImageManager.stopCachingImages(for: album.assets.suffix(5).map { $0.value },
                                                    targetSize: PHImageManagerMaximumSize,
                                                    contentMode: .default,
                                                    options: nil)
