@@ -1,6 +1,10 @@
 Changelog
 =========
 
+4.8.8 (2019-10-30)
+------------------
+-   Reduced memory usage by the Gallery.
+
 4.8.7 (2019-10-23)
 ------------------
 -   Fixed a problem where the lack of camera permissions screen isn't shown directly following the user refusing to grant the camera permissions.
