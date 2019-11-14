@@ -57,8 +57,13 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     }
     
     func cameraDidAppear(_ viewController: CameraViewController) {
+                
         if shouldShowOnBoarding() {
-            showOnboardingScreen()
+            showOnboardingScreen {
+                viewController.cameraPreviewViewController.setupCamera()
+            }
+        } else {
+            viewController.cameraPreviewViewController.setupCamera()
         }
     }
     
@@ -113,16 +118,20 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         return false
     }
     
-    private func showOnboardingScreen() {
+    private func showOnboardingScreen(completion: @escaping () -> Void) {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
         
         let vc = OnboardingContainerViewController { [weak self] in
-            guard let `self` = self else { return }
-            self.cameraViewController?.showCameraOverlay()
-            self.cameraViewController?.showCaptureButton()
-            self.cameraViewController?.showFileImportTip()
+            
+            guard let cameraViewController = self?.cameraViewController else { return }
+            
+            cameraViewController.showCameraOverlay()
+            cameraViewController.showCaptureButton()
+            cameraViewController.showFileImportTip()
+            
+            completion()
         }
         
         let navigationController = UINavigationController(rootViewController: vc)
