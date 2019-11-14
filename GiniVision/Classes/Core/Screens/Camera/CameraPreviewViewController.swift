@@ -78,7 +78,6 @@ final class CameraPreviewViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        setupCamera(giniConfiguration: giniConfiguration)
 
         previewView.session = camera.session
         NotificationCenter.default.addObserver(self,
@@ -149,31 +148,14 @@ final class CameraPreviewViewController: UIViewController {
         previewView.frameLayer?.isHidden = true
     }
     
-}
-
-// MARK: - Fileprivate
-
-fileprivate extension CameraPreviewViewController {
-    func updatePreviewViewOrientation() {
-        let orientation: AVCaptureVideoOrientation
-        if UIDevice.current.isIpad {
-            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
-        } else {
-            orientation = .portrait
-        }
-        
-        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
-        previewLayer?.connection?.videoOrientation = orientation
-    }
-    
-    func setupCamera(giniConfiguration: GiniConfiguration) {
+    func setupCamera() {
         camera.setup { error in
             if let error = error {
                 switch error {
                 case .notAuthorizedToUseDevice:
                     self.addNotAuthorizedView()
                 default:
-                    if giniConfiguration.debugModeOn {
+                    if self.giniConfiguration.debugModeOn {
                         #if targetEnvironment(simulator)
                         self.addDefaultImage()
                         #endif
@@ -189,7 +171,23 @@ fileprivate extension CameraPreviewViewController {
                 self.delegate?.cameraPreview(self, didDetect: qrDocument)
             }
         }
+    }
+}
+
+// MARK: - Fileprivate
+
+fileprivate extension CameraPreviewViewController {
+    
+    func updatePreviewViewOrientation() {
+        let orientation: AVCaptureVideoOrientation
+        if UIDevice.current.isIpad {
+            orientation =  interfaceOrientationsMapping[UIApplication.shared.statusBarOrientation] ?? .portrait
+        } else {
+            orientation = .portrait
+        }
         
+        let previewLayer = (self.previewView.layer as? AVCaptureVideoPreviewLayer)
+        previewLayer?.connection?.videoOrientation = orientation
     }
 }
 

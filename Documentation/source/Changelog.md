@@ -1,5 +1,8 @@
 Changelog
 =========
+5.0.8 (2019-11-14)
+------------------
+-  Defer asking for camera permission until after the onboarding is complete.
 
 5.0.7 (2019-10-31)
 ------------------
