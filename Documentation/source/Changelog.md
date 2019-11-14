@@ -1,6 +1,14 @@
 Changelog
 =========
 
+5.0.7 (2019-10-31)
+------------------
+-   Reduced memory usage by the Gallery.
+
+4.8.8 (2019-10-30)
+------------------
+-   Reduced memory usage by the Gallery.
+
 5.0.6 (2019-10-25)
 ------------------
 -   Updated the Gini library to v. 0.2.0
