@@ -129,22 +129,27 @@ final class Camera: NSObject, CameraProtocol {
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.stillImageOutput?.connection(with: .video) else {
-                return completion(nil, .noInputDevice)
+                DispatchQueue.main.async {
+                    completion(nil, .noInputDevice)
+                }
+                return
             }
             
             // Set the orientation according to the current orientation of the interface
             DispatchQueue.main.sync { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 connection.videoOrientation = AVCaptureVideoOrientation(self.application.statusBarOrientation)
             }
             
             self.videoDeviceInput?.device.setFlashModeSecurely(self.isFlashOn ? .on : .off)
             self.stillImageOutput?
                 .captureStillImageAsynchronously(from: connection) { (buffer: CMSampleBuffer?, error: Error?) in
-                    if let buffer = buffer, error == nil {
-                        completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
-                    } else {
-                        completion(nil, .captureFailed)
+                    DispatchQueue.main.async {
+                        if let buffer = buffer, error == nil {
+                            completion(AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(buffer), nil)
+                        } else {
+                            completion(nil, .captureFailed)
+                        }
                     }
             }
         }
