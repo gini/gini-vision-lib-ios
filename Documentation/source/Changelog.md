@@ -1,6 +1,18 @@
 Changelog
 =========
 
+4.8.9 (2019-12-03)
+------------------
+-   Fixed a sporadic crash when taking a picture
+
+5.0.8 (2019-11-14)
+------------------
+-  Defer asking for camera permission until after the onboarding is complete.
+
+5.0.7 (2019-10-31)
+------------------
+-   Reduced memory usage by the Gallery.
+
 4.8.8 (2019-10-30)
 ------------------
 -   Reduced memory usage by the Gallery.
