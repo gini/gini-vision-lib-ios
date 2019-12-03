@@ -178,6 +178,10 @@ import AVFoundation
             self.toolTipView?.arrangeViews()
         })
     }
+    
+    public func setupCamera() {
+        cameraPreviewViewController.setupCamera()
+    }
 }
 
 // MARK: - Toggle UI elements

@@ -481,7 +481,10 @@ extension ComponentAPICoordinator: CameraViewControllerDelegate {
     
     func cameraDidAppear(_ viewController: CameraViewController) {
         // Here you can show the Onboarding screen in case that you decide
-        // to launch it once the camera screen appears
+        // to launch it once the camera screen appears.
+        
+        // After the onboarding you should call setupCamera() to start the video feed.
+        viewController.setupCamera()
     }
     
     func cameraDidTapMultipageReviewButton(_ viewController: CameraViewController) {
