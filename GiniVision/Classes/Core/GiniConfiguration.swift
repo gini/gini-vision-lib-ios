@@ -625,6 +625,84 @@ import UIKit
     @objc public var noResultsWarningContainerIconColor = Colors.Gini.rose
     
     /**
+     Sets the color of the active elements on the digital invoice line item cells to the specified color
+     */
+    @objc public var lineItemTintColor = Colors.Gini.blue
+    
+    /**
+     Sets the font of the line item name on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceLineItemNameFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+    
+    /**
+     Sets the font of the line item edit button title on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceLineItemEditButtonTitleFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+    
+    /**
+     Sets the font of the line item label that either displays the quantity or the reason for returning the item
+     on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceLineItemQuantityOrReturnReasonFont = UIFont.systemFont(ofSize: 12)
+    
+    /**
+     Sets the font of the main currency unit of the price on the line item
+     of the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceLineItemPriceMainUnitFont = UIFont.systemFont(ofSize: 18, weight: .bold)
+    
+    /**
+    Sets the font of the fractional currency unit of the price on the line item
+    of the digital invoice screen to the specified font.
+    */
+    @objc public var digitalInvoiceLineItemPriceFractionalUnitFont = UIFont.systemFont(ofSize: 9, weight: .bold)
+    
+    /**
+     Sets the font of the secondary informational message on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceSecondaryMessageTextFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    
+    /**
+     Sets the color of the secondary message label on the digital invoice line item cells to the specified color
+     */
+    @objc public var digitalInvoiceSecondaryMessageTextColor = Colors.Gini.blue
+    
+    /**
+     Sets the font of the footer message on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceFooterMessageTextFont = UIFont.systemFont(ofSize: 11)
+    
+    /**
+     Sets the font of the items section header on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceItemsSectionHeaderTextFont = UIFont.systemFont(ofSize: 12)
+    
+    /**
+     Sets the background color of the digital invoice pay button to the specified color
+     */
+    @objc public var payButtonBackgroundColor = Colors.Gini.blue
+    
+    /**
+     Sets the title text color of the digital invoice pay button to the specified color
+     */
+    @objc public var payButtonTitleTextColor = UIColor.white
+    
+    /**
+     Sets the title text font of the digital invoice pay button to the specified font
+     */
+    @objc public var payButtonTitleFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    
+    /**
+     Sets the font of the digital invoice main unit of the total price label to the specified font
+     */
+    @objc public var digitalInvoiceTotalPriceMainUnitFont = UIFont.systemFont(ofSize: 24, weight: .bold)
+    
+    /**
+     Sets the font of the digital invoice fractional unit of the total price label to the specified font
+     */
+    @objc public var digitalInvoiceTotalPriceFractionalUnitFont = UIFont.systemFont(ofSize: 11, weight: .bold)
+    
+    /**
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true

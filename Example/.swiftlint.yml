@@ -11,8 +11,10 @@ disabled_rules: # rule identifiers to exclude from running
   - trailing_whitespace
   - large_tuple
   - identifier_name
+  - force_cast
+  - nesting
+  - opening_brace
 
-force_cast: warning # implicitly
 force_try:
   severity: warning # explicitly
 line_length:
