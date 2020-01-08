@@ -703,6 +703,83 @@ import UIKit
     @objc public var digitalInvoiceTotalPriceFractionalUnitFont = UIFont.systemFont(ofSize: 11, weight: .bold)
     
     /**
+     Sets the font of the content description labels in the line item details view controller to the specified font
+     */
+    @objc public var lineItemDetailsDescriptionLabelFont = UIFont.systemFont(ofSize: 12)
+    
+    /**
+     Sets the color of the content description labels in the line item details view controller to the specified color
+     */
+    
+    @objc public var lineItemDetailsDescriptionLabelColor: UIColor {
+        
+        set {
+            _lineItemDetailsDescriptionLabelColor = newValue
+        }
+
+        get {
+
+            if let setValue = _lineItemDetailsDescriptionLabelColor {
+                return setValue
+            } else {
+
+                if #available(iOS 13.0, *) {
+
+                    return .secondaryLabel
+
+                } else {
+                    return .gray
+                }
+            }
+        }
+    }
+    
+    @objc private var _lineItemDetailsDescriptionLabelColor: UIColor?
+    
+    /**
+     Sets the font of the content labels in the line item details view controller to the specified font
+     */
+    @objc public var lineItemDetailsContentLabelFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    
+    /**
+     Sets the color of the content labels in the line item details view controller to the specified color
+     */
+    @objc public var lineItemDetailsContentLabelColor: UIColor {
+        
+        set {
+            _lineItemDetailsContentLabelColor = newValue
+        }
+
+        get {
+
+            if let setValue = _lineItemDetailsContentLabelColor {
+                return setValue
+            } else {
+
+                if #available(iOS 13.0, *) {
+
+                    return .label
+
+                } else {
+                    return .black
+                }
+            }
+        }
+    }
+    
+    @objc private var _lineItemDetailsContentLabelColor: UIColor?
+    
+    /**
+     Sets the font of the line item details screen main unit of the total price label to the specified font
+     */
+    @objc public var lineItemDetailsTotalPriceMainUnitFont = UIFont.systemFont(ofSize: 20, weight: .bold)
+    
+    /**
+     Sets the font of the line item details screen fractional unit of the total price label to the specified font
+     */
+    @objc public var lineItemDetailsTotalPriceFractionalUnitFont = UIFont.systemFont(ofSize: 12, weight: .bold)
+    
+    /**
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true

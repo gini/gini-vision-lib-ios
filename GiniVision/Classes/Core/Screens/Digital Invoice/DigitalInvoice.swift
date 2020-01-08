@@ -29,20 +29,24 @@ struct DigitalInvoice {
         
         var name: String?
         var quantity: Int
-        var price: Int
+        var price: Price
         var selectedState: SelectedState
+        
+        var totalPrice: Price {
+            return price * quantity
+        }
     }
     
     var recipientName: String?
     var iban: String?
     var reference: String?
     
-    var total: Int {
+    var total: Price {
         
-        return lineItems.reduce(0) { (current, lineItem) -> Int in
+        return lineItems.reduce(Price.zero) { (current, lineItem) -> Price in
             
             switch lineItem.selectedState {
-            case .selected: return current + lineItem.price * lineItem.quantity
+            case .selected: return current + lineItem.totalPrice
             case .deselected: return current
             }            
         }

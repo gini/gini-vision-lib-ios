@@ -33,17 +33,17 @@ struct DigitalLineItemViewModel {
         return giniConfiguration.digitalInvoiceLineItemQuantityOrReturnReasonFont
     }
     
-    var priceMainUnitString: String {
+    var totalPriceMainUnitString: String {
         
-        return Price(valueInFractionalUnit: lineItem.price * lineItem.quantity).mainUnitComponentString
+        return lineItem.totalPrice.mainUnitComponentString
     }
     
-    var priceFractionalUnitString: String {
+    var totalPriceFractionalUnitString: String {
         
-        return Price(valueInFractionalUnit: lineItem.price * lineItem.quantity).fractionalUnitComponentString
+        return lineItem.totalPrice.fractionalUnitComponentString
     }
     
-    var checkboxBackgroundColor: UIColor {
+    var checkboxTintColor: UIColor {
         
         switch lineItem.selectedState {
         case .selected:
@@ -124,7 +124,7 @@ struct DigitalLineItemViewModel {
 
 protocol DigitalLineItemTableViewCellDelegate: class {
     
-    func checkButtonTapped(viewModel: DigitalLineItemViewModel)
+    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel)
     func editTapped(viewModel: DigitalLineItemViewModel)
 }
 
@@ -132,7 +132,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
     
     @IBOutlet weak var shadowCastView: UIView!
     
-    @IBOutlet weak var checkButton: UIButton!
+    @IBOutlet weak var checkboxButton: CheckboxButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var quantityOrReturnReasonLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
@@ -145,10 +145,9 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             nameLabel.text = viewModel?.name
             quantityOrReturnReasonLabel.text = viewModel?.quantityOrReturnReasonString
             quantityOrReturnReasonLabel.font = viewModel?.quantityOrReturnReasonFont
-            priceMainUnitLabel.text = viewModel?.priceMainUnitString
-            priceFractionalUnitLabel.text = viewModel?.priceFractionalUnitString
-            checkButton.backgroundColor = viewModel?.checkboxBackgroundColor
-            checkButton.layer.borderColor = viewModel?.cellBorderColor.cgColor
+            priceMainUnitLabel.text = viewModel?.totalPriceMainUnitString
+            priceFractionalUnitLabel.text = viewModel?.totalPriceFractionalUnitString
+            checkboxButton.tintColor = viewModel?.checkboxTintColor
             
             editButton.setTitleColor(viewModel?.editButtonTintColor ?? .black, for: .normal)
             editButton.titleLabel?.font = viewModel?.editButtonTitleFont
@@ -164,6 +163,15 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             
             shadowCastView.layer.shadowColor = viewModel?.cellShadowColor.cgColor
             shadowCastView.layer.borderColor = viewModel?.cellBorderColor.cgColor
+            
+            if let viewModel = viewModel {
+                switch viewModel.lineItem.selectedState {
+                case .selected:
+                    checkboxButton.checkedState = .checked
+                case .deselected:
+                    checkboxButton.checkedState = .unchecked
+                }
+            }
             
             setup()
         }
@@ -197,15 +205,12 @@ class DigitalLineItemTableViewCell: UITableViewCell {
         shadowCastView.layer.borderWidth = 0.5
         
         selectionStyle = .none
-        
-        checkButton.layer.cornerRadius = 3
-        checkButton.layer.borderWidth = 1
     }
     
     @IBAction func checkButtonTapped(_ sender: Any) {
         
         if let viewModel = viewModel {
-            delegate?.checkButtonTapped(viewModel: viewModel)
+            delegate?.checkboxButtonTapped(viewModel: viewModel)
         }
     }
     

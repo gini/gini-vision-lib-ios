@@ -9,7 +9,7 @@ import Foundation
 
 class DigitalInvoiceTotalPriceCell: UITableViewCell {
     
-    var giniConfiguration: GiniConfiguration?
+    var giniConfiguration = GiniConfiguration.shared
     
     private var totalPriceMainUnitLabel: UILabel?
     private var totalPriceFractionalUnitLabel: UILabel?
@@ -26,15 +26,13 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
         setup()
     }
     
-    var totalPrice: Int? {
+    var totalPrice: Price? {
         didSet {
             
             guard let totalPrice = totalPrice else { return }
-            
-            let price = Price(valueInFractionalUnit: totalPrice)
-            
-            totalPriceMainUnitLabel?.text = price.mainUnitComponentString
-            totalPriceFractionalUnitLabel?.text = price.fractionalUnitComponentString
+                        
+            totalPriceMainUnitLabel?.text = totalPrice.mainUnitComponentString
+            totalPriceFractionalUnitLabel?.text = totalPrice.fractionalUnitComponentString
         }
     }
     
@@ -44,15 +42,13 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
         
         let totalPriceMainUnitLabel = UILabel()
         totalPriceMainUnitLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalPriceMainUnitLabel.font = giniConfiguration?.digitalInvoiceTotalPriceMainUnitFont ??
-            GiniConfiguration.shared.digitalInvoiceTotalPriceMainUnitFont
+        totalPriceMainUnitLabel.font = giniConfiguration.digitalInvoiceTotalPriceMainUnitFont
         
         self.totalPriceMainUnitLabel = totalPriceMainUnitLabel
         
         let totalPriceFractionalUnitLabel = UILabel()
         totalPriceFractionalUnitLabel.translatesAutoresizingMaskIntoConstraints = false
-        totalPriceFractionalUnitLabel.font = giniConfiguration?.digitalInvoiceTotalPriceFractionalUnitFont ??
-            GiniConfiguration.shared.digitalInvoiceTotalPriceFractionalUnitFont
+        totalPriceFractionalUnitLabel.font = giniConfiguration.digitalInvoiceTotalPriceFractionalUnitFont
         
         self.totalPriceFractionalUnitLabel = totalPriceFractionalUnitLabel
         
