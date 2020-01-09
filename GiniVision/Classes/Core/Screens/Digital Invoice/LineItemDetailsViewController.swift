@@ -181,6 +181,7 @@ class LineItemDetailsViewController: UIViewController {
                                                       constant: -margin).isActive = true
         multiplicationLabel.setContentHuggingPriority(.required, for: .horizontal)
         multiplicationLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        multiplicationLabel.accessibilityLabel = "times"
         
         itemPriceTextField.topAnchor.constraint(equalTo: quantityAndItemPriceContainer.topAnchor).isActive = true
         itemPriceTextField.trailingAnchor.constraint(equalTo: quantityAndItemPriceContainer.trailingAnchor)
@@ -214,6 +215,14 @@ class LineItemDetailsViewController: UIViewController {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
         view.addGestureRecognizer(gestureRecognizer)
      
+        accessibilityElements = [checkboxContainerStackView,
+                                 itemNameTextField,
+                                 quantityTextField,
+                                 multiplicationLabel,
+                                 itemPriceTextField,
+                                 totalPriceTitleLabel,
+                                 totalPriceLabel]
+        
         update()
     }
     
