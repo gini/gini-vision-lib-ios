@@ -18,11 +18,10 @@
                     <rect key="frame" x="16" y="8" width="382" height="122"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mq-w7-Gmk" customClass="CheckboxButton" customModule="GiniVision" customModuleProvider="target">
-                            <rect key="frame" x="16" y="16" width="24" height="24"/>
-                            <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="frame" x="10" y="10" width="44" height="44"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="24" id="EL2-dN-U8H"/>
-                                <constraint firstAttribute="height" constant="24" id="KIn-xU-g0u"/>
+                                <constraint firstAttribute="width" constant="44" id="EL2-dN-U8H"/>
+                                <constraint firstAttribute="height" constant="44" id="KIn-xU-g0u"/>
                             </constraints>
                             <state key="normal" image="checkmark"/>
                             <connections>
@@ -30,13 +29,13 @@
                             </connections>
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FiK-9v-ECq">
-                            <rect key="frame" x="56" y="0.0" width="228" height="122"/>
+                            <rect key="frame" x="64" y="0.0" width="220" height="122"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="io2-qU-eGz">
-                                    <rect key="frame" x="0.0" y="49.5" width="228" height="72.5"/>
+                                    <rect key="frame" x="0.0" y="49.5" width="220" height="72.5"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity: 1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxP-cO-dwE">
-                                            <rect key="frame" x="0.0" y="29" width="228" height="14.5"/>
+                                            <rect key="frame" x="0.0" y="29" width="220" height="14.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
@@ -52,7 +51,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nike Sportswear INTERNATIONALIST" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VNC-0y-0No">
-                                    <rect key="frame" x="0.0" y="16" width="228" height="33.5"/>
+                                    <rect key="frame" x="0.0" y="16" width="220" height="33.5"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
@@ -73,10 +72,10 @@
                             <rect key="frame" x="300" y="0.0" width="82" height="122"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ogc-mD-pz6">
-                                    <rect key="frame" x="0.0" y="0.0" width="82" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="82" height="48"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                     <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <inset key="contentEdgeInsets" minX="24" minY="13" maxX="13" maxY="12"/>
+                                    <inset key="contentEdgeInsets" minX="24" minY="14" maxX="13" maxY="14"/>
                                     <inset key="titleEdgeInsets" minX="-33" minY="0.0" maxX="21" maxY="0.0"/>
                                     <inset key="imageEdgeInsets" minX="26" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     <state key="normal" title="Edit" image="editIcon">
@@ -87,16 +86,16 @@
                                     </connections>
                                 </button>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Zo-YD-h0B">
-                                    <rect key="frame" x="0.0" y="45" width="66" height="77"/>
+                                    <rect key="frame" x="0.0" y="48" width="66" height="74"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" text="€89" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSz-xu-Rcx">
-                                            <rect key="frame" x="13" y="39.5" width="37.5" height="21.5"/>
+                                            <rect key="frame" x="13" y="36.5" width="37.5" height="21.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text=".95" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYe-wo-jgR">
-                                            <rect key="frame" x="50.5" y="41.5" width="15.5" height="11"/>
+                                            <rect key="frame" x="50.5" y="38.5" width="15.5" height="11"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -127,15 +126,15 @@
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                     <constraints>
-                        <constraint firstItem="6mq-w7-Gmk" firstAttribute="leading" secondItem="W0B-Jq-NI4" secondAttribute="leading" constant="16" id="3UQ-eq-beU"/>
+                        <constraint firstItem="6mq-w7-Gmk" firstAttribute="leading" secondItem="W0B-Jq-NI4" secondAttribute="leading" constant="10" id="3UQ-eq-beU"/>
                         <constraint firstItem="xCK-Nc-Sxe" firstAttribute="leading" secondItem="FiK-9v-ECq" secondAttribute="trailing" constant="16" id="BJS-cP-dij"/>
                         <constraint firstAttribute="bottom" secondItem="xCK-Nc-Sxe" secondAttribute="bottom" id="Bi5-G5-kbX"/>
                         <constraint firstAttribute="bottom" secondItem="FiK-9v-ECq" secondAttribute="bottom" id="Etx-7v-9rP"/>
                         <constraint firstAttribute="trailing" secondItem="xCK-Nc-Sxe" secondAttribute="trailing" id="IvT-Bk-YyF"/>
                         <constraint firstItem="xCK-Nc-Sxe" firstAttribute="top" secondItem="W0B-Jq-NI4" secondAttribute="top" id="P1P-gZ-XBt"/>
-                        <constraint firstItem="FiK-9v-ECq" firstAttribute="leading" secondItem="6mq-w7-Gmk" secondAttribute="trailing" constant="16" id="VUx-nA-nVg"/>
+                        <constraint firstItem="FiK-9v-ECq" firstAttribute="leading" secondItem="6mq-w7-Gmk" secondAttribute="trailing" constant="10" id="VUx-nA-nVg"/>
                         <constraint firstItem="FiK-9v-ECq" firstAttribute="top" secondItem="W0B-Jq-NI4" secondAttribute="top" id="WBP-VM-DDH"/>
-                        <constraint firstItem="6mq-w7-Gmk" firstAttribute="top" secondItem="W0B-Jq-NI4" secondAttribute="top" constant="16" id="oJE-0X-tLV"/>
+                        <constraint firstItem="6mq-w7-Gmk" firstAttribute="top" secondItem="W0B-Jq-NI4" secondAttribute="top" constant="10" id="oJE-0X-tLV"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="110" id="zwk-XD-0ny"/>
                     </constraints>
                 </view>

@@ -693,6 +693,34 @@ import UIKit
     @objc public var payButtonTitleFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
     
     /**
+     Sets the color of the total price label in the digital invoice screen to the specified color
+     */
+    @objc public var digitalInvoiceTotalPriceColor: UIColor {
+        
+        set {
+            _digitalInvoiceTotalPriceColor = newValue
+        }
+
+        get {
+
+            if let setValue = _digitalInvoiceTotalPriceColor {
+                return setValue
+            } else {
+
+                if #available(iOS 13.0, *) {
+
+                    return .label
+
+                } else {
+                    return .black
+                }
+            }
+        }
+    }
+    
+    @objc private var _digitalInvoiceTotalPriceColor: UIColor?
+    
+    /**
      Sets the font of the digital invoice main unit of the total price label to the specified font
      */
     @objc public var digitalInvoiceTotalPriceMainUnitFont = UIFont.systemFont(ofSize: 24, weight: .bold)

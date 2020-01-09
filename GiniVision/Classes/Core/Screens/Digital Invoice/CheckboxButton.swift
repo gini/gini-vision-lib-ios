@@ -8,7 +8,18 @@
 import UIKit
 
 class CheckboxButton: UIButton {
-
+    
+    // The appearance of the button in the designs is only 24x24 points, but the
+    // recommended hit target is at least 44x44 points, so the following set up
+    // makes the button larger than it appears.
+    
+    private static let size: CGFloat = 44
+    static let margin: CGFloat = 10
+    
+    private let backgroundView = UIView(frame: CGRect(x: margin,
+                                                      y: margin,
+                                                      width: size - margin * 2,
+                                                      height: size - margin * 2))
     enum CheckedState {
         case checked
         case unchecked
@@ -33,34 +44,47 @@ class CheckboxButton: UIButton {
         setup()
     }
     
+    override func didMoveToSuperview() {
+        super.didMoveToSuperview()
+        
+        widthAnchor.constraint(equalToConstant: CheckboxButton.size).isActive = true
+        heightAnchor.constraint(equalToConstant: CheckboxButton.size).isActive = true
+    }
+    
     private func setup() {
         
-        widthAnchor.constraint(equalToConstant: 24).isActive = true
-        heightAnchor.constraint(equalToConstant: 24).isActive = true
-        
-        layer.cornerRadius = 3
-        layer.borderWidth = 1
+        backgroundView.layer.cornerRadius = 3
+        backgroundView.layer.borderWidth = 1
         
         setImage(UIImage(named: "checkmark", in: Bundle(for: GiniVision.self), compatibleWith: nil),
                  for: .normal)
+        
+        backgroundView.isUserInteractionEnabled = false
+        if let imageView = imageView {
+            insertSubview(backgroundView, belowSubview: imageView)
+        }
     }
     
     private func update() {
         
         switch checkedState {
         case .checked:
-            backgroundColor = tintColor
             
-            layer.borderColor = UIColor.clear.cgColor
+            backgroundView.backgroundColor = tintColor
+            backgroundView.layer.borderColor = UIColor.clear.cgColor
+            
+            accessibilityLabel = "Deselect item"
             
         case .unchecked:
-            backgroundColor = .white
+            backgroundView.backgroundColor = .white
             
             if #available(iOS 13.0, *) {
-                layer.borderColor = UIColor.secondaryLabel.cgColor
+                backgroundView.layer.borderColor = UIColor.secondaryLabel.cgColor
             } else {
-                layer.borderColor = UIColor.gray.cgColor
+                backgroundView.layer.borderColor = UIColor.gray.cgColor
             }
+            
+            accessibilityLabel = "Select item"
         }
     }
 }
