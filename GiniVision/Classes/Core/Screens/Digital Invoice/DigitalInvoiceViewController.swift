@@ -13,6 +13,7 @@ class DigitalInvoiceViewController: UIViewController {
         didSet {
             tableView.reloadData()
             payButton.setTitle(payButtonTitle(), for: .normal)
+            payButton.accessibilityLabel = payButtonAccessibilityLabel()
         }
     }
     
@@ -81,6 +82,7 @@ class DigitalInvoiceViewController: UIViewController {
         payButton.titleLabel?.font = giniConfiguration.payButtonTitleFont
         
         payButton.setTitle(payButtonTitle(), for: .normal)
+        payButton.accessibilityLabel = payButtonAccessibilityLabel()
         
         payButton.layer.shadowColor = UIColor.black.cgColor
         payButton.layer.shadowRadius = 4
@@ -95,6 +97,13 @@ class DigitalInvoiceViewController: UIViewController {
         guard let invoice = invoice else { return "Pay" }
         
         return "Pay \(invoice.numSelected)/\(invoice.numTotal)"
+    }
+    
+    private func payButtonAccessibilityLabel() -> String {
+        
+        guard let invoice = invoice else { return "Pay" }
+        
+        return "Pay \(invoice.numSelected) out of \(invoice.numTotal)"
     }
 }
 

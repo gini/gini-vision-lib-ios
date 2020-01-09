@@ -15,10 +15,12 @@ protocol DigitalInvoiceItemsCellDelegate: class {
 struct DigitalInvoiceItemsCellViewModel {
     
     let itemsLabelText: String
+    let itemsLabelAccessibilityLabelText: String
     
     init(invoice: DigitalInvoice) {
         
         itemsLabelText = "Items \(invoice.numSelected)/\(invoice.numTotal)"
+        itemsLabelAccessibilityLabelText = "Items \(invoice.numSelected) out of \(invoice.numTotal)"
     }
 }
 
@@ -32,6 +34,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
     var viewModel: DigitalInvoiceItemsCellViewModel? {
         didSet {
             itemsLabel?.text = viewModel?.itemsLabelText
+            itemsLabel?.accessibilityLabel = viewModel?.itemsLabelAccessibilityLabelText
         }
     }
     
