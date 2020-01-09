@@ -17,7 +17,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0B-Jq-NI4" userLabel="Shadow cast view">
                     <rect key="frame" x="16" y="8" width="382" height="122"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mq-w7-Gmk">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6mq-w7-Gmk" customClass="CheckboxButton" customModule="GiniVision" customModuleProvider="target">
                             <rect key="frame" x="16" y="16" width="24" height="24"/>
                             <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -152,7 +152,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
-                <outlet property="checkButton" destination="6mq-w7-Gmk" id="fnh-0f-Chc"/>
+                <outlet property="checkboxButton" destination="6mq-w7-Gmk" id="fnh-0f-Chc"/>
                 <outlet property="editButton" destination="ogc-mD-pz6" id="oiL-SO-VZw"/>
                 <outlet property="nameLabel" destination="VNC-0y-0No" id="Pn7-2c-pox"/>
                 <outlet property="priceFractionalUnitLabel" destination="YYe-wo-jgR" id="OTq-3y-W3V"/>

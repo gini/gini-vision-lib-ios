@@ -14,11 +14,13 @@ disabled_rules: # rule identifiers to exclude from running
   - force_cast
   - nesting
   - opening_brace
+  - function_body_length
+  - operator_whitespace
 
 force_try:
   severity: warning # explicitly
 line_length:
-- 120 # warning
+- 150 # warning
 - 600 # error
 function_body_length:
 - 50 # warning

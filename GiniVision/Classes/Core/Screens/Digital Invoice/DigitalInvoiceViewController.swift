@@ -190,25 +190,29 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
 
 extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
     
-    func checkButtonTapped(viewModel: DigitalLineItemViewModel) {
+    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel) {
         
-        if invoice == nil { return }
+        guard let invoice = invoice else { return }
         
-        switch invoice!.lineItems[viewModel.index].selectedState {
+        switch invoice.lineItems[viewModel.index].selectedState {
         
         case .selected:
             
             presentReturnReasonActionSheet(for: viewModel.index)
             
         case .deselected:
-            invoice!.lineItems[viewModel.index].selectedState = .selected
+            self.invoice?.lineItems[viewModel.index].selectedState = .selected
         }
     }
         
     func editTapped(viewModel: DigitalLineItemViewModel) {
+                
+        let viewController = LineItemDetailsViewController()
+        viewController.lineItem = invoice?.lineItems[viewModel.index]
+        viewController.lineItemIndex = viewModel.index
+        viewController.delegate = self
         
-        print("Edit \(viewModel.index) \(viewModel.name!)")
-        // TODO:
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -216,23 +220,15 @@ extension DigitalInvoiceViewController {
     
     private func presentReturnReasonActionSheet(for index: Int) {
         
-        let actionSheet = UIAlertController(title: nil,
-                                            message: "Your reasons to return this item",
-                                            preferredStyle: .actionSheet)
-                
-        for reason in DigitalInvoice.LineItem.SelectedState.Reason.allCases {
+        DeselectLineItemActionSheet().present(from: self) { selectedState in
             
-            actionSheet.addAction(UIAlertAction(title: reason.displayString,
-                                                style: .default,
-                                                handler:
-                { _ in
-                    self.invoice!.lineItems[index].selectedState = .deselected(reason: reason)
-            }))
+            switch selectedState {
+            case .selected:
+                break
+            case .deselected(let reason):
+                self.invoice?.lineItems[index].selectedState = .deselected(reason: reason)
+            }
         }
-        
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(actionSheet, animated: true, completion: nil)
     }
 }
 
@@ -264,5 +260,16 @@ to pay in case you want to return some goods or simply not fully-paying it.
                                             handler: nil))
         
         present(actionSheet, animated: true, completion: nil)
+    }
+}
+
+extension DigitalInvoiceViewController: LineItemDetailsViewControllerDelegate {
+    
+    func didSaveLineItem(lineItemDetailsViewController: LineItemDetailsViewController,
+                         lineItem: DigitalInvoice.LineItem,
+                         index: Int) {
+        
+        navigationController?.popViewController(animated: true)
+        invoice?.lineItems[index] = lineItem
     }
 }
