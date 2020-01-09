@@ -225,20 +225,54 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showAnalysisScreen() {
-        guard let firstDocument = pages.first?.document else {
-            return
-        }
         
-        if pages.type == .image {
-            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
-        }
-        analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+        // TODO: fix here
         
-        if let (message, action) = analysisErrorAndAction {
-            displayError(withMessage: message, andAction: action)
-        }
+//        guard let firstDocument = pages.first?.document else {
+//            return
+//        }
+//
+//        if pages.type == .image {
+//            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
+//        }
+//        analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+//
+//        if let (message, action) = analysisErrorAndAction {
+//            displayError(withMessage: message, andAction: action)
+//        }
+//
+//        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
         
-        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+        let vc = DigitalInvoiceViewController()
+        vc.invoice = DigitalInvoice(recipientName: "Someone",
+                                    iban: "DE13839348034993839",
+                                    reference: "ODIJ0IEJWSJ9IJ",
+                                    lineItems: [DigitalInvoice.LineItem(name: "Nike Sportswear Air Max 97 - Sneaker",
+                                                                        quantity: 3,
+                                                                        price: 7648,
+                                                                        selectedState: .selected),
+                                                DigitalInvoice.LineItem(name: "Nike Sportswear INTERNATIONALIST",
+                                                                        quantity: 1,
+                                                                        price: 15295,
+                                                                        selectedState: .deselected(reason: .damaged)),
+                                                DigitalInvoice.LineItem(name: "Erbauer EPT1500 254 Planer/Thicknesser",
+                                                                        quantity: 1,
+                                                                        price: 22000,
+                                                                        selectedState: .deselected(reason: .damaged)),
+                                                DigitalInvoice.LineItem(name: "Erbauer EPT1500 254 Planer/Thicknesser",
+                                                                        quantity: 1,
+                                                                        price: 22000,
+                                                                        selectedState: .deselected(reason: .damaged)),
+                                                DigitalInvoice.LineItem(name: "Brace & Bit",
+                                                                        quantity: 3,
+                                                                        price: 8993,
+                                                                        selectedState: .selected),
+                                                DigitalInvoice.LineItem(name: "Brace & Bit",
+                                                                        quantity: 3,
+                                                                        price: 8993,
+                                                                        selectedState: .selected)
+        ])
+        self.screenAPINavigationController.pushViewController(vc, animated: true)
     }
     
     @objc func backToCamera() {
