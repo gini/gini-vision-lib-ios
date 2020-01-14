@@ -75,32 +75,7 @@ class LineItemDetailsViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 16
         
-        view.addSubview(stackView)
-        
-        let margin: CGFloat = 16
-        
-        if #available(iOS 11.0, *) {
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                               constant: margin).isActive = true
-            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                           constant: margin).isActive = true
-            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                constant: -margin).isActive = true
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                              constant: -margin).isActive = true
-        } else {
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
-                                               constant: margin).isActive = true
-            stackView.topAnchor.constraint(equalTo: view.topAnchor,
-                                           constant: margin).isActive = true
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                constant: -margin).isActive = true
-            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor,
-                                              constant: -margin).isActive = true
-        }
-
         checkboxContainerStackView.axis = .horizontal
-        checkboxContainerStackView.spacing = 8
         
         checkboxButton.tintColor = giniConfiguration.lineItemTintColor
         checkboxButton.checkedState = .checked
@@ -111,7 +86,52 @@ class LineItemDetailsViewController: UIViewController {
         checkboxButtonTextLabel.textColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
         checkboxContainerStackView.addArrangedSubview(checkboxButtonTextLabel)
         
-        stackView.addArrangedSubview(checkboxContainerStackView)
+        // This is outside of the main stackView in order to deal with the checkbox button being larger
+        // than it appears (for accessibility reasons)
+        view.addSubview(checkboxContainerStackView)
+        
+        let margin: CGFloat = 16
+        
+        if #available(iOS 11.0, *) {
+            
+            checkboxContainerStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                                                constant: margin - CheckboxButton.margin).isActive = true
+            checkboxContainerStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
+                                                            constant: margin - CheckboxButton.margin).isActive = true
+            checkboxContainerStackView.trailingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                                 constant: -margin).isActive = true
+            
+        } else {
+            
+            checkboxContainerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                                constant: margin - CheckboxButton.margin).isActive = true
+            checkboxContainerStackView.topAnchor.constraint(equalTo: view.topAnchor,
+                                                            constant: margin - CheckboxButton.margin).isActive = true
+            checkboxContainerStackView.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor,
+                                                                 constant: -margin).isActive = true
+        }
+        
+        view.addSubview(stackView)
+        
+        stackView.topAnchor.constraint(equalTo: checkboxContainerStackView.bottomAnchor,
+                                       constant: margin - CheckboxButton.margin).isActive = true
+        
+        if #available(iOS 11.0, *) {
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+                                               constant: margin).isActive = true
+
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+                                                constant: -margin).isActive = true
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor,
+                                              constant: -margin).isActive = true
+        } else {
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                               constant: margin).isActive = true
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                constant: -margin).isActive = true
+            stackView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor,
+                                              constant: -margin).isActive = true
+        }
         
         itemNameTextField.titleFont = giniConfiguration.lineItemDetailsDescriptionLabelFont
         itemNameTextField.titleTextColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
@@ -161,6 +181,7 @@ class LineItemDetailsViewController: UIViewController {
                                                       constant: -margin).isActive = true
         multiplicationLabel.setContentHuggingPriority(.required, for: .horizontal)
         multiplicationLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        multiplicationLabel.accessibilityLabel = "times"
         
         itemPriceTextField.topAnchor.constraint(equalTo: quantityAndItemPriceContainer.topAnchor).isActive = true
         itemPriceTextField.trailingAnchor.constraint(equalTo: quantityAndItemPriceContainer.trailingAnchor)
@@ -194,6 +215,14 @@ class LineItemDetailsViewController: UIViewController {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(backgroundTapped))
         view.addGestureRecognizer(gestureRecognizer)
      
+        accessibilityElements = [checkboxContainerStackView,
+                                 itemNameTextField,
+                                 quantityTextField,
+                                 multiplicationLabel,
+                                 itemPriceTextField,
+                                 totalPriceTitleLabel,
+                                 totalPriceLabel]
+        
         update()
     }
     

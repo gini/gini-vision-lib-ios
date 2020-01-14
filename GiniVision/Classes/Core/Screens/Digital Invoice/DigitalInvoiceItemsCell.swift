@@ -15,10 +15,12 @@ protocol DigitalInvoiceItemsCellDelegate: class {
 struct DigitalInvoiceItemsCellViewModel {
     
     let itemsLabelText: String
+    let itemsLabelAccessibilityLabelText: String
     
     init(invoice: DigitalInvoice) {
         
         itemsLabelText = "Items \(invoice.numSelected)/\(invoice.numTotal)"
+        itemsLabelAccessibilityLabelText = "Items \(invoice.numSelected) out of \(invoice.numTotal)"
     }
 }
 
@@ -32,6 +34,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
     var viewModel: DigitalInvoiceItemsCellViewModel? {
         didSet {
             itemsLabel?.text = viewModel?.itemsLabelText
+            itemsLabel?.accessibilityLabel = viewModel?.itemsLabelAccessibilityLabelText
         }
     }
     
@@ -67,8 +70,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
         contentView.addSubview(itemsLabel)
         
         itemsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
-        itemsLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        itemsLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0).isActive = true
+        itemsLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
         let whatIsThisButton = UIButton(type: .system)
         whatIsThisButton.translatesAutoresizingMaskIntoConstraints = false
@@ -97,6 +99,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
                 
         contentView.addSubview(whatIsThisButton)
         
+        whatIsThisButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
         whatIsThisButton.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         whatIsThisButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         whatIsThisButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true

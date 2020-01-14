@@ -193,6 +193,8 @@ class GiniTextField: UIView {
         
         underscoreView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         underscoreView.backgroundColor = underscoreColor(for: false)
+        
+        accessibilityElements = [titleLabel, prefixLabel, textField]
     }
     
     override func resignFirstResponder() -> Bool {
