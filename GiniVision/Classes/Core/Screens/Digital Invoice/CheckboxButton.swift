@@ -56,9 +56,6 @@ class CheckboxButton: UIButton {
         backgroundView.layer.cornerRadius = 3
         backgroundView.layer.borderWidth = 1
         
-        setImage(UIImage(named: "checkmark", in: Bundle(for: GiniVision.self), compatibleWith: nil),
-                 for: .normal)
-        
         backgroundView.isUserInteractionEnabled = false
         if let imageView = imageView {
             insertSubview(backgroundView, belowSubview: imageView)
@@ -73,10 +70,15 @@ class CheckboxButton: UIButton {
             backgroundView.backgroundColor = tintColor
             backgroundView.layer.borderColor = UIColor.clear.cgColor
             
+            setImage(UIImage(named: "checkmark", in: Bundle(for: GiniVision.self), compatibleWith: nil),
+                     for: .normal)
+            
             accessibilityLabel = "Deselect item"
             
         case .unchecked:
-            backgroundView.backgroundColor = .white
+            backgroundView.backgroundColor = .clear
+            
+            setImage(nil, for: .normal)
             
             if #available(iOS 13.0, *) {
                 backgroundView.layer.borderColor = UIColor.secondaryLabel.cgColor
