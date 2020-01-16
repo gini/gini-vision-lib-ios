@@ -135,26 +135,34 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         return UITableView.automaticDimension
     }
     
+    enum Section: Int, CaseIterable {
+        case header
+        case itemsHeader
+        case lineItems
+        case totalPrice
+        case footer
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return Section.allCases.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-        switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return invoice?.lineItems.count ?? 0
-        case 3: return 1
-        case 4: return 1
+        switch Section(rawValue: section) {
+        case .header: return 1
+        case .itemsHeader: return 1
+        case .lineItems: return invoice?.lineItems.count ?? 0
+        case .totalPrice: return 1
+        case .footer: return 1
         default: fatalError()
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
-        case 0:
+        switch Section(rawValue: indexPath.section) {
+        case .header:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceHeaderCell",
                                                      for: indexPath) as! DigitalInvoiceHeaderCell
@@ -163,7 +171,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 1:
+        case .itemsHeader:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceItemsCell",
                                                      for: indexPath) as! DigitalInvoiceItemsCell
@@ -177,7 +185,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 2:
+        case .lineItems:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalLineItemTableViewCell",
                                                      for: indexPath) as! DigitalLineItemTableViewCell
@@ -190,7 +198,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 3:
+        case .totalPrice:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceTotalPriceCell",
                                                      for: indexPath) as! DigitalInvoiceTotalPriceCell
@@ -199,7 +207,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 4:
+        case .footer:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceFooterCell",
                                                      for: indexPath) as! DigitalInvoiceFooterCell
