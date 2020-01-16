@@ -270,7 +270,9 @@ extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
     
     func whatIsThisTapped(source: UIButton) {
         
-        let actionSheet = UIAlertController(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.title", comment: ""),
+        let actionSheet = UIAlertController(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.title",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             message: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.message",
                                                                        bundle: Bundle(for: GiniVision.self),
                                                                        comment: ""),
