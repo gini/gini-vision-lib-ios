@@ -153,7 +153,7 @@
 "ginivision.digitalinvoice.deselectreason.damaged" = "Parcel damaged";
 "ginivision.digitalinvoice.deselectreason.arrivedtoolate" = "Arrived too late";
 
-"ginivision.digitalinvoice.headermessage.primary" = "Scan successfull!";
+"ginivision.digitalinvoice.headermessage.primary" = "Scan successful!";
 "ginivision.digitalinvoice.headermessage.secondary" = "You can now deselect items you would like to return.";
 
 "ginivision.digitalinvoice.total.accessibilitylabel" = "Total: %@";
