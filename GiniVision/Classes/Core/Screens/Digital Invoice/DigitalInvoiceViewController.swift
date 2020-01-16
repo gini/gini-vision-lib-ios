@@ -215,7 +215,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
 
 extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
     
-    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel) {
+    func checkboxButtonTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel) {
         
         guard let invoice = invoice else { return }
         
@@ -223,14 +223,15 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
         
         case .selected:
             
-            presentReturnReasonActionSheet(for: viewModel.index)
+            presentReturnReasonActionSheet(for: viewModel.index,
+                                           source: cell.checkboxButton)
             
         case .deselected:
             self.invoice?.lineItems[viewModel.index].selectedState = .selected
         }
     }
         
-    func editTapped(viewModel: DigitalLineItemViewModel) {
+    func editTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel) {
                 
         let viewController = LineItemDetailsViewController()
         viewController.lineItem = invoice?.lineItems[viewModel.index]
@@ -243,9 +244,9 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
 
 extension DigitalInvoiceViewController {
     
-    private func presentReturnReasonActionSheet(for index: Int) {
+    private func presentReturnReasonActionSheet(for index: Int, source: UIView) {
         
-        DeselectLineItemActionSheet().present(from: self) { selectedState in
+        DeselectLineItemActionSheet().present(from: self, source: source) { selectedState in
             
             switch selectedState {
             case .selected:
@@ -259,7 +260,7 @@ extension DigitalInvoiceViewController {
 
 extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
     
-    func whatIsThisTapped() {
+    func whatIsThisTapped(source: UIButton) {
         
         let actionSheet = UIAlertController(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.title", comment: ""),
                                             message: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.message",
@@ -288,6 +289,8 @@ extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
                                                                      comment: ""),
                                             style: .cancel,
                                             handler: nil))
+        
+        actionSheet.popoverPresentationController?.sourceView = source
         
         present(actionSheet, animated: true, completion: nil)
     }

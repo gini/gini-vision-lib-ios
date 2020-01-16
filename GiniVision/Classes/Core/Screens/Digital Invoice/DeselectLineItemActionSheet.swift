@@ -10,6 +10,7 @@ import Foundation
 class DeselectLineItemActionSheet {
     
     func present(from viewController: UIViewController,
+                 source: UIView?,
                  completion: @escaping (DigitalInvoice.LineItem.SelectedState) -> Void) {
         
         let actionSheet = UIAlertController(title: nil,
@@ -35,6 +36,8 @@ class DeselectLineItemActionSheet {
                                             handler: { _ in
                                                 completion(.selected)
         }))
+        
+        actionSheet.popoverPresentationController?.sourceView = source
         
         viewController.present(actionSheet, animated: true, completion: nil)
     }

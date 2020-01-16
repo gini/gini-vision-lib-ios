@@ -9,7 +9,7 @@ import Foundation
 
 protocol DigitalInvoiceItemsCellDelegate: class {
     
-    func whatIsThisTapped()
+    func whatIsThisTapped(source: UIButton)
 }
 
 struct DigitalInvoiceItemsCellViewModel {
@@ -38,6 +38,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
     var giniConfiguration: GiniConfiguration?
     
     private var itemsLabel: UILabel?
+    private let whatIsThisButton = UIButton(type: .system)
     
     var viewModel: DigitalInvoiceItemsCellViewModel? {
         didSet {
@@ -80,7 +81,6 @@ class DigitalInvoiceItemsCell: UITableViewCell {
         itemsLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
         itemsLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         
-        let whatIsThisButton = UIButton(type: .system)
         whatIsThisButton.translatesAutoresizingMaskIntoConstraints = false
         whatIsThisButton.setTitle(NSLocalizedString("ginivision.digitalinvoice.whatisthisbutton",
                                                     bundle: Bundle(for: GiniVision.self),
@@ -118,6 +118,6 @@ class DigitalInvoiceItemsCell: UITableViewCell {
     }
     
     @objc func whatIsThisButtonTapped() {
-        delegate?.whatIsThisTapped()
+        delegate?.whatIsThisTapped(source: whatIsThisButton)
     }
 }

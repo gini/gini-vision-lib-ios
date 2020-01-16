@@ -126,8 +126,8 @@ struct DigitalLineItemViewModel {
 
 protocol DigitalLineItemTableViewCellDelegate: class {
     
-    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel)
-    func editTapped(viewModel: DigitalLineItemViewModel)
+    func checkboxButtonTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel)
+    func editTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel)
 }
 
 class DigitalLineItemTableViewCell: UITableViewCell {
@@ -220,21 +220,21 @@ class DigitalLineItemTableViewCell: UITableViewCell {
     @IBAction func checkButtonTapped(_ sender: Any) {
         
         if let viewModel = viewModel {
-            delegate?.checkboxButtonTapped(viewModel: viewModel)
+            delegate?.checkboxButtonTapped(cell: self, viewModel: viewModel)
         }
     }
     
     @objc func nameLabelTapped(_ sender: UITapGestureRecognizer) {
         
         if let viewModel = viewModel {
-            delegate?.checkboxButtonTapped(viewModel: viewModel)
+            delegate?.checkboxButtonTapped(cell: self, viewModel: viewModel)
         }
     }
     
     @IBAction func editButtonTapped(_ sender: Any) {
         
         if let viewModel = viewModel {
-            delegate?.editTapped(viewModel: viewModel)
+            delegate?.editTapped(cell: self, viewModel: viewModel)
         }
     }
 }
