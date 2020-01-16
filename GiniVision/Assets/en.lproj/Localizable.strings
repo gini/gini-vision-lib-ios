@@ -131,7 +131,7 @@
 "ginivision.digitalinvoice.whatisthisbutton" = "What is this?";
 
 "ginivision.digitalinvoice.whatisthisactionsheet.title" = "Is it helpful?";
-"ginivision.digitalinvoice.whatisthisactionsheet.message" = "We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.";
+"ginivision.digitalinvoice.whatisthisactionsheet.message" = "We extracted the detailed items from your invoice. If you would like to return some items or partially pay the invoice, you can deselect them and the amount to pay will be recalculated.";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.helpful" = "Yes, that's helpful";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "No, I don't want to see it again";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.cancel" = "Cancel";
@@ -145,7 +145,7 @@
 "ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Your reasons to return this item";
 "ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel" = "Cancel";
 
-"ginivision.digitalinvoice.deselectreason.looksdifferent" = "Looks different than site image";
+"ginivision.digitalinvoice.deselectreason.looksdifferent" = "Looks different to image on site";
 "ginivision.digitalinvoice.deselectreason.poorqualityorfaulty" = "Poor quality/faulty";
 "ginivision.digitalinvoice.deselectreason.doesnotfit" = "Doesn't fit properly";
 "ginivision.digitalinvoice.deselectreason.doesnotsuit" = "Doesn't suit me";
