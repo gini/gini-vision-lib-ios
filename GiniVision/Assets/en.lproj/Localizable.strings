@@ -130,7 +130,7 @@
 "ginivision.digitalinvoice.items.accessibilitylabel" = "Items %d out of %d";
 "ginivision.digitalinvoice.whatisthisbutton" = "What is this?";
 
-"ginivision.digitalinvoice.whatisthisactionsheet.title" = "Is it helpful?";
+"ginivision.digitalinvoice.whatisthisactionsheet.title" = "What is this?";
 "ginivision.digitalinvoice.whatisthisactionsheet.message" = "We extracted the detailed items from your invoice. If you would like to return some items or partially pay the invoice, you can deselect them and the amount to pay will be recalculated.";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.helpful" = "Yes, that's helpful";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "No, I don't want to see it again";
