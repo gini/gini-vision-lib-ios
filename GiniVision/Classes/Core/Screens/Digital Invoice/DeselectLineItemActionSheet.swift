@@ -13,9 +13,11 @@ class DeselectLineItemActionSheet {
                  completion: @escaping (DigitalInvoice.LineItem.SelectedState) -> Void) {
         
         let actionSheet = UIAlertController(title: nil,
-                                            message: "Your reasons to return this item",
+                                            message: NSLocalizedString("ginivision.digitalinvoice.deselectreasonactionsheet.message",
+                                                                       bundle: Bundle(for: GiniVision.self),
+                                                                       comment: ""),
                                             preferredStyle: .actionSheet)
-                
+        
         for reason in DigitalInvoice.LineItem.SelectedState.Reason.allCases {
             
             actionSheet.addAction(UIAlertAction(title: reason.displayString,
@@ -26,8 +28,12 @@ class DeselectLineItemActionSheet {
             }))
         }
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
-            completion(.selected)
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
+                                            style: .cancel,
+                                            handler: { _ in
+                                                completion(.selected)
         }))
         
         viewController.present(actionSheet, animated: true, completion: nil)

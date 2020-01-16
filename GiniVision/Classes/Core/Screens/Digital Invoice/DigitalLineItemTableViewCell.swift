@@ -22,7 +22,9 @@ struct DigitalLineItemViewModel {
         
         switch lineItem.selectedState {
         case .selected:
-            return "Quantity: \(lineItem.quantity)"
+            return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.lineitem.quantity",
+                                                                                     comment: ""),
+                                                    lineItem.quantity)
         case .deselected(let reason):
             return reason.displayString
         }
@@ -152,6 +154,10 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             editButton.setTitleColor(viewModel?.editButtonTintColor ?? .black, for: .normal)
             editButton.titleLabel?.font = viewModel?.editButtonTitleFont
             editButton.tintColor = viewModel?.editButtonTintColor ?? .black
+            
+            editButton.setTitle(NSLocalizedString("ginivision.digitalinvoice.lineitem.editbutton",
+                                                  bundle: Bundle(for: GiniVision.self),
+                                                  comment: ""), for: .normal)
             
             nameLabel.textColor = viewModel?.primaryTextColor
             priceMainUnitLabel.textColor = viewModel?.primaryTextColor

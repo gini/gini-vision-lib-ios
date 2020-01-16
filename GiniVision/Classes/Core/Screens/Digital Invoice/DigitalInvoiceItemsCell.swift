@@ -19,8 +19,16 @@ struct DigitalInvoiceItemsCellViewModel {
     
     init(invoice: DigitalInvoice) {
         
-        itemsLabelText = "Items \(invoice.numSelected)/\(invoice.numTotal)"
-        itemsLabelAccessibilityLabelText = "Items \(invoice.numSelected) out of \(invoice.numTotal)"
+        itemsLabelText = String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.items",
+                                                                                           comment: ""),
+                                                          invoice.numSelected,
+                                                          invoice.numTotal)
+        
+        let format = NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.items.accessibilitylabel",
+                                                      comment: "")
+        itemsLabelAccessibilityLabelText = String.localizedStringWithFormat(format,
+                                                                            invoice.numSelected,
+                                                                            invoice.numTotal)
     }
 }
 
@@ -74,7 +82,9 @@ class DigitalInvoiceItemsCell: UITableViewCell {
         
         let whatIsThisButton = UIButton(type: .system)
         whatIsThisButton.translatesAutoresizingMaskIntoConstraints = false
-        whatIsThisButton.setTitle("What is this?", for: .normal)
+        whatIsThisButton.setTitle(NSLocalizedString("ginivision.digitalinvoice.whatisthisbutton",
+                                                    bundle: Bundle(for: GiniVision.self),
+                                                    comment: ""), for: .normal)
         whatIsThisButton.titleLabel?.font = giniConfiguration?.digitalInvoiceItemsSectionHeaderTextFont ??
         GiniConfiguration.shared.digitalInvoiceItemsSectionHeaderTextFont
         

@@ -43,7 +43,10 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
                                            range: NSRange(location: totalPriceString.count - 3, length: 3))
             
             totalPriceLabel.attributedText = attributedString
-            totalPriceLabel.accessibilityLabel = "Total: \(totalPriceString)"
+            let format = NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.total.accessibilitylabel",
+                                                          comment: "")
+            totalPriceLabel.accessibilityLabel = String.localizedStringWithFormat(format,
+                                                                                  totalPriceString)
         }
     }
     

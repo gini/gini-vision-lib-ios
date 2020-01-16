@@ -25,7 +25,9 @@ class DigitalInvoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Digital Invoice"
+        title = NSLocalizedString("ginivision.digitalinvoice.screentitle",
+                                  bundle: Bundle(for: GiniVision.self),
+                                  comment: "digital invoice screen title")
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -94,16 +96,30 @@ class DigitalInvoiceViewController: UIViewController {
     
     private func payButtonTitle() -> String {
         
-        guard let invoice = invoice else { return "Pay" }
-        
-        return "Pay \(invoice.numSelected)/\(invoice.numTotal)"
+        guard let invoice = invoice else {
+            return NSLocalizedString("ginivision.digitalinvoice.paybuttontitle.noinvoice",
+                                     bundle: Bundle(for: GiniVision.self),
+                                     comment: "digital invoice pay button title when the invoice is missing")
+        }
+                
+        return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle",
+                                                                                 comment: "digital invoice pay button title"),
+                                                invoice.numSelected,
+                                                invoice.numTotal)
     }
     
     private func payButtonAccessibilityLabel() -> String {
         
-        guard let invoice = invoice else { return "Pay" }
+        guard let invoice = invoice else {
+            return NSLocalizedString("ginivision.digitalinvoice.paybuttontitle.noinvoice",
+                                     bundle: Bundle(for: GiniVision.self),
+                                     comment: "digital invoice pay button title when the invoice is missing")
+        }
         
-        return "Pay \(invoice.numSelected) out of \(invoice.numTotal)"
+        return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle.accessibilitylabel",
+                                                                                 comment: "digital invoice pay button accessibility label"),
+                                                invoice.numSelected,
+                                                invoice.numTotal)
     }
 }
 
@@ -245,26 +261,31 @@ extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
     
     func whatIsThisTapped() {
         
-        let actionSheet = UIAlertController(title: "Is it helpful?",
-                                            message: """
-We extracted the detailed items from your invoice to help you calculate the amount
-to pay in case you want to return some goods or simply not fully-paying it.
-""",
+        let actionSheet = UIAlertController(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.title", comment: ""),
+                                            message: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.message",
+                                                                       bundle: Bundle(for: GiniVision.self),
+                                                                       comment: ""),
                                             preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Yes, that's helpful",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.helpful",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .default,
                                             handler: { _ in
                                                 // TODO:
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "No, I don't want to see it again",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .destructive,
                                             handler: { _ in
                                                 // TODO:
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.cancel",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .cancel,
                                             handler: nil))
         

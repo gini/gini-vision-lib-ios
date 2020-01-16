@@ -60,13 +60,20 @@ extension DigitalInvoice.LineItem.SelectedState.Reason {
     var displayString: String {
         
         switch self {
-        case .looksDifferent: return "Looks different than site image"
-        case .poorQualityOrFaulty: return "Poor quality/faulty"
-        case .doesNotFit: return "Doesn't fit properly"
-        case .doesNotSuit: return "Doesn't suit me"
-        case .wrongItem: return "Received wrong item"
-        case .damaged: return "Parcel damaged"
-        case .arrivedTooLate: return "Arrived too late"
+        case .looksDifferent: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.looksdifferent",
+                                                       bundle: Bundle(for: GiniVision.self), comment: "")
+        case .poorQualityOrFaulty: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.poorqualityorfaulty",
+                                                            bundle: Bundle(for: GiniVision.self), comment: "")
+        case .doesNotFit: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.doesnotfit",
+                                                   bundle: Bundle(for: GiniVision.self), comment: "")
+        case .doesNotSuit: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.doesnotsuit",
+                                                    bundle: Bundle(for: GiniVision.self), comment: "")
+        case .wrongItem: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.wrongitem",
+                                                  bundle: Bundle(for: GiniVision.self), comment: "")
+        case .damaged: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.damaged",
+                                                bundle: Bundle(for: GiniVision.self), comment: "")
+        case .arrivedTooLate: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.arrivedtoolate",
+                                                       bundle: Bundle(for: GiniVision.self), comment: "")
         }
     }
 }

@@ -120,3 +120,49 @@
 "ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1_en";
 "ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2_en";
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3_en";
+
+"ginivision.digitalinvoice.screentitle" = "Digital Invoice";
+"ginivision.digitalinvoice.paybuttontitle.noinvoice" = "Pay";
+"ginivision.digitalinvoice.paybuttontitle" = "Pay %d/%d";
+"ginivision.digitalinvoice.paybuttontitle.accessibilitylabel" = "Pay %d out of %d";
+
+"ginivision.digitalinvoice.items" = "Items %d/%d";
+"ginivision.digitalinvoice.items.accessibilitylabel" = "Items %d out of %d";
+"ginivision.digitalinvoice.whatisthisbutton" = "What is this?";
+
+"ginivision.digitalinvoice.whatisthisactionsheet.title" = "Is it helpful?";
+"ginivision.digitalinvoice.whatisthisactionsheet.message" = "We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.";
+"ginivision.digitalinvoice.whatisthisactionsheet.action.helpful" = "Yes, that's helpful";
+"ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "No, I don't want to see it again";
+"ginivision.digitalinvoice.whatisthisactionsheet.action.cancel" = "Cancel";
+
+"ginivision.digitalinvoice.lineitem.quantity" = "Quantity: %d";
+"ginivision.digitalinvoice.lineitem.editbutton" = "Edit";
+
+"ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Deselect item";
+"ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Select item";
+
+"ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Your reasons to return this item";
+"ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel" = "Cancel";
+
+"ginivision.digitalinvoice.deselectreason.looksdifferent" = "Looks different than site image";
+"ginivision.digitalinvoice.deselectreason.poorqualityorfaulty" = "Poor quality/faulty";
+"ginivision.digitalinvoice.deselectreason.doesnotfit" = "Doesn't fit properly";
+"ginivision.digitalinvoice.deselectreason.doesnotsuit" = "Doesn't suit me";
+"ginivision.digitalinvoice.deselectreason.wrongitem" = "Received wrong item";
+"ginivision.digitalinvoice.deselectreason.damaged" = "Parcel damaged";
+"ginivision.digitalinvoice.deselectreason.arrivedtoolate" = "Arrived too late";
+
+"ginivision.digitalinvoice.headermessage.primary" = "Scan successfull!";
+"ginivision.digitalinvoice.headermessage.secondary" = "You can now deselect items you would like to return.";
+
+"ginivision.digitalinvoice.total.accessibilitylabel" = "Total: %@";
+
+"ginivision.digitalinvoice.footermessage" = "Please check that all is in order and edit if necessary before paying.";
+
+"ginivision.digitalinvoice.lineitem.savebutton" = "Save";
+"ginivision.digitalinvoice.lineitem.itemnametextfieldtitle" = "Item Name";
+"ginivision.digitalinvoice.lineitem.quantitytextfieldtitle" = "Quantity";
+"ginivision.digitalinvoice.lineitem.pricetextfieldtitle" = "Item Price";
+"ginivision.digitalinvoice.lineitem.multiplication.accessibilitylabel" = "times";
+"ginivision.digitalinvoice.lineitem.totalpricetitle" = "Total:";

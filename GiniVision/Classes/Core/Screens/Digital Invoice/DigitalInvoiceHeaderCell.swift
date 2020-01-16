@@ -35,12 +35,16 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.text = "Scan successfull!"
+        messageLabel.text = NSLocalizedString("ginivision.digitalinvoice.headermessage.primary",
+                                              bundle: Bundle(for: GiniVision.self),
+                                              comment: "")
         messageLabel.numberOfLines = 0
         messageLabel.font = giniConfiguration?.customFont.regular ?? GiniConfiguration.shared.customFont.regular
         messageLabel.textAlignment = .center
         
-        let attributedString = NSMutableAttributedString(string: "You can now deselect items you would like to return.")
+        let attributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
+                                                                                   bundle: Bundle(for: GiniVision.self),
+                                                                                   comment: ""))
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,

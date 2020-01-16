@@ -73,7 +73,9 @@ class CheckboxButton: UIButton {
             setImage(UIImage(named: "checkmark", in: Bundle(for: GiniVision.self), compatibleWith: nil),
                      for: .normal)
             
-            accessibilityLabel = "Deselect item"
+            accessibilityLabel = NSLocalizedString("ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel",
+                                                   bundle: Bundle(for: GiniVision.self),
+                                                   comment: "")
             
         case .unchecked:
             backgroundView.backgroundColor = .clear
@@ -86,7 +88,9 @@ class CheckboxButton: UIButton {
                 backgroundView.layer.borderColor = UIColor.gray.cgColor
             }
             
-            accessibilityLabel = "Select item"
+            accessibilityLabel = NSLocalizedString("ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel",
+                                                   bundle: Bundle(for: GiniVision.self),
+                                                   comment: "")
         }
     }
 }
