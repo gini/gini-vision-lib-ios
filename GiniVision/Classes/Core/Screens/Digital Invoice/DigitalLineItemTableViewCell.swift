@@ -205,20 +205,9 @@ class DigitalLineItemTableViewCell: UITableViewCell {
         shadowCastView.layer.borderWidth = 0.5
         
         selectionStyle = .none
-        
-        let nameLabelTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(nameLabelTapped(_:)))
-        nameLabel.isUserInteractionEnabled = true
-        nameLabel.addGestureRecognizer(nameLabelTapGestureRecognizer)
     }
     
     @IBAction func checkButtonTapped(_ sender: Any) {
-        
-        if let viewModel = viewModel {
-            delegate?.checkboxButtonTapped(viewModel: viewModel)
-        }
-    }
-    
-    @objc func nameLabelTapped(_ sender: UITapGestureRecognizer) {
         
         if let viewModel = viewModel {
             delegate?.checkboxButtonTapped(viewModel: viewModel)
