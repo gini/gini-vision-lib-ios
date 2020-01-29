@@ -41,7 +41,7 @@ final class Camera: NSObject, CameraProtocol {
         #if targetEnvironment(simulator)
         return true
         #else
-        return videoDeviceInput?.device.hasFlash ?? false
+        return videoDeviceInput?.device.hasFlash ?? true
         #endif
     }()
     var isFlashOn: Bool
