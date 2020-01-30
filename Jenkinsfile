@@ -33,45 +33,9 @@ pipeline {
         sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 8\''
       }
     }
-    stage('Documentation') {
-      when {
-        anyOf { branch 'master'; branch 'hotfix' }
-        expression {
-            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-            return !tag.isEmpty()
-        }
-      }
-      steps {
-        sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
-      }
-    }
-    stage('HockeyApp upload') {
-      when {
-        branch 'develop'
-      }
-      environment {
-        HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
-        HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
-      }
-      steps {
-        sh 'rm -rf build'
-        sh 'mkdir build'
-        sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration Release archive -archivePath build/GiniVision.xcarchive'
-        sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
-        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/Example Swift.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
-
-        sh 'rm -rf build'
-      }
-      post {
-        always {
-          sh 'rm Example/Credentials.plist || true'
-        }
-      }
-    }
     stage('Release Pod') {
       when {
-        anyOf { branch 'master'; branch 'hotfix' }
+        anyOf { branch 'hotfix' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
