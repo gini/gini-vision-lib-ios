@@ -1,6 +1,12 @@
 Changelog
 =========
 
+4.9.0 (2020-01-30)
+------------------
+- Removed dependency on the deprecated `UIWebView` (Bolts)
+- Fixed flash toggle button not appearing on first run
+- Better support for importing files. Fixes file import when the host app has `LSSupportsOpeningDocumentsInPlace` enabled in the `Info.plist`
+
 4.8.9 (2019-12-03)
 ------------------
 -   Fixed a sporadic crash when taking a picture
