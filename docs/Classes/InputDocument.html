@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ImageAssetsStrings Enumeration Reference</title>
+    <title>InputDocument Class Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/ImageAssetsStrings" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Class/InputDocument" class="dashAnchor"></a>
 
-    <a title="ImageAssetsStrings Enumeration Reference"></a>
+    <a title="InputDocument Class Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -45,7 +45,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ImageAssetsStrings Enumeration Reference
+      InputDocument Class Reference
     </p>
 
     <div class="content-wrapper">
@@ -339,10 +339,10 @@
 
         <section class="section">
           <div class="section-content">
-            <h1>ImageAssetsStrings</h1>
+            <h1>InputDocument</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">ImageAssetsStrings</span> <span class="p">:</span> <span class="kt">LocalizableStringResource</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">final</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">InputDocument</span> <span class="p">:</span> <span class="kt">UIDocument</span></code></pre>
 
                 </div>
               </div>
@@ -358,9 +358,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep1yA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/openWithTutorialStep1" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep1yA2CmF">openWithTutorialStep1</a>
+                    <a name="/s:10GiniVision13InputDocumentC4data10Foundation4DataVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision13InputDocumentC4data10Foundation4DataVSgvp">data</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -375,7 +375,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">openWithTutorialStep1</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -385,9 +385,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep2yA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/openWithTutorialStep2" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep2yA2CmF">openWithTutorialStep2</a>
+                    <a name="/c:@M@GiniVision@objc(cs)InputDocument(im)loadFromContents:ofType:error:"></a>
+                    <a name="//apple_ref/swift/Method/load(fromContents:ofType:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)InputDocument(im)loadFromContents:ofType:error:">load(fromContents:ofType:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -402,34 +402,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">openWithTutorialStep2</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep3yA2CmF"></a>
-                    <a name="//apple_ref/swift/Element/openWithTutorialStep3" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10GiniVision18ImageAssetsStringsO21openWithTutorialStep3yA2CmF">openWithTutorialStep3</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Undocumented</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">openWithTutorialStep3</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">load</span><span class="p">(</span><span class="n">fromContents</span> <span class="nv">contents</span><span class="p">:</span> <span class="kt">Any</span><span class="p">,</span> <span class="n">ofType</span> <span class="nv">typeName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>

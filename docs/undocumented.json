@@ -204,6 +204,27 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Helpers/InputDocument.swift",
+      "line": 10,
+      "symbol": "InputDocument",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Helpers/InputDocument.swift",
+      "line": 12,
+      "symbol": "InputDocument.data",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Helpers/InputDocument.swift",
+      "line": 18,
+      "symbol": "InputDocument.load(fromContents:ofType:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Helpers/Localization/LocalizableStringResource.swift",
       "line": null,
       "symbol": "LocalizableStringResource",
@@ -772,42 +793,42 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 198,
+      "line": 197,
       "symbol": "CameraViewController.loadView()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 215,
+      "line": 214,
       "symbol": "CameraViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 232,
+      "line": 231,
       "symbol": "CameraViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 237,
+      "line": 236,
       "symbol": "CameraViewController.viewDidAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 242,
+      "line": 241,
       "symbol": "CameraViewController.viewDidLayoutSubviews()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_hotfix/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 248,
+      "line": 247,
       "symbol": "CameraViewController.viewWillTransition(to:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
