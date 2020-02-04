@@ -25,7 +25,9 @@ class DigitalInvoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Digital Invoice"
+        title = NSLocalizedString("ginivision.digitalinvoice.screentitle",
+                                  bundle: Bundle(for: GiniVision.self),
+                                  comment: "digital invoice screen title")
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -94,16 +96,30 @@ class DigitalInvoiceViewController: UIViewController {
     
     private func payButtonTitle() -> String {
         
-        guard let invoice = invoice else { return "Pay" }
-        
-        return "Pay \(invoice.numSelected)/\(invoice.numTotal)"
+        guard let invoice = invoice else {
+            return NSLocalizedString("ginivision.digitalinvoice.paybuttontitle.noinvoice",
+                                     bundle: Bundle(for: GiniVision.self),
+                                     comment: "digital invoice pay button title when the invoice is missing")
+        }
+                
+        return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle",
+                                                                                 comment: "digital invoice pay button title"),
+                                                invoice.numSelected,
+                                                invoice.numTotal)
     }
     
     private func payButtonAccessibilityLabel() -> String {
         
-        guard let invoice = invoice else { return "Pay" }
+        guard let invoice = invoice else {
+            return NSLocalizedString("ginivision.digitalinvoice.paybuttontitle.noinvoice",
+                                     bundle: Bundle(for: GiniVision.self),
+                                     comment: "digital invoice pay button title when the invoice is missing")
+        }
         
-        return "Pay \(invoice.numSelected) out of \(invoice.numTotal)"
+        return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle.accessibilitylabel",
+                                                                                 comment: "digital invoice pay button accessibility label"),
+                                                invoice.numSelected,
+                                                invoice.numTotal)
     }
 }
 
@@ -119,26 +135,34 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         return UITableView.automaticDimension
     }
     
+    enum Section: Int, CaseIterable {
+        case header
+        case itemsHeader
+        case lineItems
+        case totalPrice
+        case footer
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return Section.allCases.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
-        switch section {
-        case 0: return 1
-        case 1: return 1
-        case 2: return invoice?.lineItems.count ?? 0
-        case 3: return 1
-        case 4: return 1
+        switch Section(rawValue: section) {
+        case .header: return 1
+        case .itemsHeader: return 1
+        case .lineItems: return invoice?.lineItems.count ?? 0
+        case .totalPrice: return 1
+        case .footer: return 1
         default: fatalError()
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        switch indexPath.section {
-        case 0:
+        switch Section(rawValue: indexPath.section) {
+        case .header:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceHeaderCell",
                                                      for: indexPath) as! DigitalInvoiceHeaderCell
@@ -147,7 +171,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 1:
+        case .itemsHeader:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceItemsCell",
                                                      for: indexPath) as! DigitalInvoiceItemsCell
@@ -161,7 +185,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 2:
+        case .lineItems:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalLineItemTableViewCell",
                                                      for: indexPath) as! DigitalLineItemTableViewCell
@@ -174,7 +198,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 3:
+        case .totalPrice:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceTotalPriceCell",
                                                      for: indexPath) as! DigitalInvoiceTotalPriceCell
@@ -183,7 +207,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
             
             return cell
             
-        case 4:
+        case .footer:
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceFooterCell",
                                                      for: indexPath) as! DigitalInvoiceFooterCell
@@ -199,7 +223,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
 
 extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
     
-    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel) {
+    func checkboxButtonTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel) {
         
         guard let invoice = invoice else { return }
         
@@ -207,14 +231,15 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
         
         case .selected:
             
-            presentReturnReasonActionSheet(for: viewModel.index)
+            presentReturnReasonActionSheet(for: viewModel.index,
+                                           source: cell.checkboxButton)
             
         case .deselected:
             self.invoice?.lineItems[viewModel.index].selectedState = .selected
         }
     }
         
-    func editTapped(viewModel: DigitalLineItemViewModel) {
+    func editTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel) {
                 
         let viewController = LineItemDetailsViewController()
         viewController.lineItem = invoice?.lineItems[viewModel.index]
@@ -227,9 +252,9 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
 
 extension DigitalInvoiceViewController {
     
-    private func presentReturnReasonActionSheet(for index: Int) {
+    private func presentReturnReasonActionSheet(for index: Int, source: UIView) {
         
-        DeselectLineItemActionSheet().present(from: self) { selectedState in
+        DeselectLineItemActionSheet().present(from: self, source: source) { selectedState in
             
             switch selectedState {
             case .selected:
@@ -243,30 +268,39 @@ extension DigitalInvoiceViewController {
 
 extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
     
-    func whatIsThisTapped() {
+    func whatIsThisTapped(source: UIButton) {
         
-        let actionSheet = UIAlertController(title: "Is it helpful?",
-                                            message: """
-We extracted the detailed items from your invoice to help you calculate the amount
-to pay in case you want to return some goods or simply not fully-paying it.
-""",
+        let actionSheet = UIAlertController(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.title",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
+                                            message: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.message",
+                                                                       bundle: Bundle(for: GiniVision.self),
+                                                                       comment: ""),
                                             preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Yes, that's helpful",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.helpful",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .default,
                                             handler: { _ in
                                                 // TODO:
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "No, I don't want to see it again",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .destructive,
                                             handler: { _ in
                                                 // TODO:
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel",
+        actionSheet.addAction(UIAlertAction(title: NSLocalizedString("ginivision.digitalinvoice.whatisthisactionsheet.action.cancel",
+                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                     comment: ""),
                                             style: .cancel,
                                             handler: nil))
+        
+        actionSheet.popoverPresentationController?.sourceView = source
         
         present(actionSheet, animated: true, completion: nil)
     }

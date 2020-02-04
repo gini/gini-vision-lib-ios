@@ -29,7 +29,9 @@ class DigitalInvoiceFooterCell: UITableViewCell {
         
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.text = "Please check that all is in order and edit if necessary before paying."
+        messageLabel.text = NSLocalizedString("ginivision.digitalinvoice.footermessage",
+                                              bundle: Bundle(for: GiniVision.self),
+                                              comment: "")
         messageLabel.numberOfLines = 0
         messageLabel.font = giniConfiguration?.digitalInvoiceFooterMessageTextFont ??
             GiniConfiguration.shared.digitalInvoiceFooterMessageTextFont

@@ -48,7 +48,9 @@ class LineItemDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save",
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("ginivision.digitalinvoice.lineitem.savebutton",
+                                                                                     bundle: Bundle(for: GiniVision.self),
+                                                                                     comment: ""),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(saveButtonTapped))
@@ -135,7 +137,9 @@ class LineItemDetailsViewController: UIViewController {
         
         itemNameTextField.titleFont = giniConfiguration.lineItemDetailsDescriptionLabelFont
         itemNameTextField.titleTextColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
-        itemNameTextField.title = "Item Name"
+        itemNameTextField.title = NSLocalizedString("ginivision.digitalinvoice.lineitem.itemnametextfieldtitle",
+                                                    bundle: Bundle(for: GiniVision.self),
+                                                    comment: "")
         itemNameTextField.textFont = giniConfiguration.lineItemDetailsContentLabelFont
         itemNameTextField.textColor = giniConfiguration.lineItemDetailsContentLabelColor
         itemNameTextField.prefixText = nil
@@ -144,7 +148,9 @@ class LineItemDetailsViewController: UIViewController {
         
         quantityTextField.titleFont = giniConfiguration.lineItemDetailsDescriptionLabelFont
         quantityTextField.titleTextColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
-        quantityTextField.title = "Quantity"
+        quantityTextField.title = NSLocalizedString("ginivision.digitalinvoice.lineitem.quantitytextfieldtitle",
+                                                    bundle: Bundle(for: GiniVision.self),
+                                                    comment: "")
         quantityTextField.textFont = giniConfiguration.lineItemDetailsContentLabelFont
         quantityTextField.textColor = giniConfiguration.lineItemDetailsContentLabelColor
         quantityTextField.prefixText = nil
@@ -159,7 +165,9 @@ class LineItemDetailsViewController: UIViewController {
         
         itemPriceTextField.titleFont = giniConfiguration.lineItemDetailsDescriptionLabelFont
         itemPriceTextField.titleTextColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
-        itemPriceTextField.title = "Item price"
+        itemPriceTextField.title = NSLocalizedString("ginivision.digitalinvoice.lineitem.pricetextfieldtitle",
+                                                     bundle: Bundle(for: GiniVision.self),
+                                                     comment: "")
         itemPriceTextField.textFont = giniConfiguration.lineItemDetailsContentLabelFont
         itemPriceTextField.textColor = giniConfiguration.lineItemDetailsContentLabelColor
         itemPriceTextField.prefixText = "€"
@@ -181,7 +189,9 @@ class LineItemDetailsViewController: UIViewController {
                                                       constant: -margin).isActive = true
         multiplicationLabel.setContentHuggingPriority(.required, for: .horizontal)
         multiplicationLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        multiplicationLabel.accessibilityLabel = "times"
+        multiplicationLabel.accessibilityLabel = NSLocalizedString("ginivision.digitalinvoice.lineitem.multiplication.accessibilitylabel",
+                                                                   bundle: Bundle(for: GiniVision.self),
+                                                                   comment: "")
         
         itemPriceTextField.topAnchor.constraint(equalTo: quantityAndItemPriceContainer.topAnchor).isActive = true
         itemPriceTextField.trailingAnchor.constraint(equalTo: quantityAndItemPriceContainer.trailingAnchor)
@@ -201,7 +211,9 @@ class LineItemDetailsViewController: UIViewController {
         totalPriceTitleLabel.setContentHuggingPriority(.required, for: .horizontal)
         totalPriceTitleLabel.font = giniConfiguration.lineItemDetailsDescriptionLabelFont
         totalPriceTitleLabel.textColor = giniConfiguration.lineItemDetailsDescriptionLabelColor
-        totalPriceTitleLabel.text = "Total:"
+        totalPriceTitleLabel.text = NSLocalizedString("ginivision.digitalinvoice.lineitem.totalpricetitle",
+                                                      bundle: Bundle(for: GiniVision.self),
+                                                      comment: "")
         totalPriceTitleLabel.font = UIFont.systemFont(ofSize: 12)
         
         totalPriceStackView.addArrangedSubview(totalPriceTitleLabel)
@@ -245,7 +257,7 @@ class LineItemDetailsViewController: UIViewController {
             self.lineItem?.selectedState = .selected
         case .selected:
             
-            DeselectLineItemActionSheet().present(from: self) { selectedState in
+            DeselectLineItemActionSheet().present(from: self, source: checkboxButton) { selectedState in
                 
                 switch selectedState {
                 case .selected:
@@ -270,7 +282,9 @@ class LineItemDetailsViewController: UIViewController {
         
         guard let lineItem = lineItem else { return }
         
-        checkboxButtonTextLabel.text = "\(lineItem.quantity) item(s) selected"
+        checkboxButtonTextLabel.text = String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("gini.digitalinvoicelineitem.items",
+                                                                                                         comment: ""),
+                                                                        lineItem.quantity)
         
         itemNameTextField.text = lineItem.name
         quantityTextField.text = String(lineItem.quantity)

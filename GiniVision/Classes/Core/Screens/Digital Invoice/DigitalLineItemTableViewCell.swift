@@ -22,7 +22,9 @@ struct DigitalLineItemViewModel {
         
         switch lineItem.selectedState {
         case .selected:
-            return "Quantity: \(lineItem.quantity)"
+            return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.lineitem.quantity",
+                                                                                     comment: ""),
+                                                    lineItem.quantity)
         case .deselected(let reason):
             return reason.displayString
         }
@@ -124,8 +126,8 @@ struct DigitalLineItemViewModel {
 
 protocol DigitalLineItemTableViewCellDelegate: class {
     
-    func checkboxButtonTapped(viewModel: DigitalLineItemViewModel)
-    func editTapped(viewModel: DigitalLineItemViewModel)
+    func checkboxButtonTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel)
+    func editTapped(cell: DigitalLineItemTableViewCell, viewModel: DigitalLineItemViewModel)
 }
 
 class DigitalLineItemTableViewCell: UITableViewCell {
@@ -152,6 +154,10 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             editButton.setTitleColor(viewModel?.editButtonTintColor ?? .black, for: .normal)
             editButton.titleLabel?.font = viewModel?.editButtonTitleFont
             editButton.tintColor = viewModel?.editButtonTintColor ?? .black
+            
+            editButton.setTitle(NSLocalizedString("ginivision.digitalinvoice.lineitem.editbutton",
+                                                  bundle: Bundle(for: GiniVision.self),
+                                                  comment: ""), for: .normal)
             
             nameLabel.textColor = viewModel?.primaryTextColor
             priceMainUnitLabel.textColor = viewModel?.primaryTextColor
@@ -210,14 +216,14 @@ class DigitalLineItemTableViewCell: UITableViewCell {
     @IBAction func checkButtonTapped(_ sender: Any) {
         
         if let viewModel = viewModel {
-            delegate?.checkboxButtonTapped(viewModel: viewModel)
+            delegate?.checkboxButtonTapped(cell: self, viewModel: viewModel)
         }
     }
     
     @IBAction func editButtonTapped(_ sender: Any) {
         
         if let viewModel = viewModel {
-            delegate?.editTapped(viewModel: viewModel)
+            delegate?.editTapped(cell: self, viewModel: viewModel)
         }
     }
 }
