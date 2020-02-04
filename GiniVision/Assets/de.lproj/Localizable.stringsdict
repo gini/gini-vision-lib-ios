@@ -13,9 +13,9 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>one</key>
-			<string>%d item selected</string>
+			<string>%d Artikel ausgewählt</string>
 			<key>other</key>
-			<string>%d items selected</string>
+			<string>%d Artikel ausgewählt</string>
 		</dict>
 	</dict>
 	<key>ginivision.analysis.pdfpages</key>
