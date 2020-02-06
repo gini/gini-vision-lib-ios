@@ -18,6 +18,7 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.social_media_url = 'https://twitter.com/gini'
   s.swift_version    = '5.0'
   s.ios.deployment_target = '10.0'
+  s.xcconfig = { 'ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES' => 'YES' }
   s.default_subspec = 'Core'
 
   s.subspec 'Core' do |core|
