@@ -7,6 +7,9 @@ Updating to 5.0
 #### New API SDK
 The networking plugin now uses the new API SDK, which has been completely rewritten in Swift, getting rid of  **Bolts** and using only built-in components.
 
+#### New way to open incoming files
+There is a new way to handle incoming documents through the "Open with.../Copy to..." iOS feature. Please refer to the guide page [Open with guide](open-with-guide.html).
+
 ## Breaking Changes
 ---
 
