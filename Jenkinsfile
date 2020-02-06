@@ -45,28 +45,13 @@ pipeline {
         sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
       }
     }
-    stage('HockeyApp upload') {
+    stage('Pod Lint') {
       when {
         branch 'develop'
       }
-      environment {
-        HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
-        HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
-      }
-      steps {
-        sh 'rm -rf build'
-        sh 'mkdir build'
-        sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration "In House" archive -archivePath build/GiniVision.xcarchive'
-        sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
-        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/Example Swift.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
 
-        sh 'rm -rf build'
-      }
-      post {
-        always {
-          sh 'rm Example/Credentials.plist || true'
-        }
+      steps {
+        sh '/usr/local/bin/pod lib lint GiniVision.podspec --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
     stage('Release Pod') {
