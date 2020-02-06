@@ -13,8 +13,16 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
-        lock('refs/remotes/origin/master') {
-          sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
+        sh '/usr/local/bin/pod install --project-directory=Example/'
+      }
+
+      post {
+        failure {
+
+          /* try to repo update just in case an outdated repo is the cause for the failed build so it's ready for the next */ 
+          lock('refs/remotes/origin/master') {
+            sh '/usr/local/bin/pod repo update'
+          }
         }
       }
     }
