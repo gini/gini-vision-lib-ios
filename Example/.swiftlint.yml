@@ -11,6 +11,7 @@ disabled_rules: # rule identifiers to exclude from running
   - trailing_whitespace
   - large_tuple
   - identifier_name
+  - nesting
 
 force_cast: warning # implicitly
 force_try:
