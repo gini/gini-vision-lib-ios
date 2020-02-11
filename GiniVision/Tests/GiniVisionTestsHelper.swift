@@ -30,21 +30,21 @@ final class GiniVisionTestsHelper {
     
     class func loadPDFDocument(named name: String) -> GiniPDFDocument {
         let data = fileData(named: name, fileExtension: "pdf")!
-        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
-        return (builder.build() as? GiniPDFDocument)!
+        let builder = GiniVisionDocumentBuilder(documentSource: .external)
+        return (builder.build(with: data) as? GiniPDFDocument)!
     }
     
     class func loadImageDocument(named name: String, fileExtension: String = "jpg") -> GiniImageDocument {
         let data = fileData(named: name, fileExtension: fileExtension)!
-        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
-        return (builder.build() as? GiniImageDocument)!
+        let builder = GiniVisionDocumentBuilder(documentSource: .external)
+        return (builder.build(with: data) as? GiniImageDocument)!
     }
     
     class private func loadPage(named name: String,
                                 fileExtension: String) -> GiniVisionPage {
         let data = fileData(named: name, fileExtension: fileExtension)!
-        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
-        return GiniVisionPage(document: builder.build()!)
+        let builder = GiniVisionDocumentBuilder(documentSource: .external)
+        return GiniVisionPage(document: builder.build(with: data)!)
     }
     
     class func loadImagePage(named name: String, fileExtension: String = "jpg") -> GiniVisionPage {

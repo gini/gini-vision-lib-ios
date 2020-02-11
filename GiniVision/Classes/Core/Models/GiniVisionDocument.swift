@@ -72,7 +72,7 @@ public class GiniVisionDocumentBuilder: NSObject {
      - Returns: A `GiniVisionDocument` if `data` has a valid type or `nil` if it hasn't.
      
      */
-    internal func build(with data: Data) -> GiniVisionDocument? {
+    public func build(with data: Data) -> GiniVisionDocument? {
         if data.isPDF {
             return GiniPDFDocument(data: data)
         } else if data.isImage {
