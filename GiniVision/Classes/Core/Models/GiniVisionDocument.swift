@@ -93,10 +93,8 @@ public class GiniVisionDocumentBuilder: NSObject {
         
         let inputDocument = InputDocument(fileURL: openURL)
         
-        inputDocument.open { [weak self] (success) in
-            
-            guard let self = self else { return }
-            
+        inputDocument.open { (success) in
+                        
             guard let data = inputDocument.data, success else {
                 completion(nil)
                 return
