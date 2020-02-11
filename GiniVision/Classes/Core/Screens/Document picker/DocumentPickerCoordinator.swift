@@ -228,10 +228,10 @@ public final class DocumentPickerCoordinator: NSObject {
 
 fileprivate extension DocumentPickerCoordinator {
     func createDocument(fromData data: Data) -> GiniVisionDocument? {
-        let documentBuilder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
+        let documentBuilder = GiniVisionDocumentBuilder(documentSource: .external)
         documentBuilder.importMethod = .picker
         
-        return documentBuilder.build()
+        return documentBuilder.build(with: data)
     }
     
     func data(fromUrl url: URL) -> Data? {

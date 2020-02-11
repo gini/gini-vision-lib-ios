@@ -1,3 +1,9 @@
+Important
+=========
+
+This page isn't updated any more. Please refer to our [Releases on Github](https://github.com/gini/gini-vision-lib-ios/releases) for an up to date changelog.
+
+
 Changelog
 =========
 5.0.8 (2019-11-14)
