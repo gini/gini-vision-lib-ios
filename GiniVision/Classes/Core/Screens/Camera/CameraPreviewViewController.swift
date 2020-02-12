@@ -11,12 +11,13 @@ import AVFoundation
 protocol CameraPreviewViewControllerDelegate: class {
     func cameraPreview(_ viewController: CameraPreviewViewController,
                        didDetect qrCodeDocument: GiniQRCodeDocument)
+    func cameraDidSetUp(_ viewController: CameraPreviewViewController,
+                        camera: CameraProtocol)
 }
 
 final class CameraPreviewViewController: UIViewController {
     
     weak var delegate: CameraPreviewViewControllerDelegate?
-    lazy var isFlashSupported: Bool = camera.isFlashSupported
     var isFlashOn: Bool {
         get {
             return camera.isFlashOn
@@ -161,6 +162,8 @@ final class CameraPreviewViewController: UIViewController {
                         #endif
                     }
                 }
+            } else {
+                self.delegate?.cameraDidSetUp(self, camera: self.camera)
             }
         }
         

@@ -26,8 +26,7 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         super.setUp()
         giniConfiguration = GiniConfiguration.shared
         giniConfiguration.multipageEnabled = true
-        cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true)
+        cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration)
         cameraButtonsViewController.delegate = delegateMock
     }
     
@@ -69,7 +68,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
     func testLayoutWhenNoButtonsOnIpad() {
         let giniConfiguration = GiniConfiguration()
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IpadDevice())
         _ = cameraButtonsViewController.view
         
@@ -83,7 +81,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IpadDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -105,7 +102,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         giniConfiguration.flashToggleEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IpadDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -133,7 +129,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.flashToggleEnabled = true
         giniConfiguration.multipageEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IpadDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -161,7 +156,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.flashToggleEnabled = true
         giniConfiguration.multipageEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IpadDevice())
         _ = cameraButtonsViewController.view
         
@@ -183,7 +177,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
     func testLayoutWhenNoButtonsOnIphone() {
         let giniConfiguration = GiniConfiguration()
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         _ = cameraButtonsViewController.view
         
@@ -197,7 +190,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -216,7 +208,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.fileImportSupportedTypes = .pdf_and_images
         giniConfiguration.flashToggleEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -239,7 +230,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.flashToggleEnabled = true
         giniConfiguration.multipageEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         _ = cameraButtonsViewController.view
         cameraButtonsViewController.addFileImportButton()
@@ -264,7 +254,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.flashToggleEnabled = true
         giniConfiguration.multipageEnabled = true
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         _ = cameraButtonsViewController.view
         
@@ -284,7 +273,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         let giniConfiguration = GiniConfiguration()
         
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         
         XCTAssertTrue(cameraButtonsViewController.flashToggleButton.isSelected,
@@ -297,7 +285,6 @@ final class CameraButtonsViewControllerTests: XCTestCase {
         giniConfiguration.flashOnByDefault = false
         
         cameraButtonsViewController = CameraButtonsViewController(giniConfiguration: giniConfiguration,
-                                                                  isFlashSupported: true,
                                                                   currentDevice: IphoneDevice())
         
         XCTAssertFalse(cameraButtonsViewController.flashToggleButton.isSelected,
