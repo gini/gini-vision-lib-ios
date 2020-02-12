@@ -16,7 +16,6 @@ disabled_rules: # rule identifiers to exclude from running
   - opening_brace
   - function_body_length
   - operator_whitespace
-  - nesting
 
 force_try:
   severity: warning # explicitly
