@@ -44,8 +44,8 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     
     func testInitializationWhenImageImported() {
         let image = UIImage(named: "tabBarIconHelp")
-        let builder = GiniVisionDocumentBuilder(data: image!.pngData(), documentSource: .external)
-        let document = builder.build()!
+        let builder = GiniVisionDocumentBuilder(documentSource: .external)
+        let document = builder.build(with: image!.pngData()!)!
         
         componentAPICoordinator = ComponentAPICoordinator(pages: [GiniVisionPage(document: document)],
                                                           configuration: GiniConfiguration(),
@@ -86,8 +86,8 @@ final class ComponentAPICoordinatorTests: XCTestCase {
     fileprivate func loadPDFDocument(withName name: String) -> GiniPDFDocument {
         let path = Bundle.main.url(forResource: name, withExtension: "pdf")
         let data = try? Data(contentsOf: path!)
-        let builder = GiniVisionDocumentBuilder(data: data, documentSource: .external)
-        return (builder.build() as? GiniPDFDocument)!
+        let builder = GiniVisionDocumentBuilder(documentSource: .external)
+        return (builder.build(with: data!) as? GiniPDFDocument)!
     }
     
 }

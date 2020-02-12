@@ -82,8 +82,7 @@ import AVFoundation
     }()
     
     lazy var cameraButtonsViewController: CameraButtonsViewController = {
-        let cameraButtonsViewController =
-            CameraButtonsViewController(isFlashSupported: cameraPreviewViewController.isFlashSupported)
+        let cameraButtonsViewController = CameraButtonsViewController()
         cameraButtonsViewController.delegate = self
         return cameraButtonsViewController
     }()
@@ -177,6 +176,10 @@ import AVFoundation
             
             self.toolTipView?.arrangeViews()
         })
+    }
+    
+    public func setupCamera() {
+        cameraPreviewViewController.setupCamera()
     }
 }
 
@@ -348,6 +351,12 @@ extension CameraViewController {
 // MARK: - CameraPreviewViewControllerDelegate
 
 extension CameraViewController: CameraPreviewViewControllerDelegate {
+    
+    func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
+        
+        cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
+    }
+    
     func cameraPreview(_ viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
         if detectedQRCodeDocument != qrCodeDocument {
             detectedQRCodeDocument = qrCodeDocument

@@ -67,11 +67,46 @@ In order to allow GiniVision library to handle files imported from other apps an
 3. Handle incoming PDFs and images
 ---------------------------------
 
-When your app is requested to handle a PDF or an image your `AppDelegate`’s `application(_:open:options:)` (__Swift__) method is called. You can read the data from the received `URL` into an `Data`.
-Once you have the `Data`, you must build a `GiniVisionDocument` with the `GiniVisionDocumentBuilder`, and then you should validate it to avoid further issues.
+When your app is requested to handle a PDF or an image your `AppDelegate`’s `application(_:open:options:)` (__Swift__) method is called. You can then use the supplied url to create a document as shown below.
+
+In some cases, in particular when the `LSSupportsOpeningDocumentsInPlace` flag is enabled in your `Info.plist` file, reading data directly from the url may fail. For that reason, `GVL` uses the asynchronous `UIDocument` API internally which handles any of the potential security requirements.
 
 In order to determine that the file opened is valid (correct size, correct type and number of pages below the threshold on PDFs), it is necessary to validate it before using it.
 
+GVL v5
+------
+
+```swift
+func application(_ app: UIApplication,
+                 open url: URL,
+                 options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
+
+        // 1. Build the document
+        let documentBuilder = GiniVisionDocumentBuilder(documentSource: .appName(name: sourceApplication))
+        documentBuilder.importMethod = .openWith
+        
+        documentBuilder.build(with: url) { [weak self] (document) in
+            
+            guard let self = self else { return }
+            
+            // 2. Validate the document
+            if let document = document {
+                do {
+                    try GiniVision.validate(document,
+                                            withConfig: self.giniConfiguration)
+                    // Load the GiniVision with the validated document
+                } catch {
+                    // Show an error pointing out that the document is invalid
+                }
+            }
+        }
+
+        return true
+}
+```
+
+GVL v4
+------
 
 ```swift
 func application(_ app: UIApplication,
@@ -79,27 +114,34 @@ func application(_ app: UIApplication,
                  options: [UIApplicationOpenURLOptionsKey: Any] = [:]) -> Bool {
 
         // 1. Read data imported from url
-        let data = try? Data(contentsOf: url)
+        let inputDocument = InputDocument(fileURL: url)
 
-        // 2. Build the document
-        let documentSource = DocumentSource.appName(name: sourceApplication)
-        let documentBuilder = GiniVisionDocumentBuilder(data: data,
-                                                        documentSource: documentSource)
-        documentBuilder.importMethod = .openWith
-        let document = documentBuilder.build()
+	inputDocument.open { [weak self] (success) in
+            
+            guard let self = self else { return }
+            
+            guard let data = inputDocument.data, success else { return }
+            
+            // 2. Build the document
+            let documentBuilder = GiniVisionDocumentBuilder(data: data,
+                                                            documentSource: .appName(name: sourceApplication))
+            documentBuilder.importMethod = .openWith
+            let document = documentBuilder.build()
 
-        // 3. Validate document
-        do {
-            try GiniVision.validate(document,
-                                    withConfig: giniConfiguration)
-            // Load the GiniVision with the validated document
-
-        } catch {
-        	// Show an error ponting out that the document is invalid
+            // 3. Validate document
+            if let document = document {
+                do {
+                    try GiniVision.validate(document,
+                                            withConfig: self.giniConfiguration)
+                    // Load the GiniVision with the validated document
+                } catch {
+                    // Show an error pointing out that the document is invalid
+                }
+            }
         }
 
         return true
-    }
+}
 ```
 
 ### Documentation

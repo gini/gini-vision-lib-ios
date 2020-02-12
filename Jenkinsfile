@@ -13,24 +13,32 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
-        lock('refs/remotes/origin/master') {
-          sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
+        sh '/usr/local/bin/pod install --project-directory=Example/'
+      }
+
+      post {
+        failure {
+
+          /* try to repo update just in case an outdated repo is the cause for the failed build so it's ready for the next */ 
+          lock('refs/remotes/origin/master') {
+            sh '/usr/local/bin/pod repo update'
+          }
         }
       }
     }
     stage('Build ObjC') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Documentation') {
@@ -45,28 +53,13 @@ pipeline {
         sh 'Documentation/deploy-documentation.sh $GIT_USR $GIT_PSW'
       }
     }
-    stage('HockeyApp upload') {
+    stage('Pod Lint') {
       when {
         branch 'develop'
       }
-      environment {
-        HOCKEYAPP_ID = credentials('VisionIOSHockeyAppID')
-        HOCKEYAPP_API_KEY = credentials('VisionIOSHockeyAPIKey')
-      }
-      steps {
-        sh 'rm -rf build'
-        sh 'mkdir build'
-        sh 'scripts/build-number-bump.sh ${HOCKEYAPP_API_KEY} ${HOCKEYAPP_ID}'
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -configuration "In House" archive -archivePath build/GiniVision.xcarchive'
-        sh 'xcodebuild -exportArchive -archivePath build/GiniVision.xcarchive -exportOptionsPlist scripts/exportOptions.plist -exportPath build -allowProvisioningUpdates'
-        step([$class: 'HockeyappRecorder', applications: [[apiToken: env.HOCKEYAPP_API_KEY, downloadAllowed: true, filePath: 'build/Example Swift.ipa', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'NoReleaseNotes'], uploadMethod: [$class: 'VersionCreation', appId: env.HOCKEYAPP_ID]]], debugMode: false, failGracefully: false])
 
-        sh 'rm -rf build'
-      }
-      post {
-        always {
-          sh 'rm Example/Credentials.plist || true'
-        }
+      steps {
+        sh '/usr/local/bin/pod lib lint GiniVision.podspec --sources=https://github.com/gini/gini-podspecs.git,https://github.com/CocoaPods/Specs.git --allow-warnings'
       }
     }
     stage('Release Pod') {

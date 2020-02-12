@@ -60,10 +60,10 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
                 
         if shouldShowOnBoarding() {
             showOnboardingScreen {
-                viewController.cameraPreviewViewController.setupCamera()
+                viewController.setupCamera()
             }
         } else {
-            viewController.cameraPreviewViewController.setupCamera()
+            viewController.setupCamera()
         }
     }
     

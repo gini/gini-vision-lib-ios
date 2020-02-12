@@ -15,7 +15,13 @@ protocol CameraButtonsViewControllerDelegate: class {
 final class CameraButtonsViewController: UIViewController {
     
     weak var delegate: CameraButtonsViewControllerDelegate?
-    fileprivate let isFlashSupported: Bool
+    
+    var isFlashSupported: Bool = false {
+        didSet {
+            flashToggleButtonContainerView.isHidden = !isFlashSupported
+        }
+    }
+    
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate let currentDevice: UIDevice
     fileprivate let captureButtonMargins = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
@@ -112,10 +118,9 @@ final class CameraButtonsViewController: UIViewController {
         return verticalAlignedStackView
     }
     
-    init(giniConfiguration: GiniConfiguration = .shared, isFlashSupported: Bool, currentDevice: UIDevice = .current) {
+    init(giniConfiguration: GiniConfiguration = .shared, currentDevice: UIDevice = .current) {
         self.giniConfiguration = giniConfiguration
         self.currentDevice = currentDevice
-        self.isFlashSupported = isFlashSupported
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -140,7 +145,7 @@ final class CameraButtonsViewController: UIViewController {
                 topVerticalAlignedStackView.addArrangedSubview(capturedImagesStackView)
             }
             
-            if giniConfiguration.flashToggleEnabled && isFlashSupported {
+            if giniConfiguration.flashToggleEnabled {
                 topVerticalAlignedStackView.addArrangedSubview(flashToggleButtonContainerView)
             }
             
@@ -152,7 +157,7 @@ final class CameraButtonsViewController: UIViewController {
                 rightStackView.addArrangedSubview(capturedImagesStackView)
             }
             
-            if giniConfiguration.flashToggleEnabled && isFlashSupported {
+            if giniConfiguration.flashToggleEnabled {
                 if giniConfiguration.multipageEnabled {
                     leftStackView.addArrangedSubview(flashToggleButtonContainerView)
                 } else {
@@ -160,6 +165,8 @@ final class CameraButtonsViewController: UIViewController {
                 }
             }
         }
+        
+        flashToggleButtonContainerView.isHidden = true
         
         addConstraints()
     }
@@ -201,7 +208,7 @@ fileprivate extension CameraButtonsViewController {
         addCaptureButtonConstraints()
         addStackViewConstraints()
         
-        if giniConfiguration.flashToggleEnabled && isFlashSupported {
+        if giniConfiguration.flashToggleEnabled {
             addFlashButtonConstraints()
         }
     }
