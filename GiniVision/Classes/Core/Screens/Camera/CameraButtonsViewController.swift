@@ -166,7 +166,7 @@ final class CameraButtonsViewController: UIViewController {
             }
         }
         
-        flashToggleButtonContainerView.isHidden = true
+        flashToggleButtonContainerView.isHidden = !isFlashSupported
         
         addConstraints()
     }
