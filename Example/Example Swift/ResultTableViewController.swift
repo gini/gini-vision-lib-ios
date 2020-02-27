@@ -8,6 +8,7 @@
 
 import UIKit
 import Gini
+import GiniVision
 
 /**
  Presents a dictionary of results from the analysis process in a table view.
@@ -16,28 +17,52 @@ import Gini
 final class ResultTableViewController: UITableViewController {
     
     /**
-     The result collection from the analysis process.
+     The result from the analysis process.
      */
-    var result: [Extraction] = [] {
+    var result: AnalysisResult? {
+        
         didSet {
-            result.sort(by: { $0.name! < $1.name! })
+            let specificExtractions = result?.extractions.map({ $0.value }).sorted(by: { ($0.name ?? "") < ($1.name ?? "") }) ?? []
+            let lineItems = result?.lineItems ?? []
+            
+            model = [("Specific Extractions", specificExtractions)]
+            
+            var index = 1
+            
+            for lineItem in lineItems {
+                model += [("Line Item \(index)", lineItem.sorted(by: { ($0.name ?? "") < ($1.name ?? "") }))]
+                index += 1
+            }
+            
+            tableView.reloadData()
         }
     }
+    
+    private var model: [(String, [Extraction])] = []
 }
 
 extension ResultTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return model.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return result.count
+        return model[section].1.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let extraction = model[indexPath.section].1[indexPath.item]
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "resultCell", for: indexPath)
-        cell.textLabel?.text = result[indexPath.row].value
-        cell.detailTextLabel?.text = result[indexPath.row].name
+        cell.textLabel?.text = extraction.value
+        cell.detailTextLabel?.text = extraction.name
         return cell
+        
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return model[section].0
     }
 }

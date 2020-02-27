@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol DigitalInvoiceViewControllerDelegate: class {
+    
+    func didFinish(viewController: DigitalInvoiceViewController,
+                   invoice: DigitalInvoice)
+}
+
 class DigitalInvoiceViewController: UIViewController {
 
     var invoice: DigitalInvoice? {
@@ -16,6 +22,12 @@ class DigitalInvoiceViewController: UIViewController {
             payButton.accessibilityLabel = payButtonAccessibilityLabel()
         }
     }
+    
+    weak var delegate: DigitalInvoiceViewControllerDelegate?
+    
+    // TODO: This is to cope with the screen coordinator being inadequate at this point to support the return assistant step and needing a refactor.
+    // Remove ASAP
+    var analysisDelegate: AnalysisDelegate?
     
     var giniConfiguration = GiniConfiguration.shared
     
@@ -91,7 +103,15 @@ class DigitalInvoiceViewController: UIViewController {
         payButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         payButton.layer.shadowOpacity = 0.15
         
+        payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
+        
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: payButtonHeight + margin * 2, right: 0)
+    }
+    
+    @objc func payButtonTapped() {
+        
+        guard let invoice = invoice else { return }
+        delegate?.didFinish(viewController: self, invoice: invoice)
     }
     
     private func payButtonTitle() -> String {
@@ -101,7 +121,7 @@ class DigitalInvoiceViewController: UIViewController {
                                      bundle: Bundle(for: GiniVision.self),
                                      comment: "digital invoice pay button title when the invoice is missing")
         }
-                
+        
         return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle",
                                                                                  comment: "digital invoice pay button title"),
                                                 invoice.numSelected,

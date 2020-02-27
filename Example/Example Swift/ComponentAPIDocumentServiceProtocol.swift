@@ -20,7 +20,7 @@ enum CustomAnalysisError: GiniVisionError {
 }
 
 typealias ComponentAPIUploadDocumentCompletion = (Result<Document, GiniError>) -> Void
-typealias ComponentAPIAnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
+typealias ComponentAPIAnalysisCompletion = (Result<ExtractionResult, GiniError>) -> Void
 
 protocol ComponentAPIDocumentServiceProtocol: class {
     

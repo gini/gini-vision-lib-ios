@@ -182,10 +182,10 @@ extension ComponentAPICoordinator {
         navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
-    fileprivate func showResultsTableScreen(withExtractions extractions: [Extraction]) {
+    fileprivate func showResultsTableScreen(with analysisResult: AnalysisResult) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
-        resultsScreen?.result = extractions
+        resultsScreen?.result = analysisResult
         
         if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
@@ -240,7 +240,7 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func closeComponentAPIFromResults() {
         if let results = resultsScreen?.result {
-            documentService?.sendFeedback(with: results)
+            documentService?.sendFeedback(with: results.extractions.map { $0.value })
         }
         closeComponentAPI()
     }
@@ -325,10 +325,12 @@ extension ComponentAPICoordinator {
     fileprivate func startAnalysis() {
         documentService?.startAnalysis(completion: { result in
             DispatchQueue.main.async { [weak self] in
-                guard let `self` = self else { return }
+                
+                guard let self = self else { return }
+                
                 switch result {
-                case .success(let extractions):
-                    self.handleAnalysis(with: extractions)
+                case .success(let extractionResult):
+                    self.handleAnalysis(with: extractionResult)
                 case .failure(let error):
                     guard error != .requestCancelled else { return }
 
@@ -436,7 +438,7 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         }
         
         if let resultsScreen = fromVC as? ResultTableViewController {
-            documentService?.sendFeedback(with: resultsScreen.result)
+            documentService?.sendFeedback(with: resultsScreen.result?.extractions.map { $0.value } ?? [])
             closeComponentAPI()
         }
         
@@ -679,12 +681,22 @@ extension ComponentAPICoordinator {
 
 extension ComponentAPICoordinator {
     
-    fileprivate func handleAnalysis(with extractions: [Extraction]) {
-        let payFive = ["paymentReference", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasPayFive = extractions.filter { $0.name != nil ? payFive.contains($0.name!) : false }.count > 0
+    fileprivate func handleAnalysis(with extractionResult: ExtractionResult) {
+        let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
+        let hasExtractions = extractionResult.extractions.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
         
-        if hasPayFive {
-            showResultsTableScreen(withExtractions: extractions)
+        if hasExtractions {
+            
+            let images = self.pages.compactMap { $0.document.previewImage }
+            let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: extractionResult.extractions.compactMap {
+                guard let name = $0.name else { return nil }
+                
+                return (name, $0)
+            })
+            
+            let result = AnalysisResult(extractions: extractions, lineItems: extractionResult.lineItems, images: images)
+            
+            showResultsTableScreen(with: result)
         } else {
             showNoResultsScreen()
         }

@@ -12,14 +12,14 @@ class DigitalLineItemViewModelTests: XCTestCase {
     
     let selectedLineItemVM = DigitalLineItemViewModel(lineItem: DigitalInvoice.LineItem(name: "Nike Sportswear Air Max 97 - Sneaker",
                                                                                         quantity: 3,
-                                                                                        price: 7602,
+                                                                                        price: Price(value: 76.02, currencyCode: "eur"),
                                                                                         selectedState: .selected),
                                                       giniConfiguration: GiniConfiguration.shared,
                                                       index: 0)
     
     let deselectedLineItemVM = DigitalLineItemViewModel(lineItem: DigitalInvoice.LineItem(name: "Nike Sportswear INTERNATIONALIST",
                                                                                           quantity: 1,
-                                                                                          price: 22000,
+                                                                                          price: Price(value: 220.00, currencyCode: "eur"),
                                                                                           selectedState: .deselected(reason: .damaged)),
                                                         giniConfiguration: GiniConfiguration.shared,
                                                         index: 0)
@@ -36,22 +36,10 @@ class DigitalLineItemViewModelTests: XCTestCase {
         XCTAssertEqual(deselectedLineItemVM.quantityOrReturnReasonString, "Parcel damaged")
     }
     
-    func testPriceMainUnitString() {
+    func testCheckboxTintColor() {
         
-        XCTAssertEqual(selectedLineItemVM.priceMainUnitString, "€228")
-        XCTAssertEqual(deselectedLineItemVM.priceMainUnitString, "€220")
-    }
-
-    func testPriceFractionalUnitString() {
-        
-        XCTAssertEqual(selectedLineItemVM.priceFractionalUnitString, ".06")
-        XCTAssertEqual(deselectedLineItemVM.priceFractionalUnitString, ".00")
-    }
-    
-    func testCheckboxBackgroundColor() {
-        
-        XCTAssertEqual(selectedLineItemVM.checkboxBackgroundColor, selectedLineItemVM.giniConfiguration.lineItemTintColor)
-        XCTAssertEqual(deselectedLineItemVM.checkboxBackgroundColor, .white)
+        XCTAssertEqual(selectedLineItemVM.checkboxTintColor, selectedLineItemVM.giniConfiguration.lineItemTintColor)
+        XCTAssertEqual(deselectedLineItemVM.checkboxTintColor, .white)
     }
     
     func testEditButtonTintColor() {

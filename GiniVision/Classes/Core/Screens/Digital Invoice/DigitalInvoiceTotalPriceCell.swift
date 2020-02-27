@@ -30,7 +30,7 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
             
             guard let totalPrice = totalPrice else { return }
             
-            let totalPriceString = "€\(totalPrice.string)"
+            guard let totalPriceString = totalPrice.string else { return }
             
             let attributedString =
                 NSMutableAttributedString(string: totalPriceString,

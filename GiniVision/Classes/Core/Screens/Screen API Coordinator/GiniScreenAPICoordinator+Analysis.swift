@@ -81,7 +81,7 @@ extension GiniScreenAPICoordinator: AnalysisDelegate {
     func tryDisplayNoResultsScreen() -> Bool {
         if pages.type == .image {
             DispatchQueue.main.async { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.imageAnalysisNoResultsViewController = self.createImageAnalysisNoResultsScreen()
                 self.screenAPINavigationController.pushViewController(self.imageAnalysisNoResultsViewController!,
                                                                       animated: true)

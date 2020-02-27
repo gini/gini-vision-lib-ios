@@ -170,7 +170,7 @@ class LineItemDetailsViewController: UIViewController {
                                                      comment: "")
         itemPriceTextField.textFont = giniConfiguration.lineItemDetailsContentLabelFont
         itemPriceTextField.textColor = giniConfiguration.lineItemDetailsContentLabelColor
-        itemPriceTextField.prefixText = "€"
+        
         itemPriceTextField.keyboardType = .decimalPad
         itemPriceTextField.delegate = self
         quantityAndItemPriceContainer.addSubview(itemPriceTextField)
@@ -275,6 +275,9 @@ class LineItemDetailsViewController: UIViewController {
         _ = quantityTextField.resignFirstResponder()
         _ = itemPriceTextField.resignFirstResponder()
     }
+}
+
+extension LineItemDetailsViewController {
     
     private func update() {
         
@@ -288,7 +291,9 @@ class LineItemDetailsViewController: UIViewController {
         
         itemNameTextField.text = lineItem.name
         quantityTextField.text = String(lineItem.quantity)
-        itemPriceTextField.text = lineItem.price.string
+        itemPriceTextField.prefixText = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.currencySymbol,
+                                                                                 value: lineItem.price.currencyCode)
+        itemPriceTextField.text = lineItem.price.stringWithoutSymbol
         
         switch lineItem.selectedState {
         case .selected:
@@ -297,19 +302,20 @@ class LineItemDetailsViewController: UIViewController {
             checkboxButton.checkedState = .unchecked
         }
         
-        let totalPriceString = "€\(lineItem.totalPrice.string)"
-        
-        let attributedString =
-            NSMutableAttributedString(string: totalPriceString,
-                                      attributes: [NSAttributedString.Key.foregroundColor: giniConfiguration.lineItemDetailsContentLabelColor,
-                                                   NSAttributedString.Key.font: giniConfiguration.lineItemDetailsTotalPriceMainUnitFont])
-        
-        attributedString.setAttributes([NSAttributedString.Key.foregroundColor: giniConfiguration.lineItemDetailsContentLabelColor,
-                                        NSAttributedString.Key.baselineOffset: 5,
-                                        NSAttributedString.Key.font: giniConfiguration.lineItemDetailsTotalPriceFractionalUnitFont],
-                                       range: NSRange(location: totalPriceString.count - 3, length: 3))
-        
-        totalPriceLabel.attributedText = attributedString
+        if let totalPriceString = lineItem.totalPrice.string {
+            
+            let attributedString =
+                NSMutableAttributedString(string: totalPriceString,
+                                          attributes: [NSAttributedString.Key.foregroundColor: giniConfiguration.lineItemDetailsContentLabelColor,
+                                                       NSAttributedString.Key.font: giniConfiguration.lineItemDetailsTotalPriceMainUnitFont])
+            
+            attributedString.setAttributes([NSAttributedString.Key.foregroundColor: giniConfiguration.lineItemDetailsContentLabelColor,
+                                            NSAttributedString.Key.baselineOffset: 5,
+                                            NSAttributedString.Key.font: giniConfiguration.lineItemDetailsTotalPriceFractionalUnitFont],
+                                           range: NSRange(location: totalPriceString.count - 3, length: 3))
+            
+            totalPriceLabel.attributedText = attributedString
+        }
     }
 }
 
@@ -317,12 +323,14 @@ extension LineItemDetailsViewController {
     
     private func lineItemFromFields() -> DigitalInvoice.LineItem? {
         
-        guard let lineItem = lineItem else { return nil }
+        guard var lineItem = lineItem else { return nil }
+        guard let priceValue = Decimal(string: itemPriceTextField.text ?? "0") else { return nil }
         
-        return DigitalInvoice.LineItem(name: itemNameTextField.text,
-                                               quantity: Int(quantityTextField.text ?? "") ?? 0,
-                                               price: Price(string: itemPriceTextField.text ?? "0") ?? Price(valueInFractionalUnit: 0),
-                                               selectedState: lineItem.selectedState)
+        lineItem.name = itemNameTextField.text
+        lineItem.quantity = Int(quantityTextField.text ?? "") ?? 0
+        lineItem.price = Price(value: priceValue, currencyCode: lineItem.price.currencyCode)
+        
+        return lineItem
     }
 }
 

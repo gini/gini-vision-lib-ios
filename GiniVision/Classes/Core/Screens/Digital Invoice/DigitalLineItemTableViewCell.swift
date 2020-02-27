@@ -35,14 +35,8 @@ struct DigitalLineItemViewModel {
         return giniConfiguration.digitalInvoiceLineItemQuantityOrReturnReasonFont
     }
     
-    var totalPriceMainUnitString: String {
-        
-        return lineItem.totalPrice.mainUnitComponentString
-    }
-    
-    var totalPriceFractionalUnitString: String {
-        
-        return lineItem.totalPrice.fractionalUnitComponentString
+    var totalPriceString: String? {
+        return lineItem.totalPrice.string
     }
     
     var checkboxTintColor: UIColor {
@@ -138,8 +132,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var quantityOrReturnReasonLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
-    @IBOutlet weak var priceMainUnitLabel: UILabel!
-    @IBOutlet weak var priceFractionalUnitLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     
     var viewModel: DigitalLineItemViewModel? {
         didSet {
@@ -147,8 +140,25 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             nameLabel.text = viewModel?.name
             quantityOrReturnReasonLabel.text = viewModel?.quantityOrReturnReasonString
             quantityOrReturnReasonLabel.font = viewModel?.quantityOrReturnReasonFont
-            priceMainUnitLabel.text = viewModel?.totalPriceMainUnitString
-            priceFractionalUnitLabel.text = viewModel?.totalPriceFractionalUnitString
+            
+            if let viewModel = viewModel, let priceString = viewModel.totalPriceString {
+                
+                let attributedString =
+                    NSMutableAttributedString(string: priceString,
+                                              attributes: [NSAttributedString.Key.foregroundColor: viewModel.primaryTextColor,
+                                                           NSAttributedString.Key.font: viewModel.priceMainUnitFont])
+                
+                attributedString.setAttributes([NSAttributedString.Key.foregroundColor: viewModel.primaryTextColor,
+                                                NSAttributedString.Key.baselineOffset: 6,
+                                                NSAttributedString.Key.font: viewModel.priceFractionalUnitFont],
+                                               range: NSRange(location: priceString.count - 3, length: 3))
+                
+                priceLabel.attributedText = attributedString
+                let format = NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.total.accessibilitylabel",
+                                                              comment: "")
+                priceLabel.accessibilityLabel = String.localizedStringWithFormat(format, priceString)
+            }
+            
             checkboxButton.tintColor = viewModel?.checkboxTintColor
             
             editButton.setTitleColor(viewModel?.editButtonTintColor ?? .black, for: .normal)
@@ -160,10 +170,6 @@ class DigitalLineItemTableViewCell: UITableViewCell {
                                                   comment: ""), for: .normal)
             
             nameLabel.textColor = viewModel?.primaryTextColor
-            priceMainUnitLabel.textColor = viewModel?.primaryTextColor
-            priceMainUnitLabel.font = viewModel?.priceMainUnitFont
-            priceFractionalUnitLabel.textColor = viewModel?.primaryTextColor
-            priceFractionalUnitLabel.font = viewModel?.priceFractionalUnitFont
 
             nameLabel.font = viewModel?.nameLabelFont
             

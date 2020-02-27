@@ -154,7 +154,9 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
             }
             
             AnalysisResult *analysisResult = [[AnalysisResult alloc] initWithExtractions:extractions
+                                                                               lineItems:nil
                                                                                   images:[[NSArray alloc] init]];
+            
             self->_result = analysisResult;
             userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: self->_result, GINIAnalysisManagerDocumentUserInfoKey: self->_document};
             notificationName = GINIAnalysisManagerDidReceiveResultNotification;

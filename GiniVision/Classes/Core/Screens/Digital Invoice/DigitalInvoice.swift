@@ -6,53 +6,27 @@
 //
 
 import Foundation
+import Gini
 
 struct DigitalInvoice {
-        
-    struct LineItem {
-        
-        enum SelectedState {
-            
-            enum Reason: String, CaseIterable {
-                case looksDifferent
-                case poorQualityOrFaulty
-                case doesNotFit
-                case doesNotSuit
-                case wrongItem
-                case damaged
-                case arrivedTooLate
-            }
-            
-            case selected
-            case deselected(reason: Reason)
-        }
-        
-        var name: String?
-        var quantity: Int
-        var price: Price
-        var selectedState: SelectedState
-        
-        var totalPrice: Price {
-            return price * quantity
-        }
-    }
     
-    var recipientName: String?
-    var iban: String?
-    var reference: String?
+    private let _extractionResult: ExtractionResult
+    var lineItems: [LineItem]
     
-    var total: Price {
+    var total: Price? {
         
-        return lineItems.reduce(Price.zero) { (current, lineItem) -> Price in
+        guard let firstLineItem = lineItems.first else { return nil }
+        
+        return lineItems.reduce(Price(value: 0, currencyCode: firstLineItem.price.currencyCode)) { (current, lineItem) -> Price? in
+            
+            guard let current = current else { return nil }
             
             switch lineItem.selectedState {
-            case .selected: return current + lineItem.totalPrice
+            case .selected: return try? current + lineItem.totalPrice
             case .deselected: return current
-            }            
+            }
         }
     }
-    
-    var lineItems: [LineItem]
 }
 
 extension DigitalInvoice.LineItem.SelectedState.Reason {
@@ -96,5 +70,40 @@ extension DigitalInvoice {
         return lineItems.reduce(Int(0)) { (partial, lineItem) -> Int in
             return partial + lineItem.quantity
         }
+    }
+}
+
+extension DigitalInvoice {
+    
+    enum DigitalInvoiceParsingException: Error {
+        case lineItemsMissing
+        case nameMissing
+        case quantityMissing
+        case priceMissing
+        case articleNumberMissing
+        case mixedCurrenciesInOneInvoice
+        case cannotParseQuantity(string: String)
+        case cannotParsePrice(string: String)
+    }
+    
+    init(extractionResult: ExtractionResult) throws {
+        
+        self._extractionResult = extractionResult
+        
+        guard let extractedLineItems = extractionResult.lineItems else { throw DigitalInvoiceParsingException.lineItemsMissing }
+        
+        lineItems = try extractedLineItems.map { try LineItem(extractions: $0) }
+        
+        if let firstLineItem = lineItems.first {
+            for lineItem in lineItems where lineItem.price.currencyCode != firstLineItem.price.currencyCode {
+                throw DigitalInvoiceParsingException.mixedCurrenciesInOneInvoice
+            }
+        }
+    }
+    
+    var extractionResult: ExtractionResult {
+        
+        return ExtractionResult(extractions: _extractionResult.extractions,
+                                lineItems: lineItems.map { $0.extractions })
     }
 }

@@ -87,26 +87,18 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Zo-YD-h0B">
                                     <rect key="frame" x="0.0" y="48" width="66" height="74"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" text="€89" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSz-xu-Rcx">
-                                            <rect key="frame" x="13" y="36.5" width="37.5" height="21.5"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" text="€89.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSz-xu-Rcx">
+                                            <rect key="frame" x="0.5" y="36.5" width="65.5" height="21.5"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text=".95" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YYe-wo-jgR">
-                                            <rect key="frame" x="50.5" y="38.5" width="15.5" height="11"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="YYe-wo-jgR" secondAttribute="trailing" id="6wR-qg-BoF"/>
-                                        <constraint firstItem="YYe-wo-jgR" firstAttribute="leading" secondItem="hSz-xu-Rcx" secondAttribute="trailing" id="Ac0-B5-t8d"/>
+                                        <constraint firstAttribute="trailing" secondItem="hSz-xu-Rcx" secondAttribute="trailing" id="11P-aj-X6r"/>
                                         <constraint firstAttribute="bottom" secondItem="hSz-xu-Rcx" secondAttribute="bottom" constant="16" id="X7Q-ip-7vi"/>
                                         <constraint firstItem="hSz-xu-Rcx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5Zo-YD-h0B" secondAttribute="leading" id="aQe-ti-7Nu"/>
-                                        <constraint firstItem="hSz-xu-Rcx" firstAttribute="top" secondItem="YYe-wo-jgR" secondAttribute="top" constant="-2" id="dRy-eO-TE0"/>
                                     </constraints>
                                 </view>
                             </subviews>
@@ -153,8 +145,7 @@
                 <outlet property="checkboxButton" destination="6mq-w7-Gmk" id="fnh-0f-Chc"/>
                 <outlet property="editButton" destination="ogc-mD-pz6" id="oiL-SO-VZw"/>
                 <outlet property="nameLabel" destination="VNC-0y-0No" id="Pn7-2c-pox"/>
-                <outlet property="priceFractionalUnitLabel" destination="YYe-wo-jgR" id="OTq-3y-W3V"/>
-                <outlet property="priceMainUnitLabel" destination="hSz-xu-Rcx" id="RAF-yd-sbb"/>
+                <outlet property="priceLabel" destination="hSz-xu-Rcx" id="FYf-Yi-iXH"/>
                 <outlet property="quantityOrReturnReasonLabel" destination="dxP-cO-dwE" id="Ri7-6R-39p"/>
                 <outlet property="shadowCastView" destination="W0B-Jq-NI4" id="iia-id-Obi"/>
             </connections>
