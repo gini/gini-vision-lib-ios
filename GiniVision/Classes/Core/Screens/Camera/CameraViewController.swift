@@ -170,7 +170,7 @@ import AVFoundation
         super.viewWillTransition(to: size, with: coordinator)
         
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let `self` = self else {
+            guard let self = self else {
                 return 
             }
             
@@ -290,7 +290,7 @@ extension CameraViewController {
 
     fileprivate func showPopup(forQRDetected qrDocument: GiniQRCodeDocument, didTapDone: @escaping () -> Void) {
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             
             let newQRCodePopup = QRCodeDetectedPopupView(parent: self.view,
                                                          refView: self.cameraPreviewViewController.view,
@@ -450,7 +450,7 @@ extension CameraViewController {
                                   distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
         toolTipView?.willDismiss = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.opaqueView?.removeFromSuperview()
             self.cameraButtonsViewController.captureButton.isEnabled = true
         }

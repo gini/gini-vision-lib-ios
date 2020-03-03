@@ -186,7 +186,7 @@ import UIKit
     public func showError(with message: String, action: @escaping () -> Void ) {
         errorView.textLabel.text = message
         errorView.userAction = NoticeAction(title: NoticeActionType.retry.title, action: { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.errorView.hide(true, completion: action)
         })
         errorView.show()

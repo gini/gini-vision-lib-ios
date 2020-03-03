@@ -114,7 +114,7 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         
         // Current onboarding page needs to be centered during transition (after ScrollView changes its frame)
         coordinator.animate(alongsideTransition: { [weak self] _ in
-            guard let `self` = self else {
+            guard let self = self else {
                 return
             }
             (self.contentController as? OnboardingViewController)?.centerTo(page: self.pageControl.currentPage)

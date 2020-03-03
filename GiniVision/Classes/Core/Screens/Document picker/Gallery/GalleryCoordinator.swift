@@ -157,7 +157,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
             deniedHandler(FilePickerError.photoLibraryAccessDenied)
         case .notDetermined:
             PHPhotoLibrary.requestAuthorization { [weak self] status in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 DispatchQueue.main.async {
                     if status == PHAuthorizationStatus.authorized {
                         self.galleryManager.reloadAlbums()
@@ -208,14 +208,14 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
                      at index: IndexPath) {
         viewController.addToDownloadingItems(index: index)
         galleryManager.fetchImageData(from: asset) { [weak self, weak viewController] data in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             if let data = data {
                 viewController?.removeFromDownloadingItems(index: index)
                 viewController?.selectCell(at: index)
                 self.addSelected(asset, withData: data)
             } else {
                 self.galleryManager.fetchRemoteImageData(from: asset) { [weak self] data in
-                    guard let `self` = self else { return }
+                    guard let self = self else { return }
                     if let data = data {
                         viewController?.removeFromDownloadingItems(index: index)
                         viewController?.selectCell(at: index)
