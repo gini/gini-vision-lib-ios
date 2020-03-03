@@ -12,6 +12,9 @@ disabled_rules: # rule identifiers to exclude from running
   - large_tuple
   - identifier_name
   - nesting
+  - weak_delegate
+  - colon
+  - opening_brace
 
 force_cast: warning # implicitly
 force_try:

@@ -21,6 +21,7 @@ typealias OnboardingContainerCompletionBlock = () -> Void
 final class OnboardingContainerViewController: UIViewController, ContainerViewController {
     
     let giniConfiguration: GiniConfiguration
+    public weak var trackingDelegate: OnboardingScreenTrackingDelegate?
     fileprivate let backgroundAlpha: CGFloat = 0.25
     fileprivate var completionBlock: OnboardingContainerCompletionBlock?
 
@@ -78,8 +79,10 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     }()
     
     init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared,
+         trackingDelegate: OnboardingScreenTrackingDelegate? = nil,
          withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
         self.giniConfiguration = giniConfiguration
+        self.trackingDelegate = trackingDelegate
         self.completionBlock = completion
         super.init(nibName: nil, bundle: nil)
     }
@@ -105,8 +108,16 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         title = .localized(resource: NavigationBarStrings.onboardingTitle)
         view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
         
+        trackingDelegate?.onOnboardingScreenEvent(event: Event(type: .start))
+        
         // Add content to container view
         displayContent(contentController)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        trackingDelegate?.onOnboardingScreenEvent(event: Event(type: .finish))
     }
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {

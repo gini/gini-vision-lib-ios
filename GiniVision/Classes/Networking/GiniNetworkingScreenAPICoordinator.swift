@@ -44,7 +44,8 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          resultsDelegate: GiniVisionResultsDelegate,
          giniConfiguration: GiniConfiguration,
          documentMetadata: Document.Metadata?,
-         api: APIDomain) {
+         api: APIDomain,
+         trackingDelegate: GiniVisionTrackingDelegate?) {
         
         let sdk = GiniSDK
             .Builder(client: client, api: api)
@@ -59,6 +60,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                    giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
+        self.trackingDelegate = trackingDelegate
     }
     
     init(client: Client,

@@ -74,6 +74,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         cameraViewController.delegate = self
+        cameraViewController.trackingDelegate = trackingDelegate
         cameraViewController.title = .localized(resource: NavigationBarStrings.cameraTitle)
         cameraViewController.view.backgroundColor = giniConfiguration.backgroundColor
         
@@ -123,7 +124,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
         
-        let vc = OnboardingContainerViewController { [weak self] in
+        let vc = OnboardingContainerViewController(trackingDelegate: trackingDelegate) { [weak self] in
             
             guard let cameraViewController = self?.cameraViewController else { return }
             

@@ -67,6 +67,7 @@ import AVFoundation
      The object that acts as the delegate of the camera view controller.
      */
     public weak var delegate: CameraViewControllerDelegate?
+    public weak var trackingDelegate: CameraScreenTrackingDelegate?
     
     var opaqueView: UIView?
     var toolTipView: ToolTipView?
@@ -379,6 +380,7 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
         case .fileImport:
             showImportFileSheet()
         case .capture:
+            trackingDelegate?.onCameraScreenEvent(event: Event(type: .takePicture))
             cameraPreviewViewController.captureImage(completion: cameraDidCapture)
         case .imagesStack:
             delegate?.cameraDidTapMultipageReviewButton(self)
