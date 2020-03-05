@@ -26,7 +26,9 @@ public protocol GiniVisionTrackingDelegate:
 Event types relating to onboarding.
 */
 public enum OnboardingScreenEventType: String {
+    /// Onboarding started
     case start
+    /// User completed onboarding
     case finish
 }
 
@@ -42,8 +44,11 @@ public protocol OnboardingScreenTrackingDelegate: class {
 Event types relating to the camera screen.
 */
 public enum CameraScreenEventType: String {
+    /// User closed the camera screen
     case exit
+    /// User tapped "Help" on the camera screen
     case help
+    /// User took a picture
     case takePicture
 }
 
@@ -59,7 +64,9 @@ public protocol CameraScreenTrackingDelegate: class {
 Event types relating to the review screen.
 */
 public enum ReviewScreenEventType: String {
+    /// User went back from the review screen
     case back
+    /// User advanced from the review screen
     case next
 }
 
@@ -75,8 +82,11 @@ public protocol ReviewScreenTrackingDelegate: class {
 Event types relating to the analysis screen.
 */
 public enum AnalysisScreenEventType: String {
+    /// User canceled the process during analysis
     case cancel
+    /// The analysis ended with an error. The error message is supplied under the "message" key.
     case error
+    /// The user decided to retry after an analysis error.
     case retry
 }
 

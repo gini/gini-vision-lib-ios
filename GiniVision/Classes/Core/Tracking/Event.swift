@@ -13,7 +13,10 @@ dictionary for additional related data.
 */
 public struct Event<T: RawRepresentable> where T.RawValue == String {
     
+    /// Type of the event.
     public let type: T
+    
+    /// Additional information carried by the event.
     public let info: [String : String]?
     
     init(type: T, info: [String : String]? = nil) {
