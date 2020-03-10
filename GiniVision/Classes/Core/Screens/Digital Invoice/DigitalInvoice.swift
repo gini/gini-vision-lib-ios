@@ -29,26 +29,11 @@ struct DigitalInvoice {
     }
 }
 
-extension DigitalInvoice.LineItem.SelectedState.Reason {
+extension DigitalInvoice.LineItem.SelectedState.Reason: ExpressibleByStringLiteral {
     
-    var displayString: String {
+    public init(stringLiteral value: String) {
         
-        switch self {
-        case .looksDifferent: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.looksdifferent",
-                                                       bundle: Bundle(for: GiniVision.self), comment: "")
-        case .poorQualityOrFaulty: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.poorqualityorfaulty",
-                                                            bundle: Bundle(for: GiniVision.self), comment: "")
-        case .doesNotFit: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.doesnotfit",
-                                                   bundle: Bundle(for: GiniVision.self), comment: "")
-        case .doesNotSuit: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.doesnotsuit",
-                                                    bundle: Bundle(for: GiniVision.self), comment: "")
-        case .wrongItem: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.wrongitem",
-                                                  bundle: Bundle(for: GiniVision.self), comment: "")
-        case .damaged: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.damaged",
-                                                bundle: Bundle(for: GiniVision.self), comment: "")
-        case .arrivedTooLate: return NSLocalizedString("ginivision.digitalinvoice.deselectreason.arrivedtoolate",
-                                                       bundle: Bundle(for: GiniVision.self), comment: "")
-        }
+        self = .init(displayString: NSLocalizedString(value, bundle: Bundle(for: GiniVision.self), comment: ""))
     }
 }
 

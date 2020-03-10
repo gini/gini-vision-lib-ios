@@ -19,7 +19,7 @@ class DeselectLineItemActionSheet {
                                                                        comment: ""),
                                             preferredStyle: .actionSheet)
         
-        for reason in DigitalInvoice.LineItem.SelectedState.Reason.allCases {
+        for reason in DigitalInvoice.LineItem.SelectedState.Reason.allReasons {
             
             actionSheet.addAction(UIAlertAction(title: reason.displayString,
                                                 style: .default,
