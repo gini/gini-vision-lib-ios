@@ -74,6 +74,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
     func createCameraViewController() -> CameraViewController {
         let cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         cameraViewController.delegate = self
+        cameraViewController.trackingDelegate = trackingDelegate
         cameraViewController.title = .localized(resource: NavigationBarStrings.cameraTitle)
         cameraViewController.view.backgroundColor = giniConfiguration.backgroundColor
         
@@ -123,7 +124,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
         
-        let vc = OnboardingContainerViewController { [weak self] in
+        let vc = OnboardingContainerViewController(trackingDelegate: trackingDelegate) { [weak self] in
             
             guard let cameraViewController = self?.cameraViewController else { return }
             
@@ -285,20 +286,20 @@ extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator: UploadDelegate {
     func uploadDidComplete(for document: GiniVisionDocument) {
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.update(document, withError: nil, isUploaded: true)
         }
     }
     
     func uploadDidFail(for document: GiniVisionDocument, with error: Error) {
         DispatchQueue.main.async { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.update(document, withError: error, isUploaded: false)
             
             if document.type != .image || !self.giniConfiguration.multipageEnabled {
                 guard let error = error as? GiniVisionError else { return }
                 self.displayError(withMessage: error.message, andAction: { [weak self] in
-                    guard let `self` = self else { return }
+                    guard let self = self else { return }
                     self.didCaptureAndValidate(document)
                 })
             }

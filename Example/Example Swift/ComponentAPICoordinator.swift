@@ -280,7 +280,7 @@ extension ComponentAPICoordinator {
                             didFail: @escaping ( Error) -> Void) {
         self.documentService?.upload(document: page.document) { result in
             DispatchQueue.main.async { [weak self] in
-                guard let `self` = self, let index = self.pages
+                guard let self = self, let index = self.pages
                     .index(of: page.document) else { return }
                 switch result {
                 case .success:
@@ -325,7 +325,7 @@ extension ComponentAPICoordinator {
     fileprivate func startAnalysis() {
         documentService?.startAnalysis(completion: { result in
             DispatchQueue.main.async { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 switch result {
                 case .success(let extractions):
                     self.handleAnalysis(with: extractions)
@@ -348,7 +348,7 @@ extension ComponentAPICoordinator {
                                            action: @escaping () -> Void) {
         if analysisScreen != nil {
             self.analysisScreen?.showError(with: message) { [weak self] in
-                guard let `self` = self else { return }
+                guard let self = self else { return }
                 self.analysisErrorAndAction = nil
                 action()
             }
