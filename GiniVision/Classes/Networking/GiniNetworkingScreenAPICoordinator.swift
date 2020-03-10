@@ -136,11 +136,11 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
 
 extension GiniNetworkingScreenAPICoordinator {
     
-    @objc func showDigitalInvoiceScreen(extractionResult: ExtractionResult, analysisDelegate: AnalysisDelegate) throws {
+    func showDigitalInvoiceScreen(digitalInvoice: DigitalInvoice, analysisDelegate: AnalysisDelegate) {
     
         let digitalInvoiceViewController = DigitalInvoiceViewController()
         digitalInvoiceViewController.giniConfiguration = giniConfiguration
-        digitalInvoiceViewController.invoice = try DigitalInvoice(extractionResult: extractionResult)
+        digitalInvoiceViewController.invoice = digitalInvoice
         digitalInvoiceViewController.delegate = self
         digitalInvoiceViewController.analysisDelegate = analysisDelegate
         
@@ -154,8 +154,10 @@ extension GiniNetworkingScreenAPICoordinator {
             case .success(let extractionResult):
                 
                 DispatchQueue.main.async {
+                    
                     do {
-                        try self.showDigitalInvoiceScreen(extractionResult: extractionResult, analysisDelegate: networkDelegate)
+                        let digitalInvoice = try DigitalInvoice(extractionResult: extractionResult)
+                        self.showDigitalInvoiceScreen(digitalInvoice: digitalInvoice, analysisDelegate: networkDelegate)
                     } catch {
                         self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
                     }
