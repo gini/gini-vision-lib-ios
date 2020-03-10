@@ -150,7 +150,7 @@ extension CaptureSuggestionsView {
     
     func start(after seconds: TimeInterval = 4) {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: { [weak self] in
-            guard let `self` = self, let superview = self.superview else { return }
+            guard let self = self, let superview = self.superview else { return }
             self.bottomConstraint.constant = 0
             self.alpha = 1
             UIView.animate(withDuration: 0.5, animations: {
@@ -180,7 +180,7 @@ extension CaptureSuggestionsView {
         UIView.animate(withDuration: 0.5, delay: delay, options: [UIView.AnimationOptions.curveEaseInOut], animations: {
             self.layoutIfNeeded()
         }, completion: {[weak self] _ in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.changeView(toState: nextState)
         })
     }

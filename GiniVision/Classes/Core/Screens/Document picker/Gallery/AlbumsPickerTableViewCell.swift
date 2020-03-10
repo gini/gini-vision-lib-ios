@@ -96,7 +96,7 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
         let asset = album.assets[album.assets.count - 1]
         galleryManager.fetchImage(from: asset,
                                   imageQuality: .thumbnail) {[weak self] image in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.albumThumbnailView.image = image
         }
     }
