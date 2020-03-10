@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GiniVision Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Class/GiniVision" class="dashAnchor"></a>
+
+    <a title="GiniVision Class Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+        <img class="logo-icon" src="../img/logo.png"/>
+    
+        </a>
+        
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/gini/gini-vision-lib-ios">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">GiniVision Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      GiniVision Class Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Documentation.html">Documentation</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../installation.html">Installation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../integration.html">Integration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../integration-in-a-xamarin-project.html">Integration in a Xamarin Project</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../changelog.html">Changelog</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../license.html">License</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Guides.html">Guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../customization-guide.html">Customization guide</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../open-with-guide.html">Open with guide</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../import-pdfs-and-images-guide.html">Import PDFs and images guide</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../qr-code-scanning-guide.html">QR Code scanning guide</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../event-tracking-guide.html">Event tracking guide</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Migration guides.html">Migration guides</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../updating-to-50.html">Updating to 5.0</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../updating-to-40.html">Updating to 4.0</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../updating-to-32.html">Updating to 3.2</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/AnalysisViewController.html">AnalysisViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/AnalysisResult.html">AnalysisResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CameraViewController.html">CameraViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CustomDocumentValidationError.html">CustomDocumentValidationError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/CustomDocumentValidationResult.html">CustomDocumentValidationResult</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/DocumentPickerCoordinator.html">DocumentPickerCoordinator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniConfiguration.html">GiniConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniConfiguration/GiniVisionImportFileTypes.html">– GiniVisionImportFileTypes</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniImageDocument.html">GiniImageDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniPDFDocument.html">GiniPDFDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniQRCodeDocument.html">GiniQRCodeDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniVision.html">GiniVision</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniVisionDocumentBuilder.html">GiniVisionDocumentBuilder</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniVisionDocumentValidator.html">GiniVisionDocumentValidator</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/HelpMenuViewController.html">HelpMenuViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/HelpMenuViewController/Item.html">– Item</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ImageAnalysisNoResultsViewController.html">ImageAnalysisNoResultsViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/MultipageReviewViewController.html">MultipageReviewViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/OnboardingPage.html">OnboardingPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/OnboardingViewController.html">OnboardingViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ReviewViewController.html">ReviewViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/AnalysisError.html">AnalysisError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CameraError.html">CameraError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/DocumentImportMethod.html">DocumentImportMethod</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/DocumentPickerType.html">DocumentPickerType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/DocumentSource.html">DocumentSource</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/DocumentValidationError.html">DocumentValidationError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/FilePickerError.html">FilePickerError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/GiniVisionDocumentType.html">GiniVisionDocumentType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ImageAnalysisNoResultsStrings.html">ImageAnalysisNoResultsStrings</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ImageAssetsStrings.html">ImageAssetsStrings</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/NoticeActionType.html">NoticeActionType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/OpaqueViewStyle.html">OpaqueViewStyle</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ReviewError.html">ReviewError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/OnboardingScreenEventType.html">OnboardingScreenEventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/CameraScreenEventType.html">CameraScreenEventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ReviewScreenEventType.html">ReviewScreenEventType</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/AnalysisScreenEventType.html">AnalysisScreenEventType</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Array.html">Array</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Collection.html">Collection</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/AnalysisDelegate.html">AnalysisDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CameraViewControllerDelegate.html">CameraViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/Diffable.html">Diffable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/DocumentPickerCoordinatorDelegate.html">DocumentPickerCoordinatorDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GiniLogger.html">GiniLogger</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GiniVisionError.html">GiniVisionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/HelpMenuViewControllerDelegate.html">HelpMenuViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/MultipageReviewViewControllerDelegate.html">MultipageReviewViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ReviewViewControllerDelegate.html">ReviewViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/UploadDelegate.html">UploadDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols.html#/s:10GiniVision0aB16TrackingDelegateP">GiniVisionTrackingDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/OnboardingScreenTrackingDelegate.html">OnboardingScreenTrackingDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/CameraScreenTrackingDelegate.html">CameraScreenTrackingDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ReviewScreenTrackingDelegate.html">ReviewScreenTrackingDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/AnalysisScreenTrackingDelegate.html">AnalysisScreenTrackingDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/GiniVisionFont.html">GiniVisionFont</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/GiniVisionPage.html">GiniVisionPage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Event.html">Event</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Typealiases.html#/s:10GiniVision0aB15NetworkDelegatea">GiniVisionNetworkDelegate</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content">
+            <h1>GiniVision</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">GiniVision</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>Convenience class to interact with the Gini Vision Library.</p>
+
+<p>The Gini Vision Library provides views for capturing, reviewing and analysing documents.</p>
+
+<p>By integrating this library in your application you can allow your users to easily take a picture of
+a document, review it and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.</p>
+
+<p>The Gini Vision Library can be integrated in two ways, either by using the <strong>Screen API</strong> or
+the <strong>Component API</strong>. The Screen API provides a fully pre-configured navigation controller for
+easy integration, while the Component API provides single view controllers for advanced
+integration with more freedom for customization.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    When using the Component API we advise you to use a similar flow as suggested in the
+Screen API. Use the <code><a href="../Classes/CameraViewController.html">CameraViewController</a></code> as an entry point with the <code><a href="../Classes/OnboardingViewController.html">OnboardingViewController</a></code> presented on
+top of it. After capturing let the user review the document with the <code><a href="../Classes/ReviewViewController.html">ReviewViewController</a></code> and finally present
+the <code><a href="../Classes/AnalysisViewController.html">AnalysisViewController</a></code> while the user waits for the analysis results.
+
+</div>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cm)setConfiguration:"></a>
+                    <a name="//apple_ref/swift/Method/setConfiguration(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cm)setConfiguration:">setConfiguration(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sets a configuration which is used to customize the look and feel of the Gini Vision Library,
+for example to change texts and colors displayed to the user.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">setConfiguration</span><span class="p">(</span><span class="n">_</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:importedDocuments:"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withDelegate:importedDocuments:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:importedDocuments:">viewController(withDelegate:importedDocuments:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a view controller which will handle the analysis process.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Screen API only.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">importedDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An instance conforming to the <code><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></code> protocol.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>importedDocuments</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Documents that come from a source different than <code><a href="../Classes/CameraViewController.html">CameraViewController</a></code>.
+There should be either images or one PDF, and they should be validated before calling this method.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A presentable view controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:importedDocument:"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withDelegate:importedDocument:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:importedDocument:">viewController(withDelegate:importedDocument:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a view controller which will handle the analysis process.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Screen API only.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">importedDocument</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An instance conforming to the <code><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></code> protocol.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>importedDocument</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Documents that come from a source different than CameraViewController.
+There should be either images or one PDF, and they should be validated before calling this method.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A presentable view controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:withConfiguration:importedDocument:"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withDelegate:withConfiguration:importedDocument:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cm)viewControllerWithDelegate:withConfiguration:importedDocument:">viewController(withDelegate:withConfiguration:importedDocument:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a view controller which will handle the analysis process.
+Allows to set a custom configuration to change the look and feel of the Gini Vision Library.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Screen API only.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withDelegate</span> <span class="nv">delegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></span><span class="p">,</span>
+                                 <span class="n">withConfiguration</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
+                                 <span class="nv">importedDocument</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>delegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An instance conforming to the <code><a href="../Protocols/GiniVisionDelegate.html">GiniVisionDelegate</a></code> protocol.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>importedDocument</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Documents that come from a source different than CameraViewController.
+There should be either images or one PDF, and they should be validated before calling this method.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A presentable view controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cpy)versionString"></a>
+                    <a name="//apple_ref/swift/Variable/versionString" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cpy)versionString">versionString</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the current version of the Gini Vision Library. 
+If there is an error retrieving the version the returned value will be an empty string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">versionString</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@GiniVision@objc(cs)GiniVision(cm)validate:withConfig:error:"></a>
+                    <a name="//apple_ref/swift/Method/validate(_:withConfig:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@GiniVision@objc(cs)GiniVision(cm)validate:withConfig:error:">validate(_:withConfig:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Validates a <code><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></code> with a given <code><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></code>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <code><a href="../Enums/DocumentValidationError.html">DocumentValidationError</a></code> if there was an error during the validation.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">validate</span><span class="p">(</span><span class="n">_</span> <span class="nv">document</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">,</span>
+                           <span class="n">withConfig</span> <span class="nv">giniConfiguration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVisionAAC14viewController10withClient17importedDocuments13configuration15resultsDelegate16documentMetadata3api08trackingK0So06UIViewD0C0A00F0V_SayAA0aB8Document_pGSgAA0A13ConfigurationCAA0ab7ResultsK0_pAM0Q0V0M0VSgAM9APIDomainOAA0ab8TrackingK0_pSgtFZ"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:documentMetadata:api:trackingDelegate:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVisionAAC14viewController10withClient17importedDocuments13configuration15resultsDelegate16documentMetadata3api08trackingK0So06UIViewD0C0A00F0V_SayAA0aB8Document_pGSgAA0A13ConfigurationCAA0ab7ResultsK0_pAM0Q0V0M0VSgAM9APIDomainOAA0ab8TrackingK0_pSgtFZ">viewController(withClient:importedDocuments:configuration:resultsDelegate:documentMetadata:api:trackingDelegate:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a view controller which will handle the analysis process.
+It&rsquo;s the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
+all screens and transitions out of the box, including the networking.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Screen API only.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withClient</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">Client</span><span class="p">,</span>
+                                 <span class="nv">importedDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                                 <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
+                                 <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">documentMetadata</span><span class="p">:</span> <span class="kt">Document</span><span class="o">.</span><span class="kt">Metadata</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                                 <span class="nv">api</span><span class="p">:</span> <span class="kt">APIDomain</span> <span class="o">=</span> <span class="o">.</span><span class="k">default</span><span class="p">,</span>
+                                 <span class="nv">trackingDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols.html#/s:10GiniVision0aB16TrackingDelegateP">GiniVisionTrackingDelegate</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>GiniClient</code> with the information needed to enable document analysis</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resultsDelegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Results delegate object where you can get the results of the analysis.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>documentMetadata</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Additional HTTP headers to send when uploading documents</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>api</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Gini backend API to use</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>trackingDelegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A delegate object to receive user events</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A presentable view controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVisionAAC23removeStoredCredentials3fory0A06ClientV_tKFZ"></a>
+                    <a name="//apple_ref/swift/Method/removeStoredCredentials(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVisionAAC23removeStoredCredentials3fory0A06ClientV_tKFZ">removeStoredCredentials(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">removeStoredCredentials</span><span class="p">(</span><span class="k">for</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">Client</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVisionAAC14viewController10withClient17importedDocuments13configuration15resultsDelegate22publicKeyPinningConfig16documentMetadata3apiSo06UIViewD0C0A00F0V_SayAA0aB8Document_pGSgAA0A13ConfigurationCAA0ab7ResultsK0_pSDySSypGAM0T0V0Q0VSgAM9APIDomainOtFZ"></a>
+                    <a name="//apple_ref/swift/Method/viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:api:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVisionAAC14viewController10withClient17importedDocuments13configuration15resultsDelegate22publicKeyPinningConfig16documentMetadata3apiSo06UIViewD0C0A00F0V_SayAA0aB8Document_pGSgAA0A13ConfigurationCAA0ab7ResultsK0_pSDySSypGAM0T0V0Q0VSgAM9APIDomainOtFZ">viewController(withClient:importedDocuments:configuration:resultsDelegate:publicKeyPinningConfig:documentMetadata:api:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a view controller which will handle the analysis process.
+It&rsquo;s the easiest way to get started with the Gini Vision Library as it comes pre-configured and handles
+all screens and transitions out of the box, including the networking.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Screen API only.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kd">func</span> <span class="nf">viewController</span><span class="p">(</span><span class="n">withClient</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">Client</span><span class="p">,</span>
+                                 <span class="nv">importedDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Protocols/GiniVisionDocument.html">GiniVisionDocument</a></span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                                 <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Classes/GiniConfiguration.html">GiniConfiguration</a></span><span class="p">,</span>
+                                 <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="kt"><a href="../Protocols/GiniVisionResultsDelegate.html">GiniVisionResultsDelegate</a></span><span class="p">,</span>
+                                 <span class="nv">publicKeyPinningConfig</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span>
+                                 <span class="nv">documentMetadata</span><span class="p">:</span> <span class="kt">Document</span><span class="o">.</span><span class="kt">Metadata</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                                 <span class="nv">api</span><span class="p">:</span> <span class="kt">APIDomain</span> <span class="o">=</span> <span class="o">.</span><span class="k">default</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UIViewController</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p><code>GiniClient</code> with the information needed to enable document analysis</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The configuration to set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>importedDocuments</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Documents that come from a source different than CameraViewController.
+There should be either images or one PDF, and they should be validated before calling this method.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>resultsDelegate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Results delegate object where you can get the results of the analysis.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>publicKeyPinningConfig</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Public key pinning configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A presentable view controller.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2020 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2020-03-10)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
