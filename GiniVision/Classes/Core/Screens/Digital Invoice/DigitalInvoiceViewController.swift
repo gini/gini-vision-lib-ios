@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol DigitalInvoiceViewControllerDelegate: class {
+public protocol DigitalInvoiceViewControllerDelegate: class {
     
     func didFinish(viewController: DigitalInvoiceViewController,
                    invoice: DigitalInvoice)
 }
 
-class DigitalInvoiceViewController: UIViewController {
+public class DigitalInvoiceViewController: UIViewController {
 
-    var invoice: DigitalInvoice? {
+    public var invoice: DigitalInvoice? {
         didSet {
             tableView.reloadData()
             payButton.setTitle(payButtonTitle(), for: .normal)
@@ -23,18 +23,18 @@ class DigitalInvoiceViewController: UIViewController {
         }
     }
     
-    weak var delegate: DigitalInvoiceViewControllerDelegate?
+    public weak var delegate: DigitalInvoiceViewControllerDelegate?
     
     // TODO: This is to cope with the screen coordinator being inadequate at this point to support the return assistant step and needing a refactor.
     // Remove ASAP
-    var analysisDelegate: AnalysisDelegate?
+    public var analysisDelegate: AnalysisDelegate?
     
-    var giniConfiguration = GiniConfiguration.shared
+    public var giniConfiguration = GiniConfiguration.shared
     
     private let payButton = UIButton(type: .system)
     private let tableView = UITableView()
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         title = NSLocalizedString("ginivision.digitalinvoice.screentitle",
@@ -147,11 +147,11 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
 
     // MARK: - Table view data source
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
@@ -163,11 +163,11 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         case footer
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return Section.allCases.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
         switch Section(rawValue: section) {
         case .header: return 1
@@ -179,7 +179,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch Section(rawValue: indexPath.section) {
         case .header:

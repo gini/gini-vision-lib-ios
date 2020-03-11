@@ -182,6 +182,16 @@ extension ComponentAPICoordinator {
         navigationController.pushViewController(analysisScreen!, animated: true)
     }
     
+    private func showDigitalInvoiceScreen(digitalInvoice: DigitalInvoice) {
+    
+        let digitalInvoiceViewController = DigitalInvoiceViewController()
+        digitalInvoiceViewController.giniConfiguration = giniConfiguration
+        digitalInvoiceViewController.invoice = digitalInvoice
+        digitalInvoiceViewController.delegate = self
+        
+        navigationController.pushViewController(digitalInvoiceViewController, animated: true)
+    }
+    
     fileprivate func showResultsTableScreen(with analysisResult: AnalysisResult) {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
@@ -330,7 +340,14 @@ extension ComponentAPICoordinator {
                 
                 switch result {
                 case .success(let extractionResult):
-                    self.handleAnalysis(with: extractionResult)
+                    
+                    do {
+                        let digitalInvoice = try DigitalInvoice(extractionResult: extractionResult)
+                        self.showDigitalInvoiceScreen(digitalInvoice: digitalInvoice)
+                    } catch {
+                        self.handleAnalysis(with: extractionResult)
+                    }
+                    
                 case .failure(let error):
                     guard error != .requestCancelled else { return }
 
@@ -700,5 +717,13 @@ extension ComponentAPICoordinator {
         } else {
             showNoResultsScreen()
         }
+    }
+}
+
+extension ComponentAPICoordinator: DigitalInvoiceViewControllerDelegate {
+    
+    func didFinish(viewController: DigitalInvoiceViewController, invoice: DigitalInvoice) {
+        
+        handleAnalysis(with: invoice.extractionResult)
     }
 }

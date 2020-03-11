@@ -8,7 +8,7 @@
 import Foundation
 import Gini
 
-struct DigitalInvoice {
+public struct DigitalInvoice {
     
     private let _extractionResult: ExtractionResult
     var lineItems: [LineItem]
@@ -71,7 +71,7 @@ extension DigitalInvoice {
         case cannotParsePrice(string: String)
     }
     
-    init(extractionResult: ExtractionResult) throws {
+    public init(extractionResult: ExtractionResult) throws {
         
         self._extractionResult = extractionResult
         
@@ -86,7 +86,7 @@ extension DigitalInvoice {
         }
     }
     
-    var extractionResult: ExtractionResult {
+    public var extractionResult: ExtractionResult {
         
         return ExtractionResult(extractions: _extractionResult.extractions,
                                 lineItems: lineItems.map { $0.extractions })
