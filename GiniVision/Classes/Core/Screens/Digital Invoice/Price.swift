@@ -8,53 +8,69 @@
 import Foundation
 
 struct Price {
+        
+    let value: Decimal
+    let currencyCode: String
     
-    static let zero = Price(valueInFractionalUnit: 0)
-    
-    let valueInFractionalUnit: Int
-    
-    init(valueInFractionalUnit: Int) {
-        self.valueInFractionalUnit = valueInFractionalUnit
+    init(value: Decimal, currencyCode: String) {
+        self.value = value
+        self.currencyCode = currencyCode
     }
     
-    init?(string: String) {
+    init?(extractionString: String) {
        
-        guard let decimal = Decimal(string: string) else { return nil }
+        let components = extractionString.components(separatedBy: ":")
         
-        valueInFractionalUnit = NSDecimalNumber(decimal: decimal * Decimal(100)).intValue
-    }
-    
-    var string: String {
-        let sign = valueInFractionalUnit < 0 ? "-" : ""
-        return "\(sign)\(abs(valueInFractionalUnit)/100)\(fractionalUnitComponentString)"
-    }
-    
-    var mainUnitComponentString: String {
+        guard components.count == 2 else { return nil }
         
-        return "€\(valueInFractionalUnit/100)"
+        guard let decimal = Decimal(string: components.first ?? ""),
+            let currencyCode = components.last?.lowercased() else {
+                return nil
+        }
+        
+        self.value = decimal
+        self.currencyCode = currencyCode
     }
     
-    var fractionalUnitComponentString: String {
-                
-        let cents = abs(valueInFractionalUnit) - (abs(valueInFractionalUnit)/100) * 100
-        return "." + (cents < 10 ? "0\(cents)" : "\(cents)")
+    var extractionString: String {
+        return "\(value):\(currencyCode)"
+    }
+    
+    var string: String? {
+        
+        let formatter = NumberFormatter()
+        formatter.currencyCode = currencyCode
+        formatter.numberStyle = .currency
+        return formatter.string(from: NSDecimalNumber(decimal: value))
+    }
+    
+    var stringWithoutSymbol: String? {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: NSDecimalNumber(decimal: value))
     }
 }
 
-extension Price: Equatable {
-    
-    static func ==(lhs: Self, rhs: Self) -> Bool {
-        return lhs.valueInFractionalUnit == rhs.valueInFractionalUnit
-    }
-}
+extension Price: Equatable {}
 
 extension Price {
     
     static func *(price: Price, int: Int) -> Price {
-        return Price(valueInFractionalUnit: price.valueInFractionalUnit * int)
+        
+        return Price(value: price.value * Decimal(int),
+                     currencyCode: price.currencyCode)
     }
     
-    static func +(lhs: Price, rhs: Price) -> Price {
-        return Price(valueInFractionalUnit: lhs.valueInFractionalUnit + rhs.valueInFractionalUnit)
+    struct PriceCurrencyMismatchError: Error {}
+    
+    static func +(lhs: Price, rhs: Price) throws -> Price {
+        
+        if lhs.currencyCode != rhs.currencyCode {
+            throw PriceCurrencyMismatchError()
+        }
+        
+        return Price(value: lhs.value + rhs.value,
+                     currencyCode: lhs.currencyCode)
     }
 }

@@ -12,7 +12,6 @@ class DigitalInvoiceItemsCellViewModelTests: XCTestCase {
 
     func testItemsLabelText() {
         
-        XCTAssertEqual(DigitalInvoiceItemsCellViewModel(invoice: digitalInvoiceEmpty).itemsLabelText, "Items 0/0")
-        XCTAssertEqual(DigitalInvoiceItemsCellViewModel(invoice: digitalInvoiceExample).itemsLabelText, "Items 9/12")
+        XCTAssertEqual(DigitalInvoiceItemsCellViewModel(invoice: digitalInvoiceExample).itemsLabelText, "Items 6/9")
     }
 }

@@ -1,27 +1,30 @@
 PODS:
   - Bolts/Tasks (1.9.0)
+  - Gini (1.0.0):
+    - Gini/DocumentsAPI (= 1.0.0)
   - Gini-iOS-SDK (1.4.0):
     - Gini-iOS-SDK/Core (= 1.4.0)
   - Gini-iOS-SDK/Core (1.4.0):
     - Bolts/Tasks (~> 1.9)
-  - Gini/DocumentsAPI (0.2.0)
-  - Gini/Pinning (0.2.0):
+  - Gini/DocumentsAPI (1.0.0)
+  - Gini/Pinning (1.0.0):
     - Gini/DocumentsAPI
     - TrustKit (~> 1.6)
   - GiniVision (5.1.0):
     - GiniVision/Core (= 5.1.0)
   - GiniVision/Core (5.1.0)
   - GiniVision/Networking (5.1.0):
-    - Gini/DocumentsAPI
-    - Gini/Pinning
+    - Gini/DocumentsAPI (~> 1.0)
+    - Gini/Pinning (~> 1.0)
     - GiniVision/Core
   - "GiniVision/Networking+Pinning (5.1.0)":
-    - Gini/Pinning
+    - Gini/Pinning (~> 1.0)
     - GiniVision/Networking
   - GiniVision/Tests (5.1.0)
-  - TrustKit (1.6.3)
+  - TrustKit (1.6.4)
 
 DEPENDENCIES:
+  - Gini (from `https://github.com/gini/gini-ios.git`, branch `PIA-491`)
   - Gini-iOS-SDK (~> 1.4)
   - GiniVision (from `../`)
   - "GiniVision/Networking+Pinning (from `../`)"
@@ -30,22 +33,29 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Bolts
-    - Gini
     - TrustKit
   https://github.com/gini/gini-podspecs.git:
     - Gini-iOS-SDK
 
 EXTERNAL SOURCES:
+  Gini:
+    :branch: PIA-491
+    :git: https://github.com/gini/gini-ios.git
   GiniVision:
     :path: "../"
 
+CHECKOUT OPTIONS:
+  Gini:
+    :commit: f2ee9905ea32d171acb9b89cb86b236ce87b624a
+    :git: https://github.com/gini/gini-ios.git
+
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Gini: 10eb333c01cf4a95d6f5535e8702c91d65f5e0eb
+  Gini: e38dff85495849f325560b674f2a39498d4f9843
   Gini-iOS-SDK: 270169987acb2ebd83d1e11d029daa81b6f89682
-  GiniVision: 404e0b7180b560d3e3fb107f30967defebe842a2
-  TrustKit: a2f0c3a926f0a3ce3c082db9a39f1f540dbb04cb
+  GiniVision: 755dafa3b4ae7391ec0994dbab6d5307b82ed24f
+  TrustKit: 578f77c59a23167e55b523d460bb495114ed0de7
 
-PODFILE CHECKSUM: 4f5efaa1ca96405c622c9cf1566264685a082e61
+PODFILE CHECKSUM: 1458eb133eef37de764f18f0272e3353a1b23fe3
 
 COCOAPODS: 1.8.4

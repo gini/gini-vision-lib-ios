@@ -56,7 +56,7 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         screenAPIViewController.interactivePopGestureRecognizer?.delegate = nil
     }
     
-    fileprivate func showResultsScreen(results: [Extraction]) {
+    fileprivate func showResultsScreen(results: AnalysisResult) {
         let customResultsScreen = (UIStoryboard(name: "Main", bundle: nil)
             .instantiateViewController(withIdentifier: "resultScreen") as? ResultTableViewController)!
         customResultsScreen.result = results
@@ -84,12 +84,7 @@ extension ScreenAPICoordinator: UINavigationControllerDelegate {
         }
         
         if let fromVC = fromVC as? ResultTableViewController {
-            self.sendFeedbackBlock?(fromVC.result.reduce([:]) {
-                guard let name = $1.name else { return $0 }
-                var result = $0
-                result[name] = $1
-                return result
-            })
+            self.sendFeedbackBlock?(fromVC.result?.extractions ?? [:])
             self.delegate?.screenAPI(coordinator: self, didFinish: ())
         }
         
@@ -110,7 +105,7 @@ extension ScreenAPICoordinator: NoResultsScreenDelegate {
 extension ScreenAPICoordinator: GiniVisionResultsDelegate {
     func giniVisionAnalysisDidFinishWith(result: AnalysisResult,
                                          sendFeedbackBlock: @escaping ([String: Extraction]) -> Void) {
-        showResultsScreen(results: result.extractions.map { $0.value })
+        showResultsScreen(results: result)
         self.sendFeedbackBlock = sendFeedbackBlock
     }
     

@@ -7,9 +7,15 @@
 
 import UIKit
 
-class DigitalInvoiceViewController: UIViewController {
+public protocol DigitalInvoiceViewControllerDelegate: class {
+    
+    func didFinish(viewController: DigitalInvoiceViewController,
+                   invoice: DigitalInvoice)
+}
 
-    var invoice: DigitalInvoice? {
+public class DigitalInvoiceViewController: UIViewController {
+
+    public var invoice: DigitalInvoice? {
         didSet {
             tableView.reloadData()
             payButton.setTitle(payButtonTitle(), for: .normal)
@@ -17,12 +23,18 @@ class DigitalInvoiceViewController: UIViewController {
         }
     }
     
-    var giniConfiguration = GiniConfiguration.shared
+    public weak var delegate: DigitalInvoiceViewControllerDelegate?
+    
+    // TODO: This is to cope with the screen coordinator being inadequate at this point to support the return assistant step and needing a refactor.
+    // Remove ASAP
+    public var analysisDelegate: AnalysisDelegate?
+    
+    public var giniConfiguration = GiniConfiguration.shared
     
     private let payButton = UIButton(type: .system)
     private let tableView = UITableView()
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         title = NSLocalizedString("ginivision.digitalinvoice.screentitle",
@@ -91,7 +103,15 @@ class DigitalInvoiceViewController: UIViewController {
         payButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         payButton.layer.shadowOpacity = 0.15
         
+        payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
+        
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: payButtonHeight + margin * 2, right: 0)
+    }
+    
+    @objc func payButtonTapped() {
+        
+        guard let invoice = invoice else { return }
+        delegate?.didFinish(viewController: self, invoice: invoice)
     }
     
     private func payButtonTitle() -> String {
@@ -101,7 +121,7 @@ class DigitalInvoiceViewController: UIViewController {
                                      bundle: Bundle(for: GiniVision.self),
                                      comment: "digital invoice pay button title when the invoice is missing")
         }
-                
+        
         return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.paybuttontitle",
                                                                                  comment: "digital invoice pay button title"),
                                                 invoice.numSelected,
@@ -127,11 +147,11 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
 
     // MARK: - Table view data source
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
@@ -143,11 +163,11 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         case footer
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    public func numberOfSections(in tableView: UITableView) -> Int {
         return Section.allCases.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     
         switch Section(rawValue: section) {
         case .header: return 1
@@ -159,7 +179,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch Section(rawValue: indexPath.section) {
         case .header:

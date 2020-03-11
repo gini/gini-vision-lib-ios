@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Gini
 
 protocol Coordinator: class {
     var rootViewController: UIViewController { get }
@@ -18,7 +19,7 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
         return screenAPINavigationController
     }
     
-    fileprivate(set) lazy var screenAPINavigationController: UINavigationController = {
+    private(set) lazy var screenAPINavigationController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.delegate = self
         navigationController.applyStyle(withConfiguration: self.giniConfiguration)
@@ -48,34 +49,34 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
     var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     // Resources
-    fileprivate(set) lazy var backButtonResource =
+    private(set) lazy var backButtonResource =
         PreferredButtonResource(image: "navigationReviewBack",
                                 title: "ginivision.navigationbar.review.back",
                                 comment: "Button title in the navigation bar for the back button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
-    fileprivate(set) lazy var cancelButtonResource =
+    private(set) lazy var cancelButtonResource =
         PreferredButtonResource(image: "navigationAnalysisBack",
                                 title: "ginivision.navigationbar.analysis.back",
                                 comment: "Button title in the navigation bar for" +
             "the back button on the analysis screen",
                                 configEntry: self.giniConfiguration.navigationBarAnalysisTitleBackButton)
-    fileprivate(set) lazy var closeButtonResource =
+    private(set) lazy var closeButtonResource =
         PreferredButtonResource(image: "navigationCameraClose",
                                 title: "ginivision.navigationbar.camera.close",
                                 comment: "Button title in the navigation bar for the close button on the camera screen",
                                 configEntry: self.giniConfiguration.navigationBarCameraTitleCloseButton)
-    fileprivate(set) lazy var helpButtonResource =
+    private(set) lazy var helpButtonResource =
         PreferredButtonResource(image: "navigationCameraHelp",
                                 title: "ginivision.navigationbar.camera.help",
                                 comment: "Button title in the navigation bar for the help button on the camera screen",
                                 configEntry: self.giniConfiguration.navigationBarCameraTitleHelpButton)
-    fileprivate(set) lazy var nextButtonResource =
+    private(set) lazy var nextButtonResource =
         PreferredButtonResource(image: "navigationReviewContinue",
                                 title: "ginivision.navigationbar.review.continue",
                                 comment: "Button title in the navigation bar for " +
             "the continue button on the review screen",
                                 configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
-    fileprivate lazy var backToHelpMenuButtonResource =
+    private lazy var backToHelpMenuButtonResource =
         PreferredButtonResource(image: "arrowBack",
                                 title: "ginivision.navigationbar.review.back",
                                 comment: "Button title in the navigation bar for the back button on the help screen",
@@ -112,8 +113,8 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
                     "For now it is only possible to import either images or one PDF")
             }
         } else {
-            self.cameraViewController = self.createCameraViewController()
-            viewControllers = [self.cameraViewController!]
+            cameraViewController = createCameraViewController()
+            viewControllers = [cameraViewController!]
         }
         
         self.screenAPINavigationController.setViewControllers(viewControllers, animated: false)
@@ -226,53 +227,21 @@ extension GiniScreenAPICoordinator {
     
     @objc func showAnalysisScreen() {
         
-        // TODO: fix here
+        guard let firstDocument = pages.first?.document else {
+            return
+        }
+
+        if pages.type == .image {
+            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
+        }
         
-//        guard let firstDocument = pages.first?.document else {
-//            return
-//        }
-//
-//        if pages.type == .image {
-//            visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
-//        }
-//        analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-//
-//        if let (message, action) = analysisErrorAndAction {
-//            displayError(withMessage: message, andAction: action)
-//        }
-//
-//        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
-        
-        let vc = DigitalInvoiceViewController()
-        vc.invoice = DigitalInvoice(recipientName: "Someone",
-                                    iban: "DE13839348034993839",
-                                    reference: "ODIJ0IEJWSJ9IJ",
-                                    lineItems: [DigitalInvoice.LineItem(name: "Nike Sportswear Air Max 97 - Sneaker",
-                                                                        quantity: 3,
-                                                                        price: Price(valueInFractionalUnit: 7648),
-                                                                        selectedState: .selected),
-                                                DigitalInvoice.LineItem(name: "Nike Sportswear INTERNATIONALIST",
-                                                                        quantity: 1,
-                                                                        price: Price(valueInFractionalUnit: 15295),
-                                                                        selectedState: .deselected(reason: .damaged)),
-                                                DigitalInvoice.LineItem(name: "Erbauer EPT1500 254 Planer/Thicknesser",
-                                                                        quantity: 1,
-                                                                        price: Price(valueInFractionalUnit: 22000),
-                                                                        selectedState: .deselected(reason: .damaged)),
-                                                DigitalInvoice.LineItem(name: "Erbauer EPT1500 254 Planer/Thicknesser",
-                                                                        quantity: 1,
-                                                                        price: Price(valueInFractionalUnit: 22000),
-                                                                        selectedState: .deselected(reason: .damaged)),
-                                                DigitalInvoice.LineItem(name: "Brace & Bit",
-                                                                        quantity: 3,
-                                                                        price: Price(valueInFractionalUnit: 8993),
-                                                                        selectedState: .selected),
-                                                DigitalInvoice.LineItem(name: "Brace & Bit",
-                                                                        quantity: 3,
-                                                                        price: Price(valueInFractionalUnit: 8993),
-                                                                        selectedState: .selected)
-        ])
-        self.screenAPINavigationController.pushViewController(vc, animated: true)
+        analysisViewController = createAnalysisScreen(withDocument: firstDocument)
+
+        if let (message, action) = analysisErrorAndAction {
+            displayError(withMessage: message, andAction: action)
+        }
+
+        screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
     @objc func backToCamera() {

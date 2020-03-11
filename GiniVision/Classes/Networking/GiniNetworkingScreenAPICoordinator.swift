@@ -55,8 +55,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                                                                                   giniConfiguration: giniConfiguration,
                                                                                   for: api)
         
-        super.init(withDelegate: nil,
-                   giniConfiguration: giniConfiguration)
+        super.init(withDelegate: nil, giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
     }
@@ -100,21 +99,21 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
         }
     }
     
-    func deliver(result: [Extraction], analysisDelegate: AnalysisDelegate) {
+    private func deliver(result: ExtractionResult, analysisDelegate: AnalysisDelegate) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasExtactions = result.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
+        let hasExtractions = result.extractions.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if hasExtactions {
+            if hasExtractions {
                 let images = self.pages.compactMap { $0.document.previewImage }
-                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.compactMap {
+                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.extractions.compactMap {
                     guard let name = $0.name else { return nil }
                     
                     return (name, $0)
                 })
                 
-                let result = AnalysisResult(extractions: extractions, images: images)
+                let result = AnalysisResult(extractions: extractions, lineItems: result.lineItems, images: images)
                 
                 let documentService = self.documentService
                 
@@ -136,23 +135,46 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
 // MARK: - Networking methods
 
 extension GiniNetworkingScreenAPICoordinator {
+    
+    func showDigitalInvoiceScreen(digitalInvoice: DigitalInvoice, analysisDelegate: AnalysisDelegate) {
+    
+        let digitalInvoiceViewController = DigitalInvoiceViewController()
+        digitalInvoiceViewController.giniConfiguration = giniConfiguration
+        digitalInvoiceViewController.invoice = digitalInvoice
+        digitalInvoiceViewController.delegate = self
+        digitalInvoiceViewController.analysisDelegate = analysisDelegate
+        
+        screenAPINavigationController.pushViewController(digitalInvoiceViewController, animated: true)
+    }
+    
     fileprivate func startAnalysis(networkDelegate: GiniVisionNetworkDelegate) {
         self.documentService.startAnalysis { result in
+            
             switch result {
-            case .success(let extractions):
-                self.deliver(result: extractions, analysisDelegate: networkDelegate)
+            case .success(let extractionResult):
+                
+                DispatchQueue.main.async {
+                    
+                    do {
+                        let digitalInvoice = try DigitalInvoice(extractionResult: extractionResult)
+                        self.showDigitalInvoiceScreen(digitalInvoice: digitalInvoice, analysisDelegate: networkDelegate)
+                    } catch {
+                        self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
+                    }
+                }
+                
             case .failure(let error):
-
+                
                 guard error != .requestCancelled else { return }
                 
                 networkDelegate.displayError(withMessage: .localized(resource: AnalysisStrings.analysisErrorMessage),
                                              andAction: {
-                    self.startAnalysis(networkDelegate: networkDelegate)
+                                                self.startAnalysis(networkDelegate: networkDelegate)
                 })
             }
         }
     }
-
+    
     fileprivate func upload(document: GiniVisionDocument,
                             didComplete: @escaping (GiniVisionDocument) -> Void,
                             didFail: @escaping (GiniVisionDocument, Error) -> Void) {
@@ -197,12 +219,14 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
         if let qrCodeDocument = document as? GiniQRCodeDocument,
             let format = qrCodeDocument.qrCodeFormat,
             case .eps4mobile = format {
-            let result = qrCodeDocument.extractedParameters.compactMap {
+            let extractions = qrCodeDocument.extractedParameters.compactMap {
                 Extraction(box: nil, candidates: nil,
                            entity: QRCodesExtractor.epsCodeUrlKey,
                            value: $0.value,
                            name: QRCodesExtractor.epsCodeUrlKey)
-                }
+            }
+            
+            let result = ExtractionResult(extractions: extractions, lineItems: nil)
             
             self.deliver(result: result, analysisDelegate: networkDelegate)
             return
@@ -259,5 +283,14 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
         } else {
             documentService.resetToInitialState()
         }
+    }
+}
+
+extension GiniNetworkingScreenAPICoordinator: DigitalInvoiceViewControllerDelegate {
+    
+    func didFinish(viewController: DigitalInvoiceViewController, invoice: DigitalInvoice) {
+        
+        guard let analysisDelegate = viewController.analysisDelegate else { return }
+        deliver(result: invoice.extractionResult, analysisDelegate: analysisDelegate)
     }
 }
