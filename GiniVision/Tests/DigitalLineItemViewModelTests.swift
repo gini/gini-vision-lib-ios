@@ -20,7 +20,7 @@ class DigitalLineItemViewModelTests: XCTestCase {
     let deselectedLineItemVM = DigitalLineItemViewModel(lineItem: DigitalInvoice.LineItem(name: "Nike Sportswear INTERNATIONALIST",
                                                                                           quantity: 1,
                                                                                           price: Price(value: 220.00, currencyCode: "eur"),
-                                                                                          selectedState: .deselected(reason: .damaged)),
+                                                                                          selectedState: .deselected(reason: "Parcel damaged")),
                                                         giniConfiguration: GiniConfiguration.shared,
                                                         index: 0)
     

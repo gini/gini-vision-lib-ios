@@ -40,7 +40,7 @@ let digitalInvoiceExample: DigitalInvoice = {
     ]))
     
     var lineItem1 = invoice.lineItems.first!
-    lineItem1.selectedState = .deselected(reason: .arrivedTooLate)
+    lineItem1.selectedState = .deselected(reason: "Arrived too late")
     
     invoice.lineItems[0] = lineItem1
         
