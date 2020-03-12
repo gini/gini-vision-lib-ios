@@ -79,7 +79,7 @@ class DigitalInvoiceTests: XCTestCase {
                                                                                            width: 42.0),
                                                                        candidates: nil,
                                                                        entity: "amount",
-                                                                       value: "24.99:EUR",
+                                                                       value: "284.94:EUR",
                                                                        name: "amountToPay"))
         
         XCTAssertEqual(extractionResult.lineItems!.count, 3)

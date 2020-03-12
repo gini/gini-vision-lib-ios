@@ -33,7 +33,7 @@ struct Price {
     }
     
     var extractionString: String {
-        return "\(value):\(currencyCode)"
+        return "\(value):\(currencyCode.uppercased())"
     }
     
     var string: String? {
