@@ -155,10 +155,17 @@ extension GiniNetworkingScreenAPICoordinator {
                 
                 DispatchQueue.main.async {
                     
-                    do {
-                        let digitalInvoice = try DigitalInvoice(extractionResult: extractionResult)
-                        self.showDigitalInvoiceScreen(digitalInvoice: digitalInvoice, analysisDelegate: networkDelegate)
-                    } catch {
+                    if self.giniConfiguration.returnAssistantEnabled {
+                        
+                        do {
+                            let digitalInvoice = try DigitalInvoice(extractionResult: extractionResult)
+                            self.showDigitalInvoiceScreen(digitalInvoice: digitalInvoice, analysisDelegate: networkDelegate)
+                        } catch {
+                            self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
+                        }
+                        
+                    } else {
+                        extractionResult.lineItems = nil
                         self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
                     }
                 }

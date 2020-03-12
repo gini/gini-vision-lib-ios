@@ -99,6 +99,13 @@ import UIKit
     @objc public var multipageEnabled = false
     
     /**
+     Indicates whether the Return Assistant feature is enabled or not. In case of `true`,
+     the user will be presented with a digital representation of their invoice where they
+     can see individual line items and are able to amend them or choose to not to pay for them.
+     */
+    @objc public var returnAssistantEnabled = false
+    
+    /**
      Sets the tint color of the navigation bar in all screens of the Gini Vision Library to
      the globally specified color or to a default color.
      
