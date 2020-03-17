@@ -13,8 +13,10 @@ Requirements
 
 After cloning the **Xamapod** tool repository and installing all its dependencies, run the following command:
 ```bash
-sh build.sh -p GiniVision -s Networking
+sh build -p GiniVision -s Networking -l https://github.com/gini/gini-podspecs,https://github.com/CocoaPods/Specs.git
 ```
+
+The `-l` option ensures that the tool refers to our cocoapods repository to which the GVL is deployed.
 
 Check the [Integration guide](integration.html) for further information about the possible subspecs (`-s`).
 
