@@ -88,7 +88,22 @@ extension DigitalInvoice {
     
     public var extractionResult: ExtractionResult {
         
-        return ExtractionResult(extractions: _extractionResult.extractions,
+        guard let totalValue = total?.extractionString else {
+            
+            return ExtractionResult(extractions: _extractionResult.extractions,
+                                    lineItems: lineItems.map { $0.extractions })
+        }
+        
+        let modifiedExtractions = _extractionResult.extractions.map { extraction -> Extraction in
+            
+            if extraction.name == "amountToPay" {
+                extraction.value = totalValue
+            }
+            
+            return extraction
+        }
+        
+        return ExtractionResult(extractions: modifiedExtractions,
                                 lineItems: lineItems.map { $0.extractions })
     }
 }
