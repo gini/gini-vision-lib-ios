@@ -337,8 +337,10 @@
 <h2 id='1-creating-the-fat-libraries-and-the-binding-files' class='heading'>1. Creating the fat libraries and the binding files</h2>
 
 <p>After cloning the <strong>Xamapod</strong> tool repository and installing all its dependencies, run the following command:</p>
-<pre class="highlight shell"><code>sh build.sh <span class="nt">-p</span> GiniVision <span class="nt">-s</span> Networking
+<pre class="highlight shell"><code>sh build <span class="nt">-p</span> GiniVision <span class="nt">-s</span> Networking <span class="nt">-l</span> https://github.com/gini/gini-podspecs,https://github.com/CocoaPods/Specs.git
 </code></pre>
+
+<p>The <code>-l</code> option ensures that the tool refers to our cocoapods repository to which the GVL is deployed.</p>
 
 <p>Check the <a href="integration.html">Integration guide</a> for further information about the possible subspecs (<code>-s</code>).</p>
 
