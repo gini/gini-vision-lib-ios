@@ -36,7 +36,7 @@ extension DigitalInvoice {
         var selectedState: SelectedState
         
         private enum ExtractedLineItemKey: String {
-            case description, quantity, grossPrice
+            case description, quantity, baseGross
         }
         
         init(name: String?, quantity: Int, price: Price, selectedState: SelectedState) {
@@ -57,7 +57,7 @@ extension DigitalInvoice {
                 throw DigitalInvoiceParsingException.quantityMissing
             }
             
-            guard let extractedPrice = extractions.first(where: { $0.name == ExtractedLineItemKey.grossPrice.rawValue })?.value else {
+            guard let extractedPrice = extractions.first(where: { $0.name == ExtractedLineItemKey.baseGross.rawValue })?.value else {
                 throw DigitalInvoiceParsingException.priceMissing
             }
             
@@ -99,7 +99,7 @@ extension DigitalInvoice {
                         extraction.value = "0"
                     }
                     
-                case .grossPrice:
+                case .baseGross:
                     extraction.value = price.extractionString
                 }
                 

@@ -33,27 +33,36 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         
         selectionStyle = .none
         
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.text = NSLocalizedString("ginivision.digitalinvoice.headermessage.primary",
-                                              bundle: Bundle(for: GiniVision.self),
-                                              comment: "")
+        let messageAttributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.primary",
+                                                                                          bundle: Bundle(for: GiniVision.self),
+                                                                                          comment: ""))
+        
+        messageAttributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
+                                             value: paragraphStyle,
+                                             range: NSRange(location: 0, length: messageAttributedString.length))
+        
+        messageLabel.attributedText = messageAttributedString
+        
         messageLabel.numberOfLines = 0
         messageLabel.font = giniConfiguration?.customFont.regular ?? GiniConfiguration.shared.customFont.regular
         messageLabel.textAlignment = .center
         
-        let attributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
+        let secondaryMessageAttributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
                                                                                    bundle: Bundle(for: GiniVision.self),
                                                                                    comment: ""))
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
-        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
+
+        secondaryMessageAttributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
                                       value: paragraphStyle,
-                                      range: NSRange(location: 0, length: attributedString.length))
+                                      range: NSRange(location: 0, length: secondaryMessageAttributedString.length))
         
         let secondaryMessageLabel = UILabel()
         secondaryMessageLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryMessageLabel.attributedText = attributedString
+        secondaryMessageLabel.attributedText = secondaryMessageAttributedString
         secondaryMessageLabel.numberOfLines = 0
         secondaryMessageLabel.font = giniConfiguration?.digitalInvoiceSecondaryMessageTextFont ??
             GiniConfiguration.shared.digitalInvoiceSecondaryMessageTextFont

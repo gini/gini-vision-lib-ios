@@ -16,7 +16,7 @@ class LineItemTests: XCTestCase {
         let lineItemBox = Extraction.Box(height: 9.0, left: 72.0, page: 1, top: 347.11, width: 5.0)
         
         return try! DigitalInvoice.LineItem(extractions: [
-            Extraction(box: lineItemBox, candidates: nil, entity: "amount", value: "39.99:EUR", name: "grossPrice"),
+            Extraction(box: lineItemBox, candidates: nil, entity: "amount", value: "39.99:EUR", name: "baseGross"),
             Extraction(box: nil, candidates: nil, entity: "text", value: "CORE ICON - Sweatjacke - emerald", name: "description"),
             Extraction(box: nil, candidates: nil, entity: "idnumber", value: "H0422S039-M11000L000", name: "artNumber"),
             Extraction(box: nil, candidates: nil, entity: "number", value: "3", name: "quantity")

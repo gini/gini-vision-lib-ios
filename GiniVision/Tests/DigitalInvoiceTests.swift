@@ -20,19 +20,19 @@ let digitalInvoiceExample: DigitalInvoice = {
         
         ], lineItems: [
             [
-                Extraction(box: lineItemBox, candidates: nil, entity: "amount", value: "39.99:EUR", name: "grossPrice"),
+                Extraction(box: lineItemBox, candidates: nil, entity: "amount", value: "39.99:EUR", name: "baseGross"),
                 Extraction(box: nil, candidates: nil, entity: "text", value: "CORE ICON - Sweatjacke - emerald", name: "description"),
                 Extraction(box: nil, candidates: nil, entity: "idnumber", value: "H0422S039-M11000L000", name: "artNumber"),
                 Extraction(box: nil, candidates: nil, entity: "number", value: "3", name: "quantity")
             ],
             [
-                Extraction(box: nil, candidates: nil, entity: "amount", value: "34.99:EUR", name: "grossPrice"),
+                Extraction(box: nil, candidates: nil, entity: "amount", value: "34.99:EUR", name: "baseGross"),
                 Extraction(box: nil, candidates: nil, entity: "text", value: "Strickpullover - yellow", name: "description"),
                 Extraction(box: nil, candidates: nil, entity: "idnumber", value: "YO122Q047-E11000L000", name: "artNumber"),
                 Extraction(box: nil, candidates: nil, entity: "number", value: "1", name: "quantity")
             ],
             [
-                Extraction(box: nil, candidates: nil, entity: "amount", value: "49.99:EUR", name: "grossPrice"),
+                Extraction(box: nil, candidates: nil, entity: "amount", value: "49.99:EUR", name: "baseGross"),
                 Extraction(box: nil, candidates: nil, entity: "text", value: "JPRDEEP CREW NECK - Strickpullover - vintage indigo", name: "description"),
                 Extraction(box: nil, candidates: nil, entity: "idnumber", value: "JAM22Q01E-K11000L000", name: "artNumber"),
                 Extraction(box: nil, candidates: nil, entity: "number", value: "5", name: "quantity")
