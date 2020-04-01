@@ -256,16 +256,7 @@ class LineItemDetailsViewController: UIViewController {
         case .deselected:
             self.lineItem?.selectedState = .selected
         case .selected:
-            
-            DeselectLineItemActionSheet().present(from: self, source: checkboxButton) { selectedState in
-                
-                switch selectedState {
-                case .selected:
-                    break
-                case .deselected(let reason):
-                    self.lineItem?.selectedState = .deselected(reason: reason)
-                }
-            }
+            self.lineItem?.selectedState = .deselected
         }
     }
     

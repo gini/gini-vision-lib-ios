@@ -251,8 +251,7 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
         
         case .selected:
             
-            presentReturnReasonActionSheet(for: viewModel.index,
-                                           source: cell.checkboxButton)
+            self.invoice?.lineItems[viewModel.index].selectedState = .deselected
             
         case .deselected:
             self.invoice?.lineItems[viewModel.index].selectedState = .selected
@@ -267,22 +266,6 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
         viewController.delegate = self
         
         navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-extension DigitalInvoiceViewController {
-    
-    private func presentReturnReasonActionSheet(for index: Int, source: UIView) {
-        
-        DeselectLineItemActionSheet().present(from: self, source: source) { selectedState in
-            
-            switch selectedState {
-            case .selected:
-                break
-            case .deselected(let reason):
-                self.invoice?.lineItems[index].selectedState = .deselected(reason: reason)
-            }
-        }
     }
 }
 
