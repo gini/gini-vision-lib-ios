@@ -18,15 +18,15 @@ struct DigitalLineItemViewModel {
         return lineItem.name
     }
     
-    var quantityOrReturnReasonString: String {
+    var quantityString: String? {
         
         switch lineItem.selectedState {
         case .selected:
             return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.lineitem.quantity",
                                                                                      comment: ""),
                                                     lineItem.quantity)
-        case .deselected(let reason):
-            return reason.displayString
+        case .deselected:
+            return nil
         }
     }
     
@@ -138,7 +138,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
         didSet {
             
             nameLabel.text = viewModel?.name
-            quantityOrReturnReasonLabel.text = viewModel?.quantityOrReturnReasonString
+            quantityOrReturnReasonLabel.text = viewModel?.quantityString
             quantityOrReturnReasonLabel.font = viewModel?.quantityOrReturnReasonFont
             
             if let viewModel = viewModel, let priceString = viewModel.totalPriceString {

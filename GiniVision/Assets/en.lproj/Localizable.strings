@@ -141,18 +141,6 @@
 
 "ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Deselect item";
 "ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Select item";
-
-"ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Your reasons to return this item";
-"ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel" = "Cancel";
-
-"ginivision.digitalinvoice.deselectreason.looksdifferent" = "Looks different to image on site";
-"ginivision.digitalinvoice.deselectreason.poorqualityorfaulty" = "Poor quality/faulty";
-"ginivision.digitalinvoice.deselectreason.doesnotfit" = "Doesn't fit properly";
-"ginivision.digitalinvoice.deselectreason.doesnotsuit" = "Doesn't suit me";
-"ginivision.digitalinvoice.deselectreason.wrongitem" = "Received wrong item";
-"ginivision.digitalinvoice.deselectreason.damaged" = "Parcel damaged";
-"ginivision.digitalinvoice.deselectreason.arrivedtoolate" = "Arrived too late";
-
 "ginivision.digitalinvoice.headermessage.primary" = "Scan successful!";
 "ginivision.digitalinvoice.headermessage.secondary" = "You can now deselect items you would like to return.";
 

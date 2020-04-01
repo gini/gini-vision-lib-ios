@@ -13,21 +13,8 @@ extension DigitalInvoice {
     struct LineItem {
         
         enum SelectedState {
-            
-            struct Reason {
-                
-                static let allReasons: [Reason] = ["ginivision.digitalinvoice.deselectreason.looksdifferent",
-                                                   "ginivision.digitalinvoice.deselectreason.poorqualityorfaulty",
-                                                   "ginivision.digitalinvoice.deselectreason.doesnotfit",
-                                                   "ginivision.digitalinvoice.deselectreason.doesnotsuit",
-                                                   "ginivision.digitalinvoice.deselectreason.wrongitem",
-                                                   "ginivision.digitalinvoice.deselectreason.damaged",
-                                                   "ginivision.digitalinvoice.deselectreason.arrivedtoolate"]
-                let displayString: String
-            }
-            
             case selected
-            case deselected(reason: Reason)
+            case deselected
         }
         
         var name: String?

@@ -29,14 +29,6 @@ public struct DigitalInvoice {
     }
 }
 
-extension DigitalInvoice.LineItem.SelectedState.Reason: ExpressibleByStringLiteral {
-    
-    public init(stringLiteral value: String) {
-        
-        self = .init(displayString: NSLocalizedString(value, bundle: Bundle(for: GiniVision.self), comment: ""))
-    }
-}
-
 extension DigitalInvoice {
     
     var numSelected: Int {
