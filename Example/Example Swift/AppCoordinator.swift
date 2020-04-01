@@ -35,7 +35,7 @@ final class AppCoordinator: Coordinator {
         giniConfiguration.openWithEnabled = true
         giniConfiguration.qrCodeScanningEnabled = true
         giniConfiguration.multipageEnabled = true
-        giniConfiguration.returnAssistantEnabled = false
+        giniConfiguration.returnAssistantEnabled = true
         giniConfiguration.flashToggleEnabled = true
         giniConfiguration.navigationBarItemTintColor = .white
         giniConfiguration.customDocumentValidations = { document in
