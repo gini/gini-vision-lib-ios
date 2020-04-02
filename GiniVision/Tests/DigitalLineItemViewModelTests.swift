@@ -20,7 +20,7 @@ class DigitalLineItemViewModelTests: XCTestCase {
     let deselectedLineItemVM = DigitalLineItemViewModel(lineItem: DigitalInvoice.LineItem(name: "Nike Sportswear INTERNATIONALIST",
                                                                                           quantity: 1,
                                                                                           price: Price(value: 220.00, currencyCode: "eur"),
-                                                                                          selectedState: .deselected(reason: "Parcel damaged")),
+                                                                                          selectedState: .deselected),
                                                         giniConfiguration: GiniConfiguration.shared,
                                                         index: 0)
     
@@ -32,8 +32,8 @@ class DigitalLineItemViewModelTests: XCTestCase {
     
     func testQuantityOrReasonString() {
         
-        XCTAssertEqual(selectedLineItemVM.quantityOrReturnReasonString, "Quantity: 3")
-        XCTAssertEqual(deselectedLineItemVM.quantityOrReturnReasonString, "Parcel damaged")
+        XCTAssertEqual(selectedLineItemVM.quantityString, "Quantity: 3")
+        XCTAssertEqual(deselectedLineItemVM.quantityString, nil)
     }
     
     func testCheckboxTintColor() {

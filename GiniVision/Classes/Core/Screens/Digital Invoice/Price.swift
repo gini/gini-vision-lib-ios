@@ -36,18 +36,24 @@ struct Price {
         return "\(value):\(currencyCode.uppercased())"
     }
     
+    var currencySymbol: String? {
+        return (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.currencySymbol,
+                                                        value: currencyCode)
+    }
+    
     var string: String? {
+        let result = (currencySymbol ?? "") + (stringWithoutSymbol ?? "")
         
-        let formatter = NumberFormatter()
-        formatter.currencyCode = currencyCode
-        formatter.numberStyle = .currency
-        return formatter.string(from: NSDecimalNumber(decimal: value))
+        if result.isEmpty { return nil }
+        
+        return result
     }
     
     var stringWithoutSymbol: String? {
         
         let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = ""
         return formatter.string(from: NSDecimalNumber(decimal: value))
     }
 }
