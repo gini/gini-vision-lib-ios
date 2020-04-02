@@ -282,8 +282,7 @@ extension LineItemDetailsViewController {
         
         itemNameTextField.text = lineItem.name
         quantityTextField.text = String(lineItem.quantity)
-        itemPriceTextField.prefixText = (Locale.current as NSLocale).displayName(forKey: NSLocale.Key.currencySymbol,
-                                                                                 value: lineItem.price.currencyCode)
+        itemPriceTextField.prefixText = lineItem.price.currencySymbol
         itemPriceTextField.text = lineItem.price.stringWithoutSymbol
         
         switch lineItem.selectedState {

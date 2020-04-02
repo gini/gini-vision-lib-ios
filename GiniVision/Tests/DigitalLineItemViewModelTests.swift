@@ -32,8 +32,8 @@ class DigitalLineItemViewModelTests: XCTestCase {
     
     func testQuantityOrReasonString() {
         
-        XCTAssertEqual(selectedLineItemVM.quantityOrReturnReasonString, "Quantity: 3")
-        XCTAssertEqual(deselectedLineItemVM.quantityOrReturnReasonString, "Parcel damaged")
+        XCTAssertEqual(selectedLineItemVM.quantityString, "Quantity: 3")
+        XCTAssertEqual(deselectedLineItemVM.quantityString, nil)
     }
     
     func testCheckboxTintColor() {
