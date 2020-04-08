@@ -69,6 +69,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                                                        configuration: visionConfiguration,
                                                        resultsDelegate: self,
                                                        documentMetadata: documentMetadata,
+                                                       api: .default,
+                                                       userApi: .default,
                                                        trackingDelegate: trackingDelegate)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
