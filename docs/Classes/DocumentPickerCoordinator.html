@@ -321,6 +321,71 @@
               </li>
             </ul>
           </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Other Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/AVCaptureVideoOrientation.html">AVCaptureVideoOrientation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Bundle.html">Bundle</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/CGRect.html">CGRect</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Character.html">Character</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Data.html">Data</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/IndexPath.html">IndexPath</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/MutableCollection.html">MutableCollection</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/NSMutableDictionary.html">NSMutableDictionary</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Optional.html">Optional</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UIApplication.html">UIApplication</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UICollectionView.html">UICollectionView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UIDevice.html">UIDevice</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UIImage.html">UIImage</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UILabel.html">UILabel</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UINavigationController.html">UINavigationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/UIViewController/NavBarItemPosition.html">– NavBarItemPosition</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/URL.html">URL</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <article class="main-content">
@@ -424,7 +489,7 @@ an error dialog can be shown fro there</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">currentPickerDismissesAutomatically</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">currentPickerDismissesAutomatically</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -451,7 +516,7 @@ an error dialog can be shown fro there</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">currentPickerViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">private(set)</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">currentPickerViewController</span><span class="p">:</span> <span class="kt">UIViewController</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -584,7 +649,7 @@ picker.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">iOS</span> <span class="mf">11.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+                          <pre class="highlight swift"><code><span class="kd">@available(iOS 11.0, *)</span>
 <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setupDragAndDrop</span><span class="p">(</span><span class="k">in</span> <span class="nv">view</span><span class="p">:</span> <span class="kt">UIView</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -757,6 +822,72 @@ picker.</p>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/GalleryCoordinatorDelegate"></a>
+                <a name="//apple_ref/swift/Section/GalleryCoordinatorDelegate" class="dashAnchor"></a>
+                <a href="#/GalleryCoordinatorDelegate">
+                  <h3 class="section-name">GalleryCoordinatorDelegate</h3>
+                </a>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVision25DocumentPickerCoordinatorC7gallery_23didSelectImageDocumentsyAA07GalleryE0C_SayAA0aiC0CGtF"></a>
+                    <a name="//apple_ref/swift/Method/gallery(_:didSelectImageDocuments:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision25DocumentPickerCoordinatorC7gallery_23didSelectImageDocumentsyAA07GalleryE0C_SayAA0aiC0CGtF">gallery(_:didSelectImageDocuments:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">gallery</span><span class="p">(</span><span class="n">_</span> <span class="nv">coordinator</span><span class="p">:</span> <span class="kt">GalleryCoordinator</span><span class="p">,</span>
+             <span class="n">didSelectImageDocuments</span> <span class="nv">imageDocuments</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GiniImageDocument.html">GiniImageDocument</a></span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10GiniVision25DocumentPickerCoordinatorC7gallery_9didCancelyAA07GalleryE0C_yttF"></a>
+                    <a name="//apple_ref/swift/Method/gallery(_:didCancel:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10GiniVision25DocumentPickerCoordinatorC7gallery_9didCancelyAA07GalleryE0C_yttF">gallery(_:didCancel:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undocumented</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">gallery</span><span class="p">(</span><span class="n">_</span> <span class="nv">coordinator</span><span class="p">:</span> <span class="kt">GalleryCoordinator</span><span class="p">,</span> <span class="nv">didCancel</span><span class="p">:</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -954,7 +1085,7 @@ picker.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2020-03-17)</p>
+      <p>&copy; 2020 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2020-04-08)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
