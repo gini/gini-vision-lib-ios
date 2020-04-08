@@ -45,10 +45,11 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          giniConfiguration: GiniConfiguration,
          documentMetadata: Document.Metadata?,
          api: APIDomain,
+         userApi: UserDomain,
          trackingDelegate: GiniVisionTrackingDelegate?) {
         
         let sdk = GiniSDK
-            .Builder(client: client, api: api)
+            .Builder(client: client, api: api, userApi: userApi)
             .build()
         
         self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
@@ -92,7 +93,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                                         giniConfiguration: GiniConfiguration,
                                         for api: APIDomain) -> DocumentServiceProtocol {
         switch api {
-        case .default, .gym:
+        case .default, .gym, .custom:
             return DocumentService(sdk: sdk, metadata: documentMetadata)
         case .accounting:
             if giniConfiguration.multipageEnabled {

@@ -33,14 +33,14 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.subspec 'Networking' do |networking|
     networking.source_files = 'GiniVision/Classes/Networking/*.swift', 'GiniVision/Classes/Networking/Extensions/*.swift'
     networking.dependency "GiniVision/Core"
-    networking.dependency 'Gini/DocumentsAPI', '~> 0.2'
-    networking.dependency 'Gini/Pinning', '~> 0.2'
+    networking.dependency 'Gini/DocumentsAPI', '~> 0.3.0'
+    networking.dependency 'Gini/Pinning', '~> 0.3.0'
   end
 
   s.subspec 'Networking+Pinning' do |pinning|
     pinning.source_files = 'GiniVision/Classes/Networking/Pinning/*'
     pinning.dependency "GiniVision/Networking"
-    pinning.dependency 'Gini/Pinning', '~> 0.2'
+    pinning.dependency 'Gini/Pinning', '~> 0.3.0'
   end
 
   s.test_spec 'Tests' do |test_spec|

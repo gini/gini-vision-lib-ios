@@ -18,7 +18,8 @@ extension GiniVision {
      - parameter resultsDelegate: Results delegate object where you can get the results of the analysis.
      - parameter configuration: The configuration to set.
      - parameter documentMetadata: Additional HTTP headers to send when uploading documents
-     - parameter api: The Gini backend API to use
+     - parameter api: The Gini backend API to use. Supply .custom("domain") in order to specify a custom domain.
+     - parameter userApi: The Gini user backend API to use. Supply .custom("domain") in order to specify a custom domain.
      - parameter trackingDelegate: A delegate object to receive user events
      
      - note: Screen API only.
@@ -31,6 +32,7 @@ extension GiniVision {
                                      resultsDelegate: GiniVisionResultsDelegate,
                                      documentMetadata: Document.Metadata? = nil,
                                      api: APIDomain = .default,
+                                     userApi: UserDomain = .default,
                                      trackingDelegate: GiniVisionTrackingDelegate? = nil) -> UIViewController {
         GiniVision.setConfiguration(configuration)
         let screenCoordinator = GiniNetworkingScreenAPICoordinator(client: client,
@@ -38,6 +40,7 @@ extension GiniVision {
                                                          giniConfiguration: configuration,
                                                          documentMetadata: documentMetadata,
                                                          api: api,
+                                                         userApi: userApi,
                                                          trackingDelegate: trackingDelegate)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
