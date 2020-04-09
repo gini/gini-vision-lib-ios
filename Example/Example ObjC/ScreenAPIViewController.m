@@ -1,5 +1,5 @@
 //
-//  ViewController.m
+//  ScreenAPIViewController.m
 //  GiniVisionExampleObjC
 //
 //  Created by Peter Pult on 21/06/16.
@@ -7,19 +7,14 @@
 //
 
 #import "ScreenAPIViewController.h"
-#import "AnalysisManager.h"
 #import "ResultTableViewController.h"
 #import "NoResultViewController.h"
 #import <GiniVision/GiniVision-Swift.h>
 #import "CredentialsManager.h"
+#import <Example_ObjC-Swift.h>
 
-@interface ScreenAPIViewController () <GiniVisionDelegate> {
-    id<AnalysisDelegate> _analysisDelegate;
-    NSData *_imageData;
-}
-@property (nonatomic, strong) NSString *errorMessage;
-@property (nonatomic, strong) AnalysisResult *result;
-@property (nonatomic, strong) GINIDocument *document;
+@interface ScreenAPIViewController () <GiniVisionResultsDelegate>
+
 @property (nonatomic, strong) UIViewController *giniVisionVC;
 
 @end
@@ -53,144 +48,82 @@
     giniConfiguration.fileImportSupportedTypes = GiniVisionImportFileTypesPdf_and_images;
     giniConfiguration.openWithEnabled = YES;
     giniConfiguration.qrCodeScanningEnabled = YES;
+    giniConfiguration.returnAssistantEnabled = YES;
     
-    // 2. Create the Gini Vision Library view controller, set a delegate object and pass in the configuration object
-    self.giniVisionVC = [GiniVision viewControllerWithDelegate:self
-                                             withConfiguration:giniConfiguration
-                                              importedDocument:NULL];
+    // 2. Create the Gini Vision Library view controller using a bridging Swift file,
+    // set a delegate object and pass in the configuration object
+    NSDictionary<NSString*, NSString*> *credentials = [[[CredentialsManager alloc] init]
+                                                       getCredentials];
+    
+    self.giniVisionVC = [GVLBridge viewControllerWithClientId:credentials[kClientId]
+                                                       secret:credentials[kClientPassword]
+                                                       domain:credentials[kClientPassword]
+                                            giniConfiguration:giniConfiguration
+                                              resultsDelegate:self];
     
     // 3. Present the Gini Vision Library Screen API modally
     [self presentViewController:_giniVisionVC animated:YES completion:nil];
     
-    // 4. Handle callbacks send out via the `GINIVisionDelegate` to get results, errors or updates on other user actions
+    // 4. Handle callbacks send out via the `GINIVisionDelegateResult` to get results or errors.
 }
 
-- (void)giniVisionDidCancelAnalysis {
-    [self dismissViewControllerAnimated:true completion:nil];
-}
-
-- (void)presentResults {
+- (void)presentResults:(AnalysisResult *)result
+     sendFeedbackBlock:(void (^ _Nonnull)(NSDictionary<NSString *,Extraction *> * _Nonnull))sendFeedbackBlock {
+    
     NSArray *payFive = @[@"paymentReference", @"iban", @"bic", @"amountToPay", @"paymentRecipient"];
     BOOL hasPayFive = NO;
-        
+    
     for (NSString *key in payFive) {
-        if (_result.extractions[key]) {
+        if (result.extractions[key]) {
             hasPayFive = YES;
             break;
         }
     }
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:NULL];
-    if (hasPayFive) {
-        ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
-        vc.document = _document;
-        vc.result = _result.extractions;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:vc animated:NO];
-        });
-    } else {
-        NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.navigationController pushViewController:vc animated:NO];
-        });
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self dismissViewControllerAnimated:YES completion:nil];
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            if (hasPayFive) {
+                ResultTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"resultScreen"];
+                vc.result = result.extractions;
+                vc.sendFeedbackBlock = sendFeedbackBlock;
+                [self.navigationController pushViewController:vc animated:YES];
+            } else {
+                NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+        }];
     });
 }
 
-// MARK: Gini Vision delegate
+// MARK: GiniVisionResultsDelegate
 
-- (void)didCaptureWithDocument:(id<GiniVisionDocument> _Nonnull)document
-               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
-    // When using Multipage, each document must be uploaded and notified to the networkDelegate
-    if(document.type != GiniVisionDocumentTypeImage) {
-        [self didReviewWithDocuments:@[document] networkDelegate:networkDelegate];
-    }
+- (void)giniVisionDidCancelAnalysis {
+    [self dismissViewControllerAnimated:true completion:nil];
 }
 
-- (void)didReviewWithDocuments:(NSArray<id<GiniVisionDocument>> * _Nonnull)documents
-               networkDelegate:(id<AnalysisDelegate,UploadDelegate> _Nonnull)networkDelegate {
-    _analysisDelegate = networkDelegate;
-    _imageData = documents[0].data;
-    [self analyzeDocumentWithImageData:documents[0].data];
-}
-
-- (void)didCancelCapturing {
-    NSLog(@"Screen API canceled capturing");
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)didCancelReviewFor:(id<GiniVisionDocument> _Nonnull)document {
-    NSLog(@"Screen API canceled review");
+- (void)giniVisionAnalysisDidFinishWithResult:(AnalysisResult * _Nonnull)result
+                            sendFeedbackBlock:(void (^ _Nonnull)(NSDictionary<NSString *,Extraction *> * _Nonnull))sendFeedbackBlock {
     
-    // Cancel analysis process to avoid unnecessary network calls.
-    [self cancelAnalysis];
+    [self presentResults:result sendFeedbackBlock:sendFeedbackBlock];
 }
 
-- (void)didCancelAnalysis {
-    NSLog(@"Screen API canceled analysis");
+
+- (void)giniVisionAnalysisDidFinishWithoutResults:(BOOL)showingNoResultsScreen {
     
-    _analysisDelegate = nil;
-    
-    // Cancel analysis process to avoid unnecessary network calls.
-    [self cancelAnalysis];
-}
-
-// MARK: Handle analysis of document
-- (void)analyzeDocumentWithImageData:(NSData *)data {
-    [self cancelAnalysis];
-    _imageData = data;
-    [[AnalysisManager sharedManager] analyzeDocumentWithImageData:data
-                                                    andCompletion:^(AnalysisResult *result, GINIDocument * document, NSError *error) {
-        if (error) {
-            self.errorMessage = @"Es ist ein Fehler aufgetreten. Wiederholen";
-        } else if (result && document) {
-            self.document = document;
-            self.result = result;
-        } else {
-            self.errorMessage = @"Ein unbekannter Fehler ist aufgetreten. Wiederholen";
-        }
-    }];
-}
-
-- (void)cancelAnalysis {
-    [[AnalysisManager sharedManager] cancelAnalysis];
-    _result = nil;
-    _document = nil;
-    _errorMessage = nil;
-    _imageData = nil;
-}
-
-// MARK: Handle results from analysis process
-- (void)setErrorMessage:(NSString *)errorMessage {
-    _errorMessage = errorMessage;
-    if (_errorMessage) {
-        [self showErrorMessage];
-    }
-}
-
-- (void)setResult:(AnalysisResult *)result {
-    _result = result;
-    if (_result && _document) {
-        [self showResults];
-    }
-}
-
-- (void)showErrorMessage {
-    if (_errorMessage && _imageData && _analysisDelegate) {
-        [_analysisDelegate displayErrorWithMessage:_errorMessage andAction:^{
-            [self analyzeDocumentWithImageData: self->_imageData];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            NoResultViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"noResultScreen"];
+            [self.navigationController pushViewController:vc animated:YES];
         }];
-    }
-}
-
-- (void)showResults {
-    if (_analysisDelegate) {
-        _analysisDelegate = nil;
-        [self presentResults];
-    }
+    });
 }
 
 @end

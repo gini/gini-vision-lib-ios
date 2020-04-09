@@ -29,7 +29,6 @@
 		1F59756320A0A24A0012196B /* PartialDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756220A0A24A0012196B /* PartialDocument.swift */; };
 		1F59756820A1C5C00012196B /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F59756720A1C5C00012196B /* UIViewController.swift */; };
 		1F5F53321F5DB2E300D4BF06 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
-		1F731F80228ED0D6002D2EFE /* AnalysisManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */; };
 		1F93350220A334F2004BC50C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F93350120A334F2004BC50C /* AppDelegate.m */; };
 		1F93350820A334F2004BC50C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350620A334F2004BC50C /* Main.storyboard */; };
 		1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F93350920A334F2004BC50C /* Assets.xcassets */; };
@@ -46,6 +45,7 @@
 		1FEEADA91F793F84005BA159 /* ComponentAPICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEEADA81F793F84005BA159 /* ComponentAPICoordinator.swift */; };
 		1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 1FEED2931F6AC0440068E8AB /* testPDF.pdf */; };
 		1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1FF3A42020C6D20900081A32 /* Credentials.plist */; };
+		52C18552243F158E00F0E68B /* GVLBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C18551243F158E00F0E68B /* GVLBridge.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* SelectAPIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -111,8 +111,6 @@
 		1F59756020A0A21A0012196B /* ComponentAPIDocumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentAPIDocumentsService.swift; sourceTree = "<group>"; };
 		1F59756220A0A24A0012196B /* PartialDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartialDocument.swift; sourceTree = "<group>"; };
 		1F59756720A1C5C00012196B /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
-		1F731F7E228ED0D5002D2EFE /* AnalysisManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisManager.h; sourceTree = "<group>"; };
-		1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisManager.m; sourceTree = "<group>"; };
 		1F93350020A334F2004BC50C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1F93350120A334F2004BC50C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1F93350720A334F2004BC50C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -143,6 +141,8 @@
 		24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example_Swift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		31B85359B1A820A66036BEFA /* Pods-Example_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3AFCE27BDC0098A311CCFB18 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		52C18550243F158D00F0E68B /* Example ObjC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example ObjC-Bridging-Header.h"; sourceTree = "<group>"; };
+		52C18551243F158E00F0E68B /* GVLBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GVLBridge.swift; sourceTree = "<group>"; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		607FACD71AFB9204008FA782 /* SelectAPIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAPIViewController.swift; sourceTree = "<group>"; };
@@ -255,8 +255,6 @@
 			children = (
 				1F93350020A334F2004BC50C /* AppDelegate.h */,
 				1F93350120A334F2004BC50C /* AppDelegate.m */,
-				1F731F7E228ED0D5002D2EFE /* AnalysisManager.h */,
-				1F731F7F228ED0D6002D2EFE /* AnalysisManager.m */,
 				1F93350920A334F2004BC50C /* Assets.xcassets */,
 				1FAA2A9820A3548D00A54452 /* CredentialsManager.h */,
 				1FAA2A9620A3546E00A54452 /* CredentialsManager.m */,
@@ -271,6 +269,8 @@
 				1F93352E20A33617004BC50C /* ResultTableViewController.m */,
 				1F93352520A33616004BC50C /* ScreenAPIViewController.h */,
 				1F93352C20A33617004BC50C /* ScreenAPIViewController.m */,
+				52C18551243F158E00F0E68B /* GVLBridge.swift */,
+				52C18550243F158D00F0E68B /* Example ObjC-Bridging-Header.h */,
 			);
 			path = "Example ObjC";
 			sourceTree = "<group>";
@@ -494,6 +494,7 @@
 					1F9334FD20A334F2004BC50C = {
 						CreatedOnToolsVersion = 9.3;
 						DevelopmentTeam = BQY9KX4V88;
+						LastSwiftMigration = 1140;
 						ProvisioningStyle = Automatic;
 					};
 					607FACCF1AFB9204008FA782 = {
@@ -649,16 +650,12 @@
 				"${BUILT_PRODUCTS_DIR}/Gini/Gini.framework",
 				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
 				"${BUILT_PRODUCTS_DIR}/TrustKit/TrustKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
-				"${BUILT_PRODUCTS_DIR}/Gini-iOS-SDK/Gini_iOS_SDK.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiniVision.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini_iOS_SDK.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -737,8 +734,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52C18552243F158E00F0E68B /* GVLBridge.swift in Sources */,
 				1FAA2A9720A3546E00A54452 /* CredentialsManager.m in Sources */,
-				1F731F80228ED0D6002D2EFE /* AnalysisManager.m in Sources */,
 				1F93351020A334F2004BC50C /* main.m in Sources */,
 				1F93350220A334F2004BC50C /* AppDelegate.m in Sources */,
 				1F93353420A33617004BC50C /* ResultTableViewController.m in Sources */,
@@ -937,6 +934,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FDD84915880AC0748A55810C /* Pods-GiniVision_UITests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = UITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -952,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 156A507DBF7F781FDA55A5E2 /* Pods-GiniVision_UITests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				INFOPLIST_FILE = UITests/Info.plist;
@@ -968,6 +967,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9D28D3A8D252D1E9ECD44FB2 /* Pods-GiniVision_UITests.in house.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				INFOPLIST_FILE = UITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -987,6 +987,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1000,6 +1001,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example ObjC/Example ObjC-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1012,6 +1016,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1024,6 +1029,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example ObjC/Example ObjC-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "In House";
@@ -1036,6 +1043,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
@@ -1048,6 +1056,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "gini.Example-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Example ObjC/Example ObjC-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

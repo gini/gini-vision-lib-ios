@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Gini_iOS_SDK/GiniSDK.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-// GiniSDK property to have global access to the Gini API.
-@property (strong, nonatomic) GiniSDK* giniSDK;
 
 @end
 
