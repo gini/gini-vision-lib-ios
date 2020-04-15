@@ -8,6 +8,10 @@
 import Foundation
 import Gini
 
+/**
+ `DigitalInvoice` represents all extracted data in the form usable by the `DigitalInvoiceViewController`.
+ The `DigitalInvoiceViewController` returns a `DigitalInvoice` as amended by the user.
+ */
 public struct DigitalInvoice {
     
     private let _extractionResult: ExtractionResult
@@ -63,6 +67,11 @@ extension DigitalInvoice {
         case cannotParsePrice(string: String)
     }
     
+    /**
+     Returns a `DigitalInfo` instance given an `ExtractionResult`.
+     
+     - returns: Instance of `DigitalInfo`.
+     */
     public init(extractionResult: ExtractionResult) throws {
         
         self._extractionResult = extractionResult
@@ -78,6 +87,9 @@ extension DigitalInvoice {
         }
     }
     
+    /**
+     The backing `ExtractionResult` data.
+     */
     public var extractionResult: ExtractionResult {
         
         guard let totalValue = total?.extractionString else {
