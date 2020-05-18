@@ -9,6 +9,8 @@ import XCTest
 @testable import GiniVision
 @testable import Gini
 
+// swiftlint:disable force_try line_length
+
 let digitalInvoiceExample: DigitalInvoice = {
     
     let lineItemBox = Extraction.Box(height: 9.0, left: 72.0, page: 1, top: 347.11, width: 5.0)

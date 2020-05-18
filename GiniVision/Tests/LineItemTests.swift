@@ -9,6 +9,8 @@ import XCTest
 @testable import GiniVision
 @testable import Gini
 
+// swiftlint:disable force_try
+
 class LineItemTests: XCTestCase {
     
     let lineItem: DigitalInvoice.LineItem = {

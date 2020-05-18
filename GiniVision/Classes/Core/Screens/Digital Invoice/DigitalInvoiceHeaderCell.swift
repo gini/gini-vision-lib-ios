@@ -52,9 +52,10 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         messageLabel.font = giniConfiguration?.customFont.regular ?? GiniConfiguration.shared.customFont.regular
         messageLabel.textAlignment = .center
         
-        let secondaryMessageAttributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
-                                                                                   bundle: Bundle(for: GiniVision.self),
-                                                                                   comment: ""))
+        let secondaryMessageAttributedString =
+            NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
+                                                                bundle: Bundle(for: GiniVision.self),
+                                                                comment: ""))
 
         secondaryMessageAttributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
                                       value: paragraphStyle,
