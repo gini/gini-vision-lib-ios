@@ -27,6 +27,7 @@ On *iPhone*, the Gini Vision Library has been designed for portrait orientation.
   - [Import PDFs and Images guide](import-pdfs-and-images-guide.html)
   - [Open with guide](open-with-guide.html)
   - [QR Code scanning guide](qr-code-scanning-guide.html)
+  - [Return Assistant guide](return-assistant-guide.html)
 * Migration guides
   - [Updating to 5.0](updating-to-50.html)
   - [Updating to 4.0](updating-to-40.html)
