@@ -46,6 +46,8 @@ import UIKit
     fileprivate let giniConfiguration: GiniConfiguration
     fileprivate static let loadingIndicatorContainerHeight: CGFloat = 60
     
+    public weak var trackingDelegate: AnalysisScreenTrackingDelegate?
+    
     // User interface
     fileprivate var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -184,9 +186,13 @@ import UIKit
      Shows an error when there was an error with either the analysis or document upload
      */
     public func showError(with message: String, action: @escaping () -> Void ) {
+        
+        trackingDelegate?.onAnalysisScreenEvent(event: Event(type: .error, info: ["message" : message]))
+        
         errorView.textLabel.text = message
         errorView.userAction = NoticeAction(title: NoticeActionType.retry.title, action: { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
+            self.trackingDelegate?.onAnalysisScreenEvent(event: Event(type: .retry))
             self.errorView.hide(true, completion: action)
         })
         errorView.show()

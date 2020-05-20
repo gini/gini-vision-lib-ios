@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '5.1.0'
+  s.version          = '5.3.0'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
   s.description      = <<-DESC
@@ -18,10 +18,6 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.social_media_url = 'https://twitter.com/gini'
   s.swift_version    = '5.0'
   s.ios.deployment_target = '10.0'
-  
-  # workaround for https://github.com/CocoaPods/CocoaPods/issues/9521
-  # Remove after iOS 11 is dropped.
-  s.xcconfig = { 'ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES' => 'YES' }
   
   s.default_subspec = 'Core'
 

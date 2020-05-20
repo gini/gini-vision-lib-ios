@@ -36,6 +36,7 @@
            "Import PDFs and images guide",
            "QR Code scanning guide",
            "Return Assistant guide"
+           "Event tracking guide"
          ]
       },
       {
@@ -85,7 +86,11 @@
             "ImageAssetsStrings",
             "NoticeActionType",
             "OpaqueViewStyle",
-            "ReviewError"
+            "ReviewError",
+            "OnboardingScreenEventType",
+            "CameraScreenEventType",
+            "ReviewScreenEventType",
+            "AnalysisScreenEventType"
          ]
       },
       {
@@ -110,14 +115,20 @@
             "HelpMenuViewControllerDelegate",
             "MultipageReviewViewControllerDelegate",
             "ReviewViewControllerDelegate",
-            "UploadDelegate"
+            "UploadDelegate",
+            "GiniVisionTrackingDelegate",
+            "OnboardingScreenTrackingDelegate",
+            "CameraScreenTrackingDelegate",
+            "ReviewScreenTrackingDelegate",
+            "AnalysisScreenTrackingDelegate"
          ]
       },
       {
 	       "name":"Structs",
 	       "children":[
 	         "GiniVisionFont",
-           "GiniVisionPage"
+           "GiniVisionPage",
+           "Event"
 	       ]
       },
       {

@@ -90,6 +90,9 @@ extension GiniScreenAPICoordinator: MultipageReviewViewControllerDelegate {
     }
     
     @objc fileprivate func closeMultipageScreen() {
+        
+        trackingDelegate?.onReviewScreenEvent(event: Event(type: .back))
+        
         self.screenAPINavigationController.popViewController(animated: true)
     }
     

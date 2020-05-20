@@ -5,17 +5,17 @@ PODS:
   - Gini/Pinning (1.0.0):
     - Gini/DocumentsAPI
     - TrustKit (~> 1.6)
-  - GiniVision (5.1.0):
-    - GiniVision/Core (= 5.1.0)
-  - GiniVision/Core (5.1.0)
-  - GiniVision/Networking (5.1.0):
+  - GiniVision (5.3.0):
+    - GiniVision/Core (= 5.3.0)
+  - GiniVision/Core (5.3.0)
+  - GiniVision/Networking (5.3.0):
     - Gini/DocumentsAPI (~> 1.0)
     - Gini/Pinning (~> 1.0)
     - GiniVision/Core
-  - "GiniVision/Networking+Pinning (5.1.0)":
+  - "GiniVision/Networking+Pinning (5.3.0)":
     - Gini/Pinning (~> 1.0)
     - GiniVision/Networking
-  - GiniVision/Tests (5.1.0)
+  - GiniVision/Tests (5.3.0)
   - TrustKit (1.6.5)
 
 DEPENDENCIES:
@@ -37,12 +37,12 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Gini:
-    :commit: 706f6e11d6c878522fe54debf6b29ed64b0a241b
+    :commit: 0c34fd5a9250fcf370137990c97345161cd5a201
     :git: https://github.com/gini/gini-ios.git
 
 SPEC CHECKSUMS:
   Gini: e38dff85495849f325560b674f2a39498d4f9843
-  GiniVision: 755dafa3b4ae7391ec0994dbab6d5307b82ed24f
+  GiniVision: d769811bb40bde248ca59dac4ee31909fe0c5de2
   TrustKit: 073855e3adecd317417bda4ac9e9ac54a2e3b9f2
 
 PODFILE CHECKSUM: 423824f662c77e59d63ade705914061a7dfa0cdb

@@ -26,6 +26,9 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
         return navigationController
     }()
     
+    // Tracking
+    weak var trackingDelegate: GiniVisionTrackingDelegate?
+    
     // Screens
     var analysisViewController: AnalysisViewController?
     var cameraViewController: CameraViewController?
@@ -197,6 +200,16 @@ extension GiniScreenAPICoordinator {
 extension GiniScreenAPICoordinator {
     
     @objc func back() {
+        
+        switch screenAPINavigationController.topViewController {
+        case is CameraViewController:
+            trackingDelegate?.onCameraScreenEvent(event: Event(type: .exit))
+        case is AnalysisViewController:
+            trackingDelegate?.onAnalysisScreenEvent(event: Event(type: .cancel))
+        default:
+            break
+        }
+        
         if self.screenAPINavigationController.viewControllers.count == 1 {
             self.closeScreenApi()
         } else {
@@ -209,6 +222,9 @@ extension GiniScreenAPICoordinator {
     }
     
     @objc func showHelpMenuScreen() {
+        
+        trackingDelegate?.onCameraScreenEvent(event: Event(type: .help))
+        
         let helpMenuViewController = HelpMenuViewController(giniConfiguration: giniConfiguration)
         helpMenuViewController.delegate = self
         helpMenuViewController.setupNavigationItem(usingResources: backButtonResource,
@@ -227,6 +243,11 @@ extension GiniScreenAPICoordinator {
     
     @objc func showAnalysisScreen() {
         
+        if screenAPINavigationController.topViewController is MultipageReviewViewController ||
+        screenAPINavigationController.topViewController is ReviewViewController {
+            trackingDelegate?.onReviewScreenEvent(event: Event(type: .next))
+        }
+        
         guard let firstDocument = pages.first?.document else {
             return
         }
@@ -236,7 +257,8 @@ extension GiniScreenAPICoordinator {
         }
         
         analysisViewController = createAnalysisScreen(withDocument: firstDocument)
-
+        analysisViewController?.trackingDelegate = trackingDelegate
+        
         if let (message, action) = analysisErrorAndAction {
             displayError(withMessage: message, andAction: action)
         }

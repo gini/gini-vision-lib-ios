@@ -15,6 +15,25 @@ protocol ScreenAPICoordinatorDelegate: class {
     func screenAPI(coordinator: ScreenAPICoordinator, didFinish:())
 }
 
+class TrackingDelegate: GiniVisionTrackingDelegate {
+    
+    func onAnalysisScreenEvent(event: Event<AnalysisScreenEventType>) {
+        print("✏️ Analysis: \(event.type.rawValue), info: \(event.info ?? [:])")
+    }
+    
+    func onOnboardingScreenEvent(event: Event<OnboardingScreenEventType>) {
+        print("✏️ Onboarding: \(event.type.rawValue)")
+    }
+    
+    func onCameraScreenEvent(event: Event<CameraScreenEventType>) {
+        print("✏️ Camera: \(event.type.rawValue)")
+    }
+    
+    func onReviewScreenEvent(event: Event<ReviewScreenEventType>) {
+        print("✏️ Review: \(event.type.rawValue)")
+    }
+}
+
 final class ScreenAPICoordinator: NSObject, Coordinator {
     
     weak var delegate: ScreenAPICoordinatorDelegate?
@@ -23,6 +42,8 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         return screenAPIViewController
     }
     var screenAPIViewController: UINavigationController!
+    
+    private let trackingDelegate = TrackingDelegate()
     
     let client: Client
     let documentMetadata: Document.Metadata?
@@ -47,7 +68,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
                                                        importedDocuments: visionDocuments,
                                                        configuration: visionConfiguration,
                                                        resultsDelegate: self,
-                                                       documentMetadata: documentMetadata)
+                                                       documentMetadata: documentMetadata,
+                                                       api: .default,
+                                                       userApi: .default,
+                                                       trackingDelegate: trackingDelegate)
         screenAPIViewController = RootNavigationController(rootViewController: viewController)
         screenAPIViewController.navigationBar.barTintColor = visionConfiguration.navigationBarTintColor
         screenAPIViewController.navigationBar.tintColor = visionConfiguration.navigationBarTitleColor

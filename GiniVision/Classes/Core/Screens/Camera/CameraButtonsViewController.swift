@@ -71,7 +71,7 @@ final class CameraButtonsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isHidden = true
         view.didTapImageStackButton = { [weak self] in
-            guard let `self` = self else { return }
+            guard let self = self else { return }
             self.delegate?.cameraButtons(self, didTapOn: .imagesStack)
         }
         return view
@@ -166,7 +166,7 @@ final class CameraButtonsViewController: UIViewController {
             }
         }
         
-        flashToggleButtonContainerView.isHidden = true
+        flashToggleButtonContainerView.isHidden = !isFlashSupported
         
         addConstraints()
     }

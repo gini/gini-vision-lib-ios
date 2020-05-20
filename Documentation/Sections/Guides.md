@@ -3,3 +3,4 @@
   - [Open with guide](open-with-guide.html)
   - [QR Code scanning guide](qr-code-scanning-guide.html)
   - [Return Assistant guide](return-assistant-guide.html)
+  - [Event tracking guide](event-tracking-guide.html)
