@@ -58,21 +58,6 @@ final class CameraPreviewViewControllerTests: XCTestCase {
         XCTAssertNotNil(metadataOutput, "the camera session should have the metadata output")
     }
     
-    func testCaptureImage() {
-        let expect = expectation(description: "an image is captured")
-        let giniConfiguration = GiniConfiguration()
-        giniConfiguration.debugModeOn = true
-        cameraPreviewViewController = CameraPreviewViewController(giniConfiguration: giniConfiguration)
-        _ = cameraPreviewViewController.view
-        cameraPreviewViewController.setupCamera()
-        
-        cameraPreviewViewController.captureImage { imageData, _ in
-            XCTAssertNotNil(imageData, "image captured data should not be nil")
-            expect.fulfill()
-        }
-        wait(for: [expect], timeout: 1.0)
-    }
-    
     func testFlashToggle() {
         let camera = CameraMock(state: .authorized)
         let defaultFlashState = camera.isFlashOn

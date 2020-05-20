@@ -8,6 +8,9 @@
 
 #import "CredentialsManager.h"
 
+NSString *const kClientId = @"client_id";
+NSString *const kClientPassword = @"client_password";
+NSString *const kClientDomain = @"client_domain";
 
 @implementation CredentialsManager
 

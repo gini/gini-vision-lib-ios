@@ -1,11 +1,6 @@
 PODS:
-  - Bolts/Tasks (1.9.0)
   - Gini (1.0.0):
     - Gini/DocumentsAPI (= 1.0.0)
-  - Gini-iOS-SDK (1.4.0):
-    - Gini-iOS-SDK/Core (= 1.4.0)
-  - Gini-iOS-SDK/Core (1.4.0):
-    - Bolts/Tasks (~> 1.9)
   - Gini/DocumentsAPI (1.0.0)
   - Gini/Pinning (1.0.0):
     - Gini/DocumentsAPI
@@ -25,17 +20,13 @@ PODS:
 
 DEPENDENCIES:
   - Gini (from `https://github.com/gini/gini-ios.git`, branch `PIA-491`)
-  - Gini-iOS-SDK (~> 1.4)
   - GiniVision (from `../`)
   - "GiniVision/Networking+Pinning (from `../`)"
   - GiniVision/Tests (from `../`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
-    - Bolts
     - TrustKit
-  https://github.com/gini/gini-podspecs.git:
-    - Gini-iOS-SDK
 
 EXTERNAL SOURCES:
   Gini:
@@ -50,12 +41,10 @@ CHECKOUT OPTIONS:
     :git: https://github.com/gini/gini-ios.git
 
 SPEC CHECKSUMS:
-  Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Gini: e38dff85495849f325560b674f2a39498d4f9843
-  Gini-iOS-SDK: 270169987acb2ebd83d1e11d029daa81b6f89682
   GiniVision: 755dafa3b4ae7391ec0994dbab6d5307b82ed24f
   TrustKit: 073855e3adecd317417bda4ac9e9ac54a2e3b9f2
 
-PODFILE CHECKSUM: 1458eb133eef37de764f18f0272e3353a1b23fe3
+PODFILE CHECKSUM: 4d0469ae5b46c11bd786bb2df22b0ab5d1b26b2e
 
 COCOAPODS: 1.9.1

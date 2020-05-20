@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *const kClientId;
+extern NSString *const kClientPassword;
+extern NSString *const kClientDomain;
+
 @interface CredentialsManager: NSObject
 
 - (NSDictionary<NSString*, NSString*> *)getCredentials;

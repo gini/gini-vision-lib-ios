@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Gini_iOS_SDK/GiniSDK.h>
+#import <GiniVision/GiniVision-Swift.h>
+
+typedef void(^SendFeedbackBlock)(NSDictionary<NSString *,Extraction *> * _Nonnull);
 
 /**
  *  Presents a dictionary of results from the analysis process in a table view.
@@ -18,12 +20,11 @@
 /**
  *  The result dictionary from the analysis process.
  */
-@property (nonatomic, strong) NSDictionary *result;
+@property (nonatomic, strong) NSDictionary<NSString *, Extraction *> * _Nullable result;
 
 /**
- *  The document the results have been extracted from.
- *  Can be used for further processing.
+ *  The feedback block
  */
-@property (nonatomic, strong) GINIDocument *document;
+@property (nonatomic, copy) SendFeedbackBlock _Nullable sendFeedbackBlock;
 
 @end
