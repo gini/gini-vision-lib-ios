@@ -7,14 +7,32 @@
 
 import UIKit
 
+/**
+ Delegate protocol for `DigitalInvoiceViewController`.
+ */
 public protocol DigitalInvoiceViewControllerDelegate: class {
     
+    /**
+     Called after the user taps the "Pay" button on the `DigitalInvoiceViewController`.
+     
+     - parameter viewController: The `DigitalInvoiceViewController` instance.
+     - parameter invoice: The `DigitalInvoice` as amended by the user.
+     */
     func didFinish(viewController: DigitalInvoiceViewController,
                    invoice: DigitalInvoice)
 }
 
+/**
+ This class is a view controller that lets the user view their invoice
+ together with the line items and total amount to pay. It will push the
+ `LineItemDetailsViewController` onto the navigation stack when the user
+ taps the "Edit" button on any of the line items.
+ */
 public class DigitalInvoiceViewController: UIViewController {
 
+    /**
+     The `DigitalInvoice` to display and amend by the user.
+     */
     public var invoice: DigitalInvoice? {
         didSet {
             tableView.reloadData()
@@ -29,6 +47,10 @@ public class DigitalInvoiceViewController: UIViewController {
     // Remove ASAP
     public var analysisDelegate: AnalysisDelegate?
     
+    /**
+     The `GiniConfiguration` instance used by this class to customise its appearance.
+     By default the shared instance is used.
+     */
     public var giniConfiguration = GiniConfiguration.shared
     
     private let payButton = UIButton(type: .system)

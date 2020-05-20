@@ -333,7 +333,7 @@ extension ComponentAPICoordinator {
     }
     
     fileprivate func startAnalysis() {
-        documentService?.startAnalysis(completion: { result in
+        documentService?.startAnalysis { result in
             DispatchQueue.main.async { [weak self] in
                 
                 guard let self = self else { return }
@@ -356,7 +356,7 @@ extension ComponentAPICoordinator {
                     }
                 }
             }
-        })
+        }
     }
     
     fileprivate func delete(document: GiniVisionDocument) {

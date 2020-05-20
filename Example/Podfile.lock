@@ -19,7 +19,7 @@ PODS:
   - TrustKit (1.6.5)
 
 DEPENDENCIES:
-  - Gini (from `https://github.com/gini/gini-ios.git`, branch `PIA-491`)
+  - Gini (from `https://github.com/gini/gini-ios.git`, branch `develop`)
   - GiniVision (from `../`)
   - "GiniVision/Networking+Pinning (from `../`)"
   - GiniVision/Tests (from `../`)
@@ -30,14 +30,14 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Gini:
-    :branch: PIA-491
+    :branch: develop
     :git: https://github.com/gini/gini-ios.git
   GiniVision:
     :path: "../"
 
 CHECKOUT OPTIONS:
   Gini:
-    :commit: 81a9ce639f70f278cc351b7458e2223b8e202a5f
+    :commit: 706f6e11d6c878522fe54debf6b29ed64b0a241b
     :git: https://github.com/gini/gini-ios.git
 
 SPEC CHECKSUMS:
@@ -45,6 +45,6 @@ SPEC CHECKSUMS:
   GiniVision: 755dafa3b4ae7391ec0994dbab6d5307b82ed24f
   TrustKit: 073855e3adecd317417bda4ac9e9ac54a2e3b9f2
 
-PODFILE CHECKSUM: 4d0469ae5b46c11bd786bb2df22b0ab5d1b26b2e
+PODFILE CHECKSUM: 423824f662c77e59d63ade705914061a7dfa0cdb
 
 COCOAPODS: 1.9.1

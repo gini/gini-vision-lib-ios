@@ -19,7 +19,6 @@ import Gini
      */
     public let extractions: [String: Extraction]
     
-    // TODO: add documentation link
     /*
      *  Line item compound extractions obtained in the analysis.
      */
