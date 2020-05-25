@@ -8,6 +8,13 @@
 
 import UIKit
 
+@objc
+public protocol PreferredButtonResource {
+    
+    var preferredImage: UIImage? { get }
+    var preferredText: String? { get }
+}
+
 enum ResourceOrigin {
     case unknown
     case library
@@ -22,15 +29,15 @@ enum ResourceOrigin {
  * their catalog. In this case, the customized image will be used.
  */
 
-struct PreferredButtonResource {
+class GiniPreferredButtonResource: PreferredButtonResource {
     
-    let imageName: String?
-    let localizedTextKey: String?
-    let localizedTextComment: String?
-    let localizedConfigEntry: String?
-    let appBundle = Bundle.main
-    let libBundle = Bundle(for: GiniVision.self)
-    var imageSource: ResourceOrigin {
+    private let imageName: String?
+    private let localizedTextKey: String?
+    private let localizedTextComment: String?
+    private let localizedConfigEntry: String?
+    private let appBundle = Bundle.main
+    private let libBundle = Bundle(for: GiniVision.self)
+    private var imageSource: ResourceOrigin {
         if let name = imageName {
             if UIImage(named: name, in: appBundle, compatibleWith: nil) != nil {
                 return .custom
@@ -41,7 +48,7 @@ struct PreferredButtonResource {
         return.unknown
     }
     
-    var textSource: ResourceOrigin {
+    private var textSource: ResourceOrigin {
         if localizedConfigEntry != nil && !localizedConfigEntry!.isEmpty {
             return .custom
         }

@@ -58,11 +58,11 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     
     fileprivate lazy var continueButton: UIBarButtonItem = {
         let continueButtonResources =
-            PreferredButtonResource(image: "navigationOnboardingContinue",
-                                    title: "ginivision.navigationbar.onboarding.continue",
-                                    comment: "Button title in the navigation bar for the " +
+            GiniPreferredButtonResource(image: "navigationOnboardingContinue",
+                                        title: "ginivision.navigationbar.onboarding.continue",
+                                        comment: "Button title in the navigation bar for the " +
                 "continue button on the onboarding screen",
-                                    configEntry: self.giniConfiguration.navigationBarOnboardingTitleContinueButton)
+                                        configEntry: self.giniConfiguration.navigationBarOnboardingTitleContinueButton)
         return GiniBarButtonItem(
             image: continueButtonResources.preferredImage,
             title: continueButtonResources.preferredText,
