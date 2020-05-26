@@ -83,17 +83,19 @@ final public class HelpMenuViewController: UITableViewController {
     
     // Button resources
     fileprivate lazy var backToCameraButtonResource =
-        PreferredButtonResource(image: "navigationReviewBack",
-                                title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the " +
-                                         "back button on the help menu screen",
-                                configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
+        giniConfiguration.backToCameraButtonResource ??
+            GiniPreferredButtonResource(image: "navigationReviewBack",
+                                        title: "ginivision.navigationbar.review.back",
+                                        comment: "Button title in the navigation bar for the " +
+                "back button on the help menu screen",
+                                        configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
     
     fileprivate lazy var backToMenuButtonResource =
-        PreferredButtonResource(image: "arrowBack",
-                                title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the help screen",
-                                configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
+        giniConfiguration.backToMenuButtonResource ??
+            GiniPreferredButtonResource(image: "arrowBack",
+                                        title: "ginivision.navigationbar.review.back",
+                                        comment: "Button title in the navigation bar for the back button on the help screen",
+                                        configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
     public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration

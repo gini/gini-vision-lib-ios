@@ -17,11 +17,13 @@ extension UIViewController {
                              selector: Selector,
                              position: NavBarItemPosition,
                              target: AnyObject?) {
-        let buttonText = preferredResources.preferredText
-        if buttonText != nil && !buttonText!.isEmpty {
+        
+        let buttonText = preferredResources.preferredText ?? ""
+        
+        if !buttonText.isEmpty || preferredResources.preferredImage != nil {
             let navButton = GiniBarButtonItem(
                 image: preferredResources.preferredImage,
-                title: buttonText,
+                title: preferredResources.preferredText,
                 style: .plain,
                 target: target,
                 action: selector
