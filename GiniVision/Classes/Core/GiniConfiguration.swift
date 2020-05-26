@@ -818,4 +818,12 @@ import UIKit
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true
+    
+    // Undocumented--Xamarin only
+    @objc public var closeButtonResource: PreferredButtonResource?
+    @objc public var helpButtonResource: PreferredButtonResource?
+    @objc public var backToCameraButtonResource: PreferredButtonResource?
+    @objc public var backToMenuButtonResource: PreferredButtonResource?
+    @objc public var nextButtonResource: PreferredButtonResource?
+    @objc public var cancelButtonResource: PreferredButtonResource?
 }

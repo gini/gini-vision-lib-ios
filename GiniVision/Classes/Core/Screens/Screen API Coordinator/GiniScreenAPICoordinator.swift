@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Gini
 
 protocol Coordinator: class {
     var rootViewController: UIViewController { get }
@@ -19,7 +18,7 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
         return screenAPINavigationController
     }
     
-    private(set) lazy var screenAPINavigationController: UINavigationController = {
+    fileprivate(set) lazy var screenAPINavigationController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.delegate = self
         navigationController.applyStyle(withConfiguration: self.giniConfiguration)
@@ -52,38 +51,42 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
     var analysisErrorAndAction: (message: String, action: () -> Void)?
     
     // Resources
-    private(set) lazy var backButtonResource =
-        PreferredButtonResource(image: "navigationReviewBack",
-                                title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
-    private(set) lazy var cancelButtonResource =
-        PreferredButtonResource(image: "navigationAnalysisBack",
-                                title: "ginivision.navigationbar.analysis.back",
-                                comment: "Button title in the navigation bar for" +
-            "the back button on the analysis screen",
-                                configEntry: self.giniConfiguration.navigationBarAnalysisTitleBackButton)
-    private(set) lazy var closeButtonResource =
-        PreferredButtonResource(image: "navigationCameraClose",
-                                title: "ginivision.navigationbar.camera.close",
-                                comment: "Button title in the navigation bar for the close button on the camera screen",
-                                configEntry: self.giniConfiguration.navigationBarCameraTitleCloseButton)
-    private(set) lazy var helpButtonResource =
-        PreferredButtonResource(image: "navigationCameraHelp",
-                                title: "ginivision.navigationbar.camera.help",
-                                comment: "Button title in the navigation bar for the help button on the camera screen",
-                                configEntry: self.giniConfiguration.navigationBarCameraTitleHelpButton)
-    private(set) lazy var nextButtonResource =
-        PreferredButtonResource(image: "navigationReviewContinue",
-                                title: "ginivision.navigationbar.review.continue",
-                                comment: "Button title in the navigation bar for " +
-            "the continue button on the review screen",
-                                configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
-    private lazy var backToHelpMenuButtonResource =
-        PreferredButtonResource(image: "arrowBack",
-                                title: "ginivision.navigationbar.review.back",
-                                comment: "Button title in the navigation bar for the back button on the help screen",
-                                configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
+    fileprivate(set) lazy var backButtonResource =
+        GiniPreferredButtonResource(image: "navigationReviewBack",
+                                    title: "ginivision.navigationbar.review.back",
+                                    comment: "Button title in the navigation bar for the back button on the review screen",
+                                    configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+    fileprivate(set) lazy var cancelButtonResource =
+        giniConfiguration.cancelButtonResource ??
+            GiniPreferredButtonResource(image: "navigationAnalysisBack",
+                                        title: "ginivision.navigationbar.analysis.back",
+                                        comment: "Button title in the navigation bar for" +
+                "the back button on the analysis screen",
+                                        configEntry: self.giniConfiguration.navigationBarAnalysisTitleBackButton)
+    fileprivate(set) lazy var closeButtonResource =
+        giniConfiguration.closeButtonResource ??
+            GiniPreferredButtonResource(image: "navigationCameraClose",
+                                        title: "ginivision.navigationbar.camera.close",
+                                        comment: "Button title in the navigation bar for the close button on the camera screen",
+                                        configEntry: self.giniConfiguration.navigationBarCameraTitleCloseButton)
+    fileprivate(set) lazy var helpButtonResource =
+        giniConfiguration.helpButtonResource ??
+            GiniPreferredButtonResource(image: "navigationCameraHelp",
+                                        title: "ginivision.navigationbar.camera.help",
+                                        comment: "Button title in the navigation bar for the help button on the camera screen",
+                                        configEntry: self.giniConfiguration.navigationBarCameraTitleHelpButton)
+    fileprivate(set) lazy var nextButtonResource =
+        giniConfiguration.nextButtonResource ??
+            GiniPreferredButtonResource(image: "navigationReviewContinue",
+                                        title: "ginivision.navigationbar.review.continue",
+                                        comment: "Button title in the navigation bar for " +
+                "the continue button on the review screen",
+                                        configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
+    fileprivate lazy var backToHelpMenuButtonResource =
+        GiniPreferredButtonResource(image: "arrowBack",
+                                    title: "ginivision.navigationbar.review.back",
+                                    comment: "Button title in the navigation bar for the back button on the help screen",
+                                    configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
     init(withDelegate delegate: GiniVisionDelegate?,
          giniConfiguration: GiniConfiguration) {
@@ -116,8 +119,8 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
                     "For now it is only possible to import either images or one PDF")
             }
         } else {
-            cameraViewController = createCameraViewController()
-            viewControllers = [cameraViewController!]
+            self.cameraViewController = self.createCameraViewController()
+            viewControllers = [self.cameraViewController!]
         }
         
         self.screenAPINavigationController.setViewControllers(viewControllers, animated: false)
@@ -251,19 +254,18 @@ extension GiniScreenAPICoordinator {
         guard let firstDocument = pages.first?.document else {
             return
         }
-
+        
         if pages.type == .image {
             visionDelegate?.didReview(documents: pages.map { $0.document }, networkDelegate: self)
         }
-        
         analysisViewController = createAnalysisScreen(withDocument: firstDocument)
         analysisViewController?.trackingDelegate = trackingDelegate
         
         if let (message, action) = analysisErrorAndAction {
             displayError(withMessage: message, andAction: action)
         }
-
-        screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
+        
+        self.screenAPINavigationController.pushViewController(analysisViewController!, animated: true)
     }
     
     @objc func backToCamera() {
