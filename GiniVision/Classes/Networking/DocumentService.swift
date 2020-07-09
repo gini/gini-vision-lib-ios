@@ -62,7 +62,11 @@ final class DocumentService: DocumentServiceProtocol {
     }
     
     func sendFeedback(with updatedExtractions: [Extraction]) {
-        guard let document = document else { return }
+        Log(message: "Sending feedback", event: "💬")
+        guard let document = document else {
+            Log(message: "Cannot send feedback: no document", event: .error)
+            return
+        }
         documentService.submitFeedback(for: document, with: updatedExtractions) { result in
             switch result {
             case .success:
@@ -161,6 +165,7 @@ fileprivate extension DocumentService {
                                 case .success(let createdDocument):
                                     Log(message: "Starting analysis for composite document \(createdDocument.id)",
                                         event: "🔎")
+                                    self.document = createdDocument
                                     self.analysisCancellationToken = CancellationToken()
                                     self.documentService
                                         .extractions(for: createdDocument,
