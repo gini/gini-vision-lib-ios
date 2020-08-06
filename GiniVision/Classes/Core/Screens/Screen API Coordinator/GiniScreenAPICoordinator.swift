@@ -43,7 +43,6 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
     // Properties
     fileprivate(set) var giniConfiguration: GiniConfiguration
     fileprivate(set) var pages: [GiniVisionPage] = []
-    fileprivate let multiPageTransition = MultipageReviewTransitionAnimator()
     weak var visionDelegate: GiniVisionDelegate?
     
     // When there was an error uploading a document or analyzing it and the analysis screen
@@ -304,45 +303,14 @@ extension GiniScreenAPICoordinator: UINavigationControllerDelegate {
             // collection should be cleared, since the document processed in that cases is not going to be reused
             clearDocuments()
         }
-        
-        let isFromCameraToMultipage = (toVC is MultipageReviewViewController && fromVC is CameraViewController)
-        let isFromMultipageToCamera = (fromVC is MultipageReviewViewController && toVC is CameraViewController)
-        
-        if isFromCameraToMultipage || isFromMultipageToCamera {
-            return multipageTransition(operation: operation, from: fromVC, to: toVC)
+                
+        if fromVC is MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
+            cameraVC.replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
         }
-        
+                
         return nil
     }
     
-    private func multipageTransition(operation: UINavigationController.Operation,
-                                     from fromVC: UIViewController,
-                                     to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let stackView = cameraViewController?.cameraButtonsViewController.capturedImagesStackView else {
-            return nil
-        }
-        
-        if let multipageVC = fromVC as? MultipageReviewViewController, let cameraVC = toVC as? CameraViewController {
-            cameraVC.replaceCapturedStackImages(with: pages.compactMap { $0.document.previewImage })
-
-            if let (image, frame) = multipageVC.visibleMainCollectionImage(from: screenAPINavigationController.view) {
-                multiPageTransition.popImage = image
-                multiPageTransition.popImageFrame = frame
-            } else {
-                return nil
-            }
-        }
-        
-        multiPageTransition.originFrame = stackView
-            .thumbnailFrameRelative(to: screenAPINavigationController.view)
-        multiPageTransition.operation = operation
-        
-        if stackView.isHidden && operation == .push {
-            return nil
-        } else {
-            return multiPageTransition
-        }
-    }
 }
 
 // MARK: - HelpMenuViewControllerDelegate
