@@ -122,8 +122,11 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                 
                 self.resultsDelegate?
                     .giniVisionAnalysisDidFinishWith(result: result) { updatedExtractions in
-                        
-                        documentService.sendFeedback(with: updatedExtractions.map { $0.value })
+                        if let lineItems = result.lineItems {
+                            documentService.sendFeedback(with: updatedExtractions.map { $0.value }, and: ["lineItems": lineItems])
+                        } else {
+                            documentService.sendFeedback(with: updatedExtractions.map { $0.value })
+                        }
                         documentService.resetToInitialState()
                 }
             } else {

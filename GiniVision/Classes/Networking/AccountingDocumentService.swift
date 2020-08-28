@@ -54,6 +54,10 @@ final class AccountingDocumentService: DocumentServiceProtocol {
         }
     }
     
+    func sendFeedback(with updatedExtractions: [Extraction], and updatedCompoundExtractions: [String: [[Extraction]]]) {
+        sendFeedback(with: updatedExtractions)
+    }
+    
     func startAnalysis(completion: @escaping AnalysisCompletion) {
         fetchExtractions(completion: completion)
     }

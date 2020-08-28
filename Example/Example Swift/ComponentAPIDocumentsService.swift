@@ -74,6 +74,18 @@ final class ComponentAPIDocumentsService: ComponentAPIDocumentServiceProtocol {
         }
     }
     
+    func sendFeedback(with updatedExtractions: [Extraction], and updatedCompoundExtractions: [String: [[Extraction]]]) {
+           guard let document = document else { return }
+           documentService.submitFeedback(for: document, with: updatedExtractions, and: updatedCompoundExtractions) { result in
+               switch result {
+               case .success:
+                   print("Feedback sent with \(updatedExtractions.count) extractions")
+               case .failure(let error):
+                   print("❌ Error sending feedback for document with id: \(document.id) error: \(error)")
+               }
+           }
+       }
+    
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
         for index in 0..<documents.count {
             let id = documents[index].id

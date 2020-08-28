@@ -80,6 +80,20 @@ final class DocumentService: DocumentServiceProtocol {
         }
     }
     
+    func sendFeedback(with updatedExtractions: [Extraction], and updatedCompoundExtractions: [String: [[Extraction]]]) {
+        guard let document = document else { return }
+        documentService.submitFeedback(for: document, with: updatedExtractions, and: updatedCompoundExtractions) { result in
+            switch result {
+            case .success:
+                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
+                    event: "🚀")
+            case .failure(let error):
+                let message = "Error sending feedback for document with id: \(document.id) error: \(error)"
+                Log(message: message, event: .error)
+            }
+        }
+    }
+    
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument]) {
         for index in 0..<documents.count {
             let id = documents[index].id
