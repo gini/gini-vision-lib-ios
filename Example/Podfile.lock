@@ -37,7 +37,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   Gini:
-    :commit: 0c34fd5a9250fcf370137990c97345161cd5a201
+    :commit: bbffcadee176f98098fb0539572628333e349407
     :git: https://github.com/gini/gini-ios.git
 
 SPEC CHECKSUMS:
