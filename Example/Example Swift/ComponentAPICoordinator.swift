@@ -250,7 +250,11 @@ extension ComponentAPICoordinator {
     
     @objc fileprivate func closeComponentAPIFromResults() {
         if let results = resultsScreen?.result {
-            documentService?.sendFeedback(with: results.extractions.map { $0.value })
+            if let lineItems = resultsScreen?.result?.lineItems {
+                documentService?.sendFeedback(with: results.extractions.map { $0.value }, and: ["lineItems": lineItems])
+            } else {
+                documentService?.sendFeedback(with: results.extractions.map { $0.value })
+            }
         }
         closeComponentAPI()
     }
@@ -455,6 +459,11 @@ extension ComponentAPICoordinator: UINavigationControllerDelegate {
         }
         
         if let resultsScreen = fromVC as? ResultTableViewController {
+            if let lineItems = resultsScreen.result?.lineItems {
+                documentService?.sendFeedback(with: resultsScreen.result?.extractions.map { $0.value } ?? [], and: ["lineItems": lineItems])
+            } else {
+                documentService?.sendFeedback(with: resultsScreen.result?.extractions.map { $0.value } ?? [])
+            }
             documentService?.sendFeedback(with: resultsScreen.result?.extractions.map { $0.value } ?? [])
             closeComponentAPI()
         }

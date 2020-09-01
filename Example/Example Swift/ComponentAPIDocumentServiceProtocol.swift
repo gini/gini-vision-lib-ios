@@ -31,6 +31,7 @@ protocol ComponentAPIDocumentServiceProtocol: class {
     func remove(document: GiniVisionDocument)
     func resetToInitialState()
     func sendFeedback(with updatedExtractions: [Extraction])
+    func sendFeedback(with updatedExtractions: [Extraction], and updatedCompoundExtractions: [String: [[Extraction]]])
     func startAnalysis(completion: @escaping ComponentAPIAnalysisCompletion)
     func sortDocuments(withSameOrderAs documents: [GiniVisionDocument])
     func upload(document: GiniVisionDocument,
