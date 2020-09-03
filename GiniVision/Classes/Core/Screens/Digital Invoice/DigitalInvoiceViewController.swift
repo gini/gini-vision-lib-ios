@@ -85,6 +85,9 @@ public class DigitalInvoiceViewController: UIViewController {
                                  bundle: Bundle(for: GiniVision.self)),
                            forCellReuseIdentifier: "DigitalLineItemTableViewCell")
         
+        tableView.register(DigitalInvoiceAddonCell.self,
+                           forCellReuseIdentifier: "DigitalInvoiceAddonCell")
+        
         tableView.register(DigitalInvoiceTotalPriceCell.self,
                            forCellReuseIdentifier: "DigitalInvoiceTotalPriceCell")
         
@@ -173,6 +176,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         case header
         case itemsHeader
         case lineItems
+        case addons
         case totalPrice
         case footer
     }
@@ -187,6 +191,7 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
         case .header: return 1
         case .itemsHeader: return 1
         case .lineItems: return invoice?.lineItems.count ?? 0
+        case .addons: return invoice?.addons.count ?? 0
         case .totalPrice: return 1
         case .footer: return 1
         default: fatalError()
@@ -229,6 +234,19 @@ extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSour
                                                       index: indexPath.row)
             
             cell.delegate = self
+            
+            return cell
+            
+        case .addons:
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "DigitalInvoiceAddonCell",
+                                                     for: indexPath) as! DigitalInvoiceAddonCell
+                        
+            if let invoice = invoice {
+                let addon = invoice.addons[indexPath.row]
+                cell.addonName = addon.name
+                cell.addonPrice = addon.price
+            }
             
             return cell
             

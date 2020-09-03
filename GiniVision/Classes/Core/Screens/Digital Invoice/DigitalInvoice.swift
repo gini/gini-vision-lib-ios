@@ -16,12 +16,13 @@ public struct DigitalInvoice {
     
     private let _extractionResult: ExtractionResult
     var lineItems: [LineItem]
+    var addons: [DigitalInvoiceAddon]
     
     var total: Price? {
         
         guard let firstLineItem = lineItems.first else { return nil }
         
-        return lineItems.reduce(Price(value: 0, currencyCode: firstLineItem.price.currencyCode)) { (current, lineItem) -> Price? in
+        let lineItemsTotalPrice = lineItems.reduce(Price(value: 0, currencyCode: firstLineItem.price.currencyCode)) { (current, lineItem) -> Price? in
             
             guard let current = current else { return nil }
             
@@ -29,6 +30,20 @@ public struct DigitalInvoice {
             case .selected: return try? current + lineItem.totalPrice
             case .deselected: return current
             }
+        }
+        
+        let addonsTotalPrice = addons.reduce(Price(value: 0, currencyCode: firstLineItem.price.currencyCode)) { (current, addon) -> Price? in
+            
+            guard let current = current else { return nil }
+            
+            return try? current + addon.price
+        }
+        
+        if let lineItemsPriceSum = lineItemsTotalPrice,
+            let addonsPriceSum = addonsTotalPrice {
+            return try? lineItemsPriceSum + addonsPriceSum
+        } else {
+            return lineItemsTotalPrice
         }
     }
 }
@@ -83,6 +98,14 @@ extension DigitalInvoice {
         if let firstLineItem = lineItems.first {
             for lineItem in lineItems where lineItem.price.currencyCode != firstLineItem.price.currencyCode {
                 throw DigitalInvoiceParsingException.mixedCurrenciesInOneInvoice
+            }
+        }
+        
+        addons = []
+        
+        extractionResult.extractions.forEach { extraction in
+            if let addon = DigitalInvoiceAddon(from: extraction) {
+                addons.append(addon)
             }
         }
     }
