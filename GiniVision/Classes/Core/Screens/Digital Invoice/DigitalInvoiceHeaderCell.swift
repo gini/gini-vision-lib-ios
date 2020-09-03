@@ -38,9 +38,7 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        let messageAttributedString = NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.primary",
-                                                                                          bundle: Bundle(for: GiniVision.self),
-                                                                                          comment: ""))
+        let messageAttributedString = NSMutableAttributedString(string: .localized(resource: DigitalInvoiceStrings.headerMessagePrimary))
         
         messageAttributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
                                              value: paragraphStyle,
@@ -53,9 +51,7 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         messageLabel.textAlignment = .center
         
         let secondaryMessageAttributedString =
-            NSMutableAttributedString(string: NSLocalizedString("ginivision.digitalinvoice.headermessage.secondary",
-                                                                bundle: Bundle(for: GiniVision.self),
-                                                                comment: ""))
+            NSMutableAttributedString(string: .localized(resource: DigitalInvoiceStrings.headerMessageSecondary))
 
         secondaryMessageAttributedString.addAttribute(NSAttributedString.Key.paragraphStyle,
                                       value: paragraphStyle,

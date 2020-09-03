@@ -22,8 +22,7 @@ struct DigitalLineItemViewModel {
         
         switch lineItem.selectedState {
         case .selected:
-            return String.localizedStringWithFormat(NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.lineitem.quantity",
-                                                                                     comment: ""),
+            return String.localizedStringWithFormat(DigitalInvoiceStrings.lineItemQuantity.localizedFormat,
                                                     lineItem.quantity)
         case .deselected:
             return nil
@@ -154,8 +153,8 @@ class DigitalLineItemTableViewCell: UITableViewCell {
                                                range: NSRange(location: priceString.count - 3, length: 3))
                 
                 priceLabel.attributedText = attributedString
-                let format = NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.total.accessibilitylabel",
-                                                              comment: "")
+                
+                let format = DigitalInvoiceStrings.totalAccessibilityLabel.localizedFormat
                 priceLabel.accessibilityLabel = String.localizedStringWithFormat(format, priceString)
             }
             
@@ -165,9 +164,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
             editButton.titleLabel?.font = viewModel?.editButtonTitleFont
             editButton.tintColor = viewModel?.editButtonTintColor ?? .black
             
-            editButton.setTitle(NSLocalizedString("ginivision.digitalinvoice.lineitem.editbutton",
-                                                  bundle: Bundle(for: GiniVision.self),
-                                                  comment: ""), for: .normal)
+            editButton.setTitle(.localized(resource: DigitalInvoiceStrings.lineItemEditButtonTitle), for: .normal)
             
             nameLabel.textColor = viewModel?.primaryTextColor
 
