@@ -87,4 +87,8 @@ extension Price {
         return Price(value: lhs.value + rhs.value,
                      currencyCode: lhs.currencyCode)
     }
+    
+    static func max(_ lhs: Price, _ rhs: Price) -> Price {
+        return lhs.value >= rhs.value ? lhs : rhs
+    }
 }

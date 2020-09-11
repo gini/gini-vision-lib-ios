@@ -41,7 +41,7 @@ public struct DigitalInvoice {
         
         if let lineItemsPriceSum = lineItemsTotalPrice,
             let addonsPriceSum = addonsTotalPrice {
-            return try? lineItemsPriceSum + addonsPriceSum
+            return try? Price.max(lineItemsPriceSum + addonsPriceSum, Price(value: 0, currencyCode: firstLineItem.price.currencyCode))
         } else {
             return lineItemsTotalPrice
         }
