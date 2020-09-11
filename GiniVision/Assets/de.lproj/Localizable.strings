@@ -147,9 +147,9 @@
 "ginivision.digitalinvoice.lineitem.pricetextfieldtitle" = "Artikelpreis";
 "ginivision.digitalinvoice.lineitem.multiplication.accessibilitylabel" = "mal";
 "ginivision.digitalinvoice.lineitem.totalpricetitle" = "Total:";
-// TODO: translate to german
-"ginivision.digitalinvoice.addonname.discount" = "Discount";
-"ginivision.digitalinvoice.addonname.giftcard" = "Giftcard";
-"ginivision.digitalinvoice.addonname.otherdiscounts" = "Other discounts";
-"ginivision.digitalinvoice.addonname.othercharges" = "Other charges";
-"ginivision.digitalinvoice.addonname.shipment" = "Shipment";
+
+"ginivision.digitalinvoice.addonname.discount" = "Rabatt";
+"ginivision.digitalinvoice.addonname.giftcard" = "Gutschein";
+"ginivision.digitalinvoice.addonname.otherdiscounts" = "Weitere Abzüge";
+"ginivision.digitalinvoice.addonname.othercharges" = "Weitere Kosten";
+"ginivision.digitalinvoice.addonname.shipment" = "Versandkosten";

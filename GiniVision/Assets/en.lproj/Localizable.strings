@@ -155,7 +155,6 @@
 "ginivision.digitalinvoice.lineitem.multiplication.accessibilitylabel" = "times";
 "ginivision.digitalinvoice.lineitem.totalpricetitle" = "Total:";
 
-// TODO: translate to german
 "ginivision.digitalinvoice.addonname.discount" = "Discount";
 "ginivision.digitalinvoice.addonname.giftcard" = "Giftcard";
 "ginivision.digitalinvoice.addonname.otherdiscounts" = "Other discounts";
