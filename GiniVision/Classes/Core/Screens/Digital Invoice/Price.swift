@@ -23,7 +23,7 @@ struct Price {
         
         guard components.count == 2 else { return nil }
         
-        guard let decimal = Decimal(string: components.first ?? ""),
+        guard let decimal = Decimal(string: components.first ?? "", locale: Locale(identifier: "en")),
             let currencyCode = components.last?.lowercased() else {
                 return nil
         }
