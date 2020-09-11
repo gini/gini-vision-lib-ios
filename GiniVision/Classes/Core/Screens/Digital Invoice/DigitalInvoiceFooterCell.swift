@@ -29,9 +29,7 @@ class DigitalInvoiceFooterCell: UITableViewCell {
         
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.text = NSLocalizedString("ginivision.digitalinvoice.footermessage",
-                                              bundle: Bundle(for: GiniVision.self),
-                                              comment: "")
+        messageLabel.text = .localized(resource: DigitalInvoiceStrings.footerMessage)
         messageLabel.numberOfLines = 0
         messageLabel.font = giniConfiguration?.digitalInvoiceFooterMessageTextFont ??
             GiniConfiguration.shared.digitalInvoiceFooterMessageTextFont

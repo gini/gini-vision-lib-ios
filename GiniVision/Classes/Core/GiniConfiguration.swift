@@ -700,6 +700,49 @@ import UIKit
     @objc public var payButtonTitleFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
     
     /**
+     Sets the font of the addon labels on the digital invoice screen to the specified font.
+     */
+    @objc public var digitalInvoiceAddonLabelFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+    
+    /**
+     Sets the font of the main unit of the addon price labels to the specified font
+     */
+    @objc public var digitalInvoiceAddonPriceMainUnitFont = UIFont.systemFont(ofSize: 16, weight: .bold)
+    
+    /**
+     Sets the font of the fractional unit of the addon price labels to the specified font
+     */
+    @objc public var digitalInvoiceAddonPriceFractionalUnitFont = UIFont.systemFont(ofSize: 9, weight: .bold)
+    
+    /**
+     Sets the color of the addon price labels in the digital invoice screen to the specified color
+     */
+    @objc public var digitalInvoiceAddonPriceColor: UIColor {
+        
+        set {
+            _digitalInvoiceAddonPriceColor = newValue
+        }
+
+        get {
+
+            if let setValue = _digitalInvoiceAddonPriceColor {
+                return setValue
+            } else {
+
+                if #available(iOS 13.0, *) {
+
+                    return .label
+
+                } else {
+                    return .black
+                }
+            }
+        }
+    }
+    
+    @objc private var _digitalInvoiceAddonPriceColor: UIColor?
+    
+    /**
      Sets the color of the total price label in the digital invoice screen to the specified color
      */
     @objc public var digitalInvoiceTotalPriceColor: UIColor {

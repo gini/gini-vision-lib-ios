@@ -43,8 +43,8 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
                                            range: NSRange(location: totalPriceString.count - 3, length: 3))
             
             totalPriceLabel.attributedText = attributedString
-            let format = NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.total.accessibilitylabel",
-                                                          comment: "")
+            
+            let format = DigitalInvoiceStrings.totalAccessibilityLabel.localizedFormat
             totalPriceLabel.accessibilityLabel = String.localizedStringWithFormat(format,
                                                                                   totalPriceString)
         }
@@ -57,7 +57,7 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
         totalPriceLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(totalPriceLabel)
         
-        totalPriceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        totalPriceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
         totalPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         totalPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
