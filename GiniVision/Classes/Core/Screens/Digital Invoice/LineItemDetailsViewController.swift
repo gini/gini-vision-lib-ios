@@ -301,7 +301,7 @@ extension LineItemDetailsViewController {
     private func lineItemFromFields() -> DigitalInvoice.LineItem? {
         
         guard var lineItem = lineItem else { return nil }
-        guard let priceValue = Decimal(string: itemPriceTextField.text ?? "0") else { return nil }
+        guard let priceValue = decimal(from: itemPriceTextField.text ?? "0") else { return nil }
         
         lineItem.name = itemNameTextField.text
         lineItem.quantity = Int(quantityTextField.text ?? "") ?? 0
@@ -309,6 +309,14 @@ extension LineItemDetailsViewController {
         
         return lineItem
     }
+    
+    private func decimal(from priceString: String) -> Decimal? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencySymbol = ""
+        return formatter.number(from: priceString)?.decimalValue
+    }
+
 }
 
 extension LineItemDetailsViewController: GiniTextFieldDelegate {
