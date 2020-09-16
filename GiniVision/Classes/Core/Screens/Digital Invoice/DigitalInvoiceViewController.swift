@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Gini
 
 /**
  Delegate protocol for `DigitalInvoiceViewController`.
@@ -283,7 +284,14 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
         
         case .selected:
             
-            self.invoice?.lineItems[viewModel.index].selectedState = .deselected
+            guard let returnReasons = self.invoice?.returnReasons else {
+                self.invoice?.lineItems[viewModel.index].selectedState = .deselected(reason: nil)
+                return
+            }
+            
+            presentReturnReasonActionSheet(for: viewModel.index,
+                                           source: cell.checkboxButton,
+                                           with: returnReasons)
             
         case .deselected:
             self.invoice?.lineItems[viewModel.index].selectedState = .selected
@@ -294,12 +302,30 @@ extension DigitalInvoiceViewController: DigitalLineItemTableViewCellDelegate {
                 
         let viewController = LineItemDetailsViewController()
         viewController.lineItem = invoice?.lineItems[viewModel.index]
+        viewController.returnReasons = invoice?.returnReasons
         viewController.lineItemIndex = viewModel.index
         viewController.delegate = self
         
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
+
+extension DigitalInvoiceViewController {
+    
+    private func presentReturnReasonActionSheet(for index: Int, source: UIView, with returnReasons: [ReturnReason]) {
+        
+        DeselectLineItemActionSheet().present(from: self, source: source, returnReasons: returnReasons) { selectedState in
+            
+            switch selectedState {
+            case .selected:
+                break
+            case .deselected(let reason):
+                self.invoice?.lineItems[index].selectedState = .deselected(reason: reason)
+            }
+        }
+    }
+}
+
 
 extension DigitalInvoiceViewController: DigitalInvoiceItemsCellDelegate {
     

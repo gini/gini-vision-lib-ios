@@ -137,6 +137,8 @@
 "ginivision.digitalinvoice.lineitem.editbutton" = "Editieren";
 "ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Artikel abwählen";
 "ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Artikel wählen";
+"ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Der Grund der Rücksendung";
+"ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel" = "Cancel";
 "ginivision.digitalinvoice.headermessage.primary" = "Scan war erfolgreich!";
 "ginivision.digitalinvoice.headermessage.secondary" = "Du kannst nun die Artikel abwählen, die du zurückschicken willst.";
 "ginivision.digitalinvoice.total.accessibilitylabel" = "Total: %@";

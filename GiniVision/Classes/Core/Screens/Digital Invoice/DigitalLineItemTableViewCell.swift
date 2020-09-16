@@ -18,14 +18,16 @@ struct DigitalLineItemViewModel {
         return lineItem.name
     }
     
-    var quantityString: String? {
+    var quantityOrReturnReasonString: String {
         
         switch lineItem.selectedState {
         case .selected:
             return String.localizedStringWithFormat(DigitalInvoiceStrings.lineItemQuantity.localizedFormat,
                                                     lineItem.quantity)
-        case .deselected:
-            return nil
+        case .deselected(let reason):
+            return reason?.labelInLocalLanguageOrGerman ??
+                String.localizedStringWithFormat(DigitalInvoiceStrings.lineItemQuantity.localizedFormat,
+                                                 lineItem.quantity)
         }
     }
     
@@ -137,7 +139,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
         didSet {
             
             nameLabel.text = viewModel?.name
-            quantityOrReturnReasonLabel.text = viewModel?.quantityString
+            quantityOrReturnReasonLabel.text = viewModel?.quantityOrReturnReasonString
             quantityOrReturnReasonLabel.font = viewModel?.quantityOrReturnReasonFont
             
             if let viewModel = viewModel, let priceString = viewModel.totalPriceString {

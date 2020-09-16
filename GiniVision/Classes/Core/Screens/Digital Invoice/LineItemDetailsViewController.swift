@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Gini
 
 protocol LineItemDetailsViewControllerDelegate: class {
     
@@ -21,6 +22,8 @@ class LineItemDetailsViewController: UIViewController {
             update()
         }
     }
+    
+    var returnReasons: [ReturnReason]?
     
     var lineItemIndex: Int?
     
@@ -244,7 +247,20 @@ class LineItemDetailsViewController: UIViewController {
         case .deselected:
             self.lineItem?.selectedState = .selected
         case .selected:
-            self.lineItem?.selectedState = .deselected
+            guard let returnReasons = returnReasons else {
+                self.lineItem?.selectedState = .deselected(reason: nil)
+                return
+            }
+            
+            DeselectLineItemActionSheet().present(from: self, source: checkboxButton, returnReasons: returnReasons) { selectedState in
+                
+                switch selectedState {
+                case .selected:
+                    break
+                case .deselected(let reason):
+                    self.lineItem?.selectedState = .deselected(reason: reason)
+                }
+            }
         }
     }
     
