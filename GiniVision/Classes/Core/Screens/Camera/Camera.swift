@@ -175,11 +175,13 @@ fileprivate extension Camera {
         
         guard let device = self.videoDeviceInput?.device else { return captureSettings }
         
+        #if !targetEnvironment(simulator)
         let flashMode: AVCaptureDevice.FlashMode = self.isFlashOn ? .on : .off
         if let imageOuput = self.photoOutput, imageOuput.supportedFlashModes.contains(flashMode) &&
             device.hasFlash {
             captureSettings.flashMode = flashMode
         }
+        #endif
         
         return captureSettings
     }
