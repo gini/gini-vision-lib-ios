@@ -67,7 +67,7 @@ extension DigitalInvoice {
         
         var extractions: [Extraction] {
             
-            return _extractions.map { extraction in
+            var modifiedExtractions: [Extraction] = _extractions.map { extraction in
                 
                 guard let extractionName = extraction.name,
                     let key = ExtractedLineItemKey(rawValue: extractionName) else {
@@ -92,6 +92,16 @@ extension DigitalInvoice {
                 
                 return extraction
             }
+            
+            switch selectedState {
+            case .deselected(let returnReason):
+                if let returnReason = returnReason {
+                    modifiedExtractions.append(Extraction(box: nil, candidates: nil, entity: "", value: returnReason.id, name: "returnReason"))
+                }
+            case .selected: break
+            }
+            
+            return modifiedExtractions
         }
         
         var totalPrice: Price {
