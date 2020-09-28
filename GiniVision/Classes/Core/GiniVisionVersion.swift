@@ -1,1 +1,1 @@
-let GiniVisionVersion = "5.3.4"
+let GiniVisionVersion = "5.3.7"
