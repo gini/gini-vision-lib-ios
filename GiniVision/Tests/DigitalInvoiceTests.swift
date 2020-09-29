@@ -39,10 +39,10 @@ let digitalInvoiceExample: DigitalInvoice = {
                 Extraction(box: nil, candidates: nil, entity: "idnumber", value: "JAM22Q01E-K11000L000", name: "artNumber"),
                 Extraction(box: nil, candidates: nil, entity: "number", value: "5", name: "quantity")
             ]
-    ]))
+    ], returnReasons: nil))
     
     var lineItem1 = invoice.lineItems.first!
-    lineItem1.selectedState = .deselected
+    lineItem1.selectedState = .deselected(reason: nil)
     
     invoice.lineItems[0] = lineItem1
         
@@ -52,7 +52,7 @@ let digitalInvoiceExample: DigitalInvoice = {
 class DigitalInvoiceTests: XCTestCase {
     
     func testInit() {
-        XCTAssertThrowsError(try DigitalInvoice(extractionResult: ExtractionResult(extractions: [], lineItems: nil)))
+        XCTAssertThrowsError(try DigitalInvoice(extractionResult: ExtractionResult(extractions: [], lineItems: nil, returnReasons: nil)))
     }
     
     func testTotal() {

@@ -86,21 +86,13 @@ final class HelpMenuViewControllerTests: XCTestCase {
     func testCellContent() {
         let indexPath = IndexPath(row: 0, section: 0)
         let itemText = helpMenuViewController.items[indexPath.row].title
-        let cellBackgroundColor = UIColor.white
         let cellAccesoryType = UITableViewCell.AccessoryType.disclosureIndicator
         
         let cell = helpMenuViewController.tableView(helpMenuViewController.tableView, cellForRowAt: indexPath)
         
         XCTAssertEqual(itemText, cell.textLabel?.text,
                        "cell text in the first row should be the same as the first item text")
-        
-        // Compare cgColors because since iOS 13 cell.backgroundColor has the UIDynamicSystemColor type
-        if #available(iOS 13, *) {
-            XCTAssertEqual(cell.backgroundColor!.cgColor,
-                           cellBackgroundColor.cgColor,
-                           "cell background color should always be white")
-        }
-        
+                       
         XCTAssertEqual(cellAccesoryType,
                        cell.accessoryType,
                        "cell accesory type should be and a disclosure indicator")
