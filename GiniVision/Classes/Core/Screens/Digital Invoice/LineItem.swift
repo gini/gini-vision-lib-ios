@@ -14,7 +14,7 @@ extension DigitalInvoice {
         
         enum SelectedState {
             case selected
-            case deselected
+            case deselected(reason: ReturnReason?)
         }
         
         var name: String?
@@ -96,6 +96,15 @@ extension DigitalInvoice {
         
         var totalPrice: Price {
             return price * quantity
+        }
+    }
+}
+
+extension ReturnReason {
+    
+    var labelInLocalLanguageOrGerman: String {
+        get {
+            localizedLabels[Locale.current.languageCode ?? "de"] ?? localizedLabels["de"] ?? ""
         }
     }
 }

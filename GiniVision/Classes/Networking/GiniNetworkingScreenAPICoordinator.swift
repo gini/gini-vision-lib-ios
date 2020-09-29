@@ -239,7 +239,7 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
                            name: QRCodesExtractor.epsCodeUrlKey)
             }
             
-            let result = ExtractionResult(extractions: extractions, lineItems: nil)
+            let result = ExtractionResult(extractions: extractions, lineItems: nil, returnReasons: nil)
             
             self.deliver(result: result, analysisDelegate: networkDelegate)
             return

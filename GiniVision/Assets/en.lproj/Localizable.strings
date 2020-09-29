@@ -141,6 +141,10 @@
 
 "ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Deselect item";
 "ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Select item";
+
+"ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Your reasons to return this item";
+"ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel" = "Cancel";
+
 "ginivision.digitalinvoice.headermessage.primary" = "Scan successful!";
 "ginivision.digitalinvoice.headermessage.secondary" = "You can now deselect items you would like to return.";
 

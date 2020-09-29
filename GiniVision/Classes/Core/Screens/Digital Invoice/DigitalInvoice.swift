@@ -17,6 +17,7 @@ public struct DigitalInvoice {
     private let _extractionResult: ExtractionResult
     var lineItems: [LineItem]
     var addons: [DigitalInvoiceAddon]
+    var returnReasons: [ReturnReason]?
     
     var total: Price? {
         
@@ -108,6 +109,8 @@ extension DigitalInvoice {
                 addons.append(addon)
             }
         }
+        
+        returnReasons = extractionResult.returnReasons
     }
     
     /**
@@ -118,7 +121,8 @@ extension DigitalInvoice {
         guard let totalValue = total?.extractionString else {
             
             return ExtractionResult(extractions: _extractionResult.extractions,
-                                    lineItems: lineItems.map { $0.extractions })
+                                    lineItems: lineItems.map { $0.extractions },
+                                    returnReasons: returnReasons)
         }
         
         let modifiedExtractions = _extractionResult.extractions.map { extraction -> Extraction in
@@ -131,6 +135,7 @@ extension DigitalInvoice {
         }
         
         return ExtractionResult(extractions: modifiedExtractions,
-                                lineItems: lineItems.map { $0.extractions })
+                                lineItems: lineItems.map { $0.extractions },
+                                returnReasons: returnReasons)
     }
 }
