@@ -85,7 +85,7 @@ final class DocumentService: DocumentServiceProtocol {
         documentService.submitFeedback(for: document, with: updatedExtractions, and: updatedCompoundExtractions) { result in
             switch result {
             case .success:
-                Log(message: "Feedback sent with \(updatedExtractions.count) extractions",
+                Log(message: "Feedback sent with \(updatedExtractions.count) extractions and \(updatedCompoundExtractions.count) compound extractions",
                     event: "🚀")
             case .failure(let error):
                 let message = "Error sending feedback for document with id: \(document.id) error: \(error)"
