@@ -8,6 +8,8 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Review screen](#review-screen)
 - [Multipage Review screen](#multipage-review-screen)
 - [Analysis screen](#analysis-screen)
+- [Digital invoice screen](#digital-invoice-screen)
+- [Line item details screen](#line-item-details-screen)
 - [Supported formats screen](#supported-formats-screen)
 - [Open with tutorial screen](#open-with-tutorial-screen)
 - [Capturing tips screen](#capturing-tips-screen)
@@ -149,6 +151,82 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 ##### 3. Loading view
 - Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
 - Text &#8594; <span style="color:#009EDF">*ginivision.analysis.loadingText*</span> localized string
+
+## Digital invoice screen
+
+<br>
+<center><img src="img/Customization guide/Digital invoice screen.jpg" height="500"/></center>
+</br>
+
+##### 1. Navigation bar
+- Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.screentitle*</span> localized string
+
+##### 2. Message
+- Primary
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.headermessage.primary*</span> localized string
+   - Font &#8594; `GiniConfiguration.customFont`
+- Secondary
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.headermessage.secondary*</span> localized string
+   - Color &#8594; `GiniConfiguration.digitalInvoiceSecondaryMessageTextColor`
+   - Font &#8594; `GiniConfiguration.digitalInvoiceSecondaryMessageTextFont `
+
+##### 3. Illustration
+- Image &#8594; <span style="color:#009EDF">*invoiceIllustration*</span> image asset
+
+##### 4. Selected and total items
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.items*</span> localized formatted string with two `%d` placeholders
+- Font &#8594; `GiniConfiguration.digitalInvoiceItemsSectionHeaderTextFont`
+
+##### 5. "What is this?" button
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisbutton*</span> localized string
+- Font &#8594; `GiniConfiguration.digitalInvoiceItemsSectionHeaderTextFont`
+- Image &#8594; <span style="color:#009EDF">*infoIcon*</span> image asset
+- Tint color &#8594; `GiniConfiguration.lineItemTintColor`
+
+##### 6. Line item cell
+- Tint color &#8594; `GiniConfiguration.lineItemTintColor`
+- Name
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemNameFont`
+- Edit button
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.editbutton*</span> localized string
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemEditButtonTitleFont`
+   - Image &#8594; <span style="color:#009EDF">*editIcon*</span> image asset
+- Quantity or return reason
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantity*</span> localized formatted string with one `%d` placeholders
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemQuantityOrReturnReasonFont`
+- Price
+   - Main Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceMainUnitFont`
+   - Fractional Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceFractionalUnitFont`
+  
+##### 7. Discounts or additional costs (addons)
+- Label
+   - Font &#8594; `GiniConfiguration.digitalInvoiceAddonLabelFont`
+- Price
+   - Color &#8594; `GiniConfiguration.digitalInvoiceAddonPriceColor`
+   - Main Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceMainUnitFont`   
+   - Fractional Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceAddonPriceFractionalUnitFont`
+
+##### 8. Total price
+- Color &#8594; `GiniConfiguration.digitalInvoiceTotalPriceColor`
+- Main Unit
+   - Font &#8594; `GiniConfiguration.digitalInvoiceTotalPriceMainUnitFont`   
+- Fractional Unit
+   - Font &#8594; `GiniConfiguration.digitalInvoiceTotalPriceFractionalUnitFont`
+
+##### 9. Footer message
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.footermessage*</span> localized string
+- Font &#8594; `GiniConfiguration.digitalInvoiceFooterMessageTextFont`
+
+##### 10. Pay button
+- Background color &#8594; `GiniConfiguration.payButtonBackgroundColor`
+- Title color &#8594; `GiniConfiguration.payButtonTitleTextColor`
+- Font &#8594; `GiniConfiguration.payButtonTitleFont`
+
+## Line item details screen
 
 ## Supported formats screen
 
