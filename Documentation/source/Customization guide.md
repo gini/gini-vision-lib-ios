@@ -192,7 +192,7 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
    - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemEditButtonTitleFont`
    - Image &#8594; <span style="color:#009EDF">*editIcon*</span> image asset
 - Quantity or return reason
-   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantity*</span> localized formatted string with one `%d` placeholders
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantity*</span> localized formatted string with one `%d` placeholder
    - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemQuantityOrReturnReasonFont`
 - Price
    - Main Unit

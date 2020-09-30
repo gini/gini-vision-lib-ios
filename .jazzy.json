@@ -35,8 +35,8 @@
            "Open with guide",
            "Import PDFs and images guide",
            "QR Code scanning guide",
+           "Event tracking guide",
            "Return Assistant guide"
-           "Event tracking guide"
          ]
       },
       {
@@ -55,6 +55,7 @@
             "CameraViewController",
             "CustomDocumentValidationError",
             "CustomDocumentValidationResult",
+            "DigitalInvoiceViewController",
             "DocumentPickerCoordinator",
             "GiniConfiguration",
             "GiniImageDocument",
@@ -106,6 +107,7 @@
             "AnalysisDelegate",
             "CameraViewControllerDelegate",
             "Diffable",
+            "DigitalInvoiceViewControllerDelegate",
             "DocumentPickerCoordinatorDelegate",
             "GiniLogger",
             "GiniVisionDelegate",
@@ -126,9 +128,10 @@
       {
 	       "name":"Structs",
 	       "children":[
+           "DigitalInvoice",
+           "Event",
 	         "GiniVisionFont",
-           "GiniVisionPage",
-           "Event"
+           "GiniVisionPage"
 	       ]
       },
       {
