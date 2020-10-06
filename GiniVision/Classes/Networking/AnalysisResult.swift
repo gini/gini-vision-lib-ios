@@ -19,8 +19,11 @@ import Gini
      */
     public let extractions: [String: Extraction]
     
-    public init(extractions: [String: Extraction], images: [UIImage]) {
+    public let candidates: [String: [Extraction.Candidate]]
+    
+    public init(extractions: [String: Extraction], images: [UIImage], candidates: [String: [Extraction.Candidate]]) {
         self.images = images
         self.extractions = extractions
+        self.candidates = candidates
     }
 }
