@@ -170,12 +170,12 @@ extension ComponentAPIDocumentsService {
         
     }
     
-    func handleResults(completion: @escaping ComponentAPIAnalysisCompletion) -> (CompletionResult<[Extraction]>) {
+    func handleResults(completion: @escaping ComponentAPIAnalysisCompletion) -> (CompletionResult<ExtractionResult>) {
         return { result in
             switch result {
-            case .success(let extractions):
+            case .success(let extractionResult):
                 print("✅ Finished analysis process with no errors")
-                completion(.success(extractions))
+                completion(.success(extractionResult.extractions))
             case .failure(let error):
                 switch error {
                 case .requestCancelled:
