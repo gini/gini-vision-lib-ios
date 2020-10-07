@@ -9,7 +9,7 @@ import Foundation
 import Gini
 
 typealias UploadDocumentCompletion = (Result<Document, GiniError>) -> Void
-typealias AnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
+typealias AnalysisCompletion = (Result<ExtractionResult, GiniError>) -> Void
 
 protocol DocumentServiceProtocol: class {
     
@@ -30,12 +30,12 @@ protocol DocumentServiceProtocol: class {
 
 extension DocumentServiceProtocol {
     
-    func handleResults(completion: @escaping AnalysisCompletion) -> (CompletionResult<[Extraction]>) {
+    func handleResults(completion: @escaping AnalysisCompletion) -> (CompletionResult<ExtractionResult>) {
         return { result in
             switch result {
-            case .success(let extractions):
+            case .success(let extractionResult):
                 Log(message: "Finished analysis process with no errors", event: .success)
-                completion(.success(extractions))
+                completion(.success(extractionResult))
             case .failure(let error):
                 switch error {
                 case .requestCancelled:

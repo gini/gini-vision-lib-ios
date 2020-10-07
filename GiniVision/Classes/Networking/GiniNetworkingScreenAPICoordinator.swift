@@ -103,21 +103,21 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
         }
     }
     
-    func deliver(result: [Extraction], analysisDelegate: AnalysisDelegate) {
+    func deliver(result: ExtractionResult, analysisDelegate: AnalysisDelegate) {
         let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasExtactions = result.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
+        let hasExtactions = result.extractions.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             if hasExtactions {
                 let images = self.pages.compactMap { $0.document.previewImage }
-                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.compactMap {
+                let extractions: [String: Extraction] = Dictionary(uniqueKeysWithValues: result.extractions.compactMap {
                     guard let name = $0.name else { return nil }
                     
                     return (name, $0)
                 })
                 
-                let result = AnalysisResult(extractions: extractions, images: images)
+                let result = AnalysisResult(extractions: extractions, images: images, candidates: result.candidates)
                 
                 let documentService = self.documentService
                 
@@ -206,8 +206,9 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
                            value: $0.value,
                            name: QRCodesExtractor.epsCodeUrlKey)
                 }
+            let extractionResult = ExtractionResult(extractions: result, candidates: [:])
             
-            self.deliver(result: result, analysisDelegate: networkDelegate)
+            self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
             return
         }
 

@@ -153,8 +153,7 @@ NSString *const GINIAnalysisManagerDocumentUserInfoKey          = @"GINIAnalysis
                 [extractions setObject:extraction forKey:giniExtraction.name];
             }
             
-            AnalysisResult *analysisResult = [[AnalysisResult alloc] initWithExtractions:extractions
-                                                                                  images:[[NSArray alloc] init]];
+            AnalysisResult *analysisResult = [[AnalysisResult alloc] initWithExtractions:extractions images:[[NSArray alloc] init] candidates:@{}];
             self->_result = analysisResult;
             userInfo = @{GINIAnalysisManagerResultDictionaryUserInfoKey: self->_result, GINIAnalysisManagerDocumentUserInfoKey: self->_document};
             notificationName = GINIAnalysisManagerDidReceiveResultNotification;
