@@ -33,7 +33,6 @@ extension GiniVision {
                                      publicKeyPinningConfig: [String: Any],
                                      documentMetadata: Document.Metadata? = nil,
                                      api: APIDomain = .default,
-                                     userApi: UserDomain = .default,
                                      trackingDelegate: GiniVisionTrackingDelegate? = nil
     ) -> UIViewController {
         GiniVision.setConfiguration(configuration)
@@ -43,7 +42,6 @@ extension GiniVision {
                                                          publicKeyPinningConfig: publicKeyPinningConfig,
                                                          documentMetadata: documentMetadata,
                                                          api: api,
-                                                         userApi: userApi,
                                                          trackingDelegate: trackingDelegate)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
