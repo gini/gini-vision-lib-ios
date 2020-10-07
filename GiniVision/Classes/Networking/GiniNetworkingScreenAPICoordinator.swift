@@ -69,7 +69,9 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          giniConfiguration: GiniConfiguration,
          publicKeyPinningConfig: [String: Any],
          documentMetadata: Document.Metadata?,
-         api: APIDomain) {
+         api: APIDomain,
+         userApi: UserDomain = .default,
+         trackingDelegate: GiniVisionTrackingDelegate?) {
         
         let sdk = GiniSDK
             .Builder(client: client,
@@ -86,6 +88,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                    giniConfiguration: giniConfiguration)
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
+        self.trackingDelegate = trackingDelegate
     }
     
     private static func documentService(with sdk: GiniSDK,
