@@ -45,13 +45,9 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          giniConfiguration: GiniConfiguration,
          documentMetadata: Document.Metadata?,
          api: APIDomain,
-         userApi: UserDomain,
-         trackingDelegate: GiniVisionTrackingDelegate?) {
-        
-        let sdk = GiniSDK
-            .Builder(client: client, api: api, userApi: userApi)
-            .build()
-        
+         trackingDelegate: GiniVisionTrackingDelegate?,
+         sdk : GiniSDK) {
+
         self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
                                                                                   documentMetadata: documentMetadata,
                                                                                   giniConfiguration: giniConfiguration,
@@ -59,36 +55,31 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
         
         super.init(withDelegate: nil,
                    giniConfiguration: giniConfiguration)
+        
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
         self.trackingDelegate = trackingDelegate
     }
     
-    init(client: Client,
-         resultsDelegate: GiniVisionResultsDelegate,
-         giniConfiguration: GiniConfiguration,
-         publicKeyPinningConfig: [String: Any],
-         documentMetadata: Document.Metadata?,
-         api: APIDomain,
-         userApi: UserDomain = .default,
-         trackingDelegate: GiniVisionTrackingDelegate?) {
+    convenience init(client: Client,
+                     resultsDelegate: GiniVisionResultsDelegate,
+                     giniConfiguration: GiniConfiguration,
+                     documentMetadata: Document.Metadata?,
+                     api: APIDomain,
+                     userApi: UserDomain,
+                     trackingDelegate: GiniVisionTrackingDelegate?) {
         
         let sdk = GiniSDK
-            .Builder(client: client,
-                     api: api,
-                     pinningConfig: publicKeyPinningConfig)
+            .Builder(client: client, api: api, userApi: userApi)
             .build()
-        
-        self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
-                                                                                  documentMetadata: documentMetadata,
-                                                                                  giniConfiguration: giniConfiguration,
-                                                                                  for: api)
-        
-        super.init(withDelegate: nil,
-                   giniConfiguration: giniConfiguration)
-        self.visionDelegate = self
-        self.resultsDelegate = resultsDelegate
-        self.trackingDelegate = trackingDelegate
+
+        self.init(client: client,
+                  resultsDelegate: resultsDelegate,
+                  giniConfiguration: giniConfiguration,
+                  documentMetadata: documentMetadata,
+                  api: api,
+                  trackingDelegate: trackingDelegate,
+                  sdk: sdk)
     }
     
     private static func documentService(with sdk: GiniSDK,

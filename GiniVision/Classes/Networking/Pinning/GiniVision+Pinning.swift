@@ -35,14 +35,16 @@ extension GiniVision {
                                      api: APIDomain = .default,
                                      trackingDelegate: GiniVisionTrackingDelegate? = nil
     ) -> UIViewController {
+        
         GiniVision.setConfiguration(configuration)
+
         let screenCoordinator = GiniNetworkingScreenAPICoordinator(client: client,
-                                                         resultsDelegate: resultsDelegate,
-                                                         giniConfiguration: configuration,
-                                                         publicKeyPinningConfig: publicKeyPinningConfig,
-                                                         documentMetadata: documentMetadata,
-                                                         api: api,
-                                                         trackingDelegate: trackingDelegate)
+                                                                   resultsDelegate: resultsDelegate,
+                                                                   giniConfiguration: configuration,
+                                                                   publicKeyPinningConfig: publicKeyPinningConfig,
+                                                                   documentMetadata: documentMetadata,
+                                                                   api: api,
+                                                                   trackingDelegate: trackingDelegate)
         return screenCoordinator.start(withDocuments: importedDocuments)
     }
     
