@@ -23,7 +23,7 @@ In case that you want to use the networking module of the Gini Vision Library, w
 ```ruby
 pod "GiniVision/Networking"
 ```
-or
+or if you want to pin SSL certificate
 ```ruby
 pod "GiniVision/Networking+Pinning"
 ```
