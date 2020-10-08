@@ -6,7 +6,7 @@ use_frameworks!
 
 def project_pods
     pod 'GiniVision', :path => '../', :testspecs => ['Tests']
-    pod 'GiniVision/Networking+Pinning', :path => '../'
+    pod 'GiniVision/Networking', :path => '../'
 end
 
 target 'Example Swift' do
