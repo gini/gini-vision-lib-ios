@@ -55,6 +55,8 @@
 		860380DD8156A016B3545CE1 /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3665DCA4CF5C8C985DF6A0 /* Pods_GiniVision_UITests.framework */; };
 		B5828EF3097D72A62D521685 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9015A1B4FC8759C4481E4376 /* Pods_Example_ObjC.framework */; };
 		BD69227B7A8BE8A91E0735E8 /* Pods_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */; };
+		F40B4065252C9CC700D04B6F /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = F40B4064252C9CC700D04B6F /* Credentials.plist */; };
+		F40B4066252C9CC700D04B6F /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = F40B4064252C9CC700D04B6F /* Credentials.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +162,7 @@
 		B61EB811A8C45FEA2ECA7917 /* Pods-Example_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EB92C15B9A53B0CB41B54CE4 /* Pods-Example_Tests.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.in house.xcconfig"; sourceTree = "<group>"; };
+		F40B4064252C9CC700D04B6F /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FDD84915880AC0748A55810C /* Pods-GiniVision_UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,6 +300,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				F40B4064252C9CC700D04B6F /* Credentials.plist */,
 				0A5379301DF96DD300B0FFE9 /* GiniVision_Example.entitlements */,
 				607FACD21AFB9204008FA782 /* Example Swift */,
 				1F9334FF20A334F2004BC50C /* Example ObjC */,
@@ -555,6 +559,7 @@
 				1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */,
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
 				1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */,
+				F40B4066252C9CC700D04B6F /* Credentials.plist in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
 			);
@@ -565,6 +570,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */,
+				F40B4065252C9CC700D04B6F /* Credentials.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
@@ -594,13 +600,11 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Example Swift/Pods-Example Swift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Gini/Gini.framework",
 				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
-				"${BUILT_PRODUCTS_DIR}/TrustKit/TrustKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiniVision.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -648,7 +652,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Example ObjC/Pods-Example ObjC-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Gini/Gini.framework",
 				"${BUILT_PRODUCTS_DIR}/GiniVision/GiniVision.framework",
-				"${BUILT_PRODUCTS_DIR}/TrustKit/TrustKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Gini-iOS-SDK/Gini_iOS_SDK.framework",
 			);
@@ -656,7 +659,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GiniVision.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TrustKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Gini_iOS_SDK.framework",
 			);

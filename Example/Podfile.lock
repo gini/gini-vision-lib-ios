@@ -4,33 +4,24 @@ PODS:
     - Gini-iOS-SDK/Core (= 1.4.0)
   - Gini-iOS-SDK/Core (1.4.0):
     - Bolts/Tasks (~> 1.9)
-  - Gini/DocumentsAPI (0.4.0)
-  - Gini/Pinning (0.4.0):
-    - Gini/DocumentsAPI
-    - TrustKit (~> 1.6)
+  - Gini/DocumentsAPI (0.5.2)
   - GiniVision (5.3.7):
     - GiniVision/Core (= 5.3.7)
   - GiniVision/Core (5.3.7)
   - GiniVision/Networking (5.3.7):
-    - Gini/DocumentsAPI (~> 0.4.0)
-    - Gini/Pinning (~> 0.4.0)
+    - Gini/DocumentsAPI (~> 0.5.2)
     - GiniVision/Core
-  - "GiniVision/Networking+Pinning (5.3.7)":
-    - Gini/Pinning (~> 0.4.0)
-    - GiniVision/Networking
   - GiniVision/Tests (5.3.7)
-  - TrustKit (1.6.5)
 
 DEPENDENCIES:
   - Gini-iOS-SDK (~> 1.4)
   - GiniVision (from `../`)
-  - "GiniVision/Networking+Pinning (from `../`)"
+  - GiniVision/Networking (from `../`)
   - GiniVision/Tests (from `../`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Bolts
-    - TrustKit
   https://github.com/gini/gini-podspecs.git:
     - Gini
     - Gini-iOS-SDK
@@ -41,11 +32,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
-  Gini: bd0c76f87b9ca7f0d2810ddb7c2872fcfd363b72
+  Gini: 79e3ee06d18ecb8be27112563a84cecff4e73e0b
   Gini-iOS-SDK: 270169987acb2ebd83d1e11d029daa81b6f89682
-  GiniVision: 9c78ec06e3de1441cac689c4b06fb825dbb92771
-  TrustKit: 073855e3adecd317417bda4ac9e9ac54a2e3b9f2
+  GiniVision: 2ffc31e74ccae220fc6e97d1d57e0e16fc18b71b
 
-PODFILE CHECKSUM: 4f5efaa1ca96405c622c9cf1566264685a082e61
+PODFILE CHECKSUM: ad712b962d37e080a6b89d14b6c67309b4987f8b
 
 COCOAPODS: 1.9.3
