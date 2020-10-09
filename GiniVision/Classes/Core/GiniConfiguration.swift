@@ -55,8 +55,22 @@ import UIKit
      
      - note: Screen API only.
      */
-    @objc public var backgroundColor = UIColor.black
-    
+        @objc public var backgroundColor: UIColor = {
+            if #available(iOS 13, *) {
+                return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
+                    if UITraitCollection.userInterfaceStyle == .dark {
+                        /// Return the color for Dark Mode
+                        return .black
+                    } else {
+                        /// Return the color for Light Mode
+                        return .white
+                    }
+                }
+            } else {
+                /// Return a fallback color for iOS 12 and lower.
+                return .black
+            }
+        }()
     /**
      Sets custom validations that can be done apart from the default ones (file size, file type...).
      It should throw a `CustomDocumentValidationError` error.
