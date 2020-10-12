@@ -108,6 +108,7 @@ final public class HelpMenuViewController: UITableViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor().colorFromGiniColor(giniColor: giniConfiguration.helpScreenBackgroundColor)
         title = .localized(resource: HelpStrings.menuTitle)
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
