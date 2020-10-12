@@ -65,22 +65,10 @@ import UIKit
      
      - note: Screen API only.
      */
-        @objc public var backgroundColor: UIColor = {
-            if #available(iOS 13, *) {
-                return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
-                    if UITraitCollection.userInterfaceStyle == .dark {
-                        /// Return the color for Dark Mode
-                        return .black
-                    } else {
-                        /// Return the color for Light Mode
-                        return .white
-                    }
-                }
-            } else {
-                /// Return a fallback color for iOS 12 and lower.
-                return .black
-            }
-        }()
+    @available(*, unavailable,
+    message: "Use the screen specific background color instead e.g. onboardingScreenBackgroundColor")
+    @objc public var backgroundColor: UIColor = UIColor.black
+    
     /**
      Sets custom validations that can be done apart from the default ones (file size, file type...).
      It should throw a `CustomDocumentValidationError` error.
@@ -290,6 +278,12 @@ import UIKit
     @objc public var galleryPickerItemSelectedBackgroundCheckColor = Colors.Gini.blue
     
     /**
+     Sets the background color for galery screen.
+     */
+    
+    @objc public var galeryScreenBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: .black)
+    
+    /**
      Indicates whether the flash toggle should be shown in the camera screen.
      
      */
@@ -352,6 +346,8 @@ import UIKit
         }
     }
     
+    // MARK: Onboarding screens
+
     /**
      Sets the continue button text in the navigation bar on the onboarding screen.
      
@@ -362,12 +358,12 @@ import UIKit
     /**
      Sets the color of the page controller's page indicator items.
      */
-    @objc public var onboardingPageIndicatorColor = UIColor.white.withAlphaComponent(0.2)
+    @objc public var onboardingPageIndicatorColor = GiniColor(lightModeColor: .black, darkModeColor: .white)
     
     /**
      Sets the color of the page controller's current page indicator item.
      */
-    @objc public var onboardingCurrentPageIndicatorColor = UIColor.white
+    @objc public var onboardingCurrentPageIndicatorColor = GiniColor(lightModeColor: .black, darkModeColor: .white)
     
     /**
      Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.
@@ -388,7 +384,13 @@ import UIKit
     /**
      Sets the color ot the text for all onboarding pages.
      */
-    @objc public var onboardingTextColor = UIColor.white
+    @objc public var onboardingTextColor = GiniColor(lightModeColor: .black, darkModeColor: .white)
+    
+    /**
+     Sets the background color for all onboarding pages.
+     */
+        
+    @objc public var onboardingScreenBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: .black)
     
     /**
      All onboarding pages which will be presented in a horizontal scroll view to the user.
@@ -593,6 +595,12 @@ import UIKit
     @objc public var navigationBarAnalysisTitleBackButton = ""
     
     // MARK: Help screens
+    
+    /**
+     Sets the background color for all help screens.
+     */
+    
+    @objc public var helpScreenBackgroundColor =  GiniColor(lightModeColor: .white, darkModeColor: .black)
     
     /**
      Sets the back button text in the navigation bar on the help menu screen.
