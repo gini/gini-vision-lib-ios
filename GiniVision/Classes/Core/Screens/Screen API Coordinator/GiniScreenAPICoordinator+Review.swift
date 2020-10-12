@@ -21,7 +21,6 @@ extension GiniScreenAPICoordinator: ReviewViewControllerDelegate {
                                                         giniConfiguration: giniConfiguration)
         reviewViewController.delegate = self
         reviewViewController.title = .localized(resource: NavigationBarStrings.reviewTitle)
-        reviewViewController.view.backgroundColor = giniConfiguration.backgroundColor
         reviewViewController.setupNavigationItem(usingResources: nextButtonResource,
                                                  selector: #selector(showAnalysisScreen),
                                                  position: .right,
