@@ -8,6 +8,16 @@
 
 import UIKit
 
+@objc public class GiniColor : NSObject {
+    var lightModeColor: UIColor = .white
+    var darkModeColor: UIColor = .black
+    
+    init(lightModeColor: UIColor, darkModeColor: UIColor) {
+        self.lightModeColor = lightModeColor
+        self.darkModeColor = darkModeColor
+    }
+}
+
 /**
  The `GiniConfiguration` class allows customizations to the look and feel of the Gini Vision Library.
  If there are limitations regarding which API can be used, this is clearly stated for the specific attribute.
