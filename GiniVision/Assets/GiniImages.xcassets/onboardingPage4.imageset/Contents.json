@@ -1,16 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "mobile_onboarding_screen_4_illustration.pdf",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
       "filename" : "ipad_onboarding_screen_4_illustration.pdf",
       "idiom" : "universal"
     }

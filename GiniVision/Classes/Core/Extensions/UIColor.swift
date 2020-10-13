@@ -8,7 +8,7 @@
 import Foundation
 
 extension UIColor {
-    func colorFromGiniColor(giniColor: GiniColor) -> UIColor {
+    static func fromGiniColor(giniColor: GiniColor) -> UIColor {
         if #available(iOS 13, *) {
             return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
                 if UITraitCollection.userInterfaceStyle == .dark {
@@ -21,7 +21,7 @@ extension UIColor {
             }
         } else {
             /// Return a fallback color for iOS 12 and lower.
-            return .black
+            return giniColor.lightModeColor
         }
     }
 }

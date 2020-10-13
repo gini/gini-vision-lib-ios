@@ -1,16 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "black.pdf",
-      "idiom" : "universal"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
       "filename" : "ic_multipage.pdf",
       "idiom" : "universal"
     }
