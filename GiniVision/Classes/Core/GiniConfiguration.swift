@@ -321,30 +321,12 @@ import UIKit
     /**
      Sets the text color of the QR Code popup label
      */
-    @objc public var qrCodePopupTextColor: UIColor {
-        
-        if #available(iOS 13.0, *) {
-             
-            return .label
-            
-        } else {
-            return .black
-        }
-    }
+    @objc public var qrCodePopupTextColor = GiniColor(lightModeColor: .black, darkModeColor: .white)
     
     /**
      Sets the text color of the QR Code popup background
      */
-    @objc public var qrCodePopupBackgroundColor: UIColor {
-        
-        if #available(iOS 13.0, *) {
-             
-            return .secondarySystemBackground
-            
-        } else {
-            return .white
-        }
-    }
+    @objc public var qrCodePopupBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.fromHexColor(0x1c1c1eff))
     
     // MARK: Onboarding screens
 
@@ -473,44 +455,11 @@ import UIKit
     /**
      Sets the color of the pages container and toolbar
      */
-    @objc public var multipagePagesContainerAndToolBarColor: UIColor {
-        
-        set {
-            _multipagePagesContainerAndToolBarColor = newValue
-        }
-        
-        get {
-            
-            if let setValue = _multipagePagesContainerAndToolBarColor {
-                return setValue
-            } else {
-                
-                if #available(iOS 13.0, *) {
-                    return Colors.Gini.dynamicPearl
-                } else {
-                    return Colors.Gini.pearl
-                }
-            }
-        }
-    }
+    @objc public var multipagePagesContainerAndToolBarColor = GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.fromHexColor(0x1C1C1C))
     
     @objc private var _multipagePagesContainerAndToolBarColor: UIColor?
     
-    @objc public var indicatorCircleColor: UIColor {
-        
-        if #available(iOS 13.0, *) {
-                        return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                
-                if traitCollection.userInterfaceStyle == .dark {
-                    return .lightGray
-                } else {
-                    return Colors.Gini.pearl
-                }
-            }
-        } else {
-            return Colors.Gini.pearl
-        }
-    }
+    @objc public var indicatorCircleColor = GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: .lightGray)
     
     /**
      Sets the tint color of the toolbar items
@@ -530,35 +479,7 @@ import UIKit
     /**
      Sets the background color of the page background
      */
-    @objc public var multipagePageBackgroundColor: UIColor {
-        
-        set {
-            _multipagePageBackgroundColor = newValue
-        }
-        
-        get {
-            
-            if let setValue = _multipagePageBackgroundColor {
-                return setValue
-            } else {
-                
-                if #available(iOS 13.0, *) {
-                    
-                    return UIColor { (traitCollection: UITraitCollection) -> UIColor in
-                        
-                        if traitCollection.userInterfaceStyle == .dark {
-                            return .secondarySystemBackground
-                        } else {
-                            return .white
-                        }
-                    }
-                    
-                } else {
-                    return .white
-                }
-            }
-        }
-    }
+    @objc public var multipagePageBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.fromHexColor(0x1c1c1eff))
     
     @objc private var _multipagePageBackgroundColor: UIColor?
     
