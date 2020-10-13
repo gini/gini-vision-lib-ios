@@ -12,10 +12,19 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Open with tutorial screen](#open-with-tutorial-screen)
 - [Capturing tips screen](#capturing-tips-screen)
 - [Gallery album screen](#gallery-album-screen)
+- [Onboarding screens](#onboarding-screens)
+- [Help screen](#help-screen)
+
 
 Customizable assets can be found in [the Assets repo](https://github.com/gini/gini-vision-lib-assets).
 
+## Supporting dark mode
+
+Some background and text colors use the `GiniColor` type with which you can set colors for dark and light modes. Please make sure to set contrasting images to the background colors in your `.xcassets` for the Gini Vision Library images you override (e.g. `onboardingPage1`). The text colors should also be set in contrast to the background colors.
+
 ## Generic components
+ 
+`GiniConfiguration.backgroundColor` is deprecated in version 5.5.0. Use the screen specific background color instead e.g. `GiniConfiguration.onboardingScreenBackgroundColor`.
 
 ##### 1. Navigation bar
 <center><img src="img/Customization guide/Navigation bar.jpg" height="70"/></center>
@@ -209,3 +218,23 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 
 ##### 1. Selected image
 - Selected item check color &#8594; `GiniConfiguration.galleryPickerItemSelectedBackgroundCheckColor`
+- Background color &#8594; `GiniConfiguration.galleryScreenBackgroundColor` using GiniColor with dark mode and light mode colors
+
+## Onboarding screens
+
+<br>
+<center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using GiniColor with dark mode and light mode colors
+- Text color &#8594; `GiniConfiguration.onboardingTextColor` using GiniColor with dark mode and light mode colors
+- Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using GiniColor with dark mode and light mode colors
+
+
+## Help screen
+
+<br>
+<center><img src="img/Customization guide/Help screen.jpeg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using GiniColor with dark mode and light mode colors
