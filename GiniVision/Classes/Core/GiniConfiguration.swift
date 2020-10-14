@@ -326,7 +326,7 @@ import UIKit
     /**
      Sets the text color of the QR Code popup background
      */
-    @objc public var qrCodePopupBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.fromHexColor(0x1c1c1eff))
+    @objc public var qrCodePopupBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.from(hex: 0x1c1c1eff))
     
     // MARK: Onboarding screens
 
@@ -455,7 +455,7 @@ import UIKit
     /**
      Sets the color of the pages container and toolbar
      */
-    @objc public var multipagePagesContainerAndToolBarColor = GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.fromHexColor(0x1C1C1C))
+    @objc public var multipagePagesContainerAndToolBarColor = GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.from(hex: 0x1C1C1C))
     
     @objc private var _multipagePagesContainerAndToolBarColor: UIColor?
     
@@ -479,7 +479,7 @@ import UIKit
     /**
      Sets the background color of the page background
      */
-    @objc public var multipagePageBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.fromHexColor(0x1c1c1eff))
+    @objc public var multipagePageBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.from(hex: 0x1c1c1eff))
     
     @objc private var _multipagePageBackgroundColor: UIColor?
     

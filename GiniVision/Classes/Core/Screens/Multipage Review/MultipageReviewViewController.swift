@@ -110,7 +110,7 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var pagesCollectionContainer: UIView = {
         let view = UIView(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.fromGiniColor(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor)
+        view.backgroundColor = UIColor.from(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor)
         return view
     }()
     
@@ -160,7 +160,7 @@ public final class MultipageReviewViewController: UIViewController {
     lazy var toolBar: UIToolbar = {
         let toolBar = UIToolbar(frame: .zero)
         toolBar.translatesAutoresizingMaskIntoConstraints = false
-        toolBar.barTintColor = UIColor.fromGiniColor(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor)
+        toolBar.barTintColor = UIColor.from(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor)
         toolBar.isTranslucent = false
         toolBar.alpha = 0
         

@@ -42,7 +42,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
     
     private func updateStepIndicatorCircleColor(stepIndicatorCircle: UIView) {
         
-        stepIndicatorCircle.layer.borderColor = UIColor.fromGiniColor(giniColor: GiniConfiguration.shared.indicatorCircleColor).cgColor
+        stepIndicatorCircle.layer.borderColor = UIColor.from(giniColor: GiniConfiguration.shared.indicatorCircleColor).cgColor
     }
     
     lazy var stepTitle: UILabel = {

@@ -49,8 +49,8 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPage = 0
         pageControl.numberOfPages = self.giniConfiguration.onboardingPages.count + 1 // Empty page at the end
-        pageControl.currentPageIndicatorTintColor = UIColor.fromGiniColor(giniColor: giniConfiguration.onboardingCurrentPageIndicatorColor).withAlphaComponent(0.2)
-        pageControl.pageIndicatorTintColor = UIColor.fromGiniColor(giniColor: giniConfiguration.onboardingPageIndicatorColor)
+        pageControl.currentPageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingCurrentPageIndicatorColor).withAlphaComponent(0.2)
+        pageControl.pageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingPageIndicatorColor)
         pageControl.isUserInteractionEnabled = false
         pageControl.isAccessibilityElement = false
         return pageControl
@@ -99,7 +99,7 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     override func viewDidLoad() {
         super.viewDidLoad()
         title = .localized(resource: NavigationBarStrings.onboardingTitle)
-        view.backgroundColor = UIColor.fromGiniColor(giniColor: giniConfiguration.onboardingScreenBackgroundColor)
+        view.backgroundColor = UIColor.from(giniColor: giniConfiguration.onboardingScreenBackgroundColor)
         
         trackingDelegate?.onOnboardingScreenEvent(event: Event(type: .start))
         

@@ -8,7 +8,7 @@
 import Foundation
 
 extension UIColor {
-    static func fromGiniColor(giniColor: GiniColor) -> UIColor {
+    static func from(giniColor: GiniColor) -> UIColor {
         if #available(iOS 13, *) {
             return UIColor { (UITraitCollection: UITraitCollection) -> UIColor in
                 if UITraitCollection.userInterfaceStyle == .dark {
@@ -25,7 +25,7 @@ extension UIColor {
         }
     }
     
-     static func fromHexColor(_ hex: UInt) -> UIColor {
+     static func from(hex: UInt) -> UIColor {
         return UIColor(
             red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
             green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
