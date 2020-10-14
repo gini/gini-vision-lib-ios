@@ -81,9 +81,9 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <br>
 <center><img src="img/Customization guide/QR code popup.jpg" height="70"/></center>
 </br>
-- Background color &#8594;  `GiniConfiguration.qrCodePopupBackgroundColor`
+- Background color &#8594;  `GiniConfiguration.qrCodePopupBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Button color &#8594;  `GiniConfiguration.qrCodePopupButtonColor`
-- Text color &#8594;  `GiniConfiguration.qrCodePopupTextColor`
+- Text color &#8594;  `GiniConfiguration.qrCodePopupTextColor` using `GiniColor` with dark mode and light mode colors
 - Title &#8594; <span style="color:#009EDF">*ginivision.camera.qrCodeDetectedPopup.buttonTitle*</span> localized string
 - Message &#8594; <span style="color:#009EDF">*ginivision.camera.qrCodeDetectedPopup.message*</span> localized string
 
@@ -130,13 +130,14 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.multipageToolTipOpaqueBackgroundStyle`
 
 ##### 3. Page item
-- Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor`
-- Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor`
+- Page circle indicator color &#8594; `GiniConfiguration.indicatorCircleColor` using `GiniColor` with dark mode and light mode colors
+- Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor` 
+- Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Page selected indicator color &#8594; `GiniConfiguration.multipagePageSelectedIndicatorColor`
 - Page draggable icon tint color &#8594; `GiniConfiguration.multipageDraggableIconColor`
 
 ##### 4. Bottom container
-- Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor`
+- Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor` using `GiniColor` with dark mode and light mode colors
 - Rotation button image &#8594;  <span style="color:#009EDF">*rotateImageIcon*</span> image asset
 - Delete button image &#8594;  <span style="color:#009EDF">*trashIcon*</span> image asset
 
@@ -218,7 +219,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 ##### 1. Selected image
 - Selected item check color &#8594; `GiniConfiguration.galleryPickerItemSelectedBackgroundCheckColor`
-- Background color &#8594; `GiniConfiguration.galleryScreenBackgroundColor` using GiniColor with dark mode and light mode colors
+- Background color &#8594; `GiniConfiguration.galleryScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
 
 ## Onboarding screens
 
@@ -226,9 +227,9 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
 </br>
 
-- Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using GiniColor with dark mode and light mode colors
-- Text color &#8594; `GiniConfiguration.onboardingTextColor` using GiniColor with dark mode and light mode colors
-- Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using GiniColor with dark mode and light mode colors
+- Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+- Text color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
 
 
 ## Help screen
@@ -237,4 +238,4 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Help screen.jpeg" height="500"/></center>
 </br>
 
-- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using GiniColor with dark mode and light mode colors
+- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
