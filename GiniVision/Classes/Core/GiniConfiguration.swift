@@ -14,12 +14,13 @@ import UIKit
     var lightModeColor: UIColor
     var darkModeColor: UIColor
     
-    /** Creates a GiniColor with the colors for the light and dark modes
-    - Parameters:
-     - lightModeColor: color for the light mode
-     - darkModeColor: color for the light mode
-    */
-    init(lightModeColor: UIColor, darkModeColor: UIColor) {
+    /**
+     Creates a GiniColor with the colors for the light and dark modes
+     
+     - parameter lightModeColor: color for the light mode
+     - parameter darkModeColor: color for the dark mode
+     */
+    public init(lightModeColor: UIColor, darkModeColor: UIColor) {
         self.lightModeColor = lightModeColor
         self.darkModeColor = darkModeColor
     }
