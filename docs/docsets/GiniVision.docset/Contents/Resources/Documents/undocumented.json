@@ -2200,8 +2200,15 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Networking/AnalysisResult.swift",
-      "line": 22,
-      "symbol": "AnalysisResult.init(extractions:images:)",
+      "line": 27,
+      "symbol": "AnalysisResult.candidates",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Networking/AnalysisResult.swift",
+      "line": 29,
+      "symbol": "AnalysisResult.init(extractions:images:candidates:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },

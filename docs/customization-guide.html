@@ -321,6 +321,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Classes/GiniColor.html">GiniColor</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Other Extensions.html">Other Extensions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -361,6 +369,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/UICollectionView.html">UICollectionView</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/UIColor.html">UIColor</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/UIDevice.html">UIDevice</a>
@@ -414,10 +425,17 @@
 <li><a href="#open-with-tutorial-screen">Open with tutorial screen</a></li>
 <li><a href="#capturing-tips-screen">Capturing tips screen</a></li>
 <li><a href="#gallery-album-screen">Gallery album screen</a></li>
+<li><a href="#onboarding-screens">Onboarding screens</a></li>
+<li><a href="#help-screen">Help screen</a></li>
 </ul>
 
 <p>Customizable assets can be found in <a href="https://github.com/gini/gini-vision-lib-assets">the Assets repo</a>.</p>
+<h2 id='supporting-dark-mode' class='heading'>Supporting dark mode</h2>
+
+<p>Some background and text colors use the <code><a href="Classes/GiniColor.html">GiniColor</a></code> type with which you can set colors for dark and light modes. Please make sure to set contrasting images to the background colors in your <code>.xcassets</code> for the Gini Vision Library images you override (e.g. <code>onboardingPage1</code>). The text colors should also be set in contrast to the background colors.</p>
 <h2 id='generic-components' class='heading'>Generic components</h2>
+
+<p><code>GiniConfiguration.backgroundColor</code> is deprecated in version 5.5.0. Use the screen specific background color instead e.g. <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)onboardingScreenBackgroundColor">GiniConfiguration.onboardingScreenBackgroundColor</a></code>.</p>
 <h5 id='1-navigation-bar' class='heading'>1. Navigation bar</h5>
 
 <p><center><img src="img/Customization guide/Navigation bar.jpg" height="70"/></center></p>
@@ -503,9 +521,9 @@
 </br></p>
 
 <ul>
-<li>Background color &#8594;  <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupBackgroundColor">GiniConfiguration.qrCodePopupBackgroundColor</a></code></li>
+<li>Background color &#8594;  <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupBackgroundColor">GiniConfiguration.qrCodePopupBackgroundColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 <li>Button color &#8594;  <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupButtonColor">GiniConfiguration.qrCodePopupButtonColor</a></code></li>
-<li>Text color &#8594;  <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupTextColor">GiniConfiguration.qrCodePopupTextColor</a></code></li>
+<li>Text color &#8594;  <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)qrCodePopupTextColor">GiniConfiguration.qrCodePopupTextColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 <li>Title &#8594; <span style="color:#009EDF"><em>ginivision.camera.qrCodeDetectedPopup.buttonTitle</em></span> localized string</li>
 <li>Message &#8594; <span style="color:#009EDF"><em>ginivision.camera.qrCodeDetectedPopup.message</em></span> localized string</li>
 </ul>
@@ -577,15 +595,16 @@
 <h5 id='3-page-item' class='heading'>3. Page item</h5>
 
 <ul>
+<li>Page circle indicator color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)indicatorCircleColor">GiniConfiguration.indicatorCircleColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 <li>Page indicator color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePageIndicatorColor">GiniConfiguration.multipagePageIndicatorColor</a></code></li>
-<li>Page background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePageBackgroundColor">GiniConfiguration.multipagePageBackgroundColor</a></code></li>
+<li>Page background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePageBackgroundColor">GiniConfiguration.multipagePageBackgroundColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 <li>Page selected indicator color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePageSelectedIndicatorColor">GiniConfiguration.multipagePageSelectedIndicatorColor</a></code></li>
 <li>Page draggable icon tint color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipageDraggableIconColor">GiniConfiguration.multipageDraggableIconColor</a></code></li>
 </ul>
 <h5 id='4-bottom-container' class='heading'>4. Bottom container</h5>
 
 <ul>
-<li>Background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePagesContainerAndToolBarColor">GiniConfiguration.multipagePagesContainerAndToolBarColor</a></code></li>
+<li>Background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)multipagePagesContainerAndToolBarColor">GiniConfiguration.multipagePagesContainerAndToolBarColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 <li>Rotation button image &#8594;  <span style="color:#009EDF"><em>rotateImageIcon</em></span> image asset</li>
 <li>Delete button image &#8594;  <span style="color:#009EDF"><em>trashIcon</em></span> image asset</li>
 </ul>
@@ -692,6 +711,27 @@
 
 <ul>
 <li>Selected item check color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)galleryPickerItemSelectedBackgroundCheckColor">GiniConfiguration.galleryPickerItemSelectedBackgroundCheckColor</a></code></li>
+<li>Background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)galleryScreenBackgroundColor">GiniConfiguration.galleryScreenBackgroundColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
+</ul>
+<h2 id='onboarding-screens' class='heading'>Onboarding screens</h2>
+
+<p><br>
+<center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
+</br></p>
+
+<ul>
+<li>Background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)onboardingScreenBackgroundColor">GiniConfiguration.onboardingScreenBackgroundColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
+<li>Text color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)onboardingTextColor">GiniConfiguration.onboardingTextColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
+<li>Page indicator color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)onboardingPageIndicatorColor">GiniConfiguration.onboardingPageIndicatorColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
+</ul>
+<h2 id='help-screen' class='heading'>Help screen</h2>
+
+<p><br>
+<center><img src="img/Customization guide/Help screen.jpeg" height="500"/></center>
+</br></p>
+
+<ul>
+<li>Background color &#8594; <code><a href="Classes/GiniConfiguration.html#/c:@M@GiniVision@objc(cs)GiniConfiguration(py)helpScreenBackgroundColor">GiniConfiguration.helpScreenBackgroundColor</a></code> using <code><a href="Classes/GiniColor.html">GiniColor</a></code> with dark mode and light mode colors</li>
 </ul>
 
           </div>
@@ -701,7 +741,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2020-10-08)</p>
+      <p>&copy; 2020 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2020-10-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
