@@ -46,10 +46,9 @@ final class MultipageCollectionCellPresenterTests: XCTestCase {
     }
     
     func testPageBottomContainerColor() {
-        giniConfiguration.multipagePageBackgroundColor = .red
-        
-        XCTAssertEqual(setUpPageCollectionCell.bottomContainer.backgroundColor,
-                       giniConfiguration.multipagePageBackgroundColor,
+        giniConfiguration.multipagePageBackgroundColor = GiniColor.init(lightModeColor: .red, darkModeColor: .red)
+        XCTAssertEqual(setUpPageCollectionCell.bottomContainer.backgroundColor?.cgColor,
+                       UIColor.from(giniColor: giniConfiguration.multipagePageBackgroundColor).cgColor,
                        "page cell background color should match the one specified in the configuration")
     }
     

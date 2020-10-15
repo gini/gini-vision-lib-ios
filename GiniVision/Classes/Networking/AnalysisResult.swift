@@ -20,13 +20,21 @@ import Gini
     public let extractions: [String: Extraction]
     
     /*
+     *  Extraction candidates dictionary. To get the candidates for an extraction look for the
+     *  `Extraction.candidates` name in the dictionary. For example the IBAN extraction's `candidates` field
+     *  contains `"ibans"` and if you search for that in this dictionary, then you'll get all the IBAN candidates.
+     */
+    public let candidates: [String: [Extraction.Candidate]]
+
+    /*
      *  Line item compound extractions obtained in the analysis.
      */
     public let lineItems: [[Extraction]]?
     
-    public init(extractions: [String: Extraction], lineItems: [[Extraction]]? = nil, images: [UIImage]) {
+    public init(extractions: [String: Extraction], candidates: [String: [Extraction.Candidate]], lineItems: [[Extraction]]? = nil, images: [UIImage]) {
         self.images = images
         self.extractions = extractions
+        self.candidates = candidates
         self.lineItems = lineItems
     }
 }

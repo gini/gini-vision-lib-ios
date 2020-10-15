@@ -45,37 +45,9 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
          giniConfiguration: GiniConfiguration,
          documentMetadata: Document.Metadata?,
          api: APIDomain,
-         userApi: UserDomain,
-         trackingDelegate: GiniVisionTrackingDelegate?) {
-        
-        let sdk = GiniSDK
-            .Builder(client: client, api: api, userApi: userApi)
-            .build()
-        
-        self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
-                                                                                  documentMetadata: documentMetadata,
-                                                                                  giniConfiguration: giniConfiguration,
-                                                                                  for: api)
-        
-        super.init(withDelegate: nil, giniConfiguration: giniConfiguration)
-        self.visionDelegate = self
-        self.resultsDelegate = resultsDelegate
-        self.trackingDelegate = trackingDelegate
-    }
-    
-    init(client: Client,
-         resultsDelegate: GiniVisionResultsDelegate,
-         giniConfiguration: GiniConfiguration,
-         publicKeyPinningConfig: [String: Any],
-         documentMetadata: Document.Metadata?,
-         api: APIDomain) {
-        
-        let sdk = GiniSDK
-            .Builder(client: client,
-                     api: api,
-                     pinningConfig: publicKeyPinningConfig)
-            .build()
-        
+         trackingDelegate: GiniVisionTrackingDelegate?,
+         sdk : GiniSDK) {
+
         self.documentService = GiniNetworkingScreenAPICoordinator.documentService(with: sdk,
                                                                                   documentMetadata: documentMetadata,
                                                                                   giniConfiguration: giniConfiguration,
@@ -83,8 +55,31 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
         
         super.init(withDelegate: nil,
                    giniConfiguration: giniConfiguration)
+        
         self.visionDelegate = self
         self.resultsDelegate = resultsDelegate
+        self.trackingDelegate = trackingDelegate
+    }
+    
+    convenience init(client: Client,
+                     resultsDelegate: GiniVisionResultsDelegate,
+                     giniConfiguration: GiniConfiguration,
+                     documentMetadata: Document.Metadata?,
+                     api: APIDomain,
+                     userApi: UserDomain,
+                     trackingDelegate: GiniVisionTrackingDelegate?) {
+        
+        let sdk = GiniSDK
+            .Builder(client: client, api: api, userApi: userApi)
+            .build()
+
+        self.init(client: client,
+                  resultsDelegate: resultsDelegate,
+                  giniConfiguration: giniConfiguration,
+                  documentMetadata: documentMetadata,
+                  api: api,
+                  trackingDelegate: trackingDelegate,
+                  sdk: sdk)
     }
     
     private static func documentService(with sdk: GiniSDK,
@@ -116,7 +111,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
                     return (name, $0)
                 })
                 
-                let result = AnalysisResult(extractions: extractions, lineItems: result.lineItems, images: images)
+                let result = AnalysisResult(extractions: extractions, candidates: result.candidates, lineItems: result.lineItems, images: images)
                 
                 let documentService = self.documentService
                 
@@ -237,11 +232,10 @@ extension GiniNetworkingScreenAPICoordinator: GiniVisionDelegate {
                            entity: QRCodesExtractor.epsCodeUrlKey,
                            value: $0.value,
                            name: QRCodesExtractor.epsCodeUrlKey)
-            }
+                }
+            let extractionResult = ExtractionResult(extractions: extractions, candidates: [:], lineItems: [], returnReasons: [])
             
-            let result = ExtractionResult(extractions: extractions, lineItems: nil, returnReasons: nil)
-            
-            self.deliver(result: result, analysisDelegate: networkDelegate)
+            self.deliver(result: extractionResult, analysisDelegate: networkDelegate)
             return
         }
 

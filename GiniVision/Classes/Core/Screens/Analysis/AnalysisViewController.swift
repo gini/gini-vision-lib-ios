@@ -138,7 +138,7 @@ import UIKit
         super.loadView()
         imageView.image = document.previewImage
         edgesForExtendedLayout = []
-        view.backgroundColor = giniConfiguration.backgroundColor
+        view.backgroundColor = .black
         
         // Configure view hierachy
         addImageView()

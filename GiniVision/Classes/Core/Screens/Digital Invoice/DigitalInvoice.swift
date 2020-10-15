@@ -121,6 +121,7 @@ extension DigitalInvoice {
         guard let totalValue = total?.extractionString else {
             
             return ExtractionResult(extractions: _extractionResult.extractions,
+                                    candidates: _extractionResult.candidates,
                                     lineItems: lineItems.map { $0.extractions },
                                     returnReasons: returnReasons)
         }
@@ -135,6 +136,7 @@ extension DigitalInvoice {
         }
         
         return ExtractionResult(extractions: modifiedExtractions,
+                                candidates: _extractionResult.candidates,
                                 lineItems: lineItems.map { $0.extractions },
                                 returnReasons: returnReasons)
     }

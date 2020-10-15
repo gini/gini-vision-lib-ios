@@ -92,7 +92,7 @@ final class HelpMenuViewControllerTests: XCTestCase {
         
         XCTAssertEqual(itemText, cell.textLabel?.text,
                        "cell text in the first row should be the same as the first item text")
-                       
+        
         XCTAssertEqual(cellAccesoryType,
                        cell.accessoryType,
                        "cell accesory type should be and a disclosure indicator")

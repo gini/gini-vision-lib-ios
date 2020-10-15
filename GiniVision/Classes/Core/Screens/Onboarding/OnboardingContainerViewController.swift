@@ -49,8 +49,8 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPage = 0
         pageControl.numberOfPages = self.giniConfiguration.onboardingPages.count + 1 // Empty page at the end
-        pageControl.currentPageIndicatorTintColor = giniConfiguration.onboardingCurrentPageIndicatorColor
-        pageControl.pageIndicatorTintColor = giniConfiguration.onboardingPageIndicatorColor
+        pageControl.currentPageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingCurrentPageIndicatorColor).withAlphaComponent(0.2)
+        pageControl.pageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingPageIndicatorColor)
         pageControl.isUserInteractionEnabled = false
         pageControl.isAccessibilityElement = false
         return pageControl
@@ -72,12 +72,6 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         )
     }()
     
-    fileprivate lazy var blurredView: UIVisualEffectView = {
-        let blurredView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-        blurredView.translatesAutoresizingMaskIntoConstraints = false
-        return blurredView
-    }()
-    
     init(giniConfiguration: GiniConfiguration = GiniConfiguration.shared,
          trackingDelegate: OnboardingScreenTrackingDelegate? = nil,
          withCompletion completion: @escaping OnboardingContainerCompletionBlock) {
@@ -94,7 +88,6 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     override func loadView() {
         super.loadView()
         
-        view.addSubview(blurredView)
         view.addSubview(containerView)
         view.addSubview(pageControlContainerView)
         pageControlContainerView.addSubview(pageControl)
@@ -106,7 +99,7 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
     override func viewDidLoad() {
         super.viewDidLoad()
         title = .localized(resource: NavigationBarStrings.onboardingTitle)
-        view.backgroundColor = giniConfiguration.backgroundColor.withAlphaComponent(backgroundAlpha)
+        view.backgroundColor = UIColor.from(giniColor: giniConfiguration.onboardingScreenBackgroundColor)
         
         trackingDelegate?.onOnboardingScreenEvent(event: Event(type: .start))
         
@@ -176,8 +169,6 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         Constraints.active(item: pageControl, attr: .centerY, relatedBy: .equal, to: pageControlContainerView,
                           attr: .centerY)
         
-        // Blurred view
-        Constraints.pin(view: blurredView, toSuperView: view)
     }
 }
 
