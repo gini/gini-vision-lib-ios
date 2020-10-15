@@ -131,7 +131,7 @@ import UIKit
     public override func loadView() {
         super.loadView()
         edgesForExtendedLayout = []
-        view.backgroundColor = giniConfiguration.backgroundColor
+        view.backgroundColor = .black
 
         scrollView.delegate = self
         imageView.image = currentDocument?.previewImage

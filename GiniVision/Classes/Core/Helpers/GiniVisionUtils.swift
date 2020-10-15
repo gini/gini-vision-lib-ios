@@ -127,37 +127,36 @@ struct Colors {
     
     struct Gini {
         
-        static var blue = Colors.UIColorHex(0x009edc)
-        static var bluishGreen = Colors.UIColorHex(0x007c99)
-        static var crimson = Colors.UIColorHex(0xFF4F65)
-        static var lightBlue = Colors.UIColorHex(0x74d1f5)
-        static var grey = Colors.UIColorHex(0xAFB2B3)
-        static var raspberry = Colors.UIColorHex(0xe30b5d)
-        static var rose = Colors.UIColorHex(0xFC6B7E)
-        
-        static var pearl = Colors.UIColorHex(0xF2F2F2)
+        static var blue = UIColor.from(hex: 0x009edc)
+        static var bluishGreen = UIColor.from(hex: 0x007c99)
+        static var crimson = UIColor.from(hex: 0xFF4F65)
+        static var lightBlue = UIColor.from(hex: 0x74d1f5)
+        static var grey = UIColor.from(hex: 0xAFB2B3)
+        static var raspberry = UIColor.from(hex: 0xe30b5d)
+        static var rose = UIColor.from(hex: 0xFC6B7E)
+        static var pearl = UIColor.from(hex: 0xF2F2F2)
         
         @available(iOS 13.0, *)
         static var dynamicPearl = UIColor { (traitCollection: UITraitCollection) -> UIColor in
             
             if traitCollection.userInterfaceStyle == .dark {
-                return Colors.UIColorHex(0x1C1C1C)
+                return UIColor.from(hex: 0x1C1C1C)
             } else {
                 return pearl
             }
         }
         
-        static var paleGreen = Colors.UIColorHex(0xB8E986)
-        static var springGreen = Colors.UIColorHex(0x00FA9A)
-        static var veryLightGray = Colors.UIColorHex(0xD8D8D8)
+        static var paleGreen = UIColor.from(hex: 0xB8E986)
+        static var springGreen = UIColor.from(hex: 0x00FA9A)
+        static var veryLightGray = UIColor.from(hex: 0xD8D8D8)
         
         @available(iOS 13.0, *)
         static var dynamicVeryLightGray = UIColor { (traitCollection: UITraitCollection) -> UIColor in
             
             if traitCollection.userInterfaceStyle == .dark {
-                return Colors.UIColorHex(0x3A3A3A)
+                return UIColor.from(hex: 0x3A3A3A)
             } else {
-                return Colors.UIColorHex(0xD8D8D8)
+                return UIColor.from(hex: 0xD8D8D8)
             }
         }
         
@@ -172,14 +171,6 @@ struct Colors {
         }
     }
     
-    fileprivate static func UIColorHex(_ hex: UInt) -> UIColor {
-        return UIColor(
-            red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((hex & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(hex & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
-        )
-    }
 }
 
 /**

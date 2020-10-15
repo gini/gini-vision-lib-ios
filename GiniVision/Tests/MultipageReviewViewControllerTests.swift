@@ -112,23 +112,23 @@ final class MultipageReviewViewControllerTests: XCTestCase {
     
     func testToolBarTintColor() {
         let giniConfiguration = GiniConfiguration()
-        giniConfiguration.multipagePagesContainerAndToolBarColor = .black
+        giniConfiguration.multipagePagesContainerAndToolBarColor = GiniColor(lightModeColor: .black, darkModeColor: .black)
         let multipageReviewViewController = MultipageReviewViewController(pages: [],
                                                                           giniConfiguration: giniConfiguration)
         
-        XCTAssertEqual(multipageReviewViewController.toolBar.barTintColor,
-                       giniConfiguration.multipagePagesContainerAndToolBarColor,
+        XCTAssertEqual(multipageReviewViewController.toolBar.barTintColor?.cgColor,
+                       UIColor.from(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor).cgColor,
                        "toolbar tint color should match the one specified in the configuration")
     }
     
     func testPagesContainerBackgroundColor() {
         let giniConfiguration = GiniConfiguration()
-        giniConfiguration.multipagePagesContainerAndToolBarColor = .black
+        giniConfiguration.multipagePagesContainerAndToolBarColor = GiniColor(lightModeColor: .black, darkModeColor: .black)
         let multipageReviewViewController = MultipageReviewViewController(pages: [],
                                                                           giniConfiguration: giniConfiguration)
         
-        XCTAssertEqual(multipageReviewViewController.pagesCollectionContainer.backgroundColor,
-                       giniConfiguration.multipagePagesContainerAndToolBarColor,
+        XCTAssertEqual(multipageReviewViewController.pagesCollectionContainer.backgroundColor?.cgColor,
+                       UIColor.from(giniColor: giniConfiguration.multipagePagesContainerAndToolBarColor).cgColor,
                        "pages container background color should match the one specified in the gini configuration")
     }
     
