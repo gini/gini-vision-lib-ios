@@ -12,7 +12,6 @@ import Foundation
 extension GiniScreenAPICoordinator {
     func createAnalysisScreen(withDocument document: GiniVisionDocument) -> AnalysisViewController {
         let viewController = AnalysisViewController(document: document)
-        viewController.view.backgroundColor = giniConfiguration.backgroundColor
         viewController.setupNavigationItem(usingResources: self.cancelButtonResource,
                                            selector: #selector(back),
                                            position: .left,
