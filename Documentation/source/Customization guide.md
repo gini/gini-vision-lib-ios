@@ -10,12 +10,15 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Analysis screen](#analysis-screen)
 - [Digital invoice screen](#digital-invoice-screen)
 - [Line item details screen](#line-item-details-screen)
+- [Return reasons dialog](#return-reasons-dialog)
+- [What is this dialog](#what-is-this-dialog)
 - [Supported formats screen](#supported-formats-screen)
 - [Open with tutorial screen](#open-with-tutorial-screen)
 - [Capturing tips screen](#capturing-tips-screen)
 - [Gallery album screen](#gallery-album-screen)
 - [Onboarding screens](#onboarding-screens)
 - [Help screen](#help-screen)
+
 
 
 Customizable assets can be found in [the Assets repo](https://github.com/gini/gini-vision-lib-assets).
@@ -237,6 +240,77 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Font &#8594; `GiniConfiguration.payButtonTitleFont`
 
 ## Line item details screen
+<br>
+<center><img src="img/Customization guide/Line item details.jpg" height="500"/></center>
+</br>
+
+##### 1. Save button - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.savebutton*</span> localized string
+
+##### 2. Check box button
+- Color &#8594; `GiniConfiguration.lineItemTintColor`
+
+##### 3. Item name field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.itemnametextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+##### 4. Quantity field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantitytextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+- Multiplication label
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+
+##### 5. Item price field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.pricetextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+##### 6. Total price label
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.totalpricetitle*</span> localized string
+- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+
+## Return reasons dialog
+<br>
+<center><img src="img/Customization guide/Return reasons.jpg" height="500"/></center>
+</br>
+
+##### 1. Dialog Title &#8594; <span style="color:#009EDF">*inivision.digitalinvoice.deselectreasonactionsheet.message*</span> localized string
+
+##### 2. Return reasons list &#8594; returns from the server
+
+##### 3. Cancel action title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel*</span> localized string
+
+
+## What is this dialog
+<br>
+<center><img src="img/Customization guide/What is this dialog.jpg" height="500"/></center>
+</br>
+
+##### 1. Dialog Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.title*</span> localized string
+
+##### 2. Message &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.message*</span> localized string
+
+##### 3. Helpful action title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.helpful*</span> localized string
+
+##### 4. Not helpful action title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful*</span> localized string
+
+##### 5. Cancel action title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.cancel*</span> localized string
 
 ## Supported formats screen
 
