@@ -13,24 +13,31 @@ pipeline {
       steps {
         sh 'security unlock-keychain -p ${GEONOSIS_USER_PASSWORD} login.keychain'
         sh 'scripts/create_keys_file.sh ${CLIENT_ID} ${CLIENT_PASSWORD}'
-        lock('refs/remotes/origin/master') {
-          sh '/usr/local/bin/pod install --repo-update --project-directory=Example/'
+        sh '/usr/local/bin/pod install --project-directory=Example/'
+      }
+
+      post {
+        failure {
+          /* try to repo update just in case an outdated repo is the cause for the failed build so it's ready for the next */ 
+          lock('refs/remotes/origin/master') {
+            sh '/usr/local/bin/pod repo update'
+          }
         }
       }
     }
     stage('Build ObjC') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example ObjC" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Build') {
       steps {
-        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild -workspace Example/GiniVision.xcworkspace -scheme "Example Swift" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Unit tests') {
       steps {
-        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 8\''
+        sh 'xcodebuild test -workspace Example/GiniVision.xcworkspace -scheme "GiniVision-Unit-Tests" -destination \'platform=iOS Simulator,name=iPhone 11\''
       }
     }
     stage('Release Pod') {

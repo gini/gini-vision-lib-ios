@@ -151,7 +151,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
                                       authorizedHandler: @escaping (() -> Void)) {
         
         switch PHPhotoLibrary.authorizationStatus() {
-        case .authorized:
+        case .authorized, .limited:
             authorizedHandler()
         case .denied, .restricted:
             deniedHandler(FilePickerError.photoLibraryAccessDenied)
