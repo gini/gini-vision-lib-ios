@@ -69,8 +69,9 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
         let sectionItemsCount = section.items.count
         let sectionTitle = section.title
         
-        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as? SupportedFormatsTableViewCell
-        let header = supportedFormatsViewController.tableView.headerView(forSection: indexPath.section)
+        let cell = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath)
+                    as? SupportedFormatsTableViewCell
+        let headerTitle = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, titleForHeaderInSection: indexPath.section)
         let tableViewSectionItemsCount = supportedFormatsViewController
             .tableView
             .numberOfRows(inSection: indexPath.section)
@@ -83,7 +84,7 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
                        "colorsince it is the same for each item in the section")
         XCTAssertEqual(sectionImage, cell?.imageView?.image,
                        "cell image should be equal to section image since it is the same for each item in the section")
-        XCTAssertEqual(sectionTitle, header?.textLabel?.text, "header title should be equal to section title")
+        XCTAssertEqual(sectionTitle, headerTitle, "header title should be equal to section title")
         XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount,
                        "section items count and table section items count should be always equal")
     }
@@ -121,8 +122,9 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
         let sectionItemsCount = section.items.count
         let sectionTitle = section.title
         
-        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as? SupportedFormatsTableViewCell
-        let header = supportedFormatsViewController.tableView.headerView(forSection: indexPath.section)
+        let cell = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath)
+                    as? SupportedFormatsTableViewCell
+                let headerTitle = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, titleForHeaderInSection: indexPath.section)
         let tableViewSectionItemsCount = supportedFormatsViewController
             .tableView
             .numberOfRows(inSection: indexPath.section)
@@ -135,7 +137,7 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
                        "colorsince it is the same for each item in the section")
         XCTAssertEqual(sectionImage, cell?.imageView?.image,
                        "cell image should be equal to section image since it is the same for each item in the section")
-        XCTAssertEqual(sectionTitle, header?.textLabel?.text,
+        XCTAssertEqual(sectionTitle, headerTitle,
                        "header title should be equal to section title")
         XCTAssertEqual(sectionItemsCount, tableViewSectionItemsCount,
                        "section items count and table section items count should be always equal")
@@ -239,7 +241,8 @@ final class SupportedFormatsViewControllerTests: XCTestCase {
         let sectionImageItemBackgroundColor = supportedFormatsViewController
             .sections[indexPath.section].itemsImageBackgroundColor
         
-        let cell = supportedFormatsViewController.tableView.cellForRow(at: indexPath) as? SupportedFormatsTableViewCell
+        let cell = supportedFormatsViewController.tableView(supportedFormatsViewController.tableView, cellForRowAt: indexPath)
+                    as? SupportedFormatsTableViewCell
         let cellImageBackgroundColor = cell!.imageBackgroundView.backgroundColor
         
         XCTAssertEqual(sectionImageItemBackgroundColor, cellImageBackgroundColor,
