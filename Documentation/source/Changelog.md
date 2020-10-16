@@ -1,6 +1,8 @@
 Changelog
 =========
 
+This page isn't updated any more. Please refer to our [Releases on Github](https://github.com/gini/gini-vision-lib-ios/releases) for an up to date changelog.
+
 4.9.0 (2020-01-30)
 ------------------
 - Removed dependency on the deprecated `UIWebView` (Bolts)
