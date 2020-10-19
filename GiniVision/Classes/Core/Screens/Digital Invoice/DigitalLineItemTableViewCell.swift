@@ -207,7 +207,7 @@ class DigitalLineItemTableViewCell: UITableViewCell {
     }
     
     private func setup() {
-                
+        backgroundColor = UIColor.from(giniColor: viewModel?.giniConfiguration.digitalInvoiceBackgroundColor ?? GiniConfiguration.shared.digitalInvoiceBackgroundColor)
         shadowCastView.layer.cornerRadius = 7
         shadowCastView.layer.shadowRadius = 5
         shadowCastView.layer.shadowOpacity = 0.15
@@ -230,5 +230,15 @@ class DigitalLineItemTableViewCell: UITableViewCell {
         if let viewModel = viewModel {
             delegate?.editTapped(cell: self, viewModel: viewModel)
         }
+    }
+    
+    private func _updateColors() {
+        shadowCastView.layer.backgroundColor = UIColor.from(giniColor: viewModel?.giniConfiguration.digitalInvoiceLineItemsBackgroundColor ?? GiniConfiguration.shared.digitalInvoiceLineItemsBackgroundColor).cgColor
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        self._updateColors()
+        self.setNeedsDisplay()
     }
 }

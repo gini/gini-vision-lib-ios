@@ -60,5 +60,6 @@ class DigitalInvoiceTotalPriceCell: UITableViewCell {
         totalPriceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16).isActive = true
         totalPriceLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         totalPriceLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        backgroundColor = UIColor.from(giniColor: giniConfiguration.digitalInvoiceBackgroundColor)
     }
 }

@@ -639,6 +639,16 @@ import UIKit
     @objc public var digitalInvoiceSecondaryMessageTextColor = Colors.Gini.blue
     
     /**
+     Sets the background color for digital invoice screen.
+     */
+    @objc public var digitalInvoiceBackgroundColor =  GiniColor(lightModeColor: .white, darkModeColor: .black)
+    
+    /**
+     Sets the background color for the line items on the digital invoice screen.
+     */
+    @objc public var digitalInvoiceLineItemsBackgroundColor =  GiniColor(lightModeColor: .white, darkModeColor: .black)
+    
+    /**
      Sets the font of the footer message on the digital invoice screen to the specified font.
      */
     @objc public var digitalInvoiceFooterMessageTextFont = UIFont.systemFont(ofSize: 11)
@@ -775,6 +785,11 @@ import UIKit
             }
         }
     }
+    
+    /**
+     Sets the background color for  the line item details view.
+     */
+    @objc public var lineItemDetailsBackgroundColor =  GiniColor(lightModeColor: .white, darkModeColor: .black)
     
     @objc private var _lineItemDetailsDescriptionLabelColor: UIColor?
     

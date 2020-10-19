@@ -130,6 +130,7 @@ public class DigitalInvoiceViewController: UIViewController {
         payButton.addTarget(self, action: #selector(payButtonTapped), for: .touchUpInside)
         
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: payButtonHeight + margin * 2, right: 0)
+        tableView.backgroundColor = UIColor.from(giniColor: giniConfiguration.digitalInvoiceBackgroundColor)
     }
     
     @objc func payButtonTapped() {

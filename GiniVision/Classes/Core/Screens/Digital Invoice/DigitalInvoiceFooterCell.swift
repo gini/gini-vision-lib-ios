@@ -26,7 +26,7 @@ class DigitalInvoiceFooterCell: UITableViewCell {
     private func setup() {
         
         selectionStyle = .none
-        
+        backgroundColor = UIColor.from(giniColor: giniConfiguration?.digitalInvoiceBackgroundColor ?? GiniConfiguration.shared.digitalInvoiceBackgroundColor)
         let messageLabel = UILabel()
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.text = .localized(resource: DigitalInvoiceStrings.footerMessage)
