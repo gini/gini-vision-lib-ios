@@ -239,3 +239,4 @@ Some background and text colors use the `GiniColor` type with which you can set 
 </br>
 
 - Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+- Cell background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors
