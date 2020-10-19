@@ -174,6 +174,28 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
     
     /**
      Returns a view controller which will handle the analysis process.
+     
+     - note: Screen API only.
+     
+     - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedDocuments: Documents that come from a source different than `CameraViewController`.
+     There should be either images or one PDF, and they should be validated before calling this method.
+     - parameter trackingDelegate: A delegate object to receive user events
+     
+     - returns: A presentable view controller.
+     */
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                           importedDocuments: [GiniVisionDocument]? = nil,
+                                           trackingDelegate: GiniVisionTrackingDelegate? = nil) -> UIViewController {
+        let screenCoordinator = GiniScreenAPICoordinator(withDelegate: delegate,
+                                                         giniConfiguration: GiniConfiguration.shared)
+        screenCoordinator.trackingDelegate = trackingDelegate
+        
+        return screenCoordinator.start(withDocuments: importedDocuments)
+    }
+    
+    /**
+     Returns a view controller which will handle the analysis process.
 
      - note: Screen API only.
      
@@ -195,6 +217,29 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
     
     /**
      Returns a view controller which will handle the analysis process.
+
+     - note: Screen API only.
+     
+     - parameter delegate: An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter importedDocument: Documents that come from a source different than CameraViewController.
+     There should be either images or one PDF, and they should be validated before calling this method.
+     - parameter trackingDelegate: A delegate object to receive user events
+
+     - returns: A presentable view controller.
+     */
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                           importedDocument: GiniVisionDocument? = nil,
+                                           trackingDelegate: GiniVisionTrackingDelegate? = nil) -> UIViewController {
+        var documents: [GiniVisionDocument]?
+        if let importedDocument = importedDocument {
+            documents = [importedDocument]
+        }
+        
+        return viewController(withDelegate: delegate, importedDocuments: documents, trackingDelegate: trackingDelegate)
+    }
+    
+    /**
+     Returns a view controller which will handle the analysis process.
      Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
      
      - note: Screen API only.
@@ -211,6 +256,28 @@ public typealias GiniVisionNetworkDelegate = AnalysisDelegate & UploadDelegate
                                            importedDocument: GiniVisionDocument? = nil) -> UIViewController {
         setConfiguration(configuration)
         return viewController(withDelegate: delegate, importedDocument: importedDocument)
+    }
+    
+    /**
+     Returns a view controller which will handle the analysis process.
+     Allows to set a custom configuration to change the look and feel of the Gini Vision Library.
+     
+     - note: Screen API only.
+     
+     - parameter delegate:      An instance conforming to the `GiniVisionDelegate` protocol.
+     - parameter configuration: The configuration to set.
+     - parameter importedDocument: Documents that come from a source different than CameraViewController.
+     There should be either images or one PDF, and they should be validated before calling this method.
+     - parameter trackingDelegate: A delegate object to receive user events
+
+     - returns: A presentable view controller.
+     */
+    public class func viewController(withDelegate delegate: GiniVisionDelegate,
+                                           withConfiguration configuration: GiniConfiguration,
+                                           importedDocument: GiniVisionDocument? = nil,
+                                           trackingDelegate: GiniVisionTrackingDelegate? = nil) -> UIViewController {
+        setConfiguration(configuration)
+        return viewController(withDelegate: delegate, importedDocument: importedDocument, trackingDelegate: trackingDelegate)
     }
     
     /**
