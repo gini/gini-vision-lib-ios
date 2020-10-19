@@ -532,7 +532,12 @@ import UIKit
      Sets the background color for all help screens.
      */
     
-    @objc public var helpScreenBackgroundColor =  GiniColor(lightModeColor: .black, darkModeColor: .black)
+    @objc public var helpScreenBackgroundColor =  GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.from(hex: 0x1C1C1C))
+    
+    /**
+     Sets the background color for the cells on help screen.
+     */
+    @objc public var helpScreenCellsBackgroundColor =  GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.from(hex: 0x1C1C1C))
     
     /**
      Sets the back button text in the navigation bar on the help menu screen.
