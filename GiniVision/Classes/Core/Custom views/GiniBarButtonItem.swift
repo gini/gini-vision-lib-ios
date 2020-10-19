@@ -12,23 +12,36 @@ final class GiniBarButtonItem: UIBarButtonItem {
     
     init(image: UIImage?, title: String?, style: UIBarButtonItem.Style, target: AnyObject?, action: Selector) {
         super.init()
-        self.style = style
-        self.target = target
-        self.action = action
         
-        // Prioritize image over title
-        if image != nil {
-            self.image = image
-        } else {
-            self.title = title
+        let button = UIButton(type: .system)
+        
+        if let image = image {
+            button.setImage(image, for: .normal)
         }
+        
+        if let title = title {
+            let font = GiniConfiguration.shared.navigationBarItemFont
+            let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
+            button.setAttributedTitle(NSAttributedString(string: title, attributes: attributes), for: .normal)
+        }
+                
+        button.sizeToFit()
+        
+        button.imageEdgeInsets = UIEdgeInsets(top: button.imageEdgeInsets.top,
+                                              left: button.imageEdgeInsets.left - 10,
+                                              bottom: button.imageEdgeInsets.bottom,
+                                              right: button.imageEdgeInsets.right)
+        
+        button.addTarget(target, action: action, for: .touchUpInside)
+                      
+        customView = button
+        
+        self.style = style
         
         // Set accessibility label on all elements
         self.accessibilityLabel = title
         
-        let font = GiniConfiguration.shared.navigationBarItemFont
-        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font: font]
-        setTitleTextAttributes(attributes, for: .normal)
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

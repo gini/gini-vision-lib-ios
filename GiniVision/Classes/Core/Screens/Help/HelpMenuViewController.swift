@@ -81,22 +81,6 @@ final public class HelpMenuViewController: UITableViewController {
         return items
     }()
     
-    // Button resources
-    fileprivate lazy var backToCameraButtonResource =
-        giniConfiguration.backToCameraButtonResource ??
-            GiniPreferredButtonResource(image: "navigationReviewBack",
-                                        title: "ginivision.navigationbar.review.back",
-                                        comment: "Button title in the navigation bar for the " +
-                "back button on the help menu screen",
-                                        configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
-    
-    fileprivate lazy var backToMenuButtonResource =
-        giniConfiguration.backToMenuButtonResource ??
-            GiniPreferredButtonResource(image: "arrowBack",
-                                        title: "ginivision.navigationbar.review.back",
-                                        comment: "Button title in the navigation bar for the back button on the help screen",
-                                        configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
-    
     public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
