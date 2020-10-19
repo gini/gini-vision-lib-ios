@@ -358,7 +358,7 @@ import UIKit
     /**
      Sets alpha to the color of the page controller's current page indicator item.
      */
-    @objc public var onboardingCurrentPageIndicatorApha: CGFloat = 0.2
+    @objc public var onboardingCurrentPageIndicatorAlpha: CGFloat = 0.2
     
     /**
      Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.
