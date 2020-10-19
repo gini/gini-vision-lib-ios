@@ -171,6 +171,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Digital invoice screen.jpg" height="500"/></center>
 </br>
 
+- Background color &#8594; `GiniConfiguration.digitalInvoiceBackgroundColor` using `GiniColor` with dark mode and light mode colors
 ##### 1. Navigation bar
 - Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.screentitle*</span> localized string
 
@@ -197,6 +198,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Tint color &#8594; `GiniConfiguration.lineItemTintColor`
 
 ##### 6. Line item cell
+- Background color &#8594; `GiniConfiguration.digitalInvoiceLineItemsBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Tint color &#8594; `GiniConfiguration.lineItemTintColor`
 - Name
    - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemNameFont`
@@ -244,6 +246,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Line item details.jpg" height="500"/></center>
 </br>
 
+- Background color &#8594; `GiniConfiguration.lineItemDetailsBackgroundColor` using `GiniColor` with dark mode and light mode colors
 ##### 1. Save button 
 - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.savebutton*</span> localized string
 
