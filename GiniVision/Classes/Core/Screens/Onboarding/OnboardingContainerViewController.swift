@@ -49,7 +49,7 @@ final class OnboardingContainerViewController: UIViewController, ContainerViewCo
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         pageControl.currentPage = 0
         pageControl.numberOfPages = self.giniConfiguration.onboardingPages.count + 1 // Empty page at the end
-        pageControl.currentPageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingCurrentPageIndicatorColor).withAlphaComponent(0.2)
+        pageControl.currentPageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingCurrentPageIndicatorColor).withAlphaComponent(giniConfiguration.onboardingCurrentPageIndicatorApha)
         pageControl.pageIndicatorTintColor = UIColor.from(giniColor: giniConfiguration.onboardingPageIndicatorColor)
         pageControl.isUserInteractionEnabled = false
         pageControl.isAccessibilityElement = false
