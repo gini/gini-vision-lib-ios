@@ -76,7 +76,6 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         cameraViewController.delegate = self
         cameraViewController.trackingDelegate = trackingDelegate
         cameraViewController.title = .localized(resource: NavigationBarStrings.cameraTitle)
-        cameraViewController.view.backgroundColor = giniConfiguration.backgroundColor
         
         cameraViewController.setupNavigationItem(usingResources: closeButtonResource,
                                                  selector: #selector(back),

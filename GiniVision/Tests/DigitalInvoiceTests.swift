@@ -20,7 +20,7 @@ let digitalInvoiceExample: DigitalInvoice = {
         Extraction(box: Extraction.Box(height: 9.0, left: 516.0, page: 1, top: 588.0, width: 42.0),
                    candidates: nil, entity: "amount", value: "24.99:EUR", name: "amountToPay")
         
-        ], lineItems: [
+    ], candidates: [:], lineItems: [
             [
                 Extraction(box: lineItemBox, candidates: nil, entity: "amount", value: "39.99:EUR", name: "baseGross"),
                 Extraction(box: nil, candidates: nil, entity: "text", value: "CORE ICON - Sweatjacke - emerald", name: "description"),
@@ -52,7 +52,7 @@ let digitalInvoiceExample: DigitalInvoice = {
 class DigitalInvoiceTests: XCTestCase {
     
     func testInit() {
-        XCTAssertThrowsError(try DigitalInvoice(extractionResult: ExtractionResult(extractions: [], lineItems: nil, returnReasons: nil)))
+        XCTAssertThrowsError(try DigitalInvoice(extractionResult: ExtractionResult(extractions: [], candidates:[:] , lineItems: nil, returnReasons: nil)))
     }
     
     func testTotal() {

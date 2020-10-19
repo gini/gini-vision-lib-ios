@@ -720,7 +720,7 @@ extension ComponentAPICoordinator {
                 return (name, $0)
             })
             
-            let result = AnalysisResult(extractions: extractions, lineItems: extractionResult.lineItems, images: images)
+            let result = AnalysisResult(extractions: extractions, candidates: extractionResult.candidates, lineItems: extractionResult.lineItems, images: images)
             
             showResultsTableScreen(with: result)
         } else {

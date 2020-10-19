@@ -8,14 +8,28 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Review screen](#review-screen)
 - [Multipage Review screen](#multipage-review-screen)
 - [Analysis screen](#analysis-screen)
+- [Digital invoice screen](#digital-invoice-screen)
+- [Line item details screen](#line-item-details-screen)
+- [Return reasons dialog](#return-reasons-dialog)
+- [What is this dialog](#what-is-this-dialog)
 - [Supported formats screen](#supported-formats-screen)
 - [Open with tutorial screen](#open-with-tutorial-screen)
 - [Capturing tips screen](#capturing-tips-screen)
 - [Gallery album screen](#gallery-album-screen)
+- [Onboarding screens](#onboarding-screens)
+- [Help screen](#help-screen)
+
+
 
 Customizable assets can be found in [the Assets repo](https://github.com/gini/gini-vision-lib-assets).
 
+## Supporting dark mode
+
+Some background and text colors use the `GiniColor` type with which you can set colors for dark and light modes. Please make sure to set contrasting images to the background colors in your `.xcassets` for the Gini Vision Library images you override (e.g. `onboardingPage1`). The text colors should also be set in contrast to the background colors.
+
 ## Generic components
+ 
+`GiniConfiguration.backgroundColor` is deprecated in version 5.5.0. Use the screen specific background color instead e.g. `GiniConfiguration.onboardingScreenBackgroundColor`.
 
 ##### 1. Navigation bar
 <center><img src="img/Customization guide/Navigation bar.jpg" height="70"/></center>
@@ -72,9 +86,9 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 <br>
 <center><img src="img/Customization guide/QR code popup.jpg" height="70"/></center>
 </br>
-- Background color &#8594;  `GiniConfiguration.qrCodePopupBackgroundColor`
+- Background color &#8594;  `GiniConfiguration.qrCodePopupBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Button color &#8594;  `GiniConfiguration.qrCodePopupButtonColor`
-- Text color &#8594;  `GiniConfiguration.qrCodePopupTextColor`
+- Text color &#8594;  `GiniConfiguration.qrCodePopupTextColor` using `GiniColor` with dark mode and light mode colors
 - Title &#8594; <span style="color:#009EDF">*ginivision.camera.qrCodeDetectedPopup.buttonTitle*</span> localized string
 - Message &#8594; <span style="color:#009EDF">*ginivision.camera.qrCodeDetectedPopup.message*</span> localized string
 
@@ -121,13 +135,14 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 - Opaque view style (when tool tip is shown)  &#8594;  `GiniConfiguration.multipageToolTipOpaqueBackgroundStyle`
 
 ##### 3. Page item
-- Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor`
-- Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor`
+- Page circle indicator color &#8594; `GiniConfiguration.indicatorCircleColor` using `GiniColor` with dark mode and light mode colors
+- Page indicator color &#8594; `GiniConfiguration.multipagePageIndicatorColor` 
+- Page background color &#8594; `GiniConfiguration.multipagePageBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Page selected indicator color &#8594; `GiniConfiguration.multipagePageSelectedIndicatorColor`
 - Page draggable icon tint color &#8594; `GiniConfiguration.multipageDraggableIconColor`
 
 ##### 4. Bottom container
-- Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor`
+- Background color &#8594; `GiniConfiguration.multipagePagesContainerAndToolBarColor` using `GiniColor` with dark mode and light mode colors
 - Rotation button image &#8594;  <span style="color:#009EDF">*rotateImageIcon*</span> image asset
 - Delete button image &#8594;  <span style="color:#009EDF">*trashIcon*</span> image asset
 
@@ -149,6 +164,167 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 ##### 3. Loading view
 - Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
 - Text &#8594; <span style="color:#009EDF">*ginivision.analysis.loadingText*</span> localized string
+
+## Digital invoice screen
+
+<br>
+<center><img src="img/Customization guide/Digital invoice screen.jpg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.digitalInvoiceBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+##### 1. Navigation bar
+- Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.screentitle*</span> localized string
+
+##### 2. Message
+- Primary
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.headermessage.primary*</span> localized string
+   - Font &#8594; `GiniConfiguration.customFont`
+- Secondary
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.headermessage.secondary*</span> localized string
+   - Color &#8594; `GiniConfiguration.digitalInvoiceSecondaryMessageTextColor`
+   - Font &#8594; `GiniConfiguration.digitalInvoiceSecondaryMessageTextFont `
+
+##### 3. Illustration
+- Image &#8594; <span style="color:#009EDF">*invoiceIllustration*</span> image asset
+
+##### 4. Selected and total items
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.items*</span> localized formatted string with two `%d` placeholders
+- Font &#8594; `GiniConfiguration.digitalInvoiceItemsSectionHeaderTextFont`
+
+##### 5. "What is this?" button
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisbutton*</span> localized string
+- Font &#8594; `GiniConfiguration.digitalInvoiceItemsSectionHeaderTextFont`
+- Image &#8594; <span style="color:#009EDF">*infoIcon*</span> image asset
+- Tint color &#8594; `GiniConfiguration.lineItemTintColor`
+
+##### 6. Line item cell
+- Background color &#8594; `GiniConfiguration.digitalInvoiceLineItemsBackgroundColor` using `GiniColor` with dark mode and light mode colors
+- Tint color &#8594; `GiniConfiguration.lineItemTintColor`
+- Name
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemNameFont`
+- Edit button
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.editbutton*</span> localized string
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemEditButtonTitleFont`
+   - Image &#8594; <span style="color:#009EDF">*editIcon*</span> image asset
+- Quantity or return reason
+   - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantity*</span> localized formatted string with one `%d` placeholder
+   - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemQuantityOrReturnReasonFont`
+- Price
+   - Main Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceMainUnitFont`
+   - Fractional Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceFractionalUnitFont`
+  
+##### 7. Discounts or additional costs (addons)
+- Label
+   - Font &#8594; `GiniConfiguration.digitalInvoiceAddonLabelFont`
+- Price
+   - Color &#8594; `GiniConfiguration.digitalInvoiceAddonPriceColor`
+   - Main Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceLineItemPriceMainUnitFont`   
+   - Fractional Unit
+      - Font &#8594; `GiniConfiguration.digitalInvoiceAddonPriceFractionalUnitFont`
+
+##### 8. Total price
+- Color &#8594; `GiniConfiguration.digitalInvoiceTotalPriceColor`
+- Main Unit
+   - Font &#8594; `GiniConfiguration.digitalInvoiceTotalPriceMainUnitFont`   
+- Fractional Unit
+   - Font &#8594; `GiniConfiguration.digitalInvoiceTotalPriceFractionalUnitFont`
+
+##### 9. Footer message
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.footermessage*</span> localized string
+- Font &#8594; `GiniConfiguration.digitalInvoiceFooterMessageTextFont`
+
+##### 10. Pay button
+- Background color &#8594; `GiniConfiguration.payButtonBackgroundColor`
+- Title color &#8594; `GiniConfiguration.payButtonTitleTextColor`
+- Font &#8594; `GiniConfiguration.payButtonTitleFont`
+
+## Line item details screen
+<br>
+<center><img src="img/Customization guide/Line item details.jpg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.lineItemDetailsBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+##### 1. Save button 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.savebutton*</span> localized string
+
+##### 2. Check box button
+- Color &#8594; `GiniConfiguration.lineItemTintColor`
+
+##### 3. Item name field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.itemnametextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+##### 4. Quantity field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.quantitytextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+- Multiplication label
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+
+##### 5. Item price field
+- Description label
+	- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.pricetextfieldtitle*</span> localized string
+	- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+- Text
+	- Font &#8594; `GiniConfiguration.lineItemDetailsContentLabelFont`
+	- Color &#8594; `GiniConfiguration.lineItemDetailsContentLabelColor`
+
+##### 6. Total price label
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.lineitem.totalpricetitle*</span> localized string
+- Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
+- Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
+
+## Return reasons dialog
+<br>
+<center><img src="img/Customization guide/Return reasons.jpg" height="500"/></center>
+</br>
+
+##### 1. Dialog Title
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.deselectreasonactionsheet.message*</span> localized string
+
+##### 2. Return reasons list
+- Text is received from the Gini API and is localized for German and English.
+
+##### 3. Cancel action title 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel*</span> localized string
+
+
+## What is this dialog
+<br>
+<center><img src="img/Customization guide/What is this dialog.jpg" height="500"/></center>
+</br>
+
+##### 1. Dialog Title 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.title*</span> localized string
+
+##### 2. Message
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.message*</span> localized string
+
+##### 3. Helpful action title 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.helpful*</span> localized string
+
+##### 4. Not helpful action title 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful*</span> localized string
+
+##### 5. Cancel action title 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.whatisthisactionsheet.action.cancel*</span> localized string
 
 ## Supported formats screen
 
@@ -209,3 +385,23 @@ Customizable assets can be found in [the Assets repo](https://github.com/gini/gi
 
 ##### 1. Selected image
 - Selected item check color &#8594; `GiniConfiguration.galleryPickerItemSelectedBackgroundCheckColor`
+- Background color &#8594; `GiniConfiguration.galleryScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+## Onboarding screens
+
+<br>
+<center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+- Text color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
+
+
+## Help screen
+
+<br>
+<center><img src="img/Customization guide/Help screen.jpeg" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors

@@ -103,5 +103,6 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8).isActive = true
         stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8).isActive = true
+        backgroundColor = UIColor.from(giniColor: giniConfiguration?.digitalInvoiceBackgroundColor ?? GiniConfiguration.shared.digitalInvoiceBackgroundColor)
     }
 }

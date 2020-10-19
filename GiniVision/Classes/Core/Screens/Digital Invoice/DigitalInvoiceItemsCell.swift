@@ -110,6 +110,7 @@ class DigitalInvoiceItemsCell: UITableViewCell {
         whatIsThisButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
         
         whatIsThisButton.addTarget(self, action: #selector(whatIsThisButtonTapped), for: .touchUpInside)
+        backgroundColor = UIColor.from(giniColor: giniConfiguration?.digitalInvoiceBackgroundColor ?? GiniConfiguration.shared.digitalInvoiceBackgroundColor)
     }
     
     @objc func whatIsThisButtonTapped() {

@@ -227,6 +227,7 @@ class LineItemDetailsViewController: UIViewController {
                                  totalPriceLabel]
         
         update()
+        view.backgroundColor = UIColor.from(giniColor: giniConfiguration.lineItemDetailsBackgroundColor)
     }
     
     @objc func saveButtonTapped() {
