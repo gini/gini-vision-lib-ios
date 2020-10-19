@@ -12,6 +12,9 @@ import Foundation
 @testable import Example_Swift
 
 final class DocumentServiceMock: ComponentAPIDocumentServiceProtocol {
+    func sendFeedback(with updatedExtractions: [Extraction], and updatedCompoundExtractions: [String : [[Extraction]]]) {
+    }
+    
 
     var giniSDK: GiniSDK
     var document: Document?
