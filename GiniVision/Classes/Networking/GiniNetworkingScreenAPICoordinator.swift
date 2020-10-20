@@ -98,8 +98,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
     }
     
     private func deliver(result: ExtractionResult, analysisDelegate: AnalysisDelegate) {
-        let resultParameters = ["paymentRecipient", "iban", "bic", "paymentReference", "amountToPay"]
-        let hasExtractions = result.extractions.filter { resultParameters.contains($0.name ?? "no-name") }.count > 0
+        let hasExtactions = result.extractions.count > 0
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }

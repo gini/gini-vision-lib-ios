@@ -363,6 +363,11 @@ import UIKit
     @objc public var onboardingCurrentPageIndicatorColor = GiniColor(lightModeColor: .white, darkModeColor: .white)
     
     /**
+     Sets alpha to the color of the page controller's current page indicator item.
+     */
+    @objc public var onboardingCurrentPageIndicatorAlpha: CGFloat = 0.2
+    
+    /**
      Indicates whether the onboarding screen should be presented at each start of the Gini Vision Library.
      
      - note: Screen API only.
@@ -428,14 +433,14 @@ import UIKit
     fileprivate var onboardingCustomPages: [UIView]?
     
     /**
-     Sets the back button text in the navigation bar on the review screen.
+     Sets the back button text in the navigation bar on the review screen. Use this if you only want to show the title.
      
      - note: Screen API only.
      */
     @objc public var navigationBarReviewTitleBackButton = ""
     
     /**
-     Sets the close button text in the navigation bar on the review screen.
+     Sets the close button text in the navigation bar on the review screen. Use this if you only want to show the title.
      
      - note: Screen API only.
      */
@@ -529,7 +534,9 @@ import UIKit
     @objc public var analysisPDFInformationTextColor = UIColor.white
     
     /**
-     Sets the back button text in the navigation bar on the analysis screen.
+     Sets the back button text in the navigation bar on the analysis screen. Use this if you only want to show the title.
+     
+     - note: Screen API only.
      */
     @objc public var navigationBarAnalysisTitleBackButton = ""
     
@@ -539,15 +546,24 @@ import UIKit
      Sets the background color for all help screens.
      */
     
-    @objc public var helpScreenBackgroundColor =  GiniColor(lightModeColor: .black, darkModeColor: .black)
+    @objc public var helpScreenBackgroundColor =  GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.from(hex: 0x1C1C1C))
     
     /**
-     Sets the back button text in the navigation bar on the help menu screen.
+     Sets the background color for the cells on help screen.
+     */
+    @objc public var helpScreenCellsBackgroundColor =  GiniColor(lightModeColor: Colors.Gini.pearl, darkModeColor: UIColor.from(hex: 0x1C1C1C))
+    
+    /**
+     Sets the back button text in the navigation bar on the help menu screen. Use this if you only want to show the title.
+     
+     - note: Screen API only.
      */
     @objc public var navigationBarHelpMenuTitleBackToCameraButton = ""
     
     /**
-     Sets the back button text in the navigation bar on the help screen.
+     Sets the back button text in the navigation bar on the help screen. Use this if you only want to show the title.
+     
+     - note: Screen API only.
      */
     @objc public var navigationBarHelpScreenTitleBackToMenuButton = ""
     

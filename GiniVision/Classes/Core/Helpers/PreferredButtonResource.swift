@@ -54,11 +54,6 @@ class GiniPreferredButtonResource: PreferredButtonResource {
         }
         if let text = localizedTextKey,
             let comment = localizedTextComment {
-            let textFromMainBundle = NSLocalizedString(text, bundle: appBundle, comment: comment)
-            if textFromMainBundle != text {
-                // text was in the bundle - the resource is custom
-                return .custom
-            }
             let textFromLibBundle = NSLocalizedString(text, bundle: libBundle, comment: comment)
             if textFromLibBundle != text {
                 return .library

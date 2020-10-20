@@ -59,8 +59,11 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ##### 1. Navigation bar
 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.title*</span> localized string
 - Close button
-	 - Image &#8594; <span style="color:#009EDF">*navigationCameraClose*</span> image asset
-	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.close*</span> localized string
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*navigationCameraClose*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.close*</span> localized string
+  - With title only
+	  -  Title &#8594; `GiniConfiguration.navigationBarCameraTitleCloseButton`
 - Help button
 	- Image &#8594; <span style="color:#009EDF">*navigationCameraHelp*</span> image asset
 	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.camera.help*</span> localized string
@@ -73,7 +76,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 ##### 3. Camera buttons container
 - Capture button
-	 - Image &#8594; <span style="color:#009EDF">*cameraCaptureButton*</span> image asset
+  - Image &#8594; <span style="color:#009EDF">*cameraCaptureButton*</span> image asset
 - Import button
 	- Image &#8594; <span style="color:#009EDF">*documentImportButton*</span> image asset
 - Captured images stack indicator color &#8594; `GiniConfiguration.imagesStackIndicatorLabelTextcolor`
@@ -101,8 +104,11 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ##### 1. Navigation bar
 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.title*</span> localized string
 - Back button
-	 - Image &#8594; <span style="color:#009EDF">*navigationReviewBack*</span> image asset
-	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.back*</span> localized string
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*navigationReviewBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.back*</span> localized string
+  - With title only
+	  -  Title &#8594; `GiniConfiguration.navigationBarReviewTitleBackButton`
 - Next button
 	- Image &#8594; <span style="color:#009EDF">*navigationReviewContinue*</span> image asset
 	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.continue*</span> localized string
@@ -125,8 +131,11 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 ##### 1. Navigation bar
 - Back button
-	 - Image &#8594; <span style="color:#009EDF">*navigationReviewBack*</span> image asset
-	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.back*</span> localized string
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*navigationReviewBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.back*</span> localized string
+  - With title only
+	  -  Title &#8594; `GiniConfiguration.navigationBarReviewTitleBackButton`
 - Next button
 	- Image &#8594; <span style="color:#009EDF">*navigationReviewContinue*</span> image asset
 	- Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.review.continue*</span> localized string
@@ -154,8 +163,11 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 ##### 1. Navigation bar
 - Cancel button
-	 - Image &#8594; <span style="color:#009EDF">*navigationAnalysisBack*</span> image asset
-	 - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.analysis.back*</span> localized string
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*navigationAnalysisBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.analysis.back*</span> localized string
+  - With title only
+	  - Title &#8594; `GiniConfiguration.navigationBarAnalysisTitleBackButton`
 
 ##### 2. PDF Information view
 - Text color &#8594; `GiniConfiguration.analysisPDFInformationTextColor`
@@ -332,6 +344,14 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Supported formats.jpg" height="500"/></center>
 </br>
 
+##### Navigation bar
+- Back button
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*arrowBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.help.backToMenu*</span> localized string
+  - With title only
+	  - Title &#8594; `GiniConfiguration.navigationBarHelpScreenTitleBackToMenuButton`
+
 ##### 1. Supported format cells
 - Supported formats icon color &#8594; `GiniConfiguration.supportedFormatsIconColor`
 - Non supported formats icon color &#8594; `GiniConfiguration.nonSupportedFormatsIconColor`
@@ -341,6 +361,14 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <br>
 <center><img src="img/Customization guide/Open with tutorial.jpg" height="500"/></center>
 </br>
+
+##### Navigation bar
+- Back button
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*arrowBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.help.backToMenu*</span> localized string
+  - With title only
+	  - Title &#8594; `GiniConfiguration.navigationBarHelpScreenTitleBackToMenuButton`
 
 ##### 1. Header
 - Text &#8594; <span style="color:#009EDF">*ginivision.help.openWithTutorial.collectionHeader*</span> localized string
@@ -396,6 +424,9 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Text color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
 - Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
+- Current page indicator color &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
+- Current page indicator alpha &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorAlpha` sets alpha to the `GiniConfiguration.onboardingCurrentPageIndicatorColor`
+
 
 
 ## Help screen
@@ -405,3 +436,14 @@ Some background and text colors use the `GiniColor` type with which you can set 
 </br>
 
 - Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+##### Navigation bar
+- Back button
+  - With image and title
+	  - Image &#8594; <span style="color:#009EDF">*navigationHelpBack*</span> image asset
+	  - Title &#8594; <span style="color:#009EDF">*ginivision.navigationbar.help.backToCamera*</span> localized string
+  - With title only
+	  - Title &#8594; `GiniConfiguration.navigationBarHelpMenuTitleBackToCameraButton`
+
+##### Table View Cells
+- Cell background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors

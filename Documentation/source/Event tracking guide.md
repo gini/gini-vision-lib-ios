@@ -10,6 +10,12 @@ let viewController = GiniVision.viewController(withClient: client,
                                                resultsDelegate: self,
                                                documentMetadata: documentMetadata,
                                                trackingDelegate: trackingDelegate)
+
+// Or when not using the default network implementation pod GiniVision/Networking:
+let viewController = GiniVision.viewController(withDelegate: self,
+                                               withConfiguration: visionConfiguration,
+                                               importedDocument: nil,
+                                               trackingDelegate: trackingDelegate)
 ```
 
 ## Events
