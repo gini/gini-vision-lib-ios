@@ -98,7 +98,7 @@ final class GiniNetworkingScreenAPICoordinator: GiniScreenAPICoordinator {
     }
     
     private func deliver(result: ExtractionResult, analysisDelegate: AnalysisDelegate) {
-        let hasExtactions = result.extractions.count > 0
+        let hasExtractions = result.extractions.count > 0
         
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
