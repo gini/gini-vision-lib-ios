@@ -55,6 +55,11 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
                                     title: "ginivision.navigationbar.review.back",
                                     comment: "Button title in the navigation bar for the back button on the review screen",
                                     configEntry: self.giniConfiguration.navigationBarReviewTitleBackButton)
+    fileprivate(set) lazy var backToCameraFromHelpMenuButtonResource =
+        GiniPreferredButtonResource(image: "navigationHelpBack",
+                                    title: "ginivision.navigationbar.help.backToCamera",
+                                    comment: "Button title in the navigation bar for the back button on the help screen",
+                                    configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
     fileprivate(set) lazy var cancelButtonResource =
         giniConfiguration.cancelButtonResource ??
             GiniPreferredButtonResource(image: "navigationAnalysisBack",
@@ -83,7 +88,7 @@ class GiniScreenAPICoordinator: NSObject, Coordinator {
                                         configEntry: self.giniConfiguration.navigationBarReviewTitleContinueButton)
     fileprivate lazy var backToHelpMenuButtonResource =
         GiniPreferredButtonResource(image: "arrowBack",
-                                    title: "ginivision.navigationbar.review.back",
+                                    title: "ginivision.navigationbar.help.backToMenu",
                                     comment: "Button title in the navigation bar for the back button on the help screen",
                                     configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
     
@@ -229,7 +234,7 @@ extension GiniScreenAPICoordinator {
         
         let helpMenuViewController = HelpMenuViewController(giniConfiguration: giniConfiguration)
         helpMenuViewController.delegate = self
-        helpMenuViewController.setupNavigationItem(usingResources: backButtonResource,
+        helpMenuViewController.setupNavigationItem(usingResources: backToCameraFromHelpMenuButtonResource,
                                                    selector: #selector(back),
                                                    position: .left,
                                                    target: self)

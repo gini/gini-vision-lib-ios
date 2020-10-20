@@ -10,15 +10,15 @@
 "ginivision.navigationbar.onboarding.title"    = "Anleitung";
 "ginivision.navigationbar.review.title"        = "Überprüfen";
 "ginivision.navigationbar.analysis.title"      = "Etwas Geduld, analysiere Foto";
-"ginivision.navigationbar.camera.close"        = "Schließen";
+"ginivision.navigationbar.camera.close"        = "";
 "ginivision.navigationbar.camera.help"         = "Hilfe";
 "ginivision.navigationbar.onboarding.continue" = "Weiter";
-"ginivision.navigationbar.review.back"         = "Zurück";
-"ginivision.navigationbar.review.close"        = "Schließen";
+"ginivision.navigationbar.review.back"         = "";
+"ginivision.navigationbar.review.close"        = "";
 "ginivision.navigationbar.review.continue"     = "Weiter";
 "ginivision.navigationbar.analysis.back"       = "Abbrechen";
-"ginivision.navigationbar.help.backToCamera"   = "Zurück";
-"ginivision.navigationbar.help.backToMenu"     = "Zurück";
+"ginivision.navigationbar.help.backToCamera"   = "";
+"ginivision.navigationbar.help.backToMenu"     = "";
 
 
 "ginivision.camera.captureButton" = "Auslösen";
