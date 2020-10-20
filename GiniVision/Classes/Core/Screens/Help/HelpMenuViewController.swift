@@ -81,22 +81,6 @@ final public class HelpMenuViewController: UITableViewController {
         return items
     }()
     
-    // Button resources
-    fileprivate lazy var backToCameraButtonResource =
-        giniConfiguration.backToCameraButtonResource ??
-            GiniPreferredButtonResource(image: "navigationReviewBack",
-                                        title: "ginivision.navigationbar.review.back",
-                                        comment: "Button title in the navigation bar for the " +
-                "back button on the help menu screen",
-                                        configEntry: self.giniConfiguration.navigationBarHelpMenuTitleBackToCameraButton)
-    
-    fileprivate lazy var backToMenuButtonResource =
-        giniConfiguration.backToMenuButtonResource ??
-            GiniPreferredButtonResource(image: "arrowBack",
-                                        title: "ginivision.navigationbar.review.back",
-                                        comment: "Button title in the navigation bar for the back button on the help screen",
-                                        configEntry: self.giniConfiguration.navigationBarHelpScreenTitleBackToMenuButton)
-    
     public init(giniConfiguration: GiniConfiguration) {
         self.giniConfiguration = giniConfiguration
         super.init(nibName: nil, bundle: nil)
@@ -108,17 +92,13 @@ final public class HelpMenuViewController: UITableViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.from(giniColor: giniConfiguration.helpScreenBackgroundColor)
+        
         title = .localized(resource: HelpStrings.menuTitle)
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: helpMenuCellIdentifier)
         tableView.rowHeight = tableRowHeight
         
-        if #available(iOS 13.0, *) {
-            tableView.backgroundColor = Colors.Gini.dynamicPearl
-        } else {
-            tableView.backgroundColor = Colors.Gini.pearl
-        }
+        tableView.backgroundColor = UIColor.from(giniColor: giniConfiguration.helpScreenBackgroundColor)
         
         // In iOS it is .automatic by default, having an initial animation when the view is loaded.
         if #available(iOS 11.0, *) {
@@ -145,6 +125,7 @@ extension HelpMenuViewController {
     
     override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: helpMenuCellIdentifier, for: indexPath)
+        cell.backgroundColor = UIColor.from(giniColor: giniConfiguration.helpScreenCellsBackgroundColor)
         cell.textLabel?.text = items[indexPath.row].title
         cell.textLabel?.font = giniConfiguration.customFont.with(weight: .regular, size: 14, style: .body)
         cell.accessoryType = .disclosureIndicator
