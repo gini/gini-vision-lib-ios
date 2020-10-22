@@ -6,7 +6,7 @@
 //
 
 import Foundation
-@objcMembers public final class DigitalInvoiceOnboardingViewController: UIViewController {
+    final class DigitalInvoiceOnboardingViewController: UIViewController {
     let giniConfiguration: GiniConfiguration = GiniConfiguration.shared
 
     @IBOutlet var topImageView: UIImageView!
