@@ -853,6 +853,41 @@ import UIKit
     @objc public var lineItemDetailsTotalPriceFractionalUnitFont = UIFont.systemFont(ofSize: 12, weight: .bold)
     
     /**
+     Sets the backgroundColor on the digital invoice onboarding screen
+     */
+    @objc public var digitalInvoiceOnboardingBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: .black)
+    
+    /**
+     Sets the color on the digital invoice onboarding screen for text labels
+     */
+    @objc public var digitalInvoiceOnboardingTextColor = GiniColor(lightModeColor: UIColor.from(hex: 0x20BAA7), darkModeColor: UIColor.from(hex: 0x20BAA7))
+    
+    /**
+     Sets the font of the text labels on the digital invoice onboarding screen
+     */
+    @objc public var digitalInvoiceOnboardingTextFont = UIFont.systemFont(ofSize: 16, weight: .semibold)
+    
+    /**
+     Sets the backgroundColor  on the digital invoice onboarding screen for done button
+     */
+    @objc public var digitalInvoiceOnboardingDoneButtonBackgroundColor = GiniColor(lightModeColor: UIColor.from(hex: 0x1AE2AE), darkModeColor: UIColor.from(hex: 0x1AE2AE))
+    
+    /**
+     Sets the font of the done button on the digital invoice onboarding screen
+     */
+    @objc public var digitalInvoiceOnboardingDoneButtonTextFont = UIFont.systemFont(ofSize: 20, weight: .bold)
+    
+    /**
+     Sets the text color of the done button on the digital invoice onboarding screen
+     */
+    @objc public var digitalInvoiceOnboardingDoneButtonTextColor = GiniColor(lightModeColor: .white, darkModeColor: .black)
+    
+    /**
+     Indicates if  Digital invoice Onboarding should be shown.
+    */
+    @objc public var shouldShowDigitalInvoiceOnboarding = true
+    
+    /**
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true

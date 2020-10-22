@@ -133,6 +133,11 @@ public class DigitalInvoiceViewController: UIViewController {
         tableView.backgroundColor = UIColor.from(giniColor: giniConfiguration.digitalInvoiceBackgroundColor)
     }
     
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showDigitalInvoiceOnboarding()
+    }
+    
     @objc func payButtonTapped() {
         
         guard let invoice = invoice else { return }
@@ -160,6 +165,21 @@ public class DigitalInvoiceViewController: UIViewController {
                                                 invoice.numSelected,
                                                 invoice.numTotal)
     }
+    
+    static var onboardingWillBeShown: Bool {
+        let key = "ginivision.defaults.digitalInvoiceOnboardingShowed"
+        return UserDefaults.standard.object(forKey: key) == nil ? true : false
+    }
+    
+    fileprivate func showDigitalInvoiceOnboarding() {
+        if DigitalInvoiceViewController.onboardingWillBeShown {
+            let bundle = Bundle(for: type(of: self))
+            let storyboard = UIStoryboard(name: "DigitalInvoiceOnboarding", bundle: bundle)
+            let digitalInvoiceOnboardingViewController = storyboard.instantiateViewController(withIdentifier: "digitalInvoiceOnboardingViewController")
+            present(digitalInvoiceOnboardingViewController, animated: true)
+        }
+    }
+    
 }
 
 extension DigitalInvoiceViewController: UITableViewDelegate, UITableViewDataSource {
