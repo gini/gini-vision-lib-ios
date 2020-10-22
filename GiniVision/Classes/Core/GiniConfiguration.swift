@@ -883,11 +883,6 @@ import UIKit
     @objc public var digitalInvoiceOnboardingDoneButtonTextColor = GiniColor(lightModeColor: .white, darkModeColor: .black)
     
     /**
-     Indicates if  Digital invoice Onboarding should be shown.
-    */
-    @objc public var shouldShowDigitalInvoiceOnboarding = true
-    
-    /**
      Sets if the Drag&Drop step should be shown in the "Open with" tutorial
      */
     @objc public var shouldShowDragAndDropTutorial = true

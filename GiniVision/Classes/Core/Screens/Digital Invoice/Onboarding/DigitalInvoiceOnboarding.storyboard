@@ -18,13 +18,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can now deselect items you do not want. You only pay for what you keep, so you can return the rest. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrk-c0-ekq">
-                                <rect key="frame" x="64" y="302" width="286" height="61"/>
+                                <rect key="frame" x="64" y="291" width="286" height="61"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_new_badge" translatesAutoresizingMaskIntoConstraints="NO" id="HXT-51-vM2">
-                                <rect key="frame" x="168.5" y="241" width="77" height="42"/>
+                                <rect key="frame" x="168.5" y="234" width="77" height="42"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_icon" translatesAutoresizingMaskIntoConstraints="NO" id="vN8-eg-TBS">
                                 <rect key="frame" x="133" y="81" width="148" height="138"/>
@@ -37,28 +37,28 @@
                                 <state key="normal" title="Button"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can edit the quantity of multiple identical items here." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIr-RW-5dR">
-                                <rect key="frame" x="64" y="550" width="286" height="41"/>
+                                <rect key="frame" x="64" y="523" width="286" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_item_help" translatesAutoresizingMaskIntoConstraints="NO" id="prS-Od-Uvj">
-                                <rect key="frame" x="66" y="371" width="282" height="171"/>
+                                <rect key="frame" x="66" y="352" width="282" height="171"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3IY-Df-aw6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="vN8-eg-TBS" firstAttribute="top" secondItem="3IY-Df-aw6" secondAttribute="top" constant="37" id="2BO-al-nUB"/>
-                            <constraint firstItem="prS-Od-Uvj" firstAttribute="top" secondItem="Wrk-c0-ekq" secondAttribute="bottom" constant="8" id="3Sp-eJ-cvK"/>
+                            <constraint firstItem="prS-Od-Uvj" firstAttribute="top" secondItem="Wrk-c0-ekq" secondAttribute="bottom" id="3Sp-eJ-cvK"/>
                             <constraint firstItem="TIr-RW-5dR" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="4S2-4x-tpm"/>
-                            <constraint firstItem="HXT-51-vM2" firstAttribute="top" secondItem="vN8-eg-TBS" secondAttribute="bottom" constant="22" id="4Xh-zg-r7M"/>
+                            <constraint firstItem="HXT-51-vM2" firstAttribute="top" secondItem="vN8-eg-TBS" secondAttribute="bottom" constant="15" id="4Xh-zg-r7M"/>
                             <constraint firstItem="3IY-Df-aw6" firstAttribute="bottom" secondItem="Ydb-dv-dAn" secondAttribute="bottom" constant="17" id="6L4-QT-yCX"/>
                             <constraint firstItem="Wrk-c0-ekq" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="6hH-y9-GqY"/>
                             <constraint firstItem="Ydb-dv-dAn" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="Ign-56-OU3"/>
-                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="top" secondItem="HXT-51-vM2" secondAttribute="bottom" constant="19" id="ML2-vX-YhH"/>
+                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="top" secondItem="HXT-51-vM2" secondAttribute="bottom" constant="15" id="ML2-vX-YhH"/>
                             <constraint firstItem="Wrk-c0-ekq" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="QPc-Nw-H4h"/>
-                            <constraint firstItem="TIr-RW-5dR" firstAttribute="top" secondItem="prS-Od-Uvj" secondAttribute="bottom" constant="8" id="RYU-ZW-SK1"/>
+                            <constraint firstItem="TIr-RW-5dR" firstAttribute="top" secondItem="prS-Od-Uvj" secondAttribute="bottom" id="RYU-ZW-SK1"/>
                             <constraint firstItem="prS-Od-Uvj" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="cOK-iM-mlW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Wrk-c0-ekq" secondAttribute="trailing" constant="44" id="cVL-RA-dG2"/>
                             <constraint firstItem="vN8-eg-TBS" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="dFA-mF-LHb"/>
