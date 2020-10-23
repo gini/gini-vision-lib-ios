@@ -29,15 +29,16 @@ import Foundation
     }
 
     fileprivate var firstLabelText: String {
-        return NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.text1", fallbackKey: "", comment: "title for the first label on the digital invoice onboarding screen", isCustomizable: true)
+        return
+            NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.text1", comment: "title for the first label on the digital invoice onboarding screen")
     }
 
     fileprivate var secondLabelText: String {
-        return NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.text2", fallbackKey: "", comment: "title for the second label on the digital invoice onboarding screen", isCustomizable: true)
+        return NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.text2", comment: "title for the second label on the digital invoice onboarding screen")
     }
 
     fileprivate var doneButtonTitle: String {
-        return NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.donebutton", fallbackKey: "", comment: "title for the done button on the digital invoice onboarding screen", isCustomizable: true)
+        return NSLocalizedStringPreferredFormat("ginivision.digitalinvoice.onboarding.donebutton", comment: "title for the done button on the digital invoice onboarding screen")
     }
 
     override public func viewDidLoad() {

@@ -166,13 +166,13 @@ public class DigitalInvoiceViewController: UIViewController {
                                                 invoice.numTotal)
     }
     
-    static var onboardingWillBeShown: Bool {
+    fileprivate var onboardingWillBeShown: Bool {
         let key = "ginivision.defaults.digitalInvoiceOnboardingShowed"
         return UserDefaults.standard.object(forKey: key) == nil ? true : false
     }
     
     fileprivate func showDigitalInvoiceOnboarding() {
-        if DigitalInvoiceViewController.onboardingWillBeShown {
+        if onboardingWillBeShown {
             let bundle = Bundle(for: type(of: self))
             let storyboard = UIStoryboard(name: "DigitalInvoiceOnboarding", bundle: bundle)
             let digitalInvoiceOnboardingViewController = storyboard.instantiateViewController(withIdentifier: "digitalInvoiceOnboardingViewController")
