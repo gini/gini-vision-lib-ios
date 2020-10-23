@@ -261,8 +261,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 </br>
 
 - Background color &#8594; `GiniConfiguration.digitalInvoiceOnboardingBackgroundColor` using `GiniColor` with dark mode and light mode colors
-- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
-- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+
 ##### 1. Top icon
 - Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_icon*</span>  image asset
 
