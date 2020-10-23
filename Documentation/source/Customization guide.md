@@ -9,6 +9,7 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Multipage Review screen](#multipage-review-screen)
 - [Analysis screen](#analysis-screen)
 - [Digital invoice screen](#digital-invoice-screen)
+- [Digital invoice onboarding screen](#digital-invoice-onboarding-screen)
 - [Line item details screen](#line-item-details-screen)
 - [Return reasons dialog](#return-reasons-dialog)
 - [What is this dialog](#what-is-this-dialog)
@@ -253,6 +254,26 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Background color &#8594; `GiniConfiguration.payButtonBackgroundColor`
 - Title color &#8594; `GiniConfiguration.payButtonTitleTextColor`
 - Font &#8594; `GiniConfiguration.payButtonTitleFont`
+
+## Digital invoice onboarding screen
+<br>
+<center><img src="img/Customization guide/Digital invoice onboarding screen.png" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.digitalInvoiceOnboardingBackgroundColor` using `GiniColor` with dark mode and light mode colors
+- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+#####   Top icon
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_icon*</span> localized image asset
+#####  Done button
+
+- Color &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+- Title color &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonTextColor` using `GiniColor` with dark mode and light mode colors
+
+- Title font &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonTextFont`
+
+- Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.donebutton*</span> localized string
 
 ## Line item details screen
 <br>
