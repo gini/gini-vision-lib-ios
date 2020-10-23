@@ -263,9 +263,26 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Background color &#8594; `GiniConfiguration.digitalInvoiceOnboardingBackgroundColor` using `GiniColor` with dark mode and light mode colors
 - Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
 - Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
-#####   Top icon
-- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_icon*</span> localized image asset
-#####  Done button
+##### 1. Top icon
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_icon*</span>  image asset
+
+##### 2. New badge
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_new_badge*</span> localized image asset
+
+##### 3. First label 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.text1*</span> localized string
+- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+
+##### 4. Help item
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_item_help*</span> localized image asset
+
+##### 5. Second label 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.text2*</span> localized string
+- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+
+##### 6. Done button
 
 - Color &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonBackgroundColor` using `GiniColor` with dark mode and light mode colors
 
