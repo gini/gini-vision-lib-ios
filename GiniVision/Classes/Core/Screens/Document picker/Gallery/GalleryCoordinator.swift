@@ -153,7 +153,7 @@ final class GalleryCoordinator: NSObject, Coordinator {
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized:
             authorizedHandler()
-        #if swift(>=5.3) // Xcode 12 iOS 14 support
+       #if swift(>=5.3) // Xcode 12 iOS 14 support
             case .limited:
                 authorizedHandler()
         #endif
@@ -232,7 +232,7 @@ extension GalleryCoordinator: ImagePickerViewControllerDelegate {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didDeselectAsset asset: Asset,
                      at index: IndexPath) {
-        if let documentIndex = selectedImageDocuments.index(where: { $0.assetId == asset.identifier }) {
+        if let documentIndex = selectedImageDocuments.firstIndex(where: { $0.assetId == asset.identifier }) {
             viewController.deselectCell(at: index)
             
             selectedImageDocuments.remove(at: documentIndex)
