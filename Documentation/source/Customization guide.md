@@ -178,7 +178,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
 - Text &#8594; <span style="color:#009EDF">*ginivision.analysis.loadingText*</span> localized string
 
-## Digital invoice screen
+## Digital invoice screen (Return Assistant)
 
 <br>
 <center><img src="img/Customization guide/Digital invoice screen.jpg" height="500"/></center>
@@ -255,7 +255,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Title color &#8594; `GiniConfiguration.payButtonTitleTextColor`
 - Font &#8594; `GiniConfiguration.payButtonTitleFont`
 
-## Digital invoice onboarding screen
+## Digital invoice onboarding screen (Return Assistant)
 <br>
 <center><img src="img/Customization guide/Digital invoice onboarding screen.png" height="500"/></center>
 </br>
@@ -291,7 +291,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 - Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.donebutton*</span> localized string
 
-## Line item details screen
+## Line item details screen (Return Assistant)
 <br>
 <center><img src="img/Customization guide/Line item details.jpg" height="500"/></center>
 </br>
@@ -340,7 +340,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
 - Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
 
-## Return reasons dialog
+## Return reasons dialog (Return Assistant)
 <br>
 <center><img src="img/Customization guide/Return reasons.jpg" height="500"/></center>
 </br>
@@ -355,7 +355,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel*</span> localized string
 
 
-## What is this dialog
+## What is this dialog (Return Assistant)
 <br>
 <center><img src="img/Customization guide/What is this dialog.jpg" height="500"/></center>
 </br>

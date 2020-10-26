@@ -134,7 +134,7 @@
 "ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "Nein, nicht mehr angezeigen";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.cancel" = "Cancel";
 "ginivision.digitalinvoice.lineitem.quantity" = "Anzahl: %d";
-"ginivision.digitalinvoice.lineitem.editbutton" = "Editieren";
+"ginivision.digitalinvoice.lineitem.editbutton" = "Bearbeiten";
 "ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Artikel abwählen";
 "ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Artikel wählen";
 "ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Der Grund der Rücksendung";
