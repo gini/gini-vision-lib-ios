@@ -106,6 +106,8 @@
 "ginivision.help.menu.firstItem" = "Tips for best results from photos";
 "ginivision.help.menu.secondItem" = "Open document from other apps";
 "ginivision.help.menu.thirdItem" = "Supported formats";
+"ginivision.help.menu.fourthItem" = "Return assistant";
+
 
 "ginivision.albums.title" = "Albums";
 "ginivision.imagepicker.openbutton" = "Open";
