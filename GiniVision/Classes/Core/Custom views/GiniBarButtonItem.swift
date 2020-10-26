@@ -33,6 +33,8 @@ final class GiniBarButtonItem: UIBarButtonItem {
                                               right: button.imageEdgeInsets.right)
         
         button.addTarget(target, action: action, for: .touchUpInside)
+        button.titleLabel?.textColor = GiniConfiguration.shared.navigationBarItemTintColor
+        button.titleLabel?.tintColor = GiniConfiguration.shared.navigationBarItemTintColor
                       
         customView = button
         
