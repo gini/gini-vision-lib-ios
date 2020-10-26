@@ -1486,28 +1486,28 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/GalleryCoordinator.swift",
-      "line": 181,
+      "line": 185,
       "symbol": "GalleryCoordinator.navigationController(_:animationControllerFor:from:to:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/GalleryCoordinator.swift",
-      "line": 197,
+      "line": 201,
       "symbol": "GalleryCoordinator.albumsPicker(_:didSelectAlbum:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/GalleryCoordinator.swift",
-      "line": 206,
+      "line": 210,
       "symbol": "GalleryCoordinator.imagePicker(_:didSelectAsset:at:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/GalleryCoordinator.swift",
-      "line": 230,
+      "line": 234,
       "symbol": "GalleryCoordinator.imagePicker(_:didDeselectAsset:at:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
