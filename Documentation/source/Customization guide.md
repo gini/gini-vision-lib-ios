@@ -9,6 +9,7 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [Multipage Review screen](#multipage-review-screen)
 - [Analysis screen](#analysis-screen)
 - [Digital invoice screen](#digital-invoice-screen)
+- [Digital invoice onboarding screen](#digital-invoice-onboarding-screen)
 - [Line item details screen](#line-item-details-screen)
 - [Return reasons dialog](#return-reasons-dialog)
 - [What is this dialog](#what-is-this-dialog)
@@ -177,7 +178,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Indicator color &#8594; `GiniConfiguration.analysisLoadingIndicatorColor` (Only with PDFs)
 - Text &#8594; <span style="color:#009EDF">*ginivision.analysis.loadingText*</span> localized string
 
-## Digital invoice screen
+## Digital invoice screen (Return Assistant)
 
 <br>
 <center><img src="img/Customization guide/Digital invoice screen.jpg" height="500"/></center>
@@ -254,7 +255,43 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Title color &#8594; `GiniConfiguration.payButtonTitleTextColor`
 - Font &#8594; `GiniConfiguration.payButtonTitleFont`
 
-## Line item details screen
+## Digital invoice onboarding screen (Return Assistant)
+<br>
+<center><img src="img/Customization guide/Digital invoice onboarding screen.png" height="500"/></center>
+</br>
+
+- Background color &#8594; `GiniConfiguration.digitalInvoiceOnboardingBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+##### 1. Top icon
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_icon*</span>  image asset
+
+##### 2. New badge
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_new_badge*</span> localized image asset
+
+##### 3. First label 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.text1*</span> localized string
+- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+
+##### 4. Help item
+- Image &#8594; <span style="color:#009EDF">*digital_invoice_onboarding_item_help*</span> localized image asset
+
+##### 5. Second label 
+- Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.text2*</span> localized string
+- Text color &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.digitalInvoiceOnboardingTextFont`
+
+##### 6. Done button
+
+- Color &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+- Title color &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonTextColor` using `GiniColor` with dark mode and light mode colors
+
+- Title font &#8594; `GiniConfiguration.digitalInvoiceOnboardingDoneButtonTextFont`
+
+- Title &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.onboarding.donebutton*</span> localized string
+
+## Line item details screen (Return Assistant)
 <br>
 <center><img src="img/Customization guide/Line item details.jpg" height="500"/></center>
 </br>
@@ -303,7 +340,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Font &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelFont`
 - Color &#8594; `GiniConfiguration.lineItemDetailsDescriptionLabelColor`
 
-## Return reasons dialog
+## Return reasons dialog (Return Assistant)
 <br>
 <center><img src="img/Customization guide/Return reasons.jpg" height="500"/></center>
 </br>
@@ -318,7 +355,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Text &#8594; <span style="color:#009EDF">*ginivision.digitalinvoice.deselectreasonactionsheet.action.cancel*</span> localized string
 
 
-## What is this dialog
+## What is this dialog (Return Assistant)
 <br>
 <center><img src="img/Customization guide/What is this dialog.jpg" height="500"/></center>
 </br>

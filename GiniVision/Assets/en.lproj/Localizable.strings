@@ -164,3 +164,6 @@
 "ginivision.digitalinvoice.addonname.otherdiscounts" = "Other discounts";
 "ginivision.digitalinvoice.addonname.othercharges" = "Other charges";
 "ginivision.digitalinvoice.addonname.shipment" = "Shipment";
+"ginivision.digitalinvoice.onboarding.text1" = "You can now deselect items you do not want. You only pay for what you keep, so you can return the rest.";
+"ginivision.digitalinvoice.onboarding.text2" = "You can edit the quantity of multiple identical items here.";
+"ginivision.digitalinvoice.onboarding.donebutton" = "Got it!";

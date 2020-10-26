@@ -134,7 +134,7 @@
 "ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "Nein, nicht mehr angezeigen";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.cancel" = "Cancel";
 "ginivision.digitalinvoice.lineitem.quantity" = "Anzahl: %d";
-"ginivision.digitalinvoice.lineitem.editbutton" = "Editieren";
+"ginivision.digitalinvoice.lineitem.editbutton" = "Bearbeiten";
 "ginivision.digitalinvoice.checkmarkbutton.deselect.accessibilitylabel" = "Artikel abwählen";
 "ginivision.digitalinvoice.checkmarkbutton.select.accessibilitylabel" = "Artikel wählen";
 "ginivision.digitalinvoice.deselectreasonactionsheet.message" = "Der Grund der Rücksendung";
@@ -155,3 +155,6 @@
 "ginivision.digitalinvoice.addonname.otherdiscounts" = "Weitere Abzüge";
 "ginivision.digitalinvoice.addonname.othercharges" = "Weitere Kosten";
 "ginivision.digitalinvoice.addonname.shipment" = "Versandkosten";
+"ginivision.digitalinvoice.onboarding.text1" = "Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel die du behaltest, den Rest kannst du zurückschicken.";
+"ginivision.digitalinvoice.onboarding.text2" = "Hier kannst du die Anzahl identischer Artikel bearbeiten.";
+"ginivision.digitalinvoice.onboarding.donebutton" = "I hab\'s!";
