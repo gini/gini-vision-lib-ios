@@ -337,10 +337,10 @@ extension GiniScreenAPICoordinator: HelpMenuViewControllerDelegate {
             }
             
             viewController = imageNoResultViewController!
-        case .openWithTutorial, .supportedFormats:
+        case .openWithTutorial, .supportedFormats, .returnAssistant:
             viewController = item.viewController
         }
-        
+                
         viewController.setupNavigationItem(usingResources: backToHelpMenuButtonResource,
                                            selector: #selector(back),
                                            position: .left,
