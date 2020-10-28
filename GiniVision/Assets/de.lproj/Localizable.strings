@@ -108,6 +108,17 @@
 "ginivision.help.menu.thirdItem" = "Unterstützte Formate";
 "ginivision.help.menu.fourthItem" = "Der neue Retourenassistent";
 
+"ginivision.help.menu.returnAssistant.section1.title" = "Der neue Retourenassistent";
+"ginivision.help.menu.returnAssistant.section1.body1" = "Nachdem Sie eine Rechnung abfotografiert haben, können Sie nun Rechnungsposten abwählen die Sie nicht möchten. Sie bezahlen nur für die Dinge die Sie behalten und können den Rest retournieren.";
+"ginivision.help.menu.returnAssistant.section1.body2" = "Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren.";
+
+"ginivision.help.menu.returnAssistant.section2.title" = "Anzahl ändern";
+"ginivision.help.menu.returnAssistant.section2.body" = "Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren."
+
+"ginivision.help.menu.returnAssistant.section3.title" = "Preis korrigieren";
+"ginivision.help.menu.returnAssistant.section3.body" = "Sollte der Preis mal nicht perfekt ausgelesen worden sein, können Sie diesen einfach manuell korrigieren. Der Gesamtpreis aktualisiert sich automatisch."
+"ginivision.help.menu.returnAssistant.backButton.title" = "Zurück"
+
 "ginivision.albums.title" = "Alben";
 "ginivision.imagepicker.openbutton" = "Öffnen";
 
