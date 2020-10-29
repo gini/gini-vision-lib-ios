@@ -108,6 +108,7 @@
 "ginivision.help.menu.thirdItem" = "Supported formats";
 "ginivision.help.menu.fourthItem" = "The new return assistant";
 
+"ginivision.help.menu.returnAssistant.title" = "Return Assistant";
 "ginivision.help.menu.returnAssistant.section1.title" = "The new Return Assistant";
 "ginivision.help.menu.returnAssistant.section1.body1" = "You can now deselect invoice items that you do not want. You only pay for the things you keep and can return the rest.";
 "ginivision.help.menu.returnAssistant.section1.body2" = "By clicking on the Edit button of any invoice item, you can change the quantity and correct the price.";

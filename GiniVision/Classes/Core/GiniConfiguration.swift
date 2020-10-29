@@ -624,9 +624,14 @@ import UIKit
     @objc public var helpReturnAssistantScreenSectionTitleColor =  GiniColor(lightModeColor: Colors.Gini.blue, darkModeColor: Colors.Gini.blue)
     
     /**
+     Sets the font for the page title on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenPageTitleFont =  UIFont.systemFont(ofSize: 28, weight: .semibold)
+    
+    /**
      Sets the font for the section titles on the return assistant help screen.
      */
-    @objc public var helpReturnAssistantScreenSectionTitleFont =  UIFont.systemFont(ofSize: 28, weight: .regular)
+    @objc public var helpReturnAssistantScreenSectionTitleFont =  UIFont.systemFont(ofSize: 28, weight: .bold)
     
     /**
      Sets the text color for the instructions on the return assistant help screen.
