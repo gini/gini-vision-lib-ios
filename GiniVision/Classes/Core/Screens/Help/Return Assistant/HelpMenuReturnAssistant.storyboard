@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IND-UD-bbn">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IND-UD-bbn">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
@@ -28,12 +28,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Der neue Retourenassistent" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AUa-YY-Kt4">
-                                                    <rect key="frame" x="40" y="37" width="334" height="68"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Der neue Retourenassistent" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AUa-YY-Kt4">
+                                                    <rect key="frame" x="78" y="37" width="258" height="68"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="68" id="qPb-pp-jSC"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -68,13 +68,14 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="opq-t6-t2C" secondAttribute="trailing" constant="26" id="D7f-aQ-o38"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="Dmv-NQ-ivi"/>
                                                 <constraint firstItem="AUa-YY-Kt4" firstAttribute="top" secondItem="heV-lj-76r" secondAttribute="topMargin" constant="26" id="G2I-uk-nAu"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="AUa-YY-Kt4" secondAttribute="trailing" constant="58" id="QaK-Nm-sqb"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="top" secondItem="pAf-X9-mZT" secondAttribute="bottom" constant="18" id="ctb-HZ-wnd"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="26" id="epH-yg-ytg"/>
                                                 <constraint firstItem="pAf-X9-mZT" firstAttribute="top" secondItem="s0S-8O-ihF" secondAttribute="bottom" constant="18" id="iMs-jg-Qh9"/>
-                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leading" constant="40" id="m17-Za-7Qs"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="s0S-8O-ihF" secondAttribute="trailing" constant="26" id="q23-vf-Uaf"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="opq-t6-t2C" secondAttribute="bottom" constant="34" id="q7k-67-CPh"/>
                                                 <constraint firstItem="s0S-8O-ihF" firstAttribute="top" secondItem="AUa-YY-Kt4" secondAttribute="bottom" constant="40" id="rnT-Xr-kr2"/>
+                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="58" id="uP8-y5-XUI"/>
                                                 <constraint firstItem="AUa-YY-Kt4" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="xqt-2P-7Fv"/>
                                                 <constraint firstItem="pAf-X9-mZT" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="zpv-Jc-bQb"/>
                                             </constraints>
@@ -83,7 +84,7 @@
                                             <outlet property="helpImage" destination="pAf-X9-mZT" id="OLA-yP-1RC"/>
                                             <outlet property="instructionText1" destination="s0S-8O-ihF" id="bvo-LK-Cwk"/>
                                             <outlet property="instructionText2" destination="opq-t6-t2C" id="2oQ-nq-g03"/>
-                                            <outlet property="titlePage1" destination="AUa-YY-Kt4" id="GXt-Q2-Lkg"/>
+                                            <outlet property="titlePage" destination="AUa-YY-Kt4" id="GXt-Q2-Lkg"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="helpReturnAssistantCountCellId" rowHeight="772" id="8m4-Pc-udo" customClass="HelpMenuReturnAssistantCountCell" customModule="GiniVision" customModuleProvider="target">
@@ -131,7 +132,7 @@
                                         <connections>
                                             <outlet property="helpImage" destination="KgE-0G-B2J" id="ZdS-Oe-wBg"/>
                                             <outlet property="instructionText" destination="7vH-6Z-6Ko" id="cJe-WR-0Ff"/>
-                                            <outlet property="titlePage2" destination="nbP-Th-VE4" id="dbh-Hl-dbd"/>
+                                            <outlet property="titlePage" destination="nbP-Th-VE4" id="dbh-Hl-dbd"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="helpReturnAssistantPriceCellId" rowHeight="793" id="MAn-uZ-aLW" customClass="HelpMenuReturnAssistantPriceCell" customModule="GiniVision" customModuleProvider="target">
@@ -194,7 +195,7 @@
                                             <outlet property="backButton" destination="pMa-bi-lRf" id="gX9-O2-jN3"/>
                                             <outlet property="helpImage" destination="DyH-mP-dd9" id="rya-JN-wF1"/>
                                             <outlet property="instructionText" destination="i5R-bB-iMO" id="dEn-iP-cYF"/>
-                                            <outlet property="titlePage3" destination="4R6-Jy-o93" id="VUS-2E-MXb"/>
+                                            <outlet property="titlePage" destination="4R6-Jy-o93" id="VUS-2E-MXb"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
