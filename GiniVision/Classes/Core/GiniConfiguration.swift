@@ -611,6 +611,51 @@ import UIKit
      */
     @objc public var noResultsWarningContainerIconColor = Colors.Gini.rose
     
+    // MARK: Return Assistant
+    
+    /**
+     Sets the background color for the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenBackgroundColor =  GiniColor(lightModeColor: .white, darkModeColor:.black)
+    
+    /**
+     Sets the text color for the section titles on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenSectionTitleColor =  GiniColor(lightModeColor: Colors.Gini.blue, darkModeColor: Colors.Gini.blue)
+    
+    /**
+     Sets the font for the section titles on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenSectionTitleFont =  UIFont.systemFont(ofSize: 28, weight: .regular)
+    
+    /**
+     Sets the text color for the instructions on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenInstructionColor =  GiniColor(lightModeColor: .black, darkModeColor:.white)
+    
+    /**
+     Sets the font for the instructions on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenInstructionFont =  UIFont.systemFont(ofSize: 18, weight: .regular)
+    
+    /**
+     Sets the background color for the back button on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenBackButtonColor =  Colors.Gini.blue
+
+    /**
+     Sets the title color for the back button on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenBackButtonTitleColor =  GiniColor(lightModeColor: .white, darkModeColor:.black)
+    
+    /**
+     Sets the font for the back button title on the return assistant help screen.
+     */
+    @objc public var helpReturnAssistantScreenBackButtonTitleFont =  UIFont.systemFont(ofSize: 18, weight: .regular)
+
+        
+    // MARK: Digital invoice
+
     /**
      Sets the color of the active elements on the digital invoice line item cells to the specified color
      */
