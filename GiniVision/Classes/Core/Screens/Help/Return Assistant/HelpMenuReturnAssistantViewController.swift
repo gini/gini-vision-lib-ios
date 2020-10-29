@@ -21,6 +21,11 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
         case changeQuantity
         case changePrice
     }
+    
+    fileprivate var pageTitle: String {
+        return
+            NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.title", comment: "title for the help menu return assistant screen")
+    }
 
     fileprivate var titleSection1: String {
         return
@@ -61,8 +66,6 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section3.body", comment: "first body text for the third section on the help menu return assistant screen")
     }
 
-
-
     fileprivate var section2Image: UIImage {
         return UIImageNamedPreferred(named: "helpMenuReturnAssistantSection2Image") ?? UIImage()
     }
@@ -81,10 +84,13 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
         super.viewDidLoad()
         helpReturnAssistantTableView.delegate = self
         helpReturnAssistantTableView.dataSource = self
-       // configureUI()
+        configureUI()
     }
     
-   // fileprivate func configureUI() {}
+    fileprivate func configureUI() {
+        title = pageTitle
+        helpReturnAssistantTableView.backgroundColor = UIColor.from(giniColor: GiniConfiguration.shared.helpScreenBackgroundColor)
+   }
 
     static func instantiate() -> HelpMenuReturnAssistantViewController {
         let bundle = giniBundle()
@@ -92,11 +98,12 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return CellType.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellType = CellType(rawValue: indexPath.row)
+        
         switch cellType {
         case .returnAssistant:
             if let cell = tableView.dequeueReusableCell(withIdentifier:Constants.helpReturnAssistantCellId, for: indexPath) as? HelpMenuReturnAssistantCell {
@@ -106,7 +113,6 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             } else {
                 return UITableViewCell()
             }
-            
         case .changeQuantity:
             if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.helpReturnAssistantCountCellId, for: indexPath) as? HelpMenuReturnAssistantCountCell {
                 let viewModelCell = HelpMenuReturnAssistantCountCellViewModel.init(title: titleSection2, instruction: titleSection2Body, image: section2Image)

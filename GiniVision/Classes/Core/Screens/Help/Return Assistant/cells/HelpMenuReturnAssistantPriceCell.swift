@@ -9,32 +9,33 @@ import Foundation
 import UIKit
 
 class HelpMenuReturnAssistantPriceCell: UITableViewCell {
-    @IBOutlet weak var titlePage3: UILabel!
-    @IBOutlet weak var instructionText: UILabel!
-    @IBOutlet weak var helpImage: UIImageView!
-    @IBOutlet weak var backButton: UIButton!
-    
+    @IBOutlet var titlePage: UILabel!
+    @IBOutlet var instructionText: UILabel!
+    @IBOutlet var helpImage: UIImageView!
+    @IBOutlet var backButton: UIButton!
+
     var viewModel: HelpMenuReturnAssistantPriceCellViewModel? {
         didSet {
             if let vm = viewModel {
-                titlePage3.text = vm.sectionTitle
-                //titlePage3.textColor
-               // titlePage3.font =
-                
+                titlePage.text = vm.sectionTitle
+                titlePage.textColor = UIColor.from(giniColor: vm.giniConfig.helpReturnAssistantScreenSectionTitleColor)
+                titlePage.font = vm.giniConfig.helpReturnAssistantScreenSectionTitleFont
+
                 instructionText.text = vm.instructionText
-                //instructionText1.textColor
-               // instructionText1.font =
-                
+                instructionText.textColor = UIColor.from(giniColor: vm.giniConfig.helpReturnAssistantScreenInstructionColor)
+                instructionText.font = vm.giniConfig.helpReturnAssistantScreenInstructionFont
+
                 helpImage.image = vm.helpImage
+
+                backButton.backgroundColor = vm.giniConfig.helpReturnAssistantScreenBackButtonColor
+                backButton.setTitleColor(UIColor.from(giniColor: vm.giniConfig.helpReturnAssistantScreenBackButtonTitleColor), for: .normal)
                 backButton.setTitle(vm.backTitle, for: .normal)
-               // backButton.tintColor
-               // backButton.
-                //backButton.addAction(vm.onBackHandling, for: .to)
+                backButton.titleLabel?.font = vm.giniConfig.helpReturnAssistantScreenBackButtonTitleFont
             }
         }
     }
+
     @IBAction func backButtonPressed(_ sender: Any) {
         viewModel?.onBackHandling()
     }
-    
 }

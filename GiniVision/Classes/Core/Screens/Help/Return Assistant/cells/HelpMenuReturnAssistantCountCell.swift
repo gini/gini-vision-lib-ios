@@ -9,20 +9,20 @@ import Foundation
 import UIKit
 
 class HelpMenuReturnAssistantCountCell: UITableViewCell {
-    @IBOutlet weak var titlePage2: UILabel!
+    @IBOutlet weak var titlePage: UILabel!
     @IBOutlet weak var instructionText: UILabel!
     @IBOutlet weak var helpImage: UIImageView!
     
     var viewModel: HelpMenuReturnAssistantCountCellViewModel? {
         didSet {
             if let vm = viewModel {
-                titlePage2.text = vm.sectionTitle
-                //titlePage1.textColor
-               // titlePage1.font =
+                titlePage.text = vm.sectionTitle
+                titlePage.textColor = UIColor.from(giniColor: vm.giniConfig.helpReturnAssistantScreenSectionTitleColor)
+                titlePage.font = vm.giniConfig.helpReturnAssistantScreenSectionTitleFont
                 
                 instructionText.text = vm.instructionText
-                //instructionText1.textColor
-               // instructionText1.font =
+                instructionText.textColor = UIColor.from(giniColor: vm.giniConfig.helpReturnAssistantScreenInstructionColor)
+                instructionText.font = vm.giniConfig.helpReturnAssistantScreenInstructionFont
                 
                 helpImage.image = vm.helpImage
             }
