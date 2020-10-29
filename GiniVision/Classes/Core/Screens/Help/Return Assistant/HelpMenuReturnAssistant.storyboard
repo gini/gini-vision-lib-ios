@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Help Menu Return Assistant View Controller-->
+        <scene sceneID="ACr-YI-TYa">
+            <objects>
+                <viewController storyboardIdentifier="helpMenuReturnAssistantViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pQl-5W-4Nx" customClass="HelpMenuReturnAssistantViewController" customModule="GiniVision" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kLh-PA-HuU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="IND-UD-bbn">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="helpReturnAssistantCellId" rowHeight="620" id="WOX-01-Vmb" customClass="HelpMenuReturnAssistantCell" customModule="GiniVision" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="620"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="WOX-01-Vmb" id="heV-lj-76r">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="620"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Der neue Retourenassistent" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AUa-YY-Kt4">
+                                                    <rect key="frame" x="40" y="37" width="334" height="68"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="68" id="qPb-pp-jSC"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s0S-8O-ihF">
+                                                    <rect key="frame" x="46" y="145" width="322" height="144"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="144" id="YVa-Xp-NFx"/>
+                                                    </constraints>
+                                                    <string key="text">Nachdem Sie eine Rechnung abfotografiert haben, können Sie nun Rechnungsposten abwählen die Sie nicht möchten. Sie bezahlen nur für die Dinge die Sie behalten und können den Rest retournieren. </string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="opq-t6-t2C">
+                                                    <rect key="frame" x="46" y="494" width="322" height="81"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="helpMenuReturnAssistantSection1Image" translatesAutoresizingMaskIntoConstraints="NO" id="pAf-X9-mZT">
+                                                    <rect key="frame" x="66" y="307" width="282" height="169"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="169" id="G74-O6-9a6"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pAf-X9-mZT" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="46" id="0WA-1p-yWH"/>
+                                                <constraint firstItem="s0S-8O-ihF" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="26" id="2jo-Zr-S3r"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pAf-X9-mZT" secondAttribute="trailing" constant="46" id="4L6-UC-TVk"/>
+                                                <constraint firstItem="s0S-8O-ihF" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="C7b-qE-sBV"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="opq-t6-t2C" secondAttribute="trailing" constant="26" id="D7f-aQ-o38"/>
+                                                <constraint firstItem="opq-t6-t2C" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="Dmv-NQ-ivi"/>
+                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="top" secondItem="heV-lj-76r" secondAttribute="topMargin" constant="26" id="G2I-uk-nAu"/>
+                                                <constraint firstItem="opq-t6-t2C" firstAttribute="top" secondItem="pAf-X9-mZT" secondAttribute="bottom" constant="18" id="ctb-HZ-wnd"/>
+                                                <constraint firstItem="opq-t6-t2C" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="26" id="epH-yg-ytg"/>
+                                                <constraint firstItem="pAf-X9-mZT" firstAttribute="top" secondItem="s0S-8O-ihF" secondAttribute="bottom" constant="18" id="iMs-jg-Qh9"/>
+                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leading" constant="40" id="m17-Za-7Qs"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="s0S-8O-ihF" secondAttribute="trailing" constant="26" id="q23-vf-Uaf"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="opq-t6-t2C" secondAttribute="bottom" constant="34" id="q7k-67-CPh"/>
+                                                <constraint firstItem="s0S-8O-ihF" firstAttribute="top" secondItem="AUa-YY-Kt4" secondAttribute="bottom" constant="40" id="rnT-Xr-kr2"/>
+                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="xqt-2P-7Fv"/>
+                                                <constraint firstItem="pAf-X9-mZT" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="zpv-Jc-bQb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="helpImage" destination="pAf-X9-mZT" id="OLA-yP-1RC"/>
+                                            <outlet property="instructionText1" destination="s0S-8O-ihF" id="bvo-LK-Cwk"/>
+                                            <outlet property="instructionText2" destination="opq-t6-t2C" id="2oQ-nq-g03"/>
+                                            <outlet property="titlePage1" destination="AUa-YY-Kt4" id="GXt-Q2-Lkg"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="helpReturnAssistantCountCellId" rowHeight="772" id="8m4-Pc-udo" customClass="HelpMenuReturnAssistantCountCell" customModule="GiniVision" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="648" width="414" height="772"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8m4-Pc-udo" id="CBr-Ii-5MA">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="772"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Anzahl ändern" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nbP-Th-VE4">
+                                                    <rect key="frame" x="112.5" y="37" width="189" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="34" id="FNN-iL-AqU"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="helpMenuReturnAssistantSection2Image" translatesAutoresizingMaskIntoConstraints="NO" id="KgE-0G-B2J">
+                                                    <rect key="frame" x="97.5" y="110" width="219" height="439"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="439" id="dAL-ng-6qn"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vH-6Z-6Ko">
+                                                    <rect key="frame" x="46" y="585" width="322" height="143"/>
+                                                    <string key="text">Wenn Sie z.B. eine geringere Anzahl behalten möchten, als Sie bestellt hatten, können Sie die Anzahl ändern. Der Gesamtpreis aktualisiert sich automatisch. </string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="7vH-6Z-6Ko" firstAttribute="leading" secondItem="CBr-Ii-5MA" secondAttribute="leadingMargin" constant="26" id="8uK-Ph-DgB"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="7vH-6Z-6Ko" secondAttribute="bottom" constant="33" id="DOq-Zt-Xxy"/>
+                                                <constraint firstItem="KgE-0G-B2J" firstAttribute="top" secondItem="nbP-Th-VE4" secondAttribute="bottom" constant="39" id="H6X-9q-Ewm"/>
+                                                <constraint firstItem="7vH-6Z-6Ko" firstAttribute="centerX" secondItem="CBr-Ii-5MA" secondAttribute="centerX" id="JmT-MP-4qf"/>
+                                                <constraint firstItem="nbP-Th-VE4" firstAttribute="top" secondItem="CBr-Ii-5MA" secondAttribute="topMargin" constant="26" id="XsL-Wq-e2D"/>
+                                                <constraint firstItem="7vH-6Z-6Ko" firstAttribute="top" secondItem="KgE-0G-B2J" secondAttribute="bottom" constant="36" id="coJ-HG-1gl"/>
+                                                <constraint firstItem="nbP-Th-VE4" firstAttribute="centerX" secondItem="CBr-Ii-5MA" secondAttribute="centerX" id="fUd-5b-A68"/>
+                                                <constraint firstItem="KgE-0G-B2J" firstAttribute="centerX" secondItem="CBr-Ii-5MA" secondAttribute="centerX" id="s4l-ic-1Qd"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="7vH-6Z-6Ko" secondAttribute="trailing" constant="26" id="zbe-0W-Q0t"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="helpImage" destination="KgE-0G-B2J" id="ZdS-Oe-wBg"/>
+                                            <outlet property="instructionText" destination="7vH-6Z-6Ko" id="cJe-WR-0Ff"/>
+                                            <outlet property="titlePage2" destination="nbP-Th-VE4" id="dbh-Hl-dbd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="helpReturnAssistantPriceCellId" rowHeight="793" id="MAn-uZ-aLW" customClass="HelpMenuReturnAssistantPriceCell" customModule="GiniVision" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="1420" width="414" height="793"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MAn-uZ-aLW" id="fYB-Oh-cLY">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="793"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Preis korrigieren" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4R6-Jy-o93">
+                                                    <rect key="frame" x="100" y="37" width="214" height="34"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="34" id="59b-lU-daQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="helpMenuReturnAssistantSection3Image" translatesAutoresizingMaskIntoConstraints="NO" id="DyH-mP-dd9">
+                                                    <rect key="frame" x="97.5" y="110" width="219" height="439"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="439" id="zDQ-Vy-m4j"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i5R-bB-iMO">
+                                                    <rect key="frame" x="46" y="585" width="322" height="81.5"/>
+                                                    <string key="text">Sollte der Preis mal nicht perfekt ausgelesen worden sein, können Sie diesen einfach manuell korrigieren. Der Gesamtpreis aktualisiert sich automatisch. </string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pMa-bi-lRf">
+                                                    <rect key="frame" x="36" y="724.5" width="342" height="48"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="48" id="ByU-BK-dRp"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Back"/>
+                                                    <connections>
+                                                        <action selector="backButtonPressed:" destination="MAn-uZ-aLW" eventType="touchUpInside" id="0Hm-BW-5Pg"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="pMa-bi-lRf" firstAttribute="leading" secondItem="fYB-Oh-cLY" secondAttribute="leadingMargin" constant="16" id="4yx-gj-7GO"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pMa-bi-lRf" secondAttribute="trailing" constant="16" id="GZE-gJ-bBA"/>
+                                                <constraint firstItem="pMa-bi-lRf" firstAttribute="centerX" secondItem="fYB-Oh-cLY" secondAttribute="centerX" id="Hg8-44-sQS"/>
+                                                <constraint firstItem="4R6-Jy-o93" firstAttribute="top" secondItem="fYB-Oh-cLY" secondAttribute="topMargin" constant="26" id="SK9-LN-nTc"/>
+                                                <constraint firstItem="i5R-bB-iMO" firstAttribute="centerX" secondItem="fYB-Oh-cLY" secondAttribute="centerX" id="V16-XT-bLq"/>
+                                                <constraint firstItem="4R6-Jy-o93" firstAttribute="centerX" secondItem="fYB-Oh-cLY" secondAttribute="centerX" id="VP1-pW-RJK"/>
+                                                <constraint firstItem="i5R-bB-iMO" firstAttribute="leading" secondItem="fYB-Oh-cLY" secondAttribute="leadingMargin" constant="26" id="YKj-l2-B9o"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="i5R-bB-iMO" secondAttribute="trailing" constant="26" id="azb-di-Uqq"/>
+                                                <constraint firstItem="pMa-bi-lRf" firstAttribute="top" secondItem="i5R-bB-iMO" secondAttribute="bottom" constant="58" id="ern-3W-svo"/>
+                                                <constraint firstItem="DyH-mP-dd9" firstAttribute="top" secondItem="4R6-Jy-o93" secondAttribute="bottom" constant="39" id="fda-kX-LJV"/>
+                                                <constraint firstItem="DyH-mP-dd9" firstAttribute="centerX" secondItem="fYB-Oh-cLY" secondAttribute="centerX" id="hdh-eJ-uph"/>
+                                                <constraint firstItem="i5R-bB-iMO" firstAttribute="top" secondItem="DyH-mP-dd9" secondAttribute="bottom" constant="36" id="svM-x6-3lW"/>
+                                                <constraint firstAttribute="bottom" secondItem="pMa-bi-lRf" secondAttribute="bottom" constant="20.5" id="zkm-SN-xEZ"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="backButton" destination="pMa-bi-lRf" id="gX9-O2-jN3"/>
+                                            <outlet property="helpImage" destination="DyH-mP-dd9" id="rya-JN-wF1"/>
+                                            <outlet property="instructionText" destination="i5R-bB-iMO" id="dEn-iP-cYF"/>
+                                            <outlet property="titlePage3" destination="4R6-Jy-o93" id="VUS-2E-MXb"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="0RI-6A-3gJ"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="IND-UD-bbn" firstAttribute="top" secondItem="0RI-6A-3gJ" secondAttribute="top" id="7Kc-EL-OFH"/>
+                            <constraint firstItem="IND-UD-bbn" firstAttribute="leading" secondItem="0RI-6A-3gJ" secondAttribute="leading" id="DPW-Jt-NUk"/>
+                            <constraint firstItem="0RI-6A-3gJ" firstAttribute="trailing" secondItem="IND-UD-bbn" secondAttribute="trailing" id="PRN-v1-M96"/>
+                            <constraint firstItem="IND-UD-bbn" firstAttribute="bottom" secondItem="0RI-6A-3gJ" secondAttribute="bottom" id="cDy-m9-1MT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="helpReturnAssistantTableView" destination="IND-UD-bbn" id="bf9-67-pYj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VN7-9j-XWV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-833.33333333333337" y="28.794642857142854"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="helpMenuReturnAssistantSection1Image" width="282" height="171"/>
+        <image name="helpMenuReturnAssistantSection2Image" width="219" height="455"/>
+        <image name="helpMenuReturnAssistantSection3Image" width="219" height="455"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
