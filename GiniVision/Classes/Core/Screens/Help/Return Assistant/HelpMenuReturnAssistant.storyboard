@@ -29,7 +29,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Der neue Retourenassistent" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AUa-YY-Kt4">
-                                                    <rect key="frame" x="78" y="37" width="258" height="68"/>
+                                                    <rect key="frame" x="60" y="37" width="294" height="68"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="68" id="qPb-pp-jSC"/>
                                                     </constraints>
@@ -68,14 +68,14 @@
                                                 <constraint firstAttribute="trailingMargin" secondItem="opq-t6-t2C" secondAttribute="trailing" constant="26" id="D7f-aQ-o38"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="Dmv-NQ-ivi"/>
                                                 <constraint firstItem="AUa-YY-Kt4" firstAttribute="top" secondItem="heV-lj-76r" secondAttribute="topMargin" constant="26" id="G2I-uk-nAu"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="AUa-YY-Kt4" secondAttribute="trailing" constant="58" id="QaK-Nm-sqb"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="AUa-YY-Kt4" secondAttribute="trailing" constant="40" id="QaK-Nm-sqb"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="top" secondItem="pAf-X9-mZT" secondAttribute="bottom" constant="18" id="ctb-HZ-wnd"/>
                                                 <constraint firstItem="opq-t6-t2C" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="26" id="epH-yg-ytg"/>
                                                 <constraint firstItem="pAf-X9-mZT" firstAttribute="top" secondItem="s0S-8O-ihF" secondAttribute="bottom" constant="18" id="iMs-jg-Qh9"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="s0S-8O-ihF" secondAttribute="trailing" constant="26" id="q23-vf-Uaf"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="opq-t6-t2C" secondAttribute="bottom" constant="34" id="q7k-67-CPh"/>
                                                 <constraint firstItem="s0S-8O-ihF" firstAttribute="top" secondItem="AUa-YY-Kt4" secondAttribute="bottom" constant="40" id="rnT-Xr-kr2"/>
-                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="58" id="uP8-y5-XUI"/>
+                                                <constraint firstItem="AUa-YY-Kt4" firstAttribute="leading" secondItem="heV-lj-76r" secondAttribute="leadingMargin" constant="40" id="uP8-y5-XUI"/>
                                                 <constraint firstItem="AUa-YY-Kt4" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="xqt-2P-7Fv"/>
                                                 <constraint firstItem="pAf-X9-mZT" firstAttribute="centerX" secondItem="heV-lj-76r" secondAttribute="centerX" id="zpv-Jc-bQb"/>
                                             </constraints>
