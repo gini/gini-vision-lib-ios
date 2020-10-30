@@ -32,12 +32,12 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section1.title", comment: "title for the first section on the help menu return assistant screen")
     }
 
-    fileprivate var titleSection1Body1: String {
+    fileprivate var section1Body1: String {
         return
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section1.body1", comment: "first body text for the first section on the help menu return assistant screen")
     }
 
-    fileprivate var titleSection1Body2: String {
+    fileprivate var section1Body2: String {
         return
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section1.body2", comment: "second body text for the first section on the help menu return assistant screen")
     }
@@ -51,7 +51,7 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
         return UIImageNamedPreferred(named: "helpMenuReturnAssistantSection1Image") ?? UIImage()
     }
 
-    fileprivate var titleSection2Body: String {
+    fileprivate var section2Body: String {
         return
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section2.body", comment: "first body text for the second section on the help menu return assistant screen")
     }
@@ -61,7 +61,7 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section3.title", comment: "title for the third section on the help menu return assistant screen")
     }
 
-    fileprivate var titleSection3Body: String {
+    fileprivate var section3Body: String {
         return
             NSLocalizedStringPreferredFormat("ginivision.help.menu.returnAssistant.section3.body", comment: "first body text for the third section on the help menu return assistant screen")
     }
@@ -107,7 +107,7 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
         switch cellType {
         case .returnAssistant:
             if let cell = tableView.dequeueReusableCell(withIdentifier:Constants.helpReturnAssistantCellId, for: indexPath) as? HelpMenuReturnAssistantCell {
-                let viewModelCell = HelpMenuReturnAssistantCellViewModel.init(title: titleSection1, instruction1: titleSection1Body1, instruction2: titleSection1Body2, image: section1Image)
+                let viewModelCell = HelpMenuReturnAssistantCellViewModel.init(title: titleSection1, instruction1: section1Body1, instruction2: section1Body2, image: section1Image)
                 cell.viewModel = viewModelCell
                 return cell
             } else {
@@ -115,7 +115,7 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             }
         case .changeQuantity:
             if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.helpReturnAssistantCountCellId, for: indexPath) as? HelpMenuReturnAssistantCountCell {
-                let viewModelCell = HelpMenuReturnAssistantCountCellViewModel.init(title: titleSection2, instruction: titleSection2Body, image: section2Image)
+                let viewModelCell = HelpMenuReturnAssistantCountCellViewModel.init(title: titleSection2, instruction: section2Body, image: section2Image)
                 cell.viewModel = viewModelCell
                 return cell
             } else {
@@ -126,7 +126,7 @@ final class HelpMenuReturnAssistantViewController: UIViewController, UITableView
             let handler: () -> () = {
                 self.navigationController?.popViewController(animated: true)
             }
-            let viewModelCell = HelpMenuReturnAssistantPriceCellViewModel.init(title: titleSection3, instruction: titleSection3Body, image:section3Image , buttonTitle: backButtonTitle, action: handler)
+            let viewModelCell = HelpMenuReturnAssistantPriceCellViewModel.init(title: titleSection3, instruction: section3Body, image:section3Image , buttonTitle: backButtonTitle, action: handler)
             cell.viewModel = viewModelCell
             return cell
         } else {
