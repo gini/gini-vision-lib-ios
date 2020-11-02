@@ -15,6 +15,7 @@ The Gini Vision Library components can be customized either through the `GiniCon
 - [What is this dialog](#what-is-this-dialog)
 - [Supported formats screen](#supported-formats-screen)
 - [Open with tutorial screen](#open-with-tutorial-screen)
+- [Return assisstant](#return-assistant)
 - [Capturing tips screen](#capturing-tips-screen)
 - [Gallery album screen](#gallery-album-screen)
 - [Onboarding screens](#onboarding-screens)
@@ -469,7 +470,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ## Help screen
 
 <br>
-<center><img src="img/Customization guide/Help screen.jpeg" height="500"/></center>
+<center><img src="img/Customization guide/Help screen.png" height="500"/></center>
 </br>
 
 - Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
@@ -484,3 +485,69 @@ Some background and text colors use the `GiniColor` type with which you can set 
 
 ##### Table View Cells
 - Cell background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+## Return assistant
+
+<br>
+<center><img src="img/Customization guide/Return assistant.png" height="500"/></center>
+</br>
+
+##### 1. Navigation bar
+- Title &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.title*</span> localized string
+
+##### 2. Title for section one
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section1.title*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenSectionTitleColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenPageTitleFont`
+
+##### 3. Instruction one for section one
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section1.body1*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionFont`
+
+##### 4. Help item
+- Image &#8594; <span style="color:#009EDF">*helpMenuReturnAssistantSection1Image*</span> localized image asset
+
+##### 5. Instruction two for section one
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section1.body2*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionFont`
+
+<br>
+<center><img src="img/Customization guide/Return assistant screen section two.png" height="500"/></center>
+</br>
+
+##### 1. Title for section two
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section2.title*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenSectionTitleColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenPageTitleFont`
+
+##### 2. Help item
+- Image &#8594; <span style="color:#009EDF">*helpMenuReturnAssistantSection2Image*</span> localized image asset
+
+##### 3. Instruction for section two
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section2.body*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionFont`
+
+<br>
+<center><img src="img/Customization guide/Return assistant screen section three.png" height="500"/></center>
+</br>
+
+##### 1. Title for section three
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section3.title*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenSectionTitleColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenPageTitleFont`
+
+##### 2. Help item
+- Image &#8594; <span style="color:#009EDF">*helpMenuReturnAssistantSection3Image*</span> localized image asset
+
+##### 3. Instruction for section two
+- Text &#8594; <span style="color:#009EDF">*ginivision.help.menu.returnAssistant.section3.body*</span> localized string
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenInstructionFont`
+
+##### 4. Back button
+- Background color &#8594; `GiniConfiguration.helpReturnAssistantScreenBackButtonColor` using `GiniColor` with dark mode and light mode colors
+- Text color &#8594; `GiniConfiguration.helpReturnAssistantScreenBackButtonTitleColor` using `GiniColor` with dark mode and light mode colors
+- Font &#8594; `GiniConfiguration.helpReturnAssistantScreenBackButtonTitleFont`

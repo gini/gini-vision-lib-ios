@@ -34,6 +34,12 @@ final class HelpMenuViewControllerTests: XCTestCase {
                                             comment: "help menu second item text"), 2))
         }
         
+        if GiniConfiguration.shared.returnAssistantEnabled {
+            items.append((NSLocalizedString("ginivision.helpmenu.fourthItem",
+                                            bundle: Bundle(for: GiniVision.self),
+                                            comment: "help menu second item text"), 4))
+        }
+        
         return items
     }
     

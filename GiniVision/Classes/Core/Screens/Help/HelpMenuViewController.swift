@@ -34,6 +34,7 @@ final public class HelpMenuViewController: UITableViewController {
         case noResultsTips
         case openWithTutorial
         case supportedFormats
+        case returnAssistant
         
         var title: String {
             switch self {
@@ -43,6 +44,8 @@ final public class HelpMenuViewController: UITableViewController {
                 return .localized(resource: HelpStrings.menuSecondItemText)
             case .supportedFormats:
                 return .localized(resource: HelpStrings.menuThirdItemText)
+            case .returnAssistant:
+                return .localized(resource: HelpStrings.menuFourthItemText)
             }
         }
         
@@ -60,6 +63,8 @@ final public class HelpMenuViewController: UITableViewController {
                 viewController = OpenWithTutorialViewController()
             case .supportedFormats:
                 viewController = SupportedFormatsViewController()
+            case .returnAssistant:
+                viewController = HelpMenuReturnAssistantViewController.instantiate()
             }
             
             return viewController
@@ -76,6 +81,10 @@ final public class HelpMenuViewController: UITableViewController {
         
         if giniConfiguration.openWithEnabled {
             items.append(.openWithTutorial)
+        }
+        
+        if giniConfiguration.returnAssistantEnabled {
+            items.append(.returnAssistant)
         }
         
         return items

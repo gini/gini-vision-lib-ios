@@ -56,6 +56,10 @@ func NSLocalizedStringPreferredFormat(_ key: String,
     return format
 }
 
+func giniBundle() -> Bundle {
+    Bundle(for: GiniVision.self)
+}
+
 struct AnimationDuration {
     static var slow = 1.0
     static var medium = 0.6

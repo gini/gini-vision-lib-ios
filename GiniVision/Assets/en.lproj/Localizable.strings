@@ -106,6 +106,19 @@
 "ginivision.help.menu.firstItem" = "Tips for best results from photos";
 "ginivision.help.menu.secondItem" = "Open document from other apps";
 "ginivision.help.menu.thirdItem" = "Supported formats";
+"ginivision.help.menu.fourthItem" = "The new return assistant";
+
+"ginivision.help.menu.returnAssistant.title" = "Return Assistant";
+"ginivision.help.menu.returnAssistant.section1.title" = "The new Return Assistant";
+"ginivision.help.menu.returnAssistant.section1.body1" = "You can now deselect invoice items that you do not want. You only pay for the things you keep and can return the rest.";
+"ginivision.help.menu.returnAssistant.section1.body2" = "By clicking on the Edit button of any invoice item, you can change the quantity and correct the price.";
+
+"ginivision.help.menu.returnAssistant.section2.title" = "Change the quantity";
+"ginivision.help.menu.returnAssistant.section2.body" = "For example, if you want to keep a lower number than you ordered, just change the quantity. The total price will be updated automatically.";
+
+"ginivision.help.menu.returnAssistant.section3.title" = "Fix the price";
+"ginivision.help.menu.returnAssistant.section3.body" = "If the price has not been read out perfectly, you can simply correct it manually. The total price is updated automatically.";
+"ginivision.help.menu.returnAssistant.backButton.title" = "Back";
 
 "ginivision.albums.title" = "Albums";
 "ginivision.imagepicker.openbutton" = "Open";
