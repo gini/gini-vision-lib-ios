@@ -252,7 +252,7 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ## Onboarding screens
 
 <br>
-<center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
+<center><img src="img/Customization guide/Onboarding.png" height="500"/></center>
 </br>
 
 - Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
