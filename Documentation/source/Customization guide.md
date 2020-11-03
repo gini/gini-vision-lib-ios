@@ -286,10 +286,10 @@ Some background and text colors use the `GiniColor` type with which you can set 
   - With title only
 	  - Title &#8594; `GiniConfiguration.navigationBarHelpMenuTitleBackToCameraButton`
 
-##### 2.Table View Cells
+##### 2. Table View Cells
 
 - Background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors
 
-##### 3.Background
+##### 3. Background
 
 - Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
