@@ -456,16 +456,24 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ## Onboarding screens
 
 <br>
-<center><img src="img/Customization guide/Onboarding.jpeg" height="500"/></center>
+<center><img src="img/Customization guide/Onboarding.png" height="500"/></center>
 </br>
 
-- Background color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
-- Text color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
-- Page indicator color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
-- Current page indicator color &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
-- Current page indicator alpha &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorAlpha` sets alpha to the `GiniConfiguration.onboardingCurrentPageIndicatorColor`
+##### 1. Background
+- Background Color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
 
+##### 2. Image
+- Page image &#8594; <span style="color:#009EDF">*onboardingPage**</span> image asset
 
+##### 3. Text
+- Color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
+
+##### 4. Page indicator
+- Color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
+
+##### 5. Current page indicator
+- Color &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
+- Alpha &#8594; `GiniConfiguration.onboardingCurrentPageIndicatorAlpha` sets alpha to the `GiniConfiguration.onboardingCurrentPageIndicatorColor`
 
 ## Help screen
 
@@ -473,9 +481,8 @@ Some background and text colors use the `GiniColor` type with which you can set 
 <center><img src="img/Customization guide/Help screen.png" height="500"/></center>
 </br>
 
-- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+##### 1. Navigation bar
 
-##### Navigation bar
 - Back button
   - With image and title
 	  - Image &#8594; <span style="color:#009EDF">*navigationHelpBack*</span> image asset
@@ -483,8 +490,14 @@ Some background and text colors use the `GiniColor` type with which you can set 
   - With title only
 	  - Title &#8594; `GiniConfiguration.navigationBarHelpMenuTitleBackToCameraButton`
 
-##### Table View Cells
-- Cell background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors
+##### 2. Table View Cells
+
+- Background color &#8594; `GiniConfiguration.helpScreenCellsBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
+##### 3. Background
+
+- Background color &#8594; `GiniConfiguration.helpScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
+
 
 ## Return assistant
 
