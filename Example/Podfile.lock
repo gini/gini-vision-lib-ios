@@ -5,13 +5,13 @@ PODS:
   - Gini-iOS-SDK/Core (1.4.0):
     - Bolts/Tasks (~> 1.9)
   - Gini/DocumentsAPI (0.5.2)
-  - GiniVision (5.6.1):
-    - GiniVision/Core (= 5.6.1)
-  - GiniVision/Core (5.6.1)
-  - GiniVision/Networking (5.6.1):
+  - GiniVision (5.6.2):
+    - GiniVision/Core (= 5.6.2)
+  - GiniVision/Core (5.6.2)
+  - GiniVision/Networking (5.6.2):
     - Gini/DocumentsAPI (~> 0.5.2)
     - GiniVision/Core
-  - GiniVision/Tests (5.6.1)
+  - GiniVision/Tests (5.6.2)
 
 DEPENDENCIES:
   - Gini-iOS-SDK (~> 1.4)
@@ -34,7 +34,7 @@ SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
   Gini: 79e3ee06d18ecb8be27112563a84cecff4e73e0b
   Gini-iOS-SDK: 270169987acb2ebd83d1e11d029daa81b6f89682
-  GiniVision: eb1ad39df2847c3f7b54425ab092a69a083d27d9
+  GiniVision: 4c121c725477bfc71873ab7b355422cf774d2441
 
 PODFILE CHECKSUM: ad712b962d37e080a6b89d14b6c67309b4987f8b
 
