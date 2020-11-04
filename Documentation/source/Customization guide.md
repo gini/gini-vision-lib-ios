@@ -258,11 +258,11 @@ Some background and text colors use the `GiniColor` type with which you can set 
 ##### 1. Background
 - Background Color &#8594; `GiniConfiguration.onboardingScreenBackgroundColor` using `GiniColor` with dark mode and light mode colors
 
-##### 2. Text
-- Color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
-
-##### 3. Image
+##### 2. Image
 - Page image &#8594; <span style="color:#009EDF">*onboardingPage**</span> image asset
+
+##### 3. Text
+- Color &#8594; `GiniConfiguration.onboardingTextColor` using `GiniColor` with dark mode and light mode colors
 
 ##### 4. Page indicator
 - Color &#8594; `GiniConfiguration.onboardingPageIndicatorColor` using `GiniColor` with dark mode and light mode colors
