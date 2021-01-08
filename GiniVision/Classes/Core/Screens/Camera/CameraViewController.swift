@@ -381,7 +381,10 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
             showImportFileSheet()
         case .capture:
             trackingDelegate?.onCameraScreenEvent(event: Event(type: .takePicture))
-            cameraPreviewViewController.captureImage(completion: cameraDidCapture)
+            cameraPreviewViewController.captureImage { [weak self] data, error in
+                guard let self = self else { return }
+                self.cameraDidCapture(imageData: data, error: error)
+            }
         case .imagesStack:
             delegate?.cameraDidTapMultipageReviewButton(self)
         }
