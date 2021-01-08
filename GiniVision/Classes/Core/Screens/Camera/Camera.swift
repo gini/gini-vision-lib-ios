@@ -224,11 +224,13 @@ fileprivate extension Camera {
     
     func setupInput() {
         // Specify that we are capturing a photo, this will reset the format to be 4:3
-        self.session.sessionPreset = .photo
-        if self.session.canAddInput(self.videoDeviceInput!) {
-            self.session.addInput(self.videoDeviceInput!)
-        } else {
-            Log(message: "Could not add video device input to the session", event: .error)
+        session.sessionPreset = .photo
+        if let input = videoDeviceInput {
+            if session.canAddInput(input) {
+                session.addInput(input)
+            } else {
+                Log(message: "Could not add video device input to the session", event: .error)
+            }
         }
     }
     
@@ -253,19 +255,17 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         if metadataObjects.isEmpty {
             return
         }
-        
+
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-            metadataObj.type == AVMetadataObject.ObjectType.qr {
-            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue!)
+           metadataObj.type == AVMetadataObject.ObjectType.qr, let metaString = metadataObj.stringValue {
+            let qrDocument = GiniQRCodeDocument(scannedString: metaString)
             do {
                 try GiniVisionDocumentValidator.validate(qrDocument, withConfig: giniConfiguration)
                 DispatchQueue.main.async { [weak self] in
                     self?.didDetectQR?(qrDocument)
                 }
             } catch {
-                
             }
-            
         }
     }
 }
