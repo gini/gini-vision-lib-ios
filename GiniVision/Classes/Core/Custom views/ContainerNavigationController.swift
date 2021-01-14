@@ -37,7 +37,6 @@ final class ContainerNavigationController: UIViewController {
         self.rootViewController = rootViewController
         self.coordinator = parent
         self.giniConfiguration = giniConfiguration
-        setStatusBarStyle(to: giniConfiguration.statusBarStyle)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,6 +46,7 @@ final class ContainerNavigationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNeedsStatusBarAppearanceUpdate()
         view.backgroundColor = .white
         addChild(rootViewController)
         view.addSubview(rootViewController.view)

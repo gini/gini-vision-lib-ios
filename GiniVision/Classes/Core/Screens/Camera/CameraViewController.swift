@@ -120,6 +120,10 @@ import AVFoundation
         }
     }
     
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
+        return giniConfiguration.statusBarStyle
+    }
+    
     public override func loadView() {
         super.loadView()
         edgesForExtendedLayout = []
@@ -139,7 +143,7 @@ import AVFoundation
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setNeedsStatusBarAppearanceUpdate()
         if giniConfiguration.fileImportSupportedTypes != .none {
             cameraButtonsViewController.addFileImportButton()
             if ToolTipView.shouldShowFileImportToolTip {
@@ -149,11 +153,6 @@ import AVFoundation
                 }
             }
         }
-    }
-
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setStatusBarStyle(to: giniConfiguration.statusBarStyle)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
