@@ -129,6 +129,11 @@ final class Camera: NSObject, CameraProtocol {
     }
     
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
+        
+        // Reuse settings for multiple captures
+        
+        let capturePhotoSettings = AVCapturePhotoSettings.init(from: self.captureSettings)
+        
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.photoOutput?.connection(with: .video) else {
@@ -143,7 +148,7 @@ final class Camera: NSObject, CameraProtocol {
 
             // Trigger photo capturing
             self.didCaptureImageHandler = completion
-            self.photoOutput?.capturePhoto(with: self.captureSettings, delegate: self)
+            self.photoOutput?.capturePhoto(with: capturePhotoSettings, delegate: self)
         }
     }
     
