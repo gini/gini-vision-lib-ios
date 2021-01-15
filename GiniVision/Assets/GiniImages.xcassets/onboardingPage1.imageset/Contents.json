@@ -1,12 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "mobile_onboarding_screen_1_illustration.pdf",
-      "idiom" : "iphone"
-    },
-    {
-      "filename" : "ipad_onboarding_screen_1_illustration.pdf",
-      "idiom" : "ipad"
+      "filename" : "mobile_onboarding_screen_3_illustration.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {

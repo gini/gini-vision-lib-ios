@@ -52,9 +52,9 @@
 "ginivision.camera.popupTitleImportPDForPhotos" = "Fotos oder PDF importieren";
 "ginivision.camera.popupCancel" = "Abbrechen";
 
-"ginivision.onboarding.firstPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
+"ginivision.onboarding.firstPage"  = "Gerät parallel über die Seite halten";
 "ginivision.onboarding.secondPage" = "Seite glatt streichen";
-"ginivision.onboarding.thirdPage"  = "Gerät parallel über die Seite halten";
+"ginivision.onboarding.thirdPage"  = "Seite vollständig in den angezeigten Rahmen einpassen";
 "ginivision.onboarding.fourthPage" = "Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten";
 "ginivision.onboarding.fifthPage"  = "Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren";
 
