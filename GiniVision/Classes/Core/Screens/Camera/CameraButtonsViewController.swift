@@ -184,12 +184,18 @@ final class CameraButtonsViewController: UIViewController {
         
         addImportButtonConstraints()
     }
+    
+    func enableCaptureButton(enable:Bool) {
+        captureButton.isUserInteractionEnabled = enable
+        captureButton.isEnabled = enable
+    }
 }
 
 // MARK: - Button actions
 
 fileprivate extension CameraButtonsViewController {
     @objc func captureImage(_ sender: AnyObject) {
+        enableCaptureButton(enable: false)
         delegate?.cameraButtons(self, didTapOn: .capture)
     }
     

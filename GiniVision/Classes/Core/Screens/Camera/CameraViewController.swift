@@ -353,7 +353,7 @@ extension CameraViewController {
 extension CameraViewController: CameraPreviewViewControllerDelegate {
     
     func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
-        
+        cameraButtonsViewController.enableCaptureButton(enable: true)
         cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
     }
     
@@ -383,6 +383,7 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
             cameraPreviewViewController.captureImage { [weak self] data, error in
                 guard let self = self else { return }
                 self.cameraDidCapture(imageData: data, error: error)
+                viewController.enableCaptureButton(enable: true)
             }
         case .imagesStack:
             delegate?.cameraDidTapMultipageReviewButton(self)
