@@ -27,9 +27,6 @@ final class ContainerNavigationController: UIViewController {
         return UIDevice.current.isIpad ? .all : .portrait
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return giniConfiguration.statusBarStyle
-    }
     
     init(rootViewController: UINavigationController,
          parent: Coordinator? = nil,
@@ -48,7 +45,6 @@ final class ContainerNavigationController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setNeedsStatusBarAppearanceUpdate()
         view.backgroundColor = .white
         addChild(rootViewController)
         view.addSubview(rootViewController.view)
