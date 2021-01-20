@@ -55,8 +55,6 @@
 		860380DD8156A016B3545CE1 /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3665DCA4CF5C8C985DF6A0 /* Pods_GiniVision_UITests.framework */; };
 		B5828EF3097D72A62D521685 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9015A1B4FC8759C4481E4376 /* Pods_Example_ObjC.framework */; };
 		BD69227B7A8BE8A91E0735E8 /* Pods_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */; };
-		F40B4065252C9CC700D04B6F /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = F40B4064252C9CC700D04B6F /* Credentials.plist */; };
-		F40B4066252C9CC700D04B6F /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = F40B4064252C9CC700D04B6F /* Credentials.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -559,7 +557,6 @@
 				1F93350D20A334F2004BC50C /* LaunchScreen.storyboard in Resources */,
 				1F93352F20A33617004BC50C /* Localizable.strings in Resources */,
 				1FF3A42220C6D20900081A32 /* Credentials.plist in Resources */,
-				F40B4066252C9CC700D04B6F /* Credentials.plist in Resources */,
 				1F93350A20A334F2004BC50C /* Assets.xcassets in Resources */,
 				1F93350820A334F2004BC50C /* Main.storyboard in Resources */,
 			);
@@ -570,7 +567,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */,
-				F40B4065252C9CC700D04B6F /* Credentials.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
