@@ -52,9 +52,9 @@
 "ginivision.camera.popupTitleImportPDForPhotos" = "Import Photos or PDF files";
 "ginivision.camera.popupCancel" = "Cancel";
 
-"ginivision.onboarding.firstPage"  = "Capture the entire page within the frame shown on the camera screen";
+"ginivision.onboarding.firstPage"  = "Hold device parallel over the page";
 "ginivision.onboarding.secondPage" = "Flatten the page";
-"ginivision.onboarding.thirdPage"  = "Hold device parallel over the page";
+"ginivision.onboarding.thirdPage"  = "Capture the entire page within the frame shown on the camera screen";
 "ginivision.onboarding.fourthPage" = "Ensure good lighting when photographing the invoice or remittance slip";
 "ginivision.onboarding.fifthPage"  = "It's now possible to analyse an invoice with multiple pages!";
 

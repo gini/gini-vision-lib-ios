@@ -129,6 +129,11 @@ final class Camera: NSObject, CameraProtocol {
     }
     
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
+        
+        // Reuse safely settings for multiple captures. Use init(from:) initializer if you want to use previous captureSettings.
+        
+        let capturePhotoSettings = AVCapturePhotoSettings.init(from: self.captureSettings)
+        
         sessionQueue.async {
             // Connection will be `nil` when there is no valid input device; for example on iOS simulator
             guard let connection = self.photoOutput?.connection(with: .video) else {
@@ -143,26 +148,25 @@ final class Camera: NSObject, CameraProtocol {
 
             // Trigger photo capturing
             self.didCaptureImageHandler = completion
-            self.photoOutput?.capturePhoto(with: self.captureSettings, delegate: self)
+            self.photoOutput?.capturePhoto(with: capturePhotoSettings, delegate: self)
         }
     }
     
     func setupQRScanningOutput() {
-        self.session.beginConfiguration()
+        session.beginConfiguration()
         let qrOutput = AVCaptureMetadataOutput()
-        
-        if self.session.canAddOutput(qrOutput) {
-            self.session.addOutput(qrOutput)
-            qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
-            
-            if qrOutput.availableMetadataObjectTypes.contains(.qr) {
-                qrOutput.metadataObjectTypes = [.qr]
+
+        if !session.canAddOutput(qrOutput) {
+            for previousQrOutput in session.outputs {
+                session.removeOutput(previousQrOutput)
             }
-        } else {
-            Log(message: "Could not add metadata output to the session", event: .error)
         }
-        
-        self.session.commitConfiguration()
+        session.addOutput(qrOutput)
+        qrOutput.setMetadataObjectsDelegate(self, queue: sessionQueue)
+        if qrOutput.availableMetadataObjectTypes.contains(.qr) {
+            qrOutput.metadataObjectTypes = [.qr]
+        }
+        session.commitConfiguration()
     }
 }
 
@@ -224,23 +228,27 @@ fileprivate extension Camera {
     
     func setupInput() {
         // Specify that we are capturing a photo, this will reset the format to be 4:3
-        self.session.sessionPreset = .photo
-        if self.session.canAddInput(self.videoDeviceInput!) {
-            self.session.addInput(self.videoDeviceInput!)
-        } else {
-            Log(message: "Could not add video device input to the session", event: .error)
+        session.sessionPreset = .photo
+        if let input = videoDeviceInput {
+            if !session.canAddInput(input) {
+                for previousInput in session.inputs {
+                    session.removeInput(previousInput)
+                }
+            }
+            session.addInput(input)
         }
     }
     
     func setupPhotoCaptureOutput() {
         let output = AVCapturePhotoOutput()
-        
-        if self.session.canAddOutput(output) {
-            self.session.addOutput(output)
-            self.photoOutput = output
-        } else {
-            Log(message: "Could not add still image output to the session", event: .error)
+
+        if !session.canAddOutput(output) {
+            for previousOutput in session.outputs {
+                session.removeOutput(previousOutput)
+            }
         }
+        session.addOutput(output)
+        photoOutput = output
     }
 }
 
@@ -253,19 +261,17 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
         if metadataObjects.isEmpty {
             return
         }
-        
+
         if let metadataObj = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-            metadataObj.type == AVMetadataObject.ObjectType.qr {
-            let qrDocument = GiniQRCodeDocument(scannedString: metadataObj.stringValue!)
+           metadataObj.type == AVMetadataObject.ObjectType.qr, let metaString = metadataObj.stringValue {
+            let qrDocument = GiniQRCodeDocument(scannedString: metaString)
             do {
                 try GiniVisionDocumentValidator.validate(qrDocument, withConfig: giniConfiguration)
                 DispatchQueue.main.async { [weak self] in
                     self?.didDetectQR?(qrDocument)
                 }
             } catch {
-                
             }
-            
         }
     }
 }

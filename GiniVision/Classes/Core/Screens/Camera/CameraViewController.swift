@@ -120,6 +120,7 @@ import AVFoundation
         }
     }
     
+    
     public override func loadView() {
         super.loadView()
         edgesForExtendedLayout = []
@@ -139,7 +140,6 @@ import AVFoundation
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
         if giniConfiguration.fileImportSupportedTypes != .none {
             cameraButtonsViewController.addFileImportButton()
             if ToolTipView.shouldShowFileImportToolTip {
@@ -150,7 +150,6 @@ import AVFoundation
             }
         }
     }
-
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
@@ -354,7 +353,7 @@ extension CameraViewController {
 extension CameraViewController: CameraPreviewViewControllerDelegate {
     
     func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
-        
+        cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
         cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
     }
     
@@ -381,7 +380,11 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
             showImportFileSheet()
         case .capture:
             trackingDelegate?.onCameraScreenEvent(event: Event(type: .takePicture))
-            cameraPreviewViewController.captureImage(completion: cameraDidCapture)
+            cameraPreviewViewController.captureImage { [weak self] data, error in
+                guard let self = self else { return }
+                self.cameraDidCapture(imageData: data, error: error)
+                viewController.toggleCaptureButtonActivation(state: true)
+            }
         case .imagesStack:
             delegate?.cameraDidTapMultipageReviewButton(self)
         }
