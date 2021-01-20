@@ -130,7 +130,7 @@ final class Camera: NSObject, CameraProtocol {
     
     func captureStillImage(completion: @escaping (Data?, CameraError?) -> Void) {
         
-        // Reuse settings for multiple captures
+        // Reuse safely settings for multiple captures. Use init(from:) initializer if you want to use previous captureSettings.
         
         let capturePhotoSettings = AVCapturePhotoSettings.init(from: self.captureSettings)
         
