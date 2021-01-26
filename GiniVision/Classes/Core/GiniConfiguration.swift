@@ -910,7 +910,7 @@ import UIKit
     /**
      Sets the color on the digital invoice onboarding screen for text labels
      */
-    @objc public var digitalInvoiceOnboardingTextColor = GiniColor(lightModeColor: UIColor.from(hex: 0x20BAA7), darkModeColor: UIColor.from(hex: 0x20BAA7))
+    @objc public var digitalInvoiceOnboardingTextColor = GiniColor(lightModeColor: Colors.Gini.blue, darkModeColor: Colors.Gini.blue)
     
     /**
      Sets the font of the text labels on the digital invoice onboarding screen
@@ -920,7 +920,7 @@ import UIKit
     /**
      Sets the backgroundColor  on the digital invoice onboarding screen for done button
      */
-    @objc public var digitalInvoiceOnboardingDoneButtonBackgroundColor = GiniColor(lightModeColor: UIColor.from(hex: 0x1AE2AE), darkModeColor: UIColor.from(hex: 0x1AE2AE))
+    @objc public var digitalInvoiceOnboardingDoneButtonBackgroundColor = GiniColor(lightModeColor: Colors.Gini.blue, darkModeColor: Colors.Gini.blue)
     
     /**
      Sets the font of the done button on the digital invoice onboarding screen

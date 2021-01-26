@@ -168,6 +168,6 @@
 "ginivision.digitalinvoice.addonname.otherdiscounts" = "Weitere Abzüge";
 "ginivision.digitalinvoice.addonname.othercharges" = "Weitere Kosten";
 "ginivision.digitalinvoice.addonname.shipment" = "Versandkosten";
-"ginivision.digitalinvoice.onboarding.text1" = "Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel die du behaltest, den Rest kannst du zurückschicken.";
-"ginivision.digitalinvoice.onboarding.text2" = "Hier kannst du die Anzahl identischer Artikel bearbeiten.";
-"ginivision.digitalinvoice.onboarding.donebutton" = "I hab\'s!";
+"ginivision.digitalinvoice.onboarding.text1" = "Wähle ab, welche Artikel du nicht bezahlen und zurückschicken möchtest.";
+"ginivision.digitalinvoice.onboarding.text2" = "Hier kannst du die Anzahl der einzelnen Artikel bearbeiten.";
+"ginivision.digitalinvoice.onboarding.donebutton" = "Ich hab\'s!";
