@@ -135,9 +135,9 @@
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3";
 
 "ginivision.digitalinvoice.screentitle" = "Digitale Rechnung";
-"ginivision.digitalinvoice.paybuttontitle.noinvoice" = "Bezahle";
-"ginivision.digitalinvoice.paybuttontitle" = "Bezahle %d/%d";
-"ginivision.digitalinvoice.paybuttontitle.accessibilitylabel" = "Bezahle %d von %d";
+"ginivision.digitalinvoice.paybuttontitle.noinvoice" = "Bezahlen";
+"ginivision.digitalinvoice.paybuttontitle" = "Bezahlen %d/%d";
+"ginivision.digitalinvoice.paybuttontitle.accessibilitylabel" = "Bezahlen %d von %d";
 "ginivision.digitalinvoice.items" = "Artikel %d/%d";
 "ginivision.digitalinvoice.items.accessibilitylabel" = "%d von %d Artikel";
 "ginivision.digitalinvoice.whatisthisbutton" = "Was ist das?";
