@@ -31,6 +31,11 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
     
     private func setup() {
         
+        let topSpacerView = UIView()
+        topSpacerView.translatesAutoresizingMaskIntoConstraints = false
+        topSpacerView.heightAnchor.constraint(equalToConstant: 8).isActive = true
+        topSpacerView.backgroundColor = .clear
+        
         selectionStyle = .none
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -90,7 +95,8 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         spacerView1.heightAnchor.constraint(equalToConstant: 15).isActive = true
         spacerView1.backgroundColor = .clear
         
-        let stackView = UIStackView(arrangedSubviews: [messageLabel,
+        let stackView = UIStackView(arrangedSubviews: [topSpacerView,
+                                                       messageLabel,
                                                        messageSpacerView,
                                                        secondaryMessageLabel,
                                                        spacerView,
