@@ -135,14 +135,14 @@
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3";
 
 "ginivision.digitalinvoice.screentitle" = "Digitale Rechnung";
-"ginivision.digitalinvoice.paybuttontitle.noinvoice" = "Bezahle";
-"ginivision.digitalinvoice.paybuttontitle" = "Bezahle %d/%d";
-"ginivision.digitalinvoice.paybuttontitle.accessibilitylabel" = "Bezahle %d von %d";
+"ginivision.digitalinvoice.paybuttontitle.noinvoice" = "Bezahlen";
+"ginivision.digitalinvoice.paybuttontitle" = "Bezahlen %d/%d";
+"ginivision.digitalinvoice.paybuttontitle.accessibilitylabel" = "Bezahlen %d von %d";
 "ginivision.digitalinvoice.items" = "Artikel %d/%d";
 "ginivision.digitalinvoice.items.accessibilitylabel" = "%d von %d Artikel";
 "ginivision.digitalinvoice.whatisthisbutton" = "Was ist das?";
 "ginivision.digitalinvoice.whatisthisactionsheet.title" = "Was ist das?";
-"ginivision.digitalinvoice.whatisthisactionsheet.message" = "Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken willst oder deine Rechnung nur zum Teil bezahlen willst, kannst du Artikel abwählen und der zu bezahlende Betrag wird neu berechnet.";
+"ginivision.digitalinvoice.whatisthisactionsheet.message" = "Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken oder du deine Rechnung nur teilweise bezahlen möchtest, kannst du einzelne Artikel abwählen und der zu bezahlende Betrag wird automatisch neu berechnet.";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.helpful" = "Ja, das ist hilfreich";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.nothelpful" = "Nein, nicht mehr angezeigen";
 "ginivision.digitalinvoice.whatisthisactionsheet.action.cancel" = "Cancel";

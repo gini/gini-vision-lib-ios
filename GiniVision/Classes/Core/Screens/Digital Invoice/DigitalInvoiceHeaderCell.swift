@@ -31,6 +31,11 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
     
     private func setup() {
         
+        let topSpacerView = UIView()
+        topSpacerView.translatesAutoresizingMaskIntoConstraints = false
+        topSpacerView.heightAnchor.constraint(equalToConstant: 8).isActive = true
+        topSpacerView.backgroundColor = .clear
+        
         selectionStyle = .none
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -49,7 +54,10 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         messageLabel.numberOfLines = 0
         messageLabel.font = giniConfiguration?.customFont.regular ?? GiniConfiguration.shared.customFont.regular
         messageLabel.textAlignment = .center
-        
+        let messageSpacerView = UIView()
+        messageSpacerView.translatesAutoresizingMaskIntoConstraints = false
+        messageSpacerView.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        messageSpacerView.backgroundColor = .clear
         let secondaryMessageAttributedString =
             NSMutableAttributedString(string: .localized(resource: DigitalInvoiceStrings.headerMessageSecondary))
 
@@ -87,7 +95,9 @@ class DigitalInvoiceHeaderCell: UITableViewCell {
         spacerView1.heightAnchor.constraint(equalToConstant: 15).isActive = true
         spacerView1.backgroundColor = .clear
         
-        let stackView = UIStackView(arrangedSubviews: [messageLabel,
+        let stackView = UIStackView(arrangedSubviews: [topSpacerView,
+                                                       messageLabel,
+                                                       messageSpacerView,
                                                        secondaryMessageLabel,
                                                        spacerView,
                                                        imageView,

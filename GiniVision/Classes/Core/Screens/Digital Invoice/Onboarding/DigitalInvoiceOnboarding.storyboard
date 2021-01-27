@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,55 +18,95 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can now deselect items you do not want. You only pay for what you keep, so you can return the rest. " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wrk-c0-ekq">
-                                <rect key="frame" x="64" y="291" width="286" height="61"/>
+                                <rect key="frame" x="50" y="255" width="314" height="61"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_new_badge" translatesAutoresizingMaskIntoConstraints="NO" id="HXT-51-vM2">
-                                <rect key="frame" x="168.5" y="234" width="77" height="42"/>
+                                <rect key="frame" x="168.5" y="205" width="77" height="42"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_icon" translatesAutoresizingMaskIntoConstraints="NO" id="vN8-eg-TBS">
-                                <rect key="frame" x="133" y="81" width="148" height="138"/>
+                                <rect key="frame" x="133" y="52" width="148" height="138"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="vN8-eg-TBS" secondAttribute="height" multiplier="74:69" id="k0B-CA-hbQ"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="k0B-CA-hbQ"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="k0B-CA-hbQ"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ydb-dv-dAn">
-                                <rect key="frame" x="30" y="797" width="354" height="48"/>
+                                <rect key="frame" x="30" y="801" width="354" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="C36-9G-Njd"/>
+                                    <constraint firstAttribute="height" constant="48" id="C36-9G-Njd">
+                                        <variation key="heightClass=regular-widthClass=compact" constant="44"/>
+                                    </constraint>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can edit the quantity of multiple identical items here." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIr-RW-5dR">
-                                <rect key="frame" x="64" y="523" width="286" height="41"/>
+                                <rect key="frame" x="50" y="487" width="314" height="41"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="digital_invoice_onboarding_item_help" translatesAutoresizingMaskIntoConstraints="NO" id="prS-Od-Uvj">
-                                <rect key="frame" x="66" y="352" width="282" height="171"/>
+                                <rect key="frame" x="66" y="316" width="282" height="171"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="prS-Od-Uvj" secondAttribute="height" multiplier="94:57" id="dIs-MS-gVW"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dIs-MS-gVW"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="dIs-MS-gVW"/>
+                                    </mask>
+                                </variation>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="3IY-Df-aw6"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vN8-eg-TBS" firstAttribute="top" secondItem="3IY-Df-aw6" secondAttribute="top" constant="37" id="2BO-al-nUB"/>
+                            <constraint firstItem="vN8-eg-TBS" firstAttribute="top" secondItem="3IY-Df-aw6" secondAttribute="top" constant="37" id="2BO-al-nUB">
+                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                            </constraint>
                             <constraint firstItem="prS-Od-Uvj" firstAttribute="top" secondItem="Wrk-c0-ekq" secondAttribute="bottom" id="3Sp-eJ-cvK"/>
-                            <constraint firstItem="TIr-RW-5dR" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="4S2-4x-tpm"/>
+                            <constraint firstItem="TIr-RW-5dR" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="4S2-4x-tpm">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                             <constraint firstItem="HXT-51-vM2" firstAttribute="top" secondItem="vN8-eg-TBS" secondAttribute="bottom" constant="15" id="4Xh-zg-r7M"/>
                             <constraint firstItem="3IY-Df-aw6" firstAttribute="bottom" secondItem="Ydb-dv-dAn" secondAttribute="bottom" constant="17" id="6L4-QT-yCX"/>
-                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="6hH-y9-GqY"/>
+                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="leading" secondItem="sZ4-c8-lTq" secondAttribute="leadingMargin" constant="44" id="6hH-y9-GqY">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                             <constraint firstItem="Ydb-dv-dAn" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="Ign-56-OU3"/>
-                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="top" secondItem="HXT-51-vM2" secondAttribute="bottom" constant="15" id="ML2-vX-YhH"/>
+                            <constraint firstItem="Wrk-c0-ekq" firstAttribute="top" secondItem="HXT-51-vM2" secondAttribute="bottom" constant="15" id="ML2-vX-YhH">
+                                <variation key="heightClass=regular-widthClass=compact" constant="8"/>
+                            </constraint>
                             <constraint firstItem="Wrk-c0-ekq" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="QPc-Nw-H4h"/>
                             <constraint firstItem="TIr-RW-5dR" firstAttribute="top" secondItem="prS-Od-Uvj" secondAttribute="bottom" id="RYU-ZW-SK1"/>
                             <constraint firstItem="prS-Od-Uvj" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="cOK-iM-mlW"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Wrk-c0-ekq" secondAttribute="trailing" constant="44" id="cVL-RA-dG2"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wrk-c0-ekq" secondAttribute="trailing" constant="44" id="cVL-RA-dG2">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                             <constraint firstItem="vN8-eg-TBS" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="dFA-mF-LHb"/>
                             <constraint firstItem="Wrk-c0-ekq" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="fba-oM-aPd"/>
                             <constraint firstItem="HXT-51-vM2" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="fnA-VH-C3e"/>
                             <constraint firstItem="3IY-Df-aw6" firstAttribute="trailing" secondItem="Ydb-dv-dAn" secondAttribute="trailing" constant="30" id="hRx-Zx-wo0"/>
                             <constraint firstItem="TIr-RW-5dR" firstAttribute="centerX" secondItem="sZ4-c8-lTq" secondAttribute="centerX" id="j0h-h4-TWY"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="TIr-RW-5dR" secondAttribute="trailing" constant="44" id="keT-AM-pU9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="TIr-RW-5dR" secondAttribute="trailing" constant="44" id="keT-AM-pU9">
+                                <variation key="heightClass=regular-widthClass=compact" constant="30"/>
+                            </constraint>
                             <constraint firstItem="Ydb-dv-dAn" firstAttribute="leading" secondItem="3IY-Df-aw6" secondAttribute="leading" constant="30" id="tiV-Ha-6fw"/>
                         </constraints>
                     </view>
