@@ -20,7 +20,7 @@ pipeline {
         failure {
 
           /* try to repo update just in case an outdated repo is the cause for the failed build so it's ready for the next */ 
-          lock('refs/remotes/origin/master') {
+          lock('refs/remotes/origin/return-assistant') {
             sh '/usr/local/bin/pod repo update'
           }
         }
@@ -43,7 +43,7 @@ pipeline {
     }
     stage('Documentation') {
       when {
-        anyOf { branch 'master'; branch 'hotfix' }
+        anyOf { branch 'master'; branch 'hotfix'; branch 'return-assistant' }
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
@@ -64,7 +64,7 @@ pipeline {
     }
     stage('Release Pod') {
       when {
-        anyOf { branch 'master'; branch 'hotfix' }
+        anyOf { branch 'master'; branch 'hotfix' ; branch 'return-assistant'}
         expression {
             def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
             return !tag.isEmpty()
