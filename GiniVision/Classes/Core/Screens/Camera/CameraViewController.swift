@@ -153,6 +153,8 @@ import AVFoundation
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
+        cameraButtonsViewController.captureButton.isEnabled = true
+        cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -276,6 +278,8 @@ extension CameraViewController {
                 completion?()
             })
         })
+        cameraButtonsViewController.captureButton.isEnabled = true
+        cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
     }
     
     /**
@@ -458,6 +462,7 @@ extension CameraViewController {
             guard let self = self else { return }
             self.opaqueView?.removeFromSuperview()
             self.cameraButtonsViewController.captureButton.isEnabled = true
+            self.cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
         }
     }
 }
