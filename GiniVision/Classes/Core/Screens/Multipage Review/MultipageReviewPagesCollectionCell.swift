@@ -237,6 +237,7 @@ final class MultipageReviewPagesCollectionCell: UICollectionViewCell {
         layer.shadowOpacity = 0.3
         layer.shadowOffset = CGSize(width: 0,
                                     height: MultipageReviewPagesCollectionCell.shadowHeight)
+        layer.shadowPath = UIBezierPath(rect: layer.bounds).cgPath
     }
     
     class func size(in collection: UICollectionView) -> CGSize {

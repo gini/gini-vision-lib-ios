@@ -22,6 +22,7 @@ final class AlbumsPickerTableViewCell: UITableViewCell {
         imageView.layer.shadowRadius = 1
         imageView.layer.shadowOpacity = 0.5
         imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
+        imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
         
         return imageView
     }()

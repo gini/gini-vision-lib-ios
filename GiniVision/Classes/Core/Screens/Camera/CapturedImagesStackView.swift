@@ -33,6 +33,7 @@ final class CapturedImagesStackView: UIView {
         button.layer.shadowRadius = 1
         button.layer.shadowOpacity = 0.5
         button.layer.shadowOffset = CGSize(width: -2, height: 2)
+        button.layer.shadowPath = UIBezierPath(rect: button.bounds).cgPath
         button.addTarget(self, action: #selector(thumbnailButtonAction), for: .touchUpInside)
         
         return button
@@ -62,6 +63,7 @@ final class CapturedImagesStackView: UIView {
         view.layer.shadowRadius = 1
         view.layer.shadowOpacity = 0.3
         view.layer.shadowOffset = CGSize(width: -1, height: 1)
+        view.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
         return view
     }()
     

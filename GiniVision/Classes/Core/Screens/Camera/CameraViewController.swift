@@ -347,6 +347,7 @@ extension CameraViewController {
         imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
         imageView.layer.shadowRadius = 4
         imageView.layer.shadowOpacity = 0.3
+        imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
         
         return imageView
     }
