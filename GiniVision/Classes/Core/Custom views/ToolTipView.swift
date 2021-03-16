@@ -134,6 +134,7 @@ final class ToolTipView: UIView {
         self.layer.shadowRadius = 0.8
         self.layer.shadowOpacity = 0.2
         self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
     }
     
     // MARK: Actions

@@ -77,6 +77,7 @@ final class OpenWithTutorialCollectionCell: UICollectionViewCell {
         
         imageView.layer.shadowOpacity = 0.1
         imageView.layer.shadowRadius = 14
+        imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
         return imageView
     }()
     
