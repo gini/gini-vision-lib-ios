@@ -14,7 +14,7 @@ import Foundation
  
  - note: Component API only.
  */
-public protocol MultipageReviewViewControllerDelegate: class {
+public protocol MultipageReviewViewControllerDelegate: AnyObject {
     /**
      Called when a user reorder the pages collection
      

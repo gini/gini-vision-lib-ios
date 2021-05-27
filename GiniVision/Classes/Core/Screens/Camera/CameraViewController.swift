@@ -15,7 +15,7 @@ import AVFoundation
  
  - note: Component API only.
  */
-@objc public protocol CameraViewControllerDelegate: class {
+@objc public protocol CameraViewControllerDelegate: AnyObject {
     /**
      Called when a user takes a picture, imports a PDF/QRCode or imports one or several images.
      Once the method has been implemented, it is necessary to check if the number of

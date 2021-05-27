@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-protocol CameraProtocol: class {
+protocol CameraProtocol: AnyObject {
     var session: AVCaptureSession { get }
     var videoDeviceInput: AVCaptureDeviceInput? { get }
     var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol MultipageReviewCollectionCellPresenterDelegate: class {
+protocol MultipageReviewCollectionCellPresenterDelegate: AnyObject {
     func multipage(_ reviewCollectionCellPresenter: MultipageReviewCollectionCellPresenter,
                    didUpdate cell: MultipageReviewCollectionCellPresenter.MultipageCollectionCellType,
                    at indexPath: IndexPath)

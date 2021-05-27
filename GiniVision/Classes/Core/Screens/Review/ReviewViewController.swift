@@ -13,7 +13,7 @@ import UIKit
  
  - note: Component API only.
  */
-@objc public protocol ReviewViewControllerDelegate: class {
+@objc public protocol ReviewViewControllerDelegate: AnyObject {
     func review(_ viewController: ReviewViewController, didReview document: GiniVisionDocument)
 }
 
