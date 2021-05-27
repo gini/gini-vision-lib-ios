@@ -8,7 +8,7 @@
 import Foundation
 import Photos
 
-protocol GalleryCoordinatorDelegate: class {
+protocol GalleryCoordinatorDelegate: AnyObject {
     func gallery(_ coordinator: GalleryCoordinator,
                  didSelectImageDocuments imageDocuments: [GiniImageDocument])
     func gallery(_ coordinator: GalleryCoordinator, didCancel: Void)

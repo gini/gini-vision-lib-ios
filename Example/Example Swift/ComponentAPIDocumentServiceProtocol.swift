@@ -22,7 +22,7 @@ enum CustomAnalysisError: GiniVisionError {
 typealias ComponentAPIUploadDocumentCompletion = (Result<Document, GiniError>) -> Void
 typealias ComponentAPIAnalysisCompletion = (Result<[Extraction], GiniError>) -> Void
 
-protocol ComponentAPIDocumentServiceProtocol: class {
+protocol ComponentAPIDocumentServiceProtocol: AnyObject {
     
     var document: Document? { get set }
     var analysisCancellationToken: CancellationToken? { get set }

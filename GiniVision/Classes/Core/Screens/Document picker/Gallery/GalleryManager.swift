@@ -8,7 +8,7 @@
 import Foundation
 import Photos
 
-protocol GalleryManagerProtocol: class {
+protocol GalleryManagerProtocol: AnyObject {
     var albums: [Album] { get }
     func fetchImage(from asset: Asset,
                     imageQuality: ImageQuality,

@@ -8,7 +8,7 @@
 import Foundation
 import Photos
 
-protocol ImagePickerViewControllerDelegate: class {
+protocol ImagePickerViewControllerDelegate: AnyObject {
     func imagePicker(_ viewController: ImagePickerViewController,
                      didSelectAsset asset: Asset,
                      at index: IndexPath)
