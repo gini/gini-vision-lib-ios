@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-protocol CameraPreviewViewControllerDelegate: class {
+protocol CameraPreviewViewControllerDelegate: AnyObject {
     func cameraPreview(_ viewController: CameraPreviewViewController,
                        didDetect qrCodeDocument: GiniQRCodeDocument)
     func cameraDidSetUp(_ viewController: CameraPreviewViewController,
