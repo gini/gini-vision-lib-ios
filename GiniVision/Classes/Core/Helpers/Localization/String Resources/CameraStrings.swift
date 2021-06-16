@@ -15,7 +15,7 @@ enum CameraStrings: LocalizableStringResource {
     mixedArraysPopupCancelButton, mixedArraysPopupUsePhotosButton, mixedDocumentsErrorMessage, notAuthorizedButton,
     notAuthorizedMessage, photoLibraryAccessDeniedMessage, qrCodeDetectedPopupMessage, qrCodeDetectedPopupButton,
     tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage, popupTitleImportPDF, popupOptionPhotos,
-    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel
+    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel, unsupportedQrCodeDetectedPopupMessage
     
     var tableName: String {
         return "camera"
@@ -86,6 +86,8 @@ enum CameraStrings: LocalizableStringResource {
             return ("popupOptionPhotos", "File picker popup photos option")
         case .popupCancel:
             return ("popupCancel", "File picker popup cancel option")
+        case .unsupportedQrCodeDetectedPopupMessage:
+            return ("unsupportedQrCodeDetectedPopup.message", "Popup message")
         }
     }
     
@@ -96,7 +98,7 @@ enum CameraStrings: LocalizableStringResource {
              .exceededFileSizeErrorMessage, .documentValidationGeneralErrorMessage,
              .mixedArraysPopupCancelButton, .mixedArraysPopupUsePhotosButton, .mixedDocumentsErrorMessage,
              .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
-             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage:
+             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage:
             return true
         case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel, .popupTitleImportPDF,
              .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:
