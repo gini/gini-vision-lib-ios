@@ -329,10 +329,10 @@ extension CameraViewController {
     
     fileprivate func configurePopupViewForUnsupportedQR(_ newQRCodePopup: QRCodeDetectedPopupView,
                                                         dismissCompletion: @escaping () -> Void) {
-        newQRCodePopup.qrText.textColor = .red
+        newQRCodePopup.qrText.textColor = giniConfiguration.unsupportedQrCodePopupColor
         newQRCodePopup.qrText.text = .localized(resource: CameraStrings.unsupportedQrCodeDetectedPopupMessage)
         newQRCodePopup.proceedButton.setTitle("✕", for: .normal)
-        newQRCodePopup.proceedButton.setTitleColor(.red, for: .normal)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupColor, for: .normal)
         newQRCodePopup.didTapDone = { [weak self] in
             self?.currentQRCodePopup?.hide(after: 0.0, completion: dismissCompletion)
         }
