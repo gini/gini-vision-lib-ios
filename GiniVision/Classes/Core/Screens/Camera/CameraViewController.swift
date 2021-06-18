@@ -300,15 +300,19 @@ extension CameraViewController {
                                                          refView: self.cameraPreviewViewController.view,
                                                          document: qrDocument,
                                                          giniConfiguration: self.giniConfiguration)
-            newQRCodePopup.didTapDone = { [weak self] in
-                didTapDone()
-                self?.detectedQRCodeDocument = nil
-                self?.currentQRCodePopup?.hide()
-            }
             
             let didDismiss: () -> Void = { [weak self] in
                 self?.detectedQRCodeDocument = nil
                 self?.currentQRCodePopup = nil
+            }
+            
+            if qrDocument.qrCodeFormat == nil {
+                self.configurePopupViewForUnsupportedQR(newQRCodePopup, dismissCompletion: didDismiss)
+            } else {
+                newQRCodePopup.didTapDone = { [weak self] in
+                    didTapDone()
+                    self?.currentQRCodePopup?.hide(after: 0.0, completion: didDismiss)
+                }
             }
             
             if self.currentQRCodePopup != nil {
@@ -320,6 +324,19 @@ extension CameraViewController {
                 self.currentQRCodePopup = newQRCodePopup
                 self.currentQRCodePopup?.show(didDismiss: didDismiss)
             }
+        }
+    }
+    
+    fileprivate func configurePopupViewForUnsupportedQR(_ newQRCodePopup: QRCodeDetectedPopupView,
+                                                        dismissCompletion: @escaping () -> Void) {
+        newQRCodePopup.backgroundColor = UIColor.from(giniColor:giniConfiguration.unsupportedQrCodePopupBackgroundColor)
+        newQRCodePopup.qrText.textColor = UIColor.from(giniColor: giniConfiguration.unsupportedQrCodePopupTextColor)
+        newQRCodePopup.qrText.text = .localized(resource: CameraStrings.unsupportedQrCodeDetectedPopupMessage)
+        newQRCodePopup.proceedButton.setTitle("✕", for: .normal)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor, for: .normal)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor.withAlphaComponent(0.5), for: .highlighted)
+        newQRCodePopup.didTapDone = { [weak self] in
+            self?.currentQRCodePopup?.hide(after: 0.0, completion: dismissCompletion)
         }
     }
     
