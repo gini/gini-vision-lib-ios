@@ -334,7 +334,7 @@ extension CameraViewController {
         newQRCodePopup.qrText.text = .localized(resource: CameraStrings.unsupportedQrCodeDetectedPopupMessage)
         newQRCodePopup.proceedButton.setTitle("✕", for: .normal)
         newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor, for: .normal)
-newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor.withAlphaComponent(0.5),                                                   for: .highlighted)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor.withAlphaComponent(0.5), for: .highlighted)
         newQRCodePopup.didTapDone = { [weak self] in
             self?.currentQRCodePopup?.hide(after: 0.0, completion: dismissCompletion)
         }
