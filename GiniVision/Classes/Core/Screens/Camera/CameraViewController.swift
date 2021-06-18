@@ -235,6 +235,27 @@ extension CameraViewController {
         self.toolTipView?.alpha = 0
     }
     
+    /**
+     Show the QR code Tip. Should be called when fileImportTip is dismissed.
+     */
+    public func showQrCodeTip() {
+        if ToolTipView.shouldShowQRCodeToolTip {
+            createQRCodeTip(giniConfiguration: giniConfiguration)
+            self.toolTipView?.show {
+                self.opaqueView?.alpha = 1
+                self.cameraButtonsViewController.captureButton.isEnabled = false
+            }
+            ToolTipView.shouldShowQRCodeToolTip = false
+        }
+    }
+    
+    /**
+     Hide the QR code Tip. Should be called when onboarding is presented.
+     */
+    public func hideQrCodeTip() {
+        self.toolTipView?.alpha = 0
+    }
+    
 }
 
 // MARK: - Image capture
@@ -455,6 +476,22 @@ extension CameraViewController {
                                   referenceView: cameraButtonsViewController
                                     .fileImportButtonView.importFileButton.imageView ?? cameraButtonsViewController
                                         .fileImportButtonView.importFileButton,
+                                  superView: self.view,
+                                  position: UIDevice.current.isIpad ? .left : .above,
+                                  distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        
+        toolTipView?.willDismiss = { [weak self] in
+            guard let self = self else { return }
+            self.showQrCodeTip()
+        }
+    }
+    
+    fileprivate func createQRCodeTip(giniConfiguration: GiniConfiguration) {
+
+        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
+                                  giniConfiguration: giniConfiguration,
+                                  referenceView: cameraButtonsViewController
+                                    .captureButton,
                                   superView: self.view,
                                   position: UIDevice.current.isIpad ? .left : .above,
                                   distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
