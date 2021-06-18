@@ -335,11 +335,20 @@ import UIKit
      Sets the text color of the QR Code popup background
      */
     @objc public var qrCodePopupBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.from(hex: 0x1c1c1e))
+    /**
+     Sets the button color of the unsupported QR Code popup
+     */
+    @objc public var unsupportedQrCodePopupButtonColor : UIColor = .red
     
     /**
-     Sets the color of the unsupported QR Code popup
+     Sets the text color of the unsupported QR Code popup
      */
-    @objc public var unsupportedQrCodePopupColor : UIColor = .red
+    @objc public var unsupportedQrCodePopupTextColor = GiniColor(lightModeColor: .red, darkModeColor: .red)
+    
+    /**
+     Sets the  background color of the unsupported QR Code popup
+     */
+    @objc public var unsupportedQrCodePopupBackgroundColor = GiniColor(lightModeColor: .white, darkModeColor: UIColor.from(hex: 0x1c1c1e))
     
     // MARK: Onboarding screens
 
