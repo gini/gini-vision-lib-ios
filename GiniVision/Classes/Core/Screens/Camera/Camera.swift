@@ -270,8 +270,11 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
                 DispatchQueue.main.async { [weak self] in
                     self?.didDetectQR?(qrDocument)
                 }
-            } catch {
-            }
+            } catch DocumentValidationError.qrCodeFormatNotValid {
+                DispatchQueue.main.async { [weak self] in
+                    self?.didDetectQR?(qrDocument)
+                }
+            } catch {}
         }
     }
 }
