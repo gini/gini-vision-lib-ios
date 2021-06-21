@@ -398,6 +398,8 @@ extension CameraViewController: CameraPreviewViewControllerDelegate {
     func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
         cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
         cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
+        cameraButtonsViewController.view.setNeedsLayout()
+        cameraButtonsViewController.view.layoutIfNeeded()
     }
     
     func cameraPreview(_ viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
