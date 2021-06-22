@@ -99,7 +99,7 @@
 "ginivision.help.supportedFormats.section.1.item.1" = "Computer-generated invoices and remittance slips";
 "ginivision.help.supportedFormats.section.1.item.2" = "1-sided photos of format jpeg, png or gif";
 "ginivision.help.supportedFormats.section.1.item.3" = "PDF documents of up to 10 pages";
-"ginivision.help.supportedFormats.section.1.item.4" = "Supports QR Code Scan";
+"ginivision.help.supportedFormats.section.1.item.4" = "QR Codes";
 "ginivision.help.supportedFormats.section.2.title" = "What is not supported:";
 "ginivision.help.supportedFormats.section.2.item.1" = "Handwriting";
 "ginivision.help.supportedFormats.section.2.item.2" = "Photos of monitors or screens";
