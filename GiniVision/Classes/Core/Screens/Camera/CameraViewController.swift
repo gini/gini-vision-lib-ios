@@ -572,7 +572,7 @@ extension CameraViewController {
     
     fileprivate func createQRCodeTip(giniConfiguration: GiniConfiguration) {
 
-        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
+        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.qrCodeTipLabel),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: cameraButtonsViewController
                                     .captureButton,

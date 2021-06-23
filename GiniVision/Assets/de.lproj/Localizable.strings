@@ -36,6 +36,7 @@
 "ginivision.camera.documentValidationError.wrongFormat" = "Nur Dateien vom Format jpg, tiff, png, gif oder pdf können analysiert werden";
 "ginivision.camera.fileImportTip" = "Es können jetzt auch ganz einfach Dateien hochgeladen werden.";
 "ginivision.camera.fileImportButtonLabel" = "Importieren";
+"ginivision.camera.qrCodeTip" = "Haben Sie schon den QR-Codeleser ausprobiert?";
 "ginivision.camera.capturedImagesStackLabel" = "Erfasste Dokumente";
 "ginivision.camera.qrCodeDetectedPopup.message" = "QR verwenden?";
 "ginivision.camera.unsupportedQrCodeDetectedPopup.message" = "Dieser QR-Code enthält keine Bezahlinformationen.";
