@@ -425,12 +425,21 @@ extension MultipageReviewViewController {
         
         toolTipView?.willDismiss = { [weak self] in
             guard let self = self else { return }
-            self.opaqueView?.removeFromSuperview()
-            self.deleteButton.isEnabled = true
-            self.rotateButton.isEnabled = true
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-            self.toolTipView = nil
+            self.closeToolTip()
         }
+        
+        toolTipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.closeToolTip()
+        }
+    }
+    
+    fileprivate func closeToolTip() {
+        self.opaqueView?.removeFromSuperview()
+        self.deleteButton.isEnabled = true
+        self.rotateButton.isEnabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.toolTipView = nil
     }
     
     fileprivate func showToolbar() {
