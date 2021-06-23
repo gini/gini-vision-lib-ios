@@ -75,6 +75,7 @@ import AVFoundation
     let currentDevice: UIDevice
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
+    var shouldShowQRCodeNext = false
     
     lazy var cameraPreviewViewController: CameraPreviewViewController = {
         let cameraPreviewViewController = CameraPreviewViewController()
@@ -453,6 +454,7 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
                 showImportFileSheet()
             } else {
                 if ToolTipView.shouldShowFileImportToolTip {
+                    shouldShowQRCodeNext = true
                     toolTipView?.dismiss(withCompletion: nil)
                 } else {
                     showImportFileSheet()
@@ -540,7 +542,19 @@ extension CameraViewController {
         
         toolTipView?.willDismiss = { [weak self] in
             guard let self = self else { return }
-            self.configureCameraWhenTooltipDismissed()
+            if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip && self.shouldShowQRCodeNext {
+                self.showQrCodeTip()
+            } else {
+                self.configureCameraWhenTooltipDismissed()
+            }
+        }
+        toolTipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip {
+                self.showQrCodeTip()
+            } else {
+                self.configureCameraWhenTooltipDismissed()
+            }
         }
     }
     
@@ -570,13 +584,22 @@ extension CameraViewController {
             guard let self = self else { return }
             self.configureCameraWhenTooltipDismissed()
         }
+        
+        toolTipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.configureCameraWhenTooltipDismissed()
+        }
+        
     }
-    
+    /**
+     Handle tooltip dismiss on tap outside.
+     */
     override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first
         if touch?.view != self.toolTipView {
+            self.shouldShowQRCodeNext = true
             toolTipView?.dismiss {
-                if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip {
+                if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip && self.shouldShowQRCodeNext {
                     self.showQrCodeTip()
                 }
             }

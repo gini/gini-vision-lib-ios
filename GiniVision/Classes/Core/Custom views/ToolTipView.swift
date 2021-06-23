@@ -50,6 +50,8 @@ final class ToolTipView: UIView {
     fileprivate var tipContainer: UIView
     
     var willDismiss: (() -> Void)?
+    var willDismissOnCloseButtonTap: (() -> Void)?
+
     
     init(text: String,
          giniConfiguration: GiniConfiguration,
@@ -139,7 +141,7 @@ final class ToolTipView: UIView {
     
     // MARK: Actions
     @objc fileprivate func closeAction() {
-        self.dismiss(withCompletion: nil)
+        self.dismissOnCloseButtonTap(withCompletion: nil)
     }
     
     // MARK: Frame and size calculations
@@ -384,6 +386,12 @@ extension ToolTipView {
     
     func dismiss(withCompletion completion: (() -> Void)? = nil) {
         willDismiss?()
+        self.removeFromSuperview()
+        completion?()
+    }
+    
+    func dismissOnCloseButtonTap(withCompletion completion: (() -> Void)? = nil) {
+        willDismissOnCloseButtonTap?()
         self.removeFromSuperview()
         completion?()
     }
