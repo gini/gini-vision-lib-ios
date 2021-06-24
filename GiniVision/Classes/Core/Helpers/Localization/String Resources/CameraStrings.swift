@@ -101,9 +101,9 @@ enum CameraStrings: LocalizableStringResource {
              .exceededFileSizeErrorMessage, .documentValidationGeneralErrorMessage,
              .mixedArraysPopupCancelButton, .mixedArraysPopupUsePhotosButton, .mixedDocumentsErrorMessage,
              .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
-             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage:
+             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage, .fileImportTipLabel, .qrCodeTipLabel, .importFileButtonLabel:
             return true
-        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel,.qrCodeTipLabel, .importFileButtonLabel, .popupTitleImportPDF,
+        case .capturedImagesStackSubtitleLabel, .popupTitleImportPDF,
              .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:
             return false
         }
