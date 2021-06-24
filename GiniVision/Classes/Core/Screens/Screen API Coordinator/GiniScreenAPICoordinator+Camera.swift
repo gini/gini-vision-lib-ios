@@ -122,6 +122,7 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
         cameraViewController?.hideCameraOverlay()
         cameraViewController?.hideCaptureButton()
         cameraViewController?.hideFileImportTip()
+        cameraViewController?.hideQrCodeTip()
         
         let vc = OnboardingContainerViewController(trackingDelegate: trackingDelegate) { [weak self] in
             
