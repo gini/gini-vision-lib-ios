@@ -221,7 +221,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
-        XCTAssertNotNil(multipageReviewViewController.toolTipView,
+        XCTAssertNotNil(multipageReviewViewController.reorderContainerTooltipView,
                      "rotate button should be disabled when tooltip is shown")
         
     }
@@ -233,7 +233,7 @@ final class MultipageReviewViewControllerTests: XCTestCase {
                                                                       giniConfiguration: giniConfiguration)
         _ = multipageReviewViewController.view
         
-        XCTAssertNil(multipageReviewViewController.toolTipView,
+        XCTAssertNil(multipageReviewViewController.reorderContainerTooltipView,
                      "rotate button should be disabled when tooltip is shown")
         
     }
