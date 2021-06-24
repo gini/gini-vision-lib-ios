@@ -42,7 +42,7 @@ final class CameraViewControllerTests: XCTestCase {
         cameraViewController = CameraViewController(giniConfiguration: giniConfiguration)
         _ = cameraViewController.view
         
-        XCTAssertNil(cameraViewController.toolTipView,
+        XCTAssertNil(cameraViewController.fileImportToolTipView,
                      "ToolTipView should not be created when file import is disabled.")
     }
     
