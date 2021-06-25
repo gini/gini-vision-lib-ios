@@ -130,7 +130,13 @@ extension GiniScreenAPICoordinator: CameraViewControllerDelegate {
             
             cameraViewController.showCameraOverlay()
             cameraViewController.showCaptureButton()
-            cameraViewController.showFileImportTip()
+            if let config = self?.giniConfiguration {
+                if config.fileImportSupportedTypes != GiniConfiguration.GiniVisionImportFileTypes.none {
+                    cameraViewController.showFileImportTip()
+                } else if config.qrCodeScanningEnabled {
+                    cameraViewController.showQrCodeTip()
+                }
+            }
             
             completion()
         }
