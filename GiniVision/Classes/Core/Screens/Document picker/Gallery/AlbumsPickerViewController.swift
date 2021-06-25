@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AlbumsPickerViewControllerDelegate: class {
+protocol AlbumsPickerViewControllerDelegate: AnyObject {
     func albumsPicker(_ viewController: AlbumsPickerViewController,
                       didSelectAlbum album: Album)
 }

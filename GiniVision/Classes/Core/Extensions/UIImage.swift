@@ -58,16 +58,18 @@ extension UIImage {
     
     static func downsample(from data: Data, to pointSize: CGSize, scale: CGFloat) -> UIImage {
         let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
-        let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions)!
         let maxDimensionInPixels = max(pointSize.width, pointSize.height) * scale
         let downsampleOptions =
             [kCGImageSourceCreateThumbnailFromImageAlways: true,
              kCGImageSourceShouldCacheImmediately: true,
              kCGImageSourceCreateThumbnailWithTransform: true,
              kCGImageSourceThumbnailMaxPixelSize: maxDimensionInPixels] as CFDictionary
+        
+        guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions),
         let downsampledImage =
-            CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions)!
+            CGImageSourceCreateThumbnailAtIndex(imageSource, 0, downsampleOptions) else {
+            fatalError("Couldn't load image.")
+        }
         return UIImage(cgImage: downsampledImage)
     }
-    
 }

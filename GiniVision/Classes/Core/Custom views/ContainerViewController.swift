@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol ContainerViewController: class {
+protocol ContainerViewController: AnyObject {
     
     var containerView: UIView { get }
     var contentController: UIViewController { get }

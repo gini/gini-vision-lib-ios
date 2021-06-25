@@ -41,7 +41,17 @@ Some background and text colors use the `GiniColor` type with which you can set 
 - Error background &#8594;  `GiniConfiguration.noticeErrorBackgroundColor`
 - Error text color `GiniConfiguration.noticeErrorTextColor`
 
-##### 2. GVL font
+##### 3. Tooltip
+<center><img src="img/Customization guide/Tooltip.jpg" height="120"/></center>
+- Background color &#8594;  `GiniConfiguration.fileImportToolTipBackgroundColor`
+- Text color &#8594;  `GiniConfiguration.fileImportToolTipTextColor`
+- Close button color &#8594;  `GiniConfiguration.fileImportToolTipCloseButtonColor`
+- Text &#8594; 
+	- <span style="color:#009EDF">*ginivision.camera.fileImportTip*</span> localized string for file import tooltip
+	- <span style="color:#009EDF">*ginivision.camera.qrCodeTip*</span> localized string for qr code tooltip
+	- <span style="color:#009EDF">*ginivision.multipagereview.reorderContainerTooltipMessage*</span> localized string for reorder tooltip
+
+##### 4. GVL font
 
 - Font &#8594;  `GiniConfiguration.customFont`
 

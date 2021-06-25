@@ -35,7 +35,7 @@ public enum OnboardingScreenEventType: String {
 /**
 Tracking delegate relating to onboarding.
 */
-public protocol OnboardingScreenTrackingDelegate: class {
+public protocol OnboardingScreenTrackingDelegate: AnyObject {
     
     func onOnboardingScreenEvent(event: Event<OnboardingScreenEventType>)
 }
@@ -55,7 +55,7 @@ public enum CameraScreenEventType: String {
 /**
 Tracking delegate relating to the camera screen.
 */
-public protocol CameraScreenTrackingDelegate: class {
+public protocol CameraScreenTrackingDelegate: AnyObject {
     
     func onCameraScreenEvent(event: Event<CameraScreenEventType>)
 }
@@ -73,7 +73,7 @@ public enum ReviewScreenEventType: String {
 /**
 Tracking delegate relating to the review screen.
 */
-public protocol ReviewScreenTrackingDelegate: class {
+public protocol ReviewScreenTrackingDelegate: AnyObject {
     
     func onReviewScreenEvent(event: Event<ReviewScreenEventType>)
 }
@@ -93,7 +93,7 @@ public enum AnalysisScreenEventType: String {
 /**
 Tracking delegate relating to the analysis screen.
 */
-public protocol AnalysisScreenTrackingDelegate: class {
+public protocol AnalysisScreenTrackingDelegate: AnyObject {
     
     func onAnalysisScreenEvent(event: Event<AnalysisScreenEventType>)
 }

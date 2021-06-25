@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-protocol CameraProtocol: class {
+protocol CameraProtocol: AnyObject {
     var session: AVCaptureSession { get }
     var videoDeviceInput: AVCaptureDeviceInput? { get }
     var didDetectQR: ((GiniQRCodeDocument) -> Void)? { get set }
@@ -270,8 +270,11 @@ extension Camera: AVCaptureMetadataOutputObjectsDelegate {
                 DispatchQueue.main.async { [weak self] in
                     self?.didDetectQR?(qrDocument)
                 }
-            } catch {
-            }
+            } catch DocumentValidationError.qrCodeFormatNotValid {
+                DispatchQueue.main.async { [weak self] in
+                    self?.didDetectQR?(qrDocument)
+                }
+            } catch {}
         }
     }
 }

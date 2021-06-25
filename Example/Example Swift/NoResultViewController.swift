@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol NoResultsScreenDelegate: class {
+protocol NoResultsScreenDelegate: AnyObject {
     func noResults(viewController: NoResultViewController, didTapRetry:())
 }
 

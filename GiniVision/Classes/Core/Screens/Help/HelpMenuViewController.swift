@@ -14,7 +14,7 @@ import UIKit
  - note: Component API only.
  */
 
-public protocol HelpMenuViewControllerDelegate: class {
+public protocol HelpMenuViewControllerDelegate: AnyObject {
     func help(_ menuViewController: HelpMenuViewController, didSelect item: HelpMenuViewController.Item)
 }
 

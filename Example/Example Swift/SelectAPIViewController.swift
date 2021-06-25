@@ -9,7 +9,7 @@
 import UIKit
 import GiniVision
 
-protocol SelectAPIViewControllerDelegate: class {
+protocol SelectAPIViewControllerDelegate: AnyObject {
     func selectAPI(viewController: SelectAPIViewController, didSelectApi api: GiniVisionAPIType)
     func selectAPI(viewController: SelectAPIViewController, didTapSettings: ())
 }

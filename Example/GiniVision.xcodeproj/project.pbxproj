@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A1D31121D12BB3600AC084C /* Localizable.strings */; };
 		0A3B965D1D478C9D00BFEF05 /* GINIOnboardingUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */; };
 		0A3FEE4E1D58C4C4002A3735 /* GINIReviewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */; };
 		0A4760631D4F5C98003F8B6A /* GINICameraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A4760621D4F5C98003F8B6A /* GINICameraUITests.swift */; };
@@ -55,6 +54,7 @@
 		860380DD8156A016B3545CE1 /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3665DCA4CF5C8C985DF6A0 /* Pods_GiniVision_UITests.framework */; };
 		B5828EF3097D72A62D521685 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9015A1B4FC8759C4481E4376 /* Pods_Example_ObjC.framework */; };
 		BD69227B7A8BE8A91E0735E8 /* Pods_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */; };
+		F4E561512684924000415EE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4E561532684924000415EE8 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +83,6 @@
 
 /* Begin PBXFileReference section */
 		07E7021AB18736660769D42D /* Pods-Example ObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example ObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Example ObjC/Pods-Example ObjC.debug.xcconfig"; sourceTree = "<group>"; };
-		0A1D31121D12BB3600AC084C /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		0A3B965C1D478C9D00BFEF05 /* GINIOnboardingUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIOnboardingUITests.swift; path = UITests/GINIOnboardingUITests.swift; sourceTree = SOURCE_ROOT; };
 		0A3B965E1D478CB200BFEF05 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = UITests/Info.plist; sourceTree = SOURCE_ROOT; };
 		0A3FEE4D1D58C4C4002A3735 /* GINIReviewUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GINIReviewUITests.swift; path = UITests/GINIReviewUITests.swift; sourceTree = SOURCE_ROOT; };
@@ -161,6 +160,8 @@
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EB92C15B9A53B0CB41B54CE4 /* Pods-Example_Tests.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.in house.xcconfig"; sourceTree = "<group>"; };
 		F40B4064252C9CC700D04B6F /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
+		F4E561522684924000415EE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F4E561542684924500415EE8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FDD84915880AC0748A55810C /* Pods-GiniVision_UITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GiniVision_UITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-GiniVision_UITests/Pods-GiniVision_UITests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -341,7 +342,7 @@
 				1FF3A42020C6D20900081A32 /* Credentials.plist */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				0A5DDCA51D9E6A5300EBDDCD /* Settings.bundle */,
-				0A1D31121D12BB3600AC084C /* Localizable.strings */,
+				F4E561532684924000415EE8 /* Localizable.strings */,
 				607FACD41AFB9204008FA782 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -568,7 +569,7 @@
 			files = (
 				1F195A3320C7C69A008EE2A3 /* Credentials.plist in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
-				0A1D31131D12BB3600AC084C /* Localizable.strings in Resources */,
+				F4E561512684924000415EE8 /* Localizable.strings in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 				1FEED2941F6AC0440068E8AB /* testPDF.pdf in Resources */,
@@ -836,6 +837,15 @@
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
 		};
+		F4E561532684924000415EE8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4E561522684924000415EE8 /* en */,
+				F4E561542684924500415EE8 /* de */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -902,7 +912,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = net.gini.ios.ginivision.release;
@@ -922,7 +932,7 @@
 				DEVELOPMENT_TEAM = BQY9KX4V88;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1171,7 +1181,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DDEBUG";
@@ -1197,7 +1207,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = BQY9KX4V88;
 				INFOPLIST_FILE = "$(SRCROOT)/Example Swift/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.gini.ios.ginivision.in-house";
@@ -1222,7 +1232,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1239,7 +1249,7 @@
 				DEVELOPMENT_TEAM = BQY9KX4V88;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -1,0 +1,27 @@
+/* 
+  Localizable.strings
+  GiniVision
+
+  Created by Peter Pult on 16/06/16.
+  Copyright © 2016 Gini. All rights reserved.
+*/
+
+/*
+ GINI VISION LIBRARY
+ ===================
+ 
+ To easily customize texts in the Gini Vision Library overwrite keys by your own definitions.
+ For example to change the title of the camera add:
+ ```
+ "ginivision.navigationbar.camera.title" = "Fotoüberweisung";
+ ```
+ 
+ All keys can be found in the `Localizable.strings` file in the Gini Vision Library bundle
+ or on [Github](https://github.com/gini/gini-vision-lib-ios/blob/master/GiniVision/Assets/Localizable.strings).
+*/
+
+"next" = "Weiter";
+"close" = "Schließen";
+"newDocument" = "New document";
+"help" = "Help";
+"analysisFailedErrorMessage" = "Dokumentanalyse fehlgeschlagen. Möchten Sie es erneut versuchen?";
