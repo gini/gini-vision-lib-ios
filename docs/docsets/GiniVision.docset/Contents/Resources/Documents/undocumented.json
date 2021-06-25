@@ -1248,105 +1248,105 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 158,
+      "line": 143,
       "symbol": "CameraViewController.viewDidLoad()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 163,
+      "line": 164,
       "symbol": "CameraViewController.viewWillAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 172,
+      "line": 171,
       "symbol": "CameraViewController.viewDidAppear(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 177,
+      "line": 176,
       "symbol": "CameraViewController.viewDidLayoutSubviews()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 184,
+      "line": 183,
       "symbol": "CameraViewController.viewWillTransition(to:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 198,
+      "line": 197,
       "symbol": "CameraViewController.setupCamera()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 205,
+      "line": 204,
       "symbol": "CameraViewController",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 301,
+      "line": 297,
       "symbol": "CameraViewController",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 436,
+      "line": 430,
       "symbol": "CameraViewController",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 438,
+      "line": 432,
       "symbol": "CameraViewController.cameraDidSetUp(_:camera:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 448,
+      "line": 439,
       "symbol": "CameraViewController.cameraPreview(_:didDetect:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 464,
+      "line": 455,
       "symbol": "CameraViewController",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 465,
+      "line": 456,
       "symbol": "CameraViewController.cameraButtons(_:didTapOn:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 502,
+      "line": 493,
       "symbol": "CameraViewController",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Camera/CameraViewController.swift",
-      "line": 503,
+      "line": 494,
       "symbol": "CameraViewController.addValidationLoadingView()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -2025,21 +2025,21 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Screen API Coordinator/GiniScreenAPICoordinator+Camera.swift",
-      "line": 160,
+      "line": 154,
       "symbol": "GiniScreenAPICoordinator.showNextScreenAfterPicking(pages:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Screen API Coordinator/GiniScreenAPICoordinator+Camera.swift",
-      "line": 293,
+      "line": 287,
       "symbol": "GiniScreenAPICoordinator.uploadDidComplete(for:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Screen API Coordinator/GiniScreenAPICoordinator+Camera.swift",
-      "line": 300,
+      "line": 294,
       "symbol": "GiniScreenAPICoordinator.uploadDidFail(for:with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
