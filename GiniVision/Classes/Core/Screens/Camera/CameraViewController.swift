@@ -140,32 +140,33 @@ import AVFoundation
         addConstraints()
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate func showTooltip() {
         if giniConfiguration.fileImportSupportedTypes != .none {
             cameraButtonsViewController.addFileImportButton()
-            if ToolTipView.shouldShowFileImportToolTip {
-                createFileImportTip(giniConfiguration: giniConfiguration)
-                if !OnboardingContainerViewController.willBeShown {
+
+            // If FileImportToolTip was shown and QRCodeToolTip not yet
+            if !OnboardingContainerViewController.willBeShown {
+                if ToolTipView.shouldShowFileImportToolTip {
                     showFileImportTip()
-                }
-            } else {
-                // If FileImportToolTip was shown and QRCodeToolTip not yet
-                if ToolTipView.shouldShowQRCodeToolTip {
-                    createQRCodeTip(giniConfiguration: giniConfiguration)
-                    if !OnboardingContainerViewController.willBeShown {
-                        configureCameraButtonsForQRCodeTip()
-                        showQrCodeTip()
-                    }
+                } else {
+                    showQrCodeTip()
                 }
             }
         }
     }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        showTooltip()
+    }
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
-        cameraButtonsViewController.captureButton.isEnabled = true
-        cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -243,9 +244,10 @@ extension CameraViewController {
      Show the fileImportTip. Should be called when onboarding is dismissed.
      */
     public func showFileImportTip() {
+        self.configureCameraButtonsForFileImportTip()
+        createFileImportTip(giniConfiguration: giniConfiguration)
         self.fileImportToolTipView?.show {
             self.opaqueView?.alpha = 1
-            self.configureCameraButtonsForFileImportTip()
         }
         ToolTipView.shouldShowFileImportToolTip = false
     }
@@ -262,7 +264,9 @@ extension CameraViewController {
      */
     fileprivate func configureCameraButtonsForQRCodeTip() {
         cameraButtonsViewController.captureButton.isEnabled = true
-        
+        cameraButtonsViewController.flashToggleButton.isEnabled = true
+        cameraButtonsViewController.flashToggleButton.isSelected = giniConfiguration.flashOnByDefault
+
         cameraButtonsViewController.fileImportButtonView.importFileButton.isEnabled = false
         cameraButtonsViewController.fileImportButtonView.importFileSubtitleLabel.isEnabled = false
         cameraButtonsViewController.fileImportButtonView.isUserInteractionEnabled = false
@@ -272,11 +276,11 @@ extension CameraViewController {
      Show the QR code Tip. Should be called when fileImportTip is dismissed.
      */
     public func showQrCodeTip() {
-        if ToolTipView.shouldShowQRCodeToolTip {
+        if ToolTipView.shouldShowQRCodeToolTip && giniConfiguration.qrCodeScanningEnabled {
+            self.configureCameraButtonsForQRCodeTip()
             createQRCodeTip(giniConfiguration: giniConfiguration)
             self.qrCodeToolTipView?.show {
                 self.opaqueView?.alpha = 1
-                self.configureCameraButtonsForQRCodeTip()
             }
             ToolTipView.shouldShowQRCodeToolTip = false
             self.shouldShowQRCodeNext = false
@@ -333,8 +337,10 @@ extension CameraViewController {
                 completion?()
             })
         })
-        cameraButtonsViewController.captureButton.isEnabled = true
-        cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
     }
     
     /**
@@ -430,7 +436,10 @@ extension CameraViewController {
 extension CameraViewController: CameraPreviewViewControllerDelegate {
     
     func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
-        cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
         cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
         cameraButtonsViewController.view.setNeedsLayout()
         cameraButtonsViewController.view.layoutIfNeeded()
@@ -459,7 +468,7 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
         case let .flashToggle(isOn):
             cameraPreviewViewController.isFlashOn = isOn
         case .fileImport:
-            if let tooltip = fileImportToolTipView, !tooltip.isHidden {
+            if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
                 showImportFileSheet()
             } else {
                 if ToolTipView.shouldShowFileImportToolTip {
