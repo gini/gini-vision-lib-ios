@@ -14,7 +14,7 @@ import Foundation
  
  - note: Component API only.
  */
-public protocol MultipageReviewViewControllerDelegate: class {
+public protocol MultipageReviewViewControllerDelegate: AnyObject {
     /**
      Called when a user reorder the pages collection
      
@@ -179,7 +179,7 @@ public final class MultipageReviewViewController: UIViewController {
         return toolBar
     }()
     
-    var toolTipView: ToolTipView?
+    var reorderContainerTooltipView: ToolTipView?
     fileprivate var opaqueView: UIView?
     
     lazy var rotateButton: UIBarButtonItem = {
@@ -265,7 +265,7 @@ extension MultipageReviewViewController {
         super.viewDidAppear(animated)
         showToolbar()
         
-        toolTipView?.show {
+        reorderContainerTooltipView?.show {
             self.opaqueView?.alpha = 1
             self.deleteButton.isEnabled = false
             self.rotateButton.isEnabled = false
@@ -276,7 +276,7 @@ extension MultipageReviewViewController {
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        toolTipView?.arrangeViews()
+        reorderContainerTooltipView?.arrangeViews()
         opaqueView?.frame = self.mainCollection.frame
     }
     
@@ -288,7 +288,7 @@ extension MultipageReviewViewController {
                 return
             }
             
-            self.toolTipView?.arrangeViews()
+            self.reorderContainerTooltipView?.arrangeViews()
             
         })
     }
@@ -416,21 +416,30 @@ extension MultipageReviewViewController {
         self.opaqueView = opaqueView
         self.view.addSubview(opaqueView)
         
-        toolTipView = ToolTipView(text: .localized(resource: MultipageReviewStrings.reorderContainerTooltipMessage),
+        reorderContainerTooltipView = ToolTipView(text: .localized(resource: MultipageReviewStrings.reorderContainerTooltipMessage),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: pagesCollectionContainer,
                                   superView: view,
                                   position: .above,
                                   distanceToRefView: .zero)
         
-        toolTipView?.willDismiss = { [weak self] in
+        reorderContainerTooltipView?.willDismiss = { [weak self] in
             guard let self = self else { return }
-            self.opaqueView?.removeFromSuperview()
-            self.deleteButton.isEnabled = true
-            self.rotateButton.isEnabled = true
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-            self.toolTipView = nil
+            self.closeToolTip()
         }
+        
+        reorderContainerTooltipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.closeToolTip()
+        }
+    }
+    
+    fileprivate func closeToolTip() {
+        self.opaqueView?.removeFromSuperview()
+        self.deleteButton.isEnabled = true
+        self.rotateButton.isEnabled = true
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+        self.reorderContainerTooltipView = nil
     }
     
     fileprivate func showToolbar() {

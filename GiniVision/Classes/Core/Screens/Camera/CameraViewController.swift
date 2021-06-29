@@ -15,7 +15,7 @@ import AVFoundation
  
  - note: Component API only.
  */
-@objc public protocol CameraViewControllerDelegate: class {
+@objc public protocol CameraViewControllerDelegate: AnyObject {
     /**
      Called when a user takes a picture, imports a PDF/QRCode or imports one or several images.
      Once the method has been implemented, it is necessary to check if the number of
@@ -70,11 +70,13 @@ import AVFoundation
     public weak var trackingDelegate: CameraScreenTrackingDelegate?
     
     var opaqueView: UIView?
-    var toolTipView: ToolTipView?
+    var fileImportToolTipView: ToolTipView?
+    var qrCodeToolTipView: ToolTipView?
     let giniConfiguration: GiniConfiguration
     let currentDevice: UIDevice
     fileprivate var detectedQRCodeDocument: GiniQRCodeDocument?
     fileprivate var currentQRCodePopup: QRCodeDetectedPopupView?
+    var shouldShowQRCodeNext = false
     
     lazy var cameraPreviewViewController: CameraPreviewViewController = {
         let cameraPreviewViewController = CameraPreviewViewController()
@@ -138,21 +140,33 @@ import AVFoundation
         addConstraints()
     }
     
-    public override func viewDidLoad() {
-        super.viewDidLoad()
+    fileprivate func showTooltip() {
         if giniConfiguration.fileImportSupportedTypes != .none {
             cameraButtonsViewController.addFileImportButton()
-            if ToolTipView.shouldShowFileImportToolTip {
-                createFileImportTip(giniConfiguration: giniConfiguration)
-                if !OnboardingContainerViewController.willBeShown {
+
+            // If FileImportToolTip was shown and QRCodeToolTip not yet
+            if !OnboardingContainerViewController.willBeShown {
+                if ToolTipView.shouldShowFileImportToolTip {
                     showFileImportTip()
+                } else {
+                    showQrCodeTip()
                 }
             }
         }
     }
+    
+    public override func viewDidLoad() {
+        super.viewDidLoad()
+        showTooltip()
+    }
+    
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarStyle(to: giniConfiguration.statusBarStyle)
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
     }
     
     public override func viewDidAppear(_ animated: Bool) {
@@ -162,19 +176,22 @@ import AVFoundation
     
     public override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.toolTipView?.arrangeViews()
+        self.fileImportToolTipView?.arrangeViews()
+        self.qrCodeToolTipView?.arrangeViews()
         self.opaqueView?.frame = cameraPreviewViewController.view.frame
     }
     
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        
+
         coordinator.animate(alongsideTransition: { [weak self] _ in
             guard let self = self else {
-                return 
+                return
             }
-            
-            self.toolTipView?.arrangeViews()
+
+            self.fileImportToolTipView?.arrangeViews()
+            self.qrCodeToolTipView?.arrangeViews()
+
         })
     }
     
@@ -216,12 +233,21 @@ extension CameraViewController {
     }
     
     /**
+     Disable captureButton and flashToggleButton.
+     */
+    fileprivate func configureCameraButtonsForFileImportTip() {
+        cameraButtonsViewController.captureButton.isEnabled = false
+        cameraButtonsViewController.flashToggleButton.isEnabled = false
+    }
+    
+    /**
      Show the fileImportTip. Should be called when onboarding is dismissed.
      */
     public func showFileImportTip() {
-        self.toolTipView?.show {
+        self.configureCameraButtonsForFileImportTip()
+        createFileImportTip(giniConfiguration: giniConfiguration)
+        self.fileImportToolTipView?.show {
             self.opaqueView?.alpha = 1
-            self.cameraButtonsViewController.captureButton.isEnabled = false
         }
         ToolTipView.shouldShowFileImportToolTip = false
     }
@@ -230,7 +256,42 @@ extension CameraViewController {
      Hide the fileImportTip. Should be called when onboarding is presented.
      */
     public func hideFileImportTip() {
-        self.toolTipView?.alpha = 0
+        self.fileImportToolTipView?.alpha = 0
+    }
+    
+    /**
+     Disable all camera buttons except capture button.
+     */
+    fileprivate func configureCameraButtonsForQRCodeTip() {
+        cameraButtonsViewController.captureButton.isEnabled = true
+        cameraButtonsViewController.flashToggleButton.isEnabled = true
+        cameraButtonsViewController.flashToggleButton.isSelected = giniConfiguration.flashOnByDefault
+
+        cameraButtonsViewController.fileImportButtonView.importFileButton.isEnabled = false
+        cameraButtonsViewController.fileImportButtonView.importFileSubtitleLabel.isEnabled = false
+        cameraButtonsViewController.fileImportButtonView.isUserInteractionEnabled = false
+    }
+    
+    /**
+     Show the QR code Tip. Should be called when fileImportTip is dismissed.
+     */
+    public func showQrCodeTip() {
+        if ToolTipView.shouldShowQRCodeToolTip && giniConfiguration.qrCodeScanningEnabled {
+            self.configureCameraButtonsForQRCodeTip()
+            createQRCodeTip(giniConfiguration: giniConfiguration)
+            self.qrCodeToolTipView?.show {
+                self.opaqueView?.alpha = 1
+            }
+            ToolTipView.shouldShowQRCodeToolTip = false
+            self.shouldShowQRCodeNext = false
+        }
+    }
+    
+    /**
+     Hide the QR code Tip. Should be called when onboarding is presented.
+     */
+    public func hideQrCodeTip() {
+        self.qrCodeToolTipView?.alpha = 0
     }
     
 }
@@ -276,6 +337,10 @@ extension CameraViewController {
                 completion?()
             })
         })
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
     }
     
     /**
@@ -296,15 +361,19 @@ extension CameraViewController {
                                                          refView: self.cameraPreviewViewController.view,
                                                          document: qrDocument,
                                                          giniConfiguration: self.giniConfiguration)
-            newQRCodePopup.didTapDone = { [weak self] in
-                didTapDone()
-                self?.detectedQRCodeDocument = nil
-                self?.currentQRCodePopup?.hide()
-            }
             
             let didDismiss: () -> Void = { [weak self] in
                 self?.detectedQRCodeDocument = nil
                 self?.currentQRCodePopup = nil
+            }
+            
+            if qrDocument.qrCodeFormat == nil {
+                self.configurePopupViewForUnsupportedQR(newQRCodePopup, dismissCompletion: didDismiss)
+            } else {
+                newQRCodePopup.didTapDone = { [weak self] in
+                    didTapDone()
+                    self?.currentQRCodePopup?.hide(after: 0.0, completion: didDismiss)
+                }
             }
             
             if self.currentQRCodePopup != nil {
@@ -316,6 +385,19 @@ extension CameraViewController {
                 self.currentQRCodePopup = newQRCodePopup
                 self.currentQRCodePopup?.show(didDismiss: didDismiss)
             }
+        }
+    }
+    
+    fileprivate func configurePopupViewForUnsupportedQR(_ newQRCodePopup: QRCodeDetectedPopupView,
+                                                        dismissCompletion: @escaping () -> Void) {
+        newQRCodePopup.backgroundColor = UIColor.from(giniColor:giniConfiguration.unsupportedQrCodePopupBackgroundColor)
+        newQRCodePopup.qrText.textColor = UIColor.from(giniColor: giniConfiguration.unsupportedQrCodePopupTextColor)
+        newQRCodePopup.qrText.text = .localized(resource: CameraStrings.unsupportedQrCodeDetectedPopupMessage)
+        newQRCodePopup.proceedButton.setTitle("✕", for: .normal)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor, for: .normal)
+        newQRCodePopup.proceedButton.setTitleColor(giniConfiguration.unsupportedQrCodePopupButtonColor.withAlphaComponent(0.5), for: .highlighted)
+        newQRCodePopup.didTapDone = { [weak self] in
+            self?.currentQRCodePopup?.hide(after: 0.0, completion: dismissCompletion)
         }
     }
     
@@ -343,6 +425,7 @@ extension CameraViewController {
         imageView.layer.shadowOffset = CGSize(width: -2, height: 2)
         imageView.layer.shadowRadius = 4
         imageView.layer.shadowOpacity = 0.3
+        imageView.layer.shadowPath = UIBezierPath(rect: imageView.bounds).cgPath
         
         return imageView
     }
@@ -353,11 +436,19 @@ extension CameraViewController {
 extension CameraViewController: CameraPreviewViewControllerDelegate {
     
     func cameraDidSetUp(_ viewController: CameraPreviewViewController, camera: CameraProtocol) {
-        cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+        } else {
+            cameraButtonsViewController.toggleCaptureButtonActivation(state: true)
+        }
         cameraButtonsViewController.isFlashSupported = camera.isFlashSupported
+        cameraButtonsViewController.view.setNeedsLayout()
+        cameraButtonsViewController.view.layoutIfNeeded()
     }
     
     func cameraPreview(_ viewController: CameraPreviewViewController, didDetect qrCodeDocument: GiniQRCodeDocument) {
+        if let tooltip = qrCodeToolTipView, !tooltip.isHidden {
+            qrCodeToolTipView?.dismiss()
+        }
         if detectedQRCodeDocument != qrCodeDocument {
             detectedQRCodeDocument = qrCodeDocument
             showPopup(forQRDetected: qrCodeDocument) { [weak self] in
@@ -374,17 +465,32 @@ extension CameraViewController: CameraButtonsViewControllerDelegate {
     func cameraButtons(_ viewController: CameraButtonsViewController,
                        didTapOn button: CameraButtonsViewController.Button) {
         switch button {
-        case .flashToggle(let isOn):
+        case let .flashToggle(isOn):
             cameraPreviewViewController.isFlashOn = isOn
         case .fileImport:
-            showImportFileSheet()
+            if let tooltip = fileImportToolTipView, tooltip.isHidden == false {
+                showImportFileSheet()
+            } else {
+                if ToolTipView.shouldShowFileImportToolTip {
+                    shouldShowQRCodeNext = true
+                    fileImportToolTipView?.dismiss(withCompletion: nil)
+                    fileImportToolTipView = nil
+                } else {
+                    showImportFileSheet()
+                }
+            }
         case .capture:
+            if let qrToolTip = qrCodeToolTipView, !qrToolTip.isHidden {
+                qrCodeToolTipView?.dismiss(withCompletion: nil)
+                qrCodeToolTipView = nil
+            }
             trackingDelegate?.onCameraScreenEvent(event: Event(type: .takePicture))
             cameraPreviewViewController.captureImage { [weak self] data, error in
                 guard let self = self else { return }
                 self.cameraDidCapture(imageData: data, error: error)
                 viewController.toggleCaptureButtonActivation(state: true)
             }
+
         case .imagesStack:
             delegate?.cameraDidTapMultipageReviewButton(self)
         }
@@ -412,7 +518,8 @@ extension CameraViewController {
     }
     
     @objc fileprivate func showImportFileSheet() {
-        toolTipView?.dismiss(withCompletion: nil)
+        if let tooltip = fileImportToolTipView, !tooltip.isHidden {        fileImportToolTipView?.dismiss(withCompletion: nil)
+        }
         
         let alertViewController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -445,7 +552,7 @@ extension CameraViewController {
         opaqueView?.alpha = 0
         self.view.addSubview(opaqueView!)
 
-        toolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
+        fileImportToolTipView = ToolTipView(text: .localized(resource: CameraStrings.fileImportTipLabel),
                                   giniConfiguration: giniConfiguration,
                                   referenceView: cameraButtonsViewController
                                     .fileImportButtonView.importFileButton.imageView ?? cameraButtonsViewController
@@ -454,10 +561,77 @@ extension CameraViewController {
                                   position: UIDevice.current.isIpad ? .left : .above,
                                   distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
         
-        toolTipView?.willDismiss = { [weak self] in
+        fileImportToolTipView?.willDismiss = { [weak self] in
             guard let self = self else { return }
             self.opaqueView?.removeFromSuperview()
-            self.cameraButtonsViewController.captureButton.isEnabled = true
+            self.fileImportToolTipView = nil
+            if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip && self.shouldShowQRCodeNext {
+                self.configureCameraWhenTooltipDismissed()
+                self.showQrCodeTip()
+            } else {
+                self.configureCameraWhenTooltipDismissed()
+            }
+        }
+        fileImportToolTipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.opaqueView?.removeFromSuperview()
+            self.fileImportToolTipView = nil
+            if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip {
+                self.configureCameraWhenTooltipDismissed()
+                self.showQrCodeTip()
+            } else {
+                self.configureCameraWhenTooltipDismissed()
+            }
+        }
+    }
+    
+    fileprivate func configureCameraWhenTooltipDismissed() {
+        let isFlashOn = giniConfiguration.flashOnByDefault
+        cameraButtonsViewController.captureButton.isEnabled = true
+        cameraButtonsViewController.captureButton.isUserInteractionEnabled = true
+        cameraButtonsViewController.flashToggleButton.isEnabled = true
+        cameraButtonsViewController.flashToggleButton.isSelected = isFlashOn
+        cameraButtonsViewController.fileImportButtonView.importFileButton.isEnabled = true
+        cameraButtonsViewController.fileImportButtonView.importFileSubtitleLabel.isEnabled = true
+        cameraButtonsViewController.fileImportButtonView.isUserInteractionEnabled = true
+    }
+    
+    fileprivate func createQRCodeTip(giniConfiguration: GiniConfiguration) {
+
+        qrCodeToolTipView = ToolTipView(text: .localized(resource: CameraStrings.qrCodeTipLabel),
+                                  giniConfiguration: giniConfiguration,
+                                  referenceView: cameraButtonsViewController
+                                    .captureButton,
+                                  superView: self.view,
+                                  position: UIDevice.current.isIpad ? .left : .above,
+                                  distanceToRefView: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+        
+        qrCodeToolTipView?.willDismiss = { [weak self] in
+            guard let self = self else { return }
+            self.configureCameraWhenTooltipDismissed()
+        }
+        
+        qrCodeToolTipView?.willDismissOnCloseButtonTap = { [weak self] in
+            guard let self = self else { return }
+            self.configureCameraWhenTooltipDismissed()
+        }
+        
+    }
+    /**
+     Handle tooltip dismiss on tap outside.
+     */
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        if  let fileImportTooltip = self.fileImportToolTipView, touch?.view != fileImportTooltip && !fileImportTooltip.isHidden  {
+            fileImportToolTipView?.dismiss {
+                if !ToolTipView.shouldShowFileImportToolTip && ToolTipView.shouldShowQRCodeToolTip {
+                    self.showQrCodeTip()
+                    self.fileImportToolTipView = nil
+                }
+            }
+        } else if let qrTooltip = self.qrCodeToolTipView, touch?.view !=  qrTooltip && !qrTooltip.isHidden  {
+            qrCodeToolTipView?.dismiss()
+            qrCodeToolTipView = nil
         }
     }
 }

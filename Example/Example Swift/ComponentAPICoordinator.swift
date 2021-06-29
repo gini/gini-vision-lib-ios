@@ -10,7 +10,7 @@ import Foundation
 import GiniVision
 import Gini
 
-protocol ComponentAPICoordinatorDelegate: class {
+protocol ComponentAPICoordinatorDelegate: AnyObject {
     func componentAPI(coordinator: ComponentAPICoordinator, didFinish:())
 }
 

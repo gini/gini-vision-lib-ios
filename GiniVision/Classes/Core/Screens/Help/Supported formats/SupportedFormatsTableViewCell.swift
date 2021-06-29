@@ -20,15 +20,7 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
         return view
     }()
     
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        
-        if let textLabel = textLabel {
-            textLabel.numberOfLines = 0
-            let textOrigin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width,
-                                     y: textLabel.frame.origin.y)
-            textLabel.frame.origin = textOrigin
-        }
+    func addSubViewsAndlayout() {
         
         if let imageView = imageView {
             imageView.tintColor = .white
@@ -38,6 +30,22 @@ final class SupportedFormatsTableViewCell: UITableViewCell {
             contentView.insertSubview(imageBackgroundView, belowSubview: imageView)
             addConstraints()
         }
+        
+        if let textLabel = textLabel {
+            textLabel.numberOfLines = 0
+            let textOrigin = CGPoint(x: textLabel.frame.origin.x + imageBackgroundSize.width - imageViewSize.width,
+                                     y: textLabel.frame.origin.y)
+            textLabel.frame.origin = textOrigin
+        }
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubViewsAndlayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func addConstraints() {

@@ -12,7 +12,7 @@ import Foundation
  * Document processed by the _GiniVision_ library.
  */
 
-@objc public protocol GiniVisionDocument: class {
+@objc public protocol GiniVisionDocument: AnyObject {
     var type: GiniVisionDocumentType { get }
     var data: Data { get }
     var id: String { get }

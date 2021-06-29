@@ -11,7 +11,7 @@ import Gini
 /**
  The GiniVisionResultsDelegate protocol defines methods that allow you to handle the analysis result.
  */
-@objc public protocol GiniVisionResultsDelegate: class {
+@objc public protocol GiniVisionResultsDelegate: AnyObject {
     
     /**
      Called when the analysis finished with results

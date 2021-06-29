@@ -11,7 +11,7 @@ import Gini
 typealias UploadDocumentCompletion = (Result<Document, GiniError>) -> Void
 typealias AnalysisCompletion = (Result<ExtractionResult, GiniError>) -> Void
 
-protocol DocumentServiceProtocol: class {
+protocol DocumentServiceProtocol: AnyObject {
     
     var document: Document? { get set }
     var metadata: Document.Metadata? { get }

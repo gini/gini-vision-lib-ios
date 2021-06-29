@@ -15,7 +15,7 @@ import MobileCoreServices
  
  - note: Component API only.
  */
-public protocol DocumentPickerCoordinatorDelegate: class {
+public protocol DocumentPickerCoordinatorDelegate: AnyObject {
     /**
      Called when a user picks one or several files from either the gallery or the files explorer.
      The completion might provide errors that must be handled here before dismissing the
