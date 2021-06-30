@@ -11,11 +11,11 @@ enum CameraStrings: LocalizableStringResource {
     
     case captureButton, captureFailedMessage, capturedImagesStackSubtitleLabel, errorPopupCancelButton,
     errorPopupGrantAccessButton, errorPopupPickAnotherFileButton, errorPopupReviewPagesButton,
-    exceededFileSizeErrorMessage, documentValidationGeneralErrorMessage, fileImportTipLabel, importFileButtonLabel,
+    exceededFileSizeErrorMessage, documentValidationGeneralErrorMessage, fileImportTipLabel, importFileButtonLabel,qrCodeTipLabel,
     mixedArraysPopupCancelButton, mixedArraysPopupUsePhotosButton, mixedDocumentsErrorMessage, notAuthorizedButton,
     notAuthorizedMessage, photoLibraryAccessDeniedMessage, qrCodeDetectedPopupMessage, qrCodeDetectedPopupButton,
     tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage, popupTitleImportPDF, popupOptionPhotos,
-    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel
+    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel, unsupportedQrCodeDetectedPopupMessage
     
     var tableName: String {
         return "camera"
@@ -86,6 +86,11 @@ enum CameraStrings: LocalizableStringResource {
             return ("popupOptionPhotos", "File picker popup photos option")
         case .popupCancel:
             return ("popupCancel", "File picker popup cancel option")
+        case .unsupportedQrCodeDetectedPopupMessage:
+            return ("unsupportedQrCodeDetectedPopup.message", "Popup message")
+        case .qrCodeTipLabel:
+            return ("qrCodeTip", "tooltip text indicating new qr code feature")
+
         }
     }
     
@@ -96,9 +101,9 @@ enum CameraStrings: LocalizableStringResource {
              .exceededFileSizeErrorMessage, .documentValidationGeneralErrorMessage,
              .mixedArraysPopupCancelButton, .mixedArraysPopupUsePhotosButton, .mixedDocumentsErrorMessage,
              .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
-             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage:
+             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage, .fileImportTipLabel, .qrCodeTipLabel, .importFileButtonLabel:
             return true
-        case .capturedImagesStackSubtitleLabel, .fileImportTipLabel, .importFileButtonLabel, .popupTitleImportPDF,
+        case .capturedImagesStackSubtitleLabel, .popupTitleImportPDF,
              .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:
             return false
         }

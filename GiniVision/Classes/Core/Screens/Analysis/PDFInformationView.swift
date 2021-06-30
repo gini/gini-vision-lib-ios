@@ -103,6 +103,7 @@ final class PDFInformationView: UIView {
             layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
             layer.shadowOpacity = 0.8
             layer.shadowRadius = 5.0
+            layer.shadowPath = UIBezierPath(rect: layer.bounds).cgPath
             shadowLayer = layer
             
             self.layer.addSublayer(layer)

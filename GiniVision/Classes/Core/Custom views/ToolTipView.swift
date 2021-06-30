@@ -50,6 +50,8 @@ final class ToolTipView: UIView {
     fileprivate var tipContainer: UIView
     
     var willDismiss: (() -> Void)?
+    var willDismissOnCloseButtonTap: (() -> Void)?
+
     
     init(text: String,
          giniConfiguration: GiniConfiguration,
@@ -134,11 +136,12 @@ final class ToolTipView: UIView {
         self.layer.shadowRadius = 0.8
         self.layer.shadowOpacity = 0.2
         self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
     }
     
     // MARK: Actions
     @objc fileprivate func closeAction() {
-        self.dismiss(withCompletion: nil)
+        self.dismissOnCloseButtonTap(withCompletion: nil)
     }
     
     // MARK: Frame and size calculations
@@ -386,12 +389,20 @@ extension ToolTipView {
         self.removeFromSuperview()
         completion?()
     }
+    
+    func dismissOnCloseButtonTap(withCompletion completion: (() -> Void)? = nil) {
+        willDismissOnCloseButtonTap?()
+        self.removeFromSuperview()
+        completion?()
+    }
 }
 
 // MARK: - UserDefaults flags
 
 extension ToolTipView {
     private static let shouldShowFileImportToolTipKey = "ginivision.defaults.shouldShowFileImportToolTip"
+    private static let shouldShowQRCodeToolTipKey = "ginivision.defaults.shouldShowQRCodeToolTip"
+
     static var shouldShowFileImportToolTip: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: ToolTipView.shouldShowFileImportToolTipKey)
@@ -414,6 +425,18 @@ extension ToolTipView {
             let defaultsValue = UserDefaults
                 .standard
                 .object(forKey: ToolTipView.shouldShowReorderPagesButtonToolTipKey) as? Bool
+            return defaultsValue ?? true
+        }
+    }
+    
+    static var shouldShowQRCodeToolTip: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: ToolTipView.shouldShowQRCodeToolTipKey)
+        }
+        get {
+            let defaultsValue = UserDefaults
+                .standard
+                .object(forKey: ToolTipView.shouldShowQRCodeToolTipKey) as? Bool
             return defaultsValue ?? true
         }
     }

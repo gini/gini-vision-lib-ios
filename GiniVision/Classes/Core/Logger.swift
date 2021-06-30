@@ -30,7 +30,7 @@ func Log(message: String,
     }
 }
 
-@objc public protocol GiniLogger: class {
+@objc public protocol GiniLogger: AnyObject {
     
     /**
      Logs a message

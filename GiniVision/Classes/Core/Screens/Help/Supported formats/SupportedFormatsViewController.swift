@@ -40,6 +40,9 @@ final class SupportedFormatsViewController: UITableViewController {
             }
             sections[0].items.append(.localized(resource: HelpStrings.supportedFormatsSection1Item3Text))
         }
+        if GiniConfiguration.shared.qrCodeScanningEnabled {
+            sections[0].items.append(.localized(resource: HelpStrings.supportedFormatsSection1Item4Text))
+        }
         return sections
     }()
     

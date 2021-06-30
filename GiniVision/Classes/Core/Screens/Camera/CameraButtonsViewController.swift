@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CameraButtonsViewControllerDelegate: class {
+protocol CameraButtonsViewControllerDelegate: AnyObject {
     func cameraButtons(_ viewController: CameraButtonsViewController,
                        didTapOn button: CameraButtonsViewController.Button)
 }

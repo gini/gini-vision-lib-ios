@@ -2,13 +2,13 @@ PODS:
   - Gini (1.0.0):
     - Gini/DocumentsAPI (= 1.0.0)
   - Gini/DocumentsAPI (1.0.0)
-  - GiniVision (5.6.3):
-    - GiniVision/Core (= 5.6.3)
-  - GiniVision/Core (5.6.3)
-  - GiniVision/Networking (5.6.3):
+  - GiniVision (5.6.6):
+    - GiniVision/Core (= 5.6.6)
+  - GiniVision/Core (5.6.6)
+  - GiniVision/Networking (5.6.6):
     - Gini/DocumentsAPI (~> 1.0)
     - GiniVision/Core
-  - GiniVision/Tests (5.6.3)
+  - GiniVision/Tests (5.6.6)
 
 DEPENDENCIES:
   - Gini (from `https://github.com/gini/gini-ios.git`, branch `develop`)
@@ -30,7 +30,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Gini: cce9deb1247ceb1877e63c8f7d66b41cec4e8056
-  GiniVision: 372651231ae01f52ba1c6daae21f1c5d2cc3e018
+  GiniVision: 4e92bed1e5255c8ccb2315f992268c7a085ba5e2
 
 PODFILE CHECKSUM: f58e9882bb0800d0f6bf26d68f2723c81d7f0535
 

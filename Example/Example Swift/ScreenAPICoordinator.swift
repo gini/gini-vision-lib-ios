@@ -11,7 +11,7 @@ import UIKit
 import GiniVision
 import Gini
 
-protocol ScreenAPICoordinatorDelegate: class {
+protocol ScreenAPICoordinatorDelegate: AnyObject {
     func screenAPI(coordinator: ScreenAPICoordinator, didFinish:())
 }
 

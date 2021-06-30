@@ -9,13 +9,13 @@ import Foundation
 
 enum HelpStrings: LocalizableStringResource {
     
-    case menuTitle, menuFirstItemText, menuSecondItemText, menuThirdItemText,menuFourthItemText, openWithTutorialTitle,
+    case menuTitle, menuFirstItemText, menuSecondItemText, menuThirdItemText, menuFourthItemText, openWithTutorialTitle,
     openWithTutorialCollectionHeader, openWithTutorialStep1Title, openWithTutorialStep1Subtitle,
     openWithTutorialStep2Title, openWithTutorialStep2Subtitle,
     openWithTutorialStep3Title, openWithTutorialStep3Subtitle, supportedFormatsTitle, supportedFormatsSection1Title,
     supportedFormatsSection1Item1Text, supportedFormatsSection1Item2Text, supportedFormatsSection1Item3Text,
+    supportedFormatsSection1Item4Text,
     supportedFormatsSection2Title, supportedFormatsSection2Item1Text, supportedFormatsSection2Item2Text
-    
     var tableName: String {
         return "help"
     }
@@ -64,7 +64,8 @@ enum HelpStrings: LocalizableStringResource {
             return ("supportedFormats.section.2.item.1", "message for first item on supported formats section")
         case .supportedFormatsSection2Item2Text:
             return ("supportedFormats.section.2.item.2", "message for second item on supported formats section")
-
+        case .supportedFormatsSection1Item4Text:
+            return ("supportedFormats.section.1.item.4", "message for fouth item on supported formats section")
         }
     }
     
@@ -74,9 +75,9 @@ enum HelpStrings: LocalizableStringResource {
              .openWithTutorialStep2Title, .openWithTutorialStep2Subtitle, .openWithTutorialStep3Title,
              .openWithTutorialStep3Subtitle:
             return true
-        case .menuTitle, .menuFirstItemText, .menuSecondItemText, .menuThirdItemText,.menuFourthItemText, .openWithTutorialTitle,
+        case .menuTitle, .menuFirstItemText, .menuSecondItemText, .menuThirdItemText, .menuFourthItemText, .openWithTutorialTitle,
              .supportedFormatsTitle, .supportedFormatsSection1Title, .supportedFormatsSection1Item1Text,
-             .supportedFormatsSection1Item2Text, .supportedFormatsSection1Item3Text, .supportedFormatsSection2Title,
+             .supportedFormatsSection1Item2Text, .supportedFormatsSection1Item3Text, .supportedFormatsSection1Item4Text, .supportedFormatsSection2Title,
              .supportedFormatsSection2Item1Text, .supportedFormatsSection2Item2Text:
             return false
         }

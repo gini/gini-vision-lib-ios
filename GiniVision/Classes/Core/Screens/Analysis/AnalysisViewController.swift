@@ -83,6 +83,7 @@ import UIKit
         loadingIndicatorContainer.layer.shadowRadius = 0.8
         loadingIndicatorContainer.layer.shadowOpacity = 0.2
         loadingIndicatorContainer.layer.shadowColor = UIColor.black.cgColor
+        loadingIndicatorContainer.layer.shadowPath = UIBezierPath(rect: loadingIndicatorContainer.bounds).cgPath
         return loadingIndicatorContainer
     }()
     
