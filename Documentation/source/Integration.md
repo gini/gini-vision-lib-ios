@@ -3,7 +3,7 @@ Integration
 
 The Gini Vision Library provides two integration options. A [Screen API](#screen-api) that is easy to implement and a more complex, but also more flexible [Component API](#component-api). Both APIs can access the complete functionality of the library.
 
-**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file. For more information see the [Integration Guide](http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk) of the Gini iOS SDK.
+**Note**: Irrespective of the option you choose if you want to support **iOS 10** you need to specify the `NSCameraUsageDescription` key in your `Info.plist` file. This key is mandatory for all apps since iOS 10 when using the `Camera` framework. Also if you're using the [Gini Library for iOS](https://github.com/gini/gini-ios) or the old version [Gini iOS SDK](https://github.com/gini/gini-sdk-ios) you need to add support for "Keychain Sharing" in your entitlements by adding a `keychain-access-groups` value to your entitlements file.
 
 ## Screen API
 
@@ -62,7 +62,7 @@ present(viewController, animated: true, completion:nil)
 
 #### Only UI
 
-In case that you decide to use only the UI and to handle all the analysis process (either using the [Gini Library](https://github.com/gini/gini-ios) or with your own implementation of the API), just get the `UIViewController` as follows:
+In case that you decide to use only the UI and to handle all the analysis process (either using the [Gini Library for iOS](https://github.com/gini/gini-ios) or with your own implementation of the API), just get the `UIViewController` as follows:
 
 ```swift
 let viewController = GiniVision.viewController(withDelegate: self,
