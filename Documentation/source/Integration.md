@@ -11,7 +11,7 @@ The Screen API provides a custom `UIViewController` object, which can be present
 The Screen API, in turn, offers two different ways of implementation:
 
 #### UI with Networking (Recommended)
-Using this method you don't need to care about handling the analysis process with the [Gini API SDK](https://github.com/gini/gini-sdk-ios), you only need to provide your API credentials and a delegate to get the analysis results.
+Using this method you don't need to care about handling the analysis process with the [Gini Library for iOS](https://github.com/gini/gini-ios), you only need to provide your API credentials and a delegate to get the analysis results.
 
 ```swift
 let viewController = GiniVision.viewController(withClient: client,
@@ -62,7 +62,7 @@ present(viewController, animated: true, completion:nil)
 
 #### Only UI
 
-In case that you decide to use only the UI and to handle all the analysis process (either using the [Gini API SDK](https://github.com/gini/gini-sdk-ios) or with your own implementation of the API), just get the `UIViewController` as follows:
+In case that you decide to use only the UI and to handle all the analysis process (either using the [Gini Library](https://github.com/gini/gini-ios) or with your own implementation of the API), just get the `UIViewController` as follows:
 
 ```swift
 let viewController = GiniVision.viewController(withDelegate: self,
