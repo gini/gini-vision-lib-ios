@@ -4,7 +4,8 @@ Updating to 5.0
 ## What's new?
 ---
 
-#### New API SDK
+#### New API SDK -> Gini Library
+[Gini Library for iOS](https://github.com/gini/gini-ios)
 The networking plugin now uses the new API SDK, which has been completely rewritten in Swift, getting rid of  **Bolts** and using only built-in components.
 
 #### New way to open incoming files
