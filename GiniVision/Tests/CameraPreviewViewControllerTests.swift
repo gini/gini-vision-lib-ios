@@ -50,12 +50,14 @@ final class CameraPreviewViewControllerTests: XCTestCase {
         _ = cameraPreviewViewController.view
         cameraPreviewViewController.setupCamera()
         
-        let metadataOutput = cameraPreviewViewController.previewView.session
-            .outputs
-            .compactMap { $0 as? AVCaptureMetadataOutput }
-            .first
-        
-        XCTAssertNotNil(metadataOutput, "the camera session should have the metadata output")
+        DispatchQueue.main.async {
+            let metadataOutput = self.cameraPreviewViewController.previewView.session
+                .outputs
+                .compactMap { $0 as? AVCaptureMetadataOutput }
+                .first
+            
+            XCTAssertNotNil(metadataOutput, "the camera session should have the metadata output")
+        }
     }
     
     func testCaptureImage() {
