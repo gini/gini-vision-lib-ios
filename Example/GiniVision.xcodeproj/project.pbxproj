@@ -54,6 +54,11 @@
 		860380DD8156A016B3545CE1 /* Pods_GiniVision_UITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D3665DCA4CF5C8C985DF6A0 /* Pods_GiniVision_UITests.framework */; };
 		B5828EF3097D72A62D521685 /* Pods_Example_ObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9015A1B4FC8759C4481E4376 /* Pods_Example_ObjC.framework */; };
 		BD69227B7A8BE8A91E0735E8 /* Pods_Example_Swift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 24818C490BF1C99FEA806BD3 /* Pods_Example_Swift.framework */; };
+		F42E1B9D26D90E73007FE568 /* AlbumsPickerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42E1B9B26D90E72007FE568 /* AlbumsPickerViewControllerTests.swift */; };
+		F42E1B9E26D90E73007FE568 /* AlbumsPickerViewControllerDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42E1B9C26D90E72007FE568 /* AlbumsPickerViewControllerDelegateMock.swift */; };
+		F42E1BA226D92848007FE568 /* GalleryManagerMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42E1B9F26D92848007FE568 /* GalleryManagerMock.swift */; };
+		F42E1BA326D92848007FE568 /* GalleryCoordinatorDelegateMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42E1BA026D92848007FE568 /* GalleryCoordinatorDelegateMock.swift */; };
+		F42E1BA426D92848007FE568 /* GalleryCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42E1BA126D92848007FE568 /* GalleryCoordinatorTests.swift */; };
 		F4E561512684924000415EE8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4E561532684924000415EE8 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
@@ -160,6 +165,11 @@
 		CBD2F913857B2170BF39C891 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		EB92C15B9A53B0CB41B54CE4 /* Pods-Example_Tests.in house.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example_Tests.in house.xcconfig"; path = "Pods/Target Support Files/Pods-Example_Tests/Pods-Example_Tests.in house.xcconfig"; sourceTree = "<group>"; };
 		F40B4064252C9CC700D04B6F /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
+		F42E1B9B26D90E72007FE568 /* AlbumsPickerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerTests.swift; sourceTree = "<group>"; };
+		F42E1B9C26D90E72007FE568 /* AlbumsPickerViewControllerDelegateMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumsPickerViewControllerDelegateMock.swift; sourceTree = "<group>"; };
+		F42E1B9F26D92848007FE568 /* GalleryManagerMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryManagerMock.swift; sourceTree = "<group>"; };
+		F42E1BA026D92848007FE568 /* GalleryCoordinatorDelegateMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorDelegateMock.swift; sourceTree = "<group>"; };
+		F42E1BA126D92848007FE568 /* GalleryCoordinatorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCoordinatorTests.swift; sourceTree = "<group>"; };
 		F4E561522684924000415EE8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4E561542684924500415EE8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F97F499BF68BBC3EED33BE92 /* GiniVision.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = GiniVision.podspec; path = ../GiniVision.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -353,7 +363,12 @@
 			children = (
 				1F9411871FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift */,
 				1F94118A1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift */,
+				F42E1B9C26D90E72007FE568 /* AlbumsPickerViewControllerDelegateMock.swift */,
+				F42E1B9B26D90E72007FE568 /* AlbumsPickerViewControllerTests.swift */,
 				1F578E121FBD81A300C17F62 /* SettingsViewControllerTests.swift */,
+				F42E1BA026D92848007FE568 /* GalleryCoordinatorDelegateMock.swift */,
+				F42E1BA126D92848007FE568 /* GalleryCoordinatorTests.swift */,
+				F42E1B9F26D92848007FE568 /* GalleryManagerMock.swift */,
 				1FF3A41B20C6B9F300081A32 /* Helpers */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
@@ -773,9 +788,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F42E1BA326D92848007FE568 /* GalleryCoordinatorDelegateMock.swift in Sources */,
 				1F9411881FB9F4AE0019DECD /* ComponentAPICoordinatorTests.swift in Sources */,
+				F42E1BA226D92848007FE568 /* GalleryManagerMock.swift in Sources */,
 				1F94118B1FBAEB7D0019DECD /* ScreenAPICoordinatorTests.swift in Sources */,
+				F42E1B9D26D90E73007FE568 /* AlbumsPickerViewControllerTests.swift in Sources */,
+				F42E1B9E26D90E73007FE568 /* AlbumsPickerViewControllerDelegateMock.swift in Sources */,
 				1F4ABF8E2153A2EE00020A3B /* DocumentServiceMock.swift in Sources */,
+				F42E1BA426D92848007FE568 /* GalleryCoordinatorTests.swift in Sources */,
 				1F578E131FBD81A300C17F62 /* SettingsViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

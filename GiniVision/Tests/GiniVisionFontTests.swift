@@ -28,7 +28,7 @@ final class GiniVisionFontTests: XCTestCase {
     }
     
     func testBoldDynamicFontGeneration() {
-        if #available(iOS 11.0, *) {
+        if #available(iOS 12.0, *) {
             let dynamicFont = UIFontMetrics(forTextStyle: .body).scaledFont(for: font.bold)
             XCTAssertEqual(dynamicFont, font.with(weight: .bold, size: 14, style: .body))
         }
