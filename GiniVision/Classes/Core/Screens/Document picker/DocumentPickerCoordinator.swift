@@ -158,11 +158,15 @@ public final class DocumentPickerCoordinator: NSObject {
             if let error = error as? FilePickerError, error == FilePickerError.photoLibraryAccessDenied {
                 viewController.showErrorDialog(for: error, positiveAction: UIApplication.shared.openAppSettings)
             }
-            }, authorizedHandler: {
+        }, authorizedHandler: {
+            DispatchQueue.main.async {
                 self.galleryCoordinator.delegate = self
                 self.currentPickerDismissesAutomatically = false
                 self.currentPickerViewController = self.galleryCoordinator.rootViewController
+                self.galleryCoordinator.galleryManager.reloadAlbums()
+
                 viewController.present(self.galleryCoordinator.rootViewController, animated: true, completion: nil)
+            }
         })
     }
     

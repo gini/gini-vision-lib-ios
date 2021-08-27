@@ -123,3 +123,5 @@
 "ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1_en";
 "ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2_en";
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3_en";
+"ginivision.albums.selectMorePhotosButton" = "Select more photos";
+"ginivision.albums.footer" = "Use \"Select more photos\" button to select more photos or deselect to remove access.";
