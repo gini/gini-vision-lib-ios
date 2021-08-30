@@ -73,6 +73,7 @@ public protocol GiniVisionError: Error {
     /// Mixed documents unsupported
     case mixedDocumentsUnsupported
     
+    /// Could not open the document (data could not be read or unsupported file type or some other issue)
     case failedToOpenDocument
     
     public var message: String {
