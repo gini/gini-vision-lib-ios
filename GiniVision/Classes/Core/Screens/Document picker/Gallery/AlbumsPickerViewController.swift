@@ -64,6 +64,9 @@ final class AlbumsPickerViewController: UIViewController, PHPhotoLibraryChangeOb
     }
     
     func setupTableView() {
+        if #available(iOS 15.0, *) {
+            albumsTableView.sectionHeaderTopPadding = 0
+        }
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
