@@ -48,12 +48,20 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
     
     fileprivate lazy var componentAPITabBarController: UITabBarController = {
         let tabBarViewController = UITabBarController()
-        tabBarViewController.tabBar.barTintColor = self.giniColor
+
+        if #available(iOS 15.0, *) {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = self.giniColor
+            tabBarViewController.tabBar.standardAppearance = appearance
+            tabBarViewController.tabBar.scrollEdgeAppearance = tabBarViewController.tabBar.standardAppearance
+        } else {
+            tabBarViewController.tabBar.barTintColor = self.giniColor
+        }
         tabBarViewController.tabBar.tintColor = .white
         tabBarViewController.view.backgroundColor = .black
-        
+
         tabBarViewController.tabBar.unselectedItemTintColor = UIColor.white.withAlphaComponent(0.6)
-        
         return tabBarViewController
     }()
     
