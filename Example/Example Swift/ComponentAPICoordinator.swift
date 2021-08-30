@@ -533,7 +533,7 @@ extension ComponentAPICoordinator: DocumentPickerCoordinatorDelegate {
                             }
                         }
                         
-                    case .photoLibraryAccessDenied:
+                    case .photoLibraryAccessDenied, .failedToOpenDocument:
                         break
                     }
                 }

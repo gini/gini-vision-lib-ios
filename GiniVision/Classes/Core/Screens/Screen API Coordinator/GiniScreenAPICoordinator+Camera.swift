@@ -213,7 +213,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                             }
                         }
                         
-                    case .photoLibraryAccessDenied:
+                    case .photoLibraryAccessDenied, .failedToOpenDocument:
                         break
                     }
                 }
