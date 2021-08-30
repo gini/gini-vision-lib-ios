@@ -9,7 +9,7 @@
 import Foundation
 
 extension UINavigationController {
-    func applyStyle(withConfiguration configuration: GiniConfiguration) {
+    public func applyStyle(withConfiguration configuration: GiniConfiguration) {
         self.navigationBar.isTranslucent = false
         let titleTextAttrubutes = [NSAttributedString.Key.font: configuration.customFont.isEnabled ?
                               configuration.customFont.with(weight: .light, size: 16, style: .title2) :
