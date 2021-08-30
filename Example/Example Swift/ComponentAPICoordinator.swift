@@ -41,6 +41,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
         navBarViewController.navigationBar.barTintColor = self.giniColor
         navBarViewController.navigationBar.tintColor = .white
         navBarViewController.view.backgroundColor = .black
+        navBarViewController.applyStyle(withConfiguration: giniConfiguration)
         
         return navBarViewController
     }()
@@ -187,7 +188,7 @@ extension ComponentAPICoordinator {
         resultsScreen = storyboard.instantiateViewController(withIdentifier: "resultScreen")
             as? ResultTableViewController
         resultsScreen?.result = extractions
-        
+        navigationController.applyStyle(withConfiguration: giniConfiguration)
         if navigationController.viewControllers.first is AnalysisViewController {
             resultsScreen!.navigationItem
                 .rightBarButtonItem = UIBarButtonItem(title: NSLocalizedString("close",
