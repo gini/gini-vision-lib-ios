@@ -32,6 +32,9 @@ public protocol DocumentPickerCoordinatorDelegate: AnyObject {
      */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument])
+    
+    func documentPicker(_ coordinator: DocumentPickerCoordinator,
+                        failedToPickDocumentsAt urls: [URL])
 }
 
 /**
@@ -326,6 +329,11 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
         let documents: [GiniVisionDocument] = urls
             .compactMap(self.data)
             .compactMap(self.createDocument)
+        
+        guard documents.isNotEmpty else {
+            delegate?.documentPicker(self, failedToPickDocumentsAt: urls)
+            return
+        }
         
         if #available(iOS 11.0, *), giniConfiguration.documentPickerNavigationBarTintColor != nil {
             restoreSavedNavBarAppearance()
