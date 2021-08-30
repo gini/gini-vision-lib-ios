@@ -11,7 +11,15 @@ import Foundation
 extension UINavigationController {
     func applyStyle(withConfiguration configuration: GiniConfiguration) {
         self.navigationBar.isTranslucent = false
-        self.navigationBar.barTintColor = configuration.navigationBarTintColor
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = configuration.navigationBarTintColor
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
+        } else {
+            self.navigationBar.barTintColor = configuration.navigationBarTintColor
+        }
         self.navigationBar.tintColor = configuration.navigationBarItemTintColor
         var attributes = self.navigationBar.titleTextAttributes ?? [NSAttributedString.Key: Any]()
         attributes[NSAttributedString.Key.foregroundColor] = configuration.navigationBarTitleColor
