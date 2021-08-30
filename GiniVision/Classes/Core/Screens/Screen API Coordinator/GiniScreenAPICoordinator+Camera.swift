@@ -230,6 +230,17 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
         }
     }
     
+    func documentPicker(_ coordinator: DocumentPickerCoordinator, failedToPickDocumentsAt urls: [URL]) {
+        let error = FilePickerError.failedToOpenDocument
+        if coordinator.currentPickerDismissesAutomatically {
+            self.cameraViewController?.showErrorDialog(for: error,
+                                                       positiveAction: nil)
+        } else {
+            coordinator.currentPickerViewController?.showErrorDialog(for: error,
+                                                                     positiveAction: nil)
+        }
+    }
+    
     @available(iOS 11.0, *)
     fileprivate func addDropInteraction(forView view: UIView, with delegate: UIDropInteractionDelegate) {
         let dropInteraction = UIDropInteraction(delegate: delegate)
