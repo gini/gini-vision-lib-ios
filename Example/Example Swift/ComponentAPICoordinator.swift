@@ -82,6 +82,7 @@ final class ComponentAPICoordinator: NSObject, Coordinator {
          documentService: ComponentAPIDocumentServiceProtocol) {
         self.pages = pages
         self.giniConfiguration = configuration
+        self.giniConfiguration.onboardingShowAtFirstLaunch = false
         self.documentService = documentService
         super.init()
         
