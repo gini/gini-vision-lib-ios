@@ -386,6 +386,9 @@
                 <a class="nav-group-task-link" href="Extensions/UINavigationController.html">UINavigationController</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/UIView.html">UIView</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Extensions/UIViewController.html">UIViewController</a>
               </li>
               <li class="nav-group-task">
@@ -415,14 +418,16 @@
 
 <p>The Gini Vision Library provides two integration options. A <a href="#screen-api">Screen API</a> that is easy to implement and a more complex, but also more flexible <a href="#component-api">Component API</a>. Both APIs can access the complete functionality of the library.</p>
 
-<p><strong>Note</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for &ldquo;Keychain Sharing&rdquo; in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file. For more information see the <a href="http://developer.gini.net/gini-sdk-ios/docs/guides/getting-started.html#integrating-the-gini-sdk">Integration Guide</a> of the Gini iOS SDK.</p>
+<p><strong>Note: iOS 10</strong>: Irrespective of the option you choose if you want to support <strong>iOS 10</strong> you need to specify the <code>NSCameraUsageDescription</code> key in your <code>Info.plist</code> file. This key is mandatory for all apps since iOS 10 when using the <code>Camera</code> framework. Also if you&rsquo;re using the <a href="https://github.com/gini/gini-ios">Gini Library for iOS</a> or the old version <a href="https://github.com/gini/gini-sdk-ios">Gini iOS SDK</a> you need to add support for &ldquo;Keychain Sharing&rdquo; in your entitlements by adding a <code>keychain-access-groups</code> value to your entitlements file.</p>
+
+<p><strong>Note: iOS 14</strong> Starting in <strong>iOS 14</strong>, <code>PhotoKit</code> further enhances user privacy controls with the addition of the limited Photos library, which lets users select specific assets and resources to share with an app. Add an entry to your <code>Info.plist</code> file with the appropriate key. If your app only adds to the library, use the <code>NSPhotoLibraryAddUsageDescription</code> key. For all other cases, use NSPhotoLibraryUsageDescription.</p>
 <h2 id='screen-api' class='heading'>Screen API</h2>
 
 <p>The Screen API provides a custom <code>UIViewController</code> object, which can be presented modally. It handles the complete process from showing the onboarding until providing a UI for the analysis.
 The Screen API, in turn, offers two different ways of implementation:</p>
 <h4 id='ui-with-networking-recommended' class='heading'>UI with Networking (Recommended)</h4>
 
-<p>Using this method you don&rsquo;t need to care about handling the analysis process with the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a>, you only need to provide your API credentials and a delegate to get the analysis results.</p>
+<p>Using this method you don&rsquo;t need to care about handling the analysis process with the <a href="https://github.com/gini/gini-ios">Gini Library for iOS</a>, you only need to provide your API credentials and a delegate to get the analysis results.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withClient</span><span class="p">:</span> <span class="n">client</span><span class="p">,</span>
                                                <span class="nv">configuration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">,</span>
                                                <span class="nv">resultsDelegate</span><span class="p">:</span> <span class="n">resultsDelegate</span><span class="p">)</span>
@@ -471,7 +476,7 @@ The Screen API, in turn, offers two different ways of implementation:</p>
 </blockquote>
 <h4 id='only-ui' class='heading'>Only UI</h4>
 
-<p>In case that you decide to use only the UI and to handle all the analysis process (either using the <a href="https://github.com/gini/gini-sdk-ios">Gini API SDK</a> or with your own implementation of the API), just get the <code>UIViewController</code> as follows:</p>
+<p>In case that you decide to use only the UI and to handle all the analysis process (either using the <a href="https://github.com/gini/gini-ios">Gini Library for iOS</a> or with your own implementation of the API), just get the <code>UIViewController</code> as follows:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">viewController</span> <span class="o">=</span> <span class="kt">GiniVision</span><span class="o">.</span><span class="nf">viewController</span><span class="p">(</span><span class="nv">withDelegate</span><span class="p">:</span> <span class="k">self</span><span class="p">,</span>
                                                <span class="nv">withConfiguration</span><span class="p">:</span> <span class="n">giniConfiguration</span><span class="p">)</span>
 
@@ -507,7 +512,7 @@ The Screen API, in turn, offers two different ways of implementation:</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2021-06-25)</p>
+      <p>&copy; 2021 <a class="link" href="https://gini.net" target="_blank" rel="external">Gini GmbH</a>. All rights reserved. (Last updated: 2021-09-01)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
