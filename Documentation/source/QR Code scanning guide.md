@@ -24,7 +24,7 @@ On the other hand if you are using the _Component API_, you will get the `GiniQR
 
 #### Note:
 ---
-If you are using the [Gini API SDK](https://github.com/gini/gini-sdk-ios) to send the documents to the Gini API, you have to update to `0.5.2` in order to analyze the QR Codes.
+If you are using the [Gini Library for iOS](https://github.com/gini/gini-ios) to send the documents to the Gini API, you have to update to `0.5.2` in order to analyze the QR Codes.
 
 Customization
 ----------------------

@@ -79,11 +79,6 @@ import UIKit
                                                              size: size))
         loadingIndicatorContainer.backgroundColor = .white
         loadingIndicatorContainer.layer.cornerRadius = AnalysisViewController.loadingIndicatorContainerHeight / 2
-        loadingIndicatorContainer.layer.shadowOffset = CGSize(width: 0, height: 0)
-        loadingIndicatorContainer.layer.shadowRadius = 0.8
-        loadingIndicatorContainer.layer.shadowOpacity = 0.2
-        loadingIndicatorContainer.layer.shadowColor = UIColor.black.cgColor
-        loadingIndicatorContainer.layer.shadowPath = UIBezierPath(rect: loadingIndicatorContainer.bounds).cgPath
         return loadingIndicatorContainer
     }()
     

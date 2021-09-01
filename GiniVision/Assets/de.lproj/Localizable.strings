@@ -27,6 +27,7 @@
 "ginivision.camera.captureFailed" = "Bilderfassung fehlgeschlagen";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Um gespeicherte Bilder zu analysieren, wird Zugriff auf Ihre Fotos benötigt.";
 "ginivision.camera.filepicker.mixedDocumentsUnsupported" = "Es ist nur möglich einen Dateityp gleichzeitig auszuwählen.";
+"ginivision.camera.filepicker.failedToOpenDocument" = "Die Datei konnte nicht geöffnet werden. Bitte verwenden Sie einen anderen Dateityp.";
 "ginivision.camera.filepicker.errorPopup.cancelButton" = "Abbrechen";
 "ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
 "ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Zugriff erteilen";
@@ -123,3 +124,5 @@
 "ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1";
 "ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2";
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3";
+"ginivision.albums.selectMorePhotosButton" = "Weitere Bilder auswählen";
+"ginivision.albums.footer" = "Um weitere Fotos auszuwählen oder die Auswahl aufzuheben verwenden Sie \"Weitere Bilder auswählen\".";

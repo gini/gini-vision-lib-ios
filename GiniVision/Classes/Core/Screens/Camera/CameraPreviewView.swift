@@ -23,7 +23,7 @@ final class CameraPreviewView: UIView {
     fileprivate(set) var frameLayer: CAShapeLayer?
     
     override class var layerClass: AnyClass {
-        return AVCaptureVideoPreviewLayer.classForCoder()
+        return AVCaptureVideoPreviewLayer.self
     }
     
     var session: AVCaptureSession {

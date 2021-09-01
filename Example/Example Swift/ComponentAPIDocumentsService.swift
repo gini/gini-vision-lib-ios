@@ -182,6 +182,7 @@ extension ComponentAPIDocumentsService {
                     print("❌ Cancelled analysis process")
                 default:
                     print("❌ Finished analysis process with error: \(error)")
+                    completion(.failure(error))
                 }
             }
         }

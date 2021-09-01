@@ -18,6 +18,7 @@ protocol GalleryManagerProtocol: AnyObject {
     func reloadAlbums()
     func startCachingImages(for album: Album)
     func stopCachingImages(for album: Album)
+    var isGalleryAccessLimited: Bool { get set }
 }
 
 enum ImageQuality {
@@ -25,7 +26,7 @@ enum ImageQuality {
 }
 
 final class GalleryManager: GalleryManagerProtocol {
-    
+    var isGalleryAccessLimited = false
     private lazy var cachingImageManager = PHCachingImageManager()
     fileprivate let thumbnailSize = CGSize(width: 250, height: 250)
     lazy var albums: [Album] = self.fetchSortedAlbums()

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'GiniVision'
-  s.version          = '5.6.6'
+  s.version          = '5.7.0'
   s.summary          = 'Computer Vision Library for scanning documents.'
 
   s.description      = <<-DESC
@@ -29,19 +29,24 @@ The Gini Vision Library for iOS provides functionality to capture documents with
   s.subspec 'Networking' do |networking|
     networking.source_files = 'GiniVision/Classes/Networking/*.swift', 'GiniVision/Classes/Networking/Extensions/*.swift'
     networking.dependency "GiniVision/Core"
-    networking.dependency 'Gini/DocumentsAPI', '~> 0.5.3'
+    networking.dependency 'Gini/DocumentsAPI', '~> 1.0.0'
   end
 
   s.subspec 'Networking+Pinning' do |pinning|
     pinning.source_files = 'GiniVision/Classes/Networking/Pinning/*'
     pinning.dependency "GiniVision/Networking"
-    pinning.dependency 'Gini/Pinning', '~> 0.5.3'
+    pinning.dependency 'Gini/Pinning', '~> 1.0.0'
   end
 
   s.test_spec 'Tests' do |test_spec|
     test_spec.source_files = 'GiniVision/Tests/*.swift'
     test_spec.resources = 'GiniVision/Tests/Assets/*'
     test_spec.requires_app_host = true
+    test_spec.info_plist = {
+        'NSPhotoLibraryUsageDescription' => 'For scanning pictures of documents.',
+        'NSPhotoLibraryAddUsageDescription' => 'For scanning pictures of documents.'
+    }
+
   end
 
 end

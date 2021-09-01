@@ -224,6 +224,11 @@ import UIKit
     @objc public var cameraNotAuthorizedTextColor = UIColor.white
     
     /**
+     Sets the color of the loading indicator on the camera screen to the specified color.
+     */
+    @objc public var cameraSetupLoadingIndicatorColor = UIColor.white
+    
+    /**
      Sets the text color of the button title when camera access was denied.
      */
     @objc public var cameraNotAuthorizedButtonTitleColor = UIColor.white

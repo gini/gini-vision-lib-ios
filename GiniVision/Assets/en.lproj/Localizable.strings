@@ -27,6 +27,7 @@
 "ginivision.camera.captureFailed" = "Image capture failed";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Permission to access your photos gallery is required to analyse saved photos";
 "ginivision.camera.filepicker.mixedDocumentsUnsupported" = "It is only possible to select one file type at the same time.";
+"ginivision.camera.filepicker.failedToOpenDocument" = "The file could not be opened. Please use a different file type.";
 "ginivision.camera.filepicker.errorPopup.cancelButton" = "Cancel";
 "ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
 "ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Grant permission";
@@ -123,3 +124,5 @@
 "ginivision.images.openWithTutorialStep1" = "openWithTutorialStep1_en";
 "ginivision.images.openWithTutorialStep2" = "openWithTutorialStep2_en";
 "ginivision.images.openWithTutorialStep3" = "openWithTutorialStep3_en";
+"ginivision.albums.selectMorePhotosButton" = "Select more photos";
+"ginivision.albums.footer" = "Use \"Select more photos\" button to select more photos or deselect to remove access.";

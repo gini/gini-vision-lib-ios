@@ -42,6 +42,7 @@ extension DocumentServiceProtocol {
                     Log(message: "Cancelled analysis process", event: .error)
                 default:
                     Log(message: "Finished analysis process with error: \(error)", event: .error)
+                    completion(.failure(error))
                 }
             }
         }
