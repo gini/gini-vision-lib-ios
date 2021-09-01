@@ -18,20 +18,21 @@ import MobileCoreServices
 public protocol DocumentPickerCoordinatorDelegate: AnyObject {
     /**
      Called when a user picks one or several files from either the gallery or the files explorer.
-     The completion might provide errors that must be handled here before dismissing the
-     pickers. It only applies to the `GalleryCoordinator` since on one side it is not possible
-     to handle the dismissal of UIDocumentPickerViewController and on the other side
-     the Drag&Drop is not done in a separate view.
      
      - parameter coordinator: `DocumentPickerCoordinator` where the documents were imported.
      - parameter documents: One or several documents imported.
-     - parameter from: Picker used (either gallery, files explorer or drag&drop).
-     - parameter validationHandler: `DocumentValidationHandler` block used to check if there is an issue with
-     the captured documents. The handler has an inner completion block that is executed once the
-     picker has been dismissed when there are no errors.
      */
     func documentPicker(_ coordinator: DocumentPickerCoordinator,
                         didPick documents: [GiniVisionDocument])
+    
+    /**
+     Called when the picked documents could not be opened.
+     
+     - parameter coordinator: `DocumentPickerCoordinator` where the documents were imported.
+     - parameter urls: URLs of the picked documents.
+     */
+    func documentPicker(_ coordinator: DocumentPickerCoordinator,
+                        failedToPickDocumentsAt urls: [URL])
 }
 
 /**
@@ -330,6 +331,11 @@ extension DocumentPickerCoordinator: UIDocumentPickerDelegate {
         let documents: [GiniVisionDocument] = urls
             .compactMap(self.data)
             .compactMap(self.createDocument)
+        
+        guard documents.isNotEmpty else {
+            delegate?.documentPicker(self, failedToPickDocumentsAt: urls)
+            return
+        }
         
         if #available(iOS 11.0, *), giniConfiguration.documentPickerNavigationBarTintColor != nil {
             restoreSavedNavBarAppearance()

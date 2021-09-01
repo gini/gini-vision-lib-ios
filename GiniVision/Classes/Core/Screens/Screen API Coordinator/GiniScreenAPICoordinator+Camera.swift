@@ -213,7 +213,7 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                             }
                         }
                         
-                    case .photoLibraryAccessDenied:
+                    case .photoLibraryAccessDenied, .failedToOpenDocument:
                         break
                     }
                 }
@@ -227,6 +227,17 @@ extension GiniScreenAPICoordinator: DocumentPickerCoordinatorDelegate {
                 }
             }
             
+        }
+    }
+    
+    func documentPicker(_ coordinator: DocumentPickerCoordinator, failedToPickDocumentsAt urls: [URL]) {
+        let error = FilePickerError.failedToOpenDocument
+        if coordinator.currentPickerDismissesAutomatically {
+            self.cameraViewController?.showErrorDialog(for: error,
+                                                       positiveAction: nil)
+        } else {
+            coordinator.currentPickerViewController?.showErrorDialog(for: error,
+                                                                     positiveAction: nil)
         }
     }
     

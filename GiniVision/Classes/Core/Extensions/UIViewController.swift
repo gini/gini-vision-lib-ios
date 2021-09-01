@@ -57,6 +57,8 @@ extension UIViewController {
             case .mixedDocumentsUnsupported:
                 cancelActionTitle = .localized(resource: CameraStrings.mixedArraysPopupCancelButton)
                 confirmActionTitle = .localized(resource: CameraStrings.mixedArraysPopupUsePhotosButton)
+            case .failedToOpenDocument:
+                break
             }
         default:
             message = DocumentValidationError.unknown.message

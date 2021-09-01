@@ -15,7 +15,8 @@ enum CameraStrings: LocalizableStringResource {
     mixedArraysPopupCancelButton, mixedArraysPopupUsePhotosButton, mixedDocumentsErrorMessage, notAuthorizedButton,
     notAuthorizedMessage, photoLibraryAccessDeniedMessage, qrCodeDetectedPopupMessage, qrCodeDetectedPopupButton,
     tooManyPagesErrorMessage, unknownErrorMessage, wrongFormatErrorMessage, popupTitleImportPDF, popupOptionPhotos,
-    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel, unsupportedQrCodeDetectedPopupMessage
+    popupOptionFiles, popupTitleImportPDForPhotos, popupCancel, unsupportedQrCodeDetectedPopupMessage,
+    failedToOpenDocumentErrorMessage
     
     var tableName: String {
         return "camera"
@@ -90,7 +91,9 @@ enum CameraStrings: LocalizableStringResource {
             return ("unsupportedQrCodeDetectedPopup.message", "Popup message")
         case .qrCodeTipLabel:
             return ("qrCodeTip", "tooltip text indicating new qr code feature")
-
+        case .failedToOpenDocumentErrorMessage:
+            return ("filepicker.failedToOpenDocument",
+                    "Error message when the the picked document couldn't be opened")
         }
     }
     
@@ -101,7 +104,7 @@ enum CameraStrings: LocalizableStringResource {
              .exceededFileSizeErrorMessage, .documentValidationGeneralErrorMessage,
              .mixedArraysPopupCancelButton, .mixedArraysPopupUsePhotosButton, .mixedDocumentsErrorMessage,
              .notAuthorizedButton, .notAuthorizedMessage, .photoLibraryAccessDeniedMessage, .qrCodeDetectedPopupMessage,
-             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage, .fileImportTipLabel, .qrCodeTipLabel, .importFileButtonLabel:
+             .qrCodeDetectedPopupButton, .tooManyPagesErrorMessage, .unknownErrorMessage, .wrongFormatErrorMessage, .unsupportedQrCodeDetectedPopupMessage, .fileImportTipLabel, .qrCodeTipLabel, .importFileButtonLabel, .failedToOpenDocumentErrorMessage:
             return true
         case .capturedImagesStackSubtitleLabel, .popupTitleImportPDF,
              .popupTitleImportPDForPhotos, .popupOptionPhotos, .popupOptionFiles, .popupCancel:

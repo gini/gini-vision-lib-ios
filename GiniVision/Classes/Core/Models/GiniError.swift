@@ -73,6 +73,9 @@ public protocol GiniVisionError: Error {
     /// Mixed documents unsupported
     case mixedDocumentsUnsupported
     
+    /// Could not open the document (data could not be read or unsupported file type or some other issue)
+    case failedToOpenDocument
+    
     public var message: String {
         switch self {
         case .photoLibraryAccessDenied:
@@ -81,7 +84,8 @@ public protocol GiniVisionError: Error {
             return .localized(resource: CameraStrings.tooManyPagesErrorMessage)
         case .mixedDocumentsUnsupported:
             return .localized(resource: CameraStrings.mixedDocumentsErrorMessage)
-
+        case .failedToOpenDocument:
+            return .localized(resource: CameraStrings.failedToOpenDocumentErrorMessage)
         }
     }
 }
