@@ -27,7 +27,7 @@
 "ginivision.camera.captureFailed" = "Image capture failed";
 "ginivision.camera.filepicker.photoLibraryAccessDenied" = "Permission to access your photos gallery is required to analyse saved photos";
 "ginivision.camera.filepicker.mixedDocumentsUnsupported" = "It is only possible to select one file type at the same time.";
-"ginivision.camera.filepicker.failedToOpenDocument" = "The file could not be opened.";
+"ginivision.camera.filepicker.failedToOpenDocument" = "The file could not be opened. Please use a different file type.";
 "ginivision.camera.filepicker.errorPopup.cancelButton" = "Cancel";
 "ginivision.camera.filepicker.errorPopup.confirmButton" = "OK";
 "ginivision.camera.filepicker.errorPopup.grantAccessButton" = "Grant permission";
