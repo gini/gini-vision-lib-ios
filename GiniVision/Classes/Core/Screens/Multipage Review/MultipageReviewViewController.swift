@@ -328,8 +328,8 @@ extension MultipageReviewViewController {
             return
         }
         
-        collection.performBatchUpdates(animated: animated, updates: {
-            self.pages = pages
+        collection.performBatchUpdates(animated: animated, updates: {[weak self] in
+            self?.pages = pages
             collection.reloadItems(at: indexPaths.updated)
             collection.deleteItems(at: indexPaths.removed)
             collection.insertItems(at: indexPaths.inserted)
