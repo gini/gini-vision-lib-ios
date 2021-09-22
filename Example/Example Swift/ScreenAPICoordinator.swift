@@ -86,6 +86,10 @@ final class ScreenAPICoordinator: NSObject, Coordinator {
         customResultsScreen.result = results
         
         DispatchQueue.main.async { [weak self] in
+            if #available(iOS 15.0, *) {
+                let config = self?.visionConfiguration
+                self?.screenAPIViewController.applyStyle(withConfiguration: config ?? GiniConfiguration())
+            }
             self?.screenAPIViewController.setNavigationBarHidden(false, animated: false)
             self?.screenAPIViewController.pushViewController(customResultsScreen, animated: true)
         }

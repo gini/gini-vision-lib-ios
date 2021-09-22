@@ -64,6 +64,9 @@ final class AlbumsPickerViewController: UIViewController, PHPhotoLibraryChangeOb
     }
     
     func setupTableView() {
+        if #available(iOS 15.0, *) {
+            albumsTableView.sectionHeaderTopPadding = 0
+        }
         view.addSubview(albumsTableView)
         Constraints.pin(view: albumsTableView, toSuperView: view)
     }
@@ -75,6 +78,14 @@ final class AlbumsPickerViewController: UIViewController, PHPhotoLibraryChangeOb
     func showLimitedLibraryPicker() {
         if #available(iOS 14.0, *) {
             library.presentLimitedLibraryPicker(from: self)
+        }
+        if #available(iOS 15.0, *) {
+            library.presentLimitedLibraryPicker(from: self) {  _ in
+                DispatchQueue.main.async {
+                    self.galleryManager.reloadAlbums()
+                    self.reloadAlbums()
+                }
+            }
         }
     }
 
