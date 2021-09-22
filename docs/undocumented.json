@@ -1472,49 +1472,49 @@
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 133,
+      "line": 144,
       "symbol": "AlbumsPickerViewController.tableView(_:numberOfRowsInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 137,
+      "line": 148,
       "symbol": "AlbumsPickerViewController.tableView(_:cellForRowAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 147,
+      "line": 158,
       "symbol": "AlbumsPickerViewController.tableView(_:viewForHeaderInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 165,
+      "line": 176,
       "symbol": "AlbumsPickerViewController.tableView(_:heightForHeaderInSection:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 173,
+      "line": 184,
       "symbol": "AlbumsPickerViewController.numberOfSections(in:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 181,
+      "line": 192,
       "symbol": "AlbumsPickerViewController.tableView(_:didSelectRowAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/mobilecd/.jenkins/workspace/gini_gini-vision-lib-ios_master/GiniVision/Classes/Core/Screens/Document picker/Gallery/AlbumsPickerViewController.swift",
-      "line": 186,
+      "line": 197,
       "symbol": "AlbumsPickerViewController.tableView(_:heightForRowAt:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
