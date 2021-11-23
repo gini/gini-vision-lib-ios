@@ -21,10 +21,12 @@ Handle and process the Payment Data
 
 Once the QR code has been detected and the user has tapped the button to use it, the payment data is returned and ready to be analyzed in the API.
 
-#### Note:
 ---
-!!! Please remember you should not mix diffent document types like QR codes with captured images and pdfs.
+**NOTE**
 
+Please remember you **_should not mix diffent document types_** like QR codes with captured images and pdfs.
+
+---
 Screen API
 -----------
 
@@ -41,16 +43,21 @@ Please, find the implementation examples of validation for
 [imported](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L676)
  documents.
 
-#### Note:
 ---
+**NOTE**
+
  We highly recommend you to validate the partial documents before creating the composite document  from them.
+
+---
 
 You can find an example of implementation for [captured](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L466) and [imported](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L519) documents.
 
-#### Note:
 ---
+**NOTE**
+
 If you are using the [Gini Library for iOS](https://github.com/gini/gini-ios) to send the documents to the Gini API, you have to update to `0.5.2` in order to analyze the QR Codes.
 
+---
 Customization
 ----------------------
 It is possible to customize the text label, button and background colors with these parameters:
