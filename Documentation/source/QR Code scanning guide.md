@@ -49,7 +49,7 @@ You can find validation implementation examples for captured documents
 
 ---
 
-You can find an example of implementation for [captured](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L466) and [imported](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L519) documents.
+You can find an example of implementation for captured documents [here](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L466) and for imported ones [here](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L519).
 
 ---
 **NOTE**
