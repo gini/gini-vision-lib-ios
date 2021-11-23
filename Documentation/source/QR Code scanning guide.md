@@ -38,10 +38,9 @@ Component API
 If you are using the _Component API_, you will get the `GiniQRCodeDocument` in the `CameraScreenSuccessBlock`, where it also must be sent to the API as if it was an image or a pdf.
 
 In order to avoid unsuccessful document processing we suggest to validate captured and imported documents. 
-Please, find the implementation examples of validation for 
-[captured](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L652) and 
-[imported](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L676)
- documents.
+You can find validation implementation examples for captured documents
+[here](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L652) and for imported ones
+[here](https://github.com/gini/gini-vision-lib-ios/blob/master/Example/Example%20Swift/ComponentAPICoordinator.swift#L676).
 
 ---
 **NOTE**
